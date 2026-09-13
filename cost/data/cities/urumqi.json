@@ -1,0 +1,547 @@
+{
+ "schema": 2,
+ "city": "urumqi",
+ "updated": "2026-09-14",
+ "currency": "CNY",
+ "status": "draft",
+ "hub": {
+  "name": "南门／人民广场（地铁 1 号线 南门站，大十字商圈）",
+  "note": "乌鲁木齐目前只有地铁 1 号线（三屯碑—国际机场，21 站 27.61 公里）在运营，市中心枢纽取 1 号线 南门站（紧邻人民广场、大十字、北门商圈，BRT1/BRT3 与多条公交在此交汇）。档位按“乘地铁 1 号线到南门站的分钟数”划分，代表车站全部取 1 号线真实车站；BRT/公交沿线（如 长春路、高新区）无官方时间数据，暂未列入。官网未公布站间运行时间；按第三方时刻表（三屯碑 7:40 首班 → 大地窝堡 8:25，19 个区间 45 分）折合约 2.4 分/站推算，非官方。地面公交作对照（官方，2025-12-01 起，市发改委/交通局《关于优化调整乌鲁木齐市城市公交票制票价的通知》https://www.wlmq.gov.cn/wlmqs/c119128/202511/ee4742ba66b843c7a21072092c02810f.shtml）：新能源空调车 2 元、其他车 1 元、BRT 2 元；公交↔地铁换乘减 1 元；红山一卡通 9 折起（月累计满 100 元后 7 折、满 150 元后 5 折）；成人月票取消，学生卡 2 折仅限中小学生。"
+ },
+ "work": [
+  {
+   "visa": "留学（X1 学习类居留证件）",
+   "rule": {
+    "value": 8,
+    "unit": "小时/周",
+    "source_url": "http://www.moe.gov.cn/srcsite/A20/s7068/202201/t20220121_595550.html",
+    "source_name": "教育部办公厅等四部门《高等学校国际学生勤工助学管理办法》（教外厅〔2021〕2号，2021-12-29）",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "第五条：校内外勤工助学原则上每周不超过 8 小时、每月不超过 40 小时；寒暑假每周不超过 16 小时、每月不超过 80 小时（原文已核）。校外打工条件（第九、十一、十二条）：年满 18 岁、持有效学习类居留证件且剩余 6 个月以上、在本校连续学习 1 年以上、经学校同意并向公安出入境部门申请居留证加注勤工助学单位与期限，未加注不得校外打工；地域限于学校所在设区市；校外酬金不得低于当地最低工资标准（第八条）。另《外国人入境出境管理条例》第二十二条同样要求居留证件加注。"
+   },
+   "platforms": [
+    {
+     "name": "各连锁官方招聘渠道（麦当劳招聘小程序、星巴克 starbucks.zhiye.com、顺丰 hr.sf-express.com、京东 zhaopin.jd.com）",
+     "url": null,
+     "note": "本文件 jobs 只认这些官方页面；BOSS直聘/智联等聚合平台不采用。"
+    }
+   ],
+   "platforms_note": "新疆高校国际学生数量少，校外勤工助学实际需校方批准，能否办下来因校而异。"
+  },
+  {
+   "visa": "工作（Z 签／工作类居留证件）",
+   "rule": {
+    "value": null,
+    "unit": "小时/周",
+    "source_url": "https://www.nia.gov.cn/n741440/n741547/c1014161/content.html",
+    "source_name": "国家移民管理局《中华人民共和国外国人入境出境管理条例》",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "一般就业无每周小时上限，但须先取得《外国人工作许可》再办工作类居留证件（条例第七条、《出境入境管理法》第四十一条）；持学习类居留证件不得直接就业。连锁餐饮/仓储一线岗位通常不为外国人办工作许可，本文件的 jobs 时薪只作购买力换算用。"
+   },
+   "platforms": [],
+   "platforms_note": ""
+  }
+ ],
+ "jobs": [
+  {
+   "chain": "7-Eleven",
+   "store": "无（新疆无门店）",
+   "wage": {
+    "value": null,
+    "unit": "元/小时",
+    "source_url": "https://www.7-11cd.cn/ask/default.aspx?id=163&page=38",
+    "source_name": "7-ELEVEn（四川/西南）官网 在线交流区 客服答复",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "7-ELEVEn 中国各区域官网均无新疆门店；西南区官网客服答复“新疆暂未开设”。乌鲁木齐主流便利店为本地品牌，不在固定四连锁内。"
+   }
+  },
+  {
+   "chain": "麦当劳",
+   "store": "乌鲁木齐门店（2020-12 进入新疆，现有多店）",
+   "wage": {
+    "value": null,
+    "unit": "元/小时",
+    "source_url": "https://www.mcdonalds.com.cn/index/mcd/join-us/job-vacancy",
+    "source_name": "麦当劳中国官网 加入我们／职位空缺",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "麦当劳中国官网“职位空缺”页面为空壳，餐厅员工招聘只在“麦当劳招聘”微信小程序内按门店显示，网页抓不到；官网新闻只写“灵活计薪（月薪/时薪/计件）”无具体数字。第三方平台上的乌鲁木齐时薪不采用。待人工打开小程序查乌鲁木齐门店。"
+   }
+  },
+  {
+   "chain": "星巴克",
+   "store": "乌鲁木齐门店（天山区等）",
+   "wage": {
+    "value": null,
+    "unit": "元/小时",
+    "source_url": "https://starbucks.zhiye.com/social/jobs",
+    "source_name": "星巴克中国官方招聘门户（北森）",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "2026-09-14 在官方招聘门户搜索“乌鲁木齐”，只有 1 条 门店拓展部 经理岗（天山区，J105114），无乌鲁木齐门店咖啡师/兼职岗；且该门户岗位不显示薪资。乌鲁木齐门店咖啡师招聘可能走门店现场/小程序渠道。"
+   }
+  },
+  {
+   "chain": "顺丰 中转场（替代 Amazon 仓库）",
+   "store": "乌鲁木齐 中转场／分拣（官网无乌鲁木齐岗位）",
+   "wage": {
+    "value": null,
+    "unit": "元/小时",
+    "source_url": "https://hr.sf-express.com/JobSearchById/5412",
+    "source_name": "顺丰人才招聘系统 社会招聘 分拣员（长期招聘）",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "中国无 Amazon 仓库，改用顺丰／京东物流官方招聘作替代。顺丰官方招聘系统“分拣员”为全国长期招聘岗，薪酬范围字段为空，工作地点筛选只有 北京/上海/广州/深圳/天津，无乌鲁木齐；京东招聘官网 zhaopin.jd.com 为 JS 单页，2026-09-14 浏览器打开为空白，无一线仓储岗位入口。第三方平台上“新疆京东分拣 14.5 元/时”不采用。"
+   }
+  }
+ ],
+ "wage_ref": {
+  "min_official": {
+   "value": 20.7,
+   "unit": "元/小时",
+   "source_url": "https://rst.xinjiang.gov.cn/xjrst/c112845/202501/b5afe75d430a4913b91d3fda6a424583.shtml",
+   "source_name": "新疆维吾尔自治区人力资源和社会保障厅《关于调整新疆维吾尔自治区最低工资标准的通知》（新政发〔2024〕66号）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "2025-01-01 起执行。乌鲁木齐市、克拉玛依市：月最低工资 2070 元，小时最低工资 20.7 元（非全日制）。最低工资含个人缴纳的三险一金，不含加班费、夜班/高温等津贴。"
+  },
+  "min_official_next": {
+   "value": null,
+   "unit": "元/小时",
+   "source_url": "https://rst.xinjiang.gov.cn/xjrst/c112845/202501/b5afe75d430a4913b91d3fda6a424583.shtml",
+   "source_name": "新疆维吾尔自治区人力资源和社会保障厅",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "2026-09-14 人社厅官网无下一次调整公告（新疆约 3–4 年调一次，上次 2021-04 → 2025-01）。"
+  }
+ },
+ "tiers": [
+  {
+   "id": "walk",
+   "label": "步行圈",
+   "commute": "到南门站 0–5 分（步行或 1–2 站）",
+   "stations": [
+    "南门（枢纽）",
+    "北门（1 站）",
+    "二道桥（1 站，国际大巴扎）",
+    "新兴街（2 站）"
+   ],
+   "rent_1k": {
+    "value": null,
+    "unit": "元/月",
+    "source_url": null,
+    "source_name": "贝壳/链家/安居客 乌鲁木齐 一室整租挂牌",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "贝壳（wlmq.zu.ke.com）、链家（wlmq.lianjia.com）、安居客（wlmq.zu.anjuke.com，含 m.anjuke.com）2026-09-14 全部跳转人机验证/验证码页，无法读取该商圈一室整租挂牌；乌鲁木齐无官方租金统计。待人工打开平台补。"
+   },
+   "pass_student": {
+    "value": 88,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票/定期票。推算：单程 2 元 × 2 趟 × 22 天 = 88 元。大学生不能办学生卡（2025-12-01 起公交学生卡 2 折仅限市内中小学在校学生；地铁官网只写“学生卡 5 折”未列年龄，按公交口径视为不适用），故与通勤同价。持红山一卡通/城市通卡乘地铁 9 折（官网票务信息）则为 79 元。"
+   },
+   "pass_commuter": {
+    "value": 88,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票，2025-12-01 起成人公交月票亦取消。推算：单程 2 元 × 2 趟 × 22 天 = 88 元；持城市通卡 9 折 = 79 元。"
+   },
+   "fare_single": {
+    "value": 2,
+    "unit": "元",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "起步价 2 元（≤5 公里），官方票价规则。"
+   }
+  },
+  {
+   "id": "t15",
+   "label": "15 分档",
+   "commute": "到南门站 10–15 分（5–6 站）",
+   "stations": [
+    "王家梁（5 站，约 12 分）",
+    "八楼（6 站，约 14 分）",
+    "南湖北路（4 站，约 10 分）"
+   ],
+   "rent_1k": {
+    "value": null,
+    "unit": "元/月",
+    "source_url": null,
+    "source_name": "贝壳/链家/安居客 乌鲁木齐 一室整租挂牌",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "贝壳（wlmq.zu.ke.com）、链家（wlmq.lianjia.com）、安居客（wlmq.zu.anjuke.com，含 m.anjuke.com）2026-09-14 全部跳转人机验证/验证码页，无法读取该商圈一室整租挂牌；乌鲁木齐无官方租金统计。待人工打开平台补。"
+   },
+   "pass_student": {
+    "value": 132,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票/定期票。推算：单程 3 元 × 2 趟 × 22 天 = 132 元。大学生不能办学生卡（2025-12-01 起公交学生卡 2 折仅限市内中小学在校学生；地铁官网只写“学生卡 5 折”未列年龄，按公交口径视为不适用），故与通勤同价。持红山一卡通/城市通卡乘地铁 9 折（官网票务信息）则为 119 元。"
+   },
+   "pass_commuter": {
+    "value": 132,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票，2025-12-01 起成人公交月票亦取消。推算：单程 3 元 × 2 趟 × 22 天 = 132 元；持城市通卡 9 折 = 119 元。"
+   },
+   "fare_single": {
+    "value": 3,
+    "unit": "元",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "官方计价规则：起步 2 元可乘 5 公里；5–13 公里每 4 公里加 1 元；13–25 公里每 6 公里加 1 元；25 公里以上每 8 公里加 1 元。官网未公布分站票价表（线路图页只有图片），站间里程按线路全长 27.61 公里 ÷ 20 个区间 ≈ 1.38 公里/站 推算。南门→王家梁 5 个区间 ≈ 6.9 公里 → 3 元；八楼 6 个区间 ≈ 8.3 公里 → 3 元。"
+   }
+  },
+  {
+   "id": "t25",
+   "label": "25 分档",
+   "commute": "到南门站 20–25 分（9–11 站）",
+   "stations": [
+    "小西沟（9 站，约 21 分）",
+    "铁路局（10 站，约 24 分）",
+    "体育中心（11 站，约 26 分）"
+   ],
+   "rent_1k": {
+    "value": null,
+    "unit": "元/月",
+    "source_url": null,
+    "source_name": "贝壳/链家/安居客 乌鲁木齐 一室整租挂牌",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "贝壳（wlmq.zu.ke.com）、链家（wlmq.lianjia.com）、安居客（wlmq.zu.anjuke.com，含 m.anjuke.com）2026-09-14 全部跳转人机验证/验证码页，无法读取该商圈一室整租挂牌；乌鲁木齐无官方租金统计。待人工打开平台补。"
+   },
+   "pass_student": {
+    "value": 220,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票/定期票。推算：单程 5 元 × 2 趟 × 22 天 = 220 元。大学生不能办学生卡（2025-12-01 起公交学生卡 2 折仅限市内中小学在校学生；地铁官网只写“学生卡 5 折”未列年龄，按公交口径视为不适用），故与通勤同价。持红山一卡通/城市通卡乘地铁 9 折（官网票务信息）则为 198 元。"
+   },
+   "pass_commuter": {
+    "value": 220,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票，2025-12-01 起成人公交月票亦取消。推算：单程 5 元 × 2 趟 × 22 天 = 220 元；持城市通卡 9 折 = 198 元。"
+   },
+   "fare_single": {
+    "value": 5,
+    "unit": "元",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "官方计价规则：起步 2 元可乘 5 公里；5–13 公里每 4 公里加 1 元；13–25 公里每 6 公里加 1 元；25 公里以上每 8 公里加 1 元。官网未公布分站票价表（线路图页只有图片），站间里程按线路全长 27.61 公里 ÷ 20 个区间 ≈ 1.38 公里/站 推算。南门→铁路局 10 个区间 ≈ 13.8 公里 → 5 元（小西沟 ≈ 12.4 公里为 4 元）。"
+   }
+  },
+  {
+   "id": "t40",
+   "label": "40 分档",
+   "commute": "到南门站 35–40 分（15–16 站）",
+   "stations": [
+    "宣仁墩（15 站，约 36 分）",
+    "大地窝堡（16 站，约 38 分）",
+    "三工（14 站，约 33 分）"
+   ],
+   "rent_1k": {
+    "value": null,
+    "unit": "元/月",
+    "source_url": null,
+    "source_name": "贝壳/链家/安居客 乌鲁木齐 一室整租挂牌",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "贝壳（wlmq.zu.ke.com）、链家（wlmq.lianjia.com）、安居客（wlmq.zu.anjuke.com，含 m.anjuke.com）2026-09-14 全部跳转人机验证/验证码页，无法读取该商圈一室整租挂牌；乌鲁木齐无官方租金统计。待人工打开平台补。"
+   },
+   "pass_student": {
+    "value": 264,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票/定期票。推算：单程 6 元 × 2 趟 × 22 天 = 264 元。大学生不能办学生卡（2025-12-01 起公交学生卡 2 折仅限市内中小学在校学生；地铁官网只写“学生卡 5 折”未列年龄，按公交口径视为不适用），故与通勤同价。持红山一卡通/城市通卡乘地铁 9 折（官网票务信息）则为 238 元。"
+   },
+   "pass_commuter": {
+    "value": 264,
+    "unit": "元/月",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "乌鲁木齐地铁无月票，2025-12-01 起成人公交月票亦取消。推算：单程 6 元 × 2 趟 × 22 天 = 264 元；持城市通卡 9 折 = 238 元。"
+   },
+   "fare_single": {
+    "value": 6,
+    "unit": "元",
+    "source_url": "https://urumqimtr.com/newsinfo/11119823.html",
+    "source_name": "乌鲁木齐城市轨道集团 乘客常见问题（票价规则）",
+    "fetched_at": "2026-09-14",
+    "confidence": "estimated",
+    "n": null,
+    "note": "官方计价规则：起步 2 元可乘 5 公里；5–13 公里每 4 公里加 1 元；13–25 公里每 6 公里加 1 元；25 公里以上每 8 公里加 1 元。官网未公布分站票价表（线路图页只有图片），站间里程按线路全长 27.61 公里 ÷ 20 个区间 ≈ 1.38 公里/站 推算。南门→宣仁墩 15 个区间 ≈ 20.7 公里 → 6 元；全线最高 7 元（官网）。"
+   }
+  }
+ ],
+ "utilities": {
+  "electricity": {
+   "value": 39,
+   "unit": "元/月",
+   "source_url": "https://www.jmser.gov.cn/u/cms/jmsexrmzfw/202503/26161443gof8.pdf",
+   "source_name": "新疆电网居民生活用电价格表（吉木萨尔县人民政府 2025-03 公示件，同国家能源局新疆监管办 xjem.gov.cn 2025-05 公示表）",
+   "fetched_at": "2026-09-14",
+   "confidence": "estimated",
+   "n": null,
+   "note": "乌鲁木齐市（城市）居民生活用电到户电价 0.39 元/千瓦时（目录价 0.475，差额由自治区财政补贴），新疆不实行阶梯电价。推算：0.39 × 单身典型 100 千瓦时/月 = 39 元。冬季集中供暖为主，未计电采暖（分散式电采暖 0.22 元/千瓦时）。",
+   "label": "电费"
+  },
+  "gas": {
+   "value": 12,
+   "unit": "元/月",
+   "source_url": "https://www.wlmq.gov.cn/wlmqs/c119128/202607/36e435b7cbfa45da9b0f9de553e2cf01.shtml",
+   "source_name": "乌鲁木齐市发展和改革委员会《关于联动调整乌鲁木齐市管道天然气销售价格的通知》（2026-07-13）",
+   "fetched_at": "2026-09-14",
+   "confidence": "estimated",
+   "n": null,
+   "note": "现行居民第一阶梯 1.50 元/立方米（0–300 立方米/年）出自《关于理顺乌鲁木齐市管道天然气销售价格的通知》（乌发改规〔2024〕5号，2024-06-13 起），该页面 2026-09-14 已 404，这里引用的是 2026-07-13 联动通知：2027-01-01 起第一阶梯调为 1.63、第二 1.96、第三 2.45 元/立方米。推算：1.50 × 单身做饭热水 8 立方米/月 = 12 元（2027 年起 13 元）。",
+   "label": "燃气"
+  },
+  "water": {
+   "value": 17,
+   "unit": "元/月",
+   "source_url": "https://www.uetd.gov.cn/jjjskfq/c119883/202312/424dfb4f36fe42b6822af36e4738d157.shtml",
+   "source_name": "乌鲁木齐经济技术开发区管委会 转发《乌鲁木齐市城市供水价格标准及依据》（2023-12）",
+   "fetched_at": "2026-09-14",
+   "confidence": "estimated",
+   "n": null,
+   "note": "居民生活用水综合价 4.25 元/立方米（水费 1.66 + 重点水利建设 0.30 + 运行费 0.25 + 排水管网/污水处理 0.95 + 水资源费 0.09 + 垃圾处理费 1.00；依据 乌发改医价〔2014〕1030号、〔2017〕1124号、〔2017〕1203号）。页面未列阶梯分档。推算：4.25 × 单身 4 立方米/月 = 17 元。",
+   "label": "水费"
+  },
+  "mobile": {
+   "value": null,
+   "unit": "元/月",
+   "source_url": null,
+   "source_name": "中国移动/联通/电信 新疆官网",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "2026-09-14 查了 shop.10086.cn 新疆(991)套餐列表（返回 0 件商品）、10086.cn/fee/xj 资费专区（页面空）、mall.10010.com/xj（列出“5G套餐-129元档”但商品页归属地为北京、内容非新疆）、189.cn/xj（412/空白 JS 页）。拿不到新疆本地 30GB 档官方价，不填。",
+   "label": "手机（30GB 档）"
+  },
+  "internet": {
+   "value": null,
+   "unit": "元/月",
+   "source_url": null,
+   "source_name": "中国移动/联通/电信 新疆官网 家庭宽带",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "shop.10086.cn 乌鲁木齐宽带列表返回 0 件商品；联通宽带专区页面超时；电信新疆官网空白。无法取得官方单宽带月费，不填。",
+   "label": "宽带"
+  },
+  "comm_official": {
+   "value": null,
+   "unit": "元/月",
+   "source_url": null,
+   "source_name": "新疆统计年鉴 城镇居民人均交通通信支出",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "新疆/乌鲁木齐 2025 年统计公报只给消费支出总额与恩格尔系数，未分列“交通通信”；统计年鉴分项表未在线取得。",
+   "label": "通信（统计平均）"
+  }
+ },
+ "basket": {
+  "bigmac_set": {
+   "value": null,
+   "unit": "元",
+   "source_url": "https://www.mcdonalds.com.cn/product/Big-Mac",
+   "source_name": "麦当劳中国官网 巨无霸产品页",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "官网产品页只有营养成分无价格，套餐价只在麦当劳 App/小程序按门店显示，网页抓不到；官网新闻页只有限时活动价（如 2026-01 巨无霸四件套 38 元 车站店券），不是常规菜单价。待人工在 App 选乌鲁木齐门店查。",
+   "label": "巨无霸套餐"
+  },
+  "latte_tall": {
+   "value": null,
+   "unit": "元",
+   "source_url": "https://www.starbucks.com.cn/menu/beverages/espresso/caffe-latte/",
+   "source_name": "星巴克中国官网 拿铁产品页",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "官网菜单产品页不显示价格（已核，页面无 ¥），价格只在星巴克 App/小程序。2025-06 官方降价只涉非咖啡饮品，拿铁未调。第三方报道的“大杯 33 元”不采用。",
+   "label": "星巴克拿铁大杯"
+  },
+  "coffee_shop": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "中国无“小売物価統計”式的外食单品官方价，乌鲁木齐发改委价格监测未公开。",
+   "label": "咖啡馆一杯咖啡"
+  },
+  "curry_rice": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "乌鲁木齐市发改委 价格监测",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "拌面/抓饭一份：乌鲁木齐市发改委 2026 年预算说明写“监测约 25 种市场价格”，但官网未公开监测表；新疆发改委“价格管理”栏目 2026 年只有成品油和电价条目，“肉类、禽蛋奶价格情况”系列 2021 年后停更。",
+   "label": "一顿本地外食（拌面/抓饭）"
+  },
+  "eggs10": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "乌鲁木齐市/新疆 发改委 价格监测",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "乌鲁木齐无公开官方零售监测；国家统计局“50 个城市主要食品平均价格”系列已停止发布。参考（不采用）：毗邻的五家渠市 师市发改委 2026-06-01 监测表 鸡蛋 12.5 元（单位未标，疑为元/公斤）。",
+   "label": "鸡蛋 10 个"
+  },
+  "milk1l": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "乌鲁木齐市/新疆 发改委 价格监测",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "同上无官方零售价。参考（不采用）：五家渠 2026-06-01 监测表 蒙牛硬包 18 袋/箱 35 元。",
+   "label": "牛奶 1L"
+  },
+  "rice5kg": {
+   "value": null,
+   "unit": "元",
+   "source_url": "https://lswz.xinjiang.gov.cn/xjgrain/scjc/202606/d19e432ae31346cbaec4ab10236ffe84.shtml",
+   "source_name": "新疆维吾尔自治区粮食和物资储备局 全区粮食价格监测信息（2026 年第 21 周，2026-05-26）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "官方周报只给乌鲁木齐粳米出厂价 5100 元/吨（折 25.5 元/5kg，出厂非零售），无零售价，故不填。",
+   "label": "大米 5kg"
+  },
+  "bread1kg": {
+   "value": null,
+   "unit": "元",
+   "source_url": "https://lswz.xinjiang.gov.cn/xjgrain/scjc/202606/d19e432ae31346cbaec4ab10236ffe84.shtml",
+   "source_name": "新疆维吾尔自治区粮食和物资储备局 全区粮食价格监测信息（2026 年第 21 周）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "无面包官方价；同周报 全区小麦粉零售价 4.55 元/公斤（乌鲁木齐主食是馕/拉条子，面粉更有代表性）。",
+   "label": "面包 1kg"
+  },
+  "cola1l": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "无官方零售价监测。",
+   "label": "可乐 1L"
+  },
+  "beer6": {
+   "value": null,
+   "unit": "元",
+   "source_url": null,
+   "source_name": "",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "无官方零售价监测。",
+   "label": "啤酒 6 罐"
+  }
+ },
+ "living_official": {
+  "food": {
+   "value": 767,
+   "unit": "元/月",
+   "source_url": "https://www.xinjiang.gov.cn/xinjiang/tjgb/202607/2bb53ad182344d03a31714993ecd71af.shtml",
+   "source_name": "新疆维吾尔自治区 2025 年国民经济和社会发展统计公报（2026-03-20）",
+   "fetched_at": "2026-09-14",
+   "confidence": "estimated",
+   "n": null,
+   "note": "公报给 城镇居民人均消费支出 29702 元/年 与 城镇恩格尔系数 31.0%，未直接给食品烟酒金额。推算：29702 × 31.0% ÷ 12 ≈ 767 元/月。是全区城镇均值（含全部家庭成员），非乌鲁木齐、非单身。乌鲁木齐市 2025 年公报只有可支配收入（城镇 54575 元）无消费支出。",
+   "label": "食费（统计平均）"
+  },
+  "total": {
+   "value": 2475,
+   "unit": "元/月",
+   "source_url": "https://www.xinjiang.gov.cn/xinjiang/tjgb/202607/2bb53ad182344d03a31714993ecd71af.shtml",
+   "source_name": "新疆维吾尔自治区 2025 年国民经济和社会发展统计公报（2026-03-20）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "全区城镇居民人均消费支出 29702 元/年 ÷ 12 = 2475 元/月（人均，含居住等全部分项）。乌鲁木齐市公报无此项。",
+   "label": "消费支出合计（统计平均）"
+  },
+  "measured": {
+   "value": null,
+   "unit": "元/月",
+   "source_url": null,
+   "source_name": "家計（本人账目月度汇总）",
+   "fetched_at": "2026-09-14",
+   "confidence": "measured",
+   "n": null,
+   "note": "等家計卡片做好后由它输出",
+   "label": "实测（本人）"
+  }
+ }
+}
