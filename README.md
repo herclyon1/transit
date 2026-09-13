@@ -2,7 +2,7 @@
 
 https://herclyon1.github.io/transit/
 
-给自己用的一组地图：学日本和东亚的行政区划、在大阪选房、以及（预定）比较各城市外国人的真实收入与开销。
+给自己用的一组地图：学日本和东亚的行政区划、在大阪选房、比较各城市外国人的真实收入与开销。
 
 **先读 [IDEAS.md](IDEAS.md)**：每个功能为什么存在、用户定下的规则、已证伪的路。代码可以推倒重来，那份不能。
 待办在 [TODO.md](TODO.md)。
@@ -13,7 +13,8 @@ https://herclyon1.github.io/transit/
 index.html        首页，卡片式入口（按"打开它是为了做什么"分，不按地图种类分）
 japan/            地図·学習：現代日本四级下钻 + 東亜 27 国，MapLibre + pmtiles
 quiz/             都道府県クイズ：47 県背诵工具（旧版 D3 页面，将来重做进 japan/）
-osaka/            大阪·居住：车站可达性图（Leaflet）+ 居住等级图（tiers.html，待并入）
+osaka/            大阪·居住：车站可达性图（Leaflet）+ 居住等级面层（data/tiers.geojson）
+cost/             薪資·購買力：世界地图打点，每城一张卡（MapLibre + 本地 Natural Earth）
 tiles/            全部 pmtiles 瓦片 + NotoSansJP 字形（0–65535 全 256 段）
 vendor/           本地化的库：maplibre-gl、pmtiles、leaflet 1.9.4、d3 7.8.5、topojson 3
 pipeline/japan/   東亜 / 現代日本 数据管线（OSM → 裁剪 → 切瓦片），README 记录每一步为什么必须这么做
@@ -39,13 +40,20 @@ clawd/            首页螃蟹，Anthropic 官方素材原样引用
 - 東亜和大日本两个浏览模式已被 japan/ 覆盖，留着只为闯关和混考；重做后整页删除。
 
 ### osaka/ 大阪·居住
-- `index.html` 车站可达性：每站到梅田／難波／天王寺／京橋的分钟数，阈值滑块，A/B 双频度层，⚡💴 标注，面覆盖用实路网步行等时圈，长按任意地点查询。
-- `tiers.html` 居住等级：S–D 五档，治安×便利×环境。注意：这页的几何是**像素坐标的 SVG 路径**，不是地理坐标，并入可达图时要从町丁几何重建。
+- 点层：每站到梅田／難波／天王寺／京橋的分钟数，阈值滑块，A/B 双频度层，⚡💴 标注，面覆盖用实路网步行等时圈，长按任意地点查询。
+- 面层：居住等级 S–D（治安×便利×环境），面板勾选「居住等级（面层）」叠加，点区块看说明。
+  `data/tiers.geojson` 由旧等级图的像素坐标 SVG 反算而来：用 517 个车站点对 stations_final.json 做 Mercator 三参数拟合，
+  513 站全部落在 2px 内，中位误差 0.4px ≈ 31m（参数记在文件的 meta 里）。评级本身仍是 2026 粗略版。
 - 底图：地理院淡色地図；暗色主题用 CSS 反色滤镜。
+
+### cost/ 薪資·購買力
+- 世界底图：Natural Earth 110m（低缩放）/ 50m（放大）国界，本地文件，不依赖任何外部瓦片；字形复用 tiles/glyphs。
+- `data/cities.json` 决定画哪些点；`data/cities/<id>.json` 一城一份，点开才加载；数字格式与置信度规则见 `data/README.md`。
+- 页面不写死任何数值；`value` 为 null 显示「暂无」。汇率表 `data/rates.json` 为空时只显示当地货币。
 
 ## 怎么验证（改完必跑）
 
-1. 本地起服务：`python3 -m http.server 8765`，逐页打开 `/`、`/japan/`、`/quiz/`、`/osaka/`、`/osaka/tiers.html`。
+1. 本地起一个**支持 HTTP Range** 的静态服务器（pmtiles 按字节范围取，`python3 -m http.server` 不支持 Range 会报 content-length 错），逐页打开 `/`、`/japan/`、`/quiz/`、`/osaka/`、`/cost/`。
 2. 控制台零错误、零 404。MapLibre 页面改完样式必须查 `map.getStyle().layers.length`（一个非法表达式会让整份样式不加载，页面全白）。
 3. 明暗主题各测一遍；手机视口（390×844）面板不遮滑块。
 4. 手势类改动跑 `pipeline/test/usersession.js` 和 `pinch.js`，逐张看联系表，红线清单在 `pipeline/test/README.md`。

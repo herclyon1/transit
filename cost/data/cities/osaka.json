@@ -1,0 +1,26 @@
+{
+  "city": "osaka",
+  "updated": "2026-09-14",
+  "currency": "JPY",
+  "status": "draft",
+  "work": [
+    {
+      "visa": "留学",
+      "rule": {"value": null, "unit": "h/week", "source_url": null, "source_name": "出入国在留管理庁 資格外活動許可", "fetched_at": null, "confidence": "official", "n": null, "note": "待查：週上限、長期休暇中の上限、禁止業種"},
+      "platforms": []
+    }
+  ],
+  "wage": {
+    "min_official": {"value": null, "unit": "JPY/h", "source_url": null, "source_name": "厚生労働省 地域別最低賃金（大阪府）", "fetched_at": null, "confidence": "official", "n": null, "note": ""},
+    "listing": []
+  },
+  "transport": {
+    "monthly_pass": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "", "fetched_at": null, "confidence": "official", "n": null, "note": "以 25 分钟通勤圈的典型区间计"},
+    "single_fare": {"value": null, "unit": "JPY", "source_url": null, "source_name": "", "fetched_at": null, "confidence": "official", "n": null, "note": ""}
+  },
+  "rent": [],
+  "living": {
+    "official": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "総務省 家計調査（単身世帯）", "fetched_at": null, "confidence": "official", "n": null, "note": ""},
+    "measured": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "家計（本人账目月度汇总）", "fetched_at": null, "confidence": "measured", "n": null, "note": "等家計卡片做好后由它输出"}
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {"id":"osaka","name":{"zh":"大阪","ja":"大阪","en":"Osaka"},"country":"JPN","currency":"JPY","lon":135.502,"lat":34.694,"status":"draft","links":{"reach":"../osaka/"}},
+  {"id":"tokyo","name":{"zh":"东京","ja":"東京","en":"Tokyo"},"country":"JPN","currency":"JPY","lon":139.767,"lat":35.681,"status":"draft"},
+  {"id":"taipei","name":{"zh":"台北","ja":"台北","en":"Taipei"},"country":"TWN","currency":"TWD","lon":121.565,"lat":25.033,"status":"draft"},
+  {"id":"seoul","name":{"zh":"首尔","ja":"ソウル","en":"Seoul"},"country":"KOR","currency":"KRW","lon":126.978,"lat":37.566,"status":"draft"},
+  {"id":"sydney","name":{"zh":"悉尼","ja":"シドニー","en":"Sydney"},"country":"AUS","currency":"AUD","lon":151.209,"lat":-33.868,"status":"draft"},
+  {"id":"vancouver","name":{"zh":"温哥华","ja":"バンクーバー","en":"Vancouver"},"country":"CAN","currency":"CAD","lon":-123.121,"lat":49.283,"status":"draft"},
+  {"id":"berlin","name":{"zh":"柏林","ja":"ベルリン","en":"Berlin"},"country":"DEU","currency":"EUR","lon":13.405,"lat":52.520,"status":"draft"}
+]

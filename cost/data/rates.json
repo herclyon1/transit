@@ -1,0 +1,7 @@
+{
+  "note": "汇率与购买力平价换算因子。为空时页面只显示当地货币。fx 为 1 单位当地货币兑 JPY；ppp 为世界银行 PPP 换算因子（当地货币/国际元）。",
+  "fetched_at": null,
+  "source_url": null,
+  "fx": {},
+  "ppp": {}
+}

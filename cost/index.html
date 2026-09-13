@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>薪資 · 購買力</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2433'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23E2A07E'/%3E%3C/svg%3E">
+<link href="../vendor/maplibre-gl.css" rel="stylesheet">
+<style>
+/* 想法见 ../IDEAS.md 第 6 节；数据规范见 data/README.md。
+   页面只做三件事：世界底图（本地 Natural Earth，不依赖任何外部瓦片）、城市打点、点开看卡。
+   所有数字从 data/cities/<id>.json 读，页面不写死任何数值。*/
+:root{--ink:#1B2433;--soft:#33415C;--paper:#E9EDF0;--panel:#FFF;--line:#C9D2DB;--accent:#B3541E;--hover:#2E6E8E;--muted:#6B7688;
+      --sea:#DCEBF5;--land:#F4F1EA;--border:#B8C2CC;
+      --ok:#1F7A5A;--listing:#2E6E8E;--crowd:#8A6D3B;--none:#9AA3AE}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:'Noto Sans JP','Hiragino Sans','Microsoft YaHei',system-ui,sans-serif;background:var(--paper);color:var(--ink);overflow:hidden}
+#map{position:absolute;inset:0}
+#top{position:absolute;left:10px;top:10px;right:10px;display:flex;gap:8px;align-items:center;pointer-events:none;z-index:5}
+#top .box{pointer-events:auto;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 10px rgba(20,30,50,.10);padding:8px 12px;font-size:13px}
+#top h1{font-size:15px;font-weight:900;letter-spacing:.02em}
+#top .sub{font-size:11px;color:var(--muted);margin-top:2px}
+#top select{font:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+/* 卡片：桌面右侧，手机底部抽屉 */
+#card{position:absolute;right:10px;top:70px;width:360px;max-height:calc(100% - 90px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--ink);box-shadow:0 6px 18px rgba(20,30,50,.16);z-index:6;font-size:13px}
+#card[hidden]{display:none}
+#card header{padding:12px 14px 8px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+#card h2{font-size:18px;font-weight:900}
+#card header .meta{font-size:11px;color:var(--muted);margin-top:2px}
+#card .x{border:0;background:none;font-size:18px;cursor:pointer;color:var(--muted);line-height:1}
+#card section{padding:10px 14px;border-bottom:1px solid var(--line)}
+#card section:last-child{border-bottom:0}
+#card h3{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--muted);margin-bottom:6px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:3px 0;align-items:baseline}
+.row .k{color:var(--soft)}
+.row .v{font-weight:700;text-align:right;white-space:nowrap}
+.row .v.none{color:var(--none);font-weight:400}
+.chip{display:inline-block;font-size:10px;padding:1px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--none)}
+.chip.official{background:var(--ok)} .chip.listing{background:var(--listing)} .chip.measured{background:var(--ink)}
+.chip.crowd{background:#fff;color:var(--crowd);border:1px dashed var(--crowd)} .chip.estimated{background:#fff;color:var(--muted);border:1px solid var(--muted)}
+.src{font-size:10.5px;color:var(--muted);margin-top:2px}
+.src a{color:var(--hover)}
+.stale{color:var(--accent)}
+.derived{background:var(--paper);padding:8px 10px;margin-top:6px}
+.derived .big{font-size:22px;font-weight:900}
+#card .links a{display:inline-block;margin-right:12px;color:var(--hover);font-size:12px}
+.empty{color:var(--muted);font-size:12px;line-height:1.6}
+/* 图例 */
+#legend{position:absolute;left:10px;bottom:16px;background:var(--panel);border:1px solid var(--line);padding:6px 10px;font-size:11px;color:var(--soft);z-index:5;line-height:1.7}
+#legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+#homebtn{position:fixed;right:14px;bottom:18px;z-index:2000;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border:1px solid #c9d2db;border-radius:50%;box-shadow:0 2px 8px rgba(20,30,50,.18);font-size:19px;text-decoration:none;color:#1b2433;user-select:none}
+@media (max-width:640px){
+  #card{left:0;right:0;top:auto;bottom:0;width:auto;max-height:62%;border-left:0;border-top:5px solid var(--ink)}
+  #legend{bottom:auto;top:64px}
+  #homebtn{bottom:auto;top:12px;right:12px;width:34px;height:34px;font-size:17px}
+  #top{right:56px}
+}
+.maplibregl-ctrl-attrib{font-size:10px}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="top">
+  <div class="box">
+    <h1>薪資 · 購買力</h1>
+    <div class="sub">外国人在各城市真实能挣多少、真实要花多少。点一个点。</div>
+  </div>
+  <div class="box"><label>货币 <select id="cur"><option value="local">当地</option></select></label></div>
+</div>
+<div id="legend"><i style="background:var(--ink)"></i>有数据　<i style="background:#fff;border:2px solid var(--muted)"></i>待调查</div>
+<aside id="card" hidden>
+  <header><div><h2 id="cName"></h2><div class="meta" id="cMeta"></div></div><button class="x" id="cClose" title="关闭">✕</button></header>
+  <div id="cBody"></div>
+</aside>
+<a id="homebtn" href="../index.html" title="返回目录">⌂</a>
+
+<script src="../vendor/maplibre-gl.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+// 城市清单很小，先取到再建图：点直接内嵌进样式的 source，不用等 load 事件
+let CITIES=[], RATES=null, CUR='local', map=null;
+(async()=>{
+try{ CITIES=await (await fetch('data/cities.json')).json(); }catch(e){ CITIES=[]; }
+map=new maplibregl.Map({
+  container:'map',attributionControl:{compact:true,customAttribution:'Natural Earth（公有领域）'},
+  center:[120,25],zoom:2.2,minZoom:1,maxZoom:9,dragRotate:false,pitchWithRotate:false,touchZoomRotate:true,
+  style:{version:8,
+    // 字形沿用仓库里那套 NotoSansJP 全 256 段
+    // 花括号不能进 new URL（会被转义成 %7B），先解析目录再拼模板
+    glyphs:new URL('../tiles/glyphs/',document.baseURI).href+'{fontstack}/{range}.pbf',
+    sources:{
+      c110:{type:'geojson',data:new URL('data/countries_110m.geojson',document.baseURI).href},
+      c50 :{type:'geojson',data:new URL('data/countries_50m.geojson',document.baseURI).href},
+      cities:{type:'geojson',data:{type:'FeatureCollection',features:CITIES.map(c=>({type:'Feature',
+        properties:{id:c.id,label:c.name.zh,status:c.status},geometry:{type:'Point',coordinates:[c.lon,c.lat]}}))}}},
+    layers:[
+      {id:'bg',type:'background',paint:{'background-color':'#DCEBF5'}},
+      {id:'land110',type:'fill',source:'c110',maxzoom:3.5,paint:{'fill-color':'#F4F1EA'}},
+      {id:'line110',type:'line',source:'c110',maxzoom:3.5,paint:{'line-color':'#B8C2CC','line-width':0.6}},
+      {id:'land50',type:'fill',source:'c50',minzoom:3.5,paint:{'fill-color':'#F4F1EA'}},
+      {id:'line50',type:'line',source:'c50',minzoom:3.5,paint:{'line-color':'#B8C2CC','line-width':0.8}},
+      {id:'cname',type:'symbol',source:'c50',minzoom:3.5,layout:{'text-field':['coalesce',['get','zh'],['get','en']],'text-font':['NotoSansJP Regular'],'text-size':11,'symbol-placement':'point'},paint:{'text-color':'#8A93A0','text-halo-color':'#F4F1EA','text-halo-width':1}},
+      {id:'city-halo',type:'circle',source:'cities',paint:{'circle-radius':['interpolate',['linear'],['zoom'],1,7,6,12],'circle-color':'#fff','circle-opacity':0.9}},
+      {id:'city-dot',type:'circle',source:'cities',paint:{
+        'circle-radius':['interpolate',['linear'],['zoom'],1,4.5,6,8],
+        'circle-color':['case',['==',['get','status'],'ready'],'#1B2433','#fff'],
+        'circle-stroke-color':['case',['==',['get','status'],'ready'],'#1B2433','#6B7688'],'circle-stroke-width':2}},
+      {id:'city-lab',type:'symbol',source:'cities',layout:{'text-field':['get','label'],'text-font':['NotoSansJP Regular'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':'#1B2433','text-halo-color':'#fff','text-halo-width':1.5}}
+    ]}
+});
+map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+
+fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r;
+  // 只有真有汇率的货币才进下拉；没有就只剩「当地」
+  const sel=$('cur'); for(const k of Object.keys(r.fx||{})){const o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o);}
+}).catch(()=>{});
+$('cur').addEventListener('change',e=>{CUR=e.target.value; if(OPEN) show(OPEN);});
+
+map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });
+map.on('mouseenter','city-dot',()=>map.getCanvas().style.cursor='pointer');
+map.on('mouseleave','city-dot',()=>map.getCanvas().style.cursor='');
+$('cClose').addEventListener('click',()=>{$('card').hidden=true;OPEN=null;});
+})();
+
+var OPEN=null; const cache={};
+async function show(c){
+  OPEN=c; $('card').hidden=false;
+  $('cName').textContent=`${c.name.zh}　${c.name.ja}　${c.name.en}`;
+  $('cMeta').textContent=`${c.country} · ${c.currency}`;
+  $('cBody').innerHTML='<section class="empty">载入…</section>';
+  let d=cache[c.id];
+  if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
+  $('cBody').innerHTML=render(c,d);
+}
+// ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
+function money(v,unit,cur){
+  if(v==null) return null;
+  if(CUR==='local'||!RATES||!RATES.fx[cur]||!RATES.fx[CUR]) return `${v.toLocaleString()} ${unit}`;
+  const jpy=v*RATES.fx[cur]; const out=jpy/RATES.fx[CUR];
+  return `${Math.round(out).toLocaleString()} ${unit.replace(cur,CUR)}`;
+}
+function stale(d){ if(!d) return false; const t=Date.parse(d); return isFinite(t) && (Date.now()-t)>365*864e5; }
+function num(k,m,cur){
+  if(!m) return '';
+  const val=money(m.value,m.unit||'',cur);
+  const chip=`<span class="chip ${m.confidence||''}">${({official:'官方',listing:'挂牌',measured:'实测',crowd:'众包',estimated:'推算'})[m.confidence]||'?'}</span>`;
+  const src=m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_name||'来源'}</a>`:(m.source_name||'');
+  const meta=[src, m.fetched_at?(stale(m.fetched_at)?`<span class="stale">${m.fetched_at} 旧</span>`:m.fetched_at):'', m.n?`n=${m.n}`:'', m.note||''].filter(Boolean).join(' · ');
+  return `<div class="row"><span class="k">${k}</span><span class="v ${val==null?'none':''}">${val==null?'暂无':val}${chip}</span></div>${meta?`<div class="src">${meta}</div>`:''}`;
+}
+function render(c,d){
+  if(!d) return '<section class="empty">这个城市还没有数据文件。数据规范见 data/README.md。</section>';
+  const cur=d.currency||c.currency; let h='';
+  // 能干什么活
+  h+='<section><h3>能干什么活</h3>';
+  if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="row"><span class="k">${w.visa}</span><span class="v ${w.rule&&w.rule.value!=null?'':'none'}">${w.rule&&w.rule.value!=null?w.rule.value+' '+w.rule.unit:'上限暂无'}</span></div>`;
+      if(w.rule&&w.rule.note) h+=`<div class="src">${w.rule.note}</div>`;
+      if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>';
+      else h+='<div class="src">平台：待调查</div>'; } }
+  else h+='<div class="empty">待调查</div>';
+  h+='</section>';
+  // 时薪
+  h+='<section><h3>时薪</h3>'+num('官方最低',d.wage&&d.wage.min_official,cur);
+  if(d.wage&&d.wage.listing&&d.wage.listing.length) for(const l of d.wage.listing) h+=num(l.job||'挂牌',l,cur);
+  else h+='<div class="src">平台挂牌时薪：待调查</div>';
+  h+='</section>';
+  // 固定开销
+  h+='<section><h3>固定开销 / 月</h3>'+num('通勤月票',d.transport&&d.transport.monthly_pass,cur)+num('单程票',d.transport&&d.transport.single_fare,cur);
+  if(d.rent&&d.rent.length) for(const r of d.rent) h+=num(`房租 ${r.type||''} ${r.area||''}`.trim(),r,cur); else h+='<div class="src">房租：待调查</div>';
+  h+=num('生活费（官方）',d.living&&d.living.official,cur)+num('生活费（实测）',d.living&&d.living.measured,cur)+'</section>';
+  // 现算
+  const wage=d.wage&&d.wage.min_official&&d.wage.min_official.value; const rent=d.rent&&d.rent.length?d.rent[0].value:null;
+  const live=d.living&&((d.living.measured&&d.living.measured.value)||(d.living.official&&d.living.official.value));
+  const pass=d.transport&&d.transport.monthly_pass&&d.transport.monthly_pass.value;
+  h+='<section><h3>换算成工时</h3>';
+  if(wage&&rent){ h+=`<div class="derived"><div class="big">${(rent/wage).toFixed(0)} h</div>房租要打多少小时工（按官方最低时薪）</div>`; }
+  if(wage&&rent&&live&&pass){ h+=`<div class="derived"><div class="big">${((rent+live+pass)/wage).toFixed(0)} h / 月</div>房租＋生活费＋通勤，按最低时薪要打的工时</div>`; }
+  if(!(wage&&rent)) h+='<div class="empty">时薪和房租都有了才算。</div>';
+  h+='</section>';
+  if(c.links){ h+='<section class="links">'+Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图 →'})[k]||k}</a>`).join('')+'</section>'; }
+  h+=`<section class="src">更新 ${d.updated||'—'} · 状态 ${d.status==='ready'?'可看':'草稿，数据未填完'}</section>`;
+  return h;
+}
+</script>
+</body>
+</html>
