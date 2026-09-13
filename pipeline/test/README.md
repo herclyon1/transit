@@ -16,9 +16,9 @@ v18~v27 之间每一版上线后用户不到 10 秒就能发现恶性 bug，而�
 ## 怎么跑
 
 ```bash
-cd <仓库根> && python3 -m http.server 8765 &
-node quiz/test/usersession.js http://127.0.0.1:8765/quiz/japan-map-quiz.html s
-node quiz/test/pinch.js       http://127.0.0.1:8765/quiz/japan-map-quiz.html
+cd <仓库根> && 起一个支持 HTTP Range 的静态服务器（pmtiles 按字节范围取，python -m http.server 不支持 Range）
+node pipeline/test/usersession.js http://127.0.0.1:8765/quiz/ s
+node pipeline/test/pinch.js       http://127.0.0.1:8765/quiz/
 ```
 
 - `usersession.js`：手机视口 390x844 + 4x CPU 降速 + 模拟 4G 延迟，用**真实输入事件**

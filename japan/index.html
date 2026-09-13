@@ -140,7 +140,7 @@ const muniOf=p=>{
 const proto=new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles",proto.tile);
 // 瓦片和字形统一放在仓库根的 tiles/，页面在子目录里，所以按页面 URL 解析成绝对路径
-const TB=new URL("../tiles/",location.href).href;
+const TB=new URL("../tiles/",document.baseURI).href;
 // 瓦片版本号。**重切瓦片后必须改这里**：
 // pmtiles 是按字节范围取的，浏览器/CDN 把旧文件的某段范围缓存住之后，
 // 新文件同名同 URL，目录偏移全对不上，取回来的就是垃圾——表现为
