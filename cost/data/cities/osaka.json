@@ -77,16 +77,16 @@
   },
   {
    "chain": "亚马逊仓库",
-   "store": "茨木物流中心（大阪府茨木市）",
+   "store": "茨木市 快速配送仓库（仓库作业员）",
    "wage": {
-    "value": null,
+    "value": 1300,
     "unit": "日元/小时",
-    "source_url": "https://shigoto.amazon.co.jp/job-roles/fulfillment-center-associate",
-    "source_name": "亚马逊日本官方招聘网站",
+    "source_url": "https://shigoto.amazon.co.jp/locations/ibaraki",
+    "source_name": "亚马逊日本官方招聘网站（大阪府周边求人列表，2026-09-14）",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "官方招聘站的时薪按据点动态加载，本次抓不到；第三方转载按规则不用。待用户在官方站按据点查。"
+    "note": "茨木市 快速配送仓库 时薪 1,300 起（全职与短时段两种，入社祝金 168,000–232,960）；吹田市 大型商品仓库 1,350 起；尼崎市 物流中心 1,350 起。"
    }
   }
  ],
@@ -563,17 +563,6 @@
    "n": null,
    "note": "单身勤劳者家庭 消费支出合计（含住居 30,327）。全部单身 173,042（平均 58.6 岁）。",
    "label": "消费支出合计（统计平均）"
-  },
-  "measured": {
-   "value": null,
-   "unit": "日元/月",
-   "source_url": null,
-   "source_name": "家计（本人账目月度汇总）",
-   "fetched_at": "2026-09-14",
-   "confidence": "measured",
-   "n": null,
-   "note": "等家计卡片做好后由它输出",
-   "label": "实测（本人）"
   }
  }
 }

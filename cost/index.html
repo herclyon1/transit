@@ -161,7 +161,7 @@ function render(c,d){
   const V=x=>x&&x.value!=null?x.value:null;
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
-  if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="row"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:'上限暂无'}</span></div>`;
+  if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="row"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
       if(w.rule&&w.rule.note) h+=`<div class="src">${w.rule.note}</div>`;
       if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>'; } }
   else h+='<div class="empty">待调查</div>';
