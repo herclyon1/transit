@@ -4,544 +4,575 @@
  "updated": "2026-09-14",
  "currency": "JPY",
  "status": "ready",
+ "lang": "zh",
  "hub": {
-  "name": "梅田／難波／天王寺／京橋",
-  "note": "档位按可达图的「到最近枢纽的轨道分钟数」划分，代表车站从 osaka/data/reach.json 里挑，房租取 SUUMO 该站页面的 1K 相場。"
+  "name": "梅田 / 难波 / 天王寺 / 京桥（客流前四的枢纽）",
+  "note": "档位 = 从车站坐轨道交通到最近枢纽的分钟数（来自本站的车站可达性图）。每档挑 3–4 个真实车站当代表，租金取 SUUMO 该站页面的 1K 行情，月票取该站到枢纽的官方定期券价格。"
  },
  "work": [
   {
-   "visa": "留学",
+   "visa": "留学签证",
    "rule": {
     "value": 28,
-    "unit": "h/week",
+    "unit": "小时/周",
     "source_url": "https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri07_00003.html",
-    "source_name": "出入国在留管理庁「留学」の在留資格に係る資格外活動許可",
+    "source_name": "出入国在留管理厅「留学」资格外活动许可",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "包括許可：1週28時間以内；長期休業期間は1日8時間以内（原文已核）。インターン・語学教師・家庭教師等は個別許可。風俗営業関連は不可（入管一般規定，原文未抓到）。"
+    "note": "概括许可：每周 28 小时以内；学校长假期间每天 8 小时以内。实习、语言教师、家教等工时难以客观确认的活动需个别许可。风俗营业相关禁止（入管通用规定）。"
    },
    "platforms": [
     {
-     "name": "各連鎖官方採用サイト",
+     "name": "各连锁官方招聘页",
      "url": null,
-     "note": "下面的岗位全部来自连锁自己的招聘页或直接雇用帖，比聚合站准"
-    },
-    {
-     "name": "タウンワーク",
-     "url": "https://townwork.net/",
-     "note": "综合，岗位量最大"
-    },
-    {
-     "name": "バイトル",
-     "url": "https://www.baitoru.com/",
-     "note": "综合"
-    },
-    {
-     "name": "YOLO JAPAN",
-     "url": "https://www.yolo-japan.com/",
-     "note": "外国人専用，明写日语等级"
+     "note": "下面的岗位全部来自连锁自己的招聘页面；聚合招聘站按规则不用"
     }
    ],
-   "platforms_note": "靠谱排序待用户按经验定。"
+   "platforms_note": "哪个平台最靠谱等用户按经验排序。"
   }
  ],
  "jobs": [
   {
-   "chain": "セブンイレブン",
-   "store": "大阪市北区 55 店（梅田スカイビル東店・大阪天満３丁目店 等）",
+   "chain": "7-Eleven 便利店",
+   "store": "大阪市北区 55 家店（梅田蓝天大厦东店、天满 3 丁目店等），平野区 15 家同价",
    "wage": {
     "value": 1231,
-    "unit": "JPY/h",
+    "unit": "日元/小时",
     "source_url": "https://ptj.sej.co.jp/arbeit/recruitment/jobfind-pc/area/Kansai/Osaka/27127/",
-    "source_name": "セブン‐イレブン 公式採用サイト 大阪市北区",
+    "source_name": "7-Eleven 官方招聘网站 大阪市北区",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "北区 55 店与平野区 15 店全部写「時給1,231円〜」，即已按 2026-10-01 新最低賃金挂牌。"
+    "note": "全部写「时薪 1,231 日元起」，即已按 2026-10-01 新最低时薪挂牌。"
    }
   },
   {
-   "chain": "マクドナルド",
+   "chain": "麦当劳",
    "store": "新梅田店（北区角田町，新梅田食道街）",
    "wage": {
     "value": 1200,
-    "unit": "JPY/h",
+    "unit": "日元/小时",
     "source_url": "https://crewrecruiting.mcdonalds.co.jp/map/27050",
-    "source_name": "日本マクドナルド 公式クルー採用（店舗ページ，2026-08-27 更新）",
+    "source_name": "日本麦当劳官方员工招聘 门店页（2026-08-27 更新）",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "深夜 22–5 時 +25%。2026-10-01 起低于新最低賃金 1,231，届时必涨。"
+    "note": "深夜 22–5 时 +25%。2026-10-01 起低于新最低时薪 1,231，届时必涨。"
    }
   },
   {
-   "chain": "スターバックス",
-   "store": "大阪府内の店舗（スカウト登録制）",
+   "chain": "星巴克",
+   "store": "大阪府内门店（官方登记制，登记后分配门店）",
    "wage": {
     "value": 1280,
-    "unit": "JPY/h",
+    "unit": "日元/小时",
     "source_url": "https://starbucks-job.jp/jobfind-pc/job/All/66852",
-    "source_name": "スターバックス コーヒー ジャパン 公式求人サイト（2026-04-20 更新）",
+    "source_name": "星巴克咖啡日本 官方招聘网站（2026-04-20 更新）",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "研修 2 か月 1,260；深夜 1,600〜；早朝 5–7 時 1,472〜；年 2 回昇給機会。"
+    "note": "培训 2 个月 1,260；深夜 1,600 起；早晨 5–7 时 1,472 起；每年 2 次加薪机会。"
    }
   },
   {
-   "chain": "Amazon 倉庫",
-   "store": "茨木フルフィルメントセンター（アマゾンジャパン直接雇用 アルバイト）",
+   "chain": "亚马逊仓库",
+   "store": "茨木物流中心（大阪府茨木市）",
    "wage": {
-    "value": 1350,
-    "unit": "JPY/h",
-    "source_url": "https://www.baitoru.com/kw/%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%80%80%E8%8C%A8%E6%9C%A8/",
-    "source_name": "バイトル 掲載（アマゾンジャパン合同会社）",
+    "value": null,
+    "unit": "日元/小时",
+    "source_url": "https://shigoto.amazon.co.jp/job-roles/fulfillment-center-associate",
+    "source_name": "亚马逊日本官方招聘网站",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "仕分け・ピッキング。派遣経由 1,300〜1,625（夜勤）。茨木 FC 在 25 分档（JR 茨木 13 分 + バス）。"
+    "note": "官方招聘站的时薪按据点动态加载，本次抓不到；第三方转载按规则不用。待用户在官方站按据点查。"
    }
   }
  ],
  "wage_ref": {
   "min_official": {
    "value": 1177,
-   "unit": "JPY/h",
+   "unit": "日元/小时",
    "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/index.html",
-   "source_name": "厚生労働省 地域別最低賃金の全国一覧（令和7年度）",
+   "source_name": "厚生劳动省 地域别最低工资全国一览（2025 年度）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "発効 2025-10-16。"
+   "note": "2025-10-16 生效。"
   },
   "min_official_next": {
    "value": 1231,
-   "unit": "JPY/h",
+   "unit": "日元/小时",
    "source_url": "https://www.pref.osaka.lg.jp/o110090/rodokankyo/saiteitingin.html",
-   "source_name": "大阪府 最低賃金および支援策について",
+   "source_name": "大阪府 最低工资及支援措施",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
    "note": "2026-10-01 起 1,231（+54）。"
   }
  },
+ "transit_zones": {
+  "label": "大阪地铁分区票价（官方，按最短路径距离）",
+  "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+  "source_name": "大阪地铁官网 乘车·定期运费表",
+  "fetched_at": "2026-09-14",
+  "confidence": "official",
+  "zones": [
+   {
+    "zone": "1区",
+    "km": "≤3",
+    "single": 190,
+    "student": 3430,
+    "commuter": 7930
+   },
+   {
+    "zone": "2区",
+    "km": "3–7",
+    "single": 240,
+    "student": 4200,
+    "commuter": 9480
+   },
+   {
+    "zone": "3区",
+    "km": "7–13",
+    "single": 290,
+    "student": 4880,
+    "commuter": 11030
+   },
+   {
+    "zone": "4区",
+    "km": "13–19",
+    "single": 340,
+    "student": 4980,
+    "commuter": 11830
+   },
+   {
+    "zone": "5区",
+    "km": ">19",
+    "single": 390,
+    "student": 5410,
+    "commuter": 12770
+   }
+  ],
+  "note": "student = 通学定期 1 个月，commuter = 通勤定期 1 个月（含无障碍费 380）。同一起讫站按路径不同可能落在不同区；和私铁联络定期另算。"
+ },
  "tiers": [
   {
    "id": "walk",
    "label": "步行圈",
-   "commute": "到枢纽 0–5 分",
+   "commute": "到枢纽 0–5 分钟",
    "stations": [
-    "天神橋筋六丁目（梅田 2 分）",
-    "天王寺（枢纽）",
-    "なんば（枢纽）"
+    "天神桥筋六丁目（到梅田 2 分）",
+    "天王寺（枢纽本身）",
+    "难波（枢纽本身）"
    ],
    "rent_1k": {
     "value": 80000,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://suumo.jp/chintai/soba/osaka/ek_25390/",
-    "source_name": "SUUMO 駅別家賃相場（2026-07-10 更新，掲載物件の独自集計） 天神橋筋六丁目",
+    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，挂牌房源独自统计） 天神桥筋六丁目",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "1K 8.0 万；天王寺 8.2、なんば 7.1、梅田 11.1。ワンルーム 7.3。不含礼金敷金管理費。"
+    "note": "1K：天神桥筋六丁目 8.0 万、天王寺 8.2、难波 7.1、梅田 11.1。不含礼金、押金、管理费。"
    },
    "pass_student": {
     "value": 3430,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "通学定期 1 区（≤3km）；步行圈其实可以不买。"
+    "note": "地铁 1 区通学定期；步行圈其实可以不买。"
    },
    "pass_commuter": {
     "value": 7930,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "通勤定期 1 区。"
+    "note": "地铁 1 区通勤定期。"
    },
    "fare_single": {
     "value": 190,
-    "unit": "JPY",
+    "unit": "日元",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "1 区。"
+    "note": "地铁 1 区。"
    }
   },
   {
    "id": "t15",
-   "label": "15 分档",
-   "commute": "到枢纽 10–15 分",
+   "label": "15 分钟档",
+   "commute": "到枢纽 10–15 分钟",
    "stations": [
-    "江坂（12）",
-    "千林大宮（12）",
-    "喜連瓜破（11）",
-    "布施（11）"
+    "江坂（12 分）",
+    "千林大宫（12 分）",
+    "喜连瓜破（11 分）",
+    "布施（11 分）"
    ],
    "rent_1k": {
     "value": 64000,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://suumo.jp/chintai/soba/osaka/ek_21550/",
-    "source_name": "SUUMO 駅別家賃相場（2026-07-10 更新，掲載物件の独自集計） 千林大宮",
+    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，挂牌房源独自统计） 千林大宫",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "1K：千林大宮 6.4、喜連瓜破 6.3、江坂 7.9；布施 ワンルーム 6.5。取中位。"
+    "note": "1K：千林大宫 6.4 万、喜连瓜破 6.3、江坂 7.9；布施单间 6.5。取中位。"
    },
    "pass_student": {
     "value": 4200,
-    "unit": "JPY/month",
-    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "unit": "日元/月",
+    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
+    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "通学定期 地铁 2 区（3–7km）；江坂→梅田是 3 区 4,880；布施→大阪難波 近鉄 4,320（駅探）。"
+    "note": "地铁 2 区通学定期（江坂→梅田、千林大宫→东梅田都是 2 区；北急官方表里 江坂→2 区 通学 4,200 与地铁官网一致）。布施走近铁，近铁官网只有查询表单，未取到。"
    },
    "pass_commuter": {
     "value": 9480,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "通勤定期 地铁 2 区；3 区 11,030；布施→大阪難波 近鉄 9,820。"
+    "note": "地铁 2 区通勤定期。"
    },
    "fare_single": {
     "value": 240,
-    "unit": "JPY",
+    "unit": "日元",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "Osaka Metro 乗車・定期運賃",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "2 区；3 区 290。"
+    "note": "地铁 2 区。"
    }
   },
   {
    "id": "t25",
-   "label": "25 分档",
-   "commute": "到枢纽 20–25 分",
+   "label": "25 分钟档",
+   "commute": "到枢纽 20–25 分钟",
    "stations": [
-    "千里中央（21）",
-    "高槻市（22）",
-    "泉大津（21）",
-    "金剛（23）"
+    "千里中央（21 分）",
+    "泉大津（21 分）",
+    "金刚（23 分）",
+    "高槻市（22 分）"
    ],
    "rent_1k": {
     "value": 78000,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://suumo.jp/chintai/soba/osaka/ek_21580/",
-    "source_name": "SUUMO 駅別家賃相場（2026-07-10 更新，掲載物件の独自集計） 千里中央",
+    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，挂牌房源独自统计） 千里中央",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "1K：千里中央 8.8、高槻市 9.4、泉大津 6.8；金剛 ワンルーム 7.7。中位约 7.8 万。郊外新房源多，SUUMO 相場反而不低。"
+    "note": "1K：千里中央 8.8 万、高槻市 9.4、泉大津 6.8；金刚单间 7.7。中位约 7.8 万。郊外挂牌多是新房源，行情反而不低。"
    },
    "pass_student": {
-    "value": 3990,
-    "unit": "JPY/month",
-    "source_url": "https://ekitan.com/transit/pass/sf-5530/st-4958",
-    "source_name": "駅探 定期代（阪急 高槻市→大阪梅田）",
+    "value": 7430,
+    "unit": "日元/月",
+    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
+    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
     "fetched_at": "2026-09-14",
-    "confidence": "listing",
+    "confidence": "official",
     "n": null,
-    "note": "通学(大学) 1 か月：高槻市→梅田 阪急 3,990；千里中央→梅田 7,430；金剛→なんば 6,090。取最便宜的私铁通学。"
+    "note": "千里中央→梅田（北急+地铁 2 区）通学定期。南海官网：泉大津→难波 6,060、金刚→难波 6,090。阪急高槻市官网只有查询表单，未取到。"
    },
    "pass_commuter": {
-    "value": 11550,
-    "unit": "JPY/month",
-    "source_url": "https://ekitan.com/transit/pass/sf-5530/st-4958",
-    "source_name": "駅探 定期代（阪急 高槻市→大阪梅田）",
+    "value": 14900,
+    "unit": "日元/月",
+    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
+    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
     "fetched_at": "2026-09-14",
-    "confidence": "listing",
+    "confidence": "official",
     "n": null,
-    "note": "通勤：高槻市→梅田 阪急 11,550；千里中央→梅田 14,900；金剛→なんば 19,290。"
+    "note": "千里中央→梅田 通勤定期。南海官网：泉大津→难波 18,770、金刚→难波 19,290。"
    },
    "fare_single": {
-    "value": 330,
-    "unit": "JPY",
-    "source_url": "https://ekitan.com/transit/pass/sf-5530/st-4958",
-    "source_name": "駅探（阪急 高槻市→大阪梅田）",
+    "value": 380,
+    "unit": "日元",
+    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
+    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
     "fetched_at": "2026-09-14",
-    "confidence": "listing",
+    "confidence": "official",
     "n": null,
-    "note": "阪急 高槻市→大阪梅田 片道 330（通勤定期 11,550 ÷ 35）。"
+    "note": "千里中央→梅田 单程。南海官网：泉大津 490、金刚 490。"
    }
   },
   {
    "id": "t40",
-   "label": "40 分档",
-   "commute": "到枢纽 35–40 分",
+   "label": "40 分钟档",
+   "commute": "到枢纽 35–40 分钟",
    "stations": [
-    "泉佐野（36）",
-    "和泉中央（37）",
-    "彩都西（38）"
+    "泉佐野（36 分）",
+    "和泉中央（37 分）",
+    "彩都西（38 分）"
    ],
    "rent_1k": {
     "value": 70000,
-    "unit": "JPY/month",
+    "unit": "日元/月",
     "source_url": "https://suumo.jp/chintai/soba/osaka/ek_02480/",
-    "source_name": "SUUMO 駅別家賃相場（2026-07-10 更新，掲載物件の独自集計） 泉佐野",
+    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，挂牌房源独自统计） 泉佐野",
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "1K：泉佐野 7.0、彩都西 7.0；和泉中央 1DK 7.6。远郊 1K 不比 15 分档便宜，因为挂牌多是新建。"
+    "note": "1K：泉佐野 7.0 万、彩都西 7.0；和泉中央 1DK 7.6。远郊 1K 不比 15 分钟档便宜，因为挂牌多是新建。"
    },
    "pass_student": {
     "value": 6370,
-    "unit": "JPY/month",
-    "source_url": "https://ekitan.com/transit/fare/sf-4886/st-5728",
-    "source_name": "駅探 定期代（南海 泉佐野→難波）",
-    "fetched_at": "2026-09-14",
-    "confidence": "listing",
-    "n": null,
-    "note": "通学(大学)：泉佐野→なんば 6,370；和泉中央→なんば 6,640。"
-   },
-   "pass_commuter": {
-    "value": 24130,
-    "unit": "JPY/month",
-    "source_url": "https://ekitan.com/transit/fare/sf-4886/st-5728",
-    "source_name": "駅探 定期代（南海 泉佐野→難波）",
-    "fetched_at": "2026-09-14",
-    "confidence": "listing",
-    "n": null,
-    "note": "通勤：泉佐野→なんば 24,130；和泉中央→なんば 22,870。"
-   },
-   "fare_single": {
-    "value": null,
-    "unit": "JPY",
-    "source_url": null,
-    "source_name": "",
+    "unit": "日元/月",
+    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
+    "source_name": "南海电铁官网 运费检索",
     "fetched_at": "2026-09-14",
     "confidence": "official",
     "n": null,
-    "note": "待查"
+    "note": "泉佐野→难波（34.0 km）通学定期；和泉中央→难波 6,640。"
+   },
+   "pass_commuter": {
+    "value": 24130,
+    "unit": "日元/月",
+    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
+    "source_name": "南海电铁官网 运费检索",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "泉佐野→难波 通勤定期；和泉中央→难波 22,870。"
+   },
+   "fare_single": {
+    "value": 650,
+    "unit": "日元",
+    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
+    "source_name": "南海电铁官网 运费检索",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "泉佐野→难波 单程；和泉中央 590。"
    }
   }
  ],
  "utilities": {
   "electricity": {
    "value": 6033,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "単身勤労者世帯 平均（全国）。全単身 7,337。",
+   "note": "单身勤劳者家庭全国均值。全部单身家庭 7,337。",
    "label": "电费"
   },
   "gas": {
    "value": 2829,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "単身勤労者世帯。全単身 2,999。",
+   "note": "单身勤劳者家庭。全部单身 2,999。",
    "label": "燃气"
   },
   "water": {
    "value": 1862,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "上下水道料，単身勤労者世帯。全単身 2,136。",
+   "note": "上下水道费，单身勤劳者家庭。全部单身 2,136。",
    "label": "水费"
   },
   "mobile": {
    "value": 2970,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://ahamo.com/plan/",
-   "source_name": "ahamo 公式",
+   "source_name": "ahamo 官网",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "30GB，5 分通話込み，税込。",
+   "note": "30GB，含 5 分钟通话，含税。",
    "label": "手机（ahamo 30GB）"
   },
   "internet": {
    "value": 2420,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.nuro.jp/news_release/20260615/",
-   "source_name": "NURO 光 料金改定のご案内（2026-09-01 適用）",
+   "source_name": "NURO 光 官网 资费改定通知（2026-09-01 起）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "NURO 光 for マンション 2ギガ（3 年契約）；普通マンションタイプ 4,235。",
-   "label": "宽带（NURO 光 マンション）"
+   "note": "NURO 光 for マンション 2G（3 年合约）；普通公寓型 4,235。",
+   "label": "宽带（NURO 光 公寓）"
   },
   "comm_official": {
    "value": 6943,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "家計調査「通信」（手机+宽带+邮费），単身勤労者世帯。",
+   "note": "家计调查「通信」（手机+宽带+邮费），单身勤劳者家庭。",
    "label": "通信（统计平均）"
   }
  },
  "basket": {
   "bigmac_set": {
    "value": 770,
-   "unit": "JPY",
-   "source_url": "https://www.watch.impress.co.jp/docs/news/2088070.html",
-   "source_name": "Impress Watch（マクドナルド 2026-02-25 価格改定）；官方菜单単品 500〜",
+   "unit": "日元",
+   "source_url": "https://www.mcdonalds.co.jp/products/800000/",
+   "source_name": "麦当劳日本官网 巨无霸套餐 商品页",
    "fetched_at": "2026-09-14",
-   "confidence": "listing",
+   "confidence": "official",
    "n": null,
-   "note": "ビッグマック バリューセット 標準店舗 770（単品 500）。",
+   "note": "バリューセット 770 起（单品 500）；部分门店和外送价格不同。2026-02-25 改定。",
    "label": "巨无霸套餐"
   },
   "latte_tall": {
    "value": 500,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://menu.starbucks.co.jp/4524785000223",
-   "source_name": "スターバックス 公式メニュー",
+   "source_name": "星巴克日本官网菜单",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "Tall 店内 500〜（Short 460／Grande 545）。",
+   "note": "Tall 店内 500 起（Short 460 / Grande 545）。",
    "label": "星巴克拿铁 Tall"
   },
   "coffee_shop": {
    "value": 439,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "コーヒー(外食)(喫茶店) 1 杯。",
+   "note": "咖啡馆一杯咖啡（外食）。",
    "label": "咖啡馆一杯咖啡"
   },
   "curry_rice": {
    "value": 787,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "カレーライス(外食) 1 皿。",
+   "note": "咖喱饭一盘（外食）。",
    "label": "外食咖喱饭一盘"
   },
   "eggs10": {
    "value": 351,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "鶏卵 1 パック 10 個。",
+   "note": "鸡蛋 1 盒 10 个。",
    "label": "鸡蛋 10 个"
   },
   "milk1l": {
    "value": 257,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "牛乳 1,000mL。",
+   "note": "牛奶 1,000mL。",
    "label": "牛奶 1L"
   },
   "rice5kg": {
    "value": 5030,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "うるち米 コシヒカリ 5kg；非コシヒカリ 5,219。",
+   "note": "粳米 越光 5kg；非越光 5,219。",
    "label": "大米 5kg"
   },
   "bread1kg": {
    "value": 547,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "食パン 1kg。",
+   "note": "吐司面包 1kg。",
    "label": "面包 1kg"
   },
   "cola1l": {
    "value": 240,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "コーラ 1,000mL。",
+   "note": "可乐 1,000mL。",
    "label": "可乐 1L"
   },
   "beer6": {
    "value": 1171,
-   "unit": "JPY",
+   "unit": "日元",
    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "総務省 小売物価統計調査 2026年2月 大阪市",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "ビール 350mL×6。",
+   "note": "啤酒 350mL×6。",
    "label": "啤酒 6 罐"
   }
  },
  "living_official": {
   "food": {
    "value": 45787,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "単身勤労者世帯 食料（うち外食 13,817）。",
+   "note": "单身勤劳者家庭 食品（其中外食 13,817）。",
    "label": "食费（统计平均）"
   },
   "total": {
    "value": 191523,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "総務省 家計調査 2025年 単身世帯 第1表（勤労者世帯）",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
    "fetched_at": "2026-09-14",
    "confidence": "official",
    "n": null,
-   "note": "単身勤労者世帯 消費支出合计（含住居 30,327）。全単身 173,042（平均 58.6 歳）。",
+   "note": "单身勤劳者家庭 消费支出合计（含住居 30,327）。全部单身 173,042（平均 58.6 岁）。",
    "label": "消费支出合计（统计平均）"
   },
   "measured": {
    "value": null,
-   "unit": "JPY/month",
+   "unit": "日元/月",
    "source_url": null,
-   "source_name": "家計（本人账目月度汇总）",
+   "source_name": "家计（本人账目月度汇总）",
    "fetched_at": "2026-09-14",
    "confidence": "measured",
    "n": null,
-   "note": "等家計卡片做好后由它输出",
+   "note": "等家计卡片做好后由它输出",
    "label": "实测（本人）"
   }
  }
