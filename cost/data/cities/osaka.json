@@ -1,26 +1,253 @@
 {
-  "city": "osaka",
-  "updated": "2026-09-14",
-  "currency": "JPY",
-  "status": "draft",
-  "work": [
+ "city": "osaka",
+ "updated": "2026-09-14",
+ "currency": "JPY",
+ "status": "ready",
+ "work": [
+  {
+   "visa": "留学",
+   "rule": {
+    "value": 28,
+    "unit": "h/week",
+    "source_url": "https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri07_00003.html",
+    "source_name": "出入国在留管理庁「留学」の在留資格に係る資格外活動許可",
+    "fetched_at": "2026-09-14",
+    "confidence": "official",
+    "n": null,
+    "note": "包括許可：1週28時間以内；教育機関の長期休業期間は1日8時間以内（原文已核）。インターン・語学教師・家庭教師など時間が客観的に確認しにくい活動は個別許可。風俗営業関連は不可（入管『資格外活動の許可』页规定，本次未能抓取原文核对）。"
+   },
+   "platforms": [
     {
-      "visa": "留学",
-      "rule": {"value": null, "unit": "h/week", "source_url": null, "source_name": "出入国在留管理庁 資格外活動許可", "fetched_at": null, "confidence": "official", "n": null, "note": "待查：週上限、長期休暇中の上限、禁止業種"},
-      "platforms": []
+     "name": "タウンワーク",
+     "url": "https://townwork.net/",
+     "note": "日本最大级综合バイト平台，大阪饮食・便利店・物流岗位最多"
+    },
+    {
+     "name": "バイトル",
+     "url": "https://www.baitoru.com/",
+     "note": "综合，时薪按职种统计公开"
+    },
+    {
+     "name": "Indeed Japan",
+     "url": "https://jp.indeed.com/",
+     "note": "聚合，量大但重复多"
+    },
+    {
+     "name": "YOLO JAPAN",
+     "url": "https://www.yolo-japan.com/",
+     "note": "外国人専用，岗位明写日语等级要求"
+    },
+    {
+     "name": "GaijinPot Jobs",
+     "url": "https://jobs.gaijinpot.com/",
+     "note": "英语岗位为主"
     }
-  ],
-  "wage": {
-    "min_official": {"value": null, "unit": "JPY/h", "source_url": null, "source_name": "厚生労働省 地域別最低賃金（大阪府）", "fetched_at": null, "confidence": "official", "n": null, "note": ""},
-    "listing": []
-  },
-  "transport": {
-    "monthly_pass": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "", "fetched_at": null, "confidence": "official", "n": null, "note": "以 25 分钟通勤圈的典型区间计"},
-    "single_fare": {"value": null, "unit": "JPY", "source_url": null, "source_name": "", "fetched_at": null, "confidence": "official", "n": null, "note": ""}
-  },
-  "rent": [],
-  "living": {
-    "official": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "総務省 家計調査（単身世帯）", "fetched_at": null, "confidence": "official", "n": null, "note": ""},
-    "measured": {"value": null, "unit": "JPY/month", "source_url": null, "source_name": "家計（本人账目月度汇总）", "fetched_at": null, "confidence": "measured", "n": null, "note": "等家計卡片做好后由它输出"}
+   ],
+   "platforms_note": "哪个最靠谱待用户按自己经验排序；上面顺序只是岗位量。"
   }
+ ],
+ "wage": {
+  "min_official": {
+   "value": 1177,
+   "unit": "JPY/h",
+   "source_url": "https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/index.html",
+   "source_name": "厚生労働省 地域別最低賃金の全国一覧（令和7年度）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "発効 2025-10-16。全国 3 位，加重平均 1,121 円。"
+  },
+  "min_official_next": {
+   "value": 1231,
+   "unit": "JPY/h",
+   "source_url": "https://www.pref.osaka.lg.jp/o110090/rodokankyo/saiteitingin.html",
+   "source_name": "大阪府 最低賃金および支援策について",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "令和8年10月1日から時間額1,231円に改正予定（+54円，+4.59%）。"
+  },
+  "listing": [
+   {
+    "value": 1252,
+    "unit": "JPY/h",
+    "source_url": "https://sftworks.jp/pay/pref_osaka",
+    "source_name": "シフトワークス 大阪府アルバイト平均時給",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "掲載求人の募集時平均時給，2026-09-13 更新（毎週更新）。全国平均 1,178。",
+    "label": "挂牌平均（全职种）"
+   },
+   {
+    "value": 1172,
+    "unit": "JPY/h",
+    "source_url": "https://sftworks.jp/pay/pref_osaka",
+    "source_name": "シフトワークス 大阪府 コンビニ",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "同上",
+    "label": "便利店"
+   },
+   {
+    "value": 1245,
+    "unit": "JPY/h",
+    "source_url": "https://sftworks.jp/pay/pref_osaka",
+    "source_name": "シフトワークス 大阪府 飲食・フード",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "同上",
+    "label": "饮食"
+   },
+   {
+    "value": 1261,
+    "unit": "JPY/h",
+    "source_url": "https://www.e-aidem.com/clp/pay/0227_pay.htm",
+    "source_name": "イーアイデム 大阪府 飲食・フード 平均時給",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "2026-09-01 更新；该站全职种平均 1,453（含 IT 等高时薪岗，不宜当打工基准）。時給 1,200–1,499 円帯の求人 9,504 件。",
+    "label": "饮食（另一平台）"
+   },
+   {
+    "value": 1402,
+    "unit": "JPY/h",
+    "source_url": "https://www.e-aidem.com/clp/pay/0227_pay.htm",
+    "source_name": "イーアイデム 大阪府 軽作業・製造・物流",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "2026-09-01 更新",
+    "label": "轻作业・物流"
+   },
+   {
+    "value": 1368,
+    "unit": "JPY/h",
+    "source_url": "https://sftworks.jp/pay/pref_osaka",
+    "source_name": "シフトワークス 大阪府 販売",
+    "fetched_at": "2026-09-14",
+    "confidence": "listing",
+    "n": null,
+    "note": "同上",
+    "label": "贩卖"
+   }
+  ]
+ },
+ "transport": {
+  "monthly_pass": {
+   "value": 4200,
+   "unit": "JPY/month",
+   "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+   "source_name": "Osaka Metro 乗車・定期運賃",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "通学定期 1か月 2区（3〜7km）。1区 3,430 / 3区 4,880。通学定期需在学证明。",
+   "label": "通学定期（地铁 2 区）"
+  },
+  "monthly_pass_commuter": {
+   "value": 9480,
+   "unit": "JPY/month",
+   "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+   "source_name": "Osaka Metro 乗車・定期運賃",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "通勤定期 1か月 2区。1区 7,930 / 3区 11,030。",
+   "label": "通勤定期（地铁 2 区）"
+  },
+  "single_fare": {
+   "value": 240,
+   "unit": "JPY",
+   "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+   "source_name": "Osaka Metro 乗車・定期運賃",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "2区。1区 190 / 3区 290 / 4区 340 / 5区 390。",
+   "label": "单程票（地铁 2 区）"
+  }
+ },
+ "rent": [
+  {
+   "value": 56000,
+   "unit": "JPY/month",
+   "source_url": "https://suumo.jp/chintai/soba/osaka/area/",
+   "source_name": "SUUMO 大阪府 家賃相場（区別）",
+   "fetched_at": "2026-09-14",
+   "confidence": "listing",
+   "n": null,
+   "note": "ワンルーム/1K/1DK 合并口径，SUUMO 掲載物件の独自算出，2026-07-10 更新。不含礼金・敷金・管理費。",
+   "label": "房租 北区（梅田，市中心）"
+  },
+  {
+   "value": 50000,
+   "unit": "JPY/month",
+   "source_url": "https://suumo.jp/chintai/soba/osaka/area/",
+   "source_name": "SUUMO 大阪府 家賃相場（区別）",
+   "fetched_at": "2026-09-14",
+   "confidence": "listing",
+   "n": null,
+   "note": "同上。福島区在居住等级图里是 S（梅田徒步圈）。",
+   "label": "房租 福島区"
+  },
+  {
+   "value": 32000,
+   "unit": "JPY/month",
+   "source_url": "https://suumo.jp/chintai/soba/osaka/area/",
+   "source_name": "SUUMO 大阪府 家賃相場（区別）",
+   "fetched_at": "2026-09-14",
+   "confidence": "listing",
+   "n": null,
+   "note": "同上。東淀川区・旭区同为 3.2 万，平野区 3.0 万，泉南郡 2.5 万。",
+   "label": "房租 東淀川区（通勤圈便宜档）"
+  },
+  {
+   "value": 60000,
+   "unit": "JPY/month",
+   "source_url": "https://suumo.jp/chintai/soba/osaka/area/",
+   "source_name": "SUUMO 大阪府 家賃相場（区別）",
+   "fetched_at": "2026-09-14",
+   "confidence": "listing",
+   "n": null,
+   "note": "同上。西区 5.9 万、浪速区 5.4 万。",
+   "label": "房租 中央区（最贵档）"
+  }
+ ],
+ "living": {
+  "official": {
+   "value": 173042,
+   "unit": "JPY/month",
+   "source_url": "https://www.stat.go.jp/data/kakei/sokuhou/tsuki/pdf/fies_gaikyo2025.pdf",
+   "source_name": "総務省統計局 家計調査報告 2025年平均結果の概要（単身世帯）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "全国単身世帯，平均年齢 58.6 歳，含住居 21,667。内訳：食料 49,321 / 光熱・水道 13,333 / 交通・通信 19,334 / 教養娯楽 21,173。年轻单身留学生实际会低于此数；単身勤労者世帯実収入 386,791。"
+  },
+  "official_ex_housing": {
+   "value": 151375,
+   "unit": "JPY/month",
+   "source_url": "https://www.stat.go.jp/data/kakei/sokuhou/tsuki/pdf/fies_gaikyo2025.pdf",
+   "source_name": "同上，消費支出 − 住居",
+   "fetched_at": "2026-09-14",
+   "confidence": "estimated",
+   "n": null,
+   "note": "173,042 − 住居 21,667，用来和上面的房租相加时避免重复计算。",
+   "label": "生活费（官方，去掉住居）"
+  },
+  "measured": {
+   "value": null,
+   "unit": "JPY/month",
+   "source_url": null,
+   "source_name": "家計（本人账目月度汇总）",
+   "fetched_at": "2026-09-14",
+   "confidence": "measured",
+   "n": null,
+   "note": "等家計卡片做好后由它输出"
+  }
+ }
 }

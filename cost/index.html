@@ -161,21 +161,27 @@ function render(c,d){
   else h+='<div class="empty">待调查</div>';
   h+='</section>';
   // 时薪
-  h+='<section><h3>时薪</h3>'+num('官方最低',d.wage&&d.wage.min_official,cur);
-  if(d.wage&&d.wage.listing&&d.wage.listing.length) for(const l of d.wage.listing) h+=num(l.job||'挂牌',l,cur);
+  h+='<section><h3>时薪</h3>'+num('官方最低',d.wage&&d.wage.min_official,cur)+num('官方最低（改定预定）',d.wage&&d.wage.min_official_next,cur);
+  if(d.wage&&d.wage.listing&&d.wage.listing.length) for(const l of d.wage.listing) h+=num(l.label||l.job||'挂牌',l,cur);
   else h+='<div class="src">平台挂牌时薪：待调查</div>';
   h+='</section>';
   // 固定开销
-  h+='<section><h3>固定开销 / 月</h3>'+num('通勤月票',d.transport&&d.transport.monthly_pass,cur)+num('单程票',d.transport&&d.transport.single_fare,cur);
-  if(d.rent&&d.rent.length) for(const r of d.rent) h+=num(`房租 ${r.type||''} ${r.area||''}`.trim(),r,cur); else h+='<div class="src">房租：待调查</div>';
-  h+=num('生活费（官方）',d.living&&d.living.official,cur)+num('生活费（实测）',d.living&&d.living.measured,cur)+'</section>';
+  h+='<section><h3>固定开销 / 月</h3>';
+  if(d.transport) for(const [k,m] of Object.entries(d.transport)) h+=num(m.label||k,m,cur);
+  if(d.rent&&d.rent.length) for(const r of d.rent) h+=num(r.label||`房租 ${r.type||''} ${r.area||''}`.trim(),r,cur); else h+='<div class="src">房租：待调查</div>';
+  if(d.living) for(const [k,m] of Object.entries(d.living)) h+=num(m.label||({official:'生活费（官方）',measured:'生活费（实测）'})[k]||k,m,cur);
+  h+='</section>';
   // 现算
   const wage=d.wage&&d.wage.min_official&&d.wage.min_official.value; const rent=d.rent&&d.rent.length?d.rent[0].value:null;
-  const live=d.living&&((d.living.measured&&d.living.measured.value)||(d.living.official&&d.living.official.value));
+  // 生活费优先实测；否则用官方去掉住居的数（房租另算，别重复）；再否则官方总数
+  const live=d.living&&((d.living.measured&&d.living.measured.value)||(d.living.official_ex_housing&&d.living.official_ex_housing.value)||(d.living.official&&d.living.official.value));
   const pass=d.transport&&d.transport.monthly_pass&&d.transport.monthly_pass.value;
   h+='<section><h3>换算成工时</h3>';
   if(wage&&rent){ h+=`<div class="derived"><div class="big">${(rent/wage).toFixed(0)} h</div>房租要打多少小时工（按官方最低时薪）</div>`; }
   if(wage&&rent&&live&&pass){ h+=`<div class="derived"><div class="big">${((rent+live+pass)/wage).toFixed(0)} h / 月</div>房租＋生活费＋通勤，按最低时薪要打的工时</div>`; }
+  // 和签证的打工上限比一比：留学生 28h/週 ≈ 121h/月
+  const cap=d.work&&d.work[0]&&d.work[0].rule&&d.work[0].rule.value?Math.round(d.work[0].rule.value*52/12):null;
+  if(wage&&rent&&live&&pass&&cap){ const need=(rent+live+pass)/wage; h+=`<div class="src">${d.work[0].visa} 的打工上限约 ${cap} h / 月。${need>cap?`<span class="stale">按最低时薪打满上限也不够（差 ${Math.round(need-cap)} h），要么时薪更高、要么开销更低。</span>`:'打满上限够用。'}</div>`; }
   if(!(wage&&rent)) h+='<div class="empty">时薪和房租都有了才算。</div>';
   h+='</section>';
   if(c.links){ h+='<section class="links">'+Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图 →'})[k]||k}</a>`).join('')+'</section>'; }
