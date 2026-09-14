@@ -175,3 +175,26 @@ a.row:active,button.row:active{background:var(--fill)}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition:none !important;animation:none !important}
 }
+
+/* ---------- 13. 开关（UI Kit › Toggles 5433:19059；设置 App 实测 63×28，圆钮 38×24 白色药丸，开 #34c759，关 rgba(60,60,67,.3)）----------
+   用法：<label class="row"><span class="lab">…</span><span class="sw"><input type="checkbox"><i></i></span></label> */
+.sw{position:relative;display:inline-block;width:63px;height:28px;flex:none}
+.sw input{position:absolute;inset:0;opacity:0;margin:0;width:100%;height:100%;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:999px;background:rgba(60,60,67,.3);transition:background .2s}
+.sw i::after{content:"";position:absolute;top:2px;left:2px;width:38px;height:24px;border-radius:999px;background:#fff;
+             box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.06);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+.sw input:checked + i{background:var(--green)}
+.sw input:checked + i::after{transform:translateX(21px)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sw i{background:rgba(120,120,128,.32)} }
+:root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
+/* ---------- 14. 滑块（UI Kit › Sliders 7:53847）：轨道 4 高圆角，填充色 tint，圆钮 28 白色带阴影；整行左右内缩 20 ---------- */
+.row.slider{padding:8px 20px 10px}
+.row.slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:none;cursor:pointer}
+.row.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--tint) 0,var(--tint) var(--p,50%),var(--fill) var(--p,50%),var(--fill) 100%)}
+.row.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;margin-top:-12px;
+  box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08)}
+.row.slider input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--fill)}
+.row.slider input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--tint)}
+.row.slider input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+/* 行里的分段控件占满右侧 */
+.row .seg{flex:1 1 auto;max-width:60%}

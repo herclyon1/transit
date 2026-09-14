@@ -2,143 +2,93 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#0e0f12">
-<title>大阪府 车站可达性图 v1</title>
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+<title>大阪 · 居住</title>
 <link rel="stylesheet" href="../vendor/leaflet.min.css">
 <script src="../vendor/leaflet.min.js"></script>
+<link rel="stylesheet" href="../ui/hig.css">
 <style>
-:root{--bg:#0e0f12;--fg:#e8e8e8;--sub:#9aa0a8;--line:#2a2d33;--panel:#16181df2;
-  --panelbd:#333;--pop:#1c1f25;--popfg:#eee;--popdim:#9aa0a8;--acc:#ffd54f;
-  --track:#fff;--trackop:0.30;--dim:#5b626c;--dimbd:#3a3f47;--ring:#fff;
-  --shadow:0 1px 3px #000;--btn:#22252c;--accfg:#1b1500;--accTxt:#ffd54f}
-/* 浅色の強調は二段構え: 黄系を白地で読める明度まで落とすと必ず土色に濁るので、
-   塗り・図形(選択ボタン/スライダー/菱形)は鮮やかな橙 --acc、
-   白地に載る小さい文字だけ一段濃い --accTxt を使う（大きい塗りは4.5:1不要） */
-html[data-theme=light]{--bg:#f7f7f9;--fg:#1b1e23;--sub:#5a626c;--line:#d9dde3;
-  --panel:#fffffff2;--panelbd:#c9ced6;--pop:#fff;--popfg:#1b1e23;--popdim:#6b7280;
-  --acc:#e8590c;--accTxt:#c2410c;--accfg:#fff;--track:#6b7480;--trackop:0.55;
-  --dim:#aab1ba;--dimbd:#868d96;--ring:#1b1e23;--shadow:0 1px 3px #0003;--btn:#eef0f3}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
-  font-family:'Noto Sans CJK SC','Hiragino Sans','Yu Gothic',sans-serif}
-#hdr{padding:8px 12px 6px;background:var(--bg);border-bottom:1px solid var(--line);
-  position:relative}
-#hdr h1{font-size:15px;margin:0;font-weight:700;padding-right:88px}
-#hdr .sub{font-size:11px;color:var(--sub);margin-top:2px;line-height:1.4;padding-right:88px}
-#map{position:absolute;top:64px;bottom:0;left:0;right:0;background:var(--bg)}
-.leaflet-container{background:var(--bg)}
-/* 枢纽マーカー: 絵文字の星はズームに追随できず縮小時に画面を食うので、
-   ズーム連動サイズの菱形＋チップに置き換えた */
-.hubmk{background:var(--acc);transform:rotate(45deg);border-radius:18%;
-  border:1.5px solid #00000088;box-shadow:0 0 5px #0006,0 0 12px #0003}
-html[data-theme=light] .hubmk{border-color:#ffffffcc;box-shadow:0 0 5px #0004}
-.hublbl{font-size:10.5px;font-weight:700;color:var(--fg);white-space:nowrap;
-  background:var(--panel);border:1px solid var(--panelbd);border-radius:5px;
-  padding:0 4px;line-height:1.55;box-shadow:0 1px 3px #0004}
-/* 可达数量筛选のセグメント */
-#minhub{display:flex;gap:4px;margin:2px 0 3px}
-#minhub button{flex:1;padding:2.5px 0;font-size:11.5px;border-radius:6px}
-#minhub button.on{background:var(--acc);color:var(--accfg);border-color:var(--acc);
-  font-weight:700}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--pop);color:var(--popfg)}
-.leaflet-popup-content{margin:9px 11px;font-size:13px;line-height:1.5}
-button{font-family:inherit;cursor:pointer;background:var(--btn);color:var(--fg);
-  border:1px solid var(--panelbd);border-radius:7px}
-#theme{position:absolute;right:10px;top:10px;padding:5px 9px;font-size:12px}
-
-/* 使用頻度の高い操作だけ常時表示の細いバーに置き、説明の壁は折りたたむ */
-#panel{position:absolute;left:8px;top:72px;z-index:900;width:206px;
-  display:flex;flex-direction:column;gap:8px;max-height:calc(100% - 84px)}
-#bar{background:var(--panel);flex:0 0 auto;
-  border:1px solid var(--panelbd);border-radius:10px;padding:8px 10px;
-  box-shadow:0 2px 10px #0003}
-#bar .top{display:flex;align-items:center;justify-content:space-between;font-size:12px;
-  font-weight:700}
-/* 折りたたみ: 常用の閾値スライダーだけ残して他を隠す（モバイルの画面占有対策） */
-#fold{padding:1px 7px;font-size:11px;margin-left:6px}
-#bar.mini #minhub,#bar.mini .tg,#bar.mini #walkWrap,#bar.mini #stat,
-#bar.mini #areastat,#bar.mini #more{display:none}
-#bar .val{color:var(--accTxt)}
-input[type=range]{width:100%;margin:3px 0 5px;accent-color:var(--acc)}
-.tg{display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:2px 0}
-#stat{color:var(--sub);font-size:10.5px;margin-top:4px;line-height:1.45}
-#more{width:100%;margin-top:7px;padding:4px 0;font-size:11.5px}
-#info{position:relative;background:var(--panel);flex:1 1 auto;min-height:0;
-  border:1px solid var(--panelbd);border-radius:10px;padding:10px 12px;
-  overflow:auto;-webkit-overflow-scrolling:touch;
-  font-size:12px;box-shadow:0 2px 12px #0005}
-#info[hidden]{display:none}
-#info h2{font-size:12px;margin:0 0 6px;font-weight:700}
-#info .close{position:absolute;right:8px;top:8px;padding:2px 7px;font-size:12px}
-.row{display:flex;align-items:center;gap:7px;padding:2.5px 0}
-.sw{width:11px;height:11px;border-radius:50%;flex:0 0 auto;border:1px solid #0006;
-  box-sizing:border-box}
-.note{color:var(--sub);font-size:10.5px;line-height:1.5;margin-top:9px;
-  border-top:1px solid var(--line);padding-top:8px}
-.warn{color:#c0392b}
-html[data-theme=dark] .warn{color:#ff8a80}
+/* 界面照地图 App（HIG Maps / Sheets）：地图全屏，左上玻璃圆钮回目录，底部非模态 Sheet 装全部控制项，
+   宽屏变左侧 320 侧栏。主题跟随系统（HIG Settings：不做冗余的明暗开关）；地理院没有暗色瓦片，
+   深色模式靠 CSS 滤镜反色。尺寸出处见 ../DESIGN-HIG.md。 */
+:root{--acc:#ff9500;--accTxt:#c25700;--accfg:#fff;--sub:var(--ink-2);--fg:var(--ink);--bg:var(--bg);--line:var(--line);
+      --pop:var(--bg-elev);--popfg:var(--ink);--popdim:var(--ink-2);--track:#6b7480;--trackop:0.55;--dim:#aab1ba;--dimbd:#868d96;--ring:#1b1e23;--shadow:0 1px 3px #0003;--btn:var(--fill)}
+html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#fff;--trackop:0.30;--dim:#5b626c;--dimbd:#3a3f47;--ring:#fff;--shadow:0 1px 3px #000}
+#map{position:absolute;inset:0;background:var(--bg)}
+.leaflet-container{background:var(--bg);font:inherit}
+.leaflet-bottom.leaflet-right{bottom:calc(44dvh + 8px)}
+@media (min-width:900px){.leaflet-bottom.leaflet-right{bottom:0}}
+.leaflet-control-zoom{display:none}
+@media (min-width:900px){.leaflet-control-zoom{display:block}}
+.leaflet-control-attribution{font-size:.6471em}
+.hubmk{background:var(--acc);transform:rotate(45deg);border-radius:18%;border:2px solid #ffffffcc;box-shadow:0 0 5px #0004}
+.hublbl{font-size:.6176em;font-weight:700;color:var(--fg);white-space:nowrap;text-shadow:0 0 3px var(--bg),0 0 3px var(--bg)}
+/* 车站 popup：HIG popover 的样子——圆角 16、13pt、玻璃底 */
+.leaflet-popup-content-wrapper{background:var(--bg-elev);color:var(--ink);border-radius:16px;box-shadow:var(--glass-shadow)}
+.leaflet-popup-tip{background:var(--bg-elev)}
+.leaflet-popup-content{margin:12px 14px;font-size:.7647em;line-height:1.3846em}
+.leaflet-popup-close-button{color:var(--ink-2) !important;font-size:1.2em !important;padding:6px 8px 0 0 !important}
+.tierpop b{font-size:1.1em} .tierpop .t{display:inline-block;padding:0 6px;border-radius:999px;color:#fff;font-weight:700;margin-left:6px}
+.warn{color:var(--red)}
 .tsw{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 2px 0 6px;vertical-align:-1px}
 .tsw:first-child{margin-left:0}
-.tierpop b{font-size:14px} .tierpop .t{display:inline-block;padding:0 6px;border-radius:2px;color:#fff;font-weight:700;margin-left:6px}
-/* 暗色主题：地理院淡色地図反色成暗底，再压低饱和度和亮度，让站点色与面覆盖仍然突出 */
 html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.72) contrast(.92) saturate(.45)}
-@media (max-width:620px){
-  #panel{width:min(62vw,182px);top:68px;left:6px;max-height:calc(100% - 78px)}
-  #bar{padding:7px 8px}
-  #hdr h1{font-size:14px}#map{top:60px}
-}
+/* 图例行（可达枢纽） */
+#lg .row{min-height:36px;padding:6px 20px}
+#lg .swatch{width:11px;height:11px;border-radius:50%;flex:0 0 auto;border:1px solid #0006}
+#note{padding:0 20px 12px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+#stat,#areastat{padding-top:6px}
+#tiersLg{padding:0 20px 10px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+.row .lab .name .acc{color:var(--acc)}
+.hidden-ctl{display:none}
 </style>
 </head>
 <body>
-<div id="hdr">
-  <h1>大阪府 车站可达性图 <span style="color:var(--sub);font-size:11px">v1 · 时间层</span></h1>
-  <div class="sub">色 = 最快枢纽 · 点大小 = 可达枢纽数 · 点车站看四元组 · <b>长按任意处查该地点</b></div>
-  <button id="theme" title="切换明暗主题">🌙 暗色</button>
+<div class="map-shell"><div id="map" class="map"></div></div>
+<div class="bar">
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <span class="spacer"></span>
 </div>
-<div id="map"></div>
-
-<div id="panel">
-<div id="bar">
-  <div class="top"><span>阈值</span>
-    <span><span class="val" id="thv">25 分</span>
-      <button id="fold" title="收起/展开控制项">▾</button></span></div>
-  <input type="range" id="th" min="15" max="40" step="1" value="25">
-  <div id="minhub" title="只显示阈值内可达 ≥N 个枢纽的车站">
-    <button data-n="1" class="on">≥1</button><button data-n="2">≥2</button>
-    <button data-n="3">≥3</button><button data-n="4">全4</button>
+<aside class="sheet glass" id="sheet" aria-label="控制项">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2">大阪 · 居住</div><div class="t-foot dim">色 = 最快枢纽 · 点大小 = 可达枢纽数 · 点车站看四元组 · 长按任意处查该地点</div></div></div>
+  <div class="body">
+    <section class="sect">
+      <h2>到枢纽的时间</h2>
+      <div class="group" id="bar">
+        <div class="row"><span class="lab"><div class="name">阈值</div></span><span class="val ink num" id="thv">25 分</span></div>
+        <div class="row slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
+        <div class="row"><span class="lab"><div class="name">可达枢纽数</div></span>
+          <div class="seg" id="minhub" title="只显示阈值内可达 ≥N 个枢纽的车站"><button data-n="1" class="on" aria-pressed="true">≥1</button><button data-n="2">≥2</button><button data-n="3">≥3</button><button data-n="4">全4</button></div></div>
+        <label class="row"><span class="lab"><div class="name">含低频优等 <span class="acc">⚡</span></div></span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+        <label class="row"><span class="lab"><div class="name">枢纽标记 <span class="acc">◆</span></div></span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
+        <label class="row"><span class="lab"><div class="name">面覆盖（＋步行）</div></span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
+        <div id="walkWrap" hidden>
+          <div class="row"><span class="lab"><div class="name">步行</div></span><span class="val ink num" id="wkv">10 分</span></div>
+          <div class="row slider"><input type="range" id="wk" min="0" max="20" step="1" value="10" aria-label="步行"></div>
+          <label class="row"><span class="lab"><div class="name">势力范围模式</div></span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
+        </div>
+        <label class="row"><span class="lab"><div class="name">居住等级（面层）</div></span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
+        <div id="tiersLg" hidden>
+          <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
+          <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
+          <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
+      </div>
+      <p class="foot" id="stat"></p>
+      <p class="foot" id="areastat"></p>
+    </section>
+    <section class="sect" id="info">
+      <h2>可达枢纽</h2>
+      <div class="group"><div id="lg"></div><div class="note" id="note">载入中…</div></div>
+    </section>
   </div>
-  <label class="tg"><input type="checkbox" id="lowfreq">
-    <span>含低频优等 <span style="color:var(--acc)">⚡</span></span></label>
-  <label class="tg"><input type="checkbox" id="hubsOn" checked>
-    <span>枢纽标记 <span style="color:var(--acc)">◆</span></span></label>
-  <label class="tg"><input type="checkbox" id="areaOn">
-    <span>面覆盖（＋步行）</span></label>
-  <div id="walkWrap" hidden>
-    <div class="top"><span>步行</span><span class="val" id="wkv">10 分</span></div>
-    <input type="range" id="wk" min="0" max="20" step="1" value="10">
-    <label class="tg"><input type="checkbox" id="terr">
-      <span>势力范围模式</span></label>
-  </div>
-  <label class="tg"><input type="checkbox" id="tiersOn">
-    <span>居住等级（面层）</span></label>
-  <div id="tiersLg" hidden style="font-size:10.5px;color:var(--sub);line-height:1.6;margin:-2px 0 4px 2px">
-    <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
-    <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
-    <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
-  <div id="stat"></div>
-  <div id="areastat" style="color:var(--sub);font-size:10.5px"></div>
-  <button id="more">图例与说明 ▾</button>
-</div>
-
-<div id="info" hidden>
-  <button class="close" id="closeInfo">✕</button>
-  <h2>可达枢纽</h2>
-  <div id="lg"></div>
-  <div class="note" id="note">载入中…</div>
-</div>
-</div>
-
+</aside>
+<!-- 旧脚本还引用这几个按钮：保留在 DOM 里但不显示（主题跟随系统，面板不再折叠，图例常驻） -->
+<div class="hidden-ctl"><button id="theme"></button><button id="fold"></button><button id="more"></button><button id="closeInfo"></button></div>
+<script src="../ui/hig.js"></script>
 <script>
 const HUBS = ['梅田','難波','天王寺','京橋'];
 // 暗色用と浅色用で別に持つ。暗色の色をそのまま白背景に置くとコントラストが
@@ -154,8 +104,7 @@ const PALETTE = {
 // 自動→暗→浅 を巡回し、明示指定だけ localStorage に残す。
 // 旧バージョンの 'theme' キーは明示指定として引き継ぐ。
 const sysDark = window.matchMedia('(prefers-color-scheme: dark)');
-let THEME_MODE = localStorage.getItem('themeMode')
-              || localStorage.getItem('theme') || 'auto';
+let THEME_MODE = 'auto';   // HIG Settings：跟随系统，不做冗余的明暗开关
 if(!['auto','dark','light'].includes(THEME_MODE)) THEME_MODE = 'auto';
 function effTheme(){
   return THEME_MODE === 'auto' ? (sysDark.matches ? 'dark' : 'light') : THEME_MODE;
@@ -176,6 +125,8 @@ const cssvar = n => getComputedStyle(document.documentElement).getPropertyValue(
 // ブラウザが click を合成することがあり、開いた瞬間のピンpopupがその click で
 // 即閉じていた（「長押ししても何も出ない」重大バグの正体その2）。
 // popup は ✕ か別popupを開くことで閉じる。
+window.SHEET=HIG.sheet(document.getElementById('sheet'),{initial:'medium'});
+for(const id of ['th','wk']){ const r=document.getElementById(id); const f=()=>r.style.setProperty('--p',((r.value-r.min)/(r.max-r.min)*100)+'%'); r.addEventListener('input',f); f(); }
 const map = L.map('map',{zoomControl:false, closePopupOnClick:false})
   .setView([34.66,135.52],11);
 L.control.zoom({position:'bottomright'}).addTo(map);
@@ -567,8 +518,8 @@ let MINHUBS = 1;
 document.querySelectorAll('#minhub button').forEach(b=>{
   b.addEventListener('click',()=>{
     MINHUBS = +b.dataset.n;
-    document.querySelectorAll('#minhub button').forEach(x=>
-      x.classList.toggle('on', x===b));
+    document.querySelectorAll('#minhub button').forEach(x=>{
+      x.classList.toggle('on', x===b); x.setAttribute('aria-pressed', x===b?'true':'false'); });
     if(DATA) render();
   });
 });
@@ -696,7 +647,7 @@ function buildLegend(){
   lg.innerHTML='';
   const add=(sw,txt,muted)=>{
     const r=document.createElement('div'); r.className='row';
-    r.innerHTML='<span class="sw" style="'+sw+'"></span><span'
+    r.innerHTML='<span class="swatch" style="'+sw+'"></span><span class="t-foot"'
       + (muted?' style="color:'+cssvar('--sub')+'"':'') + '>'+txt+'</span>';
     lg.appendChild(r);
   };
@@ -858,7 +809,7 @@ function setFold(mini){
 fold.addEventListener('click', ()=> setFold(!bar.classList.contains('mini')));
 {
   const saved = localStorage.getItem('barMini');
-  setFold(saved === null ? window.innerWidth < 620 : saved === '1');
+  setFold(false);
 }
 
 const info=document.getElementById('info'), more=document.getElementById('more');
@@ -871,7 +822,7 @@ more.addEventListener('click',()=>setInfo(info.hidden));
 document.getElementById('closeInfo').addEventListener('click',()=>setInfo(false));
 // 窄屏では既定で畳む。広い画面では開けておく
 const saved = localStorage.getItem('info');
-setInfo(saved===null ? window.innerWidth>=900 : saved==='1');
+setInfo(true);
 
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', THEME);
@@ -946,6 +897,5 @@ document.getElementById('terr').addEventListener('change',()=>{
 // 縮尺が変わったら点の半径を引き直す
 map.on('zoomend', ()=>{ if(DATA) render(); });
 </script>
-<a id="homebtn" href="../index.html" title="返回目录" style="position:fixed;right:14px;bottom:18px;z-index:2000;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border:1px solid #c9d2db;border-radius:50%;box-shadow:0 2px 8px rgba(20,30,50,.18);font-size:19px;text-decoration:none;color:#1b2433;user-select:none;">⌂</a>
 </body>
 </html>
