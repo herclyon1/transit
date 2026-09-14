@@ -44,14 +44,15 @@
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "全部写「时薪 1,231 日元起」，即已按 2026-10-01 新最低时薪挂牌。",
+    "note": "全部写「时薪 1,231 日元起」，即已按 2026-10-01 新最低时薪挂牌。 官方招聘页为实时在线挂牌，posted_at 取读取当日。",
     "hours": {
      "posted": "时薪帖，按小时计薪（日本求人票法定必须写时给）；班次见门店帖",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-14"
    }
   },
   {
@@ -65,14 +66,15 @@
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "深夜 22–5 时 +25%。2026-10-01 起低于新最低时薪 1,231，届时必涨。",
+    "note": "深夜 22–5 时 +25%。2026-10-01 起低于新最低时薪 1,231，届时必涨。 官方招聘页为实时在线挂牌，posted_at 取读取当日。",
     "hours": {
      "posted": "时薪帖，按小时计薪（日本求人票法定必须写时给）；班次见门店帖",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-14"
    }
   },
   {
@@ -86,14 +88,15 @@
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "培训 2 个月 1,260；深夜 1,600 起；早晨 5–7 时 1,472 起；每年 2 次加薪机会。",
+    "note": "培训 2 个月 1,260；深夜 1,600 起；早晨 5–7 时 1,472 起；每年 2 次加薪机会。 官方招聘页为实时在线挂牌，posted_at 取读取当日。",
     "hours": {
      "posted": "时薪帖，按小时计薪（日本求人票法定必须写时给）；班次见门店帖",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-14"
    }
   },
   {
@@ -107,14 +110,15 @@
     "fetched_at": "2026-09-14",
     "confidence": "listing",
     "n": null,
-    "note": "茨木市 快速配送仓库 时薪 1,300 起（全职与短时段两种，入社祝金 168,000–232,960）；吹田市 大型商品仓库 1,350 起；尼崎市 物流中心 1,350 起。",
+    "note": "茨木市 快速配送仓库 时薪 1,300 起（全职与短时段两种，入社祝金 168,000–232,960）；吹田市 大型商品仓库 1,350 起；尼崎市 物流中心 1,350 起。 官方招聘页为实时在线挂牌，posted_at 取读取当日。",
     "hours": {
      "posted": "时薪帖，按小时计薪（日本求人票法定必须写时给）；班次见门店帖",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-14"
    }
   }
  ],

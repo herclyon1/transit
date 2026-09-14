@@ -14,8 +14,13 @@ for f in sorted(glob.glob('cost/data/cities/*.json')):
         if w.get('value') is None: continue
         if not h or h.get('basis')!='posted':
             print(f'{f}: 岗位「{j["chain"][:20]}」时薪 {w.get("value")} 没有帖子写明的工时（hours.basis 必须是 posted，不允许 assumed）'); bad+=1; continue
-        if re.search(r'÷\s*174', w.get('note','')) and '对照' not in w.get('note','') and h.get('monthly')==174:
-            print(f'{f}: 岗位「{j["chain"][:20]}」主数用了 174 小时法定口径'); bad+=1
+        pa=w.get('posted_at')
+        if not pa:
+            print(f'{f}: 岗位「{j["chain"][:20]}」没有 posted_at（帖子日期），半年有效期无法判定'); bad+=1
+        else:
+            import datetime
+            age=(datetime.date.today()-datetime.date.fromisoformat(pa)).days
+            if age>180: print(f'{f}: 岗位「{j["chain"][:20]}」帖子 {pa} 已 {age} 天，超过半年不能用'); bad+=1
     for sec in ('basket','utilities'):
         for k,v in d.get(sec,{}).items():
             if isinstance(v,dict) and v.get('value') is None:

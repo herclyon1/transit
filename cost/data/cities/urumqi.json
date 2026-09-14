@@ -35,7 +35,8 @@
     "confidence": "listing",
     "n": null,
     "note": "乌鲁木齐零售一线没有一条帖子正文同时写明工资数字和班次工时，本项空。",
-    "hours": null
+    "hours": null,
+    "posted_at": null
    }
   },
   {
@@ -56,7 +57,8 @@
      "days_per_month": 26,
      "monthly": 260,
      "basis": "posted"
-    }
+    },
+    "posted_at": null
    }
   },
   {
@@ -70,14 +72,15 @@
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": null,
-    "note": "正文原文“兼职咖啡师工资：培训期间 15 元/小时，通过咖啡师认证后 21 元/小时，满理论工时的百分之七十五 22 元/小时，满理论工时 23 元/小时，工资每月 15 号发放；每天最低 4 小时起步，最多 12 小时；入职后 80 小时内通过咖啡师考核；大专及以上”。取认证后基准 21 元/时。星巴克乌鲁木齐无门店直发挂牌，用户指定瑞幸平替。",
+    "note": "正文原文“兼职咖啡师工资：培训期间 15 元/小时，通过咖啡师认证后 21 元/小时，满理论工时的百分之七十五 22 元/小时，满理论工时 23 元/小时，工资每月 15 号发放；每天最低 4 小时起步，最多 12 小时；入职后 80 小时内通过咖啡师考核；大专及以上”。取认证后基准 21 元/时。星巴克乌鲁木齐无门店直发挂牌，用户指定瑞幸平替。 BOSS 在线挂牌、发帖店长“昨日活跃”，posted_at 取读取当日。",
     "hours": {
      "posted": "每天最低 4 小时起步，最多 12 小时，排班按门店需求",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-15"
    }
   },
   {
@@ -98,7 +101,8 @@
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
-    }
+    },
+    "posted_at": "2026-09-15"
    }
   },
   {
@@ -119,7 +123,8 @@
      "days_per_month": 20,
      "monthly": 240,
      "basis": "posted"
-    }
+    },
+    "posted_at": null
    }
   }
  ],
