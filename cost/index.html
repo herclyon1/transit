@@ -72,7 +72,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:4px;height:4px}
     <h1>薪资 · 购买力</h1>
     <div class="sub">外国人在各城市真实能挣多少、真实要花多少。点一个点。</div>
   </div>
-  <div class="box"><label>货币 <select id="cur"><option value="local">当地</option></select></label></div>
+  <div class="box"><label>货币 <select id="cur"><option value="local">当地</option></select></label> <small id="curDate" style="opacity:.7"></small></div>
 </div>
 <div id="legend"><i style="background:var(--ink)"></i>有数据　<i style="background:#fff;border:2px solid var(--muted)"></i>待调查</div>
 <aside id="card" hidden>
@@ -117,10 +117,19 @@ map=new maplibregl.Map({
 });
 map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
 
-fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r;
-  // 只有真有汇率的货币才进下拉；没有就只剩「当地」
-  const sel=$('cur'); for(const k of Object.keys(r.fx||{})){const o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o);}
+// 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
+fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
+  fetch('https://open.er-api.com/v6/latest/JPY').then(x=>x.json()).then(live=>{
+    if(!live||live.result!=='success'||!live.rates) return;
+    const fx={}; for(const k of Object.keys(r.fx||{})){ if(live.rates[k]) fx[k]=1/live.rates[k]; }
+    if(Object.keys(fx).length){ RATES={...r, fx:{...r.fx,...fx}}; fillCur(new Date(live.time_last_update_unix*1000).toISOString().slice(0,10), '实时'); if(OPEN) show(OPEN); }
+  }).catch(()=>{});
 }).catch(()=>{});
+function fillCur(date, kind){
+  const sel=$('cur'); sel.querySelectorAll('option:not([value=local])').forEach(o=>o.remove());
+  for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o); }
+  sel.title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
+}
 $('cur').addEventListener('change',e=>{CUR=e.target.value; if(OPEN) show(OPEN);});
 
 map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });

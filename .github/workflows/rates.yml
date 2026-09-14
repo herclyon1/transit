@@ -1,0 +1,22 @@
+name: 更新汇率与 PPP
+on:
+  schedule:
+    - cron: '20 16 * * *'   # 每天 UTC 16:20 = 欧洲央行 16:00 CET 发布之后
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python3 pipeline/cost/update_rates.py
+      - name: 提交变化
+        run: |
+          git config user.name 'rates-bot'
+          git config user.email 'rates-bot@users.noreply.github.com'
+          git add cost/data/rates.json
+          git diff --cached --quiet || git commit -m "rates: $(date -u +%F) 欧洲央行参考汇率 + 世行 PPP"
+          git push

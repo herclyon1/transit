@@ -1,7 +1,81 @@
 {
-  "note": "汇率与购买力平价换算因子。为空时页面只显示当地货币。fx 为 1 单位当地货币兑 JPY；ppp 为世界银行 PPP 换算因子（当地货币/国际元）。",
-  "fetched_at": null,
-  "source_url": null,
-  "fx": {},
-  "ppp": {}
+ "note": "汇率与购买力平价换算因子。fx 为 1 单位当地货币兑 JPY；ppp 为世界银行 PPP 换算因子（当地货币/国际元）。由 pipeline/cost/update_rates.py 每日自动更新，页面打开时还会再拉一次实时汇率，本文件是兜底。",
+ "fetched_at": "2026-09-15",
+ "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+ "fx": {
+  "JPY": 1.0,
+  "CNY": 23.038109,
+  "TWD": 4.864029,
+  "VND": 0.005952,
+  "MMK": 0.073305,
+  "EUR": 178.52,
+  "USD": 154.54939,
+  "AUD": 110.183928
+ },
+ "fx_source": {
+  "JPY": {
+   "name": "欧洲央行每日参考汇率",
+   "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "date": "2026-09-14"
+  },
+  "CNY": {
+   "name": "欧洲央行每日参考汇率",
+   "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "date": "2026-09-14"
+  },
+  "TWD": {
+   "name": "ExchangeRate-API 公开接口（EUR 基准）",
+   "url": "https://open.er-api.com/v6/latest/EUR",
+   "date": "2026-09-14"
+  },
+  "VND": {
+   "name": "ExchangeRate-API 公开接口（EUR 基准）",
+   "url": "https://open.er-api.com/v6/latest/EUR",
+   "date": "2026-09-14"
+  },
+  "MMK": {
+   "name": "ExchangeRate-API 公开接口（EUR 基准）",
+   "url": "https://open.er-api.com/v6/latest/EUR",
+   "date": "2026-09-14"
+  },
+  "EUR": {
+   "name": "欧洲央行每日参考汇率",
+   "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "date": "2026-09-14"
+  },
+  "USD": {
+   "name": "欧洲央行每日参考汇率",
+   "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "date": "2026-09-14"
+  },
+  "AUD": {
+   "name": "欧洲央行每日参考汇率",
+   "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "date": "2026-09-14"
+  }
+ },
+ "ppp": {
+  "AUD": 1.398943,
+  "CNY": 3.397686,
+  "EUR": 0.709983,
+  "JPY": 97.08005,
+  "MMK": 520.10645,
+  "USD": 1,
+  "VND": 6990.870705,
+  "TWD": null
+ },
+ "ppp_year": {
+  "AUD": "2025",
+  "CNY": "2025",
+  "EUR": "2025",
+  "JPY": "2025",
+  "MMK": "2025",
+  "USD": "2025",
+  "VND": "2025",
+  "TWD": null
+ },
+ "ppp_source": {
+  "name": "世界银行 PA.NUS.PPP（本币/国际元）",
+  "url": "https://api.worldbank.org/v2/country/JP;CN;VN;MM;DE;US;AU/indicator/PA.NUS.PPP?format=json&mrv=1"
+ }
 }
