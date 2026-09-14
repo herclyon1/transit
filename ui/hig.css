@@ -1,0 +1,177 @@
+/* transit 全站共用的界面层：照 Apple Human Interface Guidelines（iOS 26/27 Liquid Glass 版）和
+   Apple 官方 iOS/iPadOS 27 UI Kit 的数字做，以 iOS 27 模拟器（iPhone 18 Pro Max，简体中文）
+   上的地图 App / 设置 App 实测为准。每个数字的出处见 DESIGN-HIG.md；改动前先看那份表。
+
+   用法：页面只引这一份 CSS，自己不写颜色、字号、圆角——全部用这里的 token 和类。 */
+
+/* ---------- 1. 颜色（UI Kit › Colors 5707:28659；深色值同一套色板） ---------- */
+:root{
+  --bg:#f2f2f7;            /* systemGroupedBackground */
+  --bg-elev:#ffffff;       /* 分组卡片 / 表单底 */
+  --ink:#000000;           /* label */
+  --ink-2:rgba(60,60,67,.6);   /* secondaryLabel */
+  --ink-3:rgba(60,60,67,.3);   /* tertiaryLabel */
+  --line:rgba(60,60,67,.29);   /* separator */
+  --fill:rgba(120,120,128,.2); /* systemFill（分段控件底 #767680 12%、搜索框 #787880 16%） */
+  --fill-2:rgba(120,120,128,.16);
+  --tint:#0088ff;          /* kit tint */
+  --green:#34c759; --orange:#ff9500; --red:#ff383c; --yellow:#ffcc00; --teal:#30b0c7; --indigo:#5856d6;
+  --disabled:#aeaeb2;
+  --glass:rgba(255,255,255,.55);   /* Liquid Glass 近似：底色 + 背景模糊 + 内描边 */
+  --glass-edge:rgba(255,255,255,.7);
+  --glass-shadow:0 8px 28px rgba(0,0,0,.16);
+  --seg-on:#ffffff;
+  --r-sheet:38px; --r-card:26px; --r-tile:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --bg-elev:#1c1c1e; --ink:#ffffff; --ink-2:rgba(235,235,245,.6); --ink-3:rgba(235,235,245,.3);
+    --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32);
+    --tint:#0a84ff; --green:#30d158; --orange:#ff9f0a; --red:#ff453a; --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6;
+    --glass:rgba(30,30,32,.55); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 8px 28px rgba(0,0,0,.5); --seg-on:#636366;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg-elev:#1c1c1e; --ink:#ffffff; --ink-2:rgba(235,235,245,.6); --ink-3:rgba(235,235,245,.3);
+  --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32);
+  --tint:#0a84ff; --green:#30d158; --orange:#ff9f0a; --red:#ff453a; --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6;
+  --glass:rgba(30,30,32,.55); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 8px 28px rgba(0,0,0,.5); --seg-on:#636366;
+}
+
+/* ---------- 2. 字体与 Dynamic Type（UI Kit › Text styles 5418:17464） ----------
+   根字号 = 系统 Body 样式（17pt，跟随「文字大小」设置），其余全用 em。
+   中文一律苹方（用户 2026-09-15 定）：Apple 设备上 -apple-system 之后紧跟 PingFang SC，
+   日文页也用苹方；非 Apple 设备落到 Noto Sans CJK。 */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font:-apple-system-body;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans SC","Noto Sans JP",sans-serif;
+     -webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.2941em}
+.t-large{font-size:2em;line-height:1.2059em;font-weight:700;letter-spacing:.0108em}     /* Large Title 34/41 */
+.t-title1{font-size:1.6471em;line-height:1.2143em;font-weight:700}                       /* Title 1 28/34 */
+.t-title2{font-size:1.2941em;line-height:1.2727em;font-weight:700}                       /* Title 2 22/28 */
+.t-title3{font-size:1.1765em;line-height:1.25em;font-weight:600}                          /* Title 3 20/25 */
+.t-head{font-size:1em;line-height:1.2941em;font-weight:600}                              /* Headline 17/22 */
+.t-body{font-size:1em;line-height:1.2941em}                                              /* Body 17/22 */
+.t-callout{font-size:.9412em;line-height:1.3125em}                                       /* Callout 16/21 */
+.t-sub{font-size:.8824em;line-height:1.3333em}                                           /* Subheadline 15/20 */
+.t-foot{font-size:.7647em;line-height:1.3846em}                                          /* Footnote 13/18 */
+.t-cap1{font-size:.7059em;line-height:1.3333em}                                          /* Caption 1 12/16 */
+.t-cap2{font-size:.6471em;line-height:1.1818em}                                          /* Caption 2 11/13 */
+.dim{color:var(--ink-2)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- 3. 材质：Liquid Glass 近似（HIG Materials：只给悬浮的控件层，不给内容层） ---------- */
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
+       box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge),inset 0 1px 0 var(--glass-edge)}
+
+/* ---------- 4. SF Symbols：ui/sf/<name>.png 做蒙版，颜色跟 currentColor ---------- */
+.sf{display:inline-block;width:1.2941em;height:1.2941em;background:currentColor;vertical-align:-.25em;flex:none;
+    -webkit-mask:var(--sf) center/contain no-repeat;mask:var(--sf) center/contain no-repeat}
+
+/* ---------- 5. 顶部工具条（UI Kit › Toolbar - Top - iPhone 1:54472）----------
+   54 高（44 按钮 + 10 下边距），左右 16；按钮组 44 圆形玻璃；大标题 34/41 粗体在下一行。 */
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;padding:calc(env(safe-area-inset-top) + 0px) 16px 10px;
+     display:flex;align-items:center;gap:10px;pointer-events:none}
+.bar>*{pointer-events:auto}
+.bar .spacer{flex:1 1 auto;pointer-events:none}
+.btn-glass{display:inline-flex;align-items:center;justify-content:center;gap:.25em;height:44px;min-width:44px;padding:0 4px;border:0;border-radius:999px;
+           color:var(--ink);font:inherit;font-weight:500;cursor:pointer;text-decoration:none;user-select:none;-webkit-user-select:none}
+.btn-glass.text{padding:0 14px}                                      /* kit: Text 36 高，左右 8 + 组内 2/4 */
+.btn-glass.tint{color:#fff;background:var(--tint);box-shadow:var(--glass-shadow)}
+.btn-glass:active{transform:scale(.96)}
+.btn-group{display:inline-flex;border-radius:999px;padding:0 4px;gap:20px;height:44px;align-items:center}
+.btn-group .btn-glass{background:none;box-shadow:none;height:36px;min-width:36px;padding:0 8px}
+/* 胶囊文字按钮（UI Kit › Button - Liquid Glass - Text）：小 28 / 中 34 / 大 50 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;border:0;border-radius:999px;font:inherit;font-weight:500;
+     color:var(--ink);cursor:pointer;text-decoration:none;user-select:none;-webkit-user-select:none}
+.btn.s{height:28px;padding:5px 10px;font-size:.8824em;line-height:1.2em}
+.btn.m{height:34px;padding:8px 12px;font-size:1em;line-height:1.0588em}
+.btn.l{height:50px;padding:16px 20px;font-size:1em;line-height:1.0588em}
+.btn.tint{background:var(--tint);color:#fff}
+.btn.plain{background:none;color:var(--tint)}
+.btn.red{color:var(--red)}
+.btn:disabled{color:var(--disabled)}
+.btn:active{opacity:.7}
+
+/* ---------- 6. 搜索胶囊（UI Kit › _Search - Top 5720:33677；地图 App 实测 44 高、距 sheet 内边 16）---------- */
+.search{display:flex;align-items:center;gap:4px;height:44px;padding:0 10px 0 11px;border-radius:999px;background:var(--fill-2);color:var(--ink)}
+.search .sf{width:1.2941em;height:1.2941em;color:var(--ink-2)}
+.search input{flex:1 1 auto;min-width:0;border:0;background:none;font:inherit;font-size:1em;line-height:1.1934em;font-weight:500;color:var(--ink);outline:none;padding:0}
+.search input::placeholder{color:var(--ink-3)}
+.search .clear{border:0;background:none;padding:0;color:var(--ink-2);display:none}
+.search.has .clear{display:inline-flex}
+
+/* ---------- 7. 分段控件（UI Kit › Segmented Control 10460:145）：小 32 / 大 50，内边 2，段间 4，选中白底 20 模糊阴影 ---------- */
+.seg{display:inline-flex;padding:2px;gap:4px;border-radius:999px;background:var(--fill)}
+.seg button{flex:1 1 0;min-width:0;height:28px;padding:3px 6px;border:0;border-radius:999px;background:none;color:var(--ink);
+            font:inherit;font-size:.7843em;line-height:1.35em;font-weight:500;white-space:nowrap;cursor:pointer}
+.seg.l button{height:46px}
+.seg button[aria-pressed="true"]{background:var(--seg-on);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+
+/* ---------- 8. 非模态 Sheet（HIG Sheets / Maps：地图 App 实测：左右各内缩 8、圆角 38、抓手 58×4 距顶 5、
+   内容顶部内边距 16、中档停靠高 = 屏高 44%，大档 = 屏高 − 62）---------- */
+.sheet{position:fixed;left:8px;right:8px;bottom:0;z-index:15;height:44dvh;max-height:calc(100dvh - 62px);
+       border-radius:var(--r-sheet) var(--r-sheet) 0 0;display:flex;flex-direction:column;
+       transition:height .32s cubic-bezier(.2,.8,.2,1);will-change:height;touch-action:none}
+.sheet.large{height:calc(100dvh - 62px)}
+.sheet.small{height:calc(env(safe-area-inset-bottom) + 96px)}
+.sheet.dragging{transition:none}
+.sheet .grab{flex:none;height:16px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
+.sheet .grab i{width:58px;height:4px;border-radius:100px;background:var(--ink);opacity:.2}
+.sheet .head{flex:none;padding:0 16px 10px;min-height:54px;display:flex;align-items:center;gap:10px}
+.sheet .head .t-large,.sheet .head .t-title2{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet .body{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+             padding:0 0 calc(env(safe-area-inset-bottom) + 16px)}
+
+/* ---------- 9. 分组列表（UI Kit › Lists；设置 App 实测：卡片圆角 26、行高 53.33、文字内缩 20、分隔线内缩 20、
+   段头 17 半粗 上 28 下 6、段尾 13/18 上 6 下 24、卡片与卡片相隔 35）---------- */
+.group{margin:0 16px;background:var(--bg-elev);border-radius:var(--r-card);overflow:hidden}
+.group + .group{margin-top:35px}
+.sect{margin:0}
+.sect h2,.sect .h{margin:0;padding:28px 36px 6px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2)}
+.sect:first-child h2,.sect:first-child .h{padding-top:10px}
+.sect .foot{margin:0;padding:6px 36px 24px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+.sect .foot + *{margin-top:0}
+.row{position:relative;display:flex;align-items:center;gap:12px;min-height:53.33px;padding:7.5px 18px 7.5px 20px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
+.row + .row::before{content:"";position:absolute;left:20px;right:20px;top:0;height:1px;background:var(--line);transform:scaleY(.34);transform-origin:top}
+.row.icon + .row.icon::before{left:64px}
+.row .ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+.row .ico .sf{width:1.05em;height:1.05em}
+.row .lab{flex:1 1 auto;min-width:0}
+.row .lab .name{font-size:1em;line-height:1.2941em}
+.row .lab .hint{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);margin-top:1px}
+.row .val{color:var(--ink-2);font-size:1em;white-space:nowrap;text-align:right}
+.row .val.ink{color:var(--ink);font-weight:600}
+.row .chev{color:var(--ink-3);width:.8em;height:.8em}
+a.row:active,button.row:active{background:var(--fill)}
+.row.btn-row{color:var(--tint);justify-content:flex-start}
+.row.btn-row.red{color:var(--red)}
+/* 值区里的置信度小圆点（数据页用） */
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:6px;vertical-align:middle;background:var(--ink-3)}
+.dot.official{background:var(--green)} .dot.listing{background:var(--tint)} .dot.measured{background:var(--ink)}
+.dot.crowd{background:var(--orange)} .dot.estimated{background:var(--ink-3)}
+
+/* ---------- 10. 地图页壳：地图全屏，控件浮在上面（HIG Maps：别用不可交互的东西盖住地图；自定义控件要有描边/阴影对比）---------- */
+.map-shell{position:fixed;inset:0;overflow:hidden}
+.map-shell .map{position:absolute;inset:0}
+/* 右侧浮动控件组（地图 App 实测：竖向玻璃胶囊 49 宽、每个按钮 44、右边距 22、底边在 sheet 中档上沿之上 35） */
+.map-ctl{position:fixed;right:16px;z-index:16;display:flex;flex-direction:column;border-radius:999px;padding:0}
+.map-ctl .btn-glass{background:none;box-shadow:none}
+.map-ctl .btn-glass + .btn-glass{margin-top:-4px}
+/* 顶部状态胶囊（地图 App「定位服务已关闭 ›」那种） */
+.pill{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 12px);z-index:16;
+      height:44px;padding:0 14px 0 18px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--ink)}
+
+/* ---------- 11. 宽屏（iPad 横屏 / Mac）：HIG Maps「iPadOS/macOS 用侧栏或 popover」，sheet 变成左侧 320 的侧栏 ---------- */
+@media (min-width: 900px){
+  .sheet{left:16px;right:auto;top:calc(env(safe-area-inset-top) + 16px);bottom:16px;width:320px;height:auto !important;max-height:none;
+         border-radius:var(--r-card);transition:none}
+  .sheet .grab{display:none}
+  .map-ctl{right:16px}
+  .pill{left:auto;right:16px;transform:none}
+}
+
+/* ---------- 12. 动效（HIG Motion）：短、准，只给主要交互；系统开了减弱动态就全关 ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none !important;animation:none !important}
+}

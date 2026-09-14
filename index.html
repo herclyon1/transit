@@ -1,144 +1,86 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>地図ツール</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2433'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23E2A07E'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230088ff'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="ui/hig.css">
 <style>
-:root{--ink:#1B2433;--soft:#33415C;--paper:#E9EDF0;--panel:#FFF;--line:#C9D2DB;--accent:#B3541E;--hover:#2E6E8E;--muted:#6B7688;}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans JP','Hiragino Sans','Microsoft YaHei',system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 16px}
-header{width:100%;max-width:680px;
-  /* 螃蟹蹲在第一张卡片的上沿，站姿 36px、掏笔电那两帧天线还要再往上 15.7px，
-     所以标题到卡片之间必须留出 52px 以上，否则会撞到「地図ツール」。 */
-  margin-bottom:60px}
-header .kicker{font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--muted);margin-bottom:6px}
-header h1{font-size:28px;font-weight:900}
-header .note{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.6}
-.cards{width:100%;max-width:680px;display:flex;flex-direction:column;gap:14px}
-a.card{display:block;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--ink);box-shadow:0 2px 10px rgba(20,30,50,.10);padding:18px 20px;text-decoration:none;color:inherit;transition:transform .12s, box-shadow .12s}
-a.card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(20,30,50,.16);border-left-color:var(--hover)}
-a.card h2{font-size:19px;font-weight:900;margin-bottom:5px}
-a.card p{font-size:13.5px;color:var(--soft);line-height:1.6}
-a.card .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;color:#fff;background:var(--ink);padding:2px 9px;border-radius:2px;margin-bottom:8px}
-a.card.quiz{border-left-color:var(--accent)}
-a.card ul{margin:8px 0 0 16px;font-size:12.5px;color:var(--soft);line-height:1.75}
-a.card .wip{color:var(--muted)}
-.scaffold{width:100%;max-width:680px;margin-top:30px;padding-top:14px;border-top:1px dashed var(--line)}
-.scaffold .h{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--muted);margin-bottom:8px}
-.scaffold a{font-size:12.5px;color:var(--muted);text-decoration:none;margin-right:14px;line-height:2}
-.scaffold a:hover{color:var(--hover);text-decoration:underline}
-footer{margin-top:34px;font-size:11.5px;color:var(--muted);max-width:680px;line-height:1.7}
-@media (max-width:480px){header h1{font-size:22px} a.card h2{font-size:17px}}
-
-/* ---------- Claw'd（Anthropic 官方素材，未经改动） ----------
-   clawd-laptop.json 就是 claude.ai/code 上那段「掏出笔电打字」的动画本体，
-   2750x1850 / 12fps / 43 帧 / Lottie 5.7.4，名字叫 Clawd-Laptop。
-   动画内容只占画布的 x 733..2437 / y 700..1850（约 61.9% x 62.2%），
-   其余是透明留白，所以这里用一个窗口把有内容的那块放大平移出来，
-   JSON 本身一个字节都没动。lottie_light 是官方页面同款播放器（MIT）。*/
-/* 只按**静止帧**对齐——笔电和天线各自只出现一两帧，人眼看不出偏没偏。
-   取景框收成正好裹住静止站姿（源画布 x 733..1937 / y 1050..1850），螃蟹就是这个框本身；
-   再开 overflow:visible，笔电和天线照样完整画出来，只是画到框外去，一帧都不裁。
-
-   摆位：小小一只蹲在第一张卡片的上沿，**脚正好踩着卡片边框**，离左边框留一点。
-   靠 .cards 做定位父级、`bottom:100%` 把它的底边压在卡片顶边上——
-   因为螃蟹的墨迹正好填满取景框，框底 = 脚底，所以这一句就等于「脚踩边框」。 */
-.cards{position:relative}
-.clawd{position:absolute;left:26px;bottom:100%;z-index:2}
-.clawd .stage{position:relative;width:54px;height:36px;overflow:visible;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;outline:none;user-select:none;-webkit-user-select:none}
-.clawd .stage::-moz-focus-inner{border:0}
-.clawd .stage>div{position:absolute;width:228.4%;height:231.25%;left:-60.88%;top:-131.25%}
-.clawd .stage svg{display:block;pointer-events:none}
-/* 播放器没加载出来时退回官方静图，不留空白 */
-.clawd .stage.fallback{background:url(clawd/clawd.svg) center/contain no-repeat}
-
+/* 首页 = 设置 App 的顶层：大标题 + 分组列表，每张图一行（图标、名称、一句副标题、箭头），说明放段尾。
+   数字全部来自 ui/hig.css（设置 App 实测）。 */
+main{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 0 calc(env(safe-area-inset-bottom) + 40px)}
+header{padding:0 36px 6px;display:flex;align-items:flex-end;gap:12px}
+header h1{margin:0;flex:1 1 auto}
+header .sub{padding:2px 36px 18px}
+/* Claw'd（Anthropic 官方素材，未改动）：不属于 HIG 的任何模式，是用户保留的资产；放在大标题右侧当页头插图，尺寸按 Large Title 行高。 */
+.clawd{position:relative;width:54px;height:41px;flex:none;overflow:visible;cursor:pointer;user-select:none;-webkit-user-select:none}
+.clawd>div{position:absolute;width:228.4%;height:231.25%;left:-60.88%;top:-131.25%}
+.clawd svg{display:block;pointer-events:none}
+.clawd.fallback{background:url(clawd/clawd.svg) center/contain no-repeat}
+.group + .sect{margin-top:0}
+.credits{padding:30px 36px 0}
 </style>
 </head>
 <body>
-<header>
-  <div class="kicker">MAP TOOLS</div>
-  <h1>地図ツール</h1>
-</header>
+<main>
+  <header>
+    <h1 class="t-large">地図ツール</h1>
+    <div class="clawd fallback" id="clawd" role="img" aria-label="Claw'd" title="点一下再放一次"><div></div></div>
+  </header>
+  <div class="sub t-sub dim">地图工具集：学习、居住、薪资。每一张图的想法记在仓库 IDEAS.md。</div>
 
-<div class="cards">
-  <div class="clawd">
-    <div class="stage fallback" id="clawd" role="img" aria-label="Claw'd" title="点一下再放一次"><div></div></div>
-  </div>
+  <section class="sect">
+    <h2>学習</h2>
+    <div class="group">
+      <a class="row icon" href="japan/">
+        <span class="ico" style="background:var(--indigo)"><i class="sf" data-sf="graduationcap.fill"></i></span>
+        <span class="lab"><div class="name">地図 · 学習</div><div class="hint">日本 47 都道府県 → 市町村 → 町丁字四级下钻；東亜 27 国</div></span>
+        <i class="sf chev" data-sf="chevron.right"></i>
+      </a>
+      <a class="row icon" href="quiz/">
+        <span class="ico" style="background:var(--orange)"><i class="sf" data-sf="questionmark.circle"></i></span>
+        <span class="lab"><div class="name">都道府県クイズ</div><div class="hint">位置、県名、県庁所在地：浏览 · 闯关 · 混考</div></span>
+        <i class="sf chev" data-sf="chevron.right"></i>
+      </a>
+    </div>
+    <p class="foot">現代日本：1741 市町村 · 171 行政区 · 207,959 町丁字。東亜：621 单元，铁路・空港・港湾・口岸・航路。大日本（1942）需历史 GIS 数据，暂缓。クイズ是旧版页面，将来重做进「地図·学習」。</p>
+  </section>
 
-  <a class="card quiz" href="japan/">
-    <span class="tag">学習</span>
-    <h2>地図 · 学習</h2>
-    <p>学习日本的政治区划，熟悉东亚的行政区划。</p>
-    <ul>
-      <li>現代日本：47 都道府県 · 1741 市町村 · 171 行政区 · 207,959 町丁字（四级下钻）</li>
-      <li>東亜：621 单元／27 国，铁路・空港・港湾・口岸・航路</li>
-      <li class="wip">大日本（1942）：需历史 GIS 数据，暂缓</li>
-    </ul>
-  </a>
+  <section class="sect">
+    <h2>居住 · 薪资</h2>
+    <div class="group">
+      <a class="row icon" href="osaka/">
+        <span class="ico" style="background:var(--teal)"><i class="sf" data-sf="tram.fill"></i></span>
+        <span class="lab"><div class="name">大阪 · 居住</div><div class="hint">到梅田／難波／天王寺／京橋各几分钟，这一片住起来怎么样</div></span>
+        <i class="sf chev" data-sf="chevron.right"></i>
+      </a>
+      <a class="row icon" href="cost/">
+        <span class="ico" style="background:var(--green)"><i class="sf" data-sf="yensign"></i></span>
+        <span class="lab"><div class="name">薪资 · 购买力</div><div class="hint">外国人在各城市真实能挣多少、要花多少，换算成工时</div></span>
+        <i class="sf chev" data-sf="chevron.right"></i>
+      </a>
+    </div>
+    <p class="foot">大阪：车站可达性（实路网步行等时圈、长按查询）和居住等级 S–D；评级方法待重做。薪资图：每个数字带来源、日期、置信度，不填估计值；房租和月票按到枢纽的分钟数分档，岗位取门店直发挂牌，生活费拆成水电网和标准篮子。大阪、乌鲁木齐、邦美蜀已可看。预定：家計（个人支出分析）。</p>
+  </section>
 
-  <a class="card quiz" href="quiz/">
-    <span class="tag">学習</span>
-    <h2>都道府県クイズ</h2>
-    <p>把 47 个都道府県的位置、名字、県庁所在地背下来。</p>
-    <ul>
-      <li>浏览 · 闯关（七个地方逐关，间隔重复） · 混考（考県名／県庁）</li>
-      <li class="wip">旧版页面；将来重做进「地図·学習」</li>
-    </ul>
-  </a>
+  <p class="credits t-foot dim">数据：OpenStreetMap（ODbL）· 国土数値情報 · 令和2年国勢調査 (e-Stat) · 歴史的行政区域データセットβ版（CODH）· OSM 陸地ポリゴン（osmdata.openstreetmap.de）。Claw'd 图像版权归 Anthropic 所有，此处仅作原样引用。</p>
+</main>
 
-  <a class="card" href="osaka/">
-    <span class="tag">居住</span>
-    <h2>大阪 · 居住</h2>
-    <p>在大阪选房时的客观依据：从这里到梅田／難波／天王寺／京橋各要几分钟，这一片住起来怎么样。</p>
-    <ul>
-      <li>点层：车站可达性，阈值滑块、面覆盖（实路网步行等时圈）、长按任意地点查询</li>
-      <li>面层：居住等级 S–D（治安×便利×环境），可叠加显示</li>
-      <li class="wip">等级评级方法待重做；可达时间精度升级（Ekispert 抽样校准）</li>
-    </ul>
-  </a>
-
-  <a class="card" href="cost/">
-    <span class="tag">薪资</span>
-    <h2>薪资 · 购买力</h2>
-    <p>外国人在各城市真实能挣多少、真实要花多少：时薪、通勤、房租、生活费，换算成工时。</p>
-    <ul>
-      <li>世界地图打点，每个数字带来源、日期、置信度；不填估计值</li>
-      <li>按到枢纽的分钟数分档，房租和月票跟着档走；岗位是全球连锁的真实门店；生活费拆成水电网和标准篮子</li>
-      <li class="wip">大阪已可看，其余 27 城待调查</li>
-    </ul>
-  </a>
-
-  <div class="scaffold">
-    <div class="h">预定</div>
-    <span style="font-size:12.5px;color:var(--muted);line-height:2">家計（个人支出分析，月度汇总喂给大阪的生活费）— 构想见仓库 IDEAS.md</span>
-  </div>
-</div>
-
+<script src="ui/hig.js"></script>
 <script src="clawd/lottie_light.min.js"></script>
 <script>
 (function(){
   var box=document.getElementById("clawd");
-  if(!window.lottie||!box) return;                 // 播放器没到就保持静图
-  // 进页面只演一次，演完停在最后一帧；点一下再演一次。不循环。
-  var a=lottie.loadAnimation({container:box.firstElementChild,renderer:"svg",
-    loop:false,autoplay:true,path:"clawd/clawd-laptop.json"});
+  if(!window.lottie||!box) return;
+  var a=lottie.loadAnimation({container:box.firstElementChild,renderer:"svg",loop:false,autoplay:true,path:"clawd/clawd-laptop.json"});
   a.addEventListener("DOMLoaded",function(){box.classList.remove("fallback");});
-  var busy=false;
-  a.addEventListener("complete",function(){busy=false;});
-  box.addEventListener("click",function(){
-    if(busy) return;                               // 连点不叠加
-    busy=true; a.goToAndPlay(0,true);
-  });
+  var busy=false; a.addEventListener("complete",function(){busy=false;});
+  box.addEventListener("click",function(){ if(busy) return; busy=true; a.goToAndPlay(0,true); });
 })();
 </script>
-
-<footer>
-数据：OpenStreetMap（ODbL）· 国土数値情報 · 令和2年国勢調査 (e-Stat) ·
-歴史的行政区域データセットβ版（CODH）· OSM 陸地ポリゴン（osmdata.openstreetmap.de）<br>
-Claw'd 图像版权归 Anthropic 所有，此处仅作原样引用。
-</footer>
 </body>
 </html>

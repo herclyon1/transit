@@ -1,86 +1,86 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>薪资 · 购买力</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%231B2433'/><g fill='none' stroke='%23E9EDF0' stroke-width='2.2'><circle cx='32' cy='32' r='19'/><ellipse cx='32' cy='32' rx='8' ry='19'/><path d='M13 32h38M17 22h30M17 42h30'/></g><circle cx='41' cy='25' r='5.5' fill='%23E2A07E' stroke='%231B2433' stroke-width='2'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2334c759'/><text x='32' y='44' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff' font-family='-apple-system,sans-serif'>¥</text></svg>">
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
+<link rel="stylesheet" href="../ui/hig.css">
 <style>
 /* 想法见 ../IDEAS.md 第 6 节；数据规范见 data/README.md。
-   页面只做三件事：世界底图（本地 Natural Earth，不依赖任何外部瓦片）、城市打点、点开看卡。
-   所有数字从 data/cities/<id>.json 读，页面不写死任何数值。*/
-:root{--ink:#1B2433;--soft:#33415C;--paper:#E9EDF0;--panel:#FFF;--line:#C9D2DB;--accent:#B3541E;--hover:#2E6E8E;--muted:#6B7688;
-      --sea:#DCEBF5;--land:#F4F1EA;--border:#B8C2CC;
-      --ok:#1F7A5A;--listing:#2E6E8E;--crowd:#8A6D3B;--none:#9AA3AE}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{font-family:'Noto Sans JP','Hiragino Sans','Microsoft YaHei',system-ui,sans-serif;background:var(--paper);color:var(--ink);overflow:hidden}
+   界面照地图 App：地图全屏；左上一个玻璃圆钮回目录、右上货币；底部一张非模态 Sheet——
+   没选城市时是「搜索 + 城市列表」，点了城市就是那座城的卡片。宽屏时 Sheet 变成左侧 320 的侧栏。
+   所有尺寸来自 ../ui/hig.css（DESIGN-HIG.md 有出处）。 */
 #map{position:absolute;inset:0}
-#top{position:absolute;left:10px;top:10px;right:10px;display:flex;gap:8px;align-items:center;pointer-events:none;z-index:5}
-#top .box{pointer-events:auto;background:var(--panel);border:1px solid var(--line);box-shadow:0 2px 10px rgba(20,30,50,.10);padding:8px 12px;font-size:13px}
-#top h1{font-size:15px;font-weight:900;letter-spacing:.02em}
-#top .sub{font-size:11px;color:var(--muted);margin-top:2px}
-#top select{font:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--line);background:#fff;color:var(--ink)}
-/* 卡片：桌面右侧，手机底部抽屉 */
-#card{position:absolute;right:10px;top:70px;width:360px;max-height:calc(100% - 90px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--ink);box-shadow:0 6px 18px rgba(20,30,50,.16);z-index:6;font-size:13px}
-#card[hidden]{display:none}
-#card header{padding:12px 14px 8px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-#card h2{font-size:18px;font-weight:900}
-#card header .meta{font-size:11px;color:var(--muted);margin-top:2px}
-#card .x{border:0;background:none;font-size:18px;cursor:pointer;color:var(--muted);line-height:1}
-#card section{padding:10px 14px;border-bottom:1px solid var(--line)}
-#card section:last-child{border-bottom:0}
-#card h3{font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--muted);margin-bottom:6px}
-.row{display:flex;justify-content:space-between;gap:10px;padding:3px 0;align-items:baseline}
-.row .k{color:var(--soft)}
-.row .v{font-weight:700;text-align:right;white-space:nowrap}
-.row .v.none{color:var(--none);font-weight:400}
-.chip{display:inline-block;font-size:10px;padding:1px 6px;border-radius:2px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--none)}
-.chip.official{background:var(--ok)} .chip.listing{background:var(--listing)} .chip.measured{background:var(--ink)}
-.chip.crowd{background:#fff;color:var(--crowd);border:1px dashed var(--crowd)} .chip.estimated{background:#fff;color:var(--muted);border:1px solid var(--muted)}
-.src{font-size:10.5px;color:var(--muted);margin-top:2px}
-.src a{color:var(--hover)}
-.stale{color:var(--accent)}
-.derived{background:var(--paper);padding:8px 10px;margin-top:6px}
-.derived .big{font-size:22px;font-weight:900}
-#card .links a{display:inline-block;margin-right:12px;color:var(--hover);font-size:12px}
-.empty{color:var(--muted);font-size:12px;line-height:1.6}
-table.tiers{border-collapse:collapse;font-size:12px;width:100%}
-table.tiers th{font-weight:700;color:var(--muted);text-align:left;padding:4px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
-table.tiers td{padding:5px 6px;border-bottom:1px solid var(--paper);vertical-align:top;white-space:nowrap}
-table.tiers td a{color:var(--ink);font-weight:700;text-decoration:none;border-bottom:1px dotted var(--muted)}
-table.tiers .chip{width:6px;height:6px;padding:0;border-radius:50%;margin-left:4px;vertical-align:middle}
-table.tiers .chip.crowd,table.tiers .chip.estimated{width:4px;height:4px}
-/* 图例 */
-#legend{position:absolute;left:10px;bottom:16px;background:var(--panel);border:1px solid var(--line);padding:6px 10px;font-size:11px;color:var(--soft);z-index:5;line-height:1.7}
-#legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
-#homebtn{position:fixed;right:14px;bottom:18px;z-index:2000;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border:1px solid #c9d2db;border-radius:50%;box-shadow:0 2px 8px rgba(20,30,50,.18);font-size:19px;text-decoration:none;color:#1b2433;user-select:none}
-@media (max-width:640px){
-  #card{left:0;right:0;top:auto;bottom:0;width:auto;max-height:62%;border-left:0;border-top:5px solid var(--ink)}
-  #legend{bottom:auto;top:64px}
-  #homebtn{bottom:auto;top:12px;right:12px;width:34px;height:34px;font-size:17px}
-  #top{right:56px}
-}
-.maplibregl-ctrl-attrib{font-size:10px}
+.maplibregl-ctrl-attrib{font-size:.6471em}
+.maplibregl-ctrl-bottom-right{bottom:calc(44dvh + 8px)}
+@media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
+/* 货币：pop-up button（HIG）——玻璃胶囊里套原生 select，点开是系统菜单 */
+.cur{position:relative}
+.cur select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font:inherit}
+/* 列表态 */
+#list .row .val{font-size:.8824em}
+/* 卡片态：render() 输出的 section/h3/.row/.src/table 映射成分组列表 */
+#card .group .row{min-height:44px;padding:11px 20px;align-items:baseline}
+#card .group .row .k{flex:1 1 auto;min-width:0;color:var(--ink)}
+#card .group .row .v{color:var(--ink);font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#card .group .row .v.none{color:var(--ink-3);font-weight:400}
+#card .group .src{padding:0 20px 11px;margin-top:-6px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em;word-break:break-word}
+#card .group .src + .row::before{content:none}
+#card .group .src a{color:var(--tint);text-decoration:none}
+#card .group .empty{padding:11px 20px;color:var(--ink-2);font-size:.8824em}
+#card .group > .src:first-child{margin-top:0;padding-top:11px}
+.chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
+.chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
+.chip.crowd{background:var(--orange)} .chip.estimated{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+.stale{color:var(--orange)}
+.derived{margin:0 20px 11px;padding:10px 12px;border-radius:12px;background:var(--fill)}
+.derived .big{font-size:1.6471em;font-weight:700}
+#card .group > div[style*="overflow-x"]{padding:0 20px 8px}
+table.tiers{border-collapse:collapse;font-size:.7647em;line-height:1.3846em;width:100%}
+table.tiers th{font-weight:600;color:var(--ink-2);text-align:left;padding:6px 6px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+table.tiers td{padding:7px 6px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+table.tiers tr:last-child td{border-bottom:0}
+table.tiers td a{color:var(--ink);font-weight:600;text-decoration:none}
+table.tiers .chip{width:6px;height:6px;padding:0;margin-left:4px;vertical-align:middle}
+table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-shadow:none;background:var(--ink-3)}
+#card .links a{display:block;padding:11px 20px;color:var(--tint);text-decoration:none}
+#card section.src{padding:12px 36px 0;color:var(--ink-2);font-size:.7647em}
 </style>
 </head>
 <body>
-<div id="map"></div>
-<div id="top">
-  <div class="box">
-    <h1>薪资 · 购买力</h1>
-    <div class="sub">外国人在各城市真实能挣多少、真实要花多少。点一个点。</div>
-  </div>
-  <div class="box"><label>货币 <select id="cur"><option value="local">当地</option></select></label> <small id="curDate" style="opacity:.7"></small></div>
+<div class="map-shell">
+  <div id="map" class="map"></div>
 </div>
-<div id="legend"><i style="background:var(--ink)"></i>有数据　<i style="background:#fff;border:2px solid var(--muted)"></i>待调查</div>
-<aside id="card" hidden>
-  <header><div><h2 id="cName"></h2><div class="meta" id="cMeta"></div></div><button class="x" id="cClose" title="关闭">✕</button></header>
-  <div id="cBody"></div>
+<div class="bar">
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <span class="spacer"></span>
+  <span class="btn-glass glass text cur" id="curBtn"><span id="curLabel">当地</span><i class="sf" data-sf="chevron.down" style="width:.8em;height:.8em"></i>
+    <select id="cur" aria-label="货币"><option value="local">当地</option></select></span>
+</div>
+<aside class="sheet glass" id="sheet" aria-label="城市">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div id="list">
+    <div class="head"><label class="search" style="flex:1 1 auto"><i class="sf" data-sf="magnifyingglass"></i><input id="q" type="search" placeholder="搜索城市" autocomplete="off"><button class="clear" type="button" aria-label="清除"><i class="sf" data-sf="xmark.circle.fill"></i></button></label></div>
+    <div class="body">
+      <section class="sect"><h2>薪资 · 购买力</h2>
+        <p class="foot" style="padding-top:0">外国人在各城市真实能挣多少、真实要花多少：时薪、通勤、房租、生活费，换算成工时。每个数字带来源、日期、置信度。点地图上的点或下面的城市。</p>
+        <div class="group" id="cityRows"></div>
+        <p class="foot"><span class="dot measured"></span> 有数据　<span class="dot"></span> 待调查　<span id="curDate"></span></p>
+      </section>
+    </div>
+  </div>
+  <div id="card" hidden>
+    <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2" id="cName"></div><div class="t-foot dim" id="cMeta"></div></div><button class="btn-glass" id="cClose" aria-label="关闭" style="background:var(--fill);height:36px;min-width:36px"><i class="sf" data-sf="xmark"></i></button></div>
+    <div class="body" id="cBody"></div>
+  </div>
 </aside>
-<a id="homebtn" href="../index.html" title="返回目录">⌂</a>
 
+<script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
 <script>
 const $=id=>document.getElementById(id);
@@ -115,7 +115,21 @@ map=new maplibregl.Map({
       {id:'city-lab',type:'symbol',source:'cities',layout:{'text-field':['get','label'],'text-font':['NotoSansJP Regular'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':'#1B2433','text-halo-color':'#fff','text-halo-width':1.5}}
     ]}
 });
-map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+if(window.matchMedia('(min-width: 900px)').matches) map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+// 城市列表（sheet 的列表态）
+const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
+function cityRows(filter){
+  const q=(filter||'').trim().toLowerCase();
+  const rows=CITIES.filter(c=>!q||[c.name.zh,c.name.en,c.name.local||'',COUNTRY[c.country]||''].join(' ').toLowerCase().includes(q))
+    .sort((a,b)=>(b.status==='ready')-(a.status==='ready'));
+  $('cityRows').innerHTML=rows.map(c=>`<button class="row" data-id="${c.id}"><span class="lab"><div class="name">${c.name.zh}<span class="dim t-foot">　${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span><span class="val">${c.status==='ready'?'<span class="dot measured"></span>':'<span class="dot"></span>'}</span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="row"><span class="lab dim">没有匹配的城市</span></div>';
+  HIG.sf();
+  $('cityRows').querySelectorAll('button.row').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); map.flyTo({center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); show(c);}));
+}
+cityRows('');
+$('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
+$('q').closest('.search').querySelector('.clear').addEventListener('click',()=>{$('q').value='';cityRows('');$('q').closest('.search').classList.remove('has');});
+window.SHEET=HIG.sheet($('sheet'),{initial:'medium'});
 
 // 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
 fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
@@ -130,24 +144,29 @@ function fillCur(date, kind){
   for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o); }
   sel.title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
 }
-$('cur').addEventListener('change',e=>{CUR=e.target.value; if(OPEN) show(OPEN);});
+$('cur').addEventListener('change',e=>{CUR=e.target.value; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(OPEN) show(OPEN);});
 
 map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });
 map.on('mouseenter','city-dot',()=>map.getCanvas().style.cursor='pointer');
 map.on('mouseleave','city-dot',()=>map.getCanvas().style.cursor='');
-$('cClose').addEventListener('click',()=>{$('card').hidden=true;OPEN=null;});
+$('cClose').addEventListener('click',()=>{$('card').hidden=true;$('list').hidden=false;OPEN=null;});
 })();
 
 var OPEN=null; const cache={};
 async function show(c){
-  OPEN=c; $('card').hidden=false;
+  OPEN=c; $('card').hidden=false; $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
   $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
   $('cMeta').textContent=`${({JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'})[c.country]||c.country} · 货币 ${c.currency}`;
-  $('cBody').innerHTML='<section class="empty">载入…</section>';
+  $('cBody').innerHTML='<section class="sect"><div class="group"><div class="empty">载入…</div></div></section>';
   let d=cache[c.id];
   if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
-  $('cBody').innerHTML=render(c,d);
+  $('cBody').innerHTML=groups(render(c,d)); HIG.sf();
 }
+// render() 的 <section><h3>…</h3>REST</section> → HIG 分组：<section class="sect"><h2>…</h2><div class="group">REST</div></section>
+function groups(h){
+  return h.replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<section class="sect"><h2>${t}</h2><div class="group">${rest}</div></section>`)
+          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<section class="sect"><div class="group links">$1</div></section>')
+          .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<section class="sect"><div class="group"><div class="empty">$1</div></div></section>'); }
 // ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
 function money(v,unit,cur){
   if(v==null) return null;
