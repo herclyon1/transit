@@ -77,34 +77,16 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>日本都道府県 地図クイズ</title>
+<link rel="stylesheet" href="../ui/hig.css">
 <style>
-  :root{
-    --bg:#f7f5f0; --panel:#ffffff; --ink:#2c2c2a; --ink2:#6b6a64; --line:#dcd9d0;
-    --ok:#2e7d4f; --ng:#b3372f; --sea:#dcebf5; --accent:#1d5a8a;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{height:100%;}
-  body{font-family:"Hiragino Sans","Yu Gothic","Noto Sans JP","PingFang SC","Microsoft YaHei",sans-serif;
-    background:var(--bg);color:var(--ink);display:flex;flex-direction:column;overflow:hidden;}
-
-  header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);
-    border-bottom:1px solid var(--line);flex-wrap:wrap;z-index:5;}
-  header h1{font-size:15px;font-weight:600;letter-spacing:.05em;margin-right:6px;}
-  .seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
-  .seg button{border:none;background:transparent;padding:6px 14px;font-size:13px;color:var(--ink2);cursor:pointer;}
-  .seg button.on{background:var(--accent);color:#fff;}
-  select{font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);}
-  #labelToggle,#seaToggle{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--ink2);cursor:pointer;user-select:none;}
-  #stats{margin-left:auto;font-size:13px;color:var(--ink2);white-space:nowrap;}
-
-  #promptBar{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:4;
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 22px;
-    box-shadow:0 2px 10px rgba(0,0,0,.07);text-align:center;max-width:92vw;}
-  #promptBar .q{font-size:22px;font-weight:700;letter-spacing:.06em;}
-  #promptBar .fb{font-size:13px;margin-top:3px;min-height:17px;}
-  .fb.good{color:var(--ok);} .fb.bad{color:var(--ng);}
-
-  #stage{position:relative;flex:1;background:var(--sea);overflow:hidden;}
+  /* 旧版クイズ页（TODO：重做进地図·学習后删除）。界面层照 HIG：顶部玻璃返回钮 + 模式分段控件，
+     题目提示是顶部玻璃卡，设置项在底部 Sheet（范围/题型是 pop-up button，两项开关），
+     地方跳转是一排胶囊按钮，结算是居中的 Sheet 式卡。地图本身的 SVG 样式不动。出处见 ../DESIGN-HIG.md。 */
+  html,body{height:100%;overflow:hidden}
+  body{display:flex;flex-direction:column}
+  #stage{position:relative;flex:1;background:#dcebf5;overflow:hidden}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme=light]) #stage{background:#0f1b26} }
+  :root[data-theme=dark] #stage{background:#0f1b26}
   #eaCv{position:absolute;z-index:0;display:none;pointer-events:none;transform-origin:0 0;}
   svg#map{position:relative;z-index:1;} /* 必须: 否则绝对定位的画布按CSS绘制顺序盖在静态定位的SVG上 */
   svg{width:100%;height:100%;display:block;touch-action:none;}
@@ -117,127 +99,124 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   .hl.ok{stroke:#2e7d4f;stroke-width:1.6;}
   .hl.bad{stroke:#b3372f;stroke-width:2;}
   .wc.wsel{stroke:#3d6f9c;stroke-width:1.3;stroke-opacity:.85;}
-  .lbl{font-size:13px;fill:#41413e;pointer-events:none;text-anchor:middle;paint-order:stroke;
-    stroke:#ffffff;stroke-width:2;stroke-linejoin:round;}
-
-  #jumps{position:absolute;left:12px;bottom:12px;display:grid;grid-template-columns:1fr 1fr;gap:6px;z-index:4;}
-  #jumps button{font-size:12px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;
-    background:var(--panel);color:var(--ink);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.06);}
-  #jumps button:active{transform:scale(.96);}
-
-  #info{position:absolute;right:12px;bottom:12px;z-index:4;background:var(--panel);
-    border:1px solid var(--line);border-radius:12px;padding:10px 24px 10px 14px;font-size:13px;
-    max-width:240px;box-shadow:0 1px 6px rgba(0,0,0,.06);display:none;}
-  #info .n{font-size:16px;font-weight:700;}
-  #info .c{color:var(--accent);margin-top:2px;}
-  #info .r{color:var(--ink2);margin-top:2px;}
-  #info .x{position:absolute;top:3px;right:7px;width:20px;height:20px;display:flex;align-items:center;
-    justify-content:center;font-size:15px;line-height:1;color:var(--ink2);cursor:pointer;border-radius:6px;}
-  #info .x:active{background:var(--line);}
-
-  #legend{position:absolute;left:12px;right:12px;bottom:12px;z-index:4;background:var(--panel);
-    border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:12px;
-    line-height:1.8;box-shadow:0 1px 6px rgba(0,0,0,.06);display:none;}
-  #legend .lg-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-  #legend .lg-head b{font-size:13px;}
-  #legend .lg-sel{color:var(--accent);flex:1;min-width:120px;}
-  #legend .lg-toggle{margin-left:auto;font-size:12px;padding:4px 10px;border:1px solid var(--line);
-    border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;}
-  #legend .lg-body{display:none;margin-top:6px;max-height:36vh;overflow:auto;}
-  #legend.open .lg-body{display:block;}
-  #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    font-size:14px;color:var(--ink2);z-index:6;background:var(--sea);}
-  #doneCard{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;}
-  #doneCard .box{background:var(--panel);border:1px solid var(--line);border-radius:14px;
-    padding:26px 34px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.1);}
-  #doneCard .big{font-size:22px;font-weight:700;margin-bottom:8px;}
-  #doneCard .sub{font-size:13px;color:var(--ink2);line-height:1.7;}
-  #doneCard button{margin-top:14px;font-size:14px;padding:8px 20px;border:none;border-radius:8px;
-    background:var(--accent);color:#fff;cursor:pointer;}
-
-  @media (max-width:640px){
-    header{padding:8px 10px;gap:8px;}
-    header h1{display:none;}
-    #promptBar .q{font-size:18px;}
-    #stats{font-size:12px;}
-  }
+  .lbl{font-size:13px;fill:#41413e;pointer-events:none;text-anchor:middle;paint-order:stroke;stroke:#ffffff;stroke-width:2;stroke-linejoin:round;}
   .hl.sel{fill:none;stroke:#3d6f9c;stroke-width:1.5;stroke-opacity:.9;vector-effect:non-scaling-stroke;pointer-events:none;}
   .seac{fill:rgba(255,255,255,.15);stroke:#7a8ca0;stroke-width:1.2;stroke-dasharray:4 3;}
   .seaz{fill:none;stroke:#7a8ca0;stroke-width:1.1;stroke-dasharray:7 6;vector-effect:non-scaling-stroke;pointer-events:none;}
   .seat{font-size:10px;fill:#5a6b7d;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:2.2;pointer-events:none;}
   .wout{fill:none;stroke:#6b5d52;stroke-width:.8;vector-effect:non-scaling-stroke;pointer-events:none;}
-  .mkc{fill:rgba(255,255,255,.25);stroke:var(--accent);stroke-width:1.5;}
+  .mkc{fill:rgba(255,255,255,.25);stroke:var(--tint);stroke-width:1.5;}
   .islhl{fill:none;stroke:#3d6f9c;stroke-width:1.3;stroke-opacity:.85;vector-effect:non-scaling-stroke;pointer-events:none;}
-  .mkt{font-size:11px;fill:var(--accent);paint-order:stroke;stroke:#fff;stroke-width:2.5;
-    text-anchor:middle;pointer-events:none;font-weight:600;}
-  .lg-jmp{font-size:12px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;
-    background:transparent;color:var(--accent);cursor:pointer;margin-left:4px;}
-  @media (max-width:640px){ #legend .lg-sel{display:none;} }
-  @media (prefers-reduced-motion:reduce){
+  .mkt{font-size:11px;fill:var(--tint);paint-order:stroke;stroke:#fff;stroke-width:2.5;text-anchor:middle;pointer-events:none;font-weight:600;}
     .pref{transition:none;}
-  }
+  .bar .seg{flex:1 1 auto;max-width:420px;height:44px;padding:2px}
+  .bar .seg button{height:40px;font-size:.7647em;padding:3px 4px}
+  /* 题目：顶部玻璃卡（HIG Materials：控件层用玻璃） */
+  #promptBar{position:absolute;top:calc(env(safe-area-inset-top) + 64px);left:50%;transform:translateX(-50%);z-index:4;
+    padding:12px 20px;border-radius:22px;text-align:center;max-width:calc(100% - 32px)}
+  #promptBar .q{font-size:1.2941em;line-height:1.2727em;font-weight:700}
+  #promptBar .fb{font-size:.7647em;line-height:1.3846em;margin-top:3px;min-height:1.3846em}
+  .fb.good{color:var(--green)} .fb.bad{color:var(--red)}
+  #promptBar button{margin-top:8px}
+  /* 地方跳转：一排胶囊（HIG Buttons 小号 28） */
+  #jumps{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 104px);z-index:4;display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
+  #jumps::-webkit-scrollbar{display:none}
+  #jumps button{flex:none}
+  /* 选中县：popover 样子的玻璃卡 */
+  #info{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 144px);z-index:4;padding:12px 40px 12px 16px;border-radius:16px;max-width:260px;display:none}
+  #info .n{font-size:1em;font-weight:600}
+  #info .c{color:var(--tint);margin-top:2px;font-size:.8824em}
+  #info .r{color:var(--ink-2);margin-top:2px;font-size:.8824em}
+  #info .x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);cursor:pointer;border-radius:50%;background:var(--fill)}
+  #legend{position:absolute;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 144px);z-index:4;padding:10px 16px;border-radius:16px;font-size:.7647em;line-height:1.85em;display:none}
+  #legend .lg-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  #legend .lg-head b{font-size:1.0769em}
+  #legend .lg-sel{color:var(--tint);flex:1;min-width:120px}
+  #legend .lg-toggle{margin-left:auto}
+  #legend .lg-body{display:none;margin-top:6px;max-height:36vh;overflow:auto}
+  #legend.open .lg-body{display:block}
+  .lg-jmp{margin-left:4px;background:var(--fill);color:var(--tint)}
+  #legend .lg-toggle{background:var(--fill);color:var(--tint)}
+  #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2);z-index:6;background:var(--bg)}
+  /* 结算：居中的卡（HIG Alerts 的样子：圆角 26、标题 17 半粗、正文 13） */
+  #doneCard{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;background:rgba(0,0,0,.2)}
+  #doneCard .box{background:var(--bg-elev);border-radius:26px;padding:20px 24px;text-align:center;min-width:270px;box-shadow:var(--glass-shadow)}
+  #doneCard .big{font-size:1em;font-weight:600;margin-bottom:6px}
+  #doneCard .sub{font-size:.7647em;color:var(--ink-2);line-height:1.5}
+  #doneCard button{margin-top:16px}
+  /* Sheet 里的设置行：select 做成 pop-up button（值 + 上下箭头） */
+  .row.pop select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit}
+  .row.pop{position:relative;cursor:pointer}
+  .row.pop .val{display:inline-flex;align-items:center;gap:6px}
+  .sheet.small .body{overflow:hidden}
+  #stats{color:var(--ink-2);font-size:.8824em}
+  @media (max-width:640px){ #legend .lg-sel{display:none} }
+  @media (prefers-reduced-motion:reduce){ .pref{transition:none} }
 </style>
 </head>
 <body>
-<header>
-  <h1>日本都道府県クイズ</h1>
-  <div class="seg" id="modeSeg">
-    <button data-m="browse" class="on">浏览</button>
+<div class="bar">
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <div class="seg glass" id="modeSeg" role="group" aria-label="模式">
+    <button data-m="browse" class="on" aria-pressed="true">浏览</button>
     <button data-m="campaign">闯关</button>
     <button data-m="quiz">混考</button>
     <button data-m="dainippon">大日本</button>
     <button data-m="kyoeiken">東亜</button>
   </div>
-  <select id="scope">
-    <option value="43">43県（除都道府）</option>
-    <option value="47">全部47</option>
-    <option value="r1">東北</option>
-    <option value="r2">関東</option>
-    <option value="r3">中部</option>
-    <option value="r4">近畿</option>
-    <option value="r5">中国</option>
-    <option value="r6">四国</option>
-    <option value="r7">九州・沖縄</option>
-  </select>
-  <select id="qtype">
-    <option value="name">考县名</option>
-    <option value="cap">考县厅</option>
-    <option value="mix">县名+县厅</option>
-  </select>
-  <label id="labelToggle"><input type="checkbox" id="showLabels">名称标签</label>
-  <label id="seaToggle"><input type="checkbox" id="showSea" checked>远岛海域</label>
-  <span id="stats"></span>
-</header>
+</div>
 
 <div id="stage">
-  <div id="loading">正在加载真实县界数据…（首次需联网）</div>
-  <div id="promptBar" style="display:none;">
+  <div id="loading" class="t-sub">正在加载真实县界数据…（首次需联网）</div>
+  <div id="promptBar" class="glass" style="display:none;">
     <div class="q" id="qName"></div>
     <div class="fb" id="fb"></div>
-    <button id="startBtn" style="display:none;margin-top:8px;font-size:14px;padding:7px 22px;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;">开始测验</button>
-    <button id="idk" style="display:none;margin-top:6px;font-size:12px;padding:4px 12px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink2);cursor:pointer;">不会，看答案</button>
+    <button id="startBtn" class="btn m tint" style="display:none;">开始测验</button>
+    <button id="idk" class="btn s plain" style="display:none;">不会，看答案</button>
   </div>
   <canvas id="eaCv"></canvas>
   <svg id="map"></svg>
   <div id="jumps">
-    <button data-j="all">全国</button>
-    <button data-j="r1">東北</button>
-    <button data-j="r2">関東</button>
-    <button data-j="r3">中部</button>
-    <button data-j="r4">近畿</button>
-    <button data-j="r5">中国</button>
-    <button data-j="r6">四国</button>
-    <button data-j="r7">九州</button>
+    <button class="btn s glass" data-j="all">全国</button>
+    <button class="btn s glass" data-j="r1">東北</button>
+    <button class="btn s glass" data-j="r2">関東</button>
+    <button class="btn s glass" data-j="r3">中部</button>
+    <button class="btn s glass" data-j="r4">近畿</button>
+    <button class="btn s glass" data-j="r5">中国</button>
+    <button class="btn s glass" data-j="r6">四国</button>
+    <button class="btn s glass" data-j="r7">九州</button>
   </div>
-  <div id="info"></div>
-  <div id="legend"></div>
+  <div id="info" class="glass"></div>
+  <div id="legend" class="glass"></div>
   <div id="doneCard"><div class="box">
     <div class="big">本轮清零</div>
     <div class="sub" id="doneSub"></div>
-    <button id="again">再来一轮</button>
+    <button id="again" class="btn l tint">再来一轮</button>
   </div></div>
 </div>
 
+<aside class="sheet glass" id="sheet" aria-label="设置">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2">都道府県クイズ</div><div class="t-foot dim" id="stats"></div></div></div>
+  <div class="body">
+    <section class="sect">
+      <h2>范围与题型</h2>
+      <div class="group">
+        <label class="row pop"><span class="lab"><div class="name">范围</div></span><span class="val" id="scopeVal">43県（除都道府）<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
+          <select id="scope" aria-label="范围">
+            <option value="43">43県（除都道府）</option><option value="47">全部47</option><option value="r1">東北</option><option value="r2">関東</option>
+            <option value="r3">中部</option><option value="r4">近畿</option><option value="r5">中国</option><option value="r6">四国</option><option value="r7">九州・沖縄</option>
+          </select></label>
+        <label class="row pop"><span class="lab"><div class="name">题型</div></span><span class="val" id="qtypeVal">考县名<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
+          <select id="qtype" aria-label="题型"><option value="name">考县名</option><option value="cap">考县厅</option><option value="mix">县名+县厅</option></select></label>
+        <label class="row" id="labelToggle"><span class="lab"><div class="name">名称标签</div></span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
+        <label class="row" id="seaToggle"><span class="lab"><div class="name">远岛海域</div></span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
+      </div>
+      <p class="foot">旧版页面；将来重做进「地図·学習」。</p>
+    </section>
+  </div>
+</aside>
+<script src="../ui/hig.js"></script>
 <script src="../vendor/d3.min.js"></script>
 <script src="../vendor/topojson.min.js"></script>
 <script>
@@ -843,7 +822,7 @@ function finish(){
   showCard("本轮清零",
     `${total} 个全部定位完成，本轮失误 ${misses} 次。<br>` +
     (roundList ? `本轮错过：${roundList}<br>` : `本轮零失误。<br>`) +
-    (worst ? `历史累计易错（含以往所有轮次）：${worst}　<a href="#" id="resetMiss" style="color:var(--ng);">清零历史统计</a><br>` : "") +
+    (worst ? `历史累计易错（含以往所有轮次）：${worst}　<a href="#" id="resetMiss" style="color:var(--red);">清零历史统计</a><br>` : "") +
     `按遗忘曲线：明天、第3天、第7天再各清零一轮。`,
     "再来一轮", () => setMode("quiz"));
   const rm = document.getElementById("resetMiss");
@@ -925,7 +904,7 @@ function setViewJapan(){
   if(features) rebindPrefLabels();
   gWorld.style("display","none");
   $("legend").style.display = "none";
-  $("jumps").style.display = "grid";
+  $("jumps").style.display = "flex";
   gMap.style("display",null); gLbl.style("display",null); gHl.style("display",null);
   const w = $("stage").clientWidth, h = $("stage").clientHeight;
   projection.rotate([0,0]);
@@ -1422,16 +1401,16 @@ function buildHistPanel(kind, feats){
       + cs.map(a => `<label style="cursor:pointer;"><input type="checkbox" data-a="${a}"${kyoHidden[a] ? "" : " checked"}> ${ADM0_ZH[a]||a}</label>`).join("")
       + `</div>`;
   }else{
-    body += `<div style="color:var(--ink2);">${DAI_NOTE}</div>`;
+    body += `<div style="color:var(--ink-2);">${DAI_NOTE}</div>`;
   }
-  const mkBtns = `<button class="lg-jmp" id="mkTg">标记:${mkOn?"开":"关"}</button><button class="lg-jmp" id="seaTg">海域:${seaOn?"开":"关"}</button>`;
+  const mkBtns = `<button class="lg-jmp btn s" id="mkTg">标记:${mkOn?"开":"关"}</button><button class="lg-jmp btn s" id="seaTg">海域:${seaOn?"开":"关"}</button>`;
   const jumps = isDai
-    ? `<button class="lg-jmp" data-jf="関東州">関東州</button><button class="lg-jmp" data-jg="nanyo">南洋庁</button><button class="lg-jmp" data-jf="">全図</button>${mkBtns}`
-    : `<button class="lg-jmp" data-jg="nanyo">南洋群島</button><button class="lg-jmp" data-jf="">全図</button>${mkBtns}`;
+    ? `<button class="lg-jmp btn s" data-jf="関東州">関東州</button><button class="lg-jmp btn s" data-jg="nanyo">南洋庁</button><button class="lg-jmp btn s" data-jf="">全図</button>${mkBtns}`
+    : `<button class="lg-jmp btn s" data-jg="nanyo">南洋群島</button><button class="lg-jmp btn s" data-jf="">全図</button>${mkBtns}`;
   $("legend").innerHTML =
     `<div class="lg-head"><b>${isDai ? DAI_TITLE : KYO_TITLE}</b><span class="lg-sel">${isDai ? "点任意行政区看详情" : "点任意国家看详情"}</span>`
     + jumps
-    + `<button class="lg-toggle" id="lgToggle">${isDai ? "说明" : "显示国家"} ▾</button></div>`
+    + `<button class="lg-toggle btn s" id="lgToggle">${isDai ? "说明" : "显示国家"} ▾</button></div>`
     + `<div class="lg-body">${body}</div>`;
   if(wasOpen) $("legend").classList.add("open");
   const tg = document.getElementById("lgToggle");
@@ -1525,8 +1504,13 @@ window.addEventListener("resize", () => {
     drawHiIslands("browse");
   }, 150); // 防抖：历史视图resize要整体重建路径
 });
+
+window.SHEET=HIG.sheet(document.getElementById('sheet'),{initial:'small'});
+for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id), v=document.getElementById(lab);
+  const f=()=>{ v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }; sel.addEventListener('change',f); f(); }
+new MutationObserver(()=>{ document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false')); })
+  .observe(document.getElementById('modeSeg'),{attributes:true,subtree:true,attributeFilter:['class']});
 </script>
-<a id="homebtn" href="../index.html" title="返回目录" style="position:fixed;right:14px;bottom:74px;z-index:2000;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);border:1px solid #c9d2db;border-radius:50%;box-shadow:0 2px 8px rgba(20,30,50,.18);font-size:19px;text-decoration:none;color:#1b2433;user-select:none;">⌂</a>
 </body>
 <!-- CHANGELOG
 v1-v7: 测验主体（闯关/混考/两段式重考/双口径错题统计）
