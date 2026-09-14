@@ -363,37 +363,34 @@
  ],
  "utilities": {
   "electricity": {
-   "value": 6033,
+   "value": 4376,
    "unit": "日元/月",
-   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
+   "source_url": "https://kepco.jp/ryokin/menu/dento_a/",
+   "source_name": "関西電力 従量電灯A 料金単価 + 燃料費調整単価のお知らせ（2026 年 10 月分）+ 再生可能エネルギー発電促進賦課金（2026 年度）",
+   "fetched_at": "2026-09-15",
+   "confidence": "estimated",
    "n": null,
-   "note": "单身勤劳者家庭全国均值。全部单身家庭 7,337。",
-   "label": "电费（家计调查统计，待换本人账单）"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。従量電灯A：最低料金（15 kWh まで）522.58 + 第 1 段階 20.21 円/kWh × 105 + 第 2 段階 25.61 × 30 = 3,412.93；再エネ賦課金 4.18 円/kWh × 150 = 627（2026-05～2027-04 低圧单价，最低料金部分另有单价，此处按 4.18 统一）；燃料費調整 2026 年 10 月分 最初の 15 kWh 33.66 + 2.24 × 135 = 336.06（平均燃料价格超上限，按上限 40,700 円/kl 计）。合计 4,376 円。国家“電気・ガス料金支援”2026 年 8/10 月每 kWh 减 3.5 円、9 月减 4.5 円，10 月分实付为 3,851 円；补贴是临时措施，取补贴前的结构价。旧值对照：総務省 家計調査 2025 单身勤劳者 电费均值 6,033 円（统计，已降为对照，见 living_official）。"
   },
   "gas": {
-   "value": 2829,
+   "value": 2705,
    "unit": "日元/月",
-   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
+   "source_url": "https://wwwe5.osakagas.co.jp/custserv/ryokinhyo1001.html",
+   "source_name": "大阪ガス 一般料金 最新の料金表（2026 年 10 月検針分）",
+   "fetched_at": "2026-09-15",
+   "confidence": "estimated",
    "n": null,
-   "note": "单身勤劳者家庭。全部单身 2,999。",
-   "label": "燃气（家计调查统计，待换本人账单）"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。A 料金（0–20 m³）：基本料金 759.00 + 調整単位料金 194.67 円/m³ × 10 = 2,705 円（円未満切捨て）。9 月検針分单价 184.43 → 2,603 円（大阪ガス自家的 10 m³ 计算例也是 2,603）。原料費調整每月变。旧值对照：家計調査 2025 单身勤劳者 燃气均值 2,829 円。"
   },
   "water": {
-   "value": 1862,
+   "value": 1606,
    "unit": "日元/月",
-   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
+   "source_url": "https://www.city.osaka.lg.jp/suido/page/0000321794.html",
+   "source_name": "大阪市水道局 水道料金・下水道使用料早見表と計算式（2019-11-01 起）",
+   "fetched_at": "2026-09-15",
+   "confidence": "estimated",
    "n": null,
-   "note": "上下水道费，单身勤劳者家庭。全部单身 2,136。",
-   "label": "水费（家计调查统计，待换本人账单）"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。一般用（口径 13 mm）：水道 基本料金 935（含税）+ 従量 1–10 m³ 10 円/m³ × 6 = 1,001；下水道 基本 605（10 m³ まで）= 605；合计 1,606 円/月（早見表 6 m³ 栏同值）。旧值对照：家計調査 2025 单身勤劳者 上下水道均值 1,862 円。"
   },
   "mobile": {
    "value": 2970,
