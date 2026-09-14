@@ -43,6 +43,7 @@
    中文一律苹方（用户 2026-09-15 定）：Apple 设备上 -apple-system 之后紧跟 PingFang SC，
    日文页也用苹方；非 Apple 设备落到 Noto Sans CJK。 */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none !important}
 html{font:-apple-system-body;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans","Noto Sans CJK SC","Noto Sans SC","Noto Sans JP",sans-serif;
      -webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.2941em}

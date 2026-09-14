@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <title>地図 · 学習</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2433'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23E2A07E'/%3E%3C/svg%3E">
 <!--
@@ -13,69 +15,60 @@
   本页目前只做浏览。答题/闯关按计划在地图验收通过后重做。
 -->
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
+<link rel="stylesheet" href="../ui/hig.css">
 <style>
-  html,body{margin:0;height:100%;overflow:hidden;background:#E9EDF0;
-    font-family:'Noto Sans JP','Hiragino Sans','Microsoft YaHei',system-ui,sans-serif}
+  /* 界面照地图 App（HIG Maps / Sheets / Segmented controls）：地图全屏；顶部玻璃返回钮 + 玻璃分段控件切区域；
+     底部非模态 Sheet：选中的详情、图层开关、凡例；宽屏变左侧 320 侧栏。尺寸出处见 ../DESIGN-HIG.md。 */
+  html,body{overflow:hidden}
   #map{position:absolute;inset:0}
-  .panel{position:absolute;background:rgba(255,255,255,.94);border:1px solid #C9D2DB;border-radius:9px;
-    box-shadow:0 2px 10px rgba(20,30,50,.16);z-index:5}
-  /* 布局原则：屏幕上同时只有「一条工具栏 + 一个底部详情条」两块常驻 UI。
-     图例内容多（交通 8 条 + 地方 8 条），做成按钮收起，默认不展开，
-     否则在手机上会盖掉三分之一个屏幕——上一版就是这么乱的。 */
-  #top{left:8px;top:8px;right:8px;padding:7px 8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  #seg{display:flex;gap:4px;flex:1 1 100%;min-width:0}
-  #seg button{flex:1;padding:6px 0;font-size:12.5px;font-family:inherit;cursor:pointer;
-    background:#EEF1F4;color:#33415C;border:1px solid #C9D2DB;border-radius:6px;
-    -webkit-tap-highlight-color:transparent}
-  #seg button.on{background:#1B2433;color:#fff;border-color:#1B2433;font-weight:700}
-  #tools{display:flex;gap:4px;align-items:center;flex:1 1 auto;flex-wrap:wrap}
-  #tools button{border:1px solid #C9D2DB;background:#fff;color:#33415C;font:inherit;font-size:11.5px;
-    padding:5px 9px;border-radius:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap}
-  #tools button.on{background:#1B2433;color:#fff;border-color:#1B2433}
-  #tools .sep{width:1px;align-self:stretch;background:#DCE3EA;margin:1px 2px}
-  #top a{font-size:12px;color:#6B7688;text-decoration:none;padding:0 2px;margin-left:auto}
-
-  /* 底部还有一条提示/详情条，图例要落在它上面，否则最后一行会被压住 */
-  #legend{left:8px;top:auto;bottom:46px;padding:8px 11px;font-size:11.5px;line-height:1.72;color:#33415C;
-    max-height:calc(100% - 160px);overflow:auto;display:none;max-width:60%}
-  #legend.open{display:block}
+  .maplibregl-ctrl-attrib{font-size:.6471em}
+  .maplibregl-ctrl-bottom-right{bottom:calc(env(safe-area-inset-bottom) + 100px)}
+  @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
+  .bar .seg{flex:0 1 260px;height:44px;padding:2px}
+  .bar .seg button{height:40px;font-size:.8824em}
+  #card{display:none}
+  #card.on{display:block}
+  #card .n{font-weight:600;font-size:1em;line-height:1.2941em}
+  #card .sub{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:2px}
+  #card .disp{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);color:var(--red);font-size:.7647em;line-height:1.3846em}
+  #card .x{display:none}
+  #cardWrap{padding:11px 20px}
+  #legend{padding:8px 20px 12px;color:var(--ink);font-size:.7647em;line-height:1.85em}
   #legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
-  #legend .hr{margin:6px 0;border-top:1px dashed #C9D2DB}
-  #legend .h{font-size:10.5px;letter-spacing:.1em;color:#8894A2;font-weight:700;margin-bottom:2px}
-
-  /* 详情做成底部条：手机上从右上角弹出会跟工具栏打架，这是上一版最乱的地方 */
-  #card{left:8px;right:8px;bottom:8px;padding:10px 13px;font-size:13px;display:none}
-  #card .n{font-weight:800;font-size:15px}
-  #card .sub{color:#6B7688;font-size:11.5px;margin-top:2px;line-height:1.5}
-  #card .disp{margin-top:6px;padding-top:6px;border-top:1px dashed #c9a0a0;color:#8a3f3f;font-size:11.5px;line-height:1.45}
-  #card .x{position:absolute;right:8px;top:6px;color:#9AA6B2;font-size:16px;cursor:pointer;padding:2px 6px;
-    -webkit-tap-highlight-color:transparent}
-  /* 图例的底边由 JS 按底部那一条（提示 or 详情）的实测高度顶上去，
-     写死像素值会在详情条变高时压住图例——刚才实测就重叠了 46px。 */
-  #hint{left:8px;right:8px;bottom:8px;padding:7px 11px;font-size:11.5px;color:#6B7688;text-align:center}
+  #legend .hr{margin:6px 0;border-top:1px solid var(--line);transform:scaleY(.5)}
+  #legend .h{font-weight:600;color:var(--ink-2);margin:4px 0 2px}
+  #hint{padding:0 20px 12px;color:var(--ink-2);font-size:.8824em}
+  .hidden-ctl{display:none}
 </style></head><body>
-<div id="map"></div>
-<div class="panel" id="top">
-  <div id="seg">
-    <button id="b-jp" class="on">現代日本</button>
-    <button id="b-ea">東亜</button>
-  </div>
-  <div id="tools">
-    <button id="b-tr">交通</button>
-    <span class="sep"></span>
-    <button data-b="none" class="on">なし</button>
-    <button data-b="pale">地図</button>
-    <button data-b="photo">写真</button>
-    <button data-b="relief">標高</button>
-    <span class="sep"></span>
-    <button id="b-leg">凡例</button>
-  </div>
-  <a href="../index.html">戻る</a>
+<div class="map-shell"><div id="map" class="map"></div></div>
+<div class="bar">
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <span class="spacer"></span>
+  <div class="seg glass" id="seg" role="group" aria-label="区域"><button id="b-jp" class="on" aria-pressed="true">現代日本</button><button id="b-ea" aria-pressed="false">東亜</button></div>
+  <span class="spacer"></span>
 </div>
-<div class="panel" id="legend"></div>
-<div class="panel" id="card"></div>
-<div class="panel" id="hint">点一下看详情</div>
-
+<aside class="sheet glass" id="sheet" aria-label="详情与图层">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2">地図 · 学習</div><div class="t-foot dim" id="hint">点一下看详情</div></div>
+    <button class="btn-glass" id="cClose" aria-label="关闭详情" hidden style="background:var(--fill);height:36px;min-width:36px"><i class="sf" data-sf="xmark"></i></button></div>
+  <div class="body">
+    <section class="sect" id="cardSect" hidden><div class="group"><div id="cardWrap"><div id="card"></div></div></div></section>
+    <section class="sect">
+      <h2>图层</h2>
+      <div class="group" id="tools">
+        <label class="row"><span class="lab"><div class="name">交通</div><div class="hint">鉄道・空港・港湾・口岸・航路</div></span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
+        <div class="row"><span class="lab"><div class="name">底图</div></span>
+          <div class="seg" id="baseSeg"><button data-b="none" class="on" aria-pressed="true">なし</button><button data-b="pale">地図</button><button data-b="photo">写真</button><button data-b="relief">標高</button></div></div>
+      </div>
+    </section>
+    <section class="sect">
+      <h2>凡例</h2>
+      <div class="group"><div id="legend"></div></div>
+    </section>
+  </div>
+</aside>
+<div class="hidden-ctl"><button id="b-leg"></button></div>
+<script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
 <script src="../vendor/pmtiles.js"></script>
 <script>
@@ -732,8 +725,7 @@ function setRegion(r){
   // 否则樺太和千島的水系会在没有陆地的海面上飘着——用户报过这条。
   map.setFilter("water", r==="jp"?["==",["get","jp"],1]:null);
   map.setFilter("riv",   r==="jp"?["==",["get","jp"],1]:null);
-  document.getElementById("b-jp").classList.toggle("on",r==="jp");
-  document.getElementById("b-ea").classList.toggle("on",r==="ea");
+  for(const [id,v] of [["b-jp","jp"],["b-ea","ea"]]){ const el=document.getElementById(id); el.classList.toggle("on",r===v); el.setAttribute("aria-pressed",r===v?"true":"false"); }
   const _c=document.getElementById("card"); _c.style.display="none"; _c.classList.remove("on");
   document.body.classList.remove("carded");
   document.getElementById("hint").style.display="";
@@ -787,9 +779,9 @@ function setBase(b){
   ["water","riv"].forEach(id=>map.setPaintProperty(id,
     id==="water"?"fill-opacity":"line-opacity",
     b==="none" ? (id==="water"?1:["interpolate",["linear"],["zoom"],5,.35,9,.9]) : 0));
-  document.querySelectorAll("#tools button[data-b]").forEach(el=>el.classList.toggle("on",el.dataset.b===b));
+  document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.classList.toggle("on",el.dataset.b===b));
 }
-document.querySelectorAll("#tools button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
+document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
 
 // 公共交通叠加层
 const TR=["tr-ferry","tr-stationseg","tr-rail-other","tr-rail-s3","tr-rail-priv","tr-rail-sub","tr-rail-jr",
@@ -816,7 +808,7 @@ function applyTransit(){
   TR.forEach(id=>map.setLayoutProperty(id,"visibility",jp?"visible":"none"));
   if(ea) TRJP.forEach(id=>map.setLayoutProperty(id,"visibility","visible"));
   ETR.forEach(id=>map.setLayoutProperty(id,"visibility",ea?"visible":"none"));
-  document.getElementById("b-tr").classList.toggle("on",transit);
+  document.getElementById("b-tr").checked=transit;
 }
 function setTransit(on){
   transit=on;
@@ -825,7 +817,7 @@ function setTransit(on){
   applyTransit();
   if(legOpen) drawLegend();
 }
-document.getElementById("b-tr").onclick=()=>setTransit(!transit);
+document.getElementById("b-tr").addEventListener("change",e=>setTransit(e.target.checked));
 
 function drawLegend(){
   const el=document.getElementById("legend");
@@ -843,31 +835,22 @@ function drawLegend(){
 let legOpen=false;
 function setLegend(on){
   legOpen=on;
-  document.getElementById("legend").classList.toggle("open",on);
-  document.getElementById("b-leg").classList.toggle("on",on);
-  if(on){ drawLegend(); fitLegend(); }
+  if(on){ drawLegend(); }
 }
 document.getElementById("b-leg").onclick=()=>setLegend(!legOpen);
 
 // 底部那条（提示 or 详情）高度会变，图例的底边跟着它顶上去，别写死像素
-function fitLegend(){
-  const leg=document.getElementById("legend");
-  const card=document.getElementById("card");
-  const hint=document.getElementById("hint");
-  const bot=(card.style.display!=="none"?card:hint);
-  const h=bot.offsetHeight||30;
-  leg.style.bottom=(h+16)+"px";
-  leg.style.maxHeight="calc(100% - "+(h+16+108)+"px)";
-}
-new MutationObserver(fitLegend).observe(document.getElementById("card"),
-  {attributes:true,childList:true,subtree:true});
-window.addEventListener("resize",fitLegend);
+function fitLegend(){}
+window.SHEET=HIG.sheet(document.getElementById("sheet"),{initial:"small"});
+document.getElementById("cClose").addEventListener("click",()=>closeCard());
+function closeCard(){ const c=document.getElementById("card"); c.style.display="none"; c.classList.remove("on"); document.getElementById("cardSect").hidden=true;
+  document.getElementById("hint").style.display=""; document.getElementById("cClose").hidden=true; if(SHEET.get()!=="large") SHEET.set("small"); }
 
 
 document.getElementById("b-jp").onclick=()=>setRegion("jp");
 document.getElementById("b-ea").onclick=()=>setRegion("ea");
 
-map.on("load",()=>setRegion("jp"));
+map.on("load",()=>{setRegion("jp"); setLegend(true);});
 
 map.on("click",e=>{
   const c=document.getElementById("card");
@@ -974,9 +957,10 @@ map.on("click",e=>{
   }
   if(!p.dn && d&&d.properties&&d.properties.note)
     html+=`<div class="disp">${d.properties.dn}：${d.properties.note}</div>`;
-  c.innerHTML='<span class="x" onclick="document.getElementById(\'card\').style.display=\'none\';document.getElementById(\'card\').classList.remove(\'on\');document.getElementById(\'hint\').style.display=\'\';">×</span>'+html;
-  c.style.display="block"; c.classList.add("on");
+  c.innerHTML=html;
+  c.style.display="block"; c.classList.add("on"); document.getElementById("cardSect").hidden=false;
   document.body.classList.add("carded");
-  document.getElementById("hint").style.display="none";
+  document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false;
+  if(SHEET.get()==="small") SHEET.set("medium");
 });
 </script></body></html>
