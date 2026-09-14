@@ -371,7 +371,7 @@
    "confidence": "official",
    "n": null,
    "note": "单身勤劳者家庭全国均值。全部单身家庭 7,337。",
-   "label": "电费"
+   "label": "电费（家计调查统计，待换本人账单）"
   },
   "gas": {
    "value": 2829,
@@ -382,7 +382,7 @@
    "confidence": "official",
    "n": null,
    "note": "单身勤劳者家庭。全部单身 2,999。",
-   "label": "燃气"
+   "label": "燃气（家计调查统计，待换本人账单）"
   },
   "water": {
    "value": 1862,
@@ -393,7 +393,7 @@
    "confidence": "official",
    "n": null,
    "note": "上下水道费，单身勤劳者家庭。全部单身 2,136。",
-   "label": "水费"
+   "label": "水费（家计调查统计，待换本人账单）"
   },
   "mobile": {
    "value": 2970,
@@ -452,93 +452,71 @@
    "note": "Tall 店内 500 起（Short 460 / Grande 545）。",
    "label": "星巴克拿铁 Tall"
   },
-  "coffee_shop": {
-   "value": 439,
-   "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "咖啡馆一杯咖啡（外食）。",
-   "label": "咖啡馆一杯咖啡"
-  },
-  "curry_rice": {
-   "value": 787,
-   "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "咖喱饭一盘（外食）。",
-   "label": "外食咖喱饭一盘"
-  },
   "eggs10": {
-   "value": 351,
+   "value": 311,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "鸡蛋 1 盒 10 个。",
+   "confidence": "listing",
+   "n": 4,
+   "note": "搜「卵」：トップバリュ ビタミンE入り たまご（赤）10個 311.04；ピュアエッグ 鶏卵（白）L 10個 321.84；アキタ きよら 10個 375.84；平飼い 10個 537.84。取自有品牌普通蛋。",
    "label": "鸡蛋 10 个"
   },
   "milk1l": {
-   "value": 257,
+   "value": 246,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "牛奶 1,000mL。",
+   "confidence": "listing",
+   "n": 5,
+   "note": "搜「牛乳 1000ml」：成分無調整 5 款 181.44 / 203.04 / 246.24 / 257.04 / 279 取中位 246（トップバリュベストプライス 成分無調整牛乳 1000ml）。最便宜 日本酪農 北のおいしさまる搾り 181.44。",
    "label": "牛奶 1L"
   },
   "rice5kg": {
-   "value": 5030,
+   "value": 3218,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "粳米 越光 5kg；非越光 5,219。",
+   "confidence": "listing",
+   "n": 3,
+   "note": "搜「米 5kg」：神明 無洗米 いつものあかふじ 5kg 2,786.40；トップバリュベストプライス 無洗米国産米 5kg 3,218.40；同 コシヒカリ 5kg 3,326.40。取中位。",
    "label": "大米 5kg"
   },
   "bread1kg": {
-   "value": 547,
+   "value": 629,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "吐司面包 1kg。",
-   "label": "面包 1kg"
+   "confidence": "estimated",
+   "n": 3,
+   "note": "超熟 食パン 6枚（约 340g）213.84 折 1kg ≈ 629；トップバリュベストプライス 6枚 159.84 折 ≈ 470；ベーカーズアンドベーカリー 6枚 116.64 折 ≈ 343。取全国最常见的 超熟。",
+   "label": "面包 1kg（超熟 6 枚折算）"
   },
   "cola1l": {
-   "value": 240,
+   "value": 128,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "可乐 1,000mL。",
-   "label": "可乐 1L"
+   "confidence": "estimated",
+   "n": 2,
+   "note": "コカ・コーラ 1500ml PET 192.24 折 1L ≈ 128；350ml 缶 84.24 折 ≈ 241。取 1.5L 装。",
+   "label": "可乐 1L（1.5L 装折算）"
   },
   "beer6": {
-   "value": 1171,
+   "value": 1172,
    "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "source_url": "https://shop.aeon.com/netsuper/01050000003080/",
+   "source_name": "イオンネットスーパー 野田阪神店（配送 大阪市北区 530-0001 梅田，店舗見学模式不登录可看，税込）",
    "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "啤酒 350mL×6。",
-   "label": "啤酒 6 罐"
+   "confidence": "listing",
+   "n": 5,
+   "note": "搜「ビール 350ml 6」：キリン 一番搾り 350ml×6 1,171.50；サントリー パーフェクト 1,136.30；エビス 1,344.20。第三类啤酒（新ジャンル）便宜得多：トップバリュ バーリアル 767.80、金麦 863.50，但不是啤酒。取一番搾り。",
+   "label": "啤酒 350ml×6（一番搾り）"
   }
  },
  "living_official": {
@@ -563,6 +541,28 @@
    "n": null,
    "note": "单身勤劳者家庭 消费支出合计（含住居 30,327）。全部单身 173,042（平均 58.6 岁）。",
    "label": "消费支出合计（统计平均）"
+  },
+  "coffee_shop": {
+   "value": 439,
+   "unit": "日元",
+   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "咖啡馆一杯咖啡（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
+   "label": "咖啡馆一杯咖啡（统计对照）"
+  },
+  "curry_rice": {
+   "value": 787,
+   "unit": "日元",
+   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
+   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "咖喱饭一盘（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
+   "label": "外食咖喱饭一盘（统计对照）"
   }
  }
 }
