@@ -1,0 +1,520 @@
+{
+ "source": {
+  "crime": "大阪府警察 令和7年中の犯罪統計（確定値）「刑法犯罪種及び手口別発生市区町村別認知件数」 https://www.police.pref.osaka.lg.jp/material/files/group/2/hanzaitokei09_r07.xlsx（页 https://www.police.pref.osaka.lg.jp/seikatsu/hanzai/23306.html）",
+  "pop": "令和7年国勢調査 人口速報集計（2025-10-01）japan/data/muni_stats.json",
+  "method": "認知件数 ÷ 常住人口 × 1000；S–D = 大阪府 72 市区町村的五分位（低→S）"
+ },
+ "rate": {
+  "大阪市北区": {
+   "crime": 4789,
+   "pop": 149620,
+   "per1000": 32.0,
+   "code": "27127",
+   "grade_by_quintile": "D"
+  },
+  "大阪市都島区": {
+   "crime": 1471,
+   "pop": 110124,
+   "per1000": 13.4,
+   "code": "27102",
+   "grade_by_quintile": "D"
+  },
+  "大阪市福島区": {
+   "crime": 843,
+   "pop": 84223,
+   "per1000": 10.0,
+   "code": "27103",
+   "grade_by_quintile": "C"
+  },
+  "大阪市此花区": {
+   "crime": 915,
+   "pop": 62323,
+   "per1000": 14.7,
+   "code": "27104",
+   "grade_by_quintile": "D"
+  },
+  "大阪市中央区": {
+   "crime": 6162,
+   "pop": 119350,
+   "per1000": 51.6,
+   "code": "27128",
+   "grade_by_quintile": "D"
+  },
+  "大阪市西区": {
+   "crime": 1621,
+   "pop": 115449,
+   "per1000": 14.0,
+   "code": "27106",
+   "grade_by_quintile": "D"
+  },
+  "大阪市港区": {
+   "crime": 828,
+   "pop": 80734,
+   "per1000": 10.3,
+   "code": "27107",
+   "grade_by_quintile": "C"
+  },
+  "大阪市大正区": {
+   "crime": 619,
+   "pop": 60125,
+   "per1000": 10.3,
+   "code": "27108",
+   "grade_by_quintile": "C"
+  },
+  "大阪市天王寺区": {
+   "crime": 1272,
+   "pop": 87782,
+   "per1000": 14.5,
+   "code": "27109",
+   "grade_by_quintile": "D"
+  },
+  "大阪市浪速区": {
+   "crime": 2422,
+   "pop": 87409,
+   "per1000": 27.7,
+   "code": "27111",
+   "grade_by_quintile": "D"
+  },
+  "大阪市西淀川区": {
+   "crime": 800,
+   "pop": 97178,
+   "per1000": 8.2,
+   "code": "27113",
+   "grade_by_quintile": "B"
+  },
+  "大阪市淀川区": {
+   "crime": 2153,
+   "pop": 190163,
+   "per1000": 11.3,
+   "code": "27123",
+   "grade_by_quintile": "D"
+  },
+  "大阪市東淀川区": {
+   "crime": 1866,
+   "pop": 178007,
+   "per1000": 10.5,
+   "code": "27114",
+   "grade_by_quintile": "C"
+  },
+  "大阪市東成区": {
+   "crime": 904,
+   "pop": 89429,
+   "per1000": 10.1,
+   "code": "27115",
+   "grade_by_quintile": "C"
+  },
+  "大阪市生野区": {
+   "crime": 1362,
+   "pop": 128673,
+   "per1000": 10.6,
+   "code": "27116",
+   "grade_by_quintile": "C"
+  },
+  "大阪市旭区": {
+   "crime": 836,
+   "pop": 90745,
+   "per1000": 9.2,
+   "code": "27117",
+   "grade_by_quintile": "B"
+  },
+  "大阪市城東区": {
+   "crime": 1247,
+   "pop": 169504,
+   "per1000": 7.4,
+   "code": "27118",
+   "grade_by_quintile": "A"
+  },
+  "大阪市鶴見区": {
+   "crime": 852,
+   "pop": 109900,
+   "per1000": 7.8,
+   "code": "27124",
+   "grade_by_quintile": "B"
+  },
+  "大阪市阿倍野区": {
+   "crime": 1289,
+   "pop": 112456,
+   "per1000": 11.5,
+   "code": "27119",
+   "grade_by_quintile": "D"
+  },
+  "大阪市住之江区": {
+   "crime": 1372,
+   "pop": 115287,
+   "per1000": 11.9,
+   "code": "27125",
+   "grade_by_quintile": "D"
+  },
+  "大阪市住吉区": {
+   "crime": 1417,
+   "pop": 150459,
+   "per1000": 9.4,
+   "code": "27120",
+   "grade_by_quintile": "C"
+  },
+  "大阪市東住吉区": {
+   "crime": 1441,
+   "pop": 131606,
+   "per1000": 10.9,
+   "code": "27121",
+   "grade_by_quintile": "D"
+  },
+  "大阪市平野区": {
+   "crime": 1702,
+   "pop": 182659,
+   "per1000": 9.3,
+   "code": "27126",
+   "grade_by_quintile": "B"
+  },
+  "大阪市西成区": {
+   "crime": 2302,
+   "pop": 105419,
+   "per1000": 21.8,
+   "code": "27122",
+   "grade_by_quintile": "D"
+  },
+  "堺市堺区": {
+   "crime": 1417,
+   "pop": 150091,
+   "per1000": 9.4,
+   "code": "27141",
+   "grade_by_quintile": "C"
+  },
+  "堺市中区": {
+   "crime": 1025,
+   "pop": 115765,
+   "per1000": 8.9,
+   "code": "27142",
+   "grade_by_quintile": "B"
+  },
+  "堺市東区": {
+   "crime": 506,
+   "pop": 83986,
+   "per1000": 6.0,
+   "code": "27143",
+   "grade_by_quintile": "A"
+  },
+  "堺市西区": {
+   "crime": 1287,
+   "pop": 131938,
+   "per1000": 9.8,
+   "code": "27144",
+   "grade_by_quintile": "C"
+  },
+  "堺市南区": {
+   "crime": 823,
+   "pop": 127881,
+   "per1000": 6.4,
+   "code": "27145",
+   "grade_by_quintile": "A"
+  },
+  "堺市北区": {
+   "crime": 1256,
+   "pop": 157733,
+   "per1000": 8.0,
+   "code": "27146",
+   "grade_by_quintile": "B"
+  },
+  "堺市美原区": {
+   "crime": 337,
+   "pop": 35939,
+   "per1000": 9.4,
+   "code": "27147",
+   "grade_by_quintile": "C"
+  },
+  "岸和田市": {
+   "crime": 1665,
+   "pop": 185734,
+   "per1000": 9.0,
+   "code": "27202",
+   "grade_by_quintile": "B"
+  },
+  "豊中市": {
+   "crime": 2298,
+   "pop": 404479,
+   "per1000": 5.7,
+   "code": "27203",
+   "grade_by_quintile": "A"
+  },
+  "池田市": {
+   "crime": 564,
+   "pop": 104148,
+   "per1000": 5.4,
+   "code": "27204",
+   "grade_by_quintile": "S"
+  },
+  "吹田市": {
+   "crime": 2141,
+   "pop": 394503,
+   "per1000": 5.4,
+   "code": "27205",
+   "grade_by_quintile": "S"
+  },
+  "泉大津市": {
+   "crime": 676,
+   "pop": 71688,
+   "per1000": 9.4,
+   "code": "27206",
+   "grade_by_quintile": "C"
+  },
+  "高槻市": {
+   "crime": 1773,
+   "pop": 345475,
+   "per1000": 5.1,
+   "code": "27207",
+   "grade_by_quintile": "S"
+  },
+  "貝塚市": {
+   "crime": 612,
+   "pop": 78774,
+   "per1000": 7.8,
+   "code": "27208",
+   "grade_by_quintile": "B"
+  },
+  "守口市": {
+   "crime": 1324,
+   "pop": 140791,
+   "per1000": 9.4,
+   "code": "27209",
+   "grade_by_quintile": "C"
+  },
+  "枚方市": {
+   "crime": 1814,
+   "pop": 388992,
+   "per1000": 4.7,
+   "code": "27210",
+   "grade_by_quintile": "S"
+  },
+  "茨木市": {
+   "crime": 1757,
+   "pop": 287098,
+   "per1000": 6.1,
+   "code": "27211",
+   "grade_by_quintile": "A"
+  },
+  "八尾市": {
+   "crime": 2085,
+   "pop": 257600,
+   "per1000": 8.1,
+   "code": "27212",
+   "grade_by_quintile": "B"
+  },
+  "泉佐野市": {
+   "crime": 879,
+   "pop": 100329,
+   "per1000": 8.8,
+   "code": "27213",
+   "grade_by_quintile": "B"
+  },
+  "富田林市": {
+   "crime": 704,
+   "pop": 103296,
+   "per1000": 6.8,
+   "code": "27214",
+   "grade_by_quintile": "A"
+  },
+  "寝屋川市": {
+   "crime": 1789,
+   "pop": 222102,
+   "per1000": 8.1,
+   "code": "27215",
+   "grade_by_quintile": "B"
+  },
+  "河内長野市": {
+   "crime": 489,
+   "pop": 94871,
+   "per1000": 5.2,
+   "code": "27216",
+   "grade_by_quintile": "S"
+  },
+  "松原市": {
+   "crime": 1211,
+   "pop": 114815,
+   "per1000": 10.5,
+   "code": "27217",
+   "grade_by_quintile": "C"
+  },
+  "大東市": {
+   "crime": 1181,
+   "pop": 113642,
+   "per1000": 10.4,
+   "code": "27218",
+   "grade_by_quintile": "C"
+  },
+  "和泉市": {
+   "crime": 1308,
+   "pop": 181715,
+   "per1000": 7.2,
+   "code": "27219",
+   "grade_by_quintile": "A"
+  },
+  "箕面市": {
+   "crime": 723,
+   "pop": 140586,
+   "per1000": 5.1,
+   "code": "27220",
+   "grade_by_quintile": "S"
+  },
+  "柏原市": {
+   "crime": 358,
+   "pop": 65690,
+   "per1000": 5.4,
+   "code": "27221",
+   "grade_by_quintile": "S"
+  },
+  "羽曳野市": {
+   "crime": 587,
+   "pop": 104183,
+   "per1000": 5.6,
+   "code": "27222",
+   "grade_by_quintile": "A"
+  },
+  "門真市": {
+   "crime": 1524,
+   "pop": 111702,
+   "per1000": 13.6,
+   "code": "27223",
+   "grade_by_quintile": "D"
+  },
+  "摂津市": {
+   "crime": 650,
+   "pop": 86462,
+   "per1000": 7.5,
+   "code": "27224",
+   "grade_by_quintile": "B"
+  },
+  "高石市": {
+   "crime": 391,
+   "pop": 53524,
+   "per1000": 7.3,
+   "code": "27225",
+   "grade_by_quintile": "A"
+  },
+  "藤井寺市": {
+   "crime": 448,
+   "pop": 61129,
+   "per1000": 7.3,
+   "code": "27226",
+   "grade_by_quintile": "A"
+  },
+  "東大阪市": {
+   "crime": 5189,
+   "pop": 482618,
+   "per1000": 10.8,
+   "code": "27227",
+   "grade_by_quintile": "C"
+  },
+  "泉南市": {
+   "crime": 420,
+   "pop": 56136,
+   "per1000": 7.5,
+   "code": "27228",
+   "grade_by_quintile": "B"
+  },
+  "四條畷市": {
+   "crime": 364,
+   "pop": 53455,
+   "per1000": 6.8,
+   "code": "27229",
+   "grade_by_quintile": "A"
+  },
+  "交野市": {
+   "crime": 337,
+   "pop": 75573,
+   "per1000": 4.5,
+   "code": "27230",
+   "grade_by_quintile": "S"
+  },
+  "大阪狭山市": {
+   "crime": 430,
+   "pop": 57479,
+   "per1000": 7.5,
+   "code": "27231",
+   "grade_by_quintile": "B"
+  },
+  "阪南市": {
+   "crime": 249,
+   "pop": 47657,
+   "per1000": 5.2,
+   "code": "27232",
+   "grade_by_quintile": "S"
+  },
+  "三島郡島本町": {
+   "crime": 104,
+   "pop": 31617,
+   "per1000": 3.3,
+   "code": "27301",
+   "grade_by_quintile": "S"
+  },
+  "豊能町": {
+   "crime": 40,
+   "pop": 16707,
+   "per1000": 2.4,
+   "code": "27321",
+   "grade_by_quintile": "S"
+  },
+  "能勢町": {
+   "crime": 23,
+   "pop": 7893,
+   "per1000": 2.9,
+   "code": "27322",
+   "grade_by_quintile": "S"
+  },
+  "泉北郡忠岡町": {
+   "crime": 107,
+   "pop": 15640,
+   "per1000": 6.8,
+   "code": "27341",
+   "grade_by_quintile": "A"
+  },
+  "熊取町": {
+   "crime": 176,
+   "pop": 42511,
+   "per1000": 4.1,
+   "code": "27361",
+   "grade_by_quintile": "S"
+  },
+  "田尻町": {
+   "crime": 121,
+   "pop": 8109,
+   "per1000": 14.9,
+   "code": "27362",
+   "grade_by_quintile": "D"
+  },
+  "岬町": {
+   "crime": 83,
+   "pop": 13065,
+   "per1000": 6.4,
+   "code": "27366",
+   "grade_by_quintile": "A"
+  },
+  "太子町": {
+   "crime": 74,
+   "pop": 12062,
+   "per1000": 6.1,
+   "code": "27381",
+   "grade_by_quintile": "A"
+  },
+  "河南町": {
+   "crime": 79,
+   "pop": 14498,
+   "per1000": 5.4,
+   "code": "27382",
+   "grade_by_quintile": "S"
+  },
+  "千早赤阪村": {
+   "crime": 13,
+   "pop": 4273,
+   "per1000": 3.0,
+   "code": "27383",
+   "grade_by_quintile": "S"
+  }
+ },
+ "quintiles": [
+  5.4,
+  7.42,
+  9.38,
+  10.84
+ ],
+ "n": 72
+}
