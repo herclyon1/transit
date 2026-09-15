@@ -3,8 +3,8 @@
   "generated": "2026-09-16",
   "source": "SUUMO 関西版 沿線・駅ページ：https://suumo.jp/chintai/{osaka,hyogo,kyoto,nara,shiga,wakayama}/ensen/ 及各 /en_<slug>/（解析结果 osaka/data/raw/suumo/lines.json）",
   "ek_rule": "检索 URL 的 ek = rn(4 位路線代码) + 5 位站代码；同一物理站每条线一个 ek；url 字段是该站 1R/1K（md=01,02）不限价的检索页",
-  "n_reach": 833,
-  "n_matched_op": 825,
+  "n_reach": 835,
+  "n_matched_op": 827,
   "n_name_only": 0,
   "n_unmatched": 8,
   "n_lines": 154,
@@ -22540,6 +22540,30 @@
    ]
   },
   {
+   "station_id": "S1193",
+   "name": "宿院",
+   "grp": "",
+   "ops": [
+    "阪堺電気軌道"
+   ],
+   "in_osaka": true,
+   "suumo": [
+    {
+     "rn": "2180",
+     "ek": "218018490",
+     "ek5": "18490",
+     "line": "阪堺電気軌道阪堺線（大阪府）",
+     "pref": "osaka",
+     "ops": [
+      "阪堺電気軌道"
+     ],
+     "suumo_name": "宿院",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2180&ek=218018490&md=01&md=02&cn=9999999&po1=12&pc=50"
+    }
+   ]
+  },
+  {
    "station_id": "S1194",
    "name": "今池",
    "grp": "阪堺",
@@ -22560,6 +22584,30 @@
      "suumo_name": "今池",
      "op_match": true,
      "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2180&ek=218003570&md=01&md=02&cn=9999999&po1=12&pc=50"
+    }
+   ]
+  },
+  {
+   "station_id": "S1195",
+   "name": "我孫子道",
+   "grp": "",
+   "ops": [
+    "阪堺電気軌道"
+   ],
+   "in_osaka": true,
+   "suumo": [
+    {
+     "rn": "2180",
+     "ek": "218001230",
+     "ek5": "01230",
+     "line": "阪堺電気軌道阪堺線（大阪府）",
+     "pref": "osaka",
+     "ops": [
+      "阪堺電気軌道"
+     ],
+     "suumo_name": "我孫子道",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2180&ek=218001230&md=01&md=02&cn=9999999&po1=12&pc=50"
     }
    ]
   },

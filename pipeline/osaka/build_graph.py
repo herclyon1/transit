@@ -418,6 +418,12 @@ REPAIRED = []
 # OSM の relation 自体が停車駅を取りこぼしている箇所の人工補丁。
 # HANDOFF の三段 fallback（operatorタグ→KSJ2:LIN→人工補丁）の三段目にあたる。
 # 実測: 阪堺線 relation に 今池停留場 が入っていない（新今宮駅前と今船の間）。
+# メンバー順が壊れていて幾何投影でも直せない relation。停車型が他の relation で揃っているものだけ落とす。
+SKIP_RELATIONS = {
+    19981885: "紀州路快速 (和歌山 => 京橋)：OSM のメンバー順が 天王寺…桜ノ宮,京橋,日根野… と散らばり、"
+              "修復後も 京橋 が 天王寺と堺市の間に残って 京橋⇄堺市 23.9 km の偽直結辺になる（2026-09-16）。"
+              "同じ停車型は 関空快速 relation 18627480/18630327 と 紀州路快速 天王寺→和歌山 19981881/2/4 が持つ",
+}
 STOP_PATCHES = [
     {"match": "阪堺線", "insert": "今池", "after": "新今宮駅前", "before": "今船",
      "reason": "OSM relation に停留場が欠落。v0 の stations_final.json には存在する"},
@@ -489,6 +495,9 @@ def relation_patterns(reg):
     ways = {w["id"]: w for w in load("rel_ways")}
     out = []
     for r in rels:
+        if r["id"] in SKIP_RELATIONS:
+            print(f"  skip relation {r['id']}: {SKIP_RELATIONS[r['id']][:40]}…")
+            continue
         t = r.get("tags", {})
         members = r.get("members", [])
         stop_refs = [m["ref"] for m in members if m["type"] == "node" and m["role"] in STOP_ROLES]

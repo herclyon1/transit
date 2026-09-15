@@ -14,7 +14,7 @@
     14.7,
     24.1,
     33.3,
-    55.3
+    55.6
    ],
    "supermarkets_800m": [
     0.0,
@@ -186,7 +186,7 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 21.4,
+    "door_to_hub_min": 22.0,
     "typical_station": "西九条",
     "typical_hub": "梅田",
     "supermarkets_800m": 5.0,
@@ -225,9 +225,9 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 36.4,
+    "door_to_hub_min": 37.1,
     "typical_station": "夢洲",
-    "typical_hub": "梅田",
+    "typical_hub": "難波",
     "supermarkets_800m": 0.0,
     "grade_hub": "C",
     "grade_shop": "D",
@@ -342,7 +342,7 @@
     "grade": "C"
    },
    "access": {
-    "door_to_hub_min": 16.5,
+    "door_to_hub_min": 17.3,
     "typical_station": "弁天町",
     "typical_hub": "梅田",
     "supermarkets_800m": 4,
@@ -381,9 +381,9 @@
     "grade": "C"
    },
    "access": {
-    "door_to_hub_min": 25.1,
+    "door_to_hub_min": 25.8,
     "typical_station": "朝潮橋",
-    "typical_hub": "梅田",
+    "typical_hub": "難波",
     "supermarkets_800m": 1,
     "grade_hub": "B",
     "grade_shop": "C",
@@ -459,7 +459,7 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 9.2,
+    "door_to_hub_min": 9.0,
     "typical_station": "四天王寺前夕陽ヶ丘",
     "typical_hub": "天王寺",
     "supermarkets_800m": 6.0,
@@ -1161,7 +1161,7 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 16.1,
+    "door_to_hub_min": 15.8,
     "typical_station": "神崎川",
     "typical_hub": "梅田",
     "supermarkets_800m": 4,
@@ -1434,7 +1434,7 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 8.5,
+    "door_to_hub_min": 9.1,
     "typical_station": "中崎町",
     "typical_hub": "梅田",
     "supermarkets_800m": 8.0,
@@ -3111,7 +3111,7 @@
     "grade": "B"
    },
    "access": {
-    "door_to_hub_min": 63.7,
+    "door_to_hub_min": 65.8,
     "typical_station": "日根野",
     "typical_hub": "天王寺",
     "supermarkets_800m": 0,
@@ -3540,7 +3540,7 @@
     "grade": "B"
    },
    "access": {
-    "door_to_hub_min": 68.3,
+    "door_to_hub_min": 68.7,
     "typical_station": "和泉砂川",
     "typical_hub": "天王寺",
     "supermarkets_800m": 0.0,
@@ -3930,9 +3930,9 @@
     "grade": "D"
    },
    "access": {
-    "door_to_hub_min": 54.0,
+    "door_to_hub_min": 55.6,
     "typical_station": "関西空港",
-    "typical_hub": "天王寺",
+    "typical_hub": "難波",
     "supermarkets_800m": 0.0,
     "grade_hub": "C",
     "grade_shop": "D",
