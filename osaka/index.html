@@ -188,9 +188,12 @@ const APP = HIGShell.create({initial:'medium', attribution:'<a href="https://map
     const tf=map.getLayer('tiers-fill') && map.queryRenderedFeatures(e.point,{layers:['tiers-fill']})[0];
     if(tf) APP.present({kind:'tier', p:tf.properties}); },
   // 地图 App 点 POI = 开叠放卡片，不是气泡（maa 09-15）：车站 → 标题站名、副题线路/最短、正文四枢纽时间；等级面块 → 名称 + 等级 + 说明
+  onDismiss(){ showWalkOne(null); },
   card(item){ if(POP){ POP.remove(); POP=null; }
     if(item.kind==='station'){ const s=item.s, low=$('lowfreq').checked, th=+$('th').value, t=low?s.t_low:s.t_default; const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity]));
+      showWalkOne(s);
       return {title:s.name, sub:[(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '), html:stationCard(s,t,low,th)}; }
+    showWalkOne(null);
     if(item.kind==='tier'){ const p=item.p; return {title:p.name, sub:(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier,
       html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v"><span class="tag" style="background:${tcol(p.tier)};color:#fff">${p.tier}</span></span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mnote">治安×便利×环境，2026 粗略版</p>`}; }
     return null; }});
@@ -211,6 +214,9 @@ map.on('load', ()=>{
   map.addSource('tiers',{type:'geojson',data:EMPTY});
   map.addLayer({id:'tiers-fill',type:'fill',source:'tiers',paint:{'fill-color':['get','col'],'fill-opacity':['case',['boolean',['feature-state','hover'],false],0.65,0.45]}});
   map.addLayer({id:'tiers-line',type:'line',source:'tiers',paint:{'line-color':'#fff','line-opacity':0.7,'line-width':['case',['==',['get','kind'],'zone'],1,0.6]}});
+  map.addSource('walkone',{type:'geojson',data:EMPTY});   // 打开某站卡片时画它自己的步行等时圈（#30）
+  map.addLayer({id:'walkone-fill',type:'fill',source:'walkone',paint:{'fill-color':'#0a7aff','fill-opacity':['match',['get','m'],5,0.22,10,0.15,15,0.09,0.05]}});
+  map.addLayer({id:'walkone-line',type:'line',source:'walkone',paint:{'line-color':'#0a7aff','line-opacity':0.55,'line-width':0.8}});
   map.addSource('lines',{type:'geojson',data:EMPTY});
   map.addLayer({id:'lines',type:'line',source:'lines',paint:{'line-color':cssvar('--track'),'line-opacity':parseFloat(cssvar('--trackop')),
     'line-width':['step',['zoom'],0.7,10,1.0,12,1.6]}});   // 旧：z≥13 1.6 / z≥11 1.0 / 其余 0.7（Leaflet zoom，这里减 1）
@@ -270,10 +276,20 @@ function prepWalkK(){
     WALK_K[sid] = ks;
   }
 }
+// 某一站的步行等时圈（#30）：WALK 没到就先去取，到了再画；s=null 清掉
+let walkOneSid=null;
+function showWalkOne(s){
+  walkOneSid = s ? s.station_id : null; const src = map.getSource('walkone'); if(!src) return;
+  if(!s){ src.setData(EMPTY); return; }
+  if(!WALK){ ensureWalk(); if(walkLoading) walkLoading.then(()=>{ if(walkOneSid===s.station_id) showWalkOne(s); }); src.setData(EMPTY); return; }
+  const polys = WALK[s.station_id]; if(!polys){ src.setData(EMPTY); return; }
+  const feats=[]; for(const m of [20,15,10,5]){ if(!polys[m]) continue; feats.push({type:'Feature',properties:{m},geometry:{type:'Polygon',coordinates:polys[m].map(r=>r.map(p=>[p[1],p[0]]))}}); }
+  src.setData({type:'FeatureCollection',features:feats});
+}
 function ensureWalk(){
   if(WALK || walkLoading) return;
   walkLoading = fetch('data/walk_polys.json').then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(w=>{
-    WALK = w; if(DATA) prepWalkK(); if(area.on) area.draw(); refreshPin();
+    WALK = w; if(DATA) prepWalkK(); if(area.on) area.draw(); refreshPin(); if(APP.open&&APP.open.kind==='station') APP.present(APP.open);   // 卡片里的「步行范围」行跟着更新
   }).catch(e=>{ console.warn('walk_polys 読み込み失敗、直線円で継続', e); walkLoading=null; walkFailed=(walkFailed||0)+1; if(area.on) area.draw(); });   // 失败后下次长按/开面层再试，不永远「载入中」（#26）
 }
 
@@ -460,6 +476,7 @@ function openPopup(lnglat, html, opts={}){
 map.on('click', e=>{ if(Date.now() - lastLongPress > 700 && POP && !map.queryRenderedFeatures(e.point,{layers:['stations-hit','tiers-fill'].filter(l=>map.getLayer(l))}).length){ POP.remove(); POP=null; } });
 function stationCard(s,t,low,th){
   let h='<div class="mcard">';
+  h+='<div class="r"><span class="k">步行范围</span><span class="v hint">'+((WALK&&WALK[s.station_id])?'地图上蓝色 = 从本站步行 5 / 10 / 15 / 20 分能到的范围（真实路网）':(walkFailed?'路网等时圈没载入':'路网等时圈载入中…'))+'</span></div>';
   HUBS.forEach((hub,i)=>{ const v=t[i], inTh=v!==null && v<=th; let mark='';
     if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
     h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
