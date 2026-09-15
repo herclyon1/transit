@@ -13,10 +13,11 @@ https://herclyon1.github.io/transit/
 index.html        首页，卡片式入口（按"打开它是为了做什么"分，不按地图种类分）
 japan/            地図·学習：現代日本四级下钻 + 東亜 27 国，MapLibre + pmtiles
 quiz/             都道府県クイズ：47 県背诵工具（旧版 D3 页面，将来重做进 japan/）
-osaka/            大阪·居住：车站可达性图（Leaflet）+ 居住等级面层（data/tiers.geojson）
+osaka/            大阪·居住：车站可达性图（MapLibre GL，2026-09-15 从 Leaflet 换过来）+ 居住等级面层（data/tiers.geojson）
 cost/             薪資·購買力：世界地图打点，每城一张卡（MapLibre + 本地 Natural Earth）
 tiles/            全部 pmtiles 瓦片 + NotoSansJP 字形（0–65535 全 256 段）
-vendor/           本地化的库：maplibre-gl、pmtiles、leaflet 1.9.4、d3 7.8.5、topojson 3
+vendor/           本地化的库：maplibre-gl、pmtiles、d3 7.8.5、topojson 3
+ui/               全站共用的界面层（DESIGN-HIG.md）：hig.css 数字、hig.js 符号/开关/菜单、sheet.js Sheet 物理、press.js 按下态、shell.js 地图壳骨架（地图 + Sheet + 地点卡片，页面只给 layers()/card()）、accept.js 验收探针
 pipeline/japan/   東亜 / 現代日本 数据管线（OSM → 裁剪 → 切瓦片），README 记录每一步为什么必须这么做
 pipeline/osaka/   大阪可达性管线（OSM route relation → 拓扑 → 时间层 → Dijkstra → reach.json）
 pipeline/test/    真人手势验收脚本（Playwright，手机视口 + 4x 降速）
