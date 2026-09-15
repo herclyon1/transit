@@ -9,7 +9,7 @@
   python3 pipeline/ui/kit-audit.py                 两端五页
   python3 pipeline/ui/kit-audit.py --mac cost quiz  只跑 Mac 的两页
   python3 pipeline/ui/kit-audit.py --phone
-前提：python3 pipeline/rangeserver.py 8788 在跑（ACCEPT_BASE 可改）；手机端还要模拟器已启动。
+前提：python3 pipeline/rangeserver.py 8788 在跑（ACCEPT_BASE 可改；在别的工作树里就在那个目录起自己的端口）；手机端还要模拟器已启动。多个工作树并行时给 CDP_PORT 不同起始端口。
 退出码：有 ⚠/✗ = 1。列表按页打印，每条给「元素 · 实测 · 对应 Kit 组件 · 差在哪」，直接拿去改。
 """
 import subprocess, sys, time, os, re, json, socket, base64, struct, urllib.request, tempfile, shutil
@@ -51,7 +51,7 @@ class WS:   # 最小 WebSocket 客户端（只为 CDP，不装依赖）
         elif L==127: L=struct.unpack('>Q',s.recvn(8))[0]
         return json.loads(s.recvn(L))
 
-PORT=[9334]
+PORT=[int(os.environ.get('CDP_PORT','9334'))]   # 几个工作树同时跑时各给一个起始端口（CDP_PORT=9400 …）
 def run_mac(url):
     PORT[0]+=1; port=PORT[0]; prof=tempfile.mkdtemp()   # 每页换端口：上一个 Chrome 退出要一两秒，同端口会撞上
     p=subprocess.Popen([CHROME,'--headless=new','--use-angle=swiftshader','--enable-unsafe-swiftshader','--hide-scrollbars',f'--remote-debugging-port={port}',f'--user-data-dir={prof}','--window-size=1440,900','about:blank'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
