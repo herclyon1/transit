@@ -114,8 +114,8 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   .islhl{fill:none;stroke:#3d6f9c;stroke-width:1.3;stroke-opacity:.85;vector-effect:non-scaling-stroke;pointer-events:none;}
   .mkt{font-size:11px;fill:var(--tint);paint-order:stroke;stroke:#fff;stroke-width:2.5;text-anchor:middle;pointer-events:none;font-weight:600;}
     .pref{transition:none;}
-  .bar .seg{flex:1 1 auto;max-width:420px;height:44px;padding:2px}
-  .bar .seg button{height:40px;font-size:.7647em;padding:3px 4px}
+  .bar .seg{flex:1 1 auto;max-width:420px}   /* 高度/内边按 hig.css 的 Kit 工具条分段（Large 48 段 44） */
+  .bar .seg button{font-size:.7647em;padding:3px 4px}
   /* 题目：顶部玻璃卡（HIG Materials：控件层用玻璃） */
   #promptBar{position:absolute;top:calc(env(safe-area-inset-top) + 64px);left:50%;transform:translateX(-50%);z-index:4;
     padding:12px 20px;border-radius:22px;text-align:center;max-width:calc(100% - 32px)}
@@ -141,15 +141,26 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #legend .lg-toggle{margin-left:auto}
   #legend .lg-body{display:none;margin-top:6px;max-height:36vh;overflow:auto}
   #legend.open .lg-body{display:block}
-  .lg-jmp{margin-left:4px;background:var(--fill);color:var(--tint)}
-  #legend .lg-toggle{background:var(--fill);color:var(--tint)}
+  /* 東亜图例的国家勾选：iOS 没有 checkbox → iOS 27 Kit › Lists › Rows › Editing 的多选圆（22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底白勾）；
+     Mac = macOS 27 Kit › Toggles - Checkboxes › Regular（16×16 r5.5、未选黑 10%、选中 #0088ff 白勾 9×9、按下 +黑 7%/19%、标签 Medium 13 间 5）（NUMBERS.md） */
+  #cbGrid label{display:inline-flex;align-items:center;gap:6px;min-height:28px}
+  #cbGrid input[type="checkbox"]{appearance:none;-webkit-appearance:none;margin:0;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #bfbfbf;background:none;position:relative;flex:none}
+  #cbGrid input[type="checkbox"]:checked{background:var(--tint);box-shadow:none}
+  #cbGrid input[type="checkbox"]:checked::after{content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(../ui/sf/checkmark.png) center/13px no-repeat;mask:url(../ui/sf/checkmark.png) center/13px no-repeat}
+  #cbGrid input[type="checkbox"]:disabled{opacity:.4}
+  /* E2 图例小按钮 = .btn.s（iOS 27 Kit › Buttons › Small 28 Bordered：底 #767680 12% + tint 字；macOS Kit › Push buttons › Regular 24 r6 Bordered：底黑 8%，Medium 13 黑字） */
+  .lg-jmp{margin-left:4px} .lg-jmp,#legend .lg-toggle{background:rgba(118,118,128,.12);color:var(--tint)}
   #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2);z-index:6;background:var(--bg)}
   /* 结算：居中的卡（HIG Alerts 的样子：圆角 26、标题 17 半粗、正文 13） */
   #doneCard{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;background:rgba(0,0,0,.2)}
-  #doneCard .box{background:var(--bg-elev);border-radius:26px;padding:20px 24px;text-align:center;min-width:270px;box-shadow:var(--glass-shadow)}
-  #doneCard .big{font-size:1em;font-weight:600;margin-bottom:6px}
-  #doneCard .sub{font-size:.7647em;color:var(--ink-2);line-height:1.5}
-  #doneCard button{margin-top:16px}
+  /* E3 完成卡 = iOS 27 Kit › Alerts › Default：300 宽、r34、玻璃（白 70% + #bfbfbf 10% + 模糊 30）、内边 14、标题 17 @13、按钮 48 胶囊（主 tint）（NUMBERS.md） */
+  #doneCard .box{width:300px;max-width:calc(100% - 32px);box-sizing:border-box;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px) saturate(1.4);backdrop-filter:blur(30px) saturate(1.4);
+    border-radius:34px;padding:14px;text-align:center;box-shadow:0 15px 50px rgba(0,0,0,.18),inset 0 0 0 .5px rgba(255,255,255,.7)}
+  #doneCard .ico{display:none}
+  #doneCard .big{font-size:1em;font-weight:600;line-height:1.2941em}
+  #doneCard .sub{font-size:.7647em;color:var(--ink-2);line-height:1.3846em;margin-top:4px}
+  #doneCard .btn{margin-top:14px;width:100%;height:48px;border-radius:999px}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) #doneCard .box{background:rgba(40,40,40,.7);background-image:none;box-shadow:0 15px 50px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(255,255,255,.14)} }
   /* Sheet 里的设置行：select 做成 pop-up button（值 + 上下箭头） */
   .r.pop select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit}
   .r.pop{position:relative;cursor:pointer}
@@ -158,6 +169,28 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   .sheet.small .body{overflow:hidden}
   #stats{color:var(--ink-2)}
   @media (max-width:640px){ #legend .lg-sel{display:none} }
+  /* Mac（KIT-INVENTORY E1–E4）：E1 题目条/E4 信息浮层 = macOS 27 Kit › Popovers（r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；
+     E2 小按钮 = Push buttons Regular Bordered（黑 8%）；E3 完成卡 = Alerts › Stacked：260 宽 r26、同材质、图标 72 @(22,20)、标题 Bold 13 + 说明 Regular 13、内边 16、按钮 Large 28 距文字 14 */
+  @media (min-width:900px) and (pointer:fine){
+    #jumps,#legend{left:304px;bottom:16px}   /* 侧栏 8 + 280（Kit Utility Panel）+ 16，不再压在侧栏底下；Mac 没有底部工具条 */
+    #legend{right:16px} #info{right:16px;bottom:16px}
+    #promptBar,#info{border-radius:20px;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+    .lg-jmp,#legend .lg-toggle{background:rgba(0,0,0,.08);color:var(--ink)}
+    #cbGrid label{gap:5px;min-height:24px;font-weight:500}
+    #cbGrid input[type="checkbox"]{width:16px;height:16px;border-radius:5.5px;background:rgba(0,0,0,.1);box-shadow:none}
+    #cbGrid input[type="checkbox"]:active{background:rgba(0,0,0,.19)}
+    #cbGrid input[type="checkbox"]:checked{background:#0088ff} #cbGrid input[type="checkbox"]:checked:active{background-image:linear-gradient(rgba(0,0,0,.07),rgba(0,0,0,.07))}
+    #cbGrid input[type="checkbox"]:checked::after{-webkit-mask-size:9px;mask-size:9px}
+    #doneCard .box{width:260px;border-radius:26px;padding:16px;text-align:left;display:grid;grid-template-columns:72px 1fr;column-gap:12px;align-items:start;box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+    #doneCard .ico{display:block;width:72px;height:72px;margin:4px 0 0 6px;border-radius:16px}
+    #doneCard .big{font-size:1em;font-weight:700;line-height:1.2308em;padding-top:4px}
+    #doneCard .sub{font-size:1em;line-height:1.2308em;margin-top:2px;color:var(--ink)}
+    #doneCard .btn{grid-column:1 / -1;height:28px;margin-top:14px;border-radius:999px;font-size:1em}
+  }
+  @media (min-width:900px) and (pointer:fine) and (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]) #promptBar,:root:not([data-theme="light"]) #info,:root:not([data-theme="light"]) #doneCard .box{background:rgba(40,40,40,.7);background-image:none}
+    :root:not([data-theme="light"]) .lg-jmp,:root:not([data-theme="light"]) #legend .lg-toggle{background:rgba(255,255,255,.1)}
+  }
   @media (prefers-reduced-motion:reduce){ .pref{transition:none} }
 </style>
 </head>
@@ -197,8 +230,9 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   <div id="info" class="glass"></div>
   <div id="legend" class="glass"></div>
   <div id="doneCard"><div class="box">
-    <div class="big">本轮清零</div>
-    <div class="sub" id="doneSub"></div>
+    <img class="ico" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230088ff'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23fff'/%3E%3C/svg%3E">
+    <div class="txt"><div class="big">本轮清零</div>
+    <div class="sub" id="doneSub"></div></div>
     <button id="again" class="btn l tint">再来一轮</button>
   </div></div>
 </div>

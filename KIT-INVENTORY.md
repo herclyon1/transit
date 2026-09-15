@@ -55,7 +55,7 @@
 | # | 控件 | 手机 | Mac | 出处 | 状态 / 计划 |
 |---|---|---|---|---|---|
 | C1 | 图层选项 Sheet `.sheet.opt`（第二张 Sheet） | Sheet（同 A4） | Kit 无第二侧栏 → **Popovers**：r20、白 70% + 模糊 30、阴影 0 18 46 25%，从工具条按钮弹出 | NUMBERS | 手机 ✅；Mac ✅（本批：`.sheet.opt` = Kit Popover r20 白 70% 模糊 30 阴影 0 18 46 25%、箭头 46×10，距右 8 距顶 52 贴工具条钮；头同面板头 24 + 红灯） |
-| C2 | 车站 popup `.hpop`（MapLibre popup r16） | iOS 27 Kit 无 iPhone Popover（只有 iPad）→ HIG：手机用 Sheet 或 r34 卡 | Popovers r20 | NUMBERS | **⛔ 两端**（页内，maa 分支）：Mac r20 + Popover 材质；手机按 Kit Sheet 材质 r34 |
+| C2 | 车站 popup `.hpop`（MapLibre popup r16） | iOS 27 Kit 无 iPhone Popover（只有 iPad）→ HIG：手机用 Sheet 或 r34 卡 | Popovers r20 | NUMBERS | ✅ 两端（maa 分支）：手机 = Sheet 材质（.glass 令牌）+ Inspector r34、关闭钮 28 圆 + SF xmark；Mac = Kit Popovers r20 白 70% 模糊 30 阴影 0 18 46 25% 箭头 46×10、关闭 24；focusAfterOpen:false |
 | C3 | 枢纽标记 `.hubmk` / 标签 `.hublbl` | 地图 App 车站图标实测 | 同 | NUMBERS | ◇ |
 | C4 | 图例行 `#lg .mrow` | 同 A9（页内 52） | Sidebars › Large 40（页内已加） | — | Mac ✅（3820172）；手机随 A9 |
 | C5 | 注释 `.mnote` / `.txt` | Footnote 13 | Subheadline 11 | — | ✅ |
@@ -72,11 +72,12 @@
 
 | # | 控件 | 手机 | Mac | 出处 | 状态 / 计划 |
 |---|---|---|---|---|---|
-| E1 | 题目条 `#promptBar`（玻璃卡 + 反馈 + 两颗按钮） | Kit 无 → HIG（顶部浮层） | Kit 无 → Popovers r20 材质 | — | **⛔ Mac**（页内样式）→ r20 + Kit Regular material + 按钮 A23 |
-| E2 | 图例浮层 `#legend`（lg-head / lg-body / lg-jmp 小按钮） | Kit 无图例；lg-jmp = Button S 28 | Kit 无；lg-jmp = Buttons › Regular 24 r6 | — | **⛔ 两端**（lg-jmp 现为自定义样式）→ 用 `.btn.s` |
-| E3 | 完成卡 `#doneCard .box`（模态） | iOS 27 Kit › Alerts › Default：300 宽 r34 玻璃、内边 14、按钮 48 胶囊 | macOS Kit › Alerts：260 宽 r26、按钮 Large 28 | NUMBERS（两节都记了） | **⛔ 两端**（页内，maa 分支）：数字已在 NUMBERS，合并后改 |
-| E4 | 信息浮层 `#info` | Kit 无 → Popover | Popovers r20 | — | ⛔ Mac |
+| E1 | 题目条 `#promptBar`（玻璃卡 + 反馈 + 两颗按钮） | Kit 无 → HIG（顶部浮层） | Kit 无 → Popovers r20 材质 | — | ✅ Mac（maa 分支）：r20 + Popover 材质（白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；按钮已是 A23 |
+| E2 | 图例浮层 `#legend`（lg-head / lg-body / lg-jmp 小按钮） | Kit 无图例；lg-jmp = Button S 28 | Kit 无；lg-jmp = Buttons › Regular 24 r6 | — | ✅ 两端（maa 分支）：lg-jmp/lg-toggle = .btn.s 加 Bordered 底（手机 #767680 12% + tint 字；Mac 黑 8% + Medium 13 黑字）；浮层 Mac 移到侧栏右（left 304）不再压侧栏 |
+| E3 | 完成卡 `#doneCard .box`（模态） | iOS 27 Kit › Alerts › Default：300 宽 r34 玻璃、内边 14、按钮 48 胶囊 | macOS Kit › Alerts：260 宽 r26、按钮 Large 28 | NUMBERS（两节都记了） | ✅ 两端（maa 分支）：手机 = Kit Alert 300 宽 r34 玻璃 内边 14 标题 17 说明 13 按钮 48 胶囊；Mac = Kit Alert Stacked 260 宽 r26 图标 72 @(22,20) 标题 Bold 13 说明 13 内边 16 按钮 Large 28 距文字 14 |
+| E4 | 信息浮层 `#info` | Kit 无 → Popover | Popovers r20 | — | ✅ Mac（maa 分支）：r20 + Popover 材质，距右/底 16 |
 | E5 | 地方跳转胶囊 `#jumps.chips` | 同 A20 | 同 A20 | — | 随 A20 |
+| E6 | 東亜图例的国家勾选 `#cbGrid input[type=checkbox]`（清单原先漏掉：原生 checkbox） | iOS 无 checkbox → Lists › Rows › Editing 多选圆：22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底 + 白 􀆅 | Toggles - Checkboxes › Regular：16×16 r5.5、未选黑 10%（按下 19%）、选中 #0088ff + 白勾 9×9（按下 +黑 7%）、标签 Medium 13 间 5、行 24 | NUMBERS（两节新增 2026-09-15） | ✅ 两端（maa 分支） |
 
 ## F. index.html（首页）
 
@@ -93,4 +94,4 @@ Disclosure Controls / Sliders / Alerts 已解（hig-kit 58365ea，NUMBERS KIT_VE
 iOS 27 Kit（Sketch 版 2026-09-09，hig-kit 748a7c6）：Sheets / Toolbars / Lists / Segmented / Buttons / Alerts 已解，写在 NUMBERS「iOS 27 UI Kit（Sketch 版）」；Figma 不再需要。
 
 ## 施工顺序（本会话，cost/hig.css/shell.js）
-1. 解 Kit：Disclosure Controls、Sliders、Alerts → NUMBERS.md。2. hig.css 11b：A1 工具条玻璃、A2 分隔线、A3 菜单、A10 建议卡、A14/15 展开指示、A19 滑块、A24 ±、A25 ⓘ、A26 材质、C1 opt→Popover、F2–F4 首页。3. 每步 1440 + 375 全部标签/展开项截图自查。4. 手机侧 A2/A4/A5/A7/A8/A9 已按 Sketch 版 iOS 27 Kit 改（本批）。剩余 ⛔ 全在 maa 分支的页内文件：C2、E1–E4；◇ 行（Kit 无组件）保持并注明规则。
+1. 解 Kit：Disclosure Controls、Sliders、Alerts → NUMBERS.md。2. hig.css 11b：A1 工具条玻璃、A2 分隔线、A3 菜单、A10 建议卡、A14/15 展开指示、A19 滑块、A24 ±、A25 ⓘ、A26 材质、C1 opt→Popover、F2–F4 首页。3. 每步 1440 + 375 全部标签/展开项截图自查。4. 手机侧 A2/A4/A5/A7/A8/A9 已按 Sketch 版 iOS 27 Kit 改（本批）。C2、E1–E4（+ 补的 E6 勾选框）maa 分支已改完（2026-09-15 晚）；◇ 行（Kit 无组件）保持并注明规则。
