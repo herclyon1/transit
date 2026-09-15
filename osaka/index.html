@@ -204,11 +204,11 @@ for(const id of ['th','wk']){ const r=$(id); const f=()=>r.style.setProperty('--
 
 // ---- 地图（壳建）：底图 = 国土地理院 淡色地図（官方、免费、无 key）。地理院没有暗色瓦片：暗色主题用 raster 画笔把淡色图反色
 //（brightness-min 1 / max 0 = 1−rgb，再 hue-rotate 180、降饱和——和以前的 CSS 滤镜同一套变换，但只作用于底图，不碰车站点）
-const APP = HIGShell.create({initial:'medium', attribution:'<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a>',
-  map:{center:[135.52,34.66], zoom:10, minZoom:7, maxZoom:17,
-    style:{version:8, sources:{ gsi:{type:'raster', tiles:['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'], tileSize:256, maxzoom:18} },
-      layers:[ {id:'bg',type:'background',paint:{'background-color':'#f2f2f7'}},
-               {id:'gsi',type:'raster',source:'gsi',paint:{'raster-fade-duration':0}} ]}},
+// 底图（2026-09-16 换）：OpenFreeMap 矢量瓦片 + 苹果地图配色样式（../cost/data/style_apple_*.json，整份来自 dddevid/MapLibre-GL-JS-AppleMaps-Style，用户拍板），
+// 三张地图页同一套底图；暗色换 dark 样式，自己加的图层（等级面/步行圈/车站）用 transformStyle 保留。（历史：地理院 淡色地図 raster + 反色滤镜，作废。）
+const styleUrl = dark => new URL(dark?'../cost/data/style_apple_dark.json':'../cost/data/style_apple_light.json', document.baseURI).href;
+const APP = HIGShell.create({initial:'medium', attribution:'',   // 样式自带「OpenFreeMap © OpenMapTiles Data from OpenStreetMap」
+  map:{center:[135.52,34.66], zoom:10, minZoom:7, maxZoom:17, style:styleUrl(effTheme()==='dark')},
   // 车站和等级面块同时在手指下时车站优先（两层各挂 click 会都触发，等级块盖掉车站——09-15 审查 #23）；点车站把它飞到卡片上方可见处（#36）
   click(e, map){ const st=map.getLayer('stations-hit') && map.queryRenderedFeatures(e.point,{layers:['stations-hit']})[0];
     if(st){ const s=BYID[st.properties.id]; if(s) APP.present({kind:'station', s:s}, {flyTo:{center:[s.lon,s.lat], padding:cardPad(), duration:500}}); return; }
@@ -231,10 +231,12 @@ const zL = () => map.getZoom()+1;              // Leaflet 口径的 zoom
 const css = c => 'rgb('+c[0]+','+c[1]+','+c[2]+')';
 const EMPTY = {type:'FeatureCollection',features:[]};
 function setDark(on){
-  if(!map.getLayer('gsi')) return;
-  map.setPaintProperty('gsi','raster-brightness-min', on?1:0); map.setPaintProperty('gsi','raster-brightness-max', on?0:1);
-  map.setPaintProperty('gsi','raster-hue-rotate', on?180:0); map.setPaintProperty('gsi','raster-saturation', on?-0.55:0); map.setPaintProperty('gsi','raster-contrast', on?-0.08:0);
-  map.setPaintProperty('bg','background-color', on?'#000':'#f2f2f7');
+  if(!map.isStyleLoaded()) return;
+  // 换整份样式，但把页面自己加的 source/layer 原样带过去（它们的 source 不是 openmaptiles）
+  map.setStyle(styleUrl(on), {transformStyle:(prev,next)=>{ if(!prev) return next;
+    const mine=Object.fromEntries(Object.entries(prev.sources).filter(([k])=>!(k in next.sources)));
+    const mineLayers=prev.layers.filter(l=>l.source&&l.source in mine);
+    return Object.assign({},next,{sources:Object.assign({},next.sources,mine),layers:next.layers.concat(mineLayers)}); }});
 }
 // 图层顺序（下→上）：底图 › 等级面层 › 轨道 › 车站 › 命中圆
 map.on('load', ()=>{
