@@ -1,7 +1,7 @@
 {
  "meta": {
   "generated": "2026-09-16",
-  "method": "大阪「居住等级」三维度评分（草案，不写回 tiers.geojson）\n   python3 pipeline/osaka/tiers_score.py            → osaka/data/tiers_scored.json\n   python3 pipeline/osaka/tiers_score.py --md       → 顺带打印 README 用的对照表\n\n三维度，每块（tiers.geojson 104 块）各出一个 S–D，再取三项平均当「拟合级」；来源、年份、原始值都写进输出。\n  治安  刑法犯認知件数 ÷ 常住人口 ×1000（大阪府警 R7 表9 ÷ 令和7年国調速報），府内 72 市区町村五分位 → crime_rate_r07.json 已算，块继承所在区/市。\n  便利  ① 门到枢纽分钟：块内 200 m 网格采样，每点 = 步行到最近站（直线×1.3 ÷ 80 m/分）+ 该站到最近枢纽（reach.json t_default，不含特急券），块取中位；\n        ② 800 m 内超市数：OSM shop=supermarket（Overpass，ODbL），每采样点数 800 m 圈内家数，块取中位。两项各按 104 块五分位，再平均。\n  环境  洪水浸水想定区域（想定最大規模）里浸水深 ≥0.5 m 的采样点占比（国土数値情報 A31a 河川単位 2025 年度版：近畿整備局 5 条国管理河川 + 大阪府管理/中小河川），0% S、<10% A、<30% B、<60% C、≥60% D。\n不写回 geojson：等用户拍板阈值和维度后再落。",
+  "method": "大阪「居住等级」三维度评分（草案，不写回 tiers.geojson）\n   python3 pipeline/osaka/tiers_score.py            → osaka/data/tiers_scored.json\n   python3 pipeline/osaka/tiers_score.py --md       → 顺带打印 README 用的对照表\n   python3 pipeline/osaka/tiers_score.py --write [--set-tier A|B]\n        → 把三项分写进 tiers.geojson 每块 properties.score（不动 tier）；--set-tier 才把 tier 换成拟合级，原 tier 存到 tier_author（用户拍板后才跑）\n\n三维度，每块（tiers.geojson 104 块）各出一个 S–D，再取三项平均当「拟合级」；来源、年份、原始值都写进输出。\n  治安  刑法犯認知件数 ÷ 常住人口 ×1000（大阪府警 R7 表9 ÷ 令和7年国調速報），府内 72 市区町村五分位 → crime_rate_r07.json 已算，块继承所在区/市。\n  便利  ① 门到枢纽分钟：块内 200 m 网格采样，每点 = 步行到最近站（直线×1.3 ÷ 80 m/分）+ 该站到最近枢纽（reach.json t_default，不含特急券），块取中位；\n        ② 800 m 内超市数：OSM shop=supermarket（Overpass，ODbL），每采样点数 800 m 圈内家数，块取中位。两项各按 104 块五分位，再平均。\n  环境  洪水浸水想定区域（想定最大規模）里浸水深 ≥0.5 m 的采样点占比（国土数値情報 A31a 河川単位 2025 年度版：近畿整備局 5 条国管理河川 + 大阪府管理/中小河川），0% S、<10% A、<30% B、<60% C、≥60% D。\n不写回 geojson：等用户拍板阈值和维度后再落。",
   "sources": {
    "safety": "大阪府警察「令和7年中の犯罪統計（確定値）」表9 刑法犯罪種及び手口別発生市区町村別認知件数 ÷ 令和7年国勢調査人口速報集計（2025-10-01）；osaka/data/crime_rate_r07.json",
    "hub": "osaka/data/reach.json（大阪地铁/JR/私铁官方所要時間建图，2026-09-16；t_default 不含特急券）+ 步行 80 m/分（不動産公正競争規約施行規則 §9(9)）× 直线 1.3 系数（假设）",
@@ -1707,7 +1707,7 @@
     "grade": "A"
    },
    "access": {
-    "door_to_hub_min": 33.5,
+    "door_to_hub_min": 34.1,
     "typical_station": "千里中央",
     "typical_hub": "梅田",
     "supermarkets_800m": 3,
@@ -1902,7 +1902,7 @@
     "grade": "S"
    },
    "access": {
-    "door_to_hub_min": 25.2,
+    "door_to_hub_min": 25.3,
     "typical_station": "江坂",
     "typical_hub": "梅田",
     "supermarkets_800m": 3,
@@ -2253,7 +2253,7 @@
     "grade": "S"
    },
    "access": {
-    "door_to_hub_min": 40.4,
+    "door_to_hub_min": 40.9,
     "typical_station": "箕面萱野",
     "typical_hub": "梅田",
     "supermarkets_800m": 2.0,
@@ -2565,7 +2565,7 @@
     "grade": "C"
    },
    "access": {
-    "door_to_hub_min": 25.3,
+    "door_to_hub_min": 25.4,
     "typical_station": "堺",
     "typical_hub": "難波",
     "supermarkets_800m": 2,
