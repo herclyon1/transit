@@ -3,7 +3,7 @@
 """
 基础食材月费 = 篮子实价 × 项目统一用量（单身），写进 cities/<city>.json 的 living_official.food（confidence=estimated，标「按篮子实价推算」）。
   python3 pipeline/cost/food_basket.py urumqi
-规则（maa/用户 2026-09-15）：有**市级**官方统计（大阪 家計調査 那种）就用官方，不跑这个脚本；没有的城市用篮子推算并标明；
+规则（maa/用户 2026-09-15）：食费一律篮子推算进公式（各城同一把尺）；官方统计（大阪 家計調査 単身 是全国/地方块，没有市表）留作「官方参考」不进公式；
 「全省人均消费 × 食品占比」这种省级推算一律不用。
 统一用量（单身一个月）：大米 5 kg、面粉 2 kg（或挂面 2 kg）、鸡蛋 30、牛奶 10 L、食用油 1 L、蔬菜 15 kg（土豆/西红柿/白菜各 5）、肉 4 kg（鸡腿 2 羊肉 2）、苹果 6 kg、馕 15 个、外食 22 顿、可乐 2 L、啤酒 6 罐；没有馕/面粉的城市用面包 2 kg。
 """
@@ -19,11 +19,16 @@ qty=dict(QTY)
 if b.get('flour1kg',{}).get('value') is None and b.get('noodles1kg',{}).get('value') is not None: qty['noodles1kg']=2        # 面粉/挂面二选一
 if b.get('naan1',{}).get('value') is not None or b.get('flour1kg',{}).get('value') is not None: qty['bread1kg']=0            # 有馕/面粉就不算面包
 if b.get('oil1l',{}).get('value') is None and b.get('oil5l',{}).get('value') is not None: qty['oil5l']=0.2; ZH['oil5l']='食用油 5 L 桶'
+if b.get('curry_rice',{}).get('value') is None and b.get('bigmac_set',{}).get('value') is not None: qty['curry_rice']=0; qty['bigmac_set']=22; ZH['bigmac_set']='一顿快餐（用巨无霸套餐价顶）'   # 没有「一顿快餐」的城市（大阪）用巨无霸套餐当一顿外食
 for k,q in qty.items():
     if not q: continue
     v=b.get(k,{}).get('value')
     if v is None: missing.append(ZH.get(k,k)); continue
     total+=v*q; parts.append(f"{ZH[k]} {v:g}×{q:g}")
+old_food=d['living_official'].get('food') or {}
+if old_food.get('confidence')=='official' and old_food.get('value') is not None and '篮子' not in (old_food.get('label') or ''):
+    # 官方统计只作参考线（maa 09-15：各城同一把尺，食费一律篮子推算进公式）
+    ref=dict(old_food); ref['label']='食费官方参考（不进公式）：'+(ref.get('label') or '统计平均'); d['living_official']['food_official_ref']=ref
 cur=d.get('currency','')
 unit={'CNY':'元/月','VND':'越南盾/月','JPY':'日元/月'}.get(cur,cur+'/月')
 d['living_official']['food']={"label":"基础食材月费（按篮子实价推算）","value":round(total),"unit":unit,"confidence":"estimated","n":None,

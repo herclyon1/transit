@@ -1524,15 +1524,15 @@
  },
  "living_official": {
   "food": {
-   "value": 45787,
+   "label": "基础食材月费（按篮子实价推算）",
+   "value": 26237,
    "unit": "日元/月",
-   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
-   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
+   "confidence": "estimated",
    "n": null,
-   "note": "单身勤劳者家庭 食品（其中外食 13,817）。",
-   "label": "食费（统计平均）"
+   "source_url": null,
+   "source_name": "本页篮子各项的平台实价 × 项目统一用量（单身）",
+   "fetched_at": "2026-09-15",
+   "note": "= 大米 5 kg 3218×1 + 鸡蛋 10 个 311×3 + 牛奶 1 L 246×10 + 可乐 1 L 128×2 + 啤酒 6 罐 1172×1 + 面包 1 kg 629×2 + 一顿快餐（用巨无霸套餐价顶） 770×22 = 26,237。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。 缺 面粉 1 kg, 食用油 1 L, 土豆 1 kg, 西红柿 1 kg, 白菜 1 kg, 鸡腿 1 kg, 羊肉 1 kg, 苹果 1 kg, 馕 1 个，没算进去。"
   },
   "total": {
    "value": 191523,
@@ -1566,6 +1566,17 @@
    "n": null,
    "note": "咖喱饭一盘（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
    "label": "外食咖喱饭一盘（统计对照）"
+  },
+  "food_official_ref": {
+   "value": 45787,
+   "unit": "日元/月",
+   "source_url": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040409815&fileKind=0",
+   "source_name": "总务省统计局 家计调查 2025 年 单身家庭 第1表（勤劳者家庭列）",
+   "fetched_at": "2026-09-14",
+   "confidence": "official",
+   "n": null,
+   "note": "单身勤劳者家庭 食品（其中外食 13,817）。",
+   "label": "食费官方参考（不进公式）：食费（统计平均）"
   }
  },
  "jobs_ingest": {

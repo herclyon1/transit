@@ -1,369 +1,369 @@
 [
-{
-"id": "osaka",
-"name": {
-"zh": "大阪",
-"ja": "大阪",
-"en": "Osaka"
-},
-"country": "JPN",
-"currency": "JPY",
-"lon": 135.502,
-"lat": 34.694,
-"status": "ready",
-"links": {
-"reach": "../osaka/"
-}
-},
-{
-"id": "tokyo",
-"name": {
-"zh": "东京",
-"ja": "東京",
-"en": "Tokyo"
-},
-"country": "JPN",
-"currency": "JPY",
-"lon": 139.767,
-"lat": 35.681,
-"status": "draft"
-},
-{
-"id": "urumqi",
-"name": {
-"zh": "乌鲁木齐",
-"ja": "ウルムチ",
-"en": "Urumqi"
-},
-"country": "CHN",
-"currency": "CNY",
-"lon": 87.617,
-"lat": 43.826,
-"status": "ready"
-},
-{
-"id": "beijing",
-"name": {
-"zh": "北京",
-"ja": "北京",
-"en": "Beijing"
-},
-"country": "CHN",
-"currency": "CNY",
-"lon": 116.407,
-"lat": 39.904,
-"status": "draft"
-},
-{
-"id": "shanghai",
-"name": {
-"zh": "上海",
-"ja": "上海",
-"en": "Shanghai"
-},
-"country": "CHN",
-"currency": "CNY",
-"lon": 121.474,
-"lat": 31.23,
-"status": "draft"
-},
-{
-"id": "guangzhou",
-"name": {
-"zh": "广州",
-"ja": "広州",
-"en": "Guangzhou"
-},
-"country": "CHN",
-"currency": "CNY",
-"lon": 113.264,
-"lat": 23.129,
-"status": "draft"
-},
-{
-"id": "taipei",
-"name": {
-"zh": "台北",
-"ja": "台北",
-"en": "Taipei"
-},
-"country": "TWN",
-"currency": "TWD",
-"lon": 121.565,
-"lat": 25.033,
-"status": "draft"
-},
-{
-"id": "taoyuan",
-"name": {
-"zh": "桃园",
-"ja": "桃園",
-"en": "Taoyuan"
-},
-"country": "TWN",
-"currency": "TWD",
-"lon": 121.301,
-"lat": 24.994,
-"status": "draft"
-},
-{
-"id": "hanoi",
-"name": {
-"zh": "河内",
-"ja": "ハノイ",
-"en": "Hanoi"
-},
-"country": "VNM",
-"currency": "VND",
-"lon": 105.834,
-"lat": 21.028,
-"status": "draft"
-},
-{
-"id": "hochiminh",
-"name": {
-"zh": "胡志明市",
-"ja": "ホーチミン",
-"en": "Ho Chi Minh City"
-},
-"country": "VNM",
-"currency": "VND",
-"lon": 106.66,
-"lat": 10.762,
-"status": "draft"
-},
-{
-"id": "buonmathuot",
-"name": {
-"zh": "邦美蜀",
-"ja": "バンメトート",
-"en": "Buôn Ma Thuột"
-},
-"country": "VNM",
-"currency": "VND",
-"lon": 108.05,
-"lat": 12.667,
-"status": "draft"
-},
-{
-"id": "yangon",
-"name": {
-"zh": "仰光",
-"ja": "ヤンゴン",
-"en": "Yangon"
-},
-"country": "MMR",
-"currency": "MMK",
-"lon": 96.195,
-"lat": 16.867,
-"status": "draft"
-},
-{
-"id": "mandalay",
-"name": {
-"zh": "曼德勒",
-"ja": "マンダレー",
-"en": "Mandalay"
-},
-"country": "MMR",
-"currency": "MMK",
-"lon": 96.085,
-"lat": 21.975,
-"status": "draft"
-},
-{
-"id": "naypyidaw",
-"name": {
-"zh": "内比都",
-"ja": "ネピドー",
-"en": "Naypyidaw"
-},
-"country": "MMR",
-"currency": "MMK",
-"lon": 96.13,
-"lat": 19.745,
-"status": "draft"
-},
-{
-"id": "berlin",
-"name": {
-"zh": "柏林",
-"ja": "ベルリン",
-"en": "Berlin"
-},
-"country": "DEU",
-"currency": "EUR",
-"lon": 13.405,
-"lat": 52.52,
-"status": "draft"
-},
-{
-"id": "munich",
-"name": {
-"zh": "慕尼黑",
-"ja": "ミュンヘン",
-"en": "Munich"
-},
-"country": "DEU",
-"currency": "EUR",
-"lon": 11.576,
-"lat": 48.137,
-"status": "draft"
-},
-{
-"id": "frankfurt",
-"name": {
-"zh": "法兰克福",
-"ja": "フランクフルト",
-"en": "Frankfurt"
-},
-"country": "DEU",
-"currency": "EUR",
-"lon": 8.682,
-"lat": 50.11,
-"status": "draft"
-},
-{
-"id": "hamburg",
-"name": {
-"zh": "汉堡",
-"ja": "ハンブルク",
-"en": "Hamburg"
-},
-"country": "DEU",
-"currency": "EUR",
-"lon": 9.993,
-"lat": 53.551,
-"status": "draft"
-},
-{
-"id": "newyork",
-"name": {
-"zh": "纽约",
-"ja": "ニューヨーク",
-"en": "New York"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -74.006,
-"lat": 40.713,
-"status": "draft"
-},
-{
-"id": "losangeles",
-"name": {
-"zh": "洛杉矶",
-"ja": "ロサンゼルス",
-"en": "Los Angeles"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -118.243,
-"lat": 34.052,
-"status": "draft"
-},
-{
-"id": "sanfrancisco",
-"name": {
-"zh": "旧金山",
-"ja": "サンフランシスコ",
-"en": "San Francisco"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -122.419,
-"lat": 37.775,
-"status": "draft"
-},
-{
-"id": "seattle",
-"name": {
-"zh": "西雅图",
-"ja": "シアトル",
-"en": "Seattle"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -122.332,
-"lat": 47.606,
-"status": "draft"
-},
-{
-"id": "chicago",
-"name": {
-"zh": "芝加哥",
-"ja": "シカゴ",
-"en": "Chicago"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -87.63,
-"lat": 41.878,
-"status": "draft"
-},
-{
-"id": "houston",
-"name": {
-"zh": "休斯敦",
-"ja": "ヒューストン",
-"en": "Houston"
-},
-"country": "USA",
-"currency": "USD",
-"lon": -95.369,
-"lat": 29.76,
-"status": "draft"
-},
-{
-"id": "sydney",
-"name": {
-"zh": "悉尼",
-"ja": "シドニー",
-"en": "Sydney"
-},
-"country": "AUS",
-"currency": "AUD",
-"lon": 151.209,
-"lat": -33.868,
-"status": "draft"
-},
-{
-"id": "melbourne",
-"name": {
-"zh": "墨尔本",
-"ja": "メルボルン",
-"en": "Melbourne"
-},
-"country": "AUS",
-"currency": "AUD",
-"lon": 144.963,
-"lat": -37.814,
-"status": "draft"
-},
-{
-"id": "brisbane",
-"name": {
-"zh": "布里斯班",
-"ja": "ブリスベン",
-"en": "Brisbane"
-},
-"country": "AUS",
-"currency": "AUD",
-"lon": 153.026,
-"lat": -27.47,
-"status": "draft"
-},
-{
-"id": "perth",
-"name": {
-"zh": "珀斯",
-"ja": "パース",
-"en": "Perth"
-},
-"country": "AUS",
-"currency": "AUD",
-"lon": 115.857,
-"lat": -31.953,
-"status": "draft"
-}
+ {
+  "id": "osaka",
+  "name": {
+   "zh": "大阪",
+   "ja": "大阪",
+   "en": "Osaka"
+  },
+  "country": "JPN",
+  "currency": "JPY",
+  "lon": 135.502,
+  "lat": 34.694,
+  "status": "ready",
+  "links": {
+   "reach": "../osaka/"
+  }
+ },
+ {
+  "id": "tokyo",
+  "name": {
+   "zh": "东京",
+   "ja": "東京",
+   "en": "Tokyo"
+  },
+  "country": "JPN",
+  "currency": "JPY",
+  "lon": 139.767,
+  "lat": 35.681,
+  "status": "draft"
+ },
+ {
+  "id": "urumqi",
+  "name": {
+   "zh": "乌鲁木齐",
+   "ja": "ウルムチ",
+   "en": "Urumqi"
+  },
+  "country": "CHN",
+  "currency": "CNY",
+  "lon": 87.617,
+  "lat": 43.826,
+  "status": "ready"
+ },
+ {
+  "id": "beijing",
+  "name": {
+   "zh": "北京",
+   "ja": "北京",
+   "en": "Beijing"
+  },
+  "country": "CHN",
+  "currency": "CNY",
+  "lon": 116.407,
+  "lat": 39.904,
+  "status": "draft"
+ },
+ {
+  "id": "shanghai",
+  "name": {
+   "zh": "上海",
+   "ja": "上海",
+   "en": "Shanghai"
+  },
+  "country": "CHN",
+  "currency": "CNY",
+  "lon": 121.474,
+  "lat": 31.23,
+  "status": "draft"
+ },
+ {
+  "id": "guangzhou",
+  "name": {
+   "zh": "广州",
+   "ja": "広州",
+   "en": "Guangzhou"
+  },
+  "country": "CHN",
+  "currency": "CNY",
+  "lon": 113.264,
+  "lat": 23.129,
+  "status": "draft"
+ },
+ {
+  "id": "taipei",
+  "name": {
+   "zh": "台北",
+   "ja": "台北",
+   "en": "Taipei"
+  },
+  "country": "TWN",
+  "currency": "TWD",
+  "lon": 121.565,
+  "lat": 25.033,
+  "status": "draft"
+ },
+ {
+  "id": "taoyuan",
+  "name": {
+   "zh": "桃园",
+   "ja": "桃園",
+   "en": "Taoyuan"
+  },
+  "country": "TWN",
+  "currency": "TWD",
+  "lon": 121.301,
+  "lat": 24.994,
+  "status": "draft"
+ },
+ {
+  "id": "hanoi",
+  "name": {
+   "zh": "河内",
+   "ja": "ハノイ",
+   "en": "Hanoi"
+  },
+  "country": "VNM",
+  "currency": "VND",
+  "lon": 105.834,
+  "lat": 21.028,
+  "status": "draft"
+ },
+ {
+  "id": "hochiminh",
+  "name": {
+   "zh": "胡志明市",
+   "ja": "ホーチミン",
+   "en": "Ho Chi Minh City"
+  },
+  "country": "VNM",
+  "currency": "VND",
+  "lon": 106.66,
+  "lat": 10.762,
+  "status": "draft"
+ },
+ {
+  "id": "buonmathuot",
+  "name": {
+   "zh": "邦美蜀",
+   "ja": "バンメトート",
+   "en": "Buôn Ma Thuột"
+  },
+  "country": "VNM",
+  "currency": "VND",
+  "lon": 108.05,
+  "lat": 12.667,
+  "status": "ready"
+ },
+ {
+  "id": "yangon",
+  "name": {
+   "zh": "仰光",
+   "ja": "ヤンゴン",
+   "en": "Yangon"
+  },
+  "country": "MMR",
+  "currency": "MMK",
+  "lon": 96.195,
+  "lat": 16.867,
+  "status": "draft"
+ },
+ {
+  "id": "mandalay",
+  "name": {
+   "zh": "曼德勒",
+   "ja": "マンダレー",
+   "en": "Mandalay"
+  },
+  "country": "MMR",
+  "currency": "MMK",
+  "lon": 96.085,
+  "lat": 21.975,
+  "status": "draft"
+ },
+ {
+  "id": "naypyidaw",
+  "name": {
+   "zh": "内比都",
+   "ja": "ネピドー",
+   "en": "Naypyidaw"
+  },
+  "country": "MMR",
+  "currency": "MMK",
+  "lon": 96.13,
+  "lat": 19.745,
+  "status": "draft"
+ },
+ {
+  "id": "berlin",
+  "name": {
+   "zh": "柏林",
+   "ja": "ベルリン",
+   "en": "Berlin"
+  },
+  "country": "DEU",
+  "currency": "EUR",
+  "lon": 13.405,
+  "lat": 52.52,
+  "status": "draft"
+ },
+ {
+  "id": "munich",
+  "name": {
+   "zh": "慕尼黑",
+   "ja": "ミュンヘン",
+   "en": "Munich"
+  },
+  "country": "DEU",
+  "currency": "EUR",
+  "lon": 11.576,
+  "lat": 48.137,
+  "status": "draft"
+ },
+ {
+  "id": "frankfurt",
+  "name": {
+   "zh": "法兰克福",
+   "ja": "フランクフルト",
+   "en": "Frankfurt"
+  },
+  "country": "DEU",
+  "currency": "EUR",
+  "lon": 8.682,
+  "lat": 50.11,
+  "status": "draft"
+ },
+ {
+  "id": "hamburg",
+  "name": {
+   "zh": "汉堡",
+   "ja": "ハンブルク",
+   "en": "Hamburg"
+  },
+  "country": "DEU",
+  "currency": "EUR",
+  "lon": 9.993,
+  "lat": 53.551,
+  "status": "draft"
+ },
+ {
+  "id": "newyork",
+  "name": {
+   "zh": "纽约",
+   "ja": "ニューヨーク",
+   "en": "New York"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -74.006,
+  "lat": 40.713,
+  "status": "draft"
+ },
+ {
+  "id": "losangeles",
+  "name": {
+   "zh": "洛杉矶",
+   "ja": "ロサンゼルス",
+   "en": "Los Angeles"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -118.243,
+  "lat": 34.052,
+  "status": "draft"
+ },
+ {
+  "id": "sanfrancisco",
+  "name": {
+   "zh": "旧金山",
+   "ja": "サンフランシスコ",
+   "en": "San Francisco"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -122.419,
+  "lat": 37.775,
+  "status": "draft"
+ },
+ {
+  "id": "seattle",
+  "name": {
+   "zh": "西雅图",
+   "ja": "シアトル",
+   "en": "Seattle"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -122.332,
+  "lat": 47.606,
+  "status": "draft"
+ },
+ {
+  "id": "chicago",
+  "name": {
+   "zh": "芝加哥",
+   "ja": "シカゴ",
+   "en": "Chicago"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -87.63,
+  "lat": 41.878,
+  "status": "draft"
+ },
+ {
+  "id": "houston",
+  "name": {
+   "zh": "休斯敦",
+   "ja": "ヒューストン",
+   "en": "Houston"
+  },
+  "country": "USA",
+  "currency": "USD",
+  "lon": -95.369,
+  "lat": 29.76,
+  "status": "draft"
+ },
+ {
+  "id": "sydney",
+  "name": {
+   "zh": "悉尼",
+   "ja": "シドニー",
+   "en": "Sydney"
+  },
+  "country": "AUS",
+  "currency": "AUD",
+  "lon": 151.209,
+  "lat": -33.868,
+  "status": "draft"
+ },
+ {
+  "id": "melbourne",
+  "name": {
+   "zh": "墨尔本",
+   "ja": "メルボルン",
+   "en": "Melbourne"
+  },
+  "country": "AUS",
+  "currency": "AUD",
+  "lon": 144.963,
+  "lat": -37.814,
+  "status": "draft"
+ },
+ {
+  "id": "brisbane",
+  "name": {
+   "zh": "布里斯班",
+   "ja": "ブリスベン",
+   "en": "Brisbane"
+  },
+  "country": "AUS",
+  "currency": "AUD",
+  "lon": 153.026,
+  "lat": -27.47,
+  "status": "draft"
+ },
+ {
+  "id": "perth",
+  "name": {
+   "zh": "珀斯",
+   "ja": "パース",
+   "en": "Perth"
+  },
+  "country": "AUS",
+  "currency": "AUD",
+  "lon": 115.857,
+  "lat": -31.953,
+  "status": "draft"
+ }
 ]
