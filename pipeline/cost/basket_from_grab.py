@@ -16,6 +16,11 @@ KEYS={'鸡蛋':('eggs10','n10'),'牛奶':('milk1l','l'),'纯牛奶':('milk1l','l
       '面包':('bread1kg','kg'),'可乐':('cola1l','l'),'啤酒':('beer6','n6')}
 LABEL={'eggs10':'鸡蛋 10 个','milk1l':'牛奶 1L','rice5kg':'大米 5kg','flour1kg':'面粉 1kg','noodles1kg':'挂面 1kg','oil1l':'食用油 1L','potato1kg':'土豆 1kg','tomato1kg':'西红柿 1kg',
        'cabbage1kg':'白菜 1kg','chicken1kg':'鸡腿 1kg','mutton1kg':'羊肉 1kg','apple1kg':'苹果 1kg','naan1':'馕 1 个','bread1kg':'面包 1kg','cola1l':'可乐 1L','beer6':'啤酒 6 罐'}
+# 同类才比价：搜索结果里混进来的别的品类（乌鸡蛋/卤蛋/鹌鹑蛋、酸奶/奶粉/淡奶油、米粉/糯米、洗菜篮…）按键剔除，再取中位——不然「鸡蛋」的中位会被乌鸡蛋和卤蛋抬到 10 元
+EXCL={'eggs10':r'乌鸡|卤蛋|鹌鹑|鸽|咸蛋|皮蛋|茶叶蛋|溏心|篮|蛋糕|蛋挞','milk1l':r'酸奶|奶粉|奶茶|乳饮|蛋白饮|淡奶油|奶油|奶酪|炼乳|豆奶|椰|燕麦奶','rice5kg':r'糯米|米粉|米线|米饼|粥|黑米|紫米|小米',
+      'bread1kg':r'蛋糕|饼干|面包机|月饼','cola1l':r'无糖|零度|气泡水|雪碧|美年达|芬达|汉斯|果汁','beer6':r'精酿|白啤|果啤|无醇|啤酒杯|开瓶器','flour1kg':r'面包粉|蛋糕粉|饺子皮|面条|挂面|饼',
+      'noodles1kg':r'方便面|拉面|粉丝|米线','oil1l':r'香油|芝麻油|橄榄油|亚麻|茶油|猪油|黄油','potato1kg':r'红薯|紫薯|山药|薯片|薯条|粉条','tomato1kg':r'番茄酱|圣女果|小番茄|樱桃番茄|沙司',
+      'cabbage1kg':r'娃娃菜|包菜|甘蓝|泡菜|酸菜','chicken1kg':r'鸡翅|鸡胸|鸡爪|鸡脖|鸡架|整鸡|鸡块|炸鸡|卤','mutton1kg':r'羊蝎子|羊排|羊杂|羊蹄|羊头|烤串|肉串|羊肉卷|羊肉片','apple1kg':r'苹果醋|苹果干|苹果汁|果酱|干','naan1':r'馕坑|馕饼机|馕包肉'}
 NUM=r'(\d+(?:\.\d+)?)'
 def spec(name):
     """商品名里的规格 → (总重 kg, 总容量 L, 个数)。「200mL*20袋」「净重1.65kg±50g」「5斤」「30枚/板」「500g*2袋」。"""
@@ -66,6 +71,8 @@ def main():
     for (key_how,kw),rs in groups.items():
         key,how=key_how
         rs=sorted(rs,key=lambda r:r.get('rank',99))[:10]
+        dropped=[r['name'][:16] for r in rs if EXCL.get(key) and re.search(EXCL[key],r['name'])]
+        rs=[r for r in rs if not (EXCL.get(key) and re.search(EXCL[key],r['name']))]
         priced=[]
         for r in rs:
             u,sp=unit_price(r,how)
@@ -80,7 +87,7 @@ def main():
                 'source_url':'pinduoduo://com.xunmeng.pinduoduo/ywgnpxpt.html?_p_page=vgt_search' if plat=='多多买菜' else None,
                 'source_name':f"{plat}（拼多多 App）{d.get('city',city)} 自提点 {where} 搜索“{kw}” {rs[0].get('sort','综合')}排序前 {len(rs)}" if plat=='多多买菜' else f"{plat} {where} 搜索“{kw}”",
                 'source_short':plat,'fetched_at':rs[0].get('fetched_at',datetime.date.today().isoformat()),'confidence':'listing','n':len(keep),
-                'how':f'前 {len(rs)} 条按商品名里的规格折到 {unit_zh}，去掉离中位 2 倍以外的，取中位（n={len(keep)}）',
+                'how':f'前 {len(rs)+len(dropped)} 条里先剔掉不是同一种东西的 {len(dropped)} 条'+(f'（{"、".join(dropped)}）' if dropped else '')+f'，其余按商品名里的规格折到 {unit_zh}，去掉离中位 2 倍以外的，取中位（n={len(keep)}）——买菜 App 综合排序前一屏里普通人挑得到的价',
                 'note':f'篮子单位价 = 中位 {val:g} {unit_zh}。{note}'}
         done.append(f'{LABEL.get(key,key)} {val:g} 元（{kw}，n={len(keep)}）')
     json.dump(d,open(cf,'w',encoding='utf-8'),ensure_ascii=False,indent=1)
