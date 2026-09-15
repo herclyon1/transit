@@ -9,7 +9,7 @@
 | `suumo_ek.json` | 835 站 ↔ SUUMO 関西版站代码（ek = rn 4 位 + 站 5 位，同站每线一个）+ 每站 1R/1K 检索 URL；unmatched 里写了对不上的原因 | `pipeline/osaka/suumo_stations.py`（六府县沿線页，HTML 缓存在 raw/suumo/html/ 不进仓库） |
 | `station_rent.json` | 按站房租：SUUMO 在挂 ワンルーム/1K（専有 ≥20 ㎡、駅徒歩 ≤10 分）賃料的中位/下四分位/最低/n，按主 ek 键，增量写 | `pipeline/osaka/suumo_station_rent.py 站名…`；`--all` 跑全部 825 站（约 1–2 小时、几千次请求，先问用户）；`--all --only-osaka` 只跑府内 486 站 |
 | `pass_student.json` | 通学定期价目表（1/3/6 か月）：Osaka Metro 区数、JR 幹線キロ表+大阪附近特定額、阪急/阪神/近鉄 キロ表、京阪 京橋発全站、北大阪急行 6 站矩阵、大阪モノレール 2 km 档、阪堺均一——9 家，各自官方 URL/版本/页码在 operators.*.source；南海（官网只挂驿探检索）、能勢、水間 没有（meta.todo） | 手工从官方页/旅客営業規則 別表 PDF 抽（pymupdf），不动页面 |
-| `km_pairs.json` | JR 西日本 大阪近郊 190 对相邻站的站间距离：`km_osm` 沿 OSM 轨道几何量（近似），`km_official` 空等官方値；JR 官网没有公开営業キロ表（meta 写了查过哪些页）| 从 routes_osaka.json 普通停车型算，直线 1.6 倍以上判投影错退回直线×1.08 |
+| `km_pairs.json` | 站间距离：`pairs` JR 西日本 大阪近郊 190 对（`km_osm` 沿 OSM 几何近似，`km_official` 空——JR 官网没有公开営業キロ表，meta 写了查过哪些页，抽查偏差 ≤0.2 km）；`pairs_private` 近鉄 + 京阪 官方 営業キロ（近鉄 kirotei PDF 阶梯矩阵、京阪 京橋発 キロ程 相减），同对 OSM 值作核对，中位偏差 0.05 km | 从 routes_osaka.json 普通停车型算，直线 1.6 倍以上判投影错退回直线×1.08 |
 | `walk_polys.json` | 每站步行 5/10/15/20 分等时圈（Valhalla） | `pipeline/osaka/fetch_walk_polys.py` |
 | `raw/` | 国土数値情報 洪水浸水想定（zip 不进仓库，脚本缺了自动下载）、OSM 超市、SUUMO 路線表 | 见 raw/README.md |
 
