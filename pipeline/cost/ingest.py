@@ -8,11 +8,13 @@
 - 手写的条目（没有 ingest_key）原样保留，raw 里和手写条目同一 source_url 的不再重复入库；临时单（temp）不进篮子最低值；重跑先删旧的 ingest 条目再写；
 - 24 小时岗（hours_flag 含 24h岗）时薪按 24×班数算，note 里注明，并另给 12 小时在岗口径的对照数。
 """
-import os, sys, json, glob, datetime, collections
+import os, sys, json, glob, datetime, collections, re
+PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
+mask=lambda t:PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t)   # 公开仓库：帖子原文里的手机号打码
 CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
 BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁/家政','chain':'连锁锚点'}
-SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
+SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','wechat_group':'微信群招工帖（用户截图）','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
 
 rows=[]
 for f in sorted(glob.glob(os.path.join(ROOT,'raw',CITY,'*','jobs_raw.jsonl'))):
@@ -23,7 +25,8 @@ for f in sorted(glob.glob(os.path.join(ROOT,'raw',CITY,'*','jobs_raw.jsonl'))):
 # 去重：雇主(或地点)+篮子+工资 → 最新
 best={}
 for r in rows:
-    key=((r.get('employer') or r.get('location_phrase') or r.get('contact') or '').strip(), r.get('basket'), r.get('wage_value'), r.get('wage_unit'))
+    # 同一电话 + 同篮子 + 同工资 = 同一帖（群里转发、公众号两天两发都会重）；没电话再退到雇主/地点
+    key=((r.get('contact') or r.get('employer') or r.get('location_phrase') or '').strip(), r.get('basket'), r.get('wage_value'), r.get('wage_unit'))
     if key not in best or (r.get('posted_at','') > best[key].get('posted_at','')): best[key]=r
 uniq=list(best.values())
 cf=os.path.join(ROOT,'cities',f'{CITY}.json'); d=json.load(open(cf,encoding='utf-8'))
@@ -41,7 +44,7 @@ for b,lst in by.items():
 
 def entry(r):
     h=r.get('hours_month'); hpd=r.get('hours_per_day'); dpm=r.get('days_per_month'); flag=r.get('hours_flag','')
-    note=f"帖子原文：“{r['raw'][:220].replace(chr(10),' / ')}”"
+    note=mask(f"帖子原文：“{r['raw'][:220].replace(chr(10),' / ')}”")
     if '24h岗' in flag and h: note+=f"。24 小时岗：月工时按 24 h × {dpm} 班 = {h} h 计，含夜间值守；若按 12 小时在岗算则 {round(r['wage_value']/(12*dpm),1)} 元/时。"
     if '可倒班' in flag and h: note+=f"。帖子写「上一休一，也可白夜班倒」：按 12 h 班 × {dpm} 班 = {h} h 计；若按 24 h 在岗算则 {round(r['wage_value']/(24*dpm),1)} 元/时。"
     if r.get('probation'): note+="。帖子写的是试用期工资。"
@@ -49,7 +52,7 @@ def entry(r):
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
     return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}",
             "store": f"{r.get('employer') or ('地点 '+(r.get('location_phrase') or '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
-            "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url','')}|{r.get('wage_value')}",
+            "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url') or r.get('article_title','')}|{r.get('wage_value')}",   # 群帖没有 URL，用「截图 文件名」
             "wage": {"value": r['hourly'], "unit": "元/小时", "source_url": r.get('source_url'),
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",

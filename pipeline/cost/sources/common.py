@@ -19,6 +19,10 @@ SEP=r'[-–—~～至到]'
 RANGE=re.compile(r'(\d{3,5})\s*(?:元)?\s*'+SEP+r'\s*(\d{3,5})')
 CN={'一':1,'两':2,'二':2,'三':3,'四':4,'五':5,'六':6,'半':0.5}
 
+PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
+def mask(t): return PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t) if isinstance(t,str) else t
+def dump(r): return mask(json.dumps(r,ensure_ascii=False))   # 仓库是公开的：raw / 任何字段里的手机号一律打码后落盘（contact 早就打了）
+
 class Rec(dict):
     def __init__(self,**kw): super().__init__(**kw)
 
@@ -183,13 +187,17 @@ def write_outputs(outdir, source, recs, log, days=180):
         (acc if not rs else rej).append(r)
         for x in rs: dist[x]+=1
     with open(os.path.join(outdir,'jobs_raw.jsonl'),'a',encoding='utf-8') as f:
-        for r in acc: f.write(json.dumps(r,ensure_ascii=False)+'\n')
+        for r in acc: f.write(dump(r)+'\n')
     with open(os.path.join(outdir,'rejected.jsonl'),'a',encoding='utf-8') as f:
-        for r in rej: f.write(json.dumps(r,ensure_ascii=False)+'\n')
+        for r in rej: f.write(dump(r)+'\n')
     rep=os.path.join(outdir,'report.md')
     key=lambda r:(r.get('employer') or r.get('location_phrase') or '', r.get('wage_value'), r.get('wage_unit'))
     lost=[r for r in prev if key(r) not in {key(a) for a in acc}]; gained=[r for r in acc if key(r) not in {key(p) for p in prev}]
-    with open(rep,'a',encoding='utf-8') as f:
+    class _M:
+        def __init__(s,f): s.f=f
+        def write(s,t): s.f.write(mask(t))
+    with open(rep,'a',encoding='utf-8') as _f:
+        f=_M(_f)
         f.write(f"\n## {source} · {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n看了 **{len(recs)}** 条招工帖（另有 {len(junk)} 条模板/广告/碎片不计），收 **{len(acc)}** 条，拒 {len(rej)} 条" + (f"；上一轮收 {len(prev)} 条，本轮 +{len(gained)} −{len(lost)}" if prev else '') + "。\n\n拒绝原因分布：" + '、'.join(f'{k} {v}' for k,v in dist.most_common()) + "\n\n")
         if lost: f.write('比上一轮丢的：' + '；'.join(f"{r.get('title')} {r.get('employer') or r.get('location_phrase') or '—'} {r.get('wage_value')}" for r in lost) + '\n')
         if gained and prev: f.write('比上一轮新进的：' + '；'.join(f"{r.get('title')} {r.get('employer') or r.get('location_phrase') or '—'} {r.get('wage_value')}" for r in gained) + '\n\n')
