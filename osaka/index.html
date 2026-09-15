@@ -18,8 +18,8 @@
    宽屏变左侧 320 侧栏。主题跟随系统（HIG Settings：不做冗余的明暗开关）；地理院没有暗色瓦片，
    深色模式靠 CSS 滤镜反色。尺寸出处见 ../DESIGN-HIG.md。 */
 :root{--acc:#ff9500;--accTxt:#c25700;--accfg:#fff;--sub:var(--ink-2);--fg:var(--ink);--bg:var(--bg);--line:var(--line);
-      --pop:var(--bg-elev);--popfg:var(--ink);--popdim:var(--ink-2);--track:#6b7480;--trackop:0.55;--dim:#aab1ba;--dimbd:#868d96;--ring:#1b1e23;--shadow:0 1px 3px #0003;--btn:var(--fill)}
-html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#fff;--trackop:0.30;--dim:#5b626c;--dimbd:#3a3f47;--ring:#fff;--shadow:0 1px 3px #000}
+      --pop:var(--bg-elev);--popfg:var(--ink);--popdim:var(--ink-2);--track:#6b7480;--trackop:0.55;--dim:#aab1ba;--dimbd:#868d96;--ring:#ffffff;--shadow:0 1px 3px #0003;--btn:var(--fill)}
+html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#fff;--trackop:0.30;--dim:#5b626c;--dimbd:#3a3f47;--ring:#1c1c1e;--shadow:0 1px 3px #000}
 #map{position:absolute;inset:0;background:var(--bg)}
 .leaflet-container{background:var(--bg);font:inherit}
 .leaflet-bottom.leaflet-right{bottom:calc(44dvh + 8px)}
@@ -27,8 +27,12 @@ html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#ff
 .leaflet-control-zoom{display:none}
 @media (min-width:900px){.leaflet-control-zoom{display:block}}
 .leaflet-control-attribution{font-size:.6471em}
-.hubmk{background:var(--acc);transform:rotate(45deg);border-radius:18%;border:2px solid #ffffffcc;box-shadow:0 0 5px #0004}
-.hublbl{font-size:.6176em;font-weight:700;color:var(--fg);white-space:nowrap;text-shadow:0 0 3px var(--bg),0 0 3px var(--bg)}
+/* 枢纽 = 地图 App 里带名字的车站图标：圆角方块 + 白色电车符号，13 半粗标签带白描边 */
+.hubmk{background:var(--acc);border-radius:26%;border:1.5px solid #fff;box-shadow:0 1px 3px #0004;display:flex;align-items:center;justify-content:center}
+.hubmk .sf{width:62%;height:62%;color:#1b1500}
+.hublbl{font-size:.7647em;line-height:1.3846em;font-weight:600;color:#3c3c43;white-space:nowrap;
+        text-shadow:0 0 2px #fff,0 0 2px #fff,0 0 3px #fff,0 0 3px #fff;letter-spacing:-.01em}
+html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #000,0 0 3px #000,0 0 3px #000}
 /* 车站 popup：HIG popover 的样子——圆角 16、13pt、玻璃底 */
 .leaflet-popup-content-wrapper{background:var(--bg-elev);color:var(--ink);border-radius:16px;box-shadow:var(--glass-shadow)}
 .leaflet-popup-tip{background:var(--bg-elev)}
@@ -44,7 +48,7 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
 @media (min-width:900px) and (pointer:fine){#lg .mrow{min-height:44px;padding:11px 16px}}
 #lg .mrow .ico{border:1px solid #0003}
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-#tiersLg{margin-top:0;padding-top:0}
+#tiersLg{padding-top:10px}
 .mcard .r .k .acc{color:var(--acc)}
 .hidden-ctl{display:none}
 </style>
@@ -54,20 +58,42 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
 <div class="bar">
   <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
   <span class="spacer"></span>
+  <button class="btn-glass glass" id="optBtn" type="button" aria-label="图层"><i class="sf" data-sf="square.stack.3d.up"></i></button>
 </div>
 <aside class="sheet glass panel-wide" id="sheet" aria-label="控制项">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
-    <!-- 地图 App 地点卡片的排法：段头 + 半透明卡片；控件行是地图 App「地图模式」那类设置行 -->
-    <h2 class="mh">到枢纽的时间</h2>
-    <div class="mcard" id="bar">
-      <div class="r"><span class="k">阈值</span><span class="v num" id="thv">25 分</span></div>
-      <div class="r slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
-      <div class="r"><span class="k">可达枢纽数</span>
-        <div class="seg" id="minhub" title="只显示阈值内可达 ≥N 个枢纽的车站"><button data-n="1" class="on" aria-pressed="true">≥1</button><button data-n="2">≥2</button><button data-n="3">≥3</button><button data-n="4">全4</button></div></div>
-      <label class="r"><span class="k">含低频优等 <span class="acc">⚡</span></span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
-      <label class="r"><span class="k">枢纽标记 <span class="acc">◆</span></span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
+    <!-- 主抽屉只放「结果」：阈值值卡（形取自健身统计卡，滑块取 Kit）、筛选胶囊、图例。开关类选项在右上「图层」小 Sheet 里 -->
+    <div class="stats" id="bar" style="padding-top:2px">
+      <div class="stat wide">
+        <div class="t">到枢纽的时间<i class="sf" data-sf="clock"></i></div>
+        <div class="s">阈值内可达 ≥N 个枢纽的车站才画</div>
+        <div class="n" id="thv">25 分</div>
+        <div class="r slider" style="padding:8px 0 0;min-height:0"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
+      </div>
+    </div>
+    <div class="chips" id="minhub" role="group" aria-label="可达枢纽数" style="margin-top:12px"><button data-n="1" class="on" aria-pressed="true">≥1 枢纽</button><button data-n="2" aria-pressed="false">≥2</button><button data-n="3" aria-pressed="false">≥3</button><button data-n="4" aria-pressed="false">全4</button></div>
+    <p class="mnote" id="stat"></p>
+    <p class="mnote" id="areastat"></p>
+    <h2 class="mh">可达枢纽</h2>
+    <div class="mlist" id="lg"></div>
+    <div id="tiersLg" class="mnote" hidden>
+      <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
+      <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
+      <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
+    <div class="mcard" style="margin-top:12px"><div class="txt" id="note">载入中…</div></div>
+    <p class="mnote">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
+  </div>
+</aside>
+<!-- 「图层」小 Sheet：地图 App「地图模式」那张的形——标题居中 + 关闭 44，一张卡片放开关行 -->
+<aside class="sheet glass opt" id="optSheet" hidden aria-label="图层">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">图层</div></div><span class="slot"><button class="btn-glass fill" id="optClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
+  <div class="body">
+    <div class="mcard">
+      <label class="r"><span class="k">含低频优等</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+      <label class="r"><span class="k">枢纽标记</span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
       <label class="r"><span class="k">面覆盖（＋步行）</span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
       <div id="walkWrap" hidden>
         <div class="r"><span class="k">步行</span><span class="v num" id="wkv">10 分</span></div>
@@ -75,21 +101,11 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
         <label class="r"><span class="k">势力范围模式</span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
       </div>
       <label class="r"><span class="k">居住等级（面层）</span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
-      <div id="tiersLg" class="src" hidden>
-        <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
-        <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
-        <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
     </div>
-    <p class="mnote" id="stat"></p>
-    <p class="mnote" id="areastat"></p>
-    <h2 class="mh">可达枢纽</h2>
-    <div class="mlist" id="lg"></div>
-    <div class="mcard" style="margin-top:12px"><div class="txt" id="note">载入中…</div></div>
-    <p class="mnote">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
   </div>
 </aside>
 <!-- 旧脚本还引用这几个按钮：保留在 DOM 里但不显示（主题跟随系统，面板不再折叠，图例常驻） -->
-<div class="hidden-ctl"><button id="theme"></button><button id="fold"></button><button id="more"></button><button id="closeInfo"></button></div>
+<div class="hidden-ctl"><button id="theme"></button><button id="fold"></button><button id="more"></button><button id="closeInfo"></button><div id="info"></div></div>
 <script src="../ui/hig.js"></script>
 <script>
 const HUBS = ['梅田','難波','天王寺','京橋'];
@@ -128,6 +144,8 @@ const cssvar = n => getComputedStyle(document.documentElement).getPropertyValue(
 // 即閉じていた（「長押ししても何も出ない」重大バグの正体その2）。
 // popup は ✕ か別popupを開くことで閉じる。
 window.SHEET=HIG.sheet(document.getElementById('sheet'),{initial:'medium'});
+document.getElementById('optBtn').addEventListener('click',()=>{ document.getElementById('optSheet').hidden=false; document.getElementById('sheet').hidden=true; HIG.sf(); });
+document.getElementById('optClose').addEventListener('click',()=>{ document.getElementById('optSheet').hidden=true; document.getElementById('sheet').hidden=false; });
 for(const id of ['th','wk']){ const r=document.getElementById(id); const f=()=>r.style.setProperty('--p',((r.value-r.min)/(r.max-r.min)*100)+'%'); r.addEventListener('input',f); f(); }
 const map = L.map('map',{zoomControl:false, closePopupOnClick:false})
   .setView([34.66,135.52],11);
@@ -171,7 +189,7 @@ function drawHubs(){
   for(const [nm,ll] of Object.entries(HUB_LL)){
     hubLayer.addLayer(L.marker(ll,{interactive:false,
       icon:L.divIcon({className:'',iconSize:[s,s],iconAnchor:[s/2,s/2],
-        html:'<div class="hubmk" style="width:'+s+'px;height:'+s+'px"></div>'})}));
+        html:'<div class="hubmk" style="width:'+s+'px;height:'+s+'px"><i class="sf" style="--sf:url(../ui/sf/tram.fill.png)"></i></div>'})}));
     if(z>=11)
       hubLayer.addLayer(L.marker(ll,{interactive:false,
         icon:L.divIcon({className:'',iconAnchor:[-s/2-3,7],
@@ -573,11 +591,13 @@ function render(){
     // 間引き時に残す優先度: 届く枢纽が多い > 最速が速い
     const mn = Math.min(...t.filter(v=>v!==null));
     draws.push({s,t,cls:'reach',rank:set.length*1000-mn,r,mk:()=>
+      // 地图 App 公共交通模式（iOS 27，東京駅周边实测 2026-09-15 11:51）：车站 = 线路色实心点 ≈5pt + 1pt 白圈，没有黑描边；
+      // 这里颜色 = 最快枢纽，四枢纽全达的点更大、白圈更粗
       L.circleMarker([s.lat,s.lon],{
-        radius: r,
-        color: full ? ring : (THEME==='light' ? '#ffffffcc' : '#00000099'),
+        radius: full ? r+0.6 : r,
+        color: ring,
         weight: full ? fullW : normW,
-        fillColor: css(HUE[HUBS[fh]]), fillOpacity: inOsaka?0.95:0.55
+        fillColor: css(HUE[HUBS[fh]]), fillOpacity: inOsaka?1:0.6
       })});
   }
   // zoom 10 以下では定数をどこまで絞っても物理的に重なる（半径下限 2px ×
@@ -655,7 +675,7 @@ function buildLegend(){
   };
   HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
   add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'),
-      '粗白/黑边 = 四枢纽全覆盖');
+      '更大、白圈更粗 = 四枢纽全覆盖');
   add('background:'+cssvar('--sub'), '点越大 = 阈值内可达枢纽越多');
   add('background:'+cssvar('--dim')+';border-color:'+cssvar('--dimbd'), '阈值内不可达', 1);
   add('background:transparent;border:2px dashed '+cssvar('--acc'), '仅低频线可达 ⚡', 1);

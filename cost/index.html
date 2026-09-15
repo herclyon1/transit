@@ -44,7 +44,9 @@ table.tiers tr:last-child td{border-bottom:0}
 table.tiers td a{color:var(--ink);font-weight:600;text-decoration:none}
 table.tiers .chip{width:6px;height:6px;padding:0;margin-left:4px;vertical-align:middle}
 table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-shadow:none;background:var(--ink-3)}
-#card .links a{display:block;padding:12.5px 16px;color:var(--tint);text-decoration:none}
+#card .links a{display:flex;align-items:center;justify-content:space-between;min-height:47px;padding:12.5px 16px;color:var(--ink);text-decoration:none;position:relative}
+#card .links a + a::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
+#card .links a::after{content:"›";color:var(--ink-3);margin-left:8px}
 </style>
 </head>
 <body>
@@ -167,9 +169,10 @@ async function show(c){
 // render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
 // 最前面加一颗 50 高的主按钮（地图 App「规划」的位置）：跳到「换算成工时」
 function groups(h){
-  return '<div class="mbtn"><button class="btn l tint stack" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button></div>'
-        + h.replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh"${/换算成工时/.test(t)?' id="hours"':''}>${t}</h2><div class="mcard">${rest}</div>`)
-          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<div class="mcard links" style="margin-top:28px">$1</div>')
+  return '<div style="height:16px"></div>'
+        + h.replace(/<section class="raw">([\s\S]*?)<\/section>/g,'$1')
+          .replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh"${/换算成工时/.test(t)?' id="hours"':''}>${t}</h2><div class="mcard">${rest}</div>`)
+          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<h2 class="mh" id="srcs">来源与相关图</h2><div class="mcard links">$1</div>')
           .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<div class="mcard"><div class="empty">$1</div></div>')
           .replace(/<section class="src">([\s\S]*?)<\/section>/g,'<p class="mnote">$1</p>'); }
 // ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
@@ -192,6 +195,24 @@ function render(c,d){
   if(!d) return '<section class="empty">这个城市还没有数据文件。数据规范见 data/README.md。</section>';
   const cur=d.currency||c.currency; let h='';
   const V=x=>x&&x.value!=null?x.value:null;
+  // ---- 动作行（地图 App 地点卡片：主动作 + 次动作等宽）+ 2×2 统计卡（健身 › 摘要 的形）
+  const TAG={official:['官方','green'],listing:['挂牌',''],measured:['实测','gray'],crowd:['众包','orange'],estimated:['推算','gray']};
+  const tag=m=>m&&m.confidence?`<span class="tag ${TAG[m.confidence]?TAG[m.confidence][1]:''}">${TAG[m.confidence]?TAG[m.confidence][0]:m.confidence}</span>`:'';
+  const foot=m=>m?[m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_name||'来源'}</a>`:(m.source_name||''), m.fetched_at||''].filter(Boolean).join(' · '):'待调查';
+  const big=(v,unit)=>{ const t=money(v,unit,cur); if(t==null) return '<span class="dim">暂无</span>'; const m=t.match(/^([\d.,]+)\s*(.*)$/); return m?`${m[1]}<small>${m[2]}</small>`:t; };
+  const jobs=(d.jobs||[]).filter(j=>V(j.wage)!=null); const wj=jobs.length?jobs.reduce((a,b)=>V(a.wage)<=V(b.wage)?a:b):null;
+  const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_student||t15.pass_commuter);
+  const foodM=d.living_official&&d.living_official.food;
+  h+='<section class="raw"><div class="actions">'
+    +'<button class="btn tint" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button>'
+    +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
+    +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'<button class="btn" type="button" disabled><i class="sf" data-sf="map"></i><span>可达性图</span></button>')
+    +'</div><div class="stats" style="margin-top:16px">'
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${wj?wj.chain:'门店直发挂牌'}</div><div class="n">${wj?big(V(wj.wage),wj.wage.unit||cur+'/小时'):'<span class="dim">暂无</span>'}</div><div class="f">${wj?foot(wj.wage):'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
+    +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 月票</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
+    +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">统计平均 · 月</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
+    +'</div></section>';
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
   if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="r"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
@@ -244,7 +265,9 @@ function render(c,d){
     h+='</tbody></table></div>';
   } else h+='<div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div>';
   h+='</section>';
-  if(c.links){ h+='<section class="links">'+Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图（档位的来源） →'})[k]||k}</a>`).join('')+'</section>'; }
+  { const srcs=new Map(); const walk=o=>{ if(!o||typeof o!=='object') return; if(o.source_url&&!srcs.has(o.source_url)) srcs.set(o.source_url,o.source_name||o.source_url.replace(/^https?:\/\//,'').slice(0,40)); for(const k in o){ if(k!=='source_url'&&o[k]&&typeof o[k]==='object') walk(o[k]); } }; walk(d);
+    h+='<section class="links">'+(c.links?Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图（档位的来源）'})[k]||k}</a>`).join(''):'')
+      +[...srcs].slice(0,12).map(([u,n])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')+'</section>'; }
   h+=`<section class="src">更新 ${d.updated||'—'} · 状态 ${d.status==='ready'?'可看':'草稿，数据未填完'} · schema ${d.schema||1}</section>`;
   return h;
 }

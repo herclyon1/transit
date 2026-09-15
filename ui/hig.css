@@ -264,14 +264,31 @@ a.row:active,button.row:active{background:var(--fill)}
 }
 
 /* ---------- 13. 开关（UI Kit › Toggles 5433:19059；设置 App 实测 63×28，圆钮 38×24 白色药丸，开 #34c759，关 rgba(60,60,67,.3)）----------
-   用法：<label class="row"><span class="lab">…</span><span class="sw"><input type="checkbox"><i></i></span></label> */
-.sw{position:relative;display:inline-block;width:63px;height:28px;flex:none}
+   用法：<label class="row"><span class="lab">…</span><span class="sw"><input type="checkbox"><i></i></span></label>
+   动效照 hig-kit（maa 手机页，模拟器 120fps 逐帧 + Kit Toggle State=Pressed 从 Figma 网页版读）：
+   按住 = Liquid Glass 镜片：圆钮 38×24 → 58×38（scale 1.526,1.583），压出轨道上下各 5；镜片 = 白 62%→12% 渐变 + 0.5 内描边 #ccc + 底部暗边内阴影 + 顶部高光 + 背景模糊；
+   拖动跟手（--kx）；松开：先落到对侧（~0.1s，保持拉长）再回缩成药丸（~0.2s），轨道颜色 0.2s 交叉淡入；全程只动 transform，不动 width。
+   HIG.switches()（hig.js）负责指针事件；浏览器松手后自带的 click 会再翻一次，所以捕获阶段吞掉。 */
+.sw{position:relative;display:inline-block;width:63px;height:28px;flex:none;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .sw input{position:absolute;inset:0;opacity:0;margin:0;width:100%;height:100%;cursor:pointer}
-.sw i{position:absolute;inset:0;border-radius:999px;background:rgba(60,60,67,.3);transition:background .2s}
+.sw i{position:absolute;inset:0;border-radius:999px;background:rgba(60,60,67,.3);pointer-events:none;transition:background-color .2s cubic-bezier(.4,0,.6,1)}
 .sw i::after{content:"";position:absolute;top:2px;left:2px;width:38px;height:24px;border-radius:999px;background:#fff;
-             box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.06);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+             box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transform-origin:center;will-change:transform;
+             transition:background .12s,box-shadow .12s}
 .sw input:checked + i{background:var(--green)}
 .sw input:checked + i::after{transform:translateX(21px)}
+.sw.hold i::after,.sw input:active + i::after{
+  transform:scale(1.526,1.583);transition:transform .12s cubic-bezier(.2,.8,.2,1),background .12s,box-shadow .12s;
+  background:linear-gradient(180deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,.28) 45%, rgba(255,255,255,.12) 100%);
+  box-shadow:inset 0 0 0 .5px rgba(204,204,204,.95),inset 0 -1.5px 3px rgba(40,40,40,.28),inset 0 1px 1px rgba(255,255,255,.9),0 4px 10px rgba(0,0,0,.18);
+  -webkit-backdrop-filter:blur(1.5px) saturate(1.5);backdrop-filter:blur(1.5px) saturate(1.5)}
+.sw input:active:checked + i::after{transform:translateX(21px) scale(1.526,1.583)}
+.sw.hold i::after{transform:translateX(var(--kx,0px)) scale(1.526,1.583) !important;animation:none !important;transition:background .12s,box-shadow .12s}
+.sw:not(.live) i::after{transition:transform .2s cubic-bezier(.2,.8,.2,1),background .12s,box-shadow .12s}
+.sw.live input:checked + i::after{animation:knob-on .34s cubic-bezier(.2,.8,.2,1) both}
+.sw.live input:not(:checked) + i::after{animation:knob-off .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes knob-on{0%{transform:translateX(0) scale(1.526,1.583)}30%{transform:translateX(15px) scale(1.55,1.35)}100%{transform:translateX(21px) scale(1)}}
+@keyframes knob-off{0%{transform:translateX(21px) scale(1.526,1.583)}30%{transform:translateX(6px) scale(1.55,1.35)}100%{transform:translateX(0) scale(1)}}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sw i{background:rgba(120,120,128,.32)} }
 :root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
 /* 可选（默认不开，见 hig.js nativeSwitch() 的注释）：Safari 的 <input switch> 外形像系统开关但动效只是颜色淡入 */
@@ -381,3 +398,33 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .menu button .sf{position:absolute;left:16px;width:22px;height:22px;top:10px;display:none}
 .menu button[aria-checked="true"] .sf{display:block}
 .menu button:active,.menu button:focus-visible{background:var(--fill)}
+
+/* ---------- 16. 统计卡 .stats/.stat（健身 › 摘要 iOS 27 实测 2026-09-15 11:47：两列各 195、距边 20、间 10、圆角 20、内边 16；
+   标题 17 半粗 + 右上 17 的 › 圆钮；副标题 15 灰；大数字 28 粗；脚注 13）。放在地图 Sheet 里时底用半透明填充（同 .mcard）。 ---------- */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 var(--inset)}
+.stat{background:var(--fill-3);border-radius:20px;padding:16px;min-width:0}
+.stat.wide{grid-column:1/-1}
+.stat .t{display:flex;align-items:center;justify-content:space-between;font-size:1em;line-height:1.2941em;font-weight:600}
+.stat .t .sf{width:1em;height:1em;color:var(--ink-3)}
+.stat .s{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);margin-top:2px}
+.stat .n{font-size:1.6471em;line-height:1.2143em;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat .n small{font-size:.5357em;font-weight:600;color:var(--ink-2);margin-left:.15em}
+.stat .f{font-size:.7647em;line-height:1.3846em;color:var(--ink-2);margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stat .f a{color:var(--tint);text-decoration:none}
+.stat input[type=range]{margin-top:8px}
+/* 置信度小胶囊（未量：13 半粗、24 高、tint 12% 底——待有实测再改） */
+.tag{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:999px;font-size:.7647em;font-weight:600;background:rgba(0,136,255,.12);color:var(--tint);vertical-align:middle}
+.tag.green{background:rgba(52,199,89,.14);color:#248a3d} .tag.orange{background:rgba(255,149,0,.14);color:#c93400} .tag.gray{background:var(--fill);color:var(--ink-2)}
+
+/* ---------- 17. 地点卡片动作行 .actions（地图 App Apple Marunouchi 卡片 iOS 27 实测 11:50：N 枚等宽、50 高、间 8、距 Sheet 边 20；
+   首枚 tint 白字，其余灰底 tint 字，不可用的更浅；图标在上（距顶 8）标签 13 半粗在下（距底 8））---------- */
+.actions{display:flex;gap:8px;padding:0 var(--inset)}
+.actions .btn{flex:1 1 0;min-width:0;height:50px;padding:8px 6px;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:0;
+              background:var(--fill-3);color:var(--tint);font-size:.7647em;font-weight:600;line-height:1}
+.actions .btn .sf{width:17px;height:17px}
+.actions .btn.tint{background:var(--tint);color:#fff}
+.actions .btn:disabled{color:var(--ink-3);opacity:.7}
+/* 地图 App「地图模式」那类按需打开的小 Sheet：标题 17 半粗居中 + 关闭 44，内容按需高 */
+.sheet.opt{height:auto !important;max-height:60dvh}
+.sheet.opt .head{padding:0 15px 10px}
+.sheet.opt .head .tt .t-head{font-size:1em;font-weight:600;line-height:1.2941em;padding-top:12px}

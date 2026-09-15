@@ -36,7 +36,24 @@ window.HIG = (function(){
     const probe=document.createElement('input'); probe.type='checkbox';
     if('switch' in probe && /Apple/.test(navigator.vendor||'')){ document.querySelectorAll('.sw input[type=checkbox]').forEach(i=>i.setAttribute('switch','')); document.documentElement.classList.add('native-switch'); }
   }
-  document.addEventListener('DOMContentLoaded', sf);
+  // 开关动效（照 hig-kit / maa 手机页 installNative()）：按住出镜片、拖动跟手、松开落位；吞掉浏览器随后的 click，免得翻两次
+  function switches(){
+    document.addEventListener('pointerdown', e=>{
+      const sw=e.target.closest&&e.target.closest('.sw'); if(!sw) return;
+      const input=sw.querySelector('input'); if(!input||input.disabled) return;
+      e.preventDefault(); sw.dataset.pe='1';
+      const startOn=input.checked, x0=e.clientX; let dx=0;
+      sw.classList.add('live','hold'); sw.style.setProperty('--kx',(startOn?21:0)+'px');
+      const move=ev=>{ dx=ev.clientX-x0; sw.style.setProperty('--kx', Math.max(0,Math.min(21,(startOn?21:0)+dx))+'px'); };
+      const up=()=>{ sw.removeEventListener('pointermove',move); const dragged=Math.abs(dx)>6; const on=dragged?((startOn?21:0)+dx)>10.5:!startOn;
+        if(dragged) sw.classList.remove('live'); sw.classList.remove('hold'); sw.style.removeProperty('--kx');
+        if(on!==input.checked){ input.checked=on; input.dispatchEvent(new Event('change',{bubbles:true})); } };
+      sw.addEventListener('pointermove',move); sw.addEventListener('pointerup',up,{once:true}); sw.addEventListener('pointercancel',up,{once:true});
+      try{ sw.setPointerCapture(e.pointerId); }catch(_){}
+    });
+    document.addEventListener('click', e=>{ const sw=e.target.closest&&e.target.closest('.sw'); if(sw&&sw.dataset.pe){ e.preventDefault(); delete sw.dataset.pe; } }, true);
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{ sf(); switches(); });
   // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
   if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js?v='+Date.now(); document.head.appendChild(a); }
   // 下拉菜单（UIMenu）：点 anchor 开合，菜单贴在 anchor 下方 6，靠右对齐；点项 → onPick(value)；Esc/点外面关。
@@ -53,5 +70,5 @@ window.HIG = (function(){
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); const bs=[...el.querySelectorAll('button')]; const i=bs.indexOf(document.activeElement); bs[(i+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length].focus(); } });
     return { open, close };
   }
-  return { sf, sheet, menu, nativeSwitch, ROOT };
+  return { sf, sheet, menu, switches, nativeSwitch, ROOT };
 })();
