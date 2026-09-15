@@ -64,7 +64,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 #lg .mrow .ico,#tiersLg .mrow .ico{border:1px solid #0003}
 #lg .mrow .name,#tiersLg .mrow .name{font-weight:400}
 /* 桌面 = macOS 27 UI Kit 侧栏行 Large 40（ui/hig.css 11b；NUMBERS.md「macOS 27 UI Kit」） */
-@media (min-width:900px) and (pointer:fine){ #lg .mrow,#tiersLg .mrow{min-height:40px;padding:5px 4px} #lg .mrow:hover,#tiersLg .mrow:hover{background:none} }
+@media (min-width:900px) and (pointer:fine){ #lg .mrow,#tiersLg .mrow{min-height:32px;padding:0 6px 0 4px} #lg .mrow:hover,#tiersLg .mrow:hover{background:none} }   /* Kit Sidebars › Rows › Medium 32（hig.css 11b） */
 /* 宽屏触屏（iPad）：地点卡片顶替侧栏内容；Mac（.sheet.split）卡片是贴在侧栏右边的 Utility Panel，侧栏内容留着 */
 @media (min-width:900px){ .sheet:has(#card:not([hidden])) > .body{display:none} #card .body{padding-top:0} }
 @media (min-width:900px) and (pointer:fine){ .sheet.split:has(#card:not([hidden])) > .body{display:block} }
@@ -76,7 +76,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 <body>
 <div class="map-shell"><div id="map" class="map"></div></div>
 <div class="bar">
-  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i><span class="lb">目录</span></a>
   <span class="spacer"></span>
   <button class="btn-glass glass" id="optBtn" type="button" aria-label="图层"><i class="sf" data-sf="square.stack.3d.up"></i></button>
 </div>
@@ -241,7 +241,8 @@ function setDark(on){
 // 图层顺序（下→上）：底图 › 等级面层 › 轨道 › 车站 › 命中圆
 map.on('load', ()=>{
   map.addSource('tiers',{type:'geojson',data:EMPTY});
-  map.addLayer({id:'tiers-fill',type:'fill',source:'tiers',paint:{'fill-color':['get','col'],'fill-opacity':['case',['boolean',['feature-state','hover'],false],0.65,0.45]}});
+  // 面层透明度：整市 0.32 / 细分块 0.42（悬停 +0.2）——0.45 全铺把底图地名盖糊了（用户 09-16 可用性）
+  map.addLayer({id:'tiers-fill',type:'fill',source:'tiers',paint:{'fill-color':['get','col'],'fill-opacity':['+',['case',['==',['get','kind'],'zone'],0.42,0.32],['case',['boolean',['feature-state','hover'],false],0.2,0]]}});
   map.addLayer({id:'tiers-line',type:'line',source:'tiers',paint:{'line-color':'#fff','line-opacity':0.7,'line-width':['case',['==',['get','kind'],'zone'],1,0.6]}});
   map.addSource('walkone',{type:'geojson',data:EMPTY});   // 打开某站卡片时画它自己的步行等时圈（#30）
   map.addLayer({id:'walkone-fill',type:'fill',source:'walkone',paint:{'fill-color':'#0a7aff','fill-opacity':['match',['get','m'],5,0.22,10,0.15,15,0.09,0.05]}});
@@ -442,7 +443,9 @@ const area = {
 };
 
 // 縮小すると点が相対的に大きくなって団子になるので、zoom に応じて縮める（基準 Leaflet zoom 11、1段縮小ごとに 0.72 倍、拡大側は 1.0 で頭打ち）
-const BASE_ZOOM = 11;
+// 点的半径随缩放：zL 12.5 及以上是满尺寸（半径 2.9 + 0.65×枢纽数），每低一级 ×0.72。用户 2026-09-16 04:00：「车站可达性那个点全都挤在一起了」——
+// 原来 BASE 11 = 初始视图（zoom 10，1 px ≈ 126 m）就画满尺寸 14 px 的点，市中心站距 400–800 m 全叠成一团；现在初始视图点是 8 px，且 zL ≤ 12 时同格只画一站
+const BASE_ZOOM = 12.5;
 function zoomScale(){ return Math.max(0.22, Math.min(1.0, Math.pow(0.72, BASE_ZOOM - zL()))); }
 let MINHUBS = 1;   // 閾値内で届く枢纽数がN以上の駅だけ表示する
 document.querySelectorAll('#minhub button').forEach(b=>{ b.addEventListener('click',()=>{ MINHUBS = +b.dataset.n;
@@ -477,13 +480,18 @@ function render(){
     const full = set.length===4, fh = fastestHub(t);
     const r = Math.max(2.0, (inOsaka ? (2.9 + set.length*0.65) : (2.2 + set.length*0.45)) * zs);
     const mn = Math.min(...t.filter(v=>v!==null));
-    draws.push({s,cls:'reach',rank:set.length*1000-mn,r,props:{r: full ? r+0.6 : r, fill:css(HUE[HUBS[fh]]), fo:inOsaka?1:0.6, ring, w: full ? fullW : normW, so:1}});
+    // 等级面层开着时点改成白底 + 枢纽色圈（细）：面层的色是等级、圈的色是最快枢纽，两套颜色不打架（用户 09-16：「居住等级，它好用吗」）
+    const tiersOn = $('tiersOn').checked;
+    draws.push({s,cls:'reach',rank:set.length*1000-mn,r,props: tiersOn
+      ? {r: full ? r+0.6 : r, fill:'#fff', fo:inOsaka?0.95:0.6, ring:css(HUE[HUBS[fh]]), w: Math.max(1.2, (full ? 2.6 : 1.8)*zs), so:inOsaka?1:0.7}
+      : {r: full ? r+0.6 : r, fill:css(HUE[HUBS[fh]]), fo:inOsaka?1:0.6, ring, w: full ? fullW : normW, so:1}});
   }
   // zoom 10 以下では物理的に重なる：同一格子内はクラス別に代表 1 駅だけ描く（集計は間引き前）。勢力圏モード: 駅の点は描かない
   const terrHide = $('areaOn').checked && $('terr').checked;
   let out = terrHide ? [] : draws;
-  if(out.length && zL() <= 10){
-    const cell = zL() >= 10 ? 6 : 8; const cellPick = new Map();
+  if(out.length && zL() <= 12){
+    // 格子 = 最大点直径 + 2：同格里只留枢纽数最多/最快的那一站（缩放进去会再出现）
+    const cell = Math.ceil(2*(2.9+4*0.65)*zs + 2*Math.max(1.1, 2.2*zs) + 2); const cellPick = new Map();
     for(const d of draws){ const p = map.project([d.s.lon, d.s.lat]); const key = d.cls+':'+Math.floor(p.x/cell)+':'+Math.floor(p.y/cell);
       const cur = cellPick.get(key); if(!cur || d.rank > cur.rank) cellPick.set(key, d); }
     out = [...cellPick.values()];
@@ -523,10 +531,9 @@ function buildLegend(){
   const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow no-press';   // 图例不是按钮（#38）
     r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name"'+(muted?' style="color:'+cssvar('--sub')+'"':'')+'>'+txt+'</div></span>'; lg.appendChild(r); };
   HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
-  add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '更大、白圈更粗 = 四枢纽全覆盖');
-  add('background:'+cssvar('--sub'), '点越大 = 阈值内可达枢纽越多');
+  add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '白圈粗 = 四枢纽全覆盖');   // 「点越大 = 可达枢纽越多」段脚已写，不再占一行（Mac 侧栏 180 宽放不下长句）
   add('background:'+cssvar('--dim')+';border-color:'+cssvar('--dimbd'), '阈值内不可达', 1);
-  add('background:'+cssvar('--dim')+';opacity:.6;border:2px solid '+cssvar('--acc'), '仅低频线可达 ⚡（灰点橙圈）', 1);   // 和地图上的画法一致：GL 画不了虚线圆（#33）
+  add('background:'+cssvar('--dim')+';opacity:.6;border:2px solid '+cssvar('--acc'), '仅低频线可达 ⚡', 1);   // 和地图上的画法一致：GL 画不了虚线圆（#33）
 }
 
 const loadFail=(what,e)=>{ console.warn(what,e); $('note').innerHTML='<b>'+what+'没加载出来</b>（'+(e&&e.message||e)+'）。检查网络后下拉刷新。'; $('stat').textContent='数据没加载出来'; };
@@ -611,7 +618,7 @@ function applyTheme(){
   if(DATA){ buildLegend(); render(); if(area.on) area.draw(); }
 }
 applyTheme();
-if(matchMedia('(pointer: fine)').matches) $('osakaSub').textContent='点车站看时间 · 右键或按住 0.6 秒查地点';
+if(matchMedia('(pointer: fine)').matches) $('osakaSub').textContent='点车站看时间 · 右键查地点';   // Mac 侧栏 200 宽：副题 11 号一行放 ~14 字（按住 0.6 秒也行，标题栏里写不下）
 function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); if(APP.open) APP.present(APP.open); refreshPin(); }
 $('th').addEventListener('input',()=>{ $('thv').textContent = $('th').value+' 分'; redrawAll(); });
 $('wk').addEventListener('input',()=>{ $('wkv').textContent = $('wk').value+' 分'; if(area.on) area.draw(); });
@@ -642,6 +649,7 @@ $('tiersOn').addEventListener('change',e=>{
   $('tiersLg').hidden=!e.target.checked;
   const vis=v=>{ for(const id of ['tiers-fill','tiers-line']) if(map.getLayer(id)) map.setLayoutProperty(id,'visibility',v); };
   if(e.target.checked) ensureTiers().then(()=>{ if($('tiersOn').checked) vis('visible'); }); else vis('none');
+  if(DATA) render();   // 面层开关切换点的画法（白底 + 枢纽色圈 ↔ 实心）
 });
 $('terr').addEventListener('change',()=>{ if(DATA) render(); if(area.on) area.draw(); });
 map.on('zoomend', ()=>{ if(DATA) render(); });   // 縮尺が変わったら点の半径を引き直す

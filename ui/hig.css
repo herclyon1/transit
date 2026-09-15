@@ -79,6 +79,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
      display:flex;align-items:center;gap:10px;pointer-events:none}
 .bar>*{pointer-events:auto}
 .bar .spacer{flex:1 1 auto;pointer-events:none}
+.bar a .lb{display:none}   /* 返回目录的文字标签只在 Mac 侧栏底显示（11b） */
 .btn-glass{display:inline-flex;align-items:center;justify-content:center;gap:.25em;height:44px;min-width:44px;padding:0 4px;border:0;border-radius:999px;
            color:var(--ink);font:inherit;font-weight:500;cursor:pointer;text-decoration:none;user-select:none;-webkit-user-select:none}
 .btn-glass.text{padding:0 14px}                                      /* kit: Text 36 高，左右 8 + 组内 2/4 */
@@ -216,7 +217,10 @@ a.row:active,button.row:active{background:var(--fill)}
      工具条 = Kit Titlebars and Toolbars › XL：36 胶囊、间 8、距边 8、分段 32×28 内缩 4；搜索 = XL 工具条搜索 36；
      开关 = Kit Toggles - Switches › Regular 54×24（圆钮 32×20 距 2，按下 50×31）；分段 = Kit Segmented Controls › Regular 24 r6；
      按钮 = Kit Buttons › Regular 24 r6 / Large 28 胶囊 / XL 36 胶囊，标签 Medium 13 内边 16；卡片 = Kit Group Box r12 黑 3%。
-     之前的 200/282/13（Maps 实测）和 360/380（无出处）作废。 ---------- */
+     组合（哪个组件放哪、多宽）= macOS 27 地图 App，NUMBERS.md「macOS 27 地图 App 的组合尺寸」（2026-09-16 辅助功能树实测，用户拍板「Mac 布局也一起改」）：
+     侧栏 200 贴左通高无圆角（行 180 @10、行高 Medium 32）；顶部 52 = Kit 标题栏；地点卡 320 浮在地图上（左距侧栏 8、上下 8、内边 16、标题 Title 1 22 Bold 距顶 48、
+     28 圆钮 @12、主钮 288×45、次钮 288×36 胶囊）；右侧控件竖排 36 玻璃钮 @右 8 从顶 8 起、间 6；返回目录 = 侧栏底 Regular 24 无边框钮（Maps「Clear Recents」位）。
+     历史：09-15 的 Left Pane 256 + Utility Panel 280 并排、09-16 之前的 200/282/13 均作废。 ---------- */
   html{font-size:13px}
   body{line-height:1.2308em}                                        /* Body 13/16 */
   .t-large{font-size:2em;line-height:1.2308em;letter-spacing:0}     /* Large Title 26/32 */
@@ -227,32 +231,38 @@ a.row:active,button.row:active{background:var(--fill)}
   .t-callout{font-size:.9231em;line-height:1.25em}                  /* Callout 12/15 */
   .t-sub{font-size:.8462em;line-height:1.2727em}                    /* Subheadline 11/14 */
   .t-foot,.t-cap1,.t-cap2{font-size:.7692em;line-height:1.3em}      /* Footnote / Caption 10/13 */
-  /* 侧栏 */
-  .sheet{left:8px;top:8px;bottom:8px;width:256px;border-radius:16px;
-         background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px);box-shadow:0 0 1px rgba(0,0,0,.3),0 20px 100px rgba(0,0,0,.2)}
-  .sheet .head{padding:8px 8px 8px;gap:8px}
-  .sheet .head .search{height:36px;margin:0;padding:0 8px 0 8px;background:var(--bg-elev);box-shadow:0 0 0 1px rgba(0,0,0,.05)}
-  .sheet .head .search input{font-size:1em}
-  .sheet .head .slot{width:36px;height:36px}
-  .sheet .head .btn-glass{height:36px;min-width:36px}
-  .sheet .head .tt .t-title2{font-size:1.1538em;line-height:1.3333em;font-weight:700}          /* 侧栏头标题 = Kit Window Title (with sidebar) Bold 15；副标题 Medium 11 */
-  .sheet .head .tt .t-sub{font-size:.8462em;line-height:1.2727em;font-weight:500}
-  .sheet .body{padding-bottom:8px}
-  .sheet .mh{padding:16px 14px 2px;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2)}
-  .sheet .mh:first-child{padding-top:2px}
+  /* 侧栏 = Kit Windows › Left Pane（材质 #fafafa 80% + 模糊 100），宽 200 贴左通高（Maps）；上面 52 = Kit Titlebar（标题 Bold 15 + 副题 Medium 11，左起 14 = Kit 侧栏文字内缩） */
+  .sheet{left:0;top:0;bottom:0;width:200px;border-radius:0;box-shadow:none;
+         background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px)}
+  .sheet .head{height:52px;min-height:52px;padding:0 8px 0 14px;gap:8px;align-items:center}
+  .sheet .head .slot{width:auto;height:auto;min-width:0} .sheet .head .slot:empty{display:none}
+  .sheet .head .tt{text-align:left;padding:0;min-width:0}
+  .sheet .head .tt .t-title2{font-size:1.1538em;line-height:1.3333em;font-weight:700}          /* Kit Window Title (with sidebar) Bold 15 */
+  .sheet .head .tt .t-sub{font-size:.8462em;line-height:1.2727em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* 副标题 Medium 11 */
+  .sheet::after{content:"";flex:none;height:40px}   /* 侧栏底 40 = 「返回目录」钮（24 + 8×2）的位子，正文在它上面滚，不压到它 */
+  .sheet.opt::after,.sheet.split #card::after{content:none}
+  /* 段头 = Kit Sidebars › Header：18 高 Bold 11 @y2，段间距 14（Kit Medium 例子）→ 32 的盒 = Maps 的 AXHeading 32 */
+  .sheet .mh{height:32px;padding:16px 14px 0;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2);box-sizing:border-box}
+  .sheet .body > .mh:first-child,.sheet .body > :first-child > .mh:first-child{height:18px;padding-top:2px}
   .sheet .mh .sf{display:none}
-  .sheet .mlist{margin:0 10px;background:none;border-radius:0;overflow:visible}
+  .sheet .mlist{margin:0 10px;background:none;border-radius:0;overflow:visible}   /* 行底（选中/悬停 r8）距窗格边 10 = Kit 选中底 −4 于 14 的内缩 */
   .sheet .mlist + .mlist{margin-top:14px}
-  .sheet .mrow{min-height:40px;padding:5px 4px;gap:4px;border-radius:8px}
+  /* 行 = Kit Sidebars › Rows › Medium 32：图标 20 @14（= 行底 +4）、标题 Regular 13 @38（图标后 4）、trailing Detail Medium 13 右端 6；单行，副题不进侧栏 */
+  .sheet .mrow{min-height:32px;height:32px;padding:0 6px 0 4px;gap:4px;border-radius:8px}
   .sheet .mrow + .mrow::before{content:none}
-  .sheet .mrow .ico{width:24px;height:24px;font-size:1.2308em;background:none}
+  .sheet .mrow .ico{width:20px;height:20px;font-size:1em;background:none}
   .sheet .mrow .name{font-weight:400;line-height:1.2308em}
-  .sheet .mrow .hint{font-size:.8462em;line-height:1.2727em}
+  .sheet .mrow .hint{display:none}
+  .sheet .mrow .val{font-size:1em;line-height:1.2308em;font-weight:500;color:var(--ink-2)} .sheet .mrow .val b{font-weight:500} .sheet .mrow .val > small{display:none}
   .sheet .mrow .chev{display:none}
-  /* Kit 侧栏行第一行是单行 13：只放中文名，英文名挪到副题开头（副题 11 可截断）——maa 会话 09-15「邦美蜀 Buôn Ma Thuột」被截断后定 */
-  .sheet .mrow .name .en{display:none} .sheet .mrow .hint .en-hint{display:inline}
+  .sheet .mrow .name .en{display:none}
   .sheet .mrow:hover{background:rgba(0,0,0,.05)}
   .sheet .mrow:active,.sheet .mrow[aria-current="true"]{background:rgba(0,0,0,.11)}
+  /* 折叠段（Maps 侧栏段头带 Kit Headers - Trailing/Submenu 展开箭头 Bold 11）：.mh[data-fold] 点开/收起下一个列表 */
+  .sheet .mh[data-fold]{cursor:default;display:flex;align-items:center;justify-content:space-between}
+  .sheet .mh[data-fold]::after{content:"";width:10px;height:10px;background:currentColor;-webkit-mask:url(sf/chevron.right.png) center/contain no-repeat;mask:url(sf/chevron.right.png) center/contain no-repeat}
+  .sheet .mh[data-fold="open"]::after{-webkit-mask-image:url(sf/chevron.down.png);mask-image:url(sf/chevron.down.png)}
+  .sheet .mh[data-fold="closed"] + .mlist{display:none}
   /* 控件（Regular 尺寸） */
   html .sw{width:54px;height:24px} html .sw i::after{width:32px;height:20px} html .sw input:checked + i::after{transform:translateX(20px)}
   html .sw.hold i::after,html .sw input:active + i::after{transform:scale(1.5625,1.55)}
@@ -266,67 +276,87 @@ a.row:active,button.row:active{background:var(--fill)}
   .btn.m{height:28px;padding:0 16px;font-size:1em;line-height:1.2308em}
   .btn.l{height:36px;padding:0 16px;font-size:1em;line-height:1.2308em}
   html .chips button{height:28px;padding:0 16px;font-size:1em}   /* html 前缀：基础规则在文件后面（第 14 节），同权重会盖掉这里 */
-  /* 工具条（XL）与右侧控件簇 */
-  .bar{padding:8px 8px 8px;gap:8px}
+  /* 右侧控件簇 = Maps：36 玻璃钮竖排 @右 8，从顶 8 起，间 6（pitch 42）；.bar 里的钮/分段/菜单钮全在这一列，MapLibre ± 接在下面（shell.js 放 top-right，--bar-h 是这列到哪） */
+  .bar{top:8px;right:8px;left:auto;bottom:auto;width:auto;padding:0;flex-direction:column;align-items:flex-end;gap:6px}
   .btn-glass{height:36px;min-width:36px}
   html .bar:has(.seg) .btn-glass{height:36px;min-width:36px;padding:0 4px}   /* Mac 工具条一律 XL 36，不用 iPhone 的 48pt 变体 */
   .btn-glass.text{padding:0 16px;font-size:1em}
-  html .bar .seg{height:36px;padding:4px;gap:0;border-radius:999px} html .bar .seg button{height:28px;min-width:32px;padding:0 8px;font-size:1em;border-radius:999px}
+  html .bar .seg{height:36px;padding:4px;gap:0;border-radius:999px;flex:none;width:auto} html .bar .seg button{height:28px;min-width:32px;padding:0 8px;font-size:1em;border-radius:999px}
+  html .maplibregl-ctrl-top-right{top:var(--bar-h,8px);right:8px} html .maplibregl-ctrl-top-right .maplibregl-ctrl{margin:0 0 6px 0}
   .map-ctl{right:8px}
   .map-ctl .btn-glass{height:36px;min-width:36px}
-  /* 地点面板 = Utility Panel 280 */
-  .sheet.panel-wide{width:280px}
+  /* 返回目录（.bar 里第一颗 chevron.left）= Kit Push buttons › Regular 24 无边框（tint 文字 Medium 13），放侧栏底 (16, 底 8) = Maps「Clear Recents」/「Terms & Conditions」位；标签 .lb 只在这里显示 */
+  html .bar > a.btn-glass:first-child{position:fixed;left:16px;bottom:8px;top:auto;right:auto;z-index:16;height:24px;min-width:0;padding:0 6px 0 2px;border-radius:6px;gap:2px;
+     background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--tint);font-size:1em;font-weight:500}
+  html .bar > a.btn-glass:first-child .sf{width:12px;height:12px}
+  html .bar > a.btn-glass:first-child .lb{display:inline}
+  html .bar > a.btn-glass:first-child:hover{background:rgba(0,0,0,.05)} html .bar > a.btn-glass:first-child:active{background:rgba(0,0,0,.1)}
+  /* 地点卡片 = Maps 浮在地图上的 320 卡：左距侧栏 8、上下 8，材质 Kit Popovers（r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；内容 288 @16 */
+  .sheet.panel-wide{width:200px}
   .sheet.split{overflow:visible}
-  .sheet.split #card{position:absolute;left:264px;top:0;bottom:0;width:280px;display:flex;flex-direction:column;border-radius:16px;
-    background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px);box-shadow:0 0 1px rgba(0,0,0,.3),0 20px 100px rgba(0,0,0,.2)}
-  /* 地点面板头 = Kit Windows › Utility Panel › Titlebar（Titlebars and Toolbars › Light › Panel › Titlebar 280×24）：
-     24 高；关闭 = 面板红灯 10⌀ #ff5c60 在 (8,8)，点击区 24×24；标题 SFPro-Medium 11 居中 y6；副标题不进面板头 */
-  .sheet.split #card .head{padding:0;height:24px;min-height:24px;align-items:center}
-  .sheet.split #card .head .slot{width:24px;height:24px}
-  .sheet.split #card .head .tt{padding:0}
-  .sheet.split #card .head .tt .t-title2{font-size:.8462em;line-height:1.1818em;font-weight:500}
-  .sheet.split #card .head .tt .t-sub{display:none}
+  .sheet.split #card{position:absolute;left:208px;top:8px;bottom:8px;width:320px;display:flex;flex-direction:column;border-radius:20px;
+    background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);
+    box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+  /* 卡片头 = Maps：28 圆钮 @(12,12)（Kit XL 工具条钮的内钮 28）；标题 Title 1 22 Bold 居中、距卡顶 48；副题 Subheadline 11 居中；正文距标题 20 */
+  .sheet.split #card .head{height:auto;min-height:0;padding:12px 12px 0;gap:0;flex-wrap:wrap;align-items:flex-start;justify-content:space-between}
+  .sheet.split #card .head .slot{display:flex;width:28px;height:28px;flex:none}
+  .sheet.split #card .head .tt{flex:1 0 100%;order:3;padding:0;margin-top:8px;text-align:center}
+  .sheet.split #card .head .tt .t-title2{font-size:1.6923em;line-height:1.1818em;font-weight:700;white-space:normal}
+  .sheet.split #card .head .tt .t-sub{display:block;margin-top:2px;white-space:normal}
+  .sheet.split #card .head .btn-glass.fill{width:28px;height:28px;border-radius:14px}
+  .sheet.split #card .head .btn-glass.fill .sf{width:13px;height:13px}
   /* 关闭钮：网页本身开在浏览器窗口里，红绿灯（Kit Window Controls / Utility Panel Stoplights）属于窗口，浏览器已经有一套；
-     窗口里的卡片/面板/弹出窗（cost·osaka 地点面板、大阪图层、学習/クイズ 详情与图例）一律 = Kit Titlebars and Toolbars › Buttons › Medium 24（内符号 20）玻璃圆钮放 ×，
-     和 macOS 地图 App 地点卡片的关闭钮同形（用户 09-16：「一个标签页也无脑加三个红绿灯吗」，09-15 那版红绿灯作废） */
+     窗口里的面板/弹出窗（大阪图层、学習/クイズ 详情与图例）= Kit Titlebars and Toolbars › Buttons › Medium 24（内符号 20）玻璃圆钮放 ×，
+     地点卡片是 28（Maps）。用户 09-16：「一个标签页也无脑加三个红绿灯吗」，09-15 那版红绿灯作废 */
   .sheet .head .btn-glass.fill{width:24px;height:24px;min-width:0;padding:0;border-radius:12px;background:rgba(0,0,0,.06);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
   .sheet .head .btn-glass.fill .sf{width:12px;height:12px;display:block}
   .sheet .head .btn-glass.fill:hover{background:rgba(0,0,0,.1)} .sheet .head .btn-glass.fill:active{background:rgba(0,0,0,.16)}
-  .sheet.split #card .head .slot:has(.btn-glass.fill){width:24px;height:24px}
-  .sheet.split #card .body{padding-top:0}
-  /* 动作行：iOS 的胶囊按钮在 Mac 换成 Kit Segmented Controls › Regular 24 r6（轨道黑 8%，段 Medium 13，无内边），只放做了的功能 */
-  .sheet.split #card .actions{gap:0;margin:8px 14px 0;padding:0;border-radius:6px;background:rgba(0,0,0,.08)}
-  /* Kit Segmented（content）：段按内容宽（最小 30）+ 内边，不等分不裁字；四段放不下时 cost/index.html 的 fitActions() 加 .small → 标签缩到 Kit Small 11 */
-  .sheet.split #card .actions{display:inline-flex;max-width:calc(100% - 28px)}
-  .sheet.split #card .actions .btn{flex:0 0 auto;flex-direction:row;height:24px;min-width:30px;padding:0 6px;border-radius:6px;gap:4px;background:none;color:var(--ink);font-size:1em;line-height:1.2308em;font-weight:500;position:relative;white-space:nowrap}
-  .sheet.split #card .actions.small .btn{font-size:.8462em;padding:0 5px}
-  .sheet.split #card .actions .btn .sf{display:none}
-  .sheet.split #card .actions .btn + .btn::before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:1px;background:rgba(0,0,0,.12)}
-  .sheet.split #card .actions .btn.tint{background:none;color:var(--ink)}
+  .sheet.split #card .body{padding:20px 0 16px}   /* Maps：标题块到主钮 20 */
+  .sheet.split #card .gap{height:0}
+  /* 动作 = Maps 卡片的按钮列：链接（可达性图）= 主钮 288×45 tint（图标在上 + Bold 13）；开关/跳转 = 次钮 288×36 胶囊 Bordered（图标左 + tint 文字居中，Kit Push buttons XL）；
+     .jump（滚到本卡某段）在通高的卡上没意义，不显示 */
+  .sheet.split #card .actions{display:flex;flex-direction:column;gap:8px;margin:0 16px;padding:0;background:none;border-radius:0;max-width:none}
+  .sheet.split #card .actions .btn{flex:none;width:288px;height:36px;padding:0 16px;border-radius:999px;gap:6px;background:rgba(0,0,0,.08);color:var(--tint);font-size:1em;line-height:1.2308em;font-weight:500;position:relative;white-space:nowrap;flex-direction:row}
+  .sheet.split #card .actions .btn .sf{display:block;width:14px;height:14px}
+  .sheet.split #card .actions .btn + .btn::before{content:none}
+  .sheet.split #card .actions .btn.tint{background:rgba(0,0,0,.08);color:var(--tint)}
+  .sheet.split #card .actions a.btn{height:45px;flex-direction:column;gap:2px;background:var(--tint);color:#fff;font-weight:700}
+  .sheet.split #card .actions a.btn .sf{width:16px;height:16px}
+  .sheet.split #card .actions .btn:hover{background:rgba(0,0,0,.12)} .sheet.split #card .actions a.btn:hover{background:var(--tint);filter:brightness(1.08)}
   .sheet.split #card .actions .btn:active{background:rgba(0,0,0,.16)}
+  .sheet.split #card .actions .btn.jump{display:none}
+  .sheet.split #card .actions.small .btn{font-size:1em;padding:0 16px}
   .sheet.split #card .stats{margin-top:12px !important}
   .sheet.split #list{display:flex;flex-direction:column;min-height:0;height:100%}
-  .sheet.split #card .stats{padding:0 14px;gap:8px}               /* 280 − 28 − 8 = 244 → 每列 122；数字 Title 1 22 */
+  .sheet.split #card .stats{padding:0 16px;gap:8px}               /* 288 − 8 = 280 → 每列 140；数字 Title 1 22 */
   .sheet .stat{border-radius:12px;padding:10px 12px;background:rgba(0,0,0,.03)}
   .sheet .stat .t{line-height:1.2308em}
   .sheet .stat .s{font-size:.8462em;line-height:1.2727em}
   .sheet .stat .n{font-size:1.6923em;line-height:1.1818em}
-  .sheet .mcard{margin:0 14px;border-radius:12px;background:rgba(0,0,0,.03)}
+  .sheet .mcard{margin:0 10px;border-radius:12px;background:rgba(0,0,0,.03)}   /* 侧栏里和行底对齐（10）；卡片里 16 = Maps 内容 288 */
+  .sheet.split #card .mcard,.sheet.split #card .mfoot,.sheet.split #card .mlist{margin-left:16px;margin-right:16px}
+  .sheet.split #card .mh{padding-left:16px;padding-right:16px}
   .sheet .mcard + .mcard{margin-top:8px}
   .sheet .mcard .hdr{padding:8px 12px 2px;line-height:1.2308em}
   /* KIT-MAP：分组卡片里的行 = macOS 27 Kit › Forms › Row：文字行 40（文字 16 高 @12）、带 24 控件 48、两行 56；分隔 1px 黑 5% 内缩 10 */
   .sheet .mcard .r{min-height:40px;padding:12px 10px;gap:8px}
   .sheet .mcard .r:has(.sw,.seg,.pop,.btn,.disc,input[type=range]),.sheet .mcard .r.disc{min-height:48px}
   .sheet .mcard .r:has(.hint),.sheet .mcard .r:has(.hint):has(.sw,.seg,.pop,.btn,input[type=range]){min-height:56px;padding:12px 10px}   /* 两行行 56 压过带控件的 48（:has 特异度） */
+  .sheet .mcard .r:has(.seg):not(#card *),.sheet .mcard .r:has(.seg):has(.hint):not(#card *){flex-wrap:wrap;min-height:56px;padding:6px 10px;row-gap:4px}   /* 6 + 16 + 4 + 24 + 6 = 56 */   /* 200 侧栏放不下「标签 + 分段」一行：分段落到第二行，行高仍是 Forms 两行的 56；卡片（320）里不换行 */
+  .sheet .mcard .r:has(.seg):not(#card *) .seg{flex:1 0 100%;display:flex} .sheet .mcard .r:has(.seg):not(#card *) .seg button{flex:1 1 0}
   .sheet .mcard .r + .r::before,.sheet .mcard .src + .r::before{left:10px;right:10px;background:rgba(0,0,0,.05)}
-  .sheet .mfoot{margin:0 14px;padding:6px 10px;min-height:0;font-size:.8462em;line-height:1.2727em}   /* 和 .sheet .mcard 的 14 对齐 */   /* Subheadline 11 secondary */
-  .sheet .mh.prominent{font-size:1em;line-height:1.2308em;font-weight:700;padding:14px 14px 6px}   /* Sidebars › Headers › Large：Bold 13 */
+  .sheet .mfoot{margin:0 10px;padding:6px 10px;min-height:0;font-size:.8462em;line-height:1.2727em}   /* 和 .sheet .mcard 的 10 对齐 */   /* Subheadline 11 secondary */
+  .sheet .mh.prominent{height:auto;font-size:1em;line-height:1.2308em;font-weight:700;padding:14px 14px 6px}   /* Sidebars › Headers › Large：Bold 13 */
+  /* 卡片里的段头 = Maps「Details」：Title 3 15/20 Semibold（AX 19 高 = 20 − 1，同「Marked Location」25 = Title 1 26 − 1），左对齐内容 288，上距 20 */
+  .sheet.split #card .mh{height:auto;padding:20px 16px 6px;font-size:1.1538em;line-height:1.3333em;font-weight:600;color:var(--ink);box-sizing:content-box}
+  .sheet.split #card .body > .mh:first-child,.sheet.split #card .body > :first-child > .mh:first-child{padding-top:0}
+  .sheet.split #card .actions + .mh,.sheet.split #card section:first-child + section > .mh:first-child{padding-top:20px}
   .sheet .mh .act{font-size:.8462em}
   .sheet .r.disc::after{width:20px;height:20px;border-radius:5px;background:rgba(0,0,0,.08);-webkit-mask:none;mask:none;position:relative}   /* Disclosure Buttons › Small 20 r5 */
   .sheet .mcard .r + .r.disc{border-top:1px solid rgba(0,0,0,.05)}   /* 可展开行的分隔线改 border，::before 留给箭头 */
   .sheet .mcard .r + .r.disc::before,.sheet .mcard .r.disc::before,.sheet .r.disc::before{content:"";position:absolute;right:15px;left:auto;top:auto;height:10px;width:10px;background:var(--ink);   /* 压过分隔线的 ::before（同特异度，写在后面） */-webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat}
   details[open] > .sheet .r.disc::before,.sheet details[open] > .r.disc::before,.sheet .r.disc[aria-expanded="true"]::before{-webkit-mask-image:url(sf/chevron.up.png);mask-image:url(sf/chevron.up.png)}
-  .sheet .r .pop{height:24px;padding:0 8px 0 10px;border-radius:6px;background:rgba(0,0,0,.08);color:var(--ink);font-weight:500}   /* Pop-up Buttons › Regular 24 r6 */
+  .sheet .r .pop{height:24px;padding:0 8px 0 10px;border-radius:6px;background:rgba(0,0,0,.08);color:var(--ink);font-weight:500;white-space:nowrap;flex:none}   /* Pop-up Buttons › Regular 24 r6，单行 */
   .sheet .r .pop::after{width:10px;height:10px;background:var(--ink)}
   html .chips button{background:rgba(0,0,0,.08);color:var(--ink);font-weight:500}   /* Push buttons › Bordered 黑 8% */
   html .chips button[aria-pressed="true"]{background:var(--tint);color:#fff}
@@ -398,7 +428,7 @@ a.row:active,button.row:active{background:var(--fill)}
   /* C1 第二张 Sheet（大阪「图层」）= Kit Popovers：从工具条钮下弹出，r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%、箭头 46×10；头同面板头（24，红灯关闭） */
   html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
      -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
-  .sheet.opt::before{content:"";position:absolute;top:-10px;right:13px;width:46px;height:10px;background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
+  .sheet.opt::before{content:"";position:absolute;top:-10px;right:3px;width:46px;height:10px;   /* 箭头中心对准右列 36 钮的中心（右 8 + 18 = 26；46/2 = 23 → right 3） */background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
   .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center}
   .sheet.opt .head .slot{width:52px;height:24px} .sheet.opt .head .tt{padding:0} html .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}   /* html 前缀：第 14 节的 iOS 规则在后面，同权重会盖掉 */
   /* 表格（四档/分区/工时；Kit 无表格 → HIG Tables）：字号 Body 13，单元格内边 4 */
@@ -409,14 +439,16 @@ a.row:active,button.row:active{background:var(--fill)}
   html .sheet .tiles .img i{border-radius:10px} html .sheet .tiles .lb{margin-top:6px;font-size:.8462em;line-height:1.2727em}
 }
 @media (min-width: 900px) and (pointer: fine) and (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .sheet,:root:not([data-theme="light"]) .sheet.split #card{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root:not([data-theme="light"]) .sheet{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root:not([data-theme="light"]) .sheet.split #card{background:rgba(40,40,40,.7);background-image:none}
   :root:not([data-theme="light"]) .sheet .stat,:root:not([data-theme="light"]) .sheet .mcard{background:rgba(255,255,255,.03)}
   :root:not([data-theme="light"]) .sheet .mrow:hover{background:rgba(255,255,255,.06)}
   :root:not([data-theme="light"]) .sheet .mrow:active,:root:not([data-theme="light"]) .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
   :root:not([data-theme="light"]) .sheet .seg,:root:not([data-theme="light"]) .sheet.split #card .actions{background:rgba(255,255,255,.1)}
 }
 @media (min-width: 900px) and (pointer: fine){
-  :root[data-theme="dark"] .sheet,:root[data-theme="dark"] .sheet.split #card{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root[data-theme="dark"] .sheet{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root[data-theme="dark"] .sheet.split #card{background:rgba(40,40,40,.7);background-image:none}
   :root[data-theme="dark"] .sheet .stat,:root[data-theme="dark"] .sheet .mcard{background:rgba(255,255,255,.03)}
   :root[data-theme="dark"] .sheet .mrow:hover{background:rgba(255,255,255,.06)}
   :root[data-theme="dark"] .sheet .mrow:active,:root[data-theme="dark"] .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
@@ -622,6 +654,7 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 
 /* ---------- 17. 地点卡片动作行 .actions = iOS 27 Kit › Buttons › Medium 34（Bordered：#767680 12% 底 + tint 字 Regular 17；首枚 Bordered Prominent：tint 底白字；符号 + 文字，内边 12），
    一排、间 8、距 Sheet 边 16。（历史：地图 App 实测的 50 高图标在上那种，Kit 里没有，KIT-MAP 改成 Kit 按钮。） ---------- */
+.gap{height:16px}   /* 卡片头下的第一段间距（cost groups()） */
 .actions{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none}
 .actions::-webkit-scrollbar{display:none}
 .actions .btn{flex:1 1 auto;min-width:0;height:34px;padding:8px 12px;border-radius:999px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;
