@@ -243,6 +243,8 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
         paint:{"line-color":"#5f5348","line-width":["interpolate",["linear"],["zoom"],2,.4,10,.9]}},
       {id:"ea-sel",source:"ea","source-layer":"units",type:"line",layout:{visibility:"none"},
         filter:["==",["get","n"],"\u0000"],paint:{"line-color":"#1B2433","line-width":2.4}},
+      {id:"ea-disp-fill",source:"ea","source-layer":"disp",type:"fill",layout:{visibility:"none"},
+        paint:{"fill-color":"#fff","fill-opacity":0.001}},   // 隐形命中层：点进争议区才有「谁在管、谁在主张」（09-15 审查 #42）
       {id:"ea-disp",source:"ea","source-layer":"disp",type:"line",layout:{visibility:"none"},
         paint:{"line-color":"#8a3f3f","line-width":1.6,"line-dasharray":[2,1.5]}},
 
@@ -705,13 +707,13 @@ window.__map=map;
 const JP=["jp-cho-fillA","jp-choA","jp-cho-fillB","jp-choB","jp-cho-fillC","jp-choC","jp-cho-fillD","jp-choD",
   "jp-muni-fill","jp-muni","jp-ku-fill","jp-ku","jp-selmA","jp-selmB","jp-selmC","jp-selmD","jp-selm","jp-selk",
   "jp-selcA","jp-selcB","jp-selcC","jp-selcD",
-  "jp-lab-muni","jp-lab-ku","jp-lab-cho","jp-lab-disp"];
+  "jp-lab-muni","jp-lab-ku","jp-lab-cho"];
 const EA=["ea-fill","ea-cap","ea-caplab","ea-sub-fill","ea-sub","ea-sub-sel","ea-sublab","ea-rus","ea-rus-line","ea-rus-sel","ea-rus-lab",
-  "ea-line","ea-sel","ea-disp","ea-lab","ea-labd","ea-lab-disp"];
+  "ea-line","ea-sel","ea-disp-fill","ea-disp","ea-lab","ea-labd","ea-lab-disp"];
 // 日本这几层**两个视图共用**，永远可见，只靠 setRegion 改 paint / filter。
 // 以前東亜另有一整套 ea-jp-*，样式各写各的，于是两个视图下的日本长得不一样。
-const JPBOTH=["jp-fill","jp-line","jp-sel","jp-disp-fill","jp-disp","jp-disp-sel",
-  "water","riv","jp-cap","jp-lab","jp-caplab"];
+const JPBOTH=["jp-fill","jp-line","jp-sel","jp-disp-fill","jp-disp","jp-disp-sel","jp-lab-disp",
+  "water","riv","jp-cap","jp-lab","jp-caplab"];   // 北方領土的说明字在東亜视图也显示（#51）
 const JPCOL=EAC[EAC.indexOf("JPN")+1];
 let region="jp";
 
@@ -888,7 +890,7 @@ function onMapClick(e){
   const c=document.getElementById("card");
   const fillId=region==="jp"?"jp-fill":"ea-fill";
   const selId =region==="jp"?"jp-sel" :"ea-sel";
-  const dispId=region==="jp"?"jp-disp":"ea-disp";
+  const dispId=region==="jp"?"jp-disp-fill":"ea-disp-fill";   // 命中打填充层，不打虚线（#42）
   // 東亜视图里日本是用現代日本那份几何补上的，命中层不一样，得一起查。
   // 北方領土画在单独的 disp 层里，不在任何一个 fill 层里——原来没挂进命中层，
   // 于是点它完全没反馈（用户报的 bug）。两个视图各自的 disp 填充层都要挂上。
@@ -978,6 +980,12 @@ function onMapClick(e){
     map.setFilter("jp-sel",["==",["get","code"],-1]);
     html=`<div class="n">${p.n}</div><div class="sub">${CN_NAME[p.grp]||p.grp}</div>`;   // ISO 代码换国家名（#45）
     if(p.cap) html+=`<div class="sub">首府：${p.cap}</div>`;
+    if(transit){   // 東亜交通层：駅/空港/港湾/口岸/航路 点得出名字（#47）
+      const R=matchMedia("(pointer: coarse)").matches?11:4, bb=[[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]];
+      const ETR=[["etr-station","駅"],["etr-airpt","空港"],["etr-port","港湾"],["etr-bc","口岸"],["etr-ferry","航路"]];
+      for(const [lid,lab] of ETR){ if(!map.getLayer(lid)) continue; const f=map.queryRenderedFeatures(bb,{layers:[lid]})[0];
+        if(f&&f.properties&&(f.properties.n||f.properties.name)) html+=`<div class="sub">${lab}：${f.properties.n||f.properties.name}${f.properties.ln?`　<span style="opacity:.75">${f.properties.ln}</span>`:""}</div>`; }
+    }
     if(sub&&sub.properties&&sub.properties.n) html+=`<div class="sub">下位区画：${sub.properties.n}</div>`;
   }else{
     // 命中的是東亜视图里的日本（属性来自 pref 层，没有 grp）
