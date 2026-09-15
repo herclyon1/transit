@@ -284,7 +284,7 @@ function jobTitle(jb){ const ch=jb.chain||'';
   if(inner&&/员|师|工|保安|服务|店员|收银/.test(inner)&&!/平替|挂牌/.test(inner)) return inner.trim();
   return ch.replace(/\s*[（(].*$/,'').replace(/平替|挂牌/g,'').trim()||'岗位'; }
 function jobEmployer(jb){ const st=(jb.store||'').replace(/（.*$/,'').replace(/\(.*$/,'').trim(); return st||'—'; }
-function cleanSrc(t){ return (t||'').replace(/[（(][^（()）]*(?:cost\/data|\.jsonl?\b|原始|无障碍树|见 .*README)[^（()）]*[）)]/g,'').replace(/[;；]?\s*原始[^;；。）)]*/g,'').replace(/[，,]?\s*\bn=\d+\s*[，,]?/g,'，').replace(/，\s*，/g,'，').replace(/^，|，$/g,'').replace(/\s*·\s*$/,'').replace(/\s{2,}/g,' ').trim(); }
+function cleanSrc(t){ return (t||'').replace(/\s*(?:同文\s*)?\/[\w\-~.\/]+\.html?\b/g,'').replace(/[（(][^（()）]*\.docx[）)]?/g,'').replace(/_\d{4}-\d{2}-\d{2}(?:_\d{2})?\.docx/g,'').replace(/[（(][^（()）]*(?:cost\/data|\.jsonl?\b|原始|无障碍树|见 .*README)[^（()）]*[）)]/g,'').replace(/[;；]?\s*原始[^;；。）)]*/g,'').replace(/[，,]?\s*\bn=\d+\s*[，,]?/g,'，').replace(/，\s*，/g,'，').replace(/^，|，$/g,'').replace(/\s*·\s*$/,'').replace(/\s{2,}/g,' ').trim(); }
 function jobMeta(jb){ const w=jb.wage||{}, hh=w.hours||{}; const parts=[];
   if(w.wage_posted) parts.push(w.wage_posted);
   if(hh.basis==='default_24h') parts.push('24 小时在岗（默认）'); else if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
@@ -301,7 +301,8 @@ function jobContact(jb){ const w=jb.wage||{}, c=w.contact||'';
 function jobsHtml(d,cur){
   const V=x=>x&&x.value!=null?x.value:null; const TAGZH={temp:'临时单 / 日结',suburb:'郊区（离市区远）',home:'私人家庭家政'};
   const row=jb=>{ const w=jb.wage||{}; const val=V(w); const note=w.note||''; const quote=(note.match(/[“"]([\s\S]*?)[”"]/)||[])[1]; const rest=note.replace(/帖子原文[:：]?[“"][\s\S]*?[”"][。]?/,'').replace(/^正文原文[:：]?[“"][\s\S]*?[”"][;；。]?/,'').trim();
-    const src=[w.source_url?`<a href="${w.source_url}" target="_blank" rel="noopener">${cleanSrc(w.source_name)||'来源'}</a>`:cleanSrc(w.source_name), w.fetched_at?`抓取 ${w.fetched_at}`:''].filter(Boolean).join(' · ');
+    const srcLabel=[w.source_short||cleanSrc(w.source_name).split('｜')[0], w.source_title].filter(Boolean).join(' · ')||'来源';   // 平台 · 标题（source_name 是内部记录）
+    const src=[w.source_url?`<a href="${w.source_url}" target="_blank" rel="noopener">${srcLabel}</a>`:srcLabel, fmtDay(w.posted_at||w.fetched_at)].filter(Boolean).join(' · ');
     const hl=(w.wage_posted&&w.hours&&(w.hours.monthly||w.hours.per_day))?`${w.wage_posted} ÷ ${w.hours.monthly?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${val} ${w.unit||''}`:'';
     return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${jobMeta(jb)}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
       +`<div class="det" hidden>${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
@@ -399,9 +400,15 @@ function render(c,d){
     h+='</tbody></table></div>';
   } else h+='<div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div>';
   h+='</section>';
-  { const srcs=new Map(); const seen=new Set(); const walk=o=>{ if(!o||typeof o!=='object') return; if(o.source_url&&!srcs.has(o.source_url)){ const nm=cleanSrc(o.source_short||o.source_name)||o.source_url.replace(/^https?:\/\//,'').slice(0,40); if(!seen.has(nm)){ seen.add(nm); srcs.set(o.source_url,nm); } } for(const k in o){ if(k!=='source_url'&&o[k]&&typeof o[k]==='object') walk(o[k]); } }; walk(d);   // 页面上只放干净的来源名（source_short 优先），同名只列一次
+  { // 来源列：每行 = 平台 · 标题 · 日期（maa 09-15 验收后定），链接在行本身；标题 = source_title（岗位帖）或所属条目的标签（篮子/水电/房租）；source_name 是内部记录不上页
+    const srcs=new Map(); const seen=new Set();
+    const walk=(o,label)=>{ if(!o||typeof o!=='object') return; if(Array.isArray(o)){ o.forEach(x=>walk(x,label)); return; }
+      const lb=o.label||o.chain||label;
+      if(o.source_url&&!srcs.has(o.source_url)){ const plat=o.source_short||cleanSrc(o.source_name)||o.source_url.replace(/^https?:\/\//,'').split('/')[0]; const title=o.source_title||(lb?plainLabel(String(lb).replace(/^[^：:]*[：:]/,'')):''); const key=plat+'|'+title; if(!seen.has(key)){ seen.add(key); srcs.set(o.source_url,{plat,title,date:fmtDay(o.posted_at||o.fetched_at)}); } }
+      for(const k of Object.keys(o)){ if(k!=='source_url'&&k!=='note'&&o[k]&&typeof o[k]==='object') walk(o[k], k==='wage'?lb:(o[k].label||lb)); } };
+    walk(d,'');
     h+='<section class="links">'+(c.links?Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图（档位的来源）'})[k]||k}</a>`).join(''):'')
-      +[...srcs].slice(0,12).map(([u,n])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join('')+'</section>'; }
+      +[...srcs].slice(0,20).map(([u,x])=>`<a href="${u}" target="_blank" rel="noopener"><span>${[x.plat,x.title,x.date].filter(Boolean).join(' · ')}</span></a>`).join('')+'</section>'; }
   h+=`<section class="src">更新 ${fmtDay(d.updated)||d.updated||'—'}${d.status==='ready'?'':' · 草稿，数据未填完'}</section>`;
   return h;
 }
