@@ -75,6 +75,7 @@
 | `wage_ref` | 官方最低时薪（现行、改定预定） |
 | `transport` | 可选：`pass` 为 null 表示该城市没有月票/定期票（乌鲁木齐：用户 2026-09-15 查地铁 App），`pass_label` 是页面替代「月票」用的标签（如「通勤费（单程 × 2 × 22，推算）」），`note` 写清推算口径 |
 | 每个价目的展示字段（2026-09-15，用户在 Mac 上看到「来源」全是内部日志后定） | `source_short`（页面上的平台短名，如「美团特价团」「多多买菜」）、`how`（一句人话：怎么取的；页面只显示它，不显示 `note`）、`items[]`（多店/多条明细 `{name, deal?, price, unit, note?}`，页面收进「看 N 家店/条」，`items_label` 可改标签）、`compare`（对照/旧值 `{label, value, unit, source_name, source_url?, n?}`，页面一行脚注）、`raw`（原始文件路径，只给审计，页面不显示）。`note` 仍是内部记录；`pipeline/cost/tidy_sources.py` 会把 source_name 里的路径挪进 `raw` |
+| `hub` | `name` + `note`（**一句话**：怎么分档；页面「枢纽：」那行直接打出来）；推导过程放 `detail`（不上页）并复制到 `raw/<city>/README.md`；出处走 `source_url`/`source_short` 进来源列 |
 | `tiers[]` | 四档：`walk`（步行圈 0–5 分）、`t15`、`t25`、`t40`。每档：代表车站、`rent_1k`（单间/1K 月租）、`pass_student`、`pass_commuter`、`fare_single` |
 | `utilities` | `electricity` `gas` `water`（官方价目 × 标准用量 150 kWh / 10 m³ / 6 m³）、`mobile`（本地主流 30GB 套餐官方价）、`internet`（公寓光纤官方价）、`comm_official`（统计平均，对照） |
 | `basket` | `bigmac_set`、`latte_tall`、`coffee_shop`、`curry_rice`（或本地一顿外食）、`eggs10`、`milk1l`、`rice5kg`、`bread1kg`、`cola1l`、`beer6`。前两个用连锁 App 本地门店菜单价，其余用当地人买菜平台综合排序前 10 里最贴规格的那条折算 |

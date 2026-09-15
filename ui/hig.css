@@ -111,8 +111,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .seg button{flex:1 1 0;min-width:0;height:28px;padding:3px 6px;border:0;border-radius:999px;background:none;color:var(--ink);
             font:inherit;font-size:.7843em;line-height:1.35em;font-weight:500;white-space:nowrap;cursor:pointer}
 .seg.l button{height:46px}
-/* 工具条里的分段控件（学習 現代日本/東亜、クイズ 模式）= Kit Segmented Controls › Large 48：段 44、内边 2、段间 4、标签 13.33 Medium（选中 Semibold）；页内不要再写高度 */
+/* 工具条里的分段控件（学習 現代日本/東亜、クイズ 模式）= Kit Segmented Controls › Large 48：段 44、内边 2、段间 4、标签 13.33 Medium（选中 Semibold）；页内不要再写高度。
+   同一条工具条里的圆钮随之用 Kit Toolbars › Buttons › 48pt 变体：48 玻璃圆、内符号区 40 @4（不是 44 居中 +2） */
 html .bar .seg{height:48px;padding:2px;gap:4px} html .bar .seg button{height:44px;padding-left:12px;padding-right:12px}
+html .bar:has(.seg) .btn-glass{height:48px;min-width:48px;padding:0 4px}
 .seg button[aria-pressed="true"]{background:var(--seg-on);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
 
 /* ---------- 8. 非模态 Sheet（HIG Sheets / Maps：地图 App 实测：左右各内缩 8、圆角 38、抓手 58×4 距顶 5、
@@ -267,6 +269,7 @@ a.row:active,button.row:active{background:var(--fill)}
   /* 工具条（XL）与右侧控件簇 */
   .bar{padding:8px 8px 8px;gap:8px}
   .btn-glass{height:36px;min-width:36px}
+  html .bar:has(.seg) .btn-glass{height:36px;min-width:36px;padding:0 4px}   /* Mac 工具条一律 XL 36，不用 iPhone 的 48pt 变体 */
   .btn-glass.text{padding:0 16px;font-size:1em}
   html .bar .seg{height:36px;padding:4px;gap:0;border-radius:999px} html .bar .seg button{height:28px;min-width:32px;padding:0 8px;font-size:1em;border-radius:999px}
   .map-ctl{right:8px}
