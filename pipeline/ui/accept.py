@@ -17,7 +17,8 @@ import subprocess, sys, time, os, re, json, glob
 HERE=os.path.dirname(os.path.abspath(__file__)); REPO=os.path.abspath(os.path.join(HERE,'..','..')); OUT=os.path.join(REPO,'.accept'); os.makedirs(OUT,exist_ok=True)
 BASE=os.environ.get('ACCEPT_BASE','http://127.0.0.1:8788')
 r=subprocess.run(['xcrun','simctl','list','devices','booted'],capture_output=True,text=True).stdout
-m=re.search(r'\(([0-9A-F-]{36})\) \(Booted\)',r); UDID=os.environ.get('SIM_UDID') or (m.group(1) if m else None)
+ms=re.findall(r'^\s*(.*?) \(([0-9A-F-]{36})\) \(Booted\)',r,re.M); pref=[u for n,u in ms if 'iPhone' in n] or [u for n,u in ms]
+UDID=os.environ.get('SIM_UDID') or (pref[0] if pref else None)   # 同时开着 iPad 时默认取 iPhone；SIM_UDID 指定
 if not UDID: sys.exit('没有已启动的模拟器：xcrun simctl boot "iPhone 18 Pro Max"')
 try:
     import urllib.request; urllib.request.urlopen(BASE+'/ui/hig.css',timeout=3)

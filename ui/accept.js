@@ -33,7 +33,7 @@
         const body=qa('.sheet .body')[0]; if(body&&tt){ ok('正文距标题块 16', rect(body).top-rect(head).bottom+px(cs(head).paddingBottom), 16, 0.5); } }
     }
     // 分组列表
-    const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):{left:0,right:W}; ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
+    const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
     const single=qa('.row').find(r=>!r.querySelector('.hint,.seg,input[type=range]')&&!r.classList.contains('slider')); if(single){ const rr=rect(single); ok('单行 52.33（Row Regular 52 + 分隔线）', rr.height, 52.33, 0.5, single.textContent.trim().slice(0,12)); ok('行左内缩 '+(single.classList.contains('icon')?'18（有图标）':'20'), px(cs(single).paddingLeft), single.classList.contains('icon')?18:20, 0.1); ok('行右内缩 20', px(cs(single).paddingRight), 20, 0.1);
       const nx=single.nextElementSibling; if(nx&&nx.classList.contains('row')){ const sp=cs(nx,'::before'); ok('分隔线内缩 '+(nx.classList.contains('icon')?60:20), px(sp.left), nx.classList.contains('icon')?60:20, 0.1); ok('分隔线 0.67 粗', Math.abs(px(sp.height)*parseFloat((sp.transform.match(/matrix\(([^)]+)\)/)||['','1,0,0,1'])[1].split(',')[3])-0.67)<0.05, true, 0, sp.height+' '+sp.transform); } }
     const two=qa('.row').find(r=>r.querySelector('.hint')); if(two){ const rr=rect(two); ok('双行 68.33（Row Tall 68 + 分隔线）', rr.height, 68.33, 0.5, two.textContent.trim().slice(0,12)); }
