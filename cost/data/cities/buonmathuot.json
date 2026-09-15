@@ -293,7 +293,9 @@
    "fetched_at": "2026-09-15",
    "confidence": "official",
    "n": null,
-   "note": "2026-01-01 起施行。邦美蜀属 Vùng III：月最低工资 4,140,000 đ、小时最低工资 20,000 đ（Vùng I 5,310,000/26,500；II 4,730,000/23,800；IV 3,700,000/18,000）。取代 Nghị định 74/2024/NĐ-CP（Vùng III 3,860,000/18,600）。最低工资不含加班费、夜班津贴等。"
+   "note": "2026-01-01 起施行。邦美蜀属 Vùng III：月最低工资 4,140,000 đ、小时最低工资 20,000 đ（Vùng I 5,310,000/26,500；II 4,730,000/23,800；IV 3,700,000/18,000）。取代 Nghị định 74/2024/NĐ-CP（Vùng III 3,860,000/18,600）。最低工资不含加班费、夜班津贴等。",
+   "source_short": "越南政府法令 293/2025",
+   "how": "Nghị định 293/2025/NĐ-CP（2026-01-01 起）Vùng III：小时最低 20,000 đ，月最低 4,140,000 đ；邦美蜀属 Vùng III。"
   }
  },
  "tiers": [
@@ -323,7 +325,9 @@
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
     },
     "label": null,
-    "raw": "cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json"
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json",
+    "source_short": "Chợ Tốt",
+    "how": "1 km 圈 2026-09-15 没有一条在挂的单间/一室，取 Chợ Tốt 刚下架的 2 条中位（Nguyễn Công Trứ 一带 30 ㎡ 2,000,000、25 ㎡ 2,600,000）——是近期挂牌价不是现价。邦美蜀租房主要在 Facebook 群和门口贴纸，平台样本天然薄。"
    },
    "pass_student": {
     "value": null,
@@ -382,7 +386,9 @@
      "n": 6,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
     },
-    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
+    "source_short": "Chợ Tốt / muaban / phongtro123",
+    "how": "1–3.5 km 圈在挂的只有 1 条：Chợ Tốt Ama Khê 50/1 40 ㎡ 一卧整租 2,500,000 đ（押一付一）。n=1 远低于要求的 20 条，只能当参考；近 3 个月下架的 6 条单间中位 1,200,000。"
    },
    "pass_student": {
     "value": null,
@@ -441,7 +447,9 @@
      "n": 1,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
     },
-    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
+    "source_short": "muaban / phongtro123",
+    "how": "3.5–7 km 圈在挂 2 条取中位：muaban Thành Nhất 带阁楼单间 40 ㎡ 1,500,000；phongtro123 Nguyễn Văn Cừ 30 ㎡ 2,000,000。"
    },
    "pass_student": {
     "value": null,
@@ -495,7 +503,9 @@
     "n": 2,
     "note": "7–12 km 圈在挂 2 条取中位：muaban 71143123 “cho thuê phòng trong nhà nguyên căn, sau chợ Ea Kao, cách hồ Ea Kao 2 km, 10 phút ra tới Đại học Tây Nguyên”（译：整栋房内单间出租，Ea Kao 市场后，距 Ea Kao 湖 2 km，10 分钟到西原大学）14 ㎡ 可带家具 2,000,000 đ/月，2026-08-24 发（约 7.3 km）；Chợ Tốt 178748069 “Cho thuê nhà cấp 4 cũ 70 m2 có sân rộng thôn 1 xã Hoà Xuân”（译：出租旧平房 70 ㎡ 带大院，Hòa Xuân 1 村，近 Trần Phú 高中）600,000 đ/月，昨天挂，10.1 km。范围 600,000–2,000,000，两条性质差异大（郊区旧平房 vs 带家具单间），只能当参考。",
     "compare": null,
-    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
+    "source_short": "muaban / Chợ Tốt",
+    "how": "7–12 km 圈在挂 2 条取中位：muaban Ea Kao 市场后带家具单间 14 ㎡ 2,000,000；Chợ Tốt Hòa Xuân 旧平房 70 ㎡ 600,000。两条性质差异大，只能当参考。"
    },
    "pass_student": {
     "value": null,
@@ -539,7 +549,9 @@
    "confidence": "estimated",
    "n": null,
    "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。全国统一居民阶梯电价（不含增值税）：Bậc 1 0–50 kWh 1,984；Bậc 2 51–100 2,050；Bậc 3 101–200 2,380；Bậc 4 201–300 2,998；Bậc 5 301–400 3,350；Bậc 6 ≥401 3,460 đ/kWh。150 kWh = 50×1,984 + 50×2,050 + 50×2,380 = 320,700 đ，加增值税 8%（Nghị quyết 204/2025/QH15：2025-07-01–2026-12-31 增值税减 2%）= 346,356 đ。EVN 同页规定：租房 12 个月以内且房东未申报用电人数的，全部电量按 Bậc 3 2,380 đ/kWh → 150 × 2,380 × 1.08 = 385,560 đ；实际邦美蜀出租屋房东普遍按 3,000–4,000 đ/kWh 包干收（招租帖常写“điện nước theo quy định”），本项目取官方阶梯价。2026-07 政府 Nghị định 278/2026/NĐ-CP 只改了调价机制，未改价目。",
-   "label": "电费（150 kWh，EVN 阶梯价含 8% 增值税）"
+   "label": "电费（150 kWh，EVN 阶梯价含 8% 增值税）",
+   "source_short": "EVN 官网价目",
+   "how": "EVN 居民阶梯电价（Quyết định 1279/QĐ-BCT，2025-05-10 起）按 150 kWh 算：50×1,984 + 50×2,050 + 50×2,380 = 320,700，加增值税 8% = 346,356 đ。租房房东未申报人数时全按 Bậc 3 → 385,560；实际出租屋常按 3,000–4,000 đ/kWh 包干，这里取官方阶梯价。"
   },
   "gas": {
    "value": 422625,
@@ -550,7 +562,9 @@
    "confidence": "estimated",
    "n": null,
    "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。越南居民没有管道燃气，全用 12 kg 液化气罐（bình gas 12 kg），邦美蜀常见品牌 Saigon Petro（SP）、Petrolimex、PetroVietnam Gas 等。官方原文：“Mức giá kê khai thực hiện từ ngày 01/09/2026, giá bán lẻ gas SP tại các cửa hàng gas: Chai gas SP loại 12 kg (màu xám, đỏ, xanh lam, xanh lá): 563.500 đồng/chai (Đã có VAT)”（译：2026-09-01 起申报执行的 SP 气罐零售价：12 kg 罐 563,500 đ/罐，含增值税）。折算：10 m³ 管道气按大阪 13A 热值 45 MJ/m³ = 450 MJ，LPG 高位热值 50 MJ/kg → 9.0 kg = 0.75 罐 → 563,500 × 0.75 = 422,625 đ/月。对照：Petrolimex Gas 河内公司公示价 12 kg 518,400 đ（2026-08-01 起，pgaspetrolimex.vn；9 月涨至 528,768，越南财经时报 2026-09-04 转 Petrolimex 公告）、岘港 538,000（同一报道，Petrolimex 中部/西原片区）；Petrolimex 总公司网站不公布分区价目，故取 Saigon Petro 全国统一申报价。换罐不含钢瓶押金。",
-   "label": "燃气（12 kg 液化气罐折 10 m³）"
+   "label": "燃气（12 kg 液化气罐折 10 m³）",
+   "source_short": "Saigon Petro 官网",
+   "how": "越南没有管道燃气，用 12 kg 液化气罐：Saigon Petro 2026-09-01 申报零售价 563,500 đ/罐（含税）；10 m³ 管道气按热值折 0.75 罐 = 422,625 đ/月。对照 Petrolimex 河内 518,400、岘港 538,000。"
   },
   "water": {
    "value": 103122,
@@ -561,7 +575,9 @@
    "confidence": "estimated",
    "n": null,
    "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。原文（PDF 第 1 页表 1，Tại địa bàn thành phố Buôn Ma Thuột）：Hộ dân cư (SH) 2023 10.710 / 2024 12.600 / 2025 14.900 đ/m³；贫困户 7.400；“Giá nước trên chưa bao gồm: Thuế giá trị gia tăng, phí bảo vệ môi trường, tiền dịch vụ môi trường rừng”（译：以上水价不含增值税、环保费、森林环境服务费）。邦美蜀居民水价不分阶梯。2026 年价目：省财政厅 2026-01-20 挂出《Dự thảo Quyết định ban hành giá tiêu thụ nước sạch sinh hoạt》草案（sotaichinh.daklak.gov.vn），2026-09-15 未查到正式新决定，DAKWACO 网站“Giá nước – định mức”栏仍只有 2023–2025 表，故按 2025 档 14,900 đ/m³ 计。推算：14,900 × 6 = 89,400；增值税 5%（清洁水）4,470；生活污水环保费 10%（Nghị định 53/2020/NĐ-CP）8,940；森林环境服务费 52 đ/m³ × 6 = 312 → 103,122 đ/月（不含税费为 89,400）。",
-   "label": "水费（6 m³，含税费）"
+   "label": "水费（6 m³，含税费）",
+   "source_short": "DAKWACO 公告",
+   "how": "Đắk Lắk 自来水公司 2023–2025 价目表 邦美蜀市居民 2025 档 14,900 đ/m³（2026 新决定 09-15 未见）：6 m³ = 89,400，加增值税 5%、污水环保费 10%、森林环境服务费 52 đ/m³ → 103,122 đ/月。"
   },
   "mobile": {
    "value": 100000,
@@ -572,7 +588,9 @@
    "confidence": "official",
    "n": null,
    "note": "MXH100：100,000 đ/30 ngày，“Có 30GB (1GB/ngày), miễn phí Tiktok, Youtube, Facebook và nhắn tin Messenger”（译：30GB（每天 1GB），免流 TikTok/YouTube/Facebook/Messenger），到期自动续订。正好 30GB 档故取它。同表更便宜的 SD90 90,000 đ/30 ngày 45GB（1.5GB/天，无免流）、SD100 100,000 đ 60GB（2GB/天）、5G130B 130,000 đ 60GB + 通话。Viettel 是邦美蜀市占最高的运营商。",
-   "label": "手机（Viettel MXH100 30GB）"
+   "label": "手机（Viettel MXH100 30GB）",
+   "source_short": "Viettel 官网",
+   "how": "Viettel 官网套餐表 MXH100：100,000 đ/30 天，30GB（每天 1GB）+ 免流 TikTok/YouTube/Facebook；同表 SD90 90,000 đ 45GB 更便宜。Viettel 是邦美蜀市占最高的运营商。"
   },
   "internet": {
    "value": 195000,
@@ -583,7 +601,9 @@
    "confidence": "official",
    "n": null,
    "note": "最低档 Internet Giga：195,000 đ/tháng，300 Mbps 下/上行，Wi-Fi 6 路由，“Mức giá trên đã bao gồm VAT và có thể được thay đổi theo khu vực và thời điểm”（译：已含增值税，可能因地区和时间不同）；后付费减 50,000。同页 Sky（1 Gbps）195,000、Giga F1 205,000。Viettel 光纤价目页（viettel.vn/internet-cap-quang）内容全靠 JS 加载，静态抓取读不到套餐表，故用 FPT（邦美蜀有 FPT 分公司）。",
-   "label": "宽带（FPT Giga 300M）"
+   "label": "宽带（FPT Giga 300M）",
+   "source_short": "FPT 官网",
+   "how": "FPT Telecom 官网最低档 Internet Giga 300 Mbps：195,000 đ/月（含税，可能因地区不同）；后付费减 50,000。Viettel 光纤页靠 JS 读不到，用 FPT。"
   }
  },
  "basket": {
@@ -596,7 +616,9 @@
    "confidence": "listing",
    "n": null,
    "note": "邦美蜀没有麦当劳，用 KFC 平替。Combo Burger Zinger：“1 Burger zinger + 1 Khoai tây chiên (vừa) + 1 Ly Pepsi (tiêu chuẩn)”（译：Zinger 鸡腿堡 + 中薯 + 标准杯百事）79,000 đ；Burger Gà Zinger 单品 56,000、Combo Burger Gà Yo 56,000、Combo 1 Miếng Gà 59,000、Combo 2 Miếng Gà 91,000。邦美蜀 3 家 KFC（Co.opmart、GO!、16 Lê Thánh Tông）菜单同价（通用菜单 kfcvn-generic-menu 同价）。Lotteria 网站为纯 JS、Jollibee 被 Cloudflare 拦截，未做对照。",
-   "label": "巨无霸套餐（肯德基 Zinger 汉堡套餐平替）"
+   "label": "巨无霸套餐（肯德基 Zinger 汉堡套餐平替）",
+   "source_short": "KFC 越南官网点餐",
+   "how": "邦美蜀没有麦当劳，用 KFC 平替：官方点餐站 KFC Co.opmart Buôn Ma Thuột 门店菜单 Combo Burger Zinger（汉堡+中薯+百事）79,000 đ；市内 3 家店同价。"
   },
   "latte_tall": {
    "value": 55000,
@@ -607,7 +629,9 @@
    "confidence": "listing",
    "n": null,
    "note": "Latte đá / Latte Nóng（拿铁 冰/热）55.000₫，默认杯型；同页 Cappuccino 55.000、Americano 45.000、Espresso 45.000。官网注明“Khung giá bán có thể thay đổi tuỳ thuộc khu vực quán”（各门店价格可能不同），邦美蜀门店（Vincom Plaza Buôn Ma Thuột 等）未单独标价，取官方点餐站全国默认价。星巴克邦美蜀无店，用越南最大连锁 Highlands 平替。",
-   "label": "拿铁一杯（Highlands Coffee）"
+   "label": "拿铁一杯（Highlands Coffee）",
+   "source_short": "Highlands 官网点餐",
+   "how": "星巴克邦美蜀无店，用越南最大连锁 Highlands Coffee：官方点餐站菜单 Latte 默认杯 55,000₫（各门店可能不同，邦美蜀店未单独标价）。"
   },
   "coffee_shop": {
    "value": 29000,
@@ -618,7 +642,9 @@
    "confidence": "listing",
    "n": null,
    "note": "Phin Sữa Đá（越南滴漏炼乳冰咖啡，当地人日常喝的那杯）29.000₫，Phin Đen Đá（黑咖啡）29.000、Bạc Xỉu Đá 29.000。取连锁官方价；邦美蜀街边独立咖啡馆的 phin 价格在 GrabFood/ShopeeFood 上，境外读不到（403/502），没有写进来。",
-   "label": "咖啡馆一杯（越南滴漏咖啡）"
+   "label": "咖啡馆一杯（越南滴漏咖啡）",
+   "source_short": "Highlands 官网点餐",
+   "how": "Highlands 官方点餐站 Phin Sữa Đá（滴漏炼乳冰咖啡，本地人日常那杯）29,000₫；街边独立咖啡馆的价在 GrabFood/ShopeeFood 上，境外读不到，没写进来。"
   },
   "curry_rice": {
    "value": 49000,
@@ -629,7 +655,9 @@
    "confidence": "listing",
    "n": null,
    "note": "平替，不是本地 bún/cơm/phở：GrabFood（food.grab.com，邦美蜀有 4,167 家商户在 sitemap 里）菜单接口返回 502、ShopeeFood 接口返回 403、Loship 超时，本地小店一份 bún/cơm/phở 的挂牌价没拿到。这里填 KFC 邦美蜀门店“1 Cơm Gà Rán”（译：一份炸鸡饭，含番茄/辣椒酱包）49,000 đ 作连锁一顿饭的价；Combo Cơm Gà Rán Solo（+ 标准杯百事）56,000、Cơm Gà Viên Nanban 40,000。用户如能开外卖 App 定位邦美蜀再补本地价。",
-   "label": "一顿饭（肯德基炸鸡饭，本地外食平替）"
+   "label": "一顿饭（肯德基炸鸡饭，本地外食平替）",
+   "source_short": "KFC 越南官网点餐",
+   "how": "本地 bún/cơm/phở 小店挂牌价没拿到（GrabFood 502、ShopeeFood 403、Loship 超时），先用 KFC 邦美蜀门店 Cơm Gà Rán（炸鸡饭）49,000 đ 顶；用户能开外卖 App 定位邦美蜀再换本地价。"
   },
   "eggs10": {
    "value": 27500,
@@ -641,7 +669,9 @@
    "n": 10,
    "note": "第 3 条 “Trứng gà Co.op Select L 10 trứng 600g-QL”（译：Co.op 自有品牌 L 号鸡蛋 10 枚 600 g）现价 27,500 đ（标价 33,000，促销 −5,500）。第 1 条 “Trứng gà vĩ 10 trứng” 275,000 đ 明显是录入错误（应为 27,500 级别）不取；第 2 条 “Trứng gà ta vĩ 10 trứng”（土鸡蛋 10 枚）43,700。前 10 条：1. Trứng gà vĩ 10 trứng 275,000（异常）；2. Trứng gà ta vĩ 10 trứng 43,700；3. Trứng gà Co.op Select L 10 trứng 600g 27,500（标 33,000）；4. Trứng gà nướng Tafa Hàn Quốc 6 trứng 31,500；5. Trứng gà ta tiềm (2T/gói) 11,200；6. Trứng gà tươi Tafa 600g hộp nhựa 28,000（标 31,300）；7. Mề gà CP 500g 45,000；8. Chân gà 500g CP 30,500；9. Cánh gà 500g CP 53,000；10. Đùi gà tỏi 500g CP 56,000。Bách Hóa Xanh（邦美蜀有店）网页对境外返回空页、接口 apibhx.tgdd.vn 超时；WinMart 搜索接口后端报错（Mongo timeout），未能对照。",
    "label": "鸡蛋 10 个",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 定位 Co.opmart Buôn Ma Thuột 搜「trứng gà 10 trứng」默认排序：第 1 条 275,000 是录入错误、第 2 条是土鸡蛋，取第 3 条 Co.op Select L 10 枚 27,500 đ（标 33,000 促销价）；Bách Hóa Xanh/WinMart 接口境外读不到没对照。"
   },
   "milk1l": {
    "value": 46500,
@@ -653,7 +683,9 @@
    "n": 10,
    "note": "第 1 条 “Sữa tươi nguyên chất tiệt trùng Green Farm 1L”（译：Vinamilk Green Farm 纯鲜奶灭菌 1 L 盒）46,500 đ。更大众的 Vinamilk 100% 1L 41,200（有糖/无糖，搜索“sữa tươi tiệt trùng 1L”第 9、10 条）、TH true MILK 1L 43,500。前 10 条：1. Green Farm nguyên chất 1L 46,500；2. Green Farm rất ít đường 1L 46,500；3. Green Farm Organic 1L 63,200；4. Devondale nguyên chất 1L 67,900；5. Sữa kem Anchor 1L 204,500（淡奶油，非鲜奶）；6. Promess nguyên kem 1L 44,800（标 48,800）；7. Promess không béo 1L 43,000；8. TH có đường 1L 43,500；9. TH nguyên chất 1L 43,500；10. TH ít đường 1L 43,500。",
    "label": "牛奶 1L",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 同店搜「sữa tươi 1L」默认排序第 1 条 Vinamilk Green Farm 纯鲜奶 1 L 46,500 đ；更大众的 Vinamilk 100% 1L 41,200、TH true MILK 43,500。"
   },
   "rice5kg": {
    "value": 119200,
@@ -665,7 +697,9 @@
    "n": 10,
    "note": "第 1 条 “Gạo Jasmine Xuân Hồng 5kg”（译：春红牌茉莉香米 5 kg）119,200 đ。便宜档：Gạo Thiên Kim Tây Đô 5kg 83,500、Co.op Happy 5kg 84,000、Co.op Select OM18 5kg 99,000（标 105,000）。前 10 条：1. Jasmine Xuân Hồng 5kg 119,200；2. Gạo thơm lài 5kg 125,500；3. Japonica Neptune 5kg 140,000（标 160,900）；4. ST25 Xuân Hồng 5kg 197,000；5. Thiên Kim Tây Đô 5kg 83,500；6. Co.op Happy trắng xốp mềm 5kg 84,000；7. ST25 Neptune 5kg 187,000（标 228,000）；8. Meizan nàng thơm 5kg 135,900；9. Special ST25 Neptune 5kg 159,200（标 222,000）；10. Jasmine Co.op Select 5kg 115,000（标 137,500）。",
    "label": "大米 5kg",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 同店搜「gạo 5kg」默认排序第 1 条 Gạo Jasmine Xuân Hồng 5 kg 119,200 đ；便宜档 Thiên Kim 83,500、Co.op Happy 84,000。"
   },
   "bread1kg": {
    "value": 61250,
@@ -677,7 +711,9 @@
    "n": 10,
    "note": "第 1 条 “Bánh Sandwich lạt 400g”（译：原味吐司 400 g）24,500 đ ÷ 0.4 = 61,250 đ/kg。前 10 条：1. Bánh Sandwich lạt 400g 24,500；2. Otto Sandwich tươi lạt 245g 17,000（69,400/kg）；3. Bánh Sandwich sữa 190g 21,900；4. Sandwich nho 420g 29,900；5. Kinh Đô sandwich chà bông 50g 7,500；6. Sandwich lúa mạch đen 300g 29,900；7. Sandwich bí đỏ nho 300g 19,400；8. Bánh mì bi 200g 18,900；9. Bánh mì sữa Baby 200g 18,900；10. Bánh mì sữa Otto 90g 8,600。越南人日常主食面包是街边 bánh mì baguette（Co.op 自烤 Baguette 250g 4,900 促销价 → 19,600/kg），这里按项目口径取切片吐司。",
    "label": "面包 1kg（吐司折算）",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 同店搜「bánh mì sandwich lạt」第 1 条 原味吐司 400 g 24,500 đ 折 1 kg = 61,250；越南人日常主食是街边 baguette（Co.op 自烤 250 g 4,900 → 19,600/kg），按项目口径取吐司。"
   },
   "cola1l": {
    "value": 12667,
@@ -689,7 +725,9 @@
    "n": 10,
    "note": "“Nước giải khát Coca Cola giảm đường 1.5L”（译：可口可乐减糖 1.5 L 瓶，该店可口可乐常规瓶装只有“giảm đường”减糖版和 Zero，无经典原味 1.5L）现价 19,000 đ（标 20,800）÷ 1.5 = 12,667 đ/L。该店没有 1 L 装，只有 390ml、600ml、1.5L、2.25L；Coca Cola Zero 1.5L 18,500（标 20,200）；Coca Cola giảm đường 2.25L 24,500（10,900/L）；Pepsi Cola 1.5L 17,500（标 19,700，11,667/L）。搜索“coca cola”前 10 条：1. Coca Cola pet 390ml 8,000；2. Coca Cola Light lon 320ml 10,600；3. Coca Cola lon 320ml 9,500（标 11,300）；4. Coca Cola không đường pet 600ml 9,000；5. Coca Cola giảm đường pet 2.25L 24,500（标 25,700）；6. Coca Cola Plus lon cao 24×320ml 276,800；7. Coca Cola Light lốc 6×320ml 61,400；8. Coca Cola Plus lon cao 320ml 12,500；9. Coca Cola Light lon 24×320ml 239,200；10. Coca Cola Zero 1.5L 18,500（标 20,200）。",
    "label": "可乐 1L（1.5L 瓶折算）",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 同店 Coca Cola 减糖 1.5 L 19,000 đ（标 20,800）÷ 1.5 = 12,667 đ/L；该店无经典原味 1.5 L 和 1 L 装。"
   },
   "beer6": {
    "value": 71500,
@@ -701,7 +739,9 @@
    "n": 10,
    "note": "第 2 条 “Bia Saigon Export Premium lốc 6 lon x 330ml”（译：西贡出口啤酒 6 罐 × 330 ml）71,500 đ；第 1 条 Saigon Chill 是 6×250ml 小罐（72,000）不取。本地最常喝的 Bia 333 lốc 6×330ml 74,200、Sài Gòn Lager 6×330ml 71,200，Tiger 单罐 330ml 15,600（标 16,200）。前 10 条：1. Saigon Chill 6×250ml 72,000；2. Saigon Export Premium 6×330ml 71,500；3. Bia 333 6×330ml 74,200；4. Corona Extra 6×300ml 152,000；5. Sapporo Premium 6×330ml 113,500；6. Sài Gòn Lager 6×330ml 71,200；7. Sapporo thùng 6×650ml 385,000；8. Budweiser lon cao 6×330ml 113,000；9. SG Special lon cao 6×330ml 89,000；10. 7Up chanh 6×320ml 44,900（汽水）。",
    "label": "啤酒 6 罐",
-   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
+   "source_short": "Co.op Online",
+   "how": "Co.op Online 同店搜「bia lốc 6 lon」第 2 条 Bia Saigon Export 6×330 ml 71,500 đ（第 1 条 Saigon Chill 是 250 ml 小罐不取）；本地最常喝的 Bia 333 74,200。"
   }
  },
  "living_official": {
