@@ -103,7 +103,10 @@
       ok('点空白后卡片、关闭钮、卡片容器一起收（#44）', document.getElementById('card').style.display==='none'&&document.getElementById('cardSect').hidden&&document.getElementById('cClose').hidden, true, 0);
       ok('点空白后所有选中描边清空（#43）', ['jp-selk','ea-sub-sel','ea-rus-sel','jp-disp-sel'].every(id=>!window.map.getLayer(id)||JSON.stringify(window.map.getFilter(id)).includes('\\u0000')), true, 0);
       ok('区高亮按 市+区 过滤、只在 z≥8 画（#40）', window.map.getLayer('jp-selk')&&window.map.getLayer('jp-selk').minzoom>=8, true, 0);
-      ok('東亜卡片有国家名对照表（#45）', typeof CN_NAME==='object'&&Object.keys(CN_NAME).length>=20, true, 0); }
+      ok('東亜卡片有国家名对照表（#45）', typeof CN_NAME==='object'&&Object.keys(CN_NAME).length>=20, true, 0);
+      ok('海域・远岛层在（EEZ 线 + 岛体 + 岛名，默认开，#54）', ['jp-eez','jp-isl-fill','jp-isl-lab'].every(id=>window.map.getLayer(id))&&document.getElementById('b-sea')&&document.getElementById('b-sea').checked, true, 0);
+      ok('東亜争议区有隐形命中层（#42）', !!window.map.getLayer('ea-disp-fill'), true, 0);
+      ok('地图没有样式/瓦片错误（window.__mapErr）', (window.__mapErr||[]).length, 0, 0, (window.__mapErr||[]).slice(0,2).join(' | ')); }
     if(location.pathname.includes('/quiz/')&&typeof setMode==='function'&&typeof updateLabels==='function'){ const info=document.getElementById('info'); ok('クイズ详情卡不被小档 Sheet 盖住（bottom = safe+144，#55）', px(cs(info).bottom)>=144, true, 0, cs(info).bottom);
       const sl=document.getElementById('showLabels'); const was=sl.checked; sl.checked=true; const vis=()=>[...document.querySelectorAll('svg text')].filter(t=>t.textContent&&cs(t).display!=='none').length; setMode('browse'); const b=vis(); setMode('quiz'); const q=vis();
       ok('答题时县名标签不显示（#61）', q<b/3, true, 0, b+' → '+q); ok('闯关/答题时「范围」行灰掉（#62）', (setMode('campaign'), document.getElementById('scope').closest('.r').classList.contains('disabled')), true, 0);
