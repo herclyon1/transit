@@ -12,7 +12,7 @@
 import re, os, json, datetime, collections
 
 # 用户 09-15：保安队长/班长/主管/领班、消防监控/消控/监控员 这类持证或管理岗不进「保安」，单独篮子 security_cert（也算有效、进中位数）；特勤队员留在保安
-BASKET_KW={'security_cert':['保安队长','队长','班长','主管','领班','消防监控','消控','监控员','消防'],'security':['保安','门卫','安保','特勤','保卫'],'food':['服务员','服务生','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
+BASKET_KW={'security_cert':['保安队长','队长','班长','主管','领班','消防监控','消控','监控员','消防'],'security':['保安','门卫','安保','特勤','保卫'],'food':['服务员','服务生','调饮师','茶饮师','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
            'retail':['理货','超市','便利店','收银','导购','店员','营业员'],'delivery':['快递','分拣','骑手','外卖','配送','仓储','仓库','打包','装卸','搬运'],
            'factory':['普工','操作工','包装工','车间','厂','生产'],'cleaning':['保洁','清洁'],'home':['家政','钟点','育儿','护理','月嫂','阿姨'],   # home = 私人家庭钟点/家政：记但不进篮子最低值
            'chain':['麦当劳','肯德基','KFC','星巴克','瑞幸','必胜客','汉堡王','7-Eleven','全家','罗森']}
@@ -59,8 +59,17 @@ def extract_common(r, city_hint):
             if m: wage=_num(m.group(1)); unit='CNY/天'
     # 抽到的数是区间端点 → 不是确数
     if wage is not None and _is_endpoint(t,wage): wage=None; unit=None; rng=True
-    # 「基础薪资1200+餐补+提成」「底薪3000+提成」是组合薪资，不是确数
-    if wage is not None and unit=='CNY/月' and re.search(r'(?:底薪|基础薪资|基本工资|保底)[^\n\d]{0,4}'+str(int(wage))+r'\s*(?:元)?\s*[+＋]|'+str(int(wage))+r'\s*(?:元)?\s*[+＋]\s*(?:提成|补贴|绩效|奖金|餐补|月餐补)',t): wage=None; unit=None; rng=True
+    # 组合薪资：「2100 底薪 + 1400 社保补贴 + 200 全勤 + 加班费 + 提成」——各项都是确数、能拆出固定部分（底薪 + 社保补贴/全勤/岗位工资/餐补 这类带数字的固定项 ≥2 项）的，
+    # 按固定部分入库并标 composite=fixed（用户 09-15：乌鲁木齐岗位普遍这样拆）；只写「底薪 3000+提成」拆不出固定部分的照旧拒
+    FIX=r'(底薪|基础薪资|基本工资|保底|基础工资|社保补贴|全勤奖|全勤|岗位工资|餐补|月餐补|住房补贴|交通补贴|工龄工资)'
+    comps={}
+    for v,k in re.findall(r'(\d{3,5})\s*(?:元)?\s*'+FIX,t): comps.setdefault(k,int(v))
+    for k,v in re.findall(FIX+r'[^\d\n+＋]{0,4}(\d{3,5})',t): comps.setdefault(k,int(v))
+    is_comp=bool(re.search(r'[+＋]',t)) and any(re.match(r'底薪|基础薪资|基本工资|保底|基础工资',k) for k in comps)
+    if is_comp:
+        if len(comps)>=2:
+            wage=float(sum(comps.values())); unit='CNY/月'; r['composite']='fixed'; r['composite_parts']=' + '.join(f'{v} {k}' for k,v in comps.items())
+        else: wage=None; unit=None; rng=True
     r['wage_value']=wage; r['wage_unit']=unit; r['wage_range']=bool(rng and wage is None)
     if '面议' in t: r['wage_range']=True
     r['probation']=bool(wage is not None and re.search(r'试用期?[^\n]{0,12}'+str(int(wage)) if float(wage).is_integer() else r'试用期?[^\n]{0,12}'+str(wage),t))
@@ -93,8 +102,9 @@ def extract_common(r, city_hint):
             b=CN.get(mb.group(1)) or float(mb.group(1))
             if '个半' in mb.group(0) or re.search(r'\d\s*个半',mb.group(0)): b+=0.5
             hpd=round(hpd-b,1); flag+=f'-{b:g}h饭 '
-    m=re.search(r'(\d{1,2})\s*小时(?:工作制|/天|一天)?',t)
+    m=re.search(r'(\d{1,2})\s*(?:小时|h\b|H\b)(?:工作制|/天|一天)?',t)
     if not hpd and m: hpd=float(m.group(1)); hours_text.append(m.group(0))
+    if re.search(r'每周(?:都会)?(?:安排)?(?:休|休息)(?:一|1)\s*天|周休一天|一周休一天|每周单休',t): dpm=dpm or 26; hours_text.append('每周休一天')
     m=re.search(r'月休\s*(\d{1,2})\s*天|每月休\s*(\d{1,2})',t)
     if m: dpm=30-int(m.group(1) or m.group(2)); hours_text.append(m.group(0))
     if re.search(r'单休',t): dpm=dpm or 26; hours_text.append('单休')

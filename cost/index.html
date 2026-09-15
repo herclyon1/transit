@@ -316,6 +316,9 @@ function render(c,d){
       if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>'; } }
   else h+='<div class="empty">待调查</div>';
   h+='</section>';
+  // ---- 工资怎么构成（有典例的城市才显示；乌鲁木齐：底薪 + 社保补贴 + 全勤 + 加班/夜班补贴，用户 09-15 定用沪上阿姨那帖当典例）
+  if(d.wage_structure&&d.wage_structure.items){ const ws=d.wage_structure;
+    h+='<section><h3>工资怎么构成</h3>'+ws.items.map(x=>`<div class="r"><span class="k">${x.k}</span><span class="v">${x.v}</span></div>`).join('')+`<div class="src">典例：${ws.example||''}${ws.note?'。'+ws.note:''}</div></section>`; }
   // ---- 岗位：一行一条（地图 App 地点卡片里的列表行）：岗位名 / 雇主或地点 / 右侧时薪大字；小字「工资 · 班次 · 月休 · 发帖日」；「打电话」胶囊；点开才展开原文/算式/来源
   h+='<section><h3>具体岗位</h3>'+jobsHtml(d,cur)+'</section>';
   // ---- 住哪里：四档

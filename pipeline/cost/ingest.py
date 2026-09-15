@@ -61,6 +61,7 @@ def entry(r):
     if '24h岗(默认)' in flag and h: note+=f"。上一休一没写每班几小时：按 24 小时在岗默认（用户 2026-09-15 定），月工时 24 h × {dpm} 班 = {h} h；若按 12 小时在岗算则 {round(r['wage_value']/(12*dpm),1)} {CUR}/时。"
     elif '24h' in flag and h: note+=f"。帖子写明 24 小时在岗：月工时 24 h × {dpm} 班 = {h} h，含夜间值守。"
     if r.get('probation'): note+="。帖子写的是试用期工资。"
+    if r.get('composite')=='fixed': note+=f"。组合薪资，取固定部分：{r.get('composite_parts')} = {r['wage_value']:g}；提成/加班/夜班补贴不计。"
     if r.get('wage_floor'): note+=f"。起薪（求人票下限）：求人票写 {r['wage_value']:g}〜{r['wage_hi']:g}，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
@@ -71,7 +72,7 @@ def entry(r):
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",
                      "contact": r.get('contact'), "note": note,
-                     "wage_posted": (f"{r['wage_value']:g}〜{r['wage_hi']:g} " if r.get('wage_floor') else f"{r['wage_value']:g} ")+r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')+('（取下限）' if r.get('wage_floor') else ''),
+                     "wage_posted": (f"{r.get('composite_parts')}（固定部分 {r['wage_value']:g} 元/月）" if r.get('composite')=='fixed' else (f"{r['wage_value']:g}〜{r['wage_hi']:g} " if r.get('wage_floor') else f"{r['wage_value']:g} ")+r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')+('（取下限）' if r.get('wage_floor') else '')),
                      "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h,
                                "basis": "default_24h" if '24h岗(默认)' in flag else "posted"}}}   # 上一休一没写班长 → 默认 24h（用户 09-15 18:45）
 
