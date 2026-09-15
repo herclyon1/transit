@@ -315,7 +315,7 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
         filter:["==",["get","n"],"\u0000"],paint:{"fill-color":"#1F7A5A","fill-opacity":0.18}},
       {id:"jp-selm",source:"jp","source-layer":"muni",type:"line",
         filter:["==",["get","n"],"\u0000"],paint:{"line-color":"#1F7A5A","line-width":2.6}},
-      {id:"jp-selk",source:"jp","source-layer":"ku",type:"line",
+      {id:"jp-selk",source:"jp","source-layer":"ku",type:"line",minzoom:8,
         filter:["==",["get","n"],"\u0000"],paint:{"line-color":"#7B3FA0","line-width":2.4}},
       {id:"jp-selcA",source:"choA","source-layer":"cho",type:"line",minzoom:11,
         filter:["==",["get","n"],"\u0000"],paint:{"line-color":"#B3541E","line-width":2.2}},
@@ -716,7 +716,7 @@ const JPCOL=EAC[EAC.indexOf("JPN")+1];
 let region="jp";
 
 function setRegion(r){
-  region=r;
+  region=r; if(map.getLayer("jp-sel")){ clearSelection(); closeCard(); }
   JP.forEach(id=>map.setLayoutProperty(id,"visibility",r==="jp"?"visible":"none"));
   EA.forEach(id=>map.setLayoutProperty(id,"visibility",r==="ea"?"visible":"none"));
   // 日本只有一份几何、一套图层，两个视图的差别就下面这几行。
@@ -748,17 +748,23 @@ function setRegion(r){
   applyTransit();
   drawLegend();
   updateDynLabels();
-  map.flyTo(r==="jp"?{center:[137.5,37.5],zoom:4.3}:{center:[112,20],zoom:2.6},{duration:700});
+  // 切视图不强制飞回全图（#49）：现在看的地方在目标视图的范围内就留在原地，只有在范围外（或首次）才飞
+  const c=map.getCenter(), z=map.getZoom();
+  const inJP = c.lng>122&&c.lng<154&&c.lat>20&&c.lat<46&&z>=4;
+  const inEA = c.lng>60&&c.lng<160&&c.lat>-12&&c.lat<56&&z>=2.4;
+  if(!(r==="jp"?inJP:inEA) || !map.getLayer("jp-sel"))
+    map.flyTo(r==="jp"?{center:[137.5,37.5],zoom:4.3}:{center:[112,20],zoom:2.6},{duration:700});
 }
 // 一级行政区名（z7 以上）：按视口动态生成，屏幕上有几个省就写几个名字，各写一次。
 // 做法：在屏幕上撒 5×9 个采样点，逐点问「这里是哪个单元」，
 // 同一个单元的采样点归成一堆，取离堆中心最近的那个点当标注位置
 // （取平均值可能落到该省之外，取最近的采样点必定在省内）。
 // 采样只查已经画出来的图层，不额外读数据，一次 45 次命中测试，手机上无感。
+let dynKey = "";   // 上次写进 dyn 源的内容签名：一样就不再 setData，否则 setData→重绘→idle→setData 永不停（09-15 审查 #39）
 function updateDynLabels(){
   const src = map.getSource("dyn");
   if(!src) return;
-  if(region!=="ea" || map.getZoom()<7){ src.setData({type:"FeatureCollection",features:[]}); return; }
+  if(region!=="ea" || map.getZoom()<7){ if(dynKey!==""){ dynKey=""; src.setData({type:"FeatureCollection",features:[]}); } return; }
   const cv = map.getCanvas(), w = cv.clientWidth, h = cv.clientHeight;
   const NX=5, NY=9, acc={};
   const layers = ["ea-fill","jp-fill"].filter(l=>map.getLayer(l));
@@ -778,7 +784,9 @@ function updateDynLabels(){
     const ll=map.unproject(best);
     return {type:"Feature",properties:{n},geometry:{type:"Point",coordinates:[ll.lng,ll.lat]}};
   });
-  src.setData({type:"FeatureCollection",features});
+  const key = features.map(f=>f.properties.n+"@"+f.geometry.coordinates.map(v=>v.toFixed(3)).join(",")).join("|");
+  if(key===dynKey) return;
+  dynKey = key; src.setData({type:"FeatureCollection",features});
 }
 map.on("moveend", updateDynLabels);
 map.on("idle", updateDynLabels);
@@ -791,6 +799,7 @@ function setBase(b){
     map.setLayoutProperty("base-"+x,"visibility", x===b?"visible":"none"));
   const op = b==="none" ? 1 : (b==="photo" ? 0.30 : 0.42);
   ["jp-fill","ea-fill"].forEach(id=>map.setPaintProperty(id,"fill-opacity",op));
+  ["jp-disp-fill","ea-rus"].forEach(id=>{ if(map.getLayer(id)) map.setPaintProperty(id,"fill-opacity", b==="none"?0.9:op); });   // 北方領土/樺太/千島也让底图透出来（#50）
   // 底图自带水体，我们那份就别叠了
   ["water","riv"].forEach(id=>map.setPaintProperty(id,
     id==="water"?"fill-opacity":"line-opacity",
@@ -857,9 +866,16 @@ document.getElementById("b-leg").onclick=()=>setLegend(!legOpen);
 
 // 底部那条（提示 or 详情）高度会变，图例的底边跟着它顶上去，别写死像素
 function fitLegend(){}
-document.getElementById("cClose").addEventListener("click",()=>closeCard());
-function closeCard(){ const c=document.getElementById("card"); c.style.display="none"; c.classList.remove("on"); document.getElementById("cardSect").hidden=true;
+document.getElementById("cClose").addEventListener("click",()=>{ clearSelection(); closeCard(); });
+function closeCard(){ const c=document.getElementById("card"); c.style.display="none"; c.classList.remove("on"); c.innerHTML=""; document.getElementById("cardSect").hidden=true; document.body.classList.remove("carded");
   document.getElementById("hint").style.display=""; document.getElementById("cClose").hidden=true; if(SHEET.get()!=="large") SHEET.set("small"); }
+// 清掉地图上所有选中描边（两个视图的都清，切视图/点空白/关卡片共用，#43）
+function clearSelection(){
+  const none=["==",["get","n"],"\u0000"];
+  ["jp-selm","jp-selk","jp-selmA","jp-selmB","jp-selmC","jp-selmD","jp-selcA","jp-selcB","jp-selcC","jp-selcD","ea-sel","ea-sub-sel","ea-rus-sel"].forEach(id=>{ if(map.getLayer(id)) map.setFilter(id,none); });
+  if(map.getLayer("jp-sel")) map.setFilter("jp-sel",["==",["get","code"],-1]);
+  if(map.getLayer("jp-disp-sel")) map.setFilter("jp-disp-sel",["==",["get","dn"],"\u0000"]);
+}
 
 
 document.getElementById("b-jp").onclick=()=>setRegion("jp");
@@ -867,6 +883,7 @@ document.getElementById("b-ea").onclick=()=>setRegion("ea");
 
 map.on("load",()=>{setRegion("jp"); setLegend(true);});
 
+const CN_NAME={CHN:"中国",JPN:"日本",KOR:"韩国",PRK:"朝鲜",MNG:"蒙古",TWN:"台湾",HKG:"香港",MAC:"澳门",VNM:"越南",LAO:"老挝",KHM:"柬埔寨",THA:"泰国",MMR:"缅甸",MYS:"马来西亚",SGP:"新加坡",IDN:"印度尼西亚",PHL:"菲律宾",BRN:"文莱",TLS:"东帝汶",IND:"印度",NPL:"尼泊尔",BTN:"不丹",BGD:"孟加拉国",LKA:"斯里兰卡",RUS:"俄罗斯",KAZ:"哈萨克斯坦",KGZ:"吉尔吉斯斯坦",TJK:"塔吉克斯坦",AFG:"阿富汗",PAK:"巴基斯坦"};
 function onMapClick(e){
   const c=document.getElementById("card");
   const fillId=region==="jp"?"jp-fill":"ea-fill";
@@ -881,13 +898,9 @@ function onMapClick(e){
   const sub = region==="ea" && map.getLayer("ea-sub-fill")
     ? map.queryRenderedFeatures(e.point,{layers:["ea-sub-fill"]})[0] : null;
   if(map.getLayer("ea-sub-sel"))
-    map.setFilter("ea-sub-sel", sub?["==",["get","n"],sub.properties.n]:["==",["get","n"],"\u0000"]);
+    map.setFilter("ea-sub-sel", sub?["all",["==",["get","n"],sub.properties.n],["==",["get","up"],sub.properties.up]]:["==",["get","n"],"\u0000"]);   // 同名的社/坊跨省不一起亮（#41）
   const hit=map.queryRenderedFeatures(e.point,{layers:hitLayers})[0];
-  if(!hit){ map.setFilter(selId, region==="jp"?["==",["get","code"],-1]:["==",["get","n"],"\u0000"]);
-            if(region==="jp") ["jp-selm","jp-selk","jp-selmA","jp-selmB","jp-selmC","jp-selmD","jp-selcA","jp-selcB","jp-selcC","jp-selcD"].forEach(id=>map.setFilter(id,["==",["get","n"],"\u0000"]));
-            else map.setFilter("jp-sel",["==",["get","code"],-1]);
-            c.style.display="none"; c.classList.remove("on"); document.body.classList.remove("carded");
-            document.getElementById("hint").style.display=""; return; }
+  if(!hit){ clearSelection(); closeCard(); return; }   // 点空白：所有高亮（含北方領土/俄方实控区）和卡片、关闭钮一起收（#43 #44）
   const p=hit.properties, d=map.queryRenderedFeatures(e.point,{layers:[dispId]})[0];
   if(map.getLayer("ea-rus-sel")) map.setFilter("ea-rus-sel",["==",["get","n"],"\u0000"]);
   if(map.getLayer("jp-disp-sel")) map.setFilter("jp-disp-sel",["==",["get","dn"],"\u0000"]);
@@ -918,7 +931,7 @@ function onMapClick(e){
     const chFilter = chName==="\u0000" ? ["==",["get","n"],"\u0000"]
       : ["all",["==",["get","n"],chName],["==",["get","pref"],chPref],["==",["get","city"],chCity]];
     ["jp-selcA","jp-selcB","jp-selcC","jp-selcD"].forEach(id=>map.setFilter(id,chFilter));
-    map.setFilter("jp-selk", ku ? ["==",["get","n"],ku.properties.n] : ["==",["get","n"],"\u0000"]);
+    map.setFilter("jp-selk", ku ? ["all",["==",["get","n"],ku.properties.n],["==",["get","shi"],ku.properties.shi],["==",["get","pref"],ku.properties.pref]] : ["==",["get","n"],"\u0000"]);   // 只亮这一个市的这个区，不亮全国同名区（#40）
     // 市町村的高亮：**用町丁自己的码去圈**，而不是拿 OSM 的市界描边。
     // 两份数据在 607 处不一致，OSM 的泉佐野市里根本不含飞地「大口新田」，
     // 拿它描边永远框不住——这不是显示 bug，是两层用了两个来源。
@@ -940,13 +953,15 @@ function onMapClick(e){
     if(ch&&ch.properties&&ch.properties.n){
       const cc=ch.properties;
       html+=`<div class="sub">町丁：${cc.n}</div>`;
-      if(cc.pop) html+=`<div class="sub">人口 ${Number(cc.pop).toLocaleString()} 人 ／ ${Number(cc.hh).toLocaleString()} 世帯 <span style="opacity:.7">（令和2年）</span></div>`;
+      if(cc.pop!=null&&cc.pop!=="") html+=`<div class="sub">人口 ${Number(cc.pop).toLocaleString()} 人 ／ ${Number(cc.hh||0).toLocaleString()} 世帯 <span style="opacity:.7">（令和2年）</span></div>`;
+      else html+=`<div class="sub" style="opacity:.7">人口：无数据</div>`;   // 0 人和没数据分开（#52）
     }
     if(transit){
-      const st=map.queryRenderedFeatures(e.point,{layers:["tr-station"]})[0];
+      const R=matchMedia("(pointer: coarse)").matches?11:4, bb=[[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]];   // 手指给 22px 容差，鼠标 8px（#46）
+      const st=map.queryRenderedFeatures(bb,{layers:["tr-station"]})[0];
       if(st&&st.properties&&st.properties.n)
         html+=`<div class="sub">駅：${st.properties.n}　<span style="opacity:.75">${st.properties.ln||""}</span></div>`;
-      const ap=map.queryRenderedFeatures(e.point,{layers:["tr-air"]})[0];
+      const ap=map.queryRenderedFeatures(bb,{layers:["tr-air"]})[0];
       if(ap&&ap.properties&&ap.properties.n) html+=`<div class="sub">空港：${ap.properties.n}</div>`;
     }
     const dd=map.queryRenderedFeatures(e.point,{layers:["jp-disp-fill"]})[0];
@@ -961,7 +976,7 @@ function onMapClick(e){
   }else if(p.grp!==undefined){
     map.setFilter(selId,["==",["get","n"],p.n]);
     map.setFilter("jp-sel",["==",["get","code"],-1]);
-    html=`<div class="n">${p.n}</div><div class="sub">${p.grp}</div>`;
+    html=`<div class="n">${p.n}</div><div class="sub">${CN_NAME[p.grp]||p.grp}</div>`;   // ISO 代码换国家名（#45）
     if(p.cap) html+=`<div class="sub">首府：${p.cap}</div>`;
     if(sub&&sub.properties&&sub.properties.n) html+=`<div class="sub">下位区画：${sub.properties.n}</div>`;
   }else{

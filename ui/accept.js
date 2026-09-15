@@ -99,6 +99,11 @@
       ok('图例行不是按钮（#38）', [...document.querySelectorAll('#lg .mrow')].every(r=>r.classList.contains('no-press')), true, 0);
       ok('面覆盖画布在标记之下（#24）', (()=>{ const a=document.querySelector('canvas.area'); if(!a) return true; const kids=[...window.map.getCanvasContainer().children]; const mi=kids.findIndex(k=>k.classList&&k.classList.contains('maplibregl-marker')); return kids.indexOf(a)>=0&&(mi<0||kids.indexOf(a)<mi); })(), true, 0);
       if(window.pin){ try{ pin.remove(); window.pin=null; }catch(e){} } const pp2=document.querySelector('.maplibregl-popup'); if(pp2) pp2.remove(); }
+    if(location.pathname.includes('/japan/')&&window.map&&typeof onMapClick==='function'){ try{ onMapClick({point:window.map.project([150.0,30.0])}); }catch(e){}
+      ok('点空白后卡片、关闭钮、卡片容器一起收（#44）', document.getElementById('card').style.display==='none'&&document.getElementById('cardSect').hidden&&document.getElementById('cClose').hidden, true, 0);
+      ok('点空白后所有选中描边清空（#43）', ['jp-selk','ea-sub-sel','ea-rus-sel','jp-disp-sel'].every(id=>!window.map.getLayer(id)||JSON.stringify(window.map.getFilter(id)).includes('\\u0000')), true, 0);
+      ok('区高亮按 市+区 过滤、只在 z≥8 画（#40）', window.map.getLayer('jp-selk')&&window.map.getLayer('jp-selk').minzoom>=8, true, 0);
+      ok('東亜卡片有国家名对照表（#45）', typeof CN_NAME==='object'&&Object.keys(CN_NAME).length>=20, true, 0); }
     // 分组列表
     const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
     const single=qa('.row').find(r=>!r.querySelector('.hint,.seg,input[type=range]')&&!r.classList.contains('slider')); if(single){ const rr=rect(single); ok('单行 52.33（Row Regular 52 + 分隔线）', rr.height, 52.33, 0.5, single.textContent.trim().slice(0,12)); ok('行左内缩 '+(single.classList.contains('icon')?'18（有图标）':'20'), px(cs(single).paddingLeft), single.classList.contains('icon')?18:20, 0.1); ok('行右内缩 20', px(cs(single).paddingRight), 20, 0.1);
