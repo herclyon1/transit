@@ -281,14 +281,14 @@
     "Lê Thánh Tông / Hoàng Diệu 商圈（0.5–1 km）"
    ],
    "rent_1k": {
-    "value": null,
+    "value": 2300000,
     "unit": "越南盾/月",
     "source_url": "https://www.nhatot.com/thue-phong-tro-thanh-pho-buon-ma-thuot-dak-lak",
-    "source_name": "Chợ Tốt/Nhà Tốt 公开 API（region_v2=9053, area_v2=905301, st=u）+ muaban.net + phongtro123.com 合并（2026-09-15 抓取，原始 cost/data/raw/buon_ma_thuot/20260915/rent.jsonl）",
+    "source_name": "Chợ Tốt/Nhà Tốt 公开 API（region_v2=9053, area_v2=905301，含近期已下架 phòng trọ，原始 cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json）",
     "fetched_at": "2026-09-15",
-    "confidence": "listing",
-    "n": 0,
-    "note": "2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室（只有 Lê Hồng Phong 105 巷 3 卧整栋 5,000,000、Trần Hưng Đạo 巷 4 卧 7,500,000 等整栋）。对照：Chợ Tốt 近 1 个月已下架的 phòng trọ 两条都在 Nguyễn Công Trứ（0.6 km）：“Phòng Trọ Cao Cấp Trung Tâm” 25 ㎡ 2,600,000（2 周前）、“phòng nguyên căn trung tâm BMT” 30 ㎡ 2,000,000（1 个月前）→ 中位 2,300,000，可视为市中心单间的近期成交价区间；phongtro123 2023-08 帖 27 Phan Chu Trinh 迷你公寓 15 ㎡ 2,500,000（过期）。batdongsan.com.vn / guland / nhatot 网页被 Cloudflare 拦截未读。",
+    "confidence": "estimated",
+    "n": 2,
+    "note": "2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室（n=0），本值是 Chợ Tốt 近期已下架的两条单间取中位：Nguyễn Công Trứ 一带（距 Ngã Sáu 0.63 km）“phòng nguyên căn trung tâm BMT” 30 ㎡ 2,000,000 đ/月（08-06 挂）、“Phòng Trọ Cao Cấp Trung Tâm TP. Buôn Ma Thuột” 25 ㎡ 2,600,000 đ/月（08-30 挂），两条 09-15 前已下架——是刚过去的平台价，不是现价，所以记 estimated。全城 Chợ Tốt 的 phòng trọ 含已下架总共只有 13 条，邦美蜀的租房撮合主要在 Facebook 群和门口贴纸，平台样本天然薄。原注：2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室（只有 Lê Hồng Phong 105 巷 3 卧整栋 5,000,000、Trần Hưng Đạo 巷 4 卧 7,500,000 等整栋）。对照：Chợ Tốt 近 1 个月已下架的 phòng trọ 两条都在 Nguyễn Công Trứ（0.6 km）：“Phòng Trọ Cao Cấp Trung Tâm” 25 ㎡ 2,600,000（2 周前）、“phòng nguyên căn trung tâm BMT” 30 ㎡ 2,000,000（1 个月前）→ 中位 2,300,000，可视为市中心单间的近",
     "compare": {
      "value": 2300000,
      "source_name": "Chợ Tốt 近 1 个月已下架 phòng trọ（Nguyễn Công Trứ，0.6 km）中位，n=2，非在挂价",
@@ -675,7 +675,7 @@
    "fetched_at": "2026-09-15",
    "confidence": "official",
    "n": null,
-   "note": "未采集。可用越南统计总局 Khảo sát mức sống dân cư（VHLSS）Tây Nguyên 分区人均食品支出作对照，本次没做。",
+   "note": "未采集：越南统计总局 Khảo sát mức sống dân cư（VHLSS）分区「chi ăn uống bình quân 1 nhân khẩu 1 tháng」在全文报告表里，新闻稿不带；nso.gov.vn / gso.gov.vn / cucthongkedaklak.gso.gov.vn 2026-09-15 从日本 TCP 超时（curl 与浏览器都连不上，和中国官方站一样是境外 IP 问题），要境内路由或用户手机开一次。第三方镜像 niengiamthongke.net 能开但不是官方原文，不用。",
    "label": "食费（统计平均，未采集）"
   },
   "total": {
