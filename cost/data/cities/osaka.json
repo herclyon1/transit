@@ -1665,6 +1665,83 @@
    "note": "Tall 店内 500 起（Short 460 / Grande 545）。",
    "label": "星巴克拿铁 Tall"
   },
+  "coffee_shop": {
+   "value": 300,
+   "unit": "日元",
+   "source_url": "https://www.doutor.co.jp/dcs/menu/detail/20110907153810.html",
+   "source_name": "ドトールコーヒーショップ官网 メニュー ホットドリンク ブレンドコーヒー",
+   "source_short": "ドトール官网菜单",
+   "fetched_at": "2026-09-16",
+   "confidence": "official",
+   "n": null,
+   "label": "咖啡馆一杯（ドトール ブレンド S）",
+   "how": "ドトール官网菜单读 ブレンドコーヒー S 杯税込价（店内外带同价；M 350、L 400）。大阪街头最多的平价咖啡连锁，通勤路上一杯就是这个价；个别店价格不同。",
+   "items": [
+    {
+     "name": "ドトール ブレンドコーヒー S",
+     "price": 300,
+     "unit": "日元",
+     "note": "M 350 / L 400，店内外带同价"
+    },
+    {
+     "name": "星巴克 拿铁 Tall",
+     "price": 500,
+     "unit": "日元",
+     "note": "另列一行"
+    }
+   ],
+   "compare": {
+    "label": "统计对照（咖啡馆一杯咖啡，大阪市）",
+    "value": 439,
+    "unit": "日元",
+    "n": null,
+    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
+    "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市"
+   },
+   "note": "总务省零售物价统计 2026-02 大阪市 咖啡馆一杯 439 改为对照；ドトール S 300 为实价。"
+  },
+  "curry_rice": {
+   "value": 460,
+   "unit": "日元",
+   "source_url": "https://www.matsuyafoods.co.jp/matsuya/menu/gyumeshi/gyumeshi_hp_250422.html",
+   "source_name": "松屋官网 メニュー 牛めし 並盛（税込，2026-09-08 版）",
+   "source_short": "松屋官网菜单",
+   "fetched_at": "2026-09-16",
+   "confidence": "official",
+   "n": null,
+   "label": "一顿快餐（松屋 牛めし 並盛）",
+   "how": "松屋官网牛めし页读 並盛 税込价——上班上学的人一顿最便宜的正经饭。22 时到次日 5 时加 7% 深夜费，个别店价格不同。同类对照：吉野家 牛丼 並盛 498、CoCo壱 ポークカレー 646（大阪府用官网标价，其他地区便宜 21）。",
+   "items": [
+    {
+     "name": "松屋 牛めし 並盛",
+     "price": 460,
+     "unit": "日元",
+     "note": "小盛 430 / 大盛 680；官网 2026-09-08 版"
+    },
+    {
+     "name": "吉野家 牛丼 並盛",
+     "price": 498,
+     "unit": "日元",
+     "note": "税込；官网牛丼菜单"
+    },
+    {
+     "name": "CoCo壱番屋 ポークカレー",
+     "price": 646,
+     "unit": "日元",
+     "note": "店内税込；东京·神奈川·大阪府按官网标价，其他地区 −21"
+    }
+   ],
+   "items_label": "看 3 家连锁的实价",
+   "compare": {
+    "label": "统计对照（外食咖喱饭一盘，大阪市）",
+    "value": 787,
+    "unit": "日元",
+    "n": null,
+    "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
+    "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市"
+   },
+   "note": "总务省零售物价统计 2026-02 大阪市 咖喱饭 787 改为对照；一顿快餐取松屋牛めし並盛 460。吉野家 https://www.yoshinoya.com/menu/gyudon/ ；CoCo壱 https://www.ichibanya.co.jp/menu/list.html?cid=1（地域別価格 说明在同页）。"
+  },
   "eggs10": {
    "value": 311,
    "unit": "日元",
@@ -1735,16 +1812,16 @@
  "living_official": {
   "food": {
    "label": "基础食材月费（按平台实价推算）",
-   "value": 26237,
+   "value": 19417,
    "unit": "日元/月",
    "confidence": "estimated",
    "n": null,
    "source_url": null,
    "source_name": "本页各项食材的平台实价 × 项目统一用量（单身）",
    "source_short": "按各项实价推算",
-   "fetched_at": "2026-09-15",
-   "how": "上面各项食材的平台现价 × 项目统一用量：大米 5 kg 3218×1、鸡蛋 10 个 311×3、牛奶 1 L 246×10、可乐 1 L 128×2、啤酒 6 罐 1172×1、面包 1 kg 629×2、一顿快餐（用巨无霸套餐价顶） 770×22；面粉 1 kg、食用油 1 L、土豆 1 kg、西红柿 1 kg、白菜 1 kg、鸡腿 1 kg、羊肉 1 kg、苹果 1 kg、馕 1 个 还没有价，没算进去。",
-   "note": "= 大米 5 kg 3218×1 + 鸡蛋 10 个 311×3 + 牛奶 1 L 246×10 + 可乐 1 L 128×2 + 啤酒 6 罐 1172×1 + 面包 1 kg 629×2 + 一顿快餐（用巨无霸套餐价顶） 770×22 = 26,237。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。 缺 面粉 1 kg, 食用油 1 L, 土豆 1 kg, 西红柿 1 kg, 白菜 1 kg, 鸡腿 1 kg, 羊肉 1 kg, 苹果 1 kg, 馕 1 个，没算进去。"
+   "fetched_at": "2026-09-16",
+   "how": "上面各项食材的平台现价 × 项目统一用量：大米 5 kg 3218×1、鸡蛋 10 个 311×3、牛奶 1 L 246×10、一顿快餐 460×22、可乐 1 L 128×2、啤酒 6 罐 1172×1、面包 1 kg 629×2；面粉 1 kg、食用油 1 L、土豆 1 kg、西红柿 1 kg、白菜 1 kg、鸡腿 1 kg、羊肉 1 kg、苹果 1 kg、馕 1 个 还没有价，没算进去。",
+   "note": "= 大米 5 kg 3218×1 + 鸡蛋 10 个 311×3 + 牛奶 1 L 246×10 + 一顿快餐 460×22 + 可乐 1 L 128×2 + 啤酒 6 罐 1172×1 + 面包 1 kg 629×2 = 19,417。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。 缺 面粉 1 kg, 食用油 1 L, 土豆 1 kg, 西红柿 1 kg, 白菜 1 kg, 鸡腿 1 kg, 羊肉 1 kg, 苹果 1 kg, 馕 1 个，没算进去。"
   },
   "total": {
    "value": 191523,
@@ -1756,28 +1833,6 @@
    "n": null,
    "note": "单身勤劳者家庭 消费支出合计（含住居 30,327）。全部单身 173,042（平均 58.6 岁）。",
    "label": "消费支出合计（统计平均）"
-  },
-  "coffee_shop": {
-   "value": 439,
-   "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "咖啡馆一杯咖啡（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
-   "label": "咖啡馆一杯咖啡（统计对照）"
-  },
-  "curry_rice": {
-   "value": 787,
-   "unit": "日元",
-   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
-   "source_name": "总务省统计局 零售物价统计 2026 年 2 月 大阪市",
-   "fetched_at": "2026-09-14",
-   "confidence": "official",
-   "n": null,
-   "note": "咖喱饭一盘（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
-   "label": "外食咖喱饭一盘（统计对照）"
   },
   "food_official_ref": {
    "value": 45787,
