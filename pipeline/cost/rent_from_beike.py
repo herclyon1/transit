@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""贝壳/安居客 jsonl → 四档房租（beike.jsonl + anjuke.jsonl 都读）（用户 2026-09-15：房租要「普通人真会租到的价」= 过滤后便宜的四分之一处，不是中位/相場）。
-   python3 pipeline/cost/rent_from_beike.py urumqi [--date 20260915]
-   读 cost/data/raw/<city>/<date>/beike.jsonl：按 keyword（站名）分组 → 去重（name,spec,distance,price）→ 去掉商用楼/写字间、面积 <15 或 >80 ㎡、价 ≥6000
-   → 整租条目写 tiers[].rent_1k（Q1；items = 便宜段明细；compare = 同样本中位），合租条目写 tiers[].rent_share。sort 字段照抄进 how。
-   站名 → 档位映射在 STATIONS 里；三工档取距站 ≤2 km。"""
+"""安居客 jsonl → 四档房租（用户 2026-09-15：房租要「普通人真会租到的价」= 过滤后便宜的四分之一处，不是中位/相場）。
+   python3 pipeline/cost/rent_from_beike.py urumqi [--date 20260916]
+   用户 2026-09-16 拍板：贝壳弃用（混商用楼太多），乌鲁木齐只读 anjuke.jsonl；安居客没有价格排序 → 口径 =「默认排序全部翻完（连续两屏无新条目为止）→ 去重/过滤 → 下四分位」。
+   读 cost/data/raw/<city>/<date>/anjuke.jsonl：按 keyword（站名）分组 → 去重（name,spec,distance,price）→ 去掉商用楼/写字间、面积 <15 或 >80 ㎡、价 ≥6000
+   → 整租条目写 tiers[].rent_1k（Q1；items = 便宜段明细；compare = 同样本中位），合租条目写 tiers[].rent_share。
+   还没换成安居客的整租（09-15 贝壳那份）留着，how 里注明暂用。站名 → 档位映射在 STATIONS 里；三工档取距站 ≤2 km。"""
 import json, re, sys, os, glob, statistics, datetime
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
 STATIONS={'urumqi':{'walk':(['南门'],None,'南门站'),'t15':(['王家梁'],None,'王家梁站'),'t25':(['铁路局'],None,'铁路局站'),'t40':(['三工','三工+宣仁墩+大地窝堡','三工+宣仁墩+大地窝堡·续'],2000,'三工＋宣仁墩＋大地窝堡 三站（2 km 圈）')}}
@@ -16,11 +17,10 @@ def dist(s):
 def main():
     city=sys.argv[1]; date=(sys.argv[sys.argv.index('--date')+1] if '--date' in sys.argv else sorted(x for x in os.listdir(os.path.join(ROOT,'raw',city)) if x.isdigit())[-1])   # 只认日期目录（README.md 排最后会被当日期）
     rows=[]
-    for fn in ('beike.jsonl','anjuke.jsonl'):            # 贝壳没房源时用安居客 App（只有默认排序）；两家都读，platform 字段区分
-        fp=os.path.join(ROOT,'raw',city,date,fn)
-        if os.path.exists(fp): rows+=[json.loads(l) for l in open(fp,encoding='utf-8')]
-    if not rows: sys.exit(f'{city}/{date} 没有 beike.jsonl / anjuke.jsonl')
-    for r in rows: r.setdefault('type','合租' if r['name'].startswith('合租') else '整租'); r.setdefault('platform','贝壳')
+    fp=os.path.join(ROOT,'raw',city,date,'anjuke.jsonl')   # 只读安居客（贝壳 09-16 起弃用：混商用楼太多）
+    if os.path.exists(fp): rows=[json.loads(l) for l in open(fp,encoding='utf-8')]
+    if not rows: sys.exit(f'{city}/{date} 没有 anjuke.jsonl（贝壳已弃用，不读 beike.jsonl）')
+    for r in rows: r.setdefault('type','合租' if r['name'].startswith('合租') else '整租'); r.setdefault('platform','安居客')
     cf=os.path.join(ROOT,'cities',f'{city}.json'); d=json.load(open(cf,encoding='utf-8'))
     for t in d['tiers']:
         kws,ring,label=STATIONS[city][t['id']]
@@ -43,9 +43,13 @@ def main():
             sorts=sorted(set(r.get('sort','默认') for r in rs)); plats=sorted(set(r.get('platform','贝壳') for r in ok)); src=' / '.join(plats)
             url={'贝壳':'https://m.ke.com/wlmq/zufang/','安居客':'https://wlmq.zu.anjuke.com/'}.get(plats[0],'https://m.ke.com/wlmq/zufang/')
             t[key]={"value":int(q1),"unit":"元/月","source_url":url,"source_name":f"{src} App {what}列表 地铁 1 号线{label}","source_short":f"{src} App","fetched_at":max(r['fetched_at'] for r in rs),"confidence":"listing","n":len(ok),
-              "how":f"{src} App {what}、地铁 1 号线{label}，列表按「{'、'.join(sorts)}」抓到 {len(rs)} 条，去重、去掉商用楼/写字间"+("、面积异常" if typ=='整租' else '')+f"后 {len(ok)} 条，取便宜的四分之一处 = {int(q1):,} 元（最低 {int(ps[0]):,}、中位 {int(med):,}、最高 {int(ps[-1]):,}）——刚来打工/上学的人真会租到的那档。",
+              "how":f"{src} App {what}、地铁 1 号线{label}，没有价格排序，按默认排序全部翻完（连续两屏无新条目为止）抓到 {len(rs)} 条，去重、去掉商用楼/写字间"+("、面积异常" if typ=='整租' else '')+f"后 n={len(ok)}，取便宜的四分之一处 = {int(q1):,} 元（最低 {int(ps[0]):,}、中位 {int(med):,}、最高 {int(ps[-1]):,}）——刚来打工/上学的人真会租到的那档。",
               "items":[{'name':re.sub(r'^(整租|合租)(\d居)?[·\s]','',r['name']),'price':r['price'],'unit':'元/月','note':' · '.join(x for x in ((r.get('spec') or '').replace('｜',' · '),(r.get('distance') or '').replace('距离','距')) if x)} for r in ok],
               "items_label":f"看 {len(ok)} 套","compare":{"label":"同样本中位数对照","value":int(med),"unit":"元/月","n":len(ok),"source_name":f"{src} App 同一列表"}}
             print(t['id'],typ,'n',len(ok),'Q1',int(q1),'中位',int(med),'排序',sorts)
+        # 整租还没换成安居客的：留 09-15 贝壳那份，how 里注明暂用（用户 09-16：贝壳弃用，愿意再跑安居客整租再换）
+        x=t.get('rent_1k') or {}
+        if x.get('value') is not None and '贝壳' in (x.get('source_short') or '') and '暂用' not in (x.get('how') or ''):
+            x['how']=(x.get('how') or '').rstrip('。')+'。贝壳列表混商用楼太多已弃用，这行暂用 09-15 贝壳那份，等安居客整租列表翻完后换。'
     json.dump(d,open(cf,'w',encoding='utf-8'),ensure_ascii=False,indent=1)
 if __name__=='__main__': main()
