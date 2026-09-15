@@ -65,7 +65,14 @@
       const te=(type,x,y)=>{ const t=new Touch({identifier:1,target:rw,clientX:x,clientY:y}); window.__accSynthetic=true; try{ rw.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==='touchend'?[]:[t],changedTouches:[t]})); } finally { window.__accSynthetic=false; } };
       te('touchstart',10,10); ok('触到即高亮（同一帧加 class）', rw.classList.contains('hig-press'), true, 0); ok('高亮过渡 0.2s', cs(rw).transitionDuration, '0.2s', 0);
       te('touchmove',10,40); ok('滑动 >10pt 取消高亮', rw.classList.contains('hig-press'), false, 0);
-      te('touchstart',10,10); te('touchend',10,10); ok('松手后高亮先留着（≥120ms 再淡出）', rw.classList.contains('hig-press'), true, 0); lab.remove(); }
+      te('touchstart',10,10); te('touchend',10,10); ok('松手后高亮先留着（≥120ms 再淡出）', rw.classList.contains('hig-press'), true, 0); lab.remove();
+      // 玻璃圆钮按下：×1.135、Spring(0.24, 0.4) 采样成 linear()（地图 App 右上圆钮实测）、亮度 1.3
+      if(window.HIGSheet&&P.BTN_STOPS){ const S=HIGSheet.physics.spring; const pts=P.BTN_STOPS.replace(/linear\(|\)/g,'').split(',').map(Number); let worst=0; for(let i=0;i<pts.length;i++){ const t=0.36*i/(pts.length-1); const m=1+S(-1,0,t,{duration:.24,bounce:.4})[0]; worst=Math.max(worst, Math.abs(pts[i]-m)); }
+        ok('圆钮按下曲线 = Spring(0.24, 0.4)（采样点最大偏差）', worst, 0, 0.01, pts.length+' 点'); ok('圆钮按下放大 1.135', P.BTN_SCALE, 1.135, 0.001);
+        const lb=document.createElement('div'); lb.style.cssText='position:fixed;left:-9999px;top:0'; lb.innerHTML='<button class="btn-glass">x</button>'; document.body.appendChild(lb); const gb=lb.querySelector('.btn-glass');
+        const tb=(type)=>{ const t=new Touch({identifier:2,target:gb,clientX:5,clientY:5}); window.__accSynthetic=true; try{ gb.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==='touchend'?[]:[t],changedTouches:[t]})); } finally { window.__accSynthetic=false; } };
+        tb('touchstart'); ok('圆钮触到即变亮（brightness 1.3）', gb.classList.contains('hig-btn-press')&&/brightness\(1\.3\)/.test(cs(gb).filter), true, 0, cs(gb).filter); ok('圆钮触到即起放大动画', gb.getAnimations().length>0&&gb.getAnimations()[0].effect.getTiming().duration===P.BTN_MS, true, 0);
+        tb('touchend'); ok('圆钮松手回 1', !gb.classList.contains('hig-btn-press'), true, 0); lb.remove(); } }
     // 叠放卡片（HIGSheet.stack：地图 App 地点卡片 = 第二张 Sheet 从底下弹上来，后面那张退到中档）
     if(window.CARD&&!wide&&window.SHEET){ const C=window.CARD; const wasShown=C.shown; if(!wasShown) C.present(); const ce=C.ctl.el; const T=C.ctl.tops();
       ok('叠放卡片挂在 body 下、带 .sheet.stacked', ce.parentNode===document.body&&ce.classList.contains('stacked'), true, 0);
