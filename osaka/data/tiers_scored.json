@@ -1,0 +1,4111 @@
+{
+ "meta": {
+  "generated": "2026-09-16",
+  "method": "大阪「居住等级」三维度评分（草案，不写回 tiers.geojson）\n   python3 pipeline/osaka/tiers_score.py            → osaka/data/tiers_scored.json\n   python3 pipeline/osaka/tiers_score.py --md       → 顺带打印 README 用的对照表\n\n三维度，每块（tiers.geojson 104 块）各出一个 S–D，再取三项平均当「拟合级」；来源、年份、原始值都写进输出。\n  治安  刑法犯認知件数 ÷ 常住人口 ×1000（大阪府警 R7 表9 ÷ 令和7年国調速報），府内 72 市区町村五分位 → crime_rate_r07.json 已算，块继承所在区/市。\n  便利  ① 门到枢纽分钟：块内 200 m 网格采样，每点 = 步行到最近站（直线×1.3 ÷ 80 m/分）+ 该站到最近枢纽（reach.json t_default，不含特急券），块取中位；\n        ② 800 m 内超市数：OSM shop=supermarket（Overpass，ODbL），每采样点数 800 m 圈内家数，块取中位。两项各按 104 块五分位，再平均。\n  环境  洪水浸水想定区域（想定最大規模）里浸水深 ≥0.5 m 的采样点占比（国土数値情報 A31a 河川単位 2025 年度版：近畿整備局 5 条国管理河川 + 大阪府管理/中小河川），0% S、<10% A、<30% B、<60% C、≥60% D。\n不写回 geojson：等用户拍板阈值和维度后再落。",
+  "sources": {
+   "safety": "大阪府警察「令和7年中の犯罪統計（確定値）」表9 刑法犯罪種及び手口別発生市区町村別認知件数 ÷ 令和7年国勢調査人口速報集計（2025-10-01）；osaka/data/crime_rate_r07.json",
+   "hub": "osaka/data/reach.json（大阪地铁/JR/私铁官方所要時間建图，2026-09-16；t_default 不含特急券）+ 步行 80 m/分（不動産公正競争規約施行規則 §9(9)）× 直线 1.3 系数（假设）",
+   "shop": "OpenStreetMap shop=supermarket（Overpass API，osm base 见 raw/osm/supermarkets_overpass.json 的 osm3s.timestamp_osm_base，ODbL）",
+   "flood": "国土数値情報 A31a 洪水浸水想定区域（河川単位）2025 年度版 想定最大規模：近畿地方整備局 A31a-25_86（大和川・淀川・猪名川・桂川・木津川）+ 大阪府 A31a-25_27_10（府管理河川）+ A31a-25_27_20（中小河川）（国交省，CC BY 4.0；浸水深ランク A31a_205：2 = 0.5–3 m，3 = 3–5 m，4 = 5–10 m）https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-A31a-2025.html ；一次メッシュ版 A31b-25 的 5235 缺淀川本川（十三/京橋/御幣島查无多边形），故不用"
+  },
+  "osm_base": "2026-09-15T19:44:21Z",
+  "quintiles": {
+   "door_to_hub_min": [
+    14.7,
+    24.1,
+    33.3,
+    55.3
+   ],
+   "supermarkets_800m": [
+    0.0,
+    2.0,
+    3.0,
+    5.0
+   ],
+   "crime_per1000": [
+    5.4,
+    7.42,
+    9.38,
+    10.84
+   ],
+   "fit_score": [
+    2.33,
+    2.67,
+    3.0,
+    3.33
+   ]
+  },
+  "params": {
+   "grid_m": 200,
+   "detour": 1.3,
+   "walk_m_per_min": 80,
+   "shop_radius_m": 800,
+   "near_k": 5
+  },
+  "fit": "score = 三维度 S=5…D=1 取平均；grade = score 在 104 块里的五分位（相对，前 20% 为 S），grade_abs = score 四舍五入（绝对，会挤在 B/C）；grade_rule = 备选 B：便利级为底，治安 D、环境 D 各扣一级；便利 = 门到枢纽五分位与超市五分位的平均；现 tier 的 +/- 记 ±0.33；diff = 拟合 grade − 现 tier",
+  "not_done": [
+   "液状化：大阪府「液状化可能性判定図」只有 PDF，无 GIS 开放数据，未纳入",
+   "高潮・内水氾濫不在 A31a 里（A31a 只有河川外水），未纳入",
+   "商务区常住人口偏小使治安率偏高（北区 32.0、中央区 51.6），未改昼間人口——等用户定",
+   "兵庫県/京都府管理的小河川（府界附近）未加载"
+  ]
+ },
+ "blocks": [
+  {
+   "id": "miyakojima_kyobashi",
+   "name": "京橋周边",
+   "parent": "都島区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "枢纽繁华,吵",
+   "n_samples": 30,
+   "grid_m": 200,
+   "area_km2": 1.18,
+   "safety": {
+    "muni": "大阪市都島区",
+    "crime": 1471,
+    "pop": 110124,
+    "per1000": 13.4,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 7.1,
+    "typical_station": "京橋",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 5.0,
+    "grade_hub": "S",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.8,
+    "flood_ge3_share": 0.2,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "miyakojima_n",
+   "name": "都島本通・毛馬",
+   "parent": "都島区",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "庶民安稳",
+   "n_samples": 112,
+   "grid_m": 200,
+   "area_km2": 4.53,
+   "safety": {
+    "muni": "大阪市都島区",
+    "crime": 1471,
+    "pop": 110124,
+    "per1000": 13.4,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 16.1,
+    "typical_station": "都島",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 8.0,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.821,
+    "flood_ge3_share": 0.188,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -3
+  },
+  {
+   "id": "fukushima",
+   "name": "福島・野田",
+   "parent": "福島区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "梅田徒步圈+餐饮街",
+   "n_samples": 116,
+   "grid_m": 200,
+   "area_km2": 4.6,
+   "safety": {
+    "muni": "大阪市福島区",
+    "crime": 843,
+    "pop": 84223,
+    "per1000": 10.0,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 11.3,
+    "typical_station": "野田",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 5.0,
+    "grade_hub": "S",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.836,
+    "flood_ge3_share": 0.526,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -4
+  },
+  {
+   "id": "konohana_e",
+   "name": "西九条・千鳥橋・伝法",
+   "parent": "此花区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "去梅田难波都快",
+   "n_samples": 110,
+   "grid_m": 200,
+   "area_km2": 4.34,
+   "safety": {
+    "muni": "大阪市此花区",
+    "crime": 915,
+    "pop": 62323,
+    "per1000": 14.7,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 21.4,
+    "typical_station": "西九条",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 5.0,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.427,
+    "flood_ge3_share": 0.2,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -2.33
+  },
+  {
+   "id": "konohana_w",
+   "name": "安治川口〜桜島・舞洲",
+   "parent": "此花区",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "工业港湾区,冷清",
+   "n_samples": 330,
+   "grid_m": 200,
+   "area_km2": 13.21,
+   "safety": {
+    "muni": "大阪市此花区",
+    "crime": 915,
+    "pop": 62323,
+    "per1000": 14.7,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 36.4,
+    "typical_station": "夢洲",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.045,
+    "flood_ge3_share": 0.018,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "nishi_horie",
+   "name": "堀江・新町・靱",
+   "parent": "西区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "年轻人气区,咖啡店密",
+   "n_samples": 78,
+   "grid_m": 200,
+   "area_km2": 3.15,
+   "safety": {
+    "muni": "大阪市西区",
+    "crime": 1621,
+    "pop": 115449,
+    "per1000": 14.0,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 9.3,
+    "typical_station": "阿波座",
+    "typical_hub": "難波",
+    "supermarkets_800m": 6.5,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "nishi_kujo",
+   "name": "九条・川口",
+   "parent": "西区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "庶民,阪神线直达难波梅田",
+   "n_samples": 54,
+   "grid_m": 200,
+   "area_km2": 2.09,
+   "safety": {
+    "muni": "大阪市西区",
+    "crime": 1621,
+    "pop": 115449,
+    "per1000": 14.0,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 11.4,
+    "typical_station": "九条",
+    "typical_hub": "難波",
+    "supermarkets_800m": 3.0,
+    "grade_hub": "S",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "B"
+   },
+   "diff": 2
+  },
+  {
+   "id": "minato_benten",
+   "name": "弁天町",
+   "parent": "港区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "JR环状线+地铁",
+   "n_samples": 59,
+   "grid_m": 200,
+   "area_km2": 2.38,
+   "safety": {
+    "muni": "大阪市港区",
+    "crime": 828,
+    "pop": 80734,
+    "per1000": 10.3,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 16.5,
+    "typical_station": "弁天町",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.136,
+    "flood_ge3_share": 0.0,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "A"
+   },
+   "diff": -0.33
+  },
+  {
+   "id": "minato_w",
+   "name": "大阪港・朝潮橋",
+   "parent": "港区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "港湾侧,冷清些",
+   "n_samples": 105,
+   "grid_m": 200,
+   "area_km2": 4.01,
+   "safety": {
+    "muni": "大阪市港区",
+    "crime": 828,
+    "pop": 80734,
+    "per1000": 10.3,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 25.1,
+    "typical_station": "朝潮橋",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 1,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "taisho",
+   "name": "大正",
+   "parent": "大正区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "冲绳社区,北端有轨道内部靠公交",
+   "n_samples": 202,
+   "grid_m": 200,
+   "area_km2": 8.07,
+   "safety": {
+    "muni": "大阪市大正区",
+    "crime": 619,
+    "pop": 60125,
+    "per1000": 10.3,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 36.4,
+    "typical_station": "大正",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "tennoji",
+   "name": "上本町・真田山・夕陽丘",
+   "parent": "天王寺区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "文教区全域稳",
+   "n_samples": 114,
+   "grid_m": 200,
+   "area_km2": 4.61,
+   "safety": {
+    "muni": "大阪市天王寺区",
+    "crime": 1272,
+    "pop": 87782,
+    "per1000": 14.5,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 9.2,
+    "typical_station": "四天王寺前夕陽ヶ丘",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 6.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.018,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "naniwa_shinsekai",
+   "name": "恵美須・新世界",
+   "parent": "浪速区",
+   "kind": "zone",
+   "tier_now": "C",
+   "note_now": "混杂,邻あいりん",
+   "n_samples": 76,
+   "grid_m": 100.0,
+   "area_km2": 0.76,
+   "safety": {
+    "muni": "大阪市浪速区",
+    "crime": 2422,
+    "pop": 87409,
+    "per1000": 27.7,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 7.2,
+    "typical_station": "恵美須町",
+    "typical_hub": "難波",
+    "supermarkets_800m": 8.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 3
+  },
+  {
+   "id": "naniwa_minatomachi",
+   "name": "湊町・桜川・難波中",
+   "parent": "浪速区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "极便利",
+   "n_samples": 87,
+   "grid_m": 200,
+   "area_km2": 3.52,
+   "safety": {
+    "muni": "大阪市浪速区",
+    "crime": 2422,
+    "pop": 87409,
+    "per1000": 27.7,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 7.9,
+    "typical_station": "芦原橋",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 10,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.563,
+    "flood_ge3_share": 0.0,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "nishiyodogawa",
+   "name": "御幣島・姫島・千船",
+   "parent": "西淀川区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "工薪区,便宜",
+   "n_samples": 352,
+   "grid_m": 200,
+   "area_km2": 14.17,
+   "safety": {
+    "muni": "大阪市西淀川区",
+    "crime": 800,
+    "pop": 97178,
+    "per1000": 8.2,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 24.7,
+    "typical_station": "千船",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.472,
+    "flood_ge3_share": 0.077,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "hyodogawa_kamishinjo",
+   "name": "上新庄・相川・豊里",
+   "parent": "東淀川区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "大経大/成蹊大学生圈,便宜",
+   "n_samples": 179,
+   "grid_m": 200,
+   "area_km2": 7.22,
+   "safety": {
+    "muni": "大阪市東淀川区",
+    "crime": 1866,
+    "pop": 178007,
+    "per1000": 10.5,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 24.2,
+    "typical_station": "上新庄",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.765,
+    "flood_ge3_share": 0.508,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2.33
+  },
+  {
+   "id": "hyodogawa_awaji",
+   "name": "淡路・柴島",
+   "parent": "東淀川区",
+   "kind": "zone",
+   "tier_now": "B-",
+   "note_now": "老旧,再开发中",
+   "n_samples": 161,
+   "grid_m": 200,
+   "area_km2": 6.29,
+   "safety": {
+    "muni": "大阪市東淀川区",
+    "crime": 1866,
+    "pop": 178007,
+    "per1000": 10.5,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 16.4,
+    "typical_station": "淡路",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.739,
+    "flood_ge3_share": 0.373,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -1.67
+  },
+  {
+   "id": "higashinari",
+   "name": "今里・深江",
+   "parent": "東成区",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "千日前线直达难波",
+   "n_samples": 113,
+   "grid_m": 200,
+   "area_km2": 4.57,
+   "safety": {
+    "muni": "大阪市東成区",
+    "crime": 904,
+    "pop": 89429,
+    "per1000": 10.1,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 14.4,
+    "typical_station": "今里",
+    "typical_hub": "難波",
+    "supermarkets_800m": 6,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.947,
+    "flood_ge3_share": 0.0,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -2
+  },
+  {
+   "id": "ikuno_n",
+   "name": "鶴橋・桃谷",
+   "parent": "生野区",
+   "kind": "zone",
+   "tier_now": "B-",
+   "note_now": "韩国城,热闹便宜",
+   "n_samples": 60,
+   "grid_m": 200,
+   "area_km2": 2.4,
+   "safety": {
+    "muni": "大阪市生野区",
+    "crime": 1362,
+    "pop": 128673,
+    "per1000": 10.6,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 14.6,
+    "typical_station": "桃谷",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 6.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.783,
+    "flood_ge3_share": 0.0,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -0.67
+  },
+  {
+   "id": "ikuno_s",
+   "name": "巽・小路以南",
+   "parent": "生野区",
+   "kind": "zone",
+   "tier_now": "C",
+   "note_now": "老旧密集,口碑中下",
+   "n_samples": 146,
+   "grid_m": 200,
+   "area_km2": 5.93,
+   "safety": {
+    "muni": "大阪市生野区",
+    "crime": 1362,
+    "pop": 128673,
+    "per1000": 10.6,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 19.2,
+    "typical_station": "北巽",
+    "typical_hub": "難波",
+    "supermarkets_800m": 7.0,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.945,
+    "flood_ge3_share": 0.11,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "asahi",
+   "name": "千林・森小路",
+   "parent": "旭区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "商店街物价低,老龄化",
+   "n_samples": 155,
+   "grid_m": 200,
+   "area_km2": 6.16,
+   "safety": {
+    "muni": "大阪市旭区",
+    "crime": 836,
+    "pop": 90745,
+    "per1000": 9.2,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 18.0,
+    "typical_station": "城北公園通",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 6,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.839,
+    "flood_ge3_share": 0.123,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "joto",
+   "name": "蒲生四丁目・野江・関目",
+   "parent": "城東区",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "地铁+京阪双线,性价比好",
+   "n_samples": 214,
+   "grid_m": 200,
+   "area_km2": 8.45,
+   "safety": {
+    "muni": "大阪市城東区",
+    "crime": 1247,
+    "pop": 169504,
+    "per1000": 7.4,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 11.1,
+    "typical_station": "鴫野",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 7.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.944,
+    "flood_ge3_share": 0.061,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 1
+  },
+  {
+   "id": "abeno",
+   "name": "阿倍野・昭和町・北畠",
+   "parent": "阿倍野区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "天王寺徒步圈+高级住宅带",
+   "n_samples": 148,
+   "grid_m": 200,
+   "area_km2": 5.88,
+   "safety": {
+    "muni": "大阪市阿倍野区",
+    "crime": 1289,
+    "pop": 112456,
+    "per1000": 11.5,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 7.8,
+    "typical_station": "西田辺",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 4.0,
+    "grade_hub": "S",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.061,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "B"
+   },
+   "diff": -2
+  },
+  {
+   "id": "sumiyoshi_tez",
+   "name": "帝塚山",
+   "parent": "住吉区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "传统高级住宅",
+   "n_samples": 47,
+   "grid_m": 200,
+   "area_km2": 1.97,
+   "safety": {
+    "muni": "大阪市住吉区",
+    "crime": 1417,
+    "pop": 150459,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 13.7,
+    "typical_station": "帝塚山三丁目",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 2,
+    "grade_hub": "S",
+    "grade_shop": "C",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.064,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "sumiyoshi_rest",
+   "name": "長居・我孫子・住吉大社",
+   "parent": "住吉区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "学生/庶民混合",
+   "n_samples": 182,
+   "grid_m": 200,
+   "area_km2": 7.16,
+   "safety": {
+    "muni": "大阪市住吉区",
+    "crime": 1417,
+    "pop": 150459,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 17.2,
+    "typical_station": "あびこ",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3.0,
+    "grade_hub": "A",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.484,
+    "flood_ge3_share": 0.038,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "higashisumiyoshi",
+   "name": "針中野・駒川・田辺",
+   "parent": "東住吉区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "庶民普通",
+   "n_samples": 251,
+   "grid_m": 200,
+   "area_km2": 9.96,
+   "safety": {
+    "muni": "大阪市東住吉区",
+    "crime": 1441,
+    "pop": 131606,
+    "per1000": 10.9,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 14.7,
+    "typical_station": "矢田",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3,
+    "grade_hub": "S",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.817,
+    "flood_ge3_share": 0.398,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "nishinari_n",
+   "name": "あいりん(萩之茶屋・太子・山王)",
+   "parent": "西成区",
+   "kind": "zone",
+   "tier_now": "D",
+   "note_now": "全府唯一治安劝退级",
+   "n_samples": 108,
+   "grid_m": 100.0,
+   "area_km2": 1.07,
+   "safety": {
+    "muni": "大阪市西成区",
+    "crime": 2302,
+    "pop": 105419,
+    "per1000": 21.8,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 7.5,
+    "typical_station": "萩ノ茶屋",
+    "typical_hub": "難波",
+    "supermarkets_800m": 8.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.083,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 4
+  },
+  {
+   "id": "nishinari_s",
+   "name": "天下茶屋・岸里・玉出",
+   "parent": "西成区",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "超便宜,其实能正常住",
+   "n_samples": 161,
+   "grid_m": 200,
+   "area_km2": 6.34,
+   "safety": {
+    "muni": "大阪市西成区",
+    "crime": 2302,
+    "pop": 105419,
+    "per1000": 21.8,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 15.2,
+    "typical_station": "岸里",
+    "typical_hub": "難波",
+    "supermarkets_800m": 5,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.64,
+    "flood_ge3_share": 0.0,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "yodogawa_juso",
+   "name": "十三",
+   "parent": "淀川区",
+   "kind": "zone",
+   "tier_now": "B-",
+   "note_now": "饮食街混杂",
+   "n_samples": 65,
+   "grid_m": 200,
+   "area_km2": 2.57,
+   "safety": {
+    "muni": "大阪市淀川区",
+    "crime": 2153,
+    "pop": 190163,
+    "per1000": 11.3,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 13.2,
+    "typical_station": "十三",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4,
+    "grade_hub": "S",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.785,
+    "flood_ge3_share": 0.215,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -1.67
+  },
+  {
+   "id": "yodogawa_nakajima",
+   "name": "西中島・塚本・神崎川",
+   "parent": "淀川区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "单身便利,西中島风俗多",
+   "n_samples": 183,
+   "grid_m": 200,
+   "area_km2": 7.34,
+   "safety": {
+    "muni": "大阪市淀川区",
+    "crime": 2153,
+    "pop": 190163,
+    "per1000": 11.3,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 16.1,
+    "typical_station": "神崎川",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.863,
+    "flood_ge3_share": 0.148,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "yodogawa_shinosaka",
+   "name": "新大阪・東三国",
+   "parent": "淀川区",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "出差通勤便利",
+   "n_samples": 70,
+   "grid_m": 200,
+   "area_km2": 2.74,
+   "safety": {
+    "muni": "大阪市淀川区",
+    "crime": 2153,
+    "pop": 190163,
+    "per1000": 11.3,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 14.2,
+    "typical_station": "東三国",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 7.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.9,
+    "flood_ge3_share": 0.0,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -2.33
+  },
+  {
+   "id": "tsurumi",
+   "name": "横堤・今福鶴見",
+   "parent": "鶴見区",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "家庭向,绿地公园圈",
+   "n_samples": 207,
+   "grid_m": 200,
+   "area_km2": 8.08,
+   "safety": {
+    "muni": "大阪市鶴見区",
+    "crime": 852,
+    "pop": 109900,
+    "per1000": 7.8,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 16.6,
+    "typical_station": "横堤",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 4,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.816,
+    "flood_ge3_share": 0.005,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -2
+  },
+  {
+   "id": "suminoe_n",
+   "name": "住之江公園・北加賀屋",
+   "parent": "住之江区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "普通",
+   "n_samples": 162,
+   "grid_m": 200,
+   "area_km2": 6.47,
+   "safety": {
+    "muni": "大阪市住之江区",
+    "crime": 1372,
+    "pop": 115287,
+    "per1000": 11.9,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 20.6,
+    "typical_station": "北加賀屋",
+    "typical_hub": "難波",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "A",
+    "grade_shop": "C",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.907,
+    "flood_ge3_share": 0.142,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 1.67,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -2
+  },
+  {
+   "id": "suminoe_nanko",
+   "name": "南港(咲洲)",
+   "parent": "住之江区",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "人工岛,孤岛感",
+   "n_samples": 341,
+   "grid_m": 200,
+   "area_km2": 13.61,
+   "safety": {
+    "muni": "大阪市住之江区",
+    "crime": 1372,
+    "pop": 115287,
+    "per1000": 11.9,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 33.3,
+    "typical_station": "ポートタウン東",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0,
+    "grade_hub": "B",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.15,
+    "flood_ge3_share": 0.015,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "hirano_c",
+   "name": "平野・喜連瓜破・加美",
+   "parent": "平野区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "普通",
+   "n_samples": 249,
+   "grid_m": 200,
+   "area_km2": 9.93,
+   "safety": {
+    "muni": "大阪市平野区",
+    "crime": 1702,
+    "pop": 182659,
+    "per1000": 9.3,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 18.9,
+    "typical_station": "平野",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3,
+    "grade_hub": "A",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.944,
+    "flood_ge3_share": 0.269,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "hirano_s",
+   "name": "出戸・長吉",
+   "parent": "平野区",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "南部口碑偏弱",
+   "n_samples": 131,
+   "grid_m": 200,
+   "area_km2": 5.31,
+   "safety": {
+    "muni": "大阪市平野区",
+    "crime": 1702,
+    "pop": 182659,
+    "per1000": 9.3,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 25.0,
+    "typical_station": "出戸",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 4,
+    "grade_hub": "B",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.733,
+    "flood_ge3_share": 0.015,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -0.33
+  },
+  {
+   "id": "kita_nakazaki",
+   "name": "中崎町・南森町・扇町",
+   "parent": "北区",
+   "kind": "zone",
+   "tier_now": "S-",
+   "note_now": "安静文艺,徒步梅田",
+   "n_samples": 84,
+   "grid_m": 200,
+   "area_km2": 3.42,
+   "safety": {
+    "muni": "大阪市北区",
+    "crime": 4789,
+    "pop": 149620,
+    "per1000": 32.0,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 8.5,
+    "typical_station": "中崎町",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 8.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.345,
+    "flood_ge3_share": 0.131,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -2.67
+  },
+  {
+   "id": "kita_tenroku",
+   "name": "天神橋六丁目〜長柄",
+   "parent": "北区",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "商店街便利,略混杂",
+   "n_samples": 46,
+   "grid_m": 200,
+   "area_km2": 1.9,
+   "safety": {
+    "muni": "大阪市北区",
+    "crime": 4789,
+    "pop": 149620,
+    "per1000": 32.0,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 14.8,
+    "typical_station": "天神橋筋六丁目",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 9.5,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.652,
+    "flood_ge3_share": 0.065,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -3
+  },
+  {
+   "id": "kita_umeda",
+   "name": "梅田・中之島・堂島",
+   "parent": "北区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "顶级商圈徒步圈,房租最贵档",
+   "n_samples": 124,
+   "grid_m": 200,
+   "area_km2": 5.03,
+   "safety": {
+    "muni": "大阪市北区",
+    "crime": 4789,
+    "pop": 149620,
+    "per1000": 32.0,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 8.3,
+    "typical_station": "中津",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 6.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.653,
+    "flood_ge3_share": 0.25,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -4
+  },
+  {
+   "id": "chuo_uemachi",
+   "name": "上町・玉造口・谷町",
+   "parent": "中央区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "高台文教住宅",
+   "n_samples": 108,
+   "grid_m": 200,
+   "area_km2": 4.29,
+   "safety": {
+    "muni": "大阪市中央区",
+    "crime": 6162,
+    "pop": 119350,
+    "per1000": 51.6,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 10.1,
+    "typical_station": "天満橋",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 6.5,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "chuo_shimanouchi",
+   "name": "島之内・千日前・道頓堀",
+   "parent": "中央区",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "极便利但吵,风俗店密",
+   "n_samples": 66,
+   "grid_m": 200,
+   "area_km2": 2.56,
+   "safety": {
+    "muni": "大阪市中央区",
+    "crime": 6162,
+    "pop": 119350,
+    "per1000": 51.6,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 6.1,
+    "typical_station": "長堀橋",
+    "typical_hub": "難波",
+    "supermarkets_800m": 13.0,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 2
+  },
+  {
+   "id": "chuo_semba",
+   "name": "本町・南船場・淡路町",
+   "parent": "中央区",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "商务区夜间安静,离你上班最近",
+   "n_samples": 47,
+   "grid_m": 200,
+   "area_km2": 1.88,
+   "safety": {
+    "muni": "大阪市中央区",
+    "crime": 6162,
+    "pop": 119350,
+    "per1000": 51.6,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 8.6,
+    "typical_station": "堺筋本町",
+    "typical_hub": "難波",
+    "supermarkets_800m": 7,
+    "grade_hub": "S",
+    "grade_shop": "S",
+    "grade": "S"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "toyonaka_c",
+   "name": "豊中・岡町・曽根・蛍池",
+   "parent": "豊中市",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "阪急沿线体面生活圈",
+   "n_samples": 350,
+   "grid_m": 200,
+   "area_km2": 14.06,
+   "safety": {
+    "muni": "豊中市",
+    "crime": 2298,
+    "pop": 404479,
+    "per1000": 5.7,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 26.4,
+    "typical_station": "豊中",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.157,
+    "flood_ge3_share": 0.009,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": -1
+  },
+  {
+   "id": "toyonaka_senri",
+   "name": "千里中央・桃山台・緑地公園",
+   "parent": "豊中市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "北摄招牌住宅区",
+   "n_samples": 333,
+   "grid_m": 200,
+   "area_km2": 12.98,
+   "safety": {
+    "muni": "豊中市",
+    "crime": 2298,
+    "pop": 404479,
+    "per1000": 5.7,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 33.5,
+    "typical_station": "千里中央",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 3,
+    "grade_hub": "C",
+    "grade_shop": "B",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.012,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "toyonaka_hattori",
+   "name": "服部天神",
+   "parent": "豊中市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "庶民,便宜",
+   "n_samples": 75,
+   "grid_m": 200,
+   "area_km2": 2.81,
+   "safety": {
+    "muni": "豊中市",
+    "crime": 2298,
+    "pop": 404479,
+    "per1000": 5.7,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 22.9,
+    "typical_station": "服部天神",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 3,
+    "grade_hub": "A",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.573,
+    "flood_ge3_share": 0.0,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 2
+  },
+  {
+   "id": "toyonaka_shonai",
+   "name": "庄内・名神口",
+   "parent": "豊中市",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "老旧密集,和千里侧两个世界",
+   "n_samples": 152,
+   "grid_m": 200,
+   "area_km2": 6.23,
+   "safety": {
+    "muni": "豊中市",
+    "crime": 2298,
+    "pop": 404479,
+    "per1000": 5.7,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 20.9,
+    "typical_station": "庄内",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4.0,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.914,
+    "flood_ge3_share": 0.342,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "B"
+   },
+   "diff": 0.67
+  },
+  {
+   "id": "suita_nt",
+   "name": "南千里・山田・北千里",
+   "parent": "吹田市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "千里NT文教安静",
+   "n_samples": 422,
+   "grid_m": 200,
+   "area_km2": 16.91,
+   "safety": {
+    "muni": "吹田市",
+    "crime": 2141,
+    "pop": 394503,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 36.5,
+    "typical_station": "万博記念公園",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 3.0,
+    "grade_hub": "C",
+    "grade_shop": "B",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.0,
+    "flood_ge3_share": 0.0,
+    "grade": "S"
+   },
+   "fit": {
+    "score": 4.0,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "suita_jr",
+   "name": "JR吹田・岸辺",
+   "parent": "吹田市",
+   "kind": "zone",
+   "tier_now": "A",
+   "note_now": "健都再开发,普通偏好",
+   "n_samples": 258,
+   "grid_m": 200,
+   "area_km2": 10.28,
+   "safety": {
+    "muni": "吹田市",
+    "crime": 2141,
+    "pop": 394503,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 21.8,
+    "typical_station": "吹田",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4.0,
+    "grade_hub": "A",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.422,
+    "flood_ge3_share": 0.097,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 1
+  },
+  {
+   "id": "suita_esaka",
+   "name": "江坂・豊津・千里山",
+   "parent": "吹田市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "御堂筋线,市内通勤第一",
+   "n_samples": 229,
+   "grid_m": 200,
+   "area_km2": 8.93,
+   "safety": {
+    "muni": "吹田市",
+    "crime": 2141,
+    "pop": 394503,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 25.2,
+    "typical_station": "江坂",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.319,
+    "flood_ge3_share": 0.022,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "B"
+   },
+   "diff": 0
+  },
+  {
+   "id": "takatsuki_c",
+   "name": "高槻・摂津富田市街地",
+   "parent": "高槻市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "JR+阪急双线,京阪中间自成一城",
+   "n_samples": 1302,
+   "grid_m": 200,
+   "area_km2": 52.38,
+   "safety": {
+    "muni": "高槻市",
+    "crime": 1773,
+    "pop": 345475,
+    "per1000": 5.1,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 46.8,
+    "typical_station": "高槻",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.469,
+    "flood_ge3_share": 0.32,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "takatsuki_n",
+   "name": "樫田・原・川久保(北部山区)",
+   "parent": "高槻市",
+   "kind": "zone",
+   "tier_now": "D",
+   "note_now": "山村巴士圈,和市街地两个世界",
+   "n_samples": 1316,
+   "grid_m": 200,
+   "area_km2": 52.71,
+   "safety": {
+    "muni": "高槻市",
+    "crime": 1773,
+    "pop": 345475,
+    "per1000": 5.1,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 124.5,
+    "typical_station": "高槻",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.004,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 4
+  },
+  {
+   "id": "ibaraki_saito",
+   "name": "彩都・山手台丘陵",
+   "parent": "茨木市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "单轨新城,环境新但坡多",
+   "n_samples": 431,
+   "grid_m": 200,
+   "area_km2": 17.19,
+   "safety": {
+    "muni": "茨木市",
+    "crime": 1757,
+    "pop": 287098,
+    "per1000": 6.1,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 53.7,
+    "typical_station": "JR総持寺",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 1,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.074,
+    "flood_ge3_share": 0.012,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 2
+  },
+  {
+   "id": "ibaraki_c",
+   "name": "茨木市街地",
+   "parent": "茨木市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "JR·阪急双线,立命馆校区",
+   "n_samples": 600,
+   "grid_m": 200,
+   "area_km2": 24.15,
+   "safety": {
+    "muni": "茨木市",
+    "crime": 1757,
+    "pop": 287098,
+    "per1000": 6.1,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 32.2,
+    "typical_station": "茨木",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 4.0,
+    "grade_hub": "B",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.597,
+    "flood_ge3_share": 0.305,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "A"
+   },
+   "diff": 0
+  },
+  {
+   "id": "ibaraki_n",
+   "name": "車作・銭原(北部山区)",
+   "parent": "茨木市",
+   "kind": "zone",
+   "tier_now": "D",
+   "note_now": "山村,无轨道",
+   "n_samples": 877,
+   "grid_m": 200,
+   "area_km2": 35.07,
+   "safety": {
+    "muni": "茨木市",
+    "crime": 1757,
+    "pop": 287098,
+    "per1000": 6.1,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 108.7,
+    "typical_station": "彩都西",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.008,
+    "flood_ge3_share": 0.008,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": 2
+  },
+  {
+   "id": "matsubara",
+   "name": "河内松原一带",
+   "parent": "松原市",
+   "kind": "zone",
+   "tier_now": "C",
+   "note_now": "阪南大所在,整体口碑中下,站前生活功能齐",
+   "n_samples": 405,
+   "grid_m": 200,
+   "area_km2": 16.45,
+   "safety": {
+    "muni": "松原市",
+    "crime": 1211,
+    "pop": 114815,
+    "per1000": 10.5,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 26.9,
+    "typical_station": "河内松原",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.294,
+    "flood_ge3_share": 0.091,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": 0
+  },
+  {
+   "id": "daito",
+   "name": "住道・野崎(大東)",
+   "parent": "大東市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "学研都市线,大阪産大所在",
+   "n_samples": 448,
+   "grid_m": 200,
+   "area_km2": 18.11,
+   "safety": {
+    "muni": "大東市",
+    "crime": 1181,
+    "pop": 113642,
+    "per1000": 10.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 28.3,
+    "typical_station": "野崎",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.442,
+    "flood_ge3_share": 0.009,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "minoo_n",
+   "name": "止々呂美・箕面森町",
+   "parent": "箕面市",
+   "kind": "zone",
+   "tier_now": "C",
+   "note_now": "隧道新城靠巴士,便宜大房",
+   "n_samples": 696,
+   "grid_m": 200,
+   "area_km2": 27.95,
+   "safety": {
+    "muni": "箕面市",
+    "crime": 723,
+    "pop": 140586,
+    "per1000": 5.1,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 83.7,
+    "typical_station": "箕面",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.004,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 3
+  },
+  {
+   "id": "minoo_c",
+   "name": "箕面市街地",
+   "parent": "箕面市",
+   "kind": "zone",
+   "tier_now": "S",
+   "note_now": "环境顶级,御堂筋线延伸后便利补齐",
+   "n_samples": 492,
+   "grid_m": 200,
+   "area_km2": 19.76,
+   "safety": {
+    "muni": "箕面市",
+    "crime": 723,
+    "pop": 140586,
+    "per1000": 5.1,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 40.4,
+    "typical_station": "箕面萱野",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.014,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "heo_chuo",
+   "name": "高井田・長田・荒本",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B-",
+   "note_now": "中央线直达本町(通南船場顺),工业混住夜里冷清",
+   "n_samples": 209,
+   "grid_m": 200,
+   "area_km2": 8.33,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 24.1,
+    "typical_station": "荒本",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 2,
+    "grade_hub": "A",
+    "grade_shop": "C",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.325,
+    "flood_ge3_share": 0.0,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -1.67
+  },
+  {
+   "id": "heo_tokuan",
+   "name": "徳庵・鴻池新田",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "C+",
+   "note_now": "工业带边缘",
+   "n_samples": 116,
+   "grid_m": 200,
+   "area_km2": 4.6,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 19.9,
+    "typical_station": "鴻池新田",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "A",
+    "grade_shop": "C",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.224,
+    "flood_ge3_share": 0.0,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -0.33
+  },
+  {
+   "id": "heo_fuse",
+   "name": "布施・永和",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "双线枢纽极便利,站北风俗街吵",
+   "n_samples": 41,
+   "grid_m": 200,
+   "area_km2": 1.64,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 17.7,
+    "typical_station": "布施",
+    "typical_hub": "難波",
+    "supermarkets_800m": 8,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.951,
+    "flood_ge3_share": 0.0,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -2
+  },
+  {
+   "id": "heo_kosaka",
+   "name": "小阪・八戸ノ里・長瀬",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "近大学生圈,配套全且便宜",
+   "n_samples": 208,
+   "grid_m": 200,
+   "area_km2": 8.26,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 23.8,
+    "typical_station": "八戸ノ里",
+    "typical_hub": "難波",
+    "supermarkets_800m": 6.0,
+    "grade_hub": "A",
+    "grade_shop": "S",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.413,
+    "flood_ge3_share": 0.0,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "heo_mito",
+   "name": "弥刀・友井",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "大阪线南部庶民带",
+   "n_samples": 75,
+   "grid_m": 200,
+   "area_km2": 2.91,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 25.1,
+    "typical_station": "弥刀",
+    "typical_hub": "難波",
+    "supermarkets_800m": 4,
+    "grade_hub": "B",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.44,
+    "flood_ge3_share": 0.0,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "A"
+   },
+   "diff": -1
+  },
+  {
+   "id": "heo_wakae",
+   "name": "若江岩田・花園・吉田",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B",
+   "note_now": "普通庶民住宅带",
+   "n_samples": 341,
+   "grid_m": 200,
+   "area_km2": 13.05,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 32.8,
+    "typical_station": "吉田",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.226,
+    "flood_ge3_share": 0.012,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "heo_hyotan",
+   "name": "瓢箪山・枚岡・石切",
+   "parent": "東大阪市",
+   "kind": "zone",
+   "tier_now": "B+",
+   "note_now": "山手安静空气好,坡多+快速不停",
+   "n_samples": 570,
+   "grid_m": 200,
+   "area_km2": 22.62,
+   "safety": {
+    "muni": "東大阪市",
+    "crime": 5189,
+    "pop": 482618,
+    "per1000": 10.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 41.7,
+    "typical_station": "石切",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.061,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "C"
+   },
+   "diff": -1.33
+  },
+  {
+   "id": "27141",
+   "name": "堺市堺区",
+   "parent": "堺市堺区",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "老城区便利",
+   "n_samples": 581,
+   "grid_m": 200,
+   "area_km2": 23.07,
+   "safety": {
+    "muni": "堺市堺区",
+    "crime": 1417,
+    "pop": 150091,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 25.3,
+    "typical_station": "堺",
+    "typical_hub": "難波",
+    "supermarkets_800m": 2,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.322,
+    "flood_ge3_share": 0.067,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "27142",
+   "name": "堺市中区",
+   "parent": "堺市中区",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "郊外普通",
+   "n_samples": 451,
+   "grid_m": 200,
+   "area_km2": 17.96,
+   "safety": {
+    "muni": "堺市中区",
+    "crime": 1025,
+    "pop": 115765,
+    "per1000": 8.9,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 43.6,
+    "typical_station": "深井",
+    "typical_hub": "難波",
+    "supermarkets_800m": 2,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.016,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27143",
+   "name": "堺市東区",
+   "parent": "堺市東区",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "普通住宅",
+   "n_samples": 266,
+   "grid_m": 200,
+   "area_km2": 10.55,
+   "safety": {
+    "muni": "堺市東区",
+    "crime": 506,
+    "pop": 83986,
+    "per1000": 6.0,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 31.9,
+    "typical_station": "北野田",
+    "typical_hub": "難波",
+    "supermarkets_800m": 2.0,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.015,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27144",
+   "name": "堺市西区",
+   "parent": "堺市西区",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "鳳生活圈完整",
+   "n_samples": 700,
+   "grid_m": 200,
+   "area_km2": 28.21,
+   "safety": {
+    "muni": "堺市西区",
+    "crime": 1287,
+    "pop": 131938,
+    "per1000": 9.8,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 37.3,
+    "typical_station": "石津川",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1.0,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.17,
+    "flood_ge3_share": 0.003,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "27145",
+   "name": "堺市南区",
+   "parent": "堺市南区",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "泉北NT环境好但远",
+   "n_samples": 1008,
+   "grid_m": 200,
+   "area_km2": 40.23,
+   "safety": {
+    "muni": "堺市南区",
+    "crime": 823,
+    "pop": 127881,
+    "per1000": 6.4,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 61.6,
+    "typical_station": "栂・美木多",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1.0,
+    "grade_hub": "D",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.01,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27146",
+   "name": "堺市北区",
+   "parent": "堺市北区",
+   "kind": "muni",
+   "tier_now": "A",
+   "note_now": "なかもず双线枢纽",
+   "n_samples": 393,
+   "grid_m": 200,
+   "area_km2": 15.6,
+   "safety": {
+    "muni": "堺市北区",
+    "crime": 1256,
+    "pop": 157733,
+    "per1000": 8.0,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 24.6,
+    "typical_station": "新金岡",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.064,
+    "flood_ge3_share": 0.008,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "B"
+   },
+   "diff": 1
+  },
+  {
+   "id": "27147",
+   "name": "堺市美原区",
+   "parent": "堺市美原区",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "无轨道,车社会",
+   "n_samples": 322,
+   "grid_m": 200,
+   "area_km2": 13.11,
+   "safety": {
+    "muni": "堺市美原区",
+    "crime": 337,
+    "pop": 35939,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 55.3,
+    "typical_station": "北野田",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1.0,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.04,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27202",
+   "name": "岸和田市",
+   "parent": "岸和田市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "城区旧,治安口碑中下",
+   "n_samples": 1804,
+   "grid_m": 200,
+   "area_km2": 72.16,
+   "safety": {
+    "muni": "岸和田市",
+    "crime": 1665,
+    "pop": 185734,
+    "per1000": 9.0,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 77.1,
+    "typical_station": "東岸和田",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.091,
+    "flood_ge3_share": 0.008,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27204",
+   "name": "池田市",
+   "parent": "池田市",
+   "kind": "muni",
+   "tier_now": "A",
+   "note_now": "阪急宝塚线,安静体面",
+   "n_samples": 547,
+   "grid_m": 200,
+   "area_km2": 22.0,
+   "safety": {
+    "muni": "池田市",
+    "crime": 564,
+    "pop": 104148,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 44.6,
+    "typical_station": "池田",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.135,
+    "flood_ge3_share": 0.007,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 1
+  },
+  {
+   "id": "27206",
+   "name": "泉大津市",
+   "parent": "泉大津市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "南海沿线普通",
+   "n_samples": 350,
+   "grid_m": 200,
+   "area_km2": 13.94,
+   "safety": {
+    "muni": "泉大津市",
+    "crime": 676,
+    "pop": 71688,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 36.4,
+    "typical_station": "泉大津",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1.5,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.343,
+    "flood_ge3_share": 0.031,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "27208",
+   "name": "貝塚市",
+   "parent": "貝塚市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "普通偏弱",
+   "n_samples": 1089,
+   "grid_m": 200,
+   "area_km2": 43.41,
+   "safety": {
+    "muni": "貝塚市",
+    "crime": 612,
+    "pop": 78774,
+    "per1000": 7.8,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 96.6,
+    "typical_station": "和泉橋本",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.026,
+    "flood_ge3_share": 0.001,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27209",
+   "name": "守口市",
+   "parent": "守口市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "京阪沿线老旧密集",
+   "n_samples": 323,
+   "grid_m": 200,
+   "area_km2": 12.89,
+   "safety": {
+    "muni": "守口市",
+    "crime": 1324,
+    "pop": 140791,
+    "per1000": 9.4,
+    "grade": "C"
+   },
+   "access": {
+    "door_to_hub_min": 25.6,
+    "typical_station": "大日",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 4,
+    "grade_hub": "B",
+    "grade_shop": "A",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.839,
+    "flood_ge3_share": 0.362,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27210",
+   "name": "枚方市",
+   "parent": "枚方市",
+   "kind": "muni",
+   "tier_now": "A",
+   "note_now": "京阪特急停,自成商圈",
+   "n_samples": 1633,
+   "grid_m": 200,
+   "area_km2": 65.0,
+   "safety": {
+    "muni": "枚方市",
+    "crime": 1814,
+    "pop": 388992,
+    "per1000": 4.7,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 41.4,
+    "typical_station": "津田",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 2,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.236,
+    "flood_ge3_share": 0.126,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 1
+  },
+  {
+   "id": "27212",
+   "name": "八尾市",
+   "parent": "八尾市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "近铁八尾/久宝寺再开发",
+   "n_samples": 1045,
+   "grid_m": 200,
+   "area_km2": 41.65,
+   "safety": {
+    "muni": "八尾市",
+    "crime": 2085,
+    "pop": 257600,
+    "per1000": 8.1,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 32.6,
+    "typical_station": "服部川",
+    "typical_hub": "難波",
+    "supermarkets_800m": 2,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.352,
+    "flood_ge3_share": 0.042,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -2
+  },
+  {
+   "id": "27213",
+   "name": "泉佐野市",
+   "parent": "泉佐野市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "关空门户,站前混杂",
+   "n_samples": 1409,
+   "grid_m": 200,
+   "area_km2": 56.17,
+   "safety": {
+    "muni": "泉佐野市",
+    "crime": 879,
+    "pop": 100329,
+    "per1000": 8.8,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 63.7,
+    "typical_station": "日根野",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.021,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27214",
+   "name": "富田林市",
+   "parent": "富田林市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "金剛NT郊外",
+   "n_samples": 992,
+   "grid_m": 200,
+   "area_km2": 39.44,
+   "safety": {
+    "muni": "富田林市",
+    "crime": 704,
+    "pop": 103296,
+    "per1000": 6.8,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 46.6,
+    "typical_station": "滝谷不動",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.107,
+    "flood_ge3_share": 0.036,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27215",
+   "name": "寝屋川市",
+   "parent": "寝屋川市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "香里園B+,其余普通偏旧",
+   "n_samples": 615,
+   "grid_m": 200,
+   "area_km2": 24.59,
+   "safety": {
+    "muni": "寝屋川市",
+    "crime": 1789,
+    "pop": 222102,
+    "per1000": 8.1,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 32.2,
+    "typical_station": "寝屋川市",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 3,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.486,
+    "flood_ge3_share": 0.229,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "B"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27216",
+   "name": "河内長野市",
+   "parent": "河内長野市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "环境好但太远",
+   "n_samples": 2726,
+   "grid_m": 200,
+   "area_km2": 108.88,
+   "safety": {
+    "muni": "河内長野市",
+    "crime": 489,
+    "pop": 94871,
+    "per1000": 5.2,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 80.3,
+    "typical_station": "天見",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.021,
+    "flood_ge3_share": 0.01,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 3
+  },
+  {
+   "id": "27219",
+   "name": "和泉市",
+   "parent": "和泉市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "和泉府中/光明池普通",
+   "n_samples": 2116,
+   "grid_m": 200,
+   "area_km2": 84.47,
+   "safety": {
+    "muni": "和泉市",
+    "crime": 1308,
+    "pop": 181715,
+    "per1000": 7.2,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 108.7,
+    "typical_station": "和泉中央",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.059,
+    "flood_ge3_share": 0.016,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27221",
+   "name": "柏原市",
+   "parent": "柏原市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "大和路线小城,偏远",
+   "n_samples": 632,
+   "grid_m": 200,
+   "area_km2": 25.29,
+   "safety": {
+    "muni": "柏原市",
+    "crime": 358,
+    "pop": 65690,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 37.5,
+    "typical_station": "河内堅上",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.152,
+    "flood_ge3_share": 0.046,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 3
+  },
+  {
+   "id": "27222",
+   "name": "羽曳野市",
+   "parent": "羽曳野市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "古市,普通偏郊外",
+   "n_samples": 658,
+   "grid_m": 200,
+   "area_km2": 26.35,
+   "safety": {
+    "muni": "羽曳野市",
+    "crime": 587,
+    "pop": 104183,
+    "per1000": 5.6,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 35.6,
+    "typical_station": "古市",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.24,
+    "flood_ge3_share": 0.119,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27223",
+   "name": "門真市",
+   "parent": "門真市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "同守口,口碑中下",
+   "n_samples": 308,
+   "grid_m": 200,
+   "area_km2": 12.24,
+   "safety": {
+    "muni": "門真市",
+    "crime": 1524,
+    "pop": 111702,
+    "per1000": 13.6,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 24.0,
+    "typical_station": "門真南",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 3.0,
+    "grade_hub": "A",
+    "grade_shop": "B",
+    "grade": "A"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.971,
+    "flood_ge3_share": 0.026,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "C"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27224",
+   "name": "摂津市",
+   "parent": "摂津市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "千里丘,性价比好",
+   "n_samples": 365,
+   "grid_m": 200,
+   "area_km2": 14.78,
+   "safety": {
+    "muni": "摂津市",
+    "crime": 650,
+    "pop": 86462,
+    "per1000": 7.5,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 33.0,
+    "typical_station": "南摂津",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 1,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.74,
+    "flood_ge3_share": 0.586,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -2
+  },
+  {
+   "id": "27225",
+   "name": "高石市",
+   "parent": "高石市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "羽衣,南海+JR",
+   "n_samples": 281,
+   "grid_m": 200,
+   "area_km2": 11.2,
+   "safety": {
+    "muni": "高石市",
+    "crime": 391,
+    "pop": 53524,
+    "per1000": 7.3,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 30.7,
+    "typical_station": "高師浜",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1,
+    "grade_hub": "B",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.139,
+    "flood_ge3_share": 0.0,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27226",
+   "name": "藤井寺市",
+   "parent": "藤井寺市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "近铁南大阪线,普通",
+   "n_samples": 216,
+   "grid_m": 200,
+   "area_km2": 8.8,
+   "safety": {
+    "muni": "藤井寺市",
+    "crime": 448,
+    "pop": 61129,
+    "per1000": 7.3,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 28.6,
+    "typical_station": "藤井寺",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 3.0,
+    "grade_hub": "B",
+    "grade_shop": "B",
+    "grade": "B"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.523,
+    "flood_ge3_share": 0.37,
+    "grade": "C"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "B"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27228",
+   "name": "泉南市",
+   "parent": "泉南市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "通勤市区太远",
+   "n_samples": 1218,
+   "grid_m": 200,
+   "area_km2": 48.56,
+   "safety": {
+    "muni": "泉南市",
+    "crime": 420,
+    "pop": 56136,
+    "per1000": 7.5,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 68.3,
+    "typical_station": "和泉砂川",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.046,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 2.67,
+    "grade_abs": "B",
+    "grade": "C",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27229",
+   "name": "四條畷市",
+   "parent": "四條畷市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "忍ヶ丘,郊外安静",
+   "n_samples": 471,
+   "grid_m": 200,
+   "area_km2": 18.8,
+   "safety": {
+    "muni": "四條畷市",
+    "crime": 364,
+    "pop": 53455,
+    "per1000": 6.8,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 57.3,
+    "typical_station": "四条畷",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.032,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27230",
+   "name": "交野市",
+   "parent": "交野市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "绿化好的睡城,无车稍不便",
+   "n_samples": 629,
+   "grid_m": 200,
+   "area_km2": 25.41,
+   "safety": {
+    "muni": "交野市",
+    "crime": 337,
+    "pop": 75573,
+    "per1000": 4.5,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 42.0,
+    "typical_station": "河内磐船",
+    "typical_hub": "京橋",
+    "supermarkets_800m": 0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.025,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.67,
+    "grade_abs": "A",
+    "grade": "S",
+    "grade_rule": "C"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27231",
+   "name": "大阪狭山市",
+   "parent": "大阪狭山市",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "金剛,安静住宅口碑好",
+   "n_samples": 291,
+   "grid_m": 200,
+   "area_km2": 11.73,
+   "safety": {
+    "muni": "大阪狭山市",
+    "crime": 430,
+    "pop": 57479,
+    "per1000": 7.5,
+    "grade": "B"
+   },
+   "access": {
+    "door_to_hub_min": 40.3,
+    "typical_station": "金剛",
+    "typical_hub": "難波",
+    "supermarkets_800m": 1,
+    "grade_hub": "C",
+    "grade_shop": "C",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.024,
+    "flood_ge3_share": 0.007,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "C"
+   },
+   "diff": 0
+  },
+  {
+   "id": "27232",
+   "name": "阪南市",
+   "parent": "阪南市",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "同泉南",
+   "n_samples": 901,
+   "grid_m": 200,
+   "area_km2": 35.84,
+   "safety": {
+    "muni": "阪南市",
+    "crime": 249,
+    "pop": 47657,
+    "per1000": 5.2,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 69.2,
+    "typical_station": "箱作",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.024,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 3
+  },
+  {
+   "id": "27301",
+   "name": "島本町",
+   "parent": "島本町",
+   "kind": "muni",
+   "tier_now": "A",
+   "note_now": "水無瀬,京阪中间安静",
+   "n_samples": 420,
+   "grid_m": 200,
+   "area_km2": 16.87,
+   "safety": {
+    "muni": "三島郡島本町",
+    "crime": 104,
+    "pop": 31617,
+    "per1000": 3.3,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 58.1,
+    "typical_station": "島本",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.112,
+    "flood_ge3_share": 0.074,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27321",
+   "name": "豊能町",
+   "parent": "豊能町",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "山区,冬冷",
+   "n_samples": 863,
+   "grid_m": 200,
+   "area_km2": 34.38,
+   "safety": {
+    "muni": "豊能町",
+    "crime": 40,
+    "pop": 16707,
+    "per1000": 2.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 118.6,
+    "typical_station": "妙見口",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.006,
+    "flood_ge3_share": 0.001,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 4
+  },
+  {
+   "id": "27322",
+   "name": "能勢町",
+   "parent": "能勢町",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "山区,离市区最远",
+   "n_samples": 2484,
+   "grid_m": 200,
+   "area_km2": 99.21,
+   "safety": {
+    "muni": "能勢町",
+    "crime": 23,
+    "pop": 7893,
+    "per1000": 2.9,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 180.6,
+    "typical_station": "妙見口",
+    "typical_hub": "梅田",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.025,
+    "flood_ge3_share": 0.002,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 4
+  },
+  {
+   "id": "27341",
+   "name": "忠岡町",
+   "parent": "忠岡町",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "全国最小町,普通",
+   "n_samples": 88,
+   "grid_m": 200,
+   "area_km2": 3.45,
+   "safety": {
+    "muni": "泉北郡忠岡町",
+    "crime": 107,
+    "pop": 15640,
+    "per1000": 6.8,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 40.5,
+    "typical_station": "忠岡",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.648,
+    "flood_ge3_share": 0.136,
+    "grade": "D"
+   },
+   "fit": {
+    "score": 2.33,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27361",
+   "name": "熊取町",
+   "parent": "熊取町",
+   "kind": "muni",
+   "tier_now": "B",
+   "note_now": "JR阪和线大学町",
+   "n_samples": 439,
+   "grid_m": 200,
+   "area_km2": 17.21,
+   "safety": {
+    "muni": "熊取町",
+    "crime": 176,
+    "pop": 42511,
+    "per1000": 4.1,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 74.5,
+    "typical_station": "熊取",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.018,
+    "flood_ge3_share": 0.005,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27362",
+   "name": "田尻町",
+   "parent": "田尻町",
+   "kind": "muni",
+   "tier_now": "C",
+   "note_now": "机场旁小町",
+   "n_samples": 124,
+   "grid_m": 200,
+   "area_km2": 4.87,
+   "safety": {
+    "muni": "田尻町",
+    "crime": 121,
+    "pop": 8109,
+    "per1000": 14.9,
+    "grade": "D"
+   },
+   "access": {
+    "door_to_hub_min": 54.0,
+    "typical_station": "関西空港",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "C",
+    "grade_shop": "D",
+    "grade": "C"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.226,
+    "flood_ge3_share": 0.0,
+    "grade": "B"
+   },
+   "fit": {
+    "score": 2.0,
+    "grade_abs": "C",
+    "grade": "D",
+    "grade_rule": "D"
+   },
+   "diff": -1
+  },
+  {
+   "id": "27366",
+   "name": "岬町",
+   "parent": "岬町",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "府最南端,极不便",
+   "n_samples": 1221,
+   "grid_m": 200,
+   "area_km2": 48.88,
+   "safety": {
+    "muni": "岬町",
+    "crime": 83,
+    "pop": 13065,
+    "per1000": 6.4,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 91.9,
+    "typical_station": "孝子",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.01,
+    "flood_ge3_share": 0.0,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27381",
+   "name": "太子町",
+   "parent": "太子町",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "乡村车社会",
+   "n_samples": 353,
+   "grid_m": 200,
+   "area_km2": 14.15,
+   "safety": {
+    "muni": "太子町",
+    "crime": 74,
+    "pop": 12062,
+    "per1000": 6.1,
+    "grade": "A"
+   },
+   "access": {
+    "door_to_hub_min": 59.5,
+    "typical_station": "上ノ太子",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.037,
+    "flood_ge3_share": 0.014,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.0,
+    "grade_abs": "B",
+    "grade": "B",
+    "grade_rule": "D"
+   },
+   "diff": 2
+  },
+  {
+   "id": "27382",
+   "name": "河南町",
+   "parent": "河南町",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "乡村车社会",
+   "n_samples": 627,
+   "grid_m": 200,
+   "area_km2": 25.06,
+   "safety": {
+    "muni": "河南町",
+    "crime": 79,
+    "pop": 14498,
+    "per1000": 5.4,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 98.8,
+    "typical_station": "富田林",
+    "typical_hub": "天王寺",
+    "supermarkets_800m": 0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.053,
+    "flood_ge3_share": 0.014,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 4
+  },
+  {
+   "id": "27383",
+   "name": "千早赤阪村",
+   "parent": "千早赤阪村",
+   "kind": "muni",
+   "tier_now": "D",
+   "note_now": "府内唯一村,山区",
+   "n_samples": 926,
+   "grid_m": 200,
+   "area_km2": 37.07,
+   "safety": {
+    "muni": "千早赤阪村",
+    "crime": 13,
+    "pop": 4273,
+    "per1000": 3.0,
+    "grade": "S"
+   },
+   "access": {
+    "door_to_hub_min": 126.6,
+    "typical_station": "千早口",
+    "typical_hub": "難波",
+    "supermarkets_800m": 0.0,
+    "grade_hub": "D",
+    "grade_shop": "D",
+    "grade": "D"
+   },
+   "hazard": {
+    "flood_ge05_share": 0.005,
+    "flood_ge3_share": 0.002,
+    "grade": "A"
+   },
+   "fit": {
+    "score": 3.33,
+    "grade_abs": "B",
+    "grade": "S",
+    "grade_rule": "D"
+   },
+   "diff": 4
+  }
+ ]
+}

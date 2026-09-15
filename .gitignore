@@ -13,3 +13,6 @@ pipeline/cost/tools/.build/
 
 # 手机取数时顺手截的核对图（每张几百 KB，不进仓库）
 cost/data/raw/*/*/shots/
+
+# 国土数値情報 洪水浸水想定区域 原件（26–66 MB 一个），tiers_score.py 缺了自动下载
+osaka/data/raw/a31b/*.zip
