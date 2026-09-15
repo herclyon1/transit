@@ -137,14 +137,11 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   /* 图例 = 第二张 Sheet（KIT-MAP：iOS 第二张 .sheet.opt 小档，抓手 + 头 + 关闭；Mac = hig.css 11b 的 Popover r20，从工具条「图例」钮下弹出）。
      控件样式全在 hig.css（.sheet.opt / .r / .sw / .r.disc / .mfoot / .btn.s）；这里只有布局：跳转钮一排、国家勾选网格。 */
   .lg-jumps{display:flex;flex-wrap:wrap;gap:8px;padding:4px var(--inset) 12px}
-  #cbGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:2px 8px;padding:6px 12px 12px}   /* 两列：7 字国名（巴布亚新几内亚）17 号 + 多选圆 22 + 间 6 = 147，375 宽机也放得下 */
+  #cbGrid{padding:0 0 8px}
+  #cbGrid .mh{padding:12px 16px 6px}
+  #cbGrid .chips.wrap{flex-wrap:wrap;overflow:visible;gap:8px;padding:0 16px}   /* 胶囊换行排布（提醒事项「标签」）；按钮尺寸/颜色由 hig.css .chips button 管 */
   /* 東亜图例的国家勾选：iOS 没有 checkbox → iOS 27 Kit › Lists › Rows › Editing 的多选圆（22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底白勾、标签 Body 17）；
      Mac = macOS 27 Kit › Toggles - Checkboxes › Regular（16×16 r5.5、未选黑 10%、选中 #0088ff 白勾 9×9、按下 +黑 7%/19%、标签 Medium 13 间 5）（NUMBERS.md） */
-  #cbGrid label{display:inline-flex;align-items:center;gap:6px;min-height:32px}
-  #cbGrid input[type="checkbox"]{appearance:none;-webkit-appearance:none;margin:0;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #bfbfbf;background:none;position:relative;flex:none}
-  #cbGrid input[type="checkbox"]:checked{background:var(--tint);box-shadow:none}
-  #cbGrid input[type="checkbox"]:checked::after{content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(../ui/sf/checkmark.png) center/13px no-repeat;mask:url(../ui/sf/checkmark.png) center/13px no-repeat}
-  #cbGrid input[type="checkbox"]:disabled{opacity:.4}
   /* E2 图例跳转钮 = .btn.s（iOS 27 Kit › Buttons › Small 28 Bordered：底 #767680 12% + tint 字；macOS Kit › Push buttons › Regular 24 r6 Bordered：底黑 8%，Medium 13 黑字） */
   .lg-jmp{background:rgba(118,118,128,.12);color:var(--tint)}
   #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2);z-index:6;background:var(--bg)}
@@ -171,14 +168,10 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
     #promptBar,#info{border-radius:20px;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
     .lg-jmp{background:rgba(0,0,0,.08);color:var(--ink)}
     .lg-jumps{padding:8px 14px 8px}   /* Popover 里与 Group Box（.sheet .mcard 内缩 14）对齐 */
-    #cbGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 6px;padding:4px 10px 8px}   /* Popover 280 − Group Box 内缩 14×2 − 10×2 = 232 → 两列 113：7 字国名 13 号 91 + 框 16 + 间 5 = 112 */
+    #cbGrid .mh{padding:10px 10px 4px}
+    #cbGrid .chips.wrap{gap:6px;padding:0 10px}
     #lgToggle{min-height:48px}   /* Kit Forms › Row 带控件 = 48。hig.css 的 .sheet .r.disc 只给了 20 的 Disclosure 盒，行算出来是 44（12+20+12），应挪进 hig.css 的 :has() 那条；这里先取 Kit 的 48 */
-    #cbGrid label{gap:5px;min-height:24px;font-weight:500}
-    #cbGrid input[type="checkbox"]{width:16px;height:16px;border-radius:5.5px;background:rgba(0,0,0,.1);box-shadow:none}
-    #cbGrid input[type="checkbox"]:active{background:rgba(0,0,0,.19)}
-    #cbGrid input[type="checkbox"]:checked{background:#0088ff} #cbGrid input[type="checkbox"]:checked:active{background-image:linear-gradient(rgba(0,0,0,.07),rgba(0,0,0,.07))}
-    #cbGrid input[type="checkbox"]:checked::after{-webkit-mask-size:9px;mask-size:9px}
-    #doneCard .box{width:260px;border-radius:26px;padding:16px;text-align:left;display:grid;grid-template-columns:72px 1fr;column-gap:12px;align-items:start;box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+              #doneCard .box{width:260px;border-radius:26px;padding:16px;text-align:left;display:grid;grid-template-columns:72px 1fr;column-gap:12px;align-items:start;box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
     #doneCard .ico{display:block;width:72px;height:72px;margin:4px 0 0 6px;border-radius:16px}
     #doneCard .big{font-size:1em;font-weight:700;line-height:1.2308em;padding-top:4px}
     #doneCard .sub{font-size:1em;line-height:1.2308em;margin-top:2px;color:var(--ink)}
@@ -1477,10 +1470,16 @@ function buildHistPanel(kind, feats){
   if(!isDai){
     const cs = [...new Set(feats.map(f => f.properties.grp).filter(g => g && g !== "JPN"))]
       .sort((a,b) => (ADM0_ZH[a]||a).localeCompare(ADM0_ZH[b]||b, "zh"));
-    body += `<div id="cbGrid">`
-      + `<label style="opacity:.55;cursor:default;"><input type="checkbox" checked disabled> 日本（固定）</label>`
-      + cs.map(a => `<label style="cursor:pointer;"><input type="checkbox" data-a="${a}"${kyoHidden[a] ? "" : " checked"}> ${ADM0_ZH[a]||a}</label>`).join("")
-      + `</div>`;
+    // 显示过滤 = 提醒事项「标签」那种胶囊（Kit Buttons › Small 28 Bordered / Prominent，aria-pressed 的开关钮），按地区四段，段头 trailing「全选/全不选」（Kit Header › Prominent › Action）
+    // ——用户 09-16 问题三，和 money 会话商定：一国一行（日历 App 那种）30 行太长；两列网格无 Kit/原生出处，作废
+    const REGION = [["东亚",["CHN","TWN","KOR","PRK","MNG","RUS","HKG","MAC"]],["东南亚",["VNM","LAO","KHM","THA","MMR","MYS","SGP","IDN","BRN","PHL","TLS"]],["南亚",["IND","BGD","NPL","BTN","LKA","MDV","PAK"]],["大洋洲",["PNG","PLW","FSM","MHL","MNP","AUS","NZL","GUM","NRU","KIR","SLB"]]];
+    const used = new Set(); const groups = REGION.map(([name, codes]) => [name, codes.filter(c => cs.includes(c) && (used.add(c), true))]);
+    const rest = cs.filter(c => !used.has(c)); if(rest.length) groups.push(["其他", rest]);
+    body += `<div id="cbGrid">` + groups.filter(g => g[1].length).map(([name, codes], gi) => {
+      const allOn = codes.every(a => !kyoHidden[a]);
+      return `<div class="mh" data-g="${gi}">${name}<button class="act" type="button" data-all="${gi}">${allOn ? "全不选" : "全选"}</button></div>`
+        + `<div class="chips wrap">` + (gi === 0 ? `<button type="button" aria-pressed="true" aria-disabled="true" disabled>日本</button>` : "")
+        + codes.map(a => `<button type="button" data-a="${a}" aria-pressed="${kyoHidden[a] ? "false" : "true"}">${ADM0_ZH[a]||a}</button>`).join("") + `</div>`; }).join("") + `</div>`;
   }else{
     body += `<div class="txt">${DAI_NOTE}</div>`;
   }
@@ -1513,13 +1512,12 @@ function buildHistPanel(kind, feats){
     const f = all.find(x => x.properties.n === n || x.properties.n.startsWith(n));
     if(f){ zoomToHistFeat(f); showHistInfo(f, kind); }
   });
-  if(!isDai) document.querySelectorAll("#cbGrid input[data-a]").forEach(cb => cb.onchange = () => {
-    kyoHidden[cb.dataset.a] = !cb.checked;
-    const r = drawHist("kyoeiken"); // 只重绘要素，不动视角、不重建面板
-    histMarkers("kyoeiken", r.shown);
-    histLblFeats = r.shown;
-    updateLabels();
-  });
+  if(!isDai){
+    const redraw = () => { const r = drawHist("kyoeiken"); histMarkers("kyoeiken", r.shown); histLblFeats = r.shown; updateLabels(); };   // 只重绘要素，不动视角、不重建面板
+    const syncHead = () => document.querySelectorAll("#cbGrid .mh").forEach(h => { const bs = [...h.nextElementSibling.querySelectorAll("button[data-a]")]; h.querySelector(".act").textContent = bs.every(b => b.getAttribute("aria-pressed") === "true") ? "全不选" : "全选"; });
+    document.querySelectorAll("#cbGrid button[data-a]").forEach(b => b.onclick = () => { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on ? "true" : "false"); kyoHidden[b.dataset.a] = !on; syncHead(); redraw(); });
+    document.querySelectorAll("#cbGrid .act").forEach(h => h.onclick = () => { const bs = [...h.parentElement.nextElementSibling.querySelectorAll("button[data-a]")]; const on = !bs.every(b => b.getAttribute("aria-pressed") === "true"); bs.forEach(b => { b.setAttribute("aria-pressed", on ? "true" : "false"); kyoHidden[b.dataset.a] = !on; }); syncHead(); redraw(); });
+  }
   HIG.sf();
   if(!lgClosed) showLegend();
 }
