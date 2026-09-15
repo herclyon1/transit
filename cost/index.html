@@ -87,7 +87,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
       <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">时薪、房租、通勤、生活费，换算成每月要打的工时。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
       <h2 class="mh">城市</h2>
       <div class="mlist" id="cityRows"></div>
-      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪中位数　<span id="curDate"></span></p>
+      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 月薪岗折算时薪的中位数　<span id="curDate"></span></p>
       <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
       <h2 class="mh" id="draftHead" hidden>待调查</h2>
       <div class="mlist dimlist" id="draftRows" hidden></div>
@@ -191,11 +191,16 @@ const cache={};
 // 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 参考时薪；和卡片里「换算成工时」同一公式
 // 参考时薪 = 有效岗位的时薪中位数（2026-09-15 起；之前用最低值，一条 24 小时岗就把乌鲁木齐从 229 拉到 316）。
 // 有效 = headline!==false：临时单、郊区、私人家政不算（「上一休一」没写班长的根本不折时薪，进不了 jobs）；卡片里另给最低/最高。
+// 时薪岗和月薪岗不混（用户 09-15）：月薪岗 = 帖子写月薪、按帖子工时折成时薪；时薪/日薪岗 = 帖子直接写时薪或日薪（多为兼职）。首页和统计卡用月薪岗的中位数，时薪岗另给一个中位数
+function isMonthly(jb){ const w=jb.wage||{}, h=w.hours||{}; return /\/月/.test(w.wage_posted||'') || (!w.wage_posted && !!h.monthly); }
+function median(arr){ const ws=arr.slice().sort((a,b)=>a-b); if(!ws.length) return null; return ws.length%2?ws[(ws.length-1)/2]:(ws[ws.length/2-1]+ws[ws.length/2])/2; }
 function refWageOf(d){ const V=x=>x&&x.value!=null?x.value:null;
-  const ws=(d.jobs||[]).filter(jb=>jb.headline!==false&&V(jb.wage)!=null).map(jb=>V(jb.wage)).sort((a,b)=>a-b);
-  if(!ws.length) return {wage:d.wage_ref&&V(d.wage_ref.min_official), n:0, name:'法定最低'};
-  const mid=ws.length%2?ws[(ws.length-1)/2]:(ws[ws.length/2-1]+ws[ws.length/2])/2;
-  return {wage:Math.round(mid*10)/10, n:ws.length, min:ws[0], max:ws[ws.length-1], name:`${ws.length} 条有效岗位的中位数`}; }
+  const valid=(d.jobs||[]).filter(jb=>jb.headline!==false&&V(jb.wage)!=null);
+  const mo=valid.filter(isMonthly).map(jb=>V(jb.wage)), hr=valid.filter(jb=>!isMonthly(jb)).map(jb=>V(jb.wage));
+  const ws=mo.length?mo:hr; if(!ws.length) return {wage:d.wage_ref&&V(d.wage_ref.min_official), n:0, name:'法定最低', nHour:0};
+  const sorted=ws.slice().sort((a,b)=>a-b);
+  return {wage:Math.round(median(ws)*10)/10, n:ws.length, min:sorted[0], max:sorted[sorted.length-1], name:`${ws.length} 条${mo.length?'月薪岗':'时薪岗'}的中位数`, kind:mo.length?'月薪岗':'时薪岗',
+          nHour:hr.length, hourMid:hr.length?Math.round(median(hr)*10)/10:null}; }
 function hoursFor(d){
   if(!d) return null; const V=x=>x&&x.value!=null?x.value:null;
   const refWage=refWageOf(d).wage;
@@ -266,7 +271,9 @@ function jobsHtml(d,cur){
   const all=(d.jobs||[]); const main=all.filter(jb=>jb.headline!==false&&V(jb.wage)!=null), side=all.filter(jb=>(jb.tags||[]).length&&V(jb.wage)!=null), chain=all.filter(jb=>jb.basket==='chain'&&V(jb.wage)==null);
   let h='';
   if(!main.length) h+='<div class="empty">还没有一条帖子同时写工资和班次</div>';
-  for(const jb of main) h+=row(jb);
+  const mo=main.filter(isMonthly), hr=main.filter(jb=>!isMonthly(jb));   // 时薪岗和月薪岗分开（用户 09-15）
+  if(mo.length){ h+=`<div class="sub">月薪岗 · 按帖子工时折成时薪 · ${mo.length} 条</div>`; for(const jb of mo) h+=row(jb); }
+  if(hr.length){ h+=`<div class="sub">时薪 / 日薪岗 · 帖子直接写时薪 · ${hr.length} 条</div>`; for(const jb of hr) h+=row(jb); }
   for(const jb of chain) h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${cleanSrc(jb.wage.source_name||'')}</div></span><span class="val"><span class="dim">官方不公示<br><small>（小程序面议）</small></span></span></div></div>`;
   const groups={};
   for(const jb of side) for(const t of jb.tags) (groups[t]=groups[t]||[]).push(jb);
@@ -297,7 +304,7 @@ function render(c,d){
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'<button class="btn" type="button" disabled><i class="sf" data-sf="map"></i><span>可达性图</span></button>')
     +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?`最低 ${RWc.min} · 最高 ${RWc.max}`:'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.n} 条${RWc.kind} · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?`最低 ${RWc.min} · 最高 ${RWc.max}${RWc.nHour&&RWc.kind==='月薪岗'?` · 时薪岗 ${RWc.nHour} 条中位 ${RWc.hourMid}`:''}`:'没有一条帖子同时写工资和班次'}</div></div>`
     +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 月票</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">统计平均 · 月</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`

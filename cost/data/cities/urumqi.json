@@ -87,153 +87,28 @@
    }
   },
   {
-   "chain": "仓库 / 快递（顺丰运作员，亚马逊仓库平替）",
-   "store": "新疆顺丰速运有限公司 乌鲁木齐新市区四平路 266 号科创花苑 A1 栋（分拣、装车、扫描）",
-   "wage": {
-    "value": 20.7,
-    "unit": "元/小时",
-    "source_url": "https://www.wlmqkp.com/show.php?id=45456",
-    "source_name": "乌鲁木齐快聘网（wlmqkp.com，本地招聘站企业号，静态页不登录） 顺丰运作员 招 10 人",
-    "fetched_at": "2026-09-15",
-    "confidence": "listing",
-    "n": null,
-    "note": "正文原文“每小时 20.7 元，平均每天 200 左右。工作时间：白班 08:00–20:00，夜班 20:00–07:00；两班倒；一周发一次工资；不包吃住；22–40 岁”。2026-09-15 更新。时薪按原文；12 小时班、每天约 200 元即约 10 小时计薪。",
-    "hours": {
-     "posted": "白班 08:00–20:00 / 夜班 20:00–07:00 两班倒，“平均每天 200 左右”",
-     "per_day": 12,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    },
-    "posted_at": "2026-09-15"
-   }
-  },
-  {
-   "chain": "保安（全球都有的岗位，作对照）",
-   "store": "宁夏永信保安服务有限公司乌鲁木齐分公司（保安公司直招，米东区便民警务站特勤，新疆人才网企业号）",
-   "wage": {
-    "value": 25.3,
-    "unit": "元/小时",
-    "source_url": "https://www.xjhr.com/zhaopin/job_8457055.html",
-    "source_name": "新疆人才网（xjhr.com）企业号 宁夏永信保安服务有限公司乌鲁木齐分公司 便民警务站特勤队员（同文另两帖 job_8457059 / job_8457071）",
-    "fetched_at": "2026-09-15",
-    "confidence": "listing",
-    "n": 3,
-    "note": "正文原文“次月开始拿到手 3800（首月 3000），每天 10 小时左右，上一休一，一个月上 15 天班，包吃住”。月工时 10 h × 15 天 = 150 h → 3,800 ÷ 150 = 25.3 元/时（首月 3,000 ÷ 150 = 20.0）；包吃住未折价。页面“更新：8 小时内”（2026-09-15 核）。上一休一是中国保安岗常见的 24 小时轮班制，这条按帖子原文只计 10 小时。原先这一格是汉庭酒店东门店保安（店长直聘 /job/1XZ50t60Flc~.html，月薪 3,300、白白夜夜休休 240 h → 13.8 元/时），2026-09-15 核实其“更新时间：2025-07-12”，超过半年，已剔除。",
-    "hours": {
-     "posted": "每天 10 小时左右，上一休一，一个月上 15 天班",
-     "per_day": 10,
-     "days_per_month": 15,
-     "monthly": 150,
-     "basis": "posted"
-    },
-    "posted_at": "2026-09-15"
-   }
-  },
-  {
-   "chain": "外卖/快递/仓储：装卸工",
+   "chain": "保安 · 持证/管理岗：消防监控",
    "tags": [],
    "headline": true,
-   "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
-   "basket": "delivery",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1|160.0",
+   "store": "群帖 · 自由如风（微信群招工帖（群记录导出），自由如风）",
+   "basket": "security_cert",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|4200.0",
    "wage": {
-    "value": 13.3,
+    "value": 11.7,
     "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月15日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "source_url": null,
+    "source_name": "微信群招工帖（群记录导出）｜自由如风｜机场保安招聘群_2026-09-14_15.docx",
     "fetched_at": "2026-09-15",
     "posted_at": "2026-09-14",
     "confidence": "listing",
-    "contact": "151****9624",
-    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 头区物流园招聘装卸工10人 / 内容：负责食品百货的装卸，分拣 / 要求：莮民族不限，20-35岁，能吃苦耐劳，服从管理，最低干3个月 / 时间：早上10点-晚上22点 / 薪资待遇： / 周结160一天，月结170一天 / 住宿费200一个月，吃饭自费 / 地址：头屯河区规划二路附近 / 微信电话同号：151****9624”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "160 元/天",
+    "contact": "139****0067",
+    "note": "帖子原文：“另招消防监控两名（国证）男女不限，上24休24.工资4200 / 联系：139****0067”。帖子写明 24 小时在岗：月工时 24 h × 15 班 = 360 h，含夜间值守。",
+    "wage_posted": "4200 元/月",
     "hours": {
-     "posted": "早上10点-晚上22点",
-     "per_day": 12.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "外卖/快递/仓储：兼职快递",
-   "tags": [],
-   "headline": true,
-   "store": "新疆寇伯爱神国际贸易有限公司（中国新疆人才网，新疆人才网）",
-   "basket": "delivery",
-   "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8413081.html|100.0",
-   "wage": {
-    "value": 16.7,
-    "unit": "元/小时",
-    "source_url": "https://www.xjhr.com/zhaopin/job_8413081.html",
-    "source_name": "中国新疆人才网｜新疆人才网｜兼职快递打包员",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-06-16",
-    "confidence": "listing",
-    "contact": null,
-    "note": "帖子原文：“兼职快递打包员 / 新疆寇伯爱神国际贸易有限公司 / 乌鲁木齐市经开区（头屯河）(新疆乌鲁木齐头屯河区校园路111号锦丰喜事会院内) / 【兼职招聘】[庆祝][庆祝][庆祝] / 一，【工作时间】 / 下午3点30—9点30 / 二，【工作内容】 / 1.根据订单完成快递单的核对，分拣，打包等工作 ，确保发货准确 / 2.货品，辅料的盘点整理，货品摆放等 / 3.库房卫生管理 / 4.贴标装货等其他事宜 / 三，【工作要求】 / 1.身体健康，效率高，能适应快节奏工作环境  / 2.工作”",
-    "wage_posted": "100 元/天",
-    "hours": {
-     "posted": "下午3点30—9点30",
-     "per_day": 6.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "外卖/快递/仓储：理货",
-   "tags": [],
-   "headline": true,
-   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
-   "basket": "delivery",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
-   "wage": {
-    "value": 18.0,
-    "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-07",
-    "confidence": "listing",
-    "contact": "157****7073",
-    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  157****7073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "180 元/天",
-    "hours": {
-     "posted": "10:00-20:00",
-     "per_day": 10.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "外卖/快递/仓储：搬运工",
-   "tags": [],
-   "headline": true,
-   "store": "天山国际机场（中国新疆人才网，新疆人才网）",
-   "basket": "delivery",
-   "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8387770.html|6500.0",
-   "wage": {
-    "value": 20.2,
-    "unit": "元/小时",
-    "source_url": "https://www.xjhr.com/zhaopin/job_8387770.html",
-    "source_name": "中国新疆人才网｜新疆人才网｜搬运工",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-15",
-    "confidence": "listing",
-    "contact": null,
-    "note": "帖子原文：“搬运工 / 新疆金盟能源科技发展有限公司乌鲁木齐分公司 / 乌鲁木齐市高新区（新市区）(乌鲁木齐市新市区十色街和深圳街西二巷交叉口) / 天山国际机场行李装卸岗位须知 / 工 作 地: 新疆乌鲁木齐天山国际机场工作区域： 机场机坪工作区 / 招聘岗位： 行李装卸 / 复试时间： 2026年 / 2月25日 早上10：00分 / 复试地点： 机场南区（以群里的位置为准） / 招聘人数： 66人（名额有限，必须提前报名才可参加面试） / 上班时间： 上一休一（早5.30至凌晨3点”。发帖方是中介/劳务，帖子写明了用人单位。",
-    "wage_posted": "6500 元/月",
-    "hours": {
-     "posted": "早5.30至凌晨3点 / 上一休一",
-     "per_day": 21.5,
+     "posted": "上24休24",
+     "per_day": 24,
      "days_per_month": 15,
-     "monthly": 322,
+     "monthly": 360,
      "basis": "posted"
     }
    }
@@ -266,34 +141,7 @@
    }
   },
   {
-   "chain": "保安 · 持证/管理岗：消防",
-   "tags": [],
-   "headline": true,
-   "store": "米东区轮胎东路公务员小区（微信群招工帖（群记录导出），自由如风）",
-   "basket": "security_cert",
-   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3200.0",
-   "wage": {
-    "value": 13.0,
-    "unit": "元/小时",
-    "source_url": null,
-    "source_name": "微信群招工帖（群记录导出）｜自由如风｜机场保安招聘群_2026-09-14_15.docx",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-14",
-    "confidence": "listing",
-    "contact": "139****0067",
-    "note": "帖子原文：“（2）米东区轮胎东路公务员小区对面文体公园招男保洁两名，60岁以内，早10点到晚19.30.一周休一天，月休4天，工资3200。另招消防监控两名（国证）男女不限，上24休24.工资4200 / 联系：139****0067”",
-    "wage_posted": "3200 元/月",
-    "hours": {
-     "posted": "早10点到晚19.30 / 月休4天 / 上24休24",
-     "per_day": 9.5,
-     "days_per_month": 26,
-     "monthly": 247,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "保安 · 持证/管理岗：消防",
+   "chain": "保安 · 持证/管理岗：消防监控",
    "tags": [],
    "headline": true,
    "store": "地点 天山区东泉路附近（微信群招工帖（群记录导出），中国梦不是梦，轻舟已过万重山）",
@@ -320,7 +168,7 @@
    }
   },
   {
-   "chain": "保安 · 持证/管理岗：队长",
+   "chain": "保安 · 持证/管理岗：保安队长",
    "tags": [],
    "headline": true,
    "store": "地点 天山区东泉路附近（微信群招工帖（群记录导出），中国梦不是梦，轻舟已过万重山）",
@@ -377,6 +225,33 @@
    "chain": "保洁：保洁",
    "tags": [],
    "headline": true,
+   "store": "米东区轮胎东路公务员小区（微信群招工帖（群记录导出），自由如风）",
+   "basket": "cleaning",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3200.0",
+   "wage": {
+    "value": 13.0,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（群记录导出）｜自由如风｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "139****0067",
+    "note": "帖子原文：“（2）米东区轮胎东路公务员小区对面文体公园招男保洁两名，60岁以内，早10点到晚19.30.一周休一天，月休4天，工资3200 / 联系：139****0067”",
+    "wage_posted": "3200 元/月",
+    "hours": {
+     "posted": "早10点到晚19.30 / 月休4天",
+     "per_day": 9.5,
+     "days_per_month": 26,
+     "monthly": 247,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：保洁",
+   "tags": [],
+   "headline": true,
    "store": "兄弟连保安公司（微信群招工帖（群记录导出），天桥风云）",
    "basket": "cleaning",
    "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3200.0",
@@ -423,6 +298,60 @@
      "per_day": 8.0,
      "days_per_month": 26,
      "monthly": 208,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：装卸工",
+   "tags": [],
+   "headline": true,
+   "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "delivery",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1|160.0",
+   "wage": {
+    "value": 13.3,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月15日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "151****9624",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 头区物流园招聘装卸工10人 / 内容：负责食品百货的装卸，分拣 / 要求：莮民族不限，20-35岁，能吃苦耐劳，服从管理，最低干3个月 / 时间：早上10点-晚上22点 / 薪资待遇： / 周结160一天，月结170一天 / 住宿费200一个月，吃饭自费 / 地址：头屯河区规划二路附近 / 微信电话同号：151****9624”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "160 元/天",
+    "hours": {
+     "posted": "早上10点-晚上22点",
+     "per_day": 12.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：理货",
+   "tags": [],
+   "headline": true,
+   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "delivery",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
+   "wage": {
+    "value": 18.0,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-07",
+    "confidence": "listing",
+    "contact": "157****7073",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  157****7073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "180 元/天",
+    "hours": {
+     "posted": "10:00-20:00",
+     "per_day": 10.0,
+     "days_per_month": null,
+     "monthly": null,
      "basis": "posted"
     }
    }
@@ -1116,11 +1045,11 @@
  },
  "jobs_ingest": {
   "updated": "2026-09-15",
-  "raw_rows": 38,
-  "unique": 35,
-  "dup_manual": 2,
+  "raw_rows": 33,
+  "unique": 32,
+  "dup_manual": 0,
   "side": 4,
-  "picked": 20,
+  "picked": 19,
   "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
  }
 }

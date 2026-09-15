@@ -87,6 +87,7 @@ def split_posts(text):
        只有联系方式的小块（「报名加微信…」）把联系方式补给前面缺联系的条，然后丢掉。"""
     blocks=[[]]
     text=re.sub(r'(?<!\n)(岗位[一二三四五六七八九十\d]+\s*[:：])',r'\n\1',text)
+    text=re.sub(r'(?<!\n)[。；;，,]?\s*(另招|另聘|另外招|同时招|再招)',r'\n\1',text)   # 「招男保洁两名…工资3200。另招消防监控两名…工资4200」一句两岗 → 切开
     text=re.sub(r'(?<!\n)\s*([❶-❿①-⑩](?=[^\n]{0,25}(?:招聘|招\d|诚聘|急招|招[^\n]{0,8}(?:名|人))))',r'\n\1',text)   # 「…联系微信：xxx ③××厂招聘」→ ③ 起新条
     for line in text.split('\n'):
         if SEP_LINE.search(line): blocks.append([]); line=SEP_LINE.sub('',line)

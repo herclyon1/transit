@@ -145,11 +145,11 @@ def extract_common(r, city_hint):
     tb=t.replace(r['employer'],'█'*len(r['employer'])) if (r['employer'] and re.search(r'公司|集团|有限',r['employer'])) else t   # 只遮公司名（「××安保公司」），「京东快递仓」这种地点式雇主不遮
     r['basket']=None; r['title']=None
     MOD=r'(?:兼职|全职|夜班|白班|临时|长期|京东|顺丰|圆通|中通|申通|韵达|极兔|美团|饿了么|麦当劳|肯德基|瑞幸|星巴克|机场|高铁|地铁|商场|小区|学校|医院|酒店|工厂|超市|仓库|物流|快递|川菜|中餐|火锅|烧烤|奶茶)?'
-    head=(r.get('article_title') or '')+'\n'+tb.split('\n')[0]   # 标题行：持证/管理岗（队长/主管/消控…）只在这里找，正文里的「陈主管」「服从主管安排」不算
+    head=tb.split('\n')[0]   # 标题行：持证/管理岗（队长/主管/消控…）只在这里找，正文里的「陈主管」「服从主管安排」不算（位置和正文可比：首行在 0 开始）
     for k,kws in BASKET_KW.items():
         for w in kws:
             m=re.search(MOD+re.escape(w)+r'(?:员|工|师傅|人员|岗)?', head if k=='security_cert' else tb)   # 岗位名 = 允许的修饰词 + 篮子词 + 后缀
-            if m and (r['basket'] is None or (k=='security_cert') or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start() if k!='security_cert' else -1
+            if m and (r['basket'] is None or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start()   # 持证岗只在标题行找，但仍按「谁先出现」定主岗（「招保洁…另招消防监控」主岗是保洁）
     r.pop('_tpos',None)
     if r['basket']=='food' and re.search(r'超市|便利店|商超|卖场',tb) and re.search(r'收银|店员|理货',r['title'] or ''): r['basket']='retail'   # 超市收银员归零售，不归餐饮
     if r['basket']=='retail' and re.search(r'库房|仓库|物流园',tb) and not re.search(r'门店|超市|便利店',tb): r['basket']='delivery'          # 库房理货是仓储，不是门店
