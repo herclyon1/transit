@@ -73,26 +73,33 @@ def parse_ddmc():
     return kw, '综合', {'platform': '多多买菜', 'pickup': '鑫顺意超市'}, items
 
 def parse_meituan():
+    """美团两种列表都认：
+       特价团（原生 MRN）：标题「店名 | 套餐名」，价格拆成 ¥ / 整数 / .小数 三个节点；
+       美团主 App 团购搜索（MSC 页，馕 09-16）：标题「店名｜【新疆特色】芝麻馕」（全角｜），价格是一个节点「¥4.5」，后面「5.7折」「¥8」是原价。"""
     loc = next((t for t in texts if '地铁站' in t or t.endswith('站)')), None)
-    kw = a.kw or next((t for t in texts if t.startswith('搜索') and len(t) > 2), None)
+    kw = a.kw or next((t for t in texts if t.startswith('搜索') and len(t) > 2), None) or next((t for t, x, y in nodes if y < 260 and 0 < len(t) <= 8), None)
     rows = sorted(nodes, key=lambda r: (r[2], r[1]))
-    # 每条团购从「店名 | 套餐名」开始，到下一条标题为止；价格三段（¥ / 整数 / .小数）y 不完全对齐，按区间找
-    titles = [i for i, (t, x, y) in enumerate(rows) if re.search(r'\s\|\s', t) and x < 500 and y > 600]
+    titles = [i for i, (t, x, y) in enumerate(rows) if (re.search(r'\s\|\s', t) or '｜' in t) and x < 500 and y > 400]
+    sort_row = next(((t, x, y) for t, x, y in rows if '排序' in t and len(t) <= 6), None)
+    sort_seen = sort_row[0] if sort_row else None
+    if not loc and sort_row: loc = next((t for t, x, y in rows if abs(y - sort_row[2]) < 30 and t != sort_row[0] and 2 <= len(t) <= 14), None)   # 主 App：定位块和「智能排序」同一行
     deals = []
     for k, i in enumerate(titles):
         block = rows[i + 1: titles[k + 1] if k + 1 < len(titles) else len(rows)]
-        d = {'name': rows[i][0], 'store': None, 'distance': None, 'price': None, 'orig': None, 'sales': None}
-        whole = frac = None
+        d = {'name': rows[i][0].replace('｜', ' | '), 'store': None, 'distance': None, 'price': None, 'orig': None, 'sales': None}
+        whole = frac = None; yen = []
         for t, x, y in block:
             if re.match(r'^\d+(\.\d+)?(km|m)$', t): d['distance'] = t
             elif '（' in t and '店）' in t: d['store'] = t
             elif t.startswith('爆卖'): d['sales'] = t
+            elif re.match(r'^¥\d+(\.\d+)?$', t): yen.append(float(t[1:]))
             elif whole is None and re.match(r'^\d{1,4}$', t) and 480 <= x <= 600: whole = t
             elif frac is None and re.match(r'^\.\d{1,2}$', t) and x <= 700: frac = t
-            elif d['orig'] is None and re.match(r'^¥\d+(\.\d+)?$', t): d['orig'] = float(t[1:])
-        if whole is not None: d['price'] = float(whole + (frac or ''))
+            elif d['store'] is None and 2 <= len(t) <= 16 and t == rows[i][0].split('｜')[0].split(' | ')[0]: d['store'] = t
+        if whole is not None: d['price'] = float(whole + (frac or '')); d['orig'] = yen[0] if yen else None      # 特价团：价拆三段，「¥13」是原价
+        elif yen: d['price'] = yen[0]; d['orig'] = yen[1] if len(yen) > 1 else None      # 主 App：团购价在前，原价在后
         deals.append(d)
-    return kw, '默认', {'platform': '美团特价团', 'location': loc}, [d for d in deals if d['price'] is not None]
+    return kw, a.sort or sort_seen or '默认', {'platform': '美团' if any('｜' in rows[i][0] for i in titles) else '美团特价团', 'location': loc}, [d for d in deals if d['price'] is not None]
 
 def parse_beike_page(nodes):
     # 原生 RecyclerView：标题「整租1居·小区」→ 规格「20㎡｜南｜高楼层｜电梯」→「距离1号线-南门站306m」→ 价格「860」+「元/月」

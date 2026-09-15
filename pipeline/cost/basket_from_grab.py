@@ -52,7 +52,7 @@ def unit_price(row,how):
     if how=='kg5' and kg: return p/kg*5, f'{kg:g} kg'
     if how=='l' and L: return p/L, f'{L:g} L'
     if how=='n10' and n: return p/n*10, f'{n:g} 个'
-    if how=='n1' and n: return p/n, f'{n:g} 个'
+    if how=='n1': return p/(n or 1), f'{n:g} 个' if n else '1 份'   # 馕：团购一份 = 一个（名字里没写个数按 1）
     if how=='n6' and (n or L): return (p/n*6 if n else None), f'{n:g} 罐' if n else ''
     return None,''
 def main():
