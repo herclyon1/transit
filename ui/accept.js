@@ -73,6 +73,11 @@
         const tb=(type)=>{ const t=new Touch({identifier:2,target:gb,clientX:5,clientY:5}); window.__accSynthetic=true; try{ gb.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==='touchend'?[]:[t],changedTouches:[t]})); } finally { window.__accSynthetic=false; } };
         tb('touchstart'); ok('圆钮触到即变亮（brightness 1.3）', gb.classList.contains('hig-btn-press')&&/brightness\(1\.3\)/.test(cs(gb).filter), true, 0, cs(gb).filter); ok('圆钮触到即起放大动画', gb.getAnimations().length>0&&gb.getAnimations()[0].effect.getTiming().duration===P.BTN_MS, true, 0);
         tb('touchend'); ok('圆钮松手回 1', !gb.classList.contains('hig-btn-press'), true, 0); lb.remove(); } }
+    // Sheet 的 .body 必须是滚动容器：大档时 .body 底边不超出 Sheet，内容长于视口就能滚（09-15 薪资页 #list 套一层把它撑没了，列表滚不动）
+    if(window.SHEET&&SHEET.sim&&!wide){ const se=SHEET.el, sb=se.querySelector('.body'); if(sb){ const was=SHEET.get(), T=SHEET.tops(); SHEET.sim.place(T.large);
+      const sr=rect(se), br=rect(sb); ok('Sheet 大档：.body 底边不超出 Sheet', Math.round(br.bottom-sr.bottom), 0, 1, num(br.bottom)+' vs '+num(sr.bottom));
+      ok('Sheet .body 是滚动容器（overflow auto，内容长就能滚）', cs(sb).overflowY==='auto'&&(sb.scrollHeight<=sb.clientHeight+1||sb.clientHeight<sb.scrollHeight), true, 0, 'clientH '+num(sb.clientHeight)+' scrollH '+num(sb.scrollHeight));
+      SHEET.sim.place(T[was]??T.medium); } }
     // 叠放卡片（HIGSheet.stack：地图 App 地点卡片 = 第二张 Sheet 从底下弹上来，后面那张退到中档）
     if(window.CARD&&!wide&&window.SHEET){ const C=window.CARD; const wasShown=C.shown; if(!wasShown) C.present(); const ce=C.ctl.el; const T=C.ctl.tops();
       ok('叠放卡片挂在 body 下、带 .sheet.stacked', ce.parentNode===document.body&&ce.classList.contains('stacked'), true, 0);
