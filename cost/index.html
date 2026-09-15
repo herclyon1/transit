@@ -88,15 +88,17 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 <script src="../ui/press.js"></script>
 <script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
+<script src="../ui/shell.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 // 城市清单很小，先取到再建图：点直接内嵌进样式的 source，不用等 load 事件
-let CITIES=[], RATES=null, CUR='local', map=null;
+let CITIES=[], RATES=null, CUR='local', map=null, APP=null;
 (async()=>{
 try{ CITIES=await (await fetch('data/cities.json')).json(); }catch(e){ CITIES=[]; }
-map=new maplibregl.Map({
-  container:'map',attributionControl:{compact:true,customAttribution:'Natural Earth（公有领域）'},
-  center:[120,25],zoom:2.2,minZoom:1,maxZoom:9,dragRotate:false,pitchWithRotate:false,touchZoomRotate:true,
+// 壳（ui/shell.js）：地图 + Sheet + 叠放卡片 + 点击→卡片；这页只给 layers() 和 card()
+APP=HIGShell.create({
+  attribution:'Natural Earth（公有领域）',
+  map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:9,
   style:{version:8,
     // 字形沿用仓库里那套 NotoSansJP 全 256 段
     // 花括号不能进 new URL（会被转义成 %7B），先解析目录再拼模板
@@ -119,9 +121,17 @@ map=new maplibregl.Map({
         'circle-color':['case',['==',['get','status'],'ready'],'#1B2433','#fff'],
         'circle-stroke-color':['case',['==',['get','status'],'ready'],'#1B2433','#6B7688'],'circle-stroke-width':2}},
       {id:'city-lab',type:'symbol',source:'cities',layout:{'text-field':['get','label'],'text-font':['NotoSansJP Regular'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':'#1B2433','text-halo-color':'#fff','text-halo-width':1.5}}
-    ]}
+    ]}},
+  // 图层都写在 style 里了；这里只交代「点哪个图层 → 开哪张卡」
+  layers(){ return {'city-dot': f=>show(CITIES.find(c=>c.id===f.properties.id))}; },
+  // 要素 → 卡片：标题/副标题立刻给，正文取到城市 JSON 再给
+  async card(c){
+    let d=cache[c.id];
+    if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
+    return {title:`${c.name.zh}（${c.name.en}）`, sub:`${COUNTRY[c.country]||c.country} · 货币 ${c.currency}`, html:groups(render(c,d))};
+  }
 });
-if(window.matchMedia('(min-width: 900px)').matches) map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+map=APP.map;
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
 const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'🇻🇳',MMR:'🇲🇲',DEU:'🇩🇪',USA:'🇺🇸',AUS:'🇦🇺'};
@@ -139,19 +149,18 @@ function cityRows(filter){
     const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><span class="tag ${over?'orange':(hh.cap?'green':'gray')}">${over?'超上限':(hh.cap?'上限内':'无上限')}</span></span>`; };
   $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
   HIG.sf();
-  $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); map.flyTo({center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); show(c);}));
+  $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
 }
 cityRows(''); loadHeads().then(()=>cityRows($('q').value));
 $('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
 $('q').closest('.search').querySelector('.clear').addEventListener('click',()=>{$('q').value='';cityRows('');$('q').closest('.search').classList.remove('has');});
-window.SHEET=HIG.sheet($('sheet'),{initial:'medium'}); window.CARD=window.HIGSheet&&HIGSheet.stack(SHEET,$('card'));
 
 // 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
 fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
   fetch('https://open.er-api.com/v6/latest/JPY').then(x=>x.json()).then(live=>{
     if(!live||live.result!=='success'||!live.rates) return;
     const fx={}; for(const k of Object.keys(r.fx||{})){ if(live.rates[k]) fx[k]=1/live.rates[k]; }
-    if(Object.keys(fx).length){ RATES={...r, fx:{...r.fx,...fx}}; fillCur(new Date(live.time_last_update_unix*1000).toISOString().slice(0,10), '实时'); if(OPEN) show(OPEN); }
+    if(Object.keys(fx).length){ RATES={...r, fx:{...r.fx,...fx}}; fillCur(new Date(live.time_last_update_unix*1000).toISOString().slice(0,10), '实时'); if(APP.open) show(APP.open); }
   }).catch(()=>{});
 }).catch(()=>{});
 function fillCur(date, kind){
@@ -159,15 +168,10 @@ function fillCur(date, kind){
   for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.setAttribute('aria-checked', k===CUR?'true':'false'); b.dataset.value=k; b.innerHTML='<i class="sf" data-sf="checkmark"></i>'+k; m.appendChild(b); }
   HIG.sf(); $('curBtn').title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
 }
-HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(OPEN) show(OPEN);});
-
-map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });
-map.on('mouseenter','city-dot',()=>map.getCanvas().style.cursor='pointer');
-map.on('mouseleave','city-dot',()=>map.getCanvas().style.cursor='');
-$('cClose').addEventListener('click',()=>{ if(window.CARD) CARD.dismiss(); else $('card').hidden=true; $('list').hidden=false; OPEN=null; });
+HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(APP.open) show(APP.open);});
 })();
 
-var OPEN=null; const cache={};
+const cache={};
 // 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 参考时薪；和卡片里「换算成工时」同一公式
 // 参考时薪 = 有效岗位的时薪中位数（2026-09-15 起；之前用最低值，一条 24 小时岗就把乌鲁木齐从 229 拉到 316）。
 // 有效 = headline!==false：24 小时在岗口径、临时单、郊区、私人家政都不算；卡片里另给最低/最高。
@@ -187,16 +191,7 @@ function hoursFor(d){
 }
 const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
-async function show(c){
-  OPEN=c; if(window.CARD) CARD.present(); else $('card').hidden=false;   /* 窄屏：卡片是叠在上面的第二张 Sheet（地图 App），列表留在后面；宽屏照旧 */
-  if(!window.CARD && !matchMedia('(min-width: 900px) and (pointer: fine)').matches) $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
-  $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
-  $('cMeta').textContent=`${({JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'})[c.country]||c.country} · 货币 ${c.currency}`;
-  $('cBody').innerHTML='<div class="mcard"><div class="empty">载入…</div></div>';
-  let d=cache[c.id];
-  if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
-  $('cBody').innerHTML=groups(render(c,d)); HIG.sf();
-}
+function show(c,flyTo){ return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
 // render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
 // 最前面加一颗 50 高的主按钮（地图 App「规划」的位置）：跳到「换算成工时」
 function groups(h){
