@@ -13,7 +13,7 @@ import re, os, json, datetime, collections
 
 # 用户 09-15：保安队长/班长/主管/领班、消防监控/消控/监控员 这类持证或管理岗不进「保安」，单独篮子 security_cert（也算有效、进中位数）；特勤队员留在保安
 BASKET_KW={'security_cert':['保安队长','队长','班长','主管','领班','消防监控','消控','监控员','消防'],'security':['保安','门卫','安保','特勤','保卫'],'food':['服务员','服务生','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
-           'retail':['理货','超市','便利店','收银','导购','店员','营业员'],'delivery':['快递','分拣','骑手','外卖','配送','仓储','仓库','打包'],
+           'retail':['理货','超市','便利店','收银','导购','店员','营业员'],'delivery':['快递','分拣','骑手','外卖','配送','仓储','仓库','打包','装卸','搬运'],
            'factory':['普工','操作工','包装工','车间','厂','生产'],'cleaning':['保洁','清洁'],'home':['家政','钟点','育儿','护理','月嫂','阿姨'],   # home = 私人家庭钟点/家政：记但不进篮子最低值
            'chain':['麦当劳','肯德基','KFC','星巴克','瑞幸','必胜客','汉堡王','7-Eleven','全家','罗森']}
 AGENT_KW=['人力资源','劳务','中介','派遣','外包','人才','推荐工作','进群','求职群','加微信报名','报名咨询']
@@ -41,7 +41,11 @@ def extract_common(r, city_hint):
     # ---- 工资：确数优先；区间/面议/保底+提成记为 range
     wage=None; unit=None
     rng=any(not re.search(r'\d{1,2}[:：.]\d{2}',m.group(0)) for m in RANGE.finditer(t))
-    m=(re.search(r'(\d{1,3}(?:\.\d)?)\s*元?\s*(?:/|一|每|一个)\s*小时',t) or re.search(r'(\d{1,3}(?:\.\d)?)\s*(?:元)?\s*/\s*(?:时|h|H)(?![\d])',t) or re.search(r'(?:时薪|每小时|元/小时)[^\d\n]{0,4}(\d{1,3}(?:\.\d)?)',t))
+    def first_ok(pat):   # 前 10 个字里有 加班/补贴/补助/提成/夜班费 的不是工资（「加班费：货机30元/小时」）
+        for mm in re.finditer(pat,t):
+            if not re.search(r'加班|补贴|补助|提成|夜班费|津贴',t[max(0,mm.start()-10):mm.start()]): return mm
+        return None
+    m=(first_ok(r'(\d{1,3}(?:\.\d)?)\s*元?\s*(?:/|一|每|一个)\s*小时') or first_ok(r'(\d{1,3}(?:\.\d)?)\s*(?:元)?\s*/\s*(?:时|h|H)(?![\d])') or first_ok(r'(?:时薪|每小时|元/小时)[^\d\n]{0,4}(\d{1,3}(?:\.\d)?)'))
     m2=re.search(r'(?:实习期|试用期)[^\n\d]{0,6}(\d{4,5})[^\n]{0,14}?(?:次月|转正|之后|以后|第二个月|满月|期满)[^\d\n]{0,10}(\d{4,5})(?!\d)',t)   # 「实习期3000次月开始拿到手3800」→ 3800
     if m: wage=_num(m.group(1)); unit='CNY/小时'
     elif m2: wage=_num(m2.group(2)); unit='CNY/月'
@@ -70,7 +74,9 @@ def extract_common(r, city_hint):
         def dur(ms):
             mn=lambda g:(0.5 if g=='半' else int(g)/60) if g else 0
             h1=int(ms.group(1))+(int(ms.group(2) or 0)/60)+mn(ms.group(3)); h2=int(ms.group(4))+(int(ms.group(5) or 0)/60)+mn(ms.group(6))
-            if h2<=12 and re.search(r'晚|下午|凌晨',ms.group(0)) and h2<=h1: h2+=12
+            tail=ms.group(0)[ms.group(0).rfind(str(ms.group(4)))-3:]   # 第二个钟点前面的词：凌晨3点 = 次日 03:00（+24），晚上8点/下午3点 = +12
+            if h2<=12 and re.search(r'凌晨|次日|第二天',tail) : h2+=24
+            elif h2<=12 and re.search(r'晚|下午',ms.group(0)) and h2<=h1: h2+=12
             if h2<=h1: h2+=24
             return h2-h1
         hpd=dur(segs[0]); hours_text.append(segs[0].group(0)); last=segs[0]
@@ -132,17 +138,18 @@ def extract_common(r, city_hint):
     r['employer']=emp
     loc=re.search(r'([一-龥]{2,12}(?:路|街|附近|小区|广场|商场|大厦|园区|校区|机场|车站|市场|开发区|一号院|城|楼)(?:附近)?)',t)
     r['location_phrase']=loc.group(1) if loc else None
-    self_agent=bool(re.search(r'劳务派遣|人力资源(?:服务)?(?:有限)?公司|中介|人才(?:开发|服务)|外包公司|派遣公司',t))
+    self_agent=bool(re.search(r'劳务派遣|人力资源(?:服务)?(?:有限)?公司|人力(?:企业|公司|集团)|中介|人才(?:开发|服务)|外包公司|派遣公司',t))
     r['employer_from_location']=bool(r['employer'] is None and r['location_phrase'] and not self_agent)   # 群帖惯例：具体地点 + 直拨电话，没有公司名；雇主栏留空，卡片显示地点
     r['via_agent']=self_agent or bool(re.search('|'.join(AGENT_KW),t))
     # 岗位名/篮子：从篮子关键词出发取「××保安员」这种短语；关键词不在公司名里找（「君缘方舟安保公司 招手推车员」不是保安）
     tb=t.replace(r['employer'],'█'*len(r['employer'])) if (r['employer'] and re.search(r'公司|集团|有限',r['employer'])) else t   # 只遮公司名（「××安保公司」），「京东快递仓」这种地点式雇主不遮
     r['basket']=None; r['title']=None
     MOD=r'(?:兼职|全职|夜班|白班|临时|长期|京东|顺丰|圆通|中通|申通|韵达|极兔|美团|饿了么|麦当劳|肯德基|瑞幸|星巴克|机场|高铁|地铁|商场|小区|学校|医院|酒店|工厂|超市|仓库|物流|快递|川菜|中餐|火锅|烧烤|奶茶)?'
+    head=(r.get('article_title') or '')+'\n'+tb.split('\n')[0]   # 标题行：持证/管理岗（队长/主管/消控…）只在这里找，正文里的「陈主管」「服从主管安排」不算
     for k,kws in BASKET_KW.items():
         for w in kws:
-            m=re.search(MOD+re.escape(w)+r'(?:员|工|师傅|人员|岗)?',tb)   # 岗位名 = 允许的修饰词 + 篮子词 + 后缀；不再把前面 4 个任意字带进来（「河区京东快递」「须要干过服务员」）
-            if m and (r['basket'] is None or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start()
+            m=re.search(MOD+re.escape(w)+r'(?:员|工|师傅|人员|岗)?', head if k=='security_cert' else tb)   # 岗位名 = 允许的修饰词 + 篮子词 + 后缀
+            if m and (r['basket'] is None or (k=='security_cert') or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start() if k!='security_cert' else -1
     r.pop('_tpos',None)
     if r['basket']=='food' and re.search(r'超市|便利店|商超|卖场',tb) and re.search(r'收银|店员|理货',r['title'] or ''): r['basket']='retail'   # 超市收银员归零售，不归餐饮
     if r['basket']=='retail' and re.search(r'库房|仓库|物流园',tb) and not re.search(r'门店|超市|便利店',tb): r['basket']='delivery'          # 库房理货是仓储，不是门店
