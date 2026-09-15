@@ -29,13 +29,14 @@ window.HIG = (function(){
     }
     return { set: apply, get: ()=>cur, el };
   }
-  // 开关：Apple 平台的 Safari（17.4+）把 <input type=checkbox switch> 画成系统原生开关，动画是系统的（iPadOS 27 实测 2026-09-15 11:16）；
-  // 其他浏览器没有这个属性，退回 hig.css 里模仿的 .sw。
+  // 开关：Safari 17.4+ 的 <input type=checkbox switch> 只是 WebKit 自己画的开关——外形像系统的，但动效不是：
+  // 圆钮第一帧就跳到对侧、只有轨道颜色淡入，没有按下态/镜片、不跟手（maa 会话 2026-09-15 11:29 在 iPhone 18 Pro Max 上 60fps 逐帧录像，
+  // 证据 ~/Claude/hig-kit/evidence/）。所以默认不用它，用 hig.css 模仿的 .sw（kit 里有按住镜片那套）；需要时显式调 HIG.nativeSwitch()。
   function nativeSwitch(){
     const probe=document.createElement('input'); probe.type='checkbox';
     if('switch' in probe && /Apple/.test(navigator.vendor||'')){ document.querySelectorAll('.sw input[type=checkbox]').forEach(i=>i.setAttribute('switch','')); document.documentElement.classList.add('native-switch'); }
   }
-  document.addEventListener('DOMContentLoaded', ()=>{ nativeSwitch(); sf(); });
+  document.addEventListener('DOMContentLoaded', sf);
   // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
   if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js?v='+Date.now(); document.head.appendChild(a); }
   // 下拉菜单（UIMenu）：点 anchor 开合，菜单贴在 anchor 下方 6，靠右对齐；点项 → onPick(value)；Esc/点外面关。

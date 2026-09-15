@@ -274,7 +274,7 @@ a.row:active,button.row:active{background:var(--fill)}
 .sw input:checked + i::after{transform:translateX(21px)}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sw i{background:rgba(120,120,128,.32)} }
 :root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
-/* 原生优先（hig.js nativeSwitch()）：Safari 里 .sw 直接显示系统开关，模仿层隐藏；尺寸随系统，不写死 */
+/* 可选（默认不开，见 hig.js nativeSwitch() 的注释）：Safari 的 <input switch> 外形像系统开关但动效只是颜色淡入 */
 html.native-switch .sw{width:auto;height:auto;display:inline-flex;align-items:center}
 html.native-switch .sw i{display:none}
 html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;margin:0;accent-color:var(--green)}
