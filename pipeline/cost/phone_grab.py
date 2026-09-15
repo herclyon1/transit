@@ -6,6 +6,8 @@
 
   python3 pipeline/cost/phone_grab.py            # 前 10 条 → cost/data/raw/<city>/<今天>/<app>.jsonl
   python3 pipeline/cost/phone_grab.py --n 5 --kw 拌面
+  python3 pipeline/cost/phone_grab.py --scroll 4 --n 40        # 贝壳/安居客：站名、排序、整租/合租 都从当前页面头部读，不用写；读不到才要 --kw / --sort
+  python3 pipeline/cost/phone_grab.py --scroll 8 --max-price 3000   # 按价格升序时超过 3000 就停
   贝壳租房（整租/合租都行）：手机停在列表第一屏，Mac 跑
   python3 pipeline/cost/phone_grab.py --city urumqi --kw 南门 --sort 价格从低到高 --scroll 4 --n 40
   → cost/data/raw/urumqi/<今天>/beike.jsonl（每条带 type 整租/合租、keyword、sort），然后 python3 pipeline/cost/rent_from_beike.py urumqi 算档位房租
@@ -24,7 +26,8 @@ ap.add_argument('--n', type=int, default=10)
 ap.add_argument('--kw', default=None, help='关键词/筛选说明，读不到时手动写')
 ap.add_argument('--out', default=None)
 ap.add_argument('--scroll', type=int, default=0, help='原生列表（贝壳）屏幕外的条目不在树里，给 N 就自动下滑 N 屏合并')
-ap.add_argument('--sort', default='默认', help='列表当时的排序（贝壳：默认 / 价格从低到高 …），树里读不到，跑之前自己写；进 jsonl 的 sort 字段')
+ap.add_argument('--max-price', type=float, default=None, help='按价格升序取数时，滑到条目价格超过这个数就停（贝壳/安居客）')
+ap.add_argument('--sort', default=None, help='列表当时的排序（贝壳：价格从低到高 / 默认排序 …）。头部筛选条上能读到就自动取，读不到必须写')
 a = ap.parse_args()
 
 def adb(*args):
@@ -120,11 +123,30 @@ def parse_anjuke_page(nodes):
                 cur['price'] = float(t)
     return [o for o in out if o['price'] is not None]
 
+def screen_size():
+    m = re.search(r'(\d+)x(\d+)', adb('shell', 'wm', 'size').stdout.decode('utf-8', 'ignore'))
+    return (int(m.group(1)), int(m.group(2))) if m else (1280, 2772)
+
+STATION = re.compile(r'(号线|地铁|站)')
+SORTS = ('价格从低到高', '价格从高到低', '默认排序', '最新发布', '距离最近', '面积从小到大', '面积从大到小', '综合排序')
+POPUP = ('我知道了', '以后再说', '立即升级', '暂不', '允许', '去开启', '领取', '关闭')
+
+def beike_header(ns):
+    """筛选条不按写死的 y 找（那是一台手机的值）：先找第一张房源卡的 y，卡上方所有节点就是头部；
+       站名 = 头部里含「号线/地铁/站」的节点；排序 = 头部里能认出的排序词；租法 = 顶部「整租/合租」标签里带选中态的（树里没选中态就靠条目 type 反推）。"""
+    rows = sorted(ns, key=lambda r: (r[2], r[1]))
+    first = next((y for t, x, y in rows if re.match(r'^(整租|合租)(\d居)?[·\s|]', t)), None)   # 第一张房源卡的标题
+    head = [(t, x, y) for t, x, y in rows if first is None or y < first]
+    station = next((t for t, x, y in head if re.search(r'站|号线', t) and len(t) <= 12), None)
+    sort = next((w for t, *_ in head for w in SORTS if w in t), None)
+    return station, sort, ' '.join(t for t, *_ in head if len(t) <= 14)
+
 def parse_beike():
     page = parse_anjuke_page if APP == 'anjuke' else parse_beike_page
-    bar = (300, 340) if APP == 'anjuke' else (340, 365)
-    station = next((t for t, x, y in nodes if bar[0] <= y <= bar[1] and x < 200), None)
-    filt = ' '.join(t for t, x, y in nodes if bar[0] <= y <= bar[1])
+    W, H = screen_size()
+    pops = [t for t in texts if t in POPUP]
+    if pops: print(f'提示：界面上有弹窗/按钮 {pops}，可能挡住列表；脚本不点，挡住了就手动关掉再跑。', file=sys.stderr)
+    station, sort_seen, filt = beike_header(nodes)
     items, seen = [], set()
     def take(ns):
         for o in page(ns):
@@ -133,11 +155,20 @@ def parse_beike():
     take(nodes)
     stale = 0
     for _ in range(a.scroll):
-        adb('shell', 'input', 'swipe', '640', '2300', '640', '800', '500'); time.sleep(2.5)
+        if a.max_price is not None and items and items[-1]['price'] > a.max_price: break   # 按价格升序时超上限就不再滑
+        adb('shell', 'input', 'swipe', str(W // 2), str(int(H * 0.83)), str(W // 2), str(int(H * 0.29)), '500'); time.sleep(2.5)
         before = len(items); take(to_nodes(dump()))
         stale = stale + 1 if len(items) == before else 0
         if stale >= 2: break
-    return a.kw or station, a.sort, {'platform': '安居客' if APP == 'anjuke' else '贝壳', 'filter': filt}, items
+    if a.max_price is not None: items[:] = [o for o in items if o['price'] <= a.max_price]
+    sort = a.sort or sort_seen
+    if not sort:
+        sys.exit(f'排序方式树里读不到（头部：{filt[:80]}），用 --sort 写明（如 --sort 价格从低到高），不然入库分不清是默认排序还是按价。')
+    kw = a.kw or station
+    if not kw:
+        sys.exit(f'站名读不到（头部：{filt[:80]}），用 --kw 写站名。')
+    types = sorted({o['type'] for o in items})
+    return kw, sort, {'platform': '安居客' if APP == 'anjuke' else '贝壳', 'filter': filt, 'type': '/'.join(types)}, items
 
 kw, sort, meta, items = {'ddmc': parse_ddmc, 'meituan': parse_meituan, 'beike': parse_beike, 'anjuke': parse_beike}[APP]()
 if not items:
