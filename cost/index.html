@@ -434,6 +434,11 @@ function render(c,d){
   h+='<section><h3>换算成工时</h3>';
   if(refWage&&food&&tiers.length){
     const mUnit=cur+'/月';
+    // 「N 小时意味着什么」（maa 09-15）：15 分钟档的月工时翻成人话——留学签按每周（上限 28）算占比，本国公民按每天（22 天）算；只用现有字段
+    { const hf=hoursFor(d); if(hf&&hf.hrs){ let line='', sub=`按 ${hf.tier||'15 分钟档'} 每月 ${hf.hrs} 小时算`;
+        if(hf.capWeek){ const wk=hf.hrs*12/52, pct=Math.round(wk/hf.capWeek*100); line=wk>hf.capWeek?`每周要打 ${wk.toFixed(1)} 小时，超出上限 ${hf.capWeek} 小时——靠打工付不起`:`每周 ${wk.toFixed(1)} 小时（上限 ${hf.capWeek}）→ 占上限 ${pct}%`; }
+        else { const day=hf.hrs/22; line=`每天 ${day.toFixed(1)} 小时（按 22 天）`+(Math.round(day*10)/10>8?'——超过 8 小时/天':''); }
+        h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${line}</div><div class="hint">${sub}</div></span></div></div>`; } }
     h+=`<div class="src">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 食费 ${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
     h+='<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>月开销</th><th>要打的工时</th><th>其中房租</th></tr></thead><tbody>';
     for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student); if(r==null) { h+=`<tr><td><b>${t.label}</b></td><td class="none">房租暂无</td><td></td><td></td></tr>`; continue; }
