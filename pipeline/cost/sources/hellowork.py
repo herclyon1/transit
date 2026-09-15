@@ -11,10 +11,12 @@ import re, os, sys, json, time, html, random, argparse, datetime, subprocess
 from common import Rec, write_outputs, mask
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
 BASE='https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do'
-QUERIES={'osaka':[('security','警備'),('food','ホールスタッフ'),('food','調理補助'),('retail','コンビニ'),('retail','レジ'),('retail','品出し'),('delivery','倉庫'),('delivery','仕分け'),('delivery','配達'),
+QUERIES={'tokyo':None,'osaka':[('security','警備'),('food','ホールスタッフ'),('food','調理補助'),('retail','コンビニ'),('retail','レジ'),('retail','品出し'),('delivery','倉庫'),('delivery','仕分け'),('delivery','配達'),
                   ('factory','製造'),('factory','軽作業'),('cleaning','清掃'),('chain','マクドナルド'),('chain','ケンタッキー'),('chain','セブンイレブン'),('chain','スターバックス')]}   # 自由词只能单词（带空格返回 0 件）
 CHAIN_CO=re.compile(r'マクドナルド|ケンタッキー|日本ＫＦＣ|スターバックス|セブン.イレブン|セブンイレブン|ファミリーマート|ローソン|すき家|吉野家|ゼンショー|松屋')
-PREF={'osaka':'27'}; CITY_STR={'osaka':'大阪市'}
+PREF={'osaka':'27','tokyo':'13'}; CITY_STR={'osaka':'大阪市','tokyo':'東京都'}
+# 东京：就業場所要在 23 区内（「東京都○○区」）；市部（八王子市等）不算市区
+IN_CITY={'osaka':lambda place:'大阪市' in place,'tokyo':lambda place:bool(re.search(r'東京都[^\s、,]{1,4}区',place))}
 BASKET_KW={'security':['警備','守衛','保安'],'food':['ホール','接客','調理','キッチン','飲食','レストラン','カフェ','居酒屋','厨房'],'retail':['コンビニ','レジ','品出し','スーパー','販売','店舗スタッフ'],
            'delivery':['倉庫','仕分け','ピッキング','配達','配送','宅配','荷受'],'factory':['製造','軽作業','工場','梱包','組立'],'cleaning':['清掃','ハウスクリーニング','クリーンスタッフ','管理員'],'home':['家事代行','ベビーシッター','家政婦'],
            'chain':['マクドナルド','ケンタッキー','セブン','ファミリーマート','ローソン','スターバックス','すき家','吉野家']}
@@ -48,7 +50,7 @@ def jdate(s):
 def to_rec(d, city, basket_hint, today):
     raw=f"{d['title']}\n{d['company']}\n{d['place']}\n{d['kind']} 求人数 {d.get('n') or '?'}\n賃金 {d['wage']}\n就業時間 {d['hours']}\n休日 {d['holiday']}\n{d['desc']}"
     r=Rec(city=city, source='hellowork', source_url=d['url'], fetched_at=today.isoformat(), posted_at=jdate(d['posted']), raw=raw, account='求人番号 '+d['kjno'], article_title=d['title'],
-          site_apply=True, employer=d['company'] or None, location=d['place'], in_city=CITY_STR[city] in d['place'], employer_from_location=False, suburb=False, kjno=d['kjno'], kind=d['kind'])
+          site_apply=True, employer=d['company'] or None, location=d['place'], in_city=IN_CITY[city](d['place']), employer_from_location=False, suburb=False, kjno=d['kjno'], kind=d['kind'])
     m=re.search(r'([\d,]+)円〜([\d,]+)円',d['wage']); lo=int(m.group(1).replace(',','')) if m else None; hi=int(m.group(2).replace(',','')) if m else None
     hourly_unit=True                            # 本适配器只搜 パート（ippanCKBox=2）= 時給；フル は月給，以后再开
     # 用户 09-15 裁定：ハローワーク的区间是结构性的（同一岗位按经验/班次给幅度，下限 = 新人该班次的保底价），取下限入库标「起薪（求人票下限）」；只对 hellowork 生效，中国来源的区间照旧拒
@@ -87,7 +89,7 @@ def main():
     subprocess.run(['curl','-s','-m','30','-A',UA,'-c',jar,'-b',jar,'-o','/dev/null',BASE+'?action=initDisp&screenId=GECA110010'])
     base=[('kjKbnRadioBtn','1'),('todohukenHidden',PREF[city]),('screenId','GECA110010'),('kyujinkensu','0'),('searchClear','0'),('summaryDisp','false'),('searchInitDisp','0'),('preCheckFlg','false'),('freeWordRadioBtn','1'),('ippanCKBox','2')]
     recs=[]; log=[]; seen=set(); raw_all=[]
-    qs=[(None,q) for q in a.query] if a.query else QUERIES[city]
+    qs=[(None,q) for q in a.query] if a.query else (QUERIES[city] or QUERIES['osaka'])   # 东京用同一套 16 个篮子词
     for bk,q in qs:
         h=post(base+[('freeWordInput',q),('searchBtn',' 検索する'),('action','searchBtn')],jar); time.sleep(random.uniform(1.5,3))
         t=text(h); m=re.search(r'検索結果\|([\d,]+)件',t); total=m.group(1) if m else '?'
@@ -100,9 +102,9 @@ def main():
         for d in items:
             if d['kjno'] in seen: continue
             seen.add(d['kjno']); raw_all.append(d)
-            if CITY_STR[city] not in d['place']: continue
+            if not IN_CITY[city](d['place']): continue
             n_in+=1; recs.append(to_rec(d,city,bk,today))
-        log.append(f'搜「{q}」（パート・大阪府）：{total} 件，取 {len(items)} 条，其中就業場所在{CITY_STR[city]} {n_in} 条')
+        log.append(f'搜「{q}」（パート・{ {"osaka":"大阪府","tokyo":"東京都"}[city] }）：{total} 件，取 {len(items)} 条，其中就業場所在{ {"osaka":"大阪市","tokyo":"23 区"}[city] } {n_in} 条')
     with open(os.path.join(outdir,'hellowork_list.jsonl'),'w',encoding='utf-8') as f:
         for d in raw_all: f.write(mask(json.dumps(d,ensure_ascii=False))+'\n')
     write_outputs(outdir,'hellowork',recs,log,a.days)
