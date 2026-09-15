@@ -14,7 +14,7 @@ def area(s):
 def dist(s):
     m=re.search(r'(\d+(?:\.\d+)?)(km|m)\b',s or ''); return (float(m.group(1))*(1000 if m.group(2)=='km' else 1)) if m else None
 def main():
-    city=sys.argv[1]; date=(sys.argv[sys.argv.index('--date')+1] if '--date' in sys.argv else sorted(os.listdir(os.path.join(ROOT,'raw',city)))[-1])
+    city=sys.argv[1]; date=(sys.argv[sys.argv.index('--date')+1] if '--date' in sys.argv else sorted(x for x in os.listdir(os.path.join(ROOT,'raw',city)) if x.isdigit())[-1])   # 只认日期目录（README.md 排最后会被当日期）
     rows=[]
     for fn in ('beike.jsonl','anjuke.jsonl'):            # 贝壳没房源时用安居客 App（只有默认排序）；两家都读，platform 字段区分
         fp=os.path.join(ROOT,'raw',city,date,fn)
@@ -32,7 +32,9 @@ def main():
                 k=(r['name'],r['spec'],r['distance'],r['price'])
                 if k in seen: continue
                 seen.add(k)
-                if BAD.search(r['name']): continue
+                # 商用楼只看小区名：贝壳标题「整租1居·小区」的小区段、安居客规格「3室·主卧·20㎡·小区·路」的小区段；合租标题里「乌鲁木齐大厦附近」这种地标不算（09-16 安居客实跑 11 条被误删 5 条）
+                estate = (r['name'].split('·',1)[1] if r['name'].startswith(('整租','合租')) and '·' in r['name'] and '|' not in r['name'] else '') or ''.join((r.get('spec') or '').split('·')[3:4])
+                if BAD.search(estate): continue
                 if typ=='整租' and ((area(r['spec']) or 0)<15 or (area(r['spec']) or 99)>80): continue
                 if r['price']>=6000 or (ring and (dist(r['distance']) or 9999)>ring): continue
                 ok.append(r)

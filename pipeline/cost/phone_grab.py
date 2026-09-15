@@ -8,6 +8,7 @@
   python3 pipeline/cost/phone_grab.py --n 5 --kw 拌面
   python3 pipeline/cost/phone_grab.py --scroll 4 --n 40        # 贝壳/安居客：站名、排序、整租/合租 都从当前页面头部读，不用写；读不到才要 --kw / --sort
   python3 pipeline/cost/phone_grab.py --scroll 8 --max-price 3000   # 按价格升序时超过 3000 就停
+一条命令做完：取数 → 追加 jsonl → 自动入库（房租 rent_from_beike.py / 篮子 basket_from_grab.py + food_basket.py）→ 打印还缺什么。
   贝壳租房（整租/合租都行）：手机停在列表第一屏，Mac 跑
   python3 pipeline/cost/phone_grab.py --city urumqi --kw 南门 --sort 价格从低到高 --scroll 4 --n 40
   → cost/data/raw/urumqi/<今天>/beike.jsonl（每条带 type 整租/合租、keyword、sort），然后 python3 pipeline/cost/rent_from_beike.py urumqi 算档位房租
@@ -197,6 +198,19 @@ with open(out, 'a', encoding='utf-8') as f:
         f.write(json.dumps({'city': a.city, **meta, 'keyword': kw, 'sort': sort, 'rank': i + 1, **it,
                             'unit': 'CNY', 'fetched_at': today}, ensure_ascii=False) + '\n')
 print(f'{meta["platform"]} {meta.get("location") or meta.get("pickup") or meta.get("filter")}  关键词「{kw}」 {len(items)} 条 → {os.path.relpath(out, ROOT)}')
+# 一条命令做完（用户 2026-09-16：「不能弄成一个方便我吗」）：取完就入库、重算，再告诉你还缺什么
+def after_grab():
+    here = os.path.dirname(os.path.abspath(__file__)); py = sys.executable
+    if a.out: print('（写到了 --out 指定的文件，不入库）'); return
+    if APP in ('beike', 'anjuke'):
+        subprocess.run([py, os.path.join(here, 'rent_from_beike.py'), a.city])
+        d = json.load(open(os.path.join(ROOT, 'cost', 'data', 'cities', f'{a.city}.json'), encoding='utf-8'))
+        miss = [f"{t['label']}·{w}" for t in d['tiers'] for k, w in (('rent_1k', '整租'), ('rent_share', '合租')) if not (t.get(k) or {}).get('value')]
+        stale = [f"{t['label']}·整租" for t in d['tiers'] if (t.get('rent_1k') or {}).get('value') and '价格' not in ((t.get('rent_1k') or {}).get('how') or '')]
+        print('房租还缺：' + ('、'.join(miss) if miss else '没有了') + (('；整租还没按「价格从低到高」重取：' + '、'.join(stale)) if stale else ''))
+    elif APP in ('ddmc', 'meituan'):
+        subprocess.run([py, os.path.join(here, 'basket_from_grab.py'), a.city])
+after_grab()
 for i, it in enumerate(items):
     extra = '  '.join(str(it[k]) for k in ('spec', 'store', 'distance', 'sales') if it.get(k))
     orig = f'（原价 {it["orig"]}）' if it.get('orig') else ''
