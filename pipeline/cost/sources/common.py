@@ -35,13 +35,16 @@ def extract_common(r, city_hint):
     wage=None; unit=None
     rng=any(not re.search(r'\d{1,2}[:：.]\d{2}',m.group(0)) for m in RANGE.finditer(t))
     m=(re.search(r'(\d{1,3}(?:\.\d)?)\s*元?\s*(?:/|一|每|一个)\s*小时',t) or re.search(r'(\d{1,3}(?:\.\d)?)\s*(?:元)?\s*/\s*(?:时|h|H)(?![\d])',t) or re.search(r'(?:时薪|每小时|元/小时)[^\d\n]{0,4}(\d{1,3}(?:\.\d)?)',t))
+    m2=re.search(r'(?:实习期|试用期)[^\n\d]{0,6}(\d{4,5})[^\n]{0,14}?(?:次月|转正|之后|以后|第二个月|满月|期满)[^\d\n]{0,10}(\d{4,5})(?!\d)',t)   # 「实习期3000次月开始拿到手3800」→ 3800
     if m: wage=_num(m.group(1)); unit='CNY/小时'
+    elif m2: wage=_num(m2.group(2)); unit='CNY/月'
     else:
         m=(re.search(r'(?:月薪|月工资|月收入|工资|薪资|薪水|待遇|综合到手|到手|底薪)[^\d\n]{0,8}(\d{4,5})(?!\s*(?:元)?\s*'+SEP+r'\s*\d)(?!\s*/\s*\d)(?!\d)',t) or re.search(r'(?<![\d\-–—~～至到])(?<!['+SEP[1:-1]+r']\s)(\d{4,5})\s*(?:元)?\s*/\s*月',t)
            or re.search(r'(?<![\d\-–—~～至到])(\d{4,5})\s*(?:元)?\s*(?:单休|双休|月休|包吃|管吃|包住|管住)',t))
         if m: wage=_num(m.group(1)); unit='CNY/月'
         else:
-            m=(re.search(r'(\d{2,3})\s*元?\s*(?:/|一|每)\s*天(?!\s*'+SEP+r'\s*\d)',t) or re.search(r'(?:日薪|日结|日工资)[^\d\n]{0,6}(\d{2,3})(?!\s*'+SEP+r'\s*\d)(?!\d)',t) or re.search(r'一天\s*(\d{2,3})\s*元?(?!\s*'+SEP+r'\s*\d)(?!\d)',t))
+            NOTH=r'(?!\s*(?:个)?\s*(?:小时|h|H|天|点|时|[:：]\d))'   # 「一天10小时」「日结150」后面跟小时/天/钟点的不是工资
+            m=(re.search(r'(\d{2,3})\s*元?\s*(?:/|一|每)\s*天(?!\s*'+SEP+r'\s*\d)',t) or re.search(r'(?:日薪|日结|日工资)[^\d\n]{0,6}(\d{2,3})(?!\s*'+SEP+r'\s*\d)(?!\d)'+NOTH,t) or re.search(r'一天\s*(\d{2,3})\s*元?(?!\s*'+SEP+r'\s*\d)(?!\d)'+NOTH,t))
             if m: wage=_num(m.group(1)); unit='CNY/天'
     # 抽到的数是区间端点 → 不是确数
     if wage is not None and _is_endpoint(t,wage): wage=None; unit=None; rng=True
@@ -54,11 +57,12 @@ def extract_common(r, city_hint):
     hours_text=[]; hpd=None; dpm=None; flag=''
     # 班次时间：两边都得是「8点/8:00/8：30」这种钟点，避免把 18-45岁、260-280、9.14-9.27 当成时间
     PFX=r'(?:早上|早|上午|中午|下午|晚上|晚|凌晨|次日|第二天)?'
-    SHIFT=re.compile(PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半)?|时)\s*'+SEP+r'\s*'+PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半)?|时)')
+    SHIFT=re.compile(PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半|\d{2})?|时)\s*'+SEP+r'\s*'+PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半|\d{2})?|时)')   # 9:00 / 9.00 / 9点 / 9点半 / 3点30
     segs=list(SHIFT.finditer(t)) or list(re.finditer(r'早\s*(\d{1,2})()()\s*晚\s*(\d{1,2})()()',t))
     if segs:
         def dur(ms):
-            h1=int(ms.group(1))+(int(ms.group(2) or 0)/60)+(0.5 if ms.group(3) else 0); h2=int(ms.group(4))+(int(ms.group(5) or 0)/60)+(0.5 if ms.group(6) else 0)
+            mn=lambda g:(0.5 if g=='半' else int(g)/60) if g else 0
+            h1=int(ms.group(1))+(int(ms.group(2) or 0)/60)+mn(ms.group(3)); h2=int(ms.group(4))+(int(ms.group(5) or 0)/60)+mn(ms.group(6))
             if h2<=12 and re.search(r'晚|下午|凌晨',ms.group(0)) and h2<=h1: h2+=12
             if h2<=h1: h2+=24
             return h2-h1
