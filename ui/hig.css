@@ -133,7 +133,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .btn-glass.fill{background:var(--fill);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 /* .sheet > (#list | #card) > .body 这种多套一层的：中间那层也得是 flex 列且 min-height:0，不然 .body 的 overflow 失效、大档里滚不动（maa 真机 09-15） */
 .sheet > #list,.sheet > #card{display:flex;flex-direction:column;flex:1 1 auto;min-height:0}
-.sheet .body{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+.sheet .body{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;   /* .sheet 整体 touch-action:none 会把原生滚动也禁掉；.body 放开纵向，sheet.js 该接管时自己 preventDefault（maa 真机 09-15） */
              padding:0 0 calc(env(safe-area-inset-bottom) + 16px)}
 
 /* ---------- 9. 分组列表（UI Kit › Row 550:50430：Regular 52 / Tall 68；iOS 27 设置 App 在 iPhone 18 Pro Max 上实测：
