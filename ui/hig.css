@@ -1,4 +1,4 @@
-/* KIT_VERSION=3 (hig-kit ~/Claude/hig-kit；数字表 NUMBERS.md) */
+/* KIT_VERSION=4 (hig-kit ~/Claude/hig-kit；数字表 NUMBERS.md；桌面数字来自 macOS 27 UI Kit Sketch 套件) */
 /* transit 全站共用的界面层：照 Apple Human Interface Guidelines（iOS 26/27 Liquid Glass 版）和
    Apple 官方 iOS/iPadOS 27 UI Kit 的数字做，以 iOS 27 模拟器（iPhone 18 Pro Max，简体中文）
    上的地图 App / 设置 App 实测为准。每个数字的出处见 DESIGN-HIG.md；改动前先看那份表。
@@ -188,10 +188,7 @@ a.row:active,button.row:active{background:var(--fill)}
 /* ---------- 11. 宽屏：HIG Maps「iPadOS/macOS 用侧栏或 popover」。两套数字，按指针分：
    触屏（iPad，pointer: coarse）= iPadOS 27 地图 App 实测（iPad Pro 13″ 竖屏 1032×1376，09:56）：侧栏面板宽 440、距左 24、顶 = 状态栏 + 8、距底 20，
      圆角同 Sheet（38），搜索胶囊 44 距面板边 16 距顶 16；控件簇右上角距右 24。
-   鼠标（Mac，pointer: fine）：侧栏 360 / 地点面板 380 / 字号同手机（2026-09-15 用户裁定，见下）。以下 macOS 27 地图 App 实测只作记录：侧栏面板 200 宽距左 8、圆角 14、搜索框 36 高距边 15；
-     侧栏行 32 高 13pt、图标 22、段头 11pt 灰；地点卡片是侧栏右边第二块面板 282 宽（216–498）：圆钮 28 距边 12 距顶 12，标题 17 粗居中，副标题 11，
-     主按钮 250×45 距边 16，段头 15 半粗距边 20，筛选胶囊 25 高间 9，卡片距边 16 圆角 12、头行 24 图标 + 13 半粗、行 44（13/16 + 14×2）值右缩 16；
-     右上控件簇 36 圆钮距右 8 距顶 8 间 10。系统字号 13（-apple-system-body 在 macOS 就是 13）。 ---------- */
+   鼠标（Mac，pointer: fine）= macOS 27 UI Kit 的数字，见下面 11b（历史：09-15 曾用 Maps 实测 200/282/13 和无出处的 360/380，均作废）。 ---------- */
 @media (min-width: 900px){
   .sheet{left:24px;right:auto;top:calc(env(safe-area-inset-top) + 8px);bottom:20px;width:440px;height:auto !important;max-height:none;
          border-radius:var(--r-sheet);transition:none}
@@ -205,30 +202,104 @@ a.row:active,button.row:active{background:var(--fill)}
   .pill{left:auto;right:24px;transform:none}
 }
 @media (min-width: 900px) and (pointer: fine){
-  /* 2026-09-15 用户在 1440 桌面看了薪资页：「排版跟狗屎一样」——200 宽侧栏 + 282 面板 + 13pt 把手机界面塞进窄柱子，处处截断。
-     改成：侧栏 360（Maps Mac 侧栏 320–380）、地点面板 380 贴在侧栏右边、字号沿用手机那套 17/15（内容是中文数字，13 撑不住），行仍 69。
-     macOS 地图 App 实测的 200/282/13 只留在 DESIGN-HIG.md 作记录，不再照搬。 */
-  .sheet{left:8px;top:8px;bottom:8px;width:360px;border-radius:14px}
-  .sheet .head{padding:14px 16px 8px}
-  .sheet .head .search{height:36px;margin:0}
+  /* ---------- 11b. 桌面 = macOS 27 UI Kit（Apple Design Resources 官方 Sketch 套件 2026-06-23 / meta 190；每个数字见 NUMBERS.md「macOS 27 UI Kit」）。
+     规则（用户 2026-09-15）：网页按原生程序的做法，尺寸一律从 Kit 取，真机只量动效和 App 布局。
+     布局 = NavigationSplitView：左 = Kit Windows › Left Pane（侧栏 256 宽、面板内边 8、窗口圆角 16、侧栏材质 #fafafa 80% + 模糊 100）；
+     右 = Kit Windows › Utility Panel（280 宽）贴在侧栏右边 8。根字号 = Kit Body 13/16；其余字号照 Kit 文本样式表。
+     列表行 = Kit Sidebars › Large 40（Body 13 标题 + Subheadline 11 副标题，图标 24 距边 14，选中底 r8 距边 10、黑 11%）；段头 = Kit Sidebars › Header 18 高 Bold 11；
+     工具条 = Kit Titlebars and Toolbars › XL：36 胶囊、间 8、距边 8、分段 32×28 内缩 4；搜索 = XL 工具条搜索 36；
+     开关 = Kit Toggles - Switches › Regular 54×24（圆钮 32×20 距 2，按下 50×31）；分段 = Kit Segmented Controls › Regular 24 r6；
+     按钮 = Kit Buttons › Regular 24 r6 / Large 28 胶囊 / XL 36 胶囊，标签 Medium 13 内边 16；卡片 = Kit Group Box r12 黑 3%。
+     之前的 200/282/13（Maps 实测）和 360/380（无出处）作废。 ---------- */
+  html{font-size:13px}
+  body{line-height:1.2308em}                                        /* Body 13/16 */
+  .t-large{font-size:2em;line-height:1.2308em;letter-spacing:0}     /* Large Title 26/32 */
+  .t-title1{font-size:1.6923em;line-height:1.1818em}                /* Title 1 22/26 */
+  .t-title2{font-size:1.3077em;line-height:1.2941em}                /* Title 2 17/22 */
+  .t-title3{font-size:1.1538em;line-height:1.3333em}                /* Title 3 15/20 */
+  .t-head,.t-body{font-size:1em;line-height:1.2308em}               /* Headline / Body 13/16 */
+  .t-callout{font-size:.9231em;line-height:1.25em}                  /* Callout 12/15 */
+  .t-sub{font-size:.8462em;line-height:1.2727em}                    /* Subheadline 11/14 */
+  .t-foot,.t-cap1,.t-cap2{font-size:.7692em;line-height:1.3em}      /* Footnote / Caption 10/13 */
+  /* 侧栏 */
+  .sheet{left:8px;top:8px;bottom:8px;width:256px;border-radius:16px;
+         background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px);box-shadow:0 0 1px rgba(0,0,0,.3),0 20px 100px rgba(0,0,0,.2)}
+  .sheet .head{padding:8px 8px 8px;gap:8px}
+  .sheet .head .search{height:36px;margin:0;padding:0 8px 0 8px;background:var(--bg-elev);box-shadow:0 0 0 1px rgba(0,0,0,.05)}
+  .sheet .head .search input{font-size:1em}
+  .sheet .head .slot{width:36px;height:36px}
+  .sheet .head .btn-glass{height:36px;min-width:36px}
   .sheet .body{padding-bottom:8px}
+  .sheet .mh{padding:16px 14px 2px;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2)}
+  .sheet .mh:first-child{padding-top:2px}
   .sheet .mh .sf{display:none}
+  .sheet .mlist{margin:0 10px;background:none;border-radius:0;overflow:visible}
+  .sheet .mlist + .mlist{margin-top:14px}
+  .sheet .mrow{min-height:40px;padding:5px 4px;gap:4px;border-radius:8px}
+  .sheet .mrow + .mrow::before{content:none}
+  .sheet .mrow .ico{width:24px;height:24px;font-size:1.2308em;background:none}
+  .sheet .mrow .name{font-weight:400;line-height:1.2308em}
+  .sheet .mrow .hint{font-size:.8462em;line-height:1.2727em}
   .sheet .mrow .chev{display:none}
-  .sheet .sw{width:38px;height:22px} .sheet .sw i::after{width:18px;height:18px} .sheet .sw input:checked + i::after{transform:translateX(16px)}
-  .sheet .seg button{height:22px;font-size:11px} .sheet .seg{padding:1px;gap:2px}
-  .bar{padding:8px 8px 8px;gap:10px}
+  .sheet .mrow:hover{background:rgba(0,0,0,.05)}
+  .sheet .mrow:active,.sheet .mrow[aria-current="true"]{background:rgba(0,0,0,.11)}
+  /* 控件（Regular 尺寸） */
+  html .sw{width:54px;height:24px} html .sw i::after{width:32px;height:20px} html .sw input:checked + i::after{transform:translateX(20px)}
+  html .sw.hold i::after,html .sw input:active + i::after{transform:scale(1.5625,1.55)}
+  html .sw input:active:checked + i::after{transform:translateX(20px) scale(1.5625,1.55)}
+  html .sw.hold i::after{transform:translateX(var(--kx,0px)) scale(1.5625,1.55) !important}
+  html .sw.live input:checked + i::after{animation:knob-on-mac .34s cubic-bezier(.2,.8,.2,1) both} html .sw.live input:not(:checked) + i::after{animation:knob-off-mac .34s cubic-bezier(.2,.8,.2,1) both}
+  .sheet .seg{padding:0;gap:0;border-radius:6px;background:rgba(0,0,0,.08)}
+  .sheet .seg button{height:24px;min-width:30px;padding:0 6px;border-radius:6px;font-size:1em;line-height:1.2308em}
+  .sheet .seg button[aria-pressed="true"]{background:var(--tint);color:#fff;box-shadow:none}
+  .btn.s{height:24px;padding:0 16px;border-radius:6px;font-size:1em;line-height:1.2308em}
+  .btn.m{height:28px;padding:0 16px;font-size:1em;line-height:1.2308em}
+  .btn.l{height:36px;padding:0 16px;font-size:1em;line-height:1.2308em}
+  html .chips button{height:28px;padding:0 16px;font-size:1em}   /* html 前缀：基础规则在文件后面（第 14 节），同权重会盖掉这里 */
+  /* 工具条（XL）与右侧控件簇 */
+  .bar{padding:8px 8px 8px;gap:8px}
   .btn-glass{height:36px;min-width:36px}
-  .btn-glass.text{padding:0 12px;font-size:13px}
-  html .bar .seg{height:36px;padding:2px} html .bar .seg button{height:32px;font-size:12px}
+  .btn-glass.text{padding:0 16px;font-size:1em}
+  html .bar .seg{height:36px;padding:4px;gap:0;border-radius:999px} html .bar .seg button{height:28px;min-width:32px;padding:0 8px;font-size:1em;border-radius:999px}
   .map-ctl{right:8px}
-  .sheet.panel-wide{width:380px}                          /* 大阪/学習/クイズ：整个 Sheet 就是一块 380 的地点卡片面板 */
-  /* 薪资：列表 360 + 卡片 380 并排（Maps Mac 的地点面板就是侧栏右边的第二栏） */
+  .map-ctl .btn-glass{height:36px;min-width:36px}
+  /* 地点面板 = Utility Panel 280 */
+  .sheet.panel-wide{width:280px}
   .sheet.split{overflow:visible}
-  .sheet.split #card{position:absolute;left:368px;top:0;bottom:0;width:380px;display:flex;flex-direction:column;border-radius:14px;
-    background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge)}
-  .sheet.split #card .head{padding:14px 12px 8px}
+  .sheet.split #card{position:absolute;left:264px;top:0;bottom:0;width:280px;display:flex;flex-direction:column;border-radius:16px;
+    background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px);box-shadow:0 0 1px rgba(0,0,0,.3),0 20px 100px rgba(0,0,0,.2)}
+  .sheet.split #card .head{padding:8px 8px 8px}
   .sheet.split #list{display:flex;flex-direction:column;min-height:0;height:100%}
-  .sheet.split #card .stats{padding:0 12px;gap:8px}      /* 380 − 24 − 8 = 348 → 每列 174，「64,000 日元/月」放得下，不许省略号 */
+  .sheet.split #card .stats{padding:0 14px;gap:8px}               /* 280 − 28 − 8 = 244 → 每列 122；数字 Title 1 22 */
+  .sheet .stat{border-radius:12px;padding:10px 12px;background:rgba(0,0,0,.03)}
+  .sheet .stat .t{line-height:1.2308em}
+  .sheet .stat .s{font-size:.8462em;line-height:1.2727em}
+  .sheet .stat .n{font-size:1.6923em;line-height:1.1818em}
+  .sheet .mcard{margin:0 14px;border-radius:12px;background:rgba(0,0,0,.03)}
+  .sheet .mcard + .mcard{margin-top:8px}
+  .sheet .mcard .hdr{padding:8px 12px 2px;line-height:1.2308em}
+  .sheet .mcard .r{min-height:32px;padding:8px 12px;gap:8px}
+  .sheet .mcard .r + .r::before,.sheet .mcard .src + .r::before{left:12px;right:12px}
+  .sheet .mcard .r .k .hint,.sheet .mcard .src,.sheet .mcard .txt{font-size:.8462em;line-height:1.2727em}
+  .sheet .mcard .src{padding:0 12px 8px}
+  .sheet .mcard .txt,.sheet .mcard .empty{padding:8px 12px}
+  /* 缩略图块：Kit 没有这种控件；面板 280 − 内缩 14×2 − 间 8×2 = 236 → 三块各 78（推算，不是 Kit 数字），标签 Subheadline 11 */
+  html .sheet .tiles{padding:0 14px;gap:8px} html .sheet .tiles button{width:78px} html .sheet .tiles .img{width:78px;height:78px;border-radius:12px}
+  html .sheet .tiles .img i{border-radius:10px} html .sheet .tiles .lb{margin-top:6px;font-size:.8462em;line-height:1.2727em}
+}
+@media (min-width: 900px) and (pointer: fine) and (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .sheet,:root:not([data-theme="light"]) .sheet.split #card{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root:not([data-theme="light"]) .sheet .stat,:root:not([data-theme="light"]) .sheet .mcard{background:rgba(255,255,255,.03)}
+  :root:not([data-theme="light"]) .sheet .mrow:hover{background:rgba(255,255,255,.06)}
+  :root:not([data-theme="light"]) .sheet .mrow:active,:root:not([data-theme="light"]) .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
+  :root:not([data-theme="light"]) .sheet .seg{background:rgba(255,255,255,.1)}
+}
+@media (min-width: 900px) and (pointer: fine){
+  :root[data-theme="dark"] .sheet,:root[data-theme="dark"] .sheet.split #card{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
+  :root[data-theme="dark"] .sheet .stat,:root[data-theme="dark"] .sheet .mcard{background:rgba(255,255,255,.03)}
+  :root[data-theme="dark"] .sheet .mrow:hover{background:rgba(255,255,255,.06)}
+  :root[data-theme="dark"] .sheet .mrow:active,:root[data-theme="dark"] .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
+  :root[data-theme="dark"] .sheet .seg{background:rgba(255,255,255,.1)}
 }
 /* ---------- 12. 动效（HIG Motion）：短、准，只给主要交互；系统开了减弱动态就全关 ---------- */
 @media (prefers-reduced-motion: reduce){
@@ -261,6 +332,9 @@ a.row:active,button.row:active{background:var(--fill)}
 .sw.live input:not(:checked) + i::after{animation:knob-off .34s cubic-bezier(.2,.8,.2,1) both}
 @keyframes knob-on{0%{transform:translateX(0) scale(1.526,1.583)}30%{transform:translateX(15px) scale(1.55,1.35)}100%{transform:translateX(21px) scale(1)}}
 @keyframes knob-off{0%{transform:translateX(21px) scale(1.526,1.583)}30%{transform:translateX(6px) scale(1.55,1.35)}100%{transform:translateX(0) scale(1)}}
+/* 桌面（Kit Regular 54×24）：位移 20、按下 scale 1.5625,1.55；曲线同上（动效只有手机实测，桌面未量） */
+@keyframes knob-on-mac{0%{transform:translateX(0) scale(1.5625,1.55)}30%{transform:translateX(14px) scale(1.55,1.35)}100%{transform:translateX(20px) scale(1)}}
+@keyframes knob-off-mac{0%{transform:translateX(20px) scale(1.5625,1.55)}30%{transform:translateX(6px) scale(1.55,1.35)}100%{transform:translateX(0) scale(1)}}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sw i{background:rgba(120,120,128,.32)} }
 :root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
 /* 可选（默认不开，见 hig.js nativeSwitch() 的注释）：Safari 的 <input switch> 外形像系统开关但动效只是颜色淡入 */

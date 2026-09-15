@@ -139,5 +139,7 @@ python3 pipeline/ui/accept.py
 - **Claw'd**：不属于任何 HIG 模式，是用户保留的 Anthropic 官方素材，放在首页大标题右侧当页头插图。
 - **地图底图**：GSI 淡色 / Natural Earth，HIG Maps 明说别模仿 Apple 地图的外观，底图不动。
 - **小按钮**：Kit Button S = 28，地图 App 的筛选胶囊实测 32；本站 `.btn.s` 按 Kit 取 28，记一笔。
-- **未做**：导航栈的滑动返回（这些页没有栈）；tab bar（每页是单一视图）；macOS Maps 只在 1280×744 窗口量过一次（09-15 10:55），侧栏是可拖宽的 NSSplitView，1440×900 默认宽/最窄/最宽和地点面板在大窗口下的宽没量——2026-09-15 晚 maa 补量，量完宽屏块按量出来的改（当天推的 360/380 是无出处的临时数，要回退），
-  宽屏 320 取 HIG Sidebars 常见宽度，待量；工具条分段控件 44 待 Kit 核对（见数字表）。
+- **桌面（规则，用户 2026-09-15）**：网页按原生程序的做法——Mac 是 NavigationSplitView（左侧栏 + 右边地点面板），iPhone 是 Sheet 三档；尺寸一律从 Apple Design Resources 的 **iOS 27 / macOS 27 UI Kit** 取（macOS 套件走 Sketch 版：`~/Claude/hig-kit/kits/sketch/macos27/`，`dump.py` 读 pages/*.json），真机只量动效和 App 布局（Kit 里没有的）。除手机遥控页外全部页面都适配 Mac。
+  桌面数字全在 `~/Claude/hig-kit/NUMBERS.md`「macOS 27 UI Kit」一节，`ui/hig.css` 11b 块照抄：侧栏 256 / 内边 8 / 圆角 16（Kit Windows › Left Pane）、地点面板 280（Kit Utility Panel）、根字号 13（Kit Body）、行 40（Kit Sidebar Large）、段头 18 / Bold 11、工具条 36 胶囊间 8、开关 54×24、分段 24 r6、按钮 24/28/36、卡片 r12 黑 3%（Kit Group Box）。
+  作废：09-15 早上按 Maps.app 量的 200/282/13 和当天下午无出处的 360/380，两套都不再用（NUMBERS.md 里标了 history only）。
+- **未做**：导航栈的滑动返回（这些页没有栈）；tab bar（每页是单一视图）；桌面动效（开关按下曲线沿用手机实测；Kit 只给了按下态的形状 50×31）。

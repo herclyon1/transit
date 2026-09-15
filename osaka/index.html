@@ -42,8 +42,9 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 .tsw:first-child{margin-left:0}
 /* 图例（可达枢纽）= 地图 App 搜索结果行：34 圆图标就是色样 */
 #lg .mrow{min-height:52px;padding:9px 16px}
-/* 宽屏行高同手机（2026-09-15：桌面不再用 macOS 13pt 那套） */
 #lg .mrow .ico{border:1px solid #0003}
+/* 桌面 = macOS 27 UI Kit 侧栏行 Large 40（ui/hig.css 11b；NUMBERS.md「macOS 27 UI Kit」） */
+@media (min-width:900px) and (pointer:fine){ #lg .mrow{min-height:40px;padding:5px 4px} }
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
 #tiersLg{padding-top:10px}
 .mcard .r .k .acc{color:var(--acc)}
