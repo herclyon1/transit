@@ -1,0 +1,437 @@
+{
+ "source": {
+  "name": "令和７年国勢調査 人口速報集計 第１表（男女別人口、面積（参考）及び人口密度－全国、都道府県、市区町村）",
+  "url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001482693",
+  "file": "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040454825&fileKind=0",
+  "as_of": "2025-10-01",
+  "published": "2026-05-29",
+  "area_note": "面積（参考）= 国土地理院「令和７年全国都道府県市区町村別面積調（10月１日時点）」；人口密度 = 統計局按调查对象外地域面积除外后算出（表内值），本文件 density 直接抄表",
+  "licence": "e-Stat の利用規約（政府標準利用規約 2.0，CC BY 4.0 互換）：出典「令和7年国勢調査 人口速報集計（総務省統計局）」を明記",
+  "fetched_at": "2026-09-15"
+ },
+ "prefs": [
+  {
+   "code": "01",
+   "name": "北海道",
+   "pop": 4985419,
+   "pop_2020": 5224614,
+   "area_km2": 83422.27,
+   "density": 63.6,
+   "households": 2465414
+  },
+  {
+   "code": "02",
+   "name": "青森県",
+   "pop": 1140395,
+   "pop_2020": 1237984,
+   "area_km2": 9645.11,
+   "density": 118.2,
+   "households": 498748
+  },
+  {
+   "code": "03",
+   "name": "岩手県",
+   "pop": 1125502,
+   "pop_2020": 1210534,
+   "area_km2": 15275.05,
+   "density": 73.7,
+   "households": 486376
+  },
+  {
+   "code": "04",
+   "name": "宮城県",
+   "pop": 2227240,
+   "pop_2020": 2301996,
+   "area_km2": 7282.34,
+   "density": 305.8,
+   "households": 1007392
+  },
+  {
+   "code": "05",
+   "name": "秋田県",
+   "pop": 882100,
+   "pop_2020": 959502,
+   "area_km2": 11637.69,
+   "density": 75.8,
+   "households": 377968
+  },
+  {
+   "code": "06",
+   "name": "山形県",
+   "pop": 993127,
+   "pop_2020": 1068027,
+   "area_km2": 9323.15,
+   "density": 106.5,
+   "households": 398213
+  },
+  {
+   "code": "07",
+   "name": "福島県",
+   "pop": 1711937,
+   "pop_2020": 1833152,
+   "area_km2": 13784.41,
+   "density": 124.2,
+   "households": 734134
+  },
+  {
+   "code": "08",
+   "name": "茨城県",
+   "pop": 2791207,
+   "pop_2020": 2867009,
+   "area_km2": 6098.32,
+   "density": 457.7,
+   "households": 1221422
+  },
+  {
+   "code": "09",
+   "name": "栃木県",
+   "pop": 1864833,
+   "pop_2020": 1933146,
+   "area_km2": 6408.09,
+   "density": 291,
+   "households": 815857
+  },
+  {
+   "code": "10",
+   "name": "群馬県",
+   "pop": 1867582,
+   "pop_2020": 1939110,
+   "area_km2": 6362.28,
+   "density": 293.5,
+   "households": 816104
+  },
+  {
+   "code": "11",
+   "name": "埼玉県",
+   "pop": 7287169,
+   "pop_2020": 7344765,
+   "area_km2": 3797.75,
+   "density": 1918.8,
+   "households": 3285878
+  },
+  {
+   "code": "12",
+   "name": "千葉県",
+   "pop": 6258512,
+   "pop_2020": 6284480,
+   "area_km2": 5156.48,
+   "density": 1213.7,
+   "households": 2875923
+  },
+  {
+   "code": "13",
+   "name": "東京都",
+   "pop": 14246219,
+   "pop_2020": 14047598,
+   "area_km2": 2199.94,
+   "density": 6475.7,
+   "households": 7566300
+  },
+  {
+   "code": "14",
+   "name": "神奈川県",
+   "pop": 9193657,
+   "pop_2020": 9237333,
+   "area_km2": 2416.55,
+   "density": 3804.5,
+   "households": 4348580
+  },
+  {
+   "code": "15",
+   "name": "新潟県",
+   "pop": 2068476,
+   "pop_2020": 2201272,
+   "area_km2": 12583.8,
+   "density": 164.4,
+   "households": 865412
+  },
+  {
+   "code": "16",
+   "name": "富山県",
+   "pop": 985675,
+   "pop_2020": 1034814,
+   "area_km2": 4247.55,
+   "density": 232.1,
+   "households": 410621
+  },
+  {
+   "code": "17",
+   "name": "石川県",
+   "pop": 1088221,
+   "pop_2020": 1132526,
+   "area_km2": 4190.94,
+   "density": 259.7,
+   "households": 476897
+  },
+  {
+   "code": "18",
+   "name": "福井県",
+   "pop": 729386,
+   "pop_2020": 766863,
+   "area_km2": 4190.56,
+   "density": 174.1,
+   "households": 294532
+  },
+  {
+   "code": "19",
+   "name": "山梨県",
+   "pop": 779912,
+   "pop_2020": 809974,
+   "area_km2": 4465.27,
+   "density": 174.7,
+   "households": 346287
+  },
+  {
+   "code": "20",
+   "name": "長野県",
+   "pop": 1954950,
+   "pop_2020": 2048011,
+   "area_km2": 13561.57,
+   "density": 144.2,
+   "households": 842934
+  },
+  {
+   "code": "21",
+   "name": "岐阜県",
+   "pop": 1891489,
+   "pop_2020": 1978742,
+   "area_km2": 10621.29,
+   "density": 178.1,
+   "households": 792017
+  },
+  {
+   "code": "22",
+   "name": "静岡県",
+   "pop": 3468845,
+   "pop_2020": 3633202,
+   "area_km2": 7777,
+   "density": 446,
+   "households": 1501036
+  },
+  {
+   "code": "23",
+   "name": "愛知県",
+   "pop": 7449403,
+   "pop_2020": 7542415,
+   "area_km2": 5173.26,
+   "density": 1440,
+   "households": 3350190
+  },
+  {
+   "code": "24",
+   "name": "三重県",
+   "pop": 1694896,
+   "pop_2020": 1770254,
+   "area_km2": 5774.48,
+   "density": 293.5,
+   "households": 747898
+  },
+  {
+   "code": "25",
+   "name": "滋賀県",
+   "pop": 1392439,
+   "pop_2020": 1413610,
+   "area_km2": 4017.38,
+   "density": 346.6,
+   "households": 590946
+  },
+  {
+   "code": "26",
+   "name": "京都府",
+   "pop": 2502747,
+   "pop_2020": 2578087,
+   "area_km2": 4612.09,
+   "density": 542.6,
+   "households": 1219912
+  },
+  {
+   "code": "27",
+   "name": "大阪府",
+   "pop": 8764578,
+   "pop_2020": 8837685,
+   "area_km2": 1905.26,
+   "density": 4600.2,
+   "households": 4307758
+  },
+  {
+   "code": "28",
+   "name": "兵庫県",
+   "pop": 5323825,
+   "pop_2020": 5465002,
+   "area_km2": 8400.82,
+   "density": 633.7,
+   "households": 2462107
+  },
+  {
+   "code": "29",
+   "name": "奈良県",
+   "pop": 1269180,
+   "pop_2020": 1324473,
+   "area_km2": 3690.94,
+   "density": 343.9,
+   "households": 544878
+  },
+  {
+   "code": "30",
+   "name": "和歌山県",
+   "pop": 864262,
+   "pop_2020": 922584,
+   "area_km2": 4724.65,
+   "density": 182.9,
+   "households": 389058
+  },
+  {
+   "code": "31",
+   "name": "鳥取県",
+   "pop": 523732,
+   "pop_2020": 553407,
+   "area_km2": 3507.05,
+   "density": 149.3,
+   "households": 220185
+  },
+  {
+   "code": "32",
+   "name": "島根県",
+   "pop": 629460,
+   "pop_2020": 671126,
+   "area_km2": 6707.79,
+   "density": 93.8,
+   "households": 267035
+  },
+  {
+   "code": "33",
+   "name": "岡山県",
+   "pop": 1808664,
+   "pop_2020": 1888432,
+   "area_km2": 7114.44,
+   "density": 254.2,
+   "households": 806170
+  },
+  {
+   "code": "34",
+   "name": "広島県",
+   "pop": 2683399,
+   "pop_2020": 2799702,
+   "area_km2": 8478.16,
+   "density": 316.5,
+   "households": 1244311
+  },
+  {
+   "code": "35",
+   "name": "山口県",
+   "pop": 1264006,
+   "pop_2020": 1342059,
+   "area_km2": 6112.9,
+   "density": 206.8,
+   "households": 587131
+  },
+  {
+   "code": "36",
+   "name": "徳島県",
+   "pop": 675489,
+   "pop_2020": 719559,
+   "area_km2": 4146.96,
+   "density": 162.9,
+   "households": 304292
+  },
+  {
+   "code": "37",
+   "name": "香川県",
+   "pop": 907725,
+   "pop_2020": 950244,
+   "area_km2": 1876.83,
+   "density": 483.6,
+   "households": 409970
+  },
+  {
+   "code": "38",
+   "name": "愛媛県",
+   "pop": 1260088,
+   "pop_2020": 1334841,
+   "area_km2": 5675.82,
+   "density": 222,
+   "households": 593707
+  },
+  {
+   "code": "39",
+   "name": "高知県",
+   "pop": 643437,
+   "pop_2020": 691527,
+   "area_km2": 7102.28,
+   "density": 90.6,
+   "households": 306794
+  },
+  {
+   "code": "40",
+   "name": "福岡県",
+   "pop": 5081879,
+   "pop_2020": 5135214,
+   "area_km2": 4987.24,
+   "density": 1019,
+   "households": 2401053
+  },
+  {
+   "code": "41",
+   "name": "佐賀県",
+   "pop": 781214,
+   "pop_2020": 811442,
+   "area_km2": 2440.64,
+   "density": 320.1,
+   "households": 319603
+  },
+  {
+   "code": "42",
+   "name": "長崎県",
+   "pop": 1232190,
+   "pop_2020": 1312317,
+   "area_km2": 4131.21,
+   "density": 298.3,
+   "households": 553210
+  },
+  {
+   "code": "43",
+   "name": "熊本県",
+   "pop": 1678090,
+   "pop_2020": 1738301,
+   "area_km2": 7409.13,
+   "density": 226.5,
+   "households": 734844
+  },
+  {
+   "code": "44",
+   "name": "大分県",
+   "pop": 1076875,
+   "pop_2020": 1123852,
+   "area_km2": 6340.62,
+   "density": 169.8,
+   "households": 492129
+  },
+  {
+   "code": "45",
+   "name": "宮崎県",
+   "pop": 1018904,
+   "pop_2020": 1069576,
+   "area_km2": 7734.16,
+   "density": 131.7,
+   "households": 468703
+  },
+  {
+   "code": "46",
+   "name": "鹿児島県",
+   "pop": 1512969,
+   "pop_2020": 1588256,
+   "area_km2": 9186.04,
+   "density": 164.7,
+   "households": 722614
+  },
+  {
+   "code": "47",
+   "name": "沖縄県",
+   "pop": 1468220,
+   "pop_2020": 1467480,
+   "area_km2": 2282.11,
+   "density": 643.4,
+   "households": 651964
+  }
+ ]
+}
