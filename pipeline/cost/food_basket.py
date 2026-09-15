@@ -62,8 +62,9 @@ for k,(q,why) in Q.items():
 TEA_L=PC.get('tea_l_per_month',45); minw=(d.get('wage_ref',{}).get('min_official') or {}).get('value'); tea_note=''
 JP_TEA_H=P.get('_ref',{}).get('japan_bottled_tea_hours')   # 日本同口径的小时数，由大阪先算出写回 personal.json
 tea_cost=None
-if b.get('tea2l',{}).get('value') is not None:
-    bottled=TEA_L/2*b['tea2l']['value']; hours=bottled/minw if minw else None
+bottle_per_l=(b['tea2l']['value']/2 if b.get('tea2l',{}).get('value') is not None else b.get('tea_bottle1l',{}).get('value'))   # 大阪 2 L 装 / 乌鲁木齐按 L
+if bottle_per_l is not None:
+    bottled=TEA_L*bottle_per_l; hours=bottled/minw if minw else None
     if FILE=='osaka': P.setdefault('_ref',{})['japan_bottled_tea_hours']=round(hours,2); json.dump(P,open(os.path.join(DATA,'personal.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1); JP_TEA_H=hours
     if JP_TEA_H and hours and hours>2*JP_TEA_H and (b.get('mugicha',{}).get('value') is not None or b.get('tea_leaf1kg',{}).get('value') is not None):
         if b.get('mugicha',{}).get('value') is not None: tea_cost=TEA_L*b['mugicha']['value']; tea_note=f'瓶装茶 {TEA_L} L = {bottled:,.0f}，折最低时薪 {hours:.1f} h，超过日本同口径（{JP_TEA_H:.1f} h）的 2 倍 → 退回自泡麦茶 {TEA_L} 袋'
