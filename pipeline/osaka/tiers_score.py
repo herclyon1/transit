@@ -3,6 +3,8 @@
 """大阪「居住等级」三维度评分（草案，不写回 tiers.geojson）
    python3 pipeline/osaka/tiers_score.py            → osaka/data/tiers_scored.json
    python3 pipeline/osaka/tiers_score.py --md       → 顺带打印 README 用的对照表
+   python3 pipeline/osaka/tiers_score.py --write [--set-tier A|B]
+        → 把三项分写进 tiers.geojson 每块 properties.score（不动 tier）；--set-tier 才把 tier 换成拟合级，原 tier 存到 tier_author（用户拍板后才跑）
 
 三维度，每块（tiers.geojson 104 块）各出一个 S–D，再取三项平均当「拟合级」；来源、年份、原始值都写进输出。
   治安  刑法犯認知件数 ÷ 常住人口 ×1000（大阪府警 R7 表9 ÷ 令和7年国調速報），府内 72 市区町村五分位 → crime_rate_r07.json 已算，块继承所在区/市。
@@ -171,6 +173,17 @@ def main():
          'not_done':['液状化：大阪府「液状化可能性判定図」只有 PDF，无 GIS 开放数据，未纳入','高潮・内水氾濫不在 A31a 里（A31a 只有河川外水），未纳入','商务区常住人口偏小使治安率偏高（北区 32.0、中央区 51.6），未改昼間人口——等用户定','兵庫県/京都府管理的小河川（府界附近）未加载']},
          'blocks':rows}
     json.dump(out,open(os.path.join(D,'tiers_scored.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)
+    if '--write' in sys.argv:
+        by={r['id']:r for r in rows}; which=sys.argv[sys.argv.index('--set-tier')+1] if '--set-tier' in sys.argv else None
+        for f in tiers['features']:
+            p=f['properties']; r=by[p['id']]
+            p['score']={'safety':r['safety']['grade'],'safety_per1000':r['safety']['per1000'],'access':r['access']['grade'],'door_to_hub_min':r['access']['door_to_hub_min'],'supermarkets_800m':r['access']['supermarkets_800m'],
+                        'hazard':r['hazard']['grade'],'flood_ge05_share':r['hazard']['flood_ge05_share'],'fit_a':r['fit']['grade'],'fit_b':r['fit']['grade_rule']}
+            if which:
+                p.setdefault('tier_author',p['tier']); p['tier']=r['fit']['grade'] if which.upper()=='A' else r['fit']['grade_rule']
+        tiers.setdefault('meta',{})['grades_from']=('tier = 拟合'+which.upper()+'（'+out['meta']['fit']+'）；作者原标注在 tier_author；' if which else 'tier 仍是作者标注（印象）；')+'三项分 properties.score 来自 pipeline/osaka/tiers_score.py '+out['meta']['generated']+'，来源见 osaka/data/tiers_scored.json meta.sources'
+        json.dump(tiers,open(os.path.join(D,'tiers.geojson'),'w',encoding='utf-8'),ensure_ascii=False)
+        print('已写回 tiers.geojson：properties.score'+('，tier ← 拟合'+which.upper() if which else '（tier 未动）'))
     print('写入 tiers_scored.json，',len(rows),'块；五分位 门到枢纽',[round(q,1) for q in qh],'超市',qs)
     if '--md' in sys.argv:
         print('\n| 块 | 区/市 | 现 | 治安 | 便利（门到枢纽·超市） | 环境（≥0.5 m 浸水占比） | 拟合A 平均·五分位（绝对） | 拟合B 便利扣分 | 差(A) |\n|---|---|---|---|---|---|---|---|---|')
