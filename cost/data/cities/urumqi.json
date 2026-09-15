@@ -154,14 +154,14 @@
   },
   {
    "chain": "外卖/快递/仓储：兼职快递",
-   "store": "新疆寇伯爱神国际贸易有限公司（xjhr，新疆人才网）",
+   "store": "新疆寇伯爱神国际贸易有限公司（中国新疆人才网，新疆人才网）",
    "basket": "delivery",
    "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8413081.html|100.0",
    "wage": {
     "value": 16.7,
     "unit": "元/小时",
     "source_url": "https://www.xjhr.com/zhaopin/job_8413081.html",
-    "source_name": "xjhr｜新疆人才网｜兼职快递打包员",
+    "source_name": "中国新疆人才网｜新疆人才网｜兼职快递打包员",
     "fetched_at": "2026-09-15",
     "posted_at": "2026-06-16",
     "confidence": "listing",

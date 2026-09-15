@@ -12,7 +12,7 @@ import os, sys, json, glob, datetime, collections
 CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
 BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁/家政','chain':'连锁锚点'}
-SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
+SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
 
 rows=[]
 for f in sorted(glob.glob(os.path.join(ROOT,'raw',CITY,'*','jobs_raw.jsonl'))):
