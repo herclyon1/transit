@@ -300,8 +300,10 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet.split #card .body{padding-top:0}
   /* 动作行：iOS 的胶囊按钮在 Mac 换成 Kit Segmented Controls › Regular 24 r6（轨道黑 8%，段 Medium 13，无内边），只放做了的功能 */
   .sheet.split #card .actions{gap:0;margin:8px 14px 0;padding:0;border-radius:6px;background:rgba(0,0,0,.08)}
-  .sheet.split #card .actions{display:flex;width:calc(100% - 28px)}
-  .sheet.split #card .actions .btn{flex:1 1 0;flex-direction:row;height:24px;min-width:0;padding:0 6px;border-radius:6px;gap:4px;background:none;color:var(--ink);font-size:1em;line-height:1.2308em;font-weight:500;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Kit Segmented（content）：段按内容宽（最小 30）+ 内边，不等分不裁字；四段放不下时 cost/index.html 的 fitActions() 加 .small → 标签缩到 Kit Small 11 */
+  .sheet.split #card .actions{display:inline-flex;max-width:calc(100% - 28px)}
+  .sheet.split #card .actions .btn{flex:0 0 auto;flex-direction:row;height:24px;min-width:30px;padding:0 6px;border-radius:6px;gap:4px;background:none;color:var(--ink);font-size:1em;line-height:1.2308em;font-weight:500;position:relative;white-space:nowrap}
+  .sheet.split #card .actions.small .btn{font-size:.8462em;padding:0 5px}
   .sheet.split #card .actions .btn .sf{display:none}
   .sheet.split #card .actions .btn + .btn::before{content:"";position:absolute;left:0;top:5px;bottom:5px;width:1px;background:rgba(0,0,0,.12)}
   .sheet.split #card .actions .btn.tint{background:none;color:var(--ink)}

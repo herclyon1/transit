@@ -352,6 +352,9 @@ function jobsHtml(d,cur){
     h+=`<div class="src" style="margin-top:6px">法定最低 <a href="${x.source_url}" target="_blank" rel="noopener">${money(x.value,x.unit,cur)}</a>（只当参考线${x.note?'；'+cleanSrc(x.note):''}）${nx&&nx.value!=null?`；<a href="${nx.source_url||x.source_url}" target="_blank" rel="noopener">${money(nx.value,nx.unit||x.unit,cur)}</a>${nx.note?'（'+cleanSrc(nx.note)+'）':'（改定预定）'}`:''}${d.wage_ref.note?`<div class="src">${cleanSrc(d.wage_ref.note)}</div>`:''}</div>`; }   // 改定预定值 + 口径（#8 #17）
   return h;
 }
+// Mac 动作行 = Kit 分段控件，段按内容宽；四段放不下（280 面板）就整组缩到 Kit Small 11，不裁字（maa 09-15 对账工具查出「换算成工时」被切）
+function fitActions(){ document.querySelectorAll('#card .actions').forEach(a=>{ a.classList.remove('small'); if(a.scrollWidth>a.clientWidth+0.5) a.classList.add('small'); }); }
+new MutationObserver(()=>requestAnimationFrame(fitActions)).observe(document.getElementById('cBody'),{childList:true}); window.addEventListener('resize',fitActions);
 document.addEventListener('click',e=>{ const b=e.target.closest('#card .job .jr:not(.static)'); if(!b) return; const det=b.parentElement.querySelector('.det'); det.hidden=!det.hidden; b.setAttribute('aria-expanded',String(!det.hidden)); });
 function render(c,d){
   if(!d) return '<section class="empty">这个城市还没有数据文件。</section>';
