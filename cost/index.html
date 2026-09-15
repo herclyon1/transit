@@ -132,9 +132,12 @@ map=APP.map;
 function styleUrl(){ return new URL(matchMedia('(prefers-color-scheme: dark)').matches?'data/style_apple_dark.json':'data/style_apple_light.json',document.baseURI).href; }
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{ map.setStyle(styleUrl(),{diff:false}); map.once('style.load',()=>addCities(map)); });   // diff:true 会把新样式里没有的 cities 图层删掉且不发 style.load
 function addCities(map){
-    for(const id of ['city-lab','city-dot','city-halo']) if(map.getLayer(id)) map.removeLayer(id);
-    if(map.getSource('cities')) map.removeSource('cities');
+    for(const id of ['city-lab','city-dot','city-halo','land110']) if(map.getLayer(id)) map.removeLayer(id);
+    for(const id of ['cities','land110']) if(map.getSource(id)) map.removeSource(id);
     const dark=matchMedia('(prefers-color-scheme: dark)').matches, ink=dark?'#F2F2F7':'#1B2433', paper=dark?'#1F1F21':'#fff', dim=dark?'#8E8E93':'#6B7688';
+    // 首屏兜底（安卓/慢网 OpenFreeMap 瓦片要 5–11 秒）：本地 Natural Earth 110m 陆地面先画在最底下，z≥5 淡出；样式底色在 z≤4 是水色，所以一开始就是「海 + 大陆」
+    map.addSource('land110',{type:'geojson',data:new URL('data/countries_110m.geojson',document.baseURI).href});
+    map.addLayer({id:'land110',type:'fill',source:'land110',maxzoom:5,paint:{'fill-color':dark?'#1F1F21':'#F4F2ED','fill-opacity':['interpolate',['linear'],['zoom'],4,1,5,0]}},map.getStyle().layers[1]&&map.getStyle().layers[1].id);
     map.addSource('cities',{type:'geojson',data:{type:'FeatureCollection',features:CITIES.map(c=>({type:'Feature',
         properties:{id:c.id,label:c.name.zh,status:c.status},geometry:{type:'Point',coordinates:[c.lon,c.lat]}}))}});
     // 城市点：地图 App 的城市标注是黑字白描边、没有圆点；我们这里的点是「有数据的城市」这个交互目标，所以留一个小圆点（有数据 = 深色实心，待调查 = 白底灰圈）
@@ -213,7 +216,8 @@ function hoursFor(d){
 }
 const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
-function show(c,flyTo){ return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
+function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:{left:760,top:0,right:0,bottom:0}},flyTo);   // 桌面：侧栏 360 + 面板 380 盖着左边，点要飞到露出来的那块
+  return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
 // render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
 // 最前面加一颗 50 高的主按钮（地图 App「规划」的位置）：跳到「换算成工时」
 function groups(h){

@@ -13,7 +13,19 @@
 "id": "background",
 "type": "background",
 "paint": {
-"background-color": "#1F1F21"
+"background-color": [
+"interpolate",
+[
+"linear"
+],
+[
+"zoom"
+],
+4,
+"#16222E",
+5,
+"#1F1F21"
+]
 },
 "layout": {}
 },
