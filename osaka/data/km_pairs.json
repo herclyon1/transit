@@ -1,0 +1,2564 @@
+{
+ "meta": {
+  "generated": "2026-09-16",
+  "scope": "JR 西日本 大阪近郊（reach.json 里的 JR 站，普通列車停車型的相邻站对）",
+  "km_osm": "沿 OSM 轨道几何量的站间距离（build_graph.order_and_measure；relation 没几何时是直线×1.08），多条 pattern 取最小；超过直线 1.6 倍+0.3 km 的判为投影错（環状线闭环处会绕远），退回直线×1.08 并写 flag。**不是営業キロ**，只作近似",
+  "km_official": "空。JR 西日本官网没有公开 営業キロ表：查过 jr-odekake /ticket/guide/stipulation/（別表 PDF 只有運賃表没有キロ程表）、/eki/ 各駅情報页（无キロ）、/railroad/rosenzu/ 与 /eki/route_map/（404）；マイ・テイキ運賃検索逐对能查但是表单工具。谁有 JR 時刻表（交通新聞社）或 鉄道要覧 就按官方値覆盖 km_official，km_osm 留作核对",
+  "other_operators": "京阪：pass_student.json keihan.from_kyobashi 有官方 キロ程（京橋発累计，相邻相减即站间）；近鉄：kirotei_20260314.pdf p.7 起是官方 営業キロ程表矩阵，未解析；阪急/阪神：旅客営業規則里没有キロ程表，运賃検索逐对查",
+  "n": 190,
+  "n_flagged": 0
+ },
+ "pairs": [
+  {
+   "a": "S0653",
+   "b": "S0654",
+   "a_name": "JR俊徳道",
+   "b_name": "JR河内永和",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 0.62,
+   "km_straight": 0.62,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0653",
+   "b": "S0685",
+   "a_name": "JR俊徳道",
+   "b_name": "JR長瀬",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 0.99,
+   "km_straight": 0.99,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0965",
+   "b": "S0966",
+   "a_name": "JR野江",
+   "b_name": "城北公園通",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 2.14,
+   "km_straight": 2.09,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0685",
+   "b": "S1051",
+   "a_name": "JR長瀬",
+   "b_name": "衣摺加美北",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.25,
+   "km_straight": 1.25,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0739",
+   "b": "S1020",
+   "a_name": "南吹田",
+   "b_name": "JR淡路",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.33,
+   "km_straight": 1.25,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0966",
+   "b": "S1020",
+   "a_name": "城北公園通",
+   "b_name": "JR淡路",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 2.17,
+   "km_straight": 2.16,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0684",
+   "b": "S1051",
+   "a_name": "新加美",
+   "b_name": "衣摺加美北",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.43,
+   "km_straight": 1.32,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0684",
+   "b": "S1052",
+   "a_name": "新加美",
+   "b_name": "久宝寺",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.53,
+   "km_straight": 1.51,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0153",
+   "b": "S0719",
+   "a_name": "新大阪",
+   "b_name": "大阪",
+   "lines": [
+    "おおさか東線",
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 3.85,
+   "km_straight": 3.52,
+   "km_official": null,
+   "n_patterns": 9
+  },
+  {
+   "a": "S0153",
+   "b": "S0739",
+   "a_name": "新大阪",
+   "b_name": "南吹田",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 2.0,
+   "km_straight": 1.99,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0652",
+   "b": "S1065",
+   "a_name": "高井田中央",
+   "b_name": "放出",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.76,
+   "km_straight": 1.32,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0652",
+   "b": "S0654",
+   "a_name": "高井田中央",
+   "b_name": "JR河内永和",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.67,
+   "km_straight": 1.67,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0179",
+   "b": "S0965",
+   "a_name": "鴫野",
+   "b_name": "JR野江",
+   "lines": [
+    "おおさか東線"
+   ],
+   "km_osm": 1.68,
+   "km_straight": 1.62,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0179",
+   "b": "S1065",
+   "a_name": "鴫野",
+   "b_name": "放出",
+   "lines": [
+    "おおさか東線",
+    "片町線"
+   ],
+   "km_osm": 1.75,
+   "km_straight": 1.7,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0367",
+   "b": "S0934",
+   "a_name": "二条",
+   "b_name": "亀岡",
+   "lines": [
+    "きのさき: => 京都",
+    "きのさき: 京都 =>",
+    "まいづる",
+    "まいづる: 京都 =>"
+   ],
+   "km_osm": 15.64,
+   "km_straight": 14.52,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0096",
+   "b": "S0367",
+   "a_name": "京都",
+   "b_name": "二条",
+   "lines": [
+    "きのさき: => 京都",
+    "きのさき: 京都 =>",
+    "まいづる",
+    "まいづる: 京都 =>"
+   ],
+   "km_osm": 3.48,
+   "km_straight": 3.32,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0742",
+   "b": "S1067",
+   "a_name": "JR総持寺",
+   "b_name": "摂津富田",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 1.77,
+   "km_straight": 1.77,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0071",
+   "b": "S0072",
+   "a_name": "三田",
+   "b_name": "道場",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.69,
+   "km_straight": 3.33,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0067",
+   "b": "S0453",
+   "a_name": "中山寺",
+   "b_name": "宝塚",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.31,
+   "km_straight": 3.14,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0064",
+   "b": "S0066",
+   "a_name": "伊丹",
+   "b_name": "北伊丹",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.34,
+   "km_straight": 2.34,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S1058",
+   "b": "S1059",
+   "a_name": "千里丘",
+   "b_name": "岸辺",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 1.86,
+   "km_straight": 1.84,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0472",
+   "b": "S1059",
+   "a_name": "吹田",
+   "b_name": "岸辺",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 2.27,
+   "km_straight": 2.27,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0472",
+   "b": "S1081",
+   "a_name": "吹田",
+   "b_name": "東淀川",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 3.24,
+   "km_straight": 3.19,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0719",
+   "b": "S1056",
+   "a_name": "大阪",
+   "b_name": "塚本",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "神戸線"
+   ],
+   "km_osm": 3.28,
+   "km_straight": 2.64,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0438",
+   "b": "S1056",
+   "a_name": "尼崎",
+   "b_name": "塚本",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "神戸線"
+   ],
+   "km_osm": 4.23,
+   "km_straight": 4.0,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0438",
+   "b": "S0762",
+   "a_name": "尼崎",
+   "b_name": "塚口",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.96,
+   "km_straight": 2.22,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0065",
+   "b": "S0066",
+   "a_name": "川西池田",
+   "b_name": "北伊丹",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.84,
+   "km_straight": 2.74,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0065",
+   "b": "S0067",
+   "a_name": "川西池田",
+   "b_name": "中山寺",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.64,
+   "km_straight": 3.46,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S1067",
+   "b": "S1079",
+   "a_name": "摂津富田",
+   "b_name": "高槻",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 2.74,
+   "km_straight": 2.74,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0050",
+   "b": "S0071",
+   "a_name": "新三田",
+   "b_name": "三田",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.17,
+   "km_straight": 3.1,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0153",
+   "b": "S1081",
+   "a_name": "新大阪",
+   "b_name": "東淀川",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 0.63,
+   "km_straight": 0.71,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0069",
+   "b": "S0072",
+   "a_name": "武田尾",
+   "b_name": "道場",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 4.95,
+   "km_straight": 4.76,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0062",
+   "b": "S0762",
+   "a_name": "猪名寺",
+   "b_name": "塚口",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 1.48,
+   "km_straight": 1.48,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0062",
+   "b": "S0064",
+   "a_name": "猪名寺",
+   "b_name": "伊丹",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 1.81,
+   "km_straight": 1.8,
+   "km_official": null,
+   "n_patterns": 7
+  },
+  {
+   "a": "S0070",
+   "b": "S0453",
+   "a_name": "生瀬",
+   "b_name": "宝塚",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 1.88,
+   "km_straight": 1.64,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0692",
+   "b": "S0742",
+   "a_name": "茨木",
+   "b_name": "JR総持寺",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 2.06,
+   "km_straight": 2.03,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0692",
+   "b": "S1058",
+   "a_name": "茨木",
+   "b_name": "千里丘",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線・京都線",
+    "東海道本線"
+   ],
+   "km_osm": 2.8,
+   "km_straight": 2.79,
+   "km_official": null,
+   "n_patterns": 8
+  },
+  {
+   "a": "S0068",
+   "b": "S0070",
+   "a_name": "西宮名塩",
+   "b_name": "生瀬",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.2,
+   "km_straight": 1.7,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0068",
+   "b": "S0069",
+   "a_name": "西宮名塩",
+   "b_name": "武田尾",
+   "lines": [
+    "京都線・宝塚線",
+    "宝塚線",
+    "宝塚線・京都線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.2,
+   "km_straight": 3.16,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0136",
+   "b": "S0139",
+   "a_name": "三郷",
+   "b_name": "河内堅上",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 3.09,
+   "km_straight": 2.81,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0006",
+   "b": "S0986",
+   "a_name": "今宮",
+   "b_name": "新今宮",
+   "lines": [
+    "大和路線",
+    "大阪環状線"
+   ],
+   "km_osm": 0.99,
+   "km_straight": 0.87,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0006",
+   "b": "S0990",
+   "a_name": "今宮",
+   "b_name": "JR難波",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.44,
+   "km_straight": 1.41,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0142",
+   "b": "S1052",
+   "a_name": "八尾",
+   "b_name": "久宝寺",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.29,
+   "km_straight": 1.29,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0143",
+   "b": "S1052",
+   "a_name": "加美",
+   "b_name": "久宝寺",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.6,
+   "km_straight": 1.6,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0143",
+   "b": "S0568",
+   "a_name": "加美",
+   "b_name": "平野",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.5,
+   "km_straight": 1.5,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0138",
+   "b": "S0953",
+   "a_name": "大和小泉",
+   "b_name": "法隆寺",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 3.27,
+   "km_straight": 3.22,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0560",
+   "b": "S0986",
+   "a_name": "天王寺",
+   "b_name": "新今宮",
+   "lines": [
+    "大和路線",
+    "大阪環状線"
+   ],
+   "km_osm": 1.15,
+   "km_straight": 1.27,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0137",
+   "b": "S0142",
+   "a_name": "志紀",
+   "b_name": "八尾",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 2.6,
+   "km_straight": 2.56,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0141",
+   "b": "S0143",
+   "a_name": "東部市場前",
+   "b_name": "加美",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 3.07,
+   "km_straight": 3.02,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0141",
+   "b": "S0560",
+   "a_name": "東部市場前",
+   "b_name": "天王寺",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 2.29,
+   "km_straight": 2.31,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0141",
+   "b": "S0568",
+   "a_name": "東部市場前",
+   "b_name": "平野",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.57,
+   "km_straight": 1.55,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0053",
+   "b": "S0137",
+   "a_name": "柏原",
+   "b_name": "志紀",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.68,
+   "km_straight": 1.7,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0053",
+   "b": "S0134",
+   "a_name": "柏原",
+   "b_name": "高井田",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 2.39,
+   "km_straight": 2.2,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0133",
+   "b": "S0953",
+   "a_name": "王寺",
+   "b_name": "法隆寺",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 3.61,
+   "km_straight": 3.36,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0133",
+   "b": "S0136",
+   "a_name": "王寺",
+   "b_name": "三郷",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 1.78,
+   "km_straight": 1.66,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0134",
+   "b": "S0139",
+   "a_name": "高井田",
+   "b_name": "河内堅上",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 2.42,
+   "km_straight": 2.24,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0134",
+   "b": "S0137",
+   "a_name": "高井田",
+   "b_name": "志紀",
+   "lines": [
+    "大和路線"
+   ],
+   "km_osm": 4.07,
+   "km_straight": 3.87,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0178",
+   "b": "S0458",
+   "a_name": "京橋",
+   "b_name": "桜ノ宮",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.67,
+   "km_straight": 1.42,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0178",
+   "b": "S0985",
+   "a_name": "京橋",
+   "b_name": "大阪城公園",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.03,
+   "km_straight": 1.03,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0006",
+   "b": "S0456",
+   "a_name": "今宮",
+   "b_name": "芦原橋",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.63,
+   "km_straight": 0.63,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0719",
+   "b": "S0751",
+   "a_name": "大阪",
+   "b_name": "福島",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.97,
+   "km_straight": 0.92,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0719",
+   "b": "S0984",
+   "a_name": "大阪",
+   "b_name": "天満",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.7,
+   "km_straight": 1.62,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0459",
+   "b": "S0460",
+   "a_name": "寺田町",
+   "b_name": "桃谷",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.31,
+   "km_straight": 1.3,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0459",
+   "b": "S0560",
+   "a_name": "寺田町",
+   "b_name": "天王寺",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.81,
+   "km_straight": 0.79,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0457",
+   "b": "S0461",
+   "a_name": "弁天町",
+   "b_name": "大正",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 2.07,
+   "km_straight": 1.66,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0458",
+   "b": "S0984",
+   "a_name": "桜ノ宮",
+   "b_name": "天満",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.79,
+   "km_straight": 0.73,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0602",
+   "b": "S0985",
+   "a_name": "森ノ宮",
+   "b_name": "大阪城公園",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.82,
+   "km_straight": 0.72,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0602",
+   "b": "S0624",
+   "a_name": "森ノ宮",
+   "b_name": "玉造",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.82,
+   "km_straight": 0.84,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0456",
+   "b": "S0461",
+   "a_name": "芦原橋",
+   "b_name": "大正",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.14,
+   "km_straight": 1.16,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0159",
+   "b": "S0457",
+   "a_name": "西九条",
+   "b_name": "弁天町",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.6,
+   "km_straight": 1.55,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0159",
+   "b": "S0671",
+   "a_name": "西九条",
+   "b_name": "野田",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.02,
+   "km_straight": 1.3,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0671",
+   "b": "S0751",
+   "a_name": "野田",
+   "b_name": "福島",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 1.42,
+   "km_straight": 1.22,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0332",
+   "b": "S0624",
+   "a_name": "鶴橋",
+   "b_name": "玉造",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.9,
+   "km_straight": 0.95,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0332",
+   "b": "S0460",
+   "a_name": "鶴橋",
+   "b_name": "桃谷",
+   "lines": [
+    "大阪環状線"
+   ],
+   "km_osm": 0.77,
+   "km_straight": 0.77,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0098",
+   "b": "S0100",
+   "a_name": "JR藤森",
+   "b_name": "稲荷",
+   "lines": [
+    "奈良線"
+   ],
+   "km_osm": 2.25,
+   "km_straight": 2.11,
+   "km_official": null,
+   "n_patterns": 6
+  },
+  {
+   "a": "S0098",
+   "b": "S0701",
+   "a_name": "JR藤森",
+   "b_name": "桃山",
+   "lines": [
+    "奈良線"
+   ],
+   "km_osm": 2.07,
+   "km_straight": 1.78,
+   "km_official": null,
+   "n_patterns": 6
+  },
+  {
+   "a": "S0096",
+   "b": "S0101",
+   "a_name": "京都",
+   "b_name": "東福寺",
+   "lines": [
+    "奈良線"
+   ],
+   "km_osm": 1.19,
+   "km_straight": 1.14,
+   "km_official": null,
+   "n_patterns": 6
+  },
+  {
+   "a": "S0100",
+   "b": "S0101",
+   "a_name": "稲荷",
+   "b_name": "東福寺",
+   "lines": [
+    "奈良線"
+   ],
+   "km_osm": 1.58,
+   "km_straight": 1.59,
+   "km_official": null,
+   "n_patterns": 6
+  },
+  {
+   "a": "S0047",
+   "b": "S0056",
+   "a_name": "古市",
+   "b_name": "南矢代",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.62,
+   "km_straight": 2.52,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0047",
+   "b": "S0058",
+   "a_name": "古市",
+   "b_name": "草野",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 3.05,
+   "km_straight": 2.78,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0438",
+   "b": "S0719",
+   "a_name": "尼崎",
+   "b_name": "大阪",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 7.51,
+   "km_straight": 6.62,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0045",
+   "b": "S0059",
+   "a_name": "広野",
+   "b_name": "相野",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 4.24,
+   "km_straight": 3.88,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0045",
+   "b": "S0050",
+   "a_name": "広野",
+   "b_name": "新三田",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.86,
+   "km_straight": 2.56,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0052",
+   "b": "S0056",
+   "a_name": "篠山口",
+   "b_name": "南矢代",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.3,
+   "km_straight": 2.08,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0057",
+   "b": "S0058",
+   "a_name": "藍本",
+   "b_name": "草野",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 2.28,
+   "km_straight": 2.24,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0057",
+   "b": "S0059",
+   "a_name": "藍本",
+   "b_name": "相野",
+   "lines": [
+    "宝塚線",
+    "宝塚線・福知山線"
+   ],
+   "km_osm": 4.2,
+   "km_straight": 3.27,
+   "km_official": null,
+   "n_patterns": 3
+  },
+  {
+   "a": "S0032",
+   "b": "S0034",
+   "a_name": "並河",
+   "b_name": "千代川",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.91,
+   "km_straight": 1.91,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0032",
+   "b": "S0934",
+   "a_name": "並河",
+   "b_name": "亀岡",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 3.19,
+   "km_straight": 3.02,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0030",
+   "b": "S0367",
+   "a_name": "丹波口",
+   "b_name": "二条",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.83,
+   "km_straight": 1.86,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0030",
+   "b": "S1165",
+   "a_name": "丹波口",
+   "b_name": "梅小路京都西",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 0.63,
+   "km_straight": 0.71,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0367",
+   "b": "S0988",
+   "a_name": "二条",
+   "b_name": "円町",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.56,
+   "km_straight": 1.28,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0096",
+   "b": "S1165",
+   "a_name": "京都",
+   "b_name": "梅小路京都西",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.33,
+   "km_straight": 1.45,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0033",
+   "b": "S0688",
+   "a_name": "太秦",
+   "b_name": "嵯峨嵐山",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.68,
+   "km_straight": 1.74,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0688",
+   "b": "S0975",
+   "a_name": "嵯峨嵐山",
+   "b_name": "保津峡",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 3.95,
+   "km_straight": 3.79,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0029",
+   "b": "S0033",
+   "a_name": "花園",
+   "b_name": "太秦",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.56,
+   "km_straight": 1.56,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0029",
+   "b": "S0988",
+   "a_name": "花園",
+   "b_name": "円町",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 1.17,
+   "km_straight": 1.16,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0035",
+   "b": "S0934",
+   "a_name": "馬堀",
+   "b_name": "亀岡",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 2.01,
+   "km_straight": 1.93,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0035",
+   "b": "S0975",
+   "a_name": "馬堀",
+   "b_name": "保津峡",
+   "lines": [
+    "嵯峨野線"
+   ],
+   "km_osm": 3.89,
+   "km_straight": 3.72,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0096",
+   "b": "S0692",
+   "a_name": "京都",
+   "b_name": "茨木",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 28.18,
+   "km_straight": 26.05,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0096",
+   "b": "S1033",
+   "a_name": "京都",
+   "b_name": "西大路",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 2.52,
+   "km_straight": 2.45,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0687",
+   "b": "S0854",
+   "a_name": "元町",
+   "b_name": "三ノ宮",
+   "lines": [
+    "東海道本線",
+    "神戸線"
+   ],
+   "km_osm": 0.95,
+   "km_straight": 0.94,
+   "km_official": null,
+   "n_patterns": 6
+  },
+  {
+   "a": "S0783",
+   "b": "S0854",
+   "a_name": "六甲道",
+   "b_name": "三ノ宮",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 4.59,
+   "km_straight": 4.5,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0151",
+   "b": "S0724",
+   "a_name": "向日町",
+   "b_name": "長岡京",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 3.63,
+   "km_straight": 3.59,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0151",
+   "b": "S1080",
+   "a_name": "向日町",
+   "b_name": "桂川",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 1.08,
+   "km_straight": 1.08,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0719",
+   "b": "S1081",
+   "a_name": "大阪",
+   "b_name": "東淀川",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 4.49,
+   "km_straight": 4.21,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0152",
+   "b": "S0743",
+   "a_name": "山崎",
+   "b_name": "島本",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 2.13,
+   "km_straight": 2.04,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0152",
+   "b": "S0724",
+   "a_name": "山崎",
+   "b_name": "長岡京",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 4.04,
+   "km_straight": 3.95,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0743",
+   "b": "S1079",
+   "a_name": "島本",
+   "b_name": "高槻",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 5.46,
+   "km_straight": 5.21,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0019",
+   "b": "S0687",
+   "a_name": "神戸",
+   "b_name": "元町",
+   "lines": [
+    "東海道本線",
+    "神戸線"
+   ],
+   "km_osm": 1.5,
+   "km_straight": 1.4,
+   "km_official": null,
+   "n_patterns": 5
+  },
+  {
+   "a": "S0692",
+   "b": "S0783",
+   "a_name": "茨木",
+   "b_name": "六甲道",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 40.6,
+   "km_straight": 31.64,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S1033",
+   "b": "S1080",
+   "a_name": "西大路",
+   "b_name": "桂川",
+   "lines": [
+    "東海道本線"
+   ],
+   "km_osm": 2.81,
+   "km_straight": 2.71,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0178",
+   "b": "S1062",
+   "a_name": "京橋",
+   "b_name": "大阪城北詰",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 0.91,
+   "km_straight": 0.69,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S1060",
+   "b": "S1061",
+   "a_name": "北新地",
+   "b_name": "大阪天満宮",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 1.41,
+   "km_straight": 1.41,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S1060",
+   "b": "S1064",
+   "a_name": "北新地",
+   "b_name": "新福島",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 1.17,
+   "km_straight": 1.15,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S1061",
+   "b": "S1062",
+   "a_name": "大阪天満宮",
+   "b_name": "大阪城北詰",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 1.27,
+   "km_straight": 1.24,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0438",
+   "b": "S0741",
+   "a_name": "尼崎",
+   "b_name": "加島",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 2.02,
+   "km_straight": 2.02,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0740",
+   "b": "S1063",
+   "a_name": "御幣島",
+   "b_name": "海老江",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 2.55,
+   "km_straight": 2.48,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0740",
+   "b": "S0741",
+   "a_name": "御幣島",
+   "b_name": "加島",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 1.78,
+   "km_straight": 1.68,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S1063",
+   "b": "S1064",
+   "a_name": "海老江",
+   "b_name": "新福島",
+   "lines": [
+    "東西線"
+   ],
+   "km_osm": 1.23,
+   "km_straight": 1.14,
+   "km_official": null,
+   "n_patterns": 1
+  },
+  {
+   "a": "S0111",
+   "b": "S0125",
+   "a_name": "高田",
+   "b_name": "金橋",
+   "lines": [
+    "桜井線"
+   ],
+   "km_osm": 2.11,
+   "km_straight": 2.02,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0775",
+   "b": "S1040",
+   "a_name": "ユニバーサルシティ",
+   "b_name": "安治川口",
+   "lines": [
+    "桜島線"
+   ],
+   "km_osm": 0.8,
+   "km_straight": 0.8,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0774",
+   "b": "S0775",
+   "a_name": "桜島",
+   "b_name": "ユニバーサルシティ",
+   "lines": [
+    "桜島線"
+   ],
+   "km_osm": 0.9,
+   "km_straight": 0.87,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0159",
+   "b": "S1040",
+   "a_name": "西九条",
+   "b_name": "安治川口",
+   "lines": [
+    "桜島線"
+   ],
+   "km_osm": 2.5,
+   "km_straight": 2.29,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0178",
+   "b": "S0179",
+   "a_name": "京橋",
+   "b_name": "鴫野",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.34,
+   "km_straight": 1.27,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0162",
+   "b": "S0174",
+   "a_name": "同志社前",
+   "b_name": "京田辺",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.91,
+   "km_straight": 1.89,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0172",
+   "b": "S0176",
+   "a_name": "四条畷",
+   "b_name": "忍ヶ丘",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.84,
+   "km_straight": 1.81,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0171",
+   "b": "S0174",
+   "a_name": "大住",
+   "b_name": "京田辺",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 2.24,
+   "km_straight": 2.07,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0160",
+   "b": "S0164",
+   "a_name": "寝屋川公園",
+   "b_name": "星田",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.72,
+   "km_straight": 1.63,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0160",
+   "b": "S0176",
+   "a_name": "寝屋川公園",
+   "b_name": "忍ヶ丘",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.33,
+   "km_straight": 1.3,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S1054",
+   "b": "S1065",
+   "a_name": "徳庵",
+   "b_name": "放出",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.89,
+   "km_straight": 1.75,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0164",
+   "b": "S0173",
+   "a_name": "星田",
+   "b_name": "河内磐船",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 2.14,
+   "km_straight": 2.13,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0161",
+   "b": "S0171",
+   "a_name": "松井山手",
+   "b_name": "大住",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 2.37,
+   "km_straight": 2.02,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0161",
+   "b": "S0167",
+   "a_name": "松井山手",
+   "b_name": "長尾",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.66,
+   "km_straight": 1.55,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0169",
+   "b": "S0173",
+   "a_name": "津田",
+   "b_name": "河内磐船",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 3.15,
+   "km_straight": 3.01,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0165",
+   "b": "S0167",
+   "a_name": "藤阪",
+   "b_name": "長尾",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.61,
+   "km_straight": 1.59,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0165",
+   "b": "S0169",
+   "a_name": "藤阪",
+   "b_name": "津田",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.53,
+   "km_straight": 1.53,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0163",
+   "b": "S0172",
+   "a_name": "野崎",
+   "b_name": "四条畷",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.35,
+   "km_straight": 1.34,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0163",
+   "b": "S0894",
+   "a_name": "野崎",
+   "b_name": "住道",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 2.25,
+   "km_straight": 1.98,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0177",
+   "b": "S0894",
+   "a_name": "鴻池新田",
+   "b_name": "住道",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 2.36,
+   "km_straight": 2.29,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0177",
+   "b": "S1054",
+   "a_name": "鴻池新田",
+   "b_name": "徳庵",
+   "lines": [
+    "片町線"
+   ],
+   "km_osm": 1.86,
+   "km_straight": 1.66,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0158",
+   "b": "S0443",
+   "a_name": "さくら夙川",
+   "b_name": "芦屋",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.31,
+   "km_straight": 2.29,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0854",
+   "b": "S1072",
+   "a_name": "三ノ宮",
+   "b_name": "灘",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.34,
+   "km_straight": 2.28,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0421",
+   "b": "S1073",
+   "a_name": "住吉",
+   "b_name": "摂津本山",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.62,
+   "km_straight": 1.59,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0421",
+   "b": "S0783",
+   "a_name": "住吉",
+   "b_name": "六甲道",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.33,
+   "km_straight": 2.25,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0783",
+   "b": "S0879",
+   "a_name": "六甲道",
+   "b_name": "摩耶",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.37,
+   "km_straight": 1.36,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0879",
+   "b": "S1072",
+   "a_name": "摩耶",
+   "b_name": "灘",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 0.87,
+   "km_straight": 0.87,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0536",
+   "b": "S0781",
+   "a_name": "新長田",
+   "b_name": "兵庫",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.02,
+   "km_straight": 2.04,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0784",
+   "b": "S1073",
+   "a_name": "甲南山手",
+   "b_name": "摂津本山",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.46,
+   "km_straight": 1.46,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0019",
+   "b": "S0781",
+   "a_name": "神戸",
+   "b_name": "兵庫",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.89,
+   "km_straight": 1.81,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0156",
+   "b": "S0438",
+   "a_name": "立花",
+   "b_name": "尼崎",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 3.05,
+   "km_straight": 3.05,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0156",
+   "b": "S0157",
+   "a_name": "立花",
+   "b_name": "甲子園口",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.27,
+   "km_straight": 2.26,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0443",
+   "b": "S0784",
+   "a_name": "芦屋",
+   "b_name": "甲南山手",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.4,
+   "km_straight": 1.4,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0155",
+   "b": "S0157",
+   "a_name": "西宮",
+   "b_name": "甲子園口",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 2.42,
+   "km_straight": 2.42,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0155",
+   "b": "S0158",
+   "a_name": "西宮",
+   "b_name": "さくら夙川",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.54,
+   "km_straight": 1.54,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0779",
+   "b": "S1071",
+   "a_name": "須磨",
+   "b_name": "須磨海浜公園",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.42,
+   "km_straight": 1.4,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0022",
+   "b": "S0536",
+   "a_name": "鷹取",
+   "b_name": "新長田",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 1.17,
+   "km_straight": 1.14,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0022",
+   "b": "S1071",
+   "a_name": "鷹取",
+   "b_name": "須磨海浜公園",
+   "lines": [
+    "神戸線"
+   ],
+   "km_osm": 0.95,
+   "km_straight": 0.95,
+   "km_official": null,
+   "n_patterns": 4
+  },
+  {
+   "a": "S0679",
+   "b": "S1027",
+   "a_name": "日根野",
+   "b_name": "りんくうタウン",
+   "lines": [
+    "関西空港線 シャトル"
+   ],
+   "km_osm": 4.35,
+   "km_straight": 3.65,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0075",
+   "b": "S1027",
+   "a_name": "関西空港",
+   "b_name": "りんくうタウン",
+   "lines": [
+    "関西空港線 シャトル"
+   ],
+   "km_osm": 6.88,
+   "km_straight": 5.86,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0897",
+   "b": "S0898",
+   "a_name": "上野芝",
+   "b_name": "百舌鳥",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.37,
+   "km_straight": 1.36,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S1001",
+   "b": "S1002",
+   "a_name": "下松",
+   "b_name": "東岸和田",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.34,
+   "km_straight": 1.34,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0119",
+   "b": "S1001",
+   "a_name": "久米田",
+   "b_name": "下松",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.26,
+   "km_straight": 1.25,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0119",
+   "b": "S1000",
+   "a_name": "久米田",
+   "b_name": "和泉府中",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 2.96,
+   "km_straight": 2.95,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0116",
+   "b": "S1000",
+   "a_name": "信太山",
+   "b_name": "和泉府中",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.54,
+   "km_straight": 1.54,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0116",
+   "b": "S1005",
+   "a_name": "信太山",
+   "b_name": "北信太",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.44,
+   "km_straight": 1.44,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0117",
+   "b": "S1181",
+   "a_name": "南田辺",
+   "b_name": "鶴ヶ丘",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 0.96,
+   "km_straight": 0.96,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0113",
+   "b": "S0114",
+   "a_name": "和泉橋本",
+   "b_name": "東佐野",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.48,
+   "km_straight": 1.48,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0943",
+   "b": "S1008",
+   "a_name": "和泉砂川",
+   "b_name": "和泉鳥取",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 2.62,
+   "km_straight": 2.61,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0943",
+   "b": "S1007",
+   "a_name": "和泉砂川",
+   "b_name": "新家",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 2.09,
+   "km_straight": 2.08,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0999",
+   "b": "S1004",
+   "a_name": "堺市",
+   "b_name": "三国ケ丘",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.38,
+   "km_straight": 1.37,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0118",
+   "b": "S1005",
+   "a_name": "富木",
+   "b_name": "北信太",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.65,
+   "km_straight": 1.65,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0118",
+   "b": "S0930",
+   "a_name": "富木",
+   "b_name": "鳳",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.21,
+   "km_straight": 1.21,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0944",
+   "b": "S1008",
+   "a_name": "山中渓",
+   "b_name": "和泉鳥取",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 2.07,
+   "km_straight": 1.96,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0679",
+   "b": "S1006",
+   "a_name": "日根野",
+   "b_name": "長滝",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.43,
+   "km_straight": 1.42,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0679",
+   "b": "S1003",
+   "a_name": "日根野",
+   "b_name": "熊取",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.96,
+   "km_straight": 1.95,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0899",
+   "b": "S0998",
+   "a_name": "杉本町",
+   "b_name": "我孫子町",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.08,
+   "km_straight": 1.06,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0114",
+   "b": "S1003",
+   "a_name": "東佐野",
+   "b_name": "熊取",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.39,
+   "km_straight": 1.39,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0112",
+   "b": "S0113",
+   "a_name": "東貝塚",
+   "b_name": "和泉橋本",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.86,
+   "km_straight": 1.84,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0112",
+   "b": "S1002",
+   "a_name": "東貝塚",
+   "b_name": "東岸和田",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.64,
+   "km_straight": 1.64,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0698",
+   "b": "S0930",
+   "a_name": "津久野",
+   "b_name": "鳳",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.44,
+   "km_straight": 1.44,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0698",
+   "b": "S0897",
+   "a_name": "津久野",
+   "b_name": "上野芝",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.26,
+   "km_straight": 1.26,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0115",
+   "b": "S0999",
+   "a_name": "浅香",
+   "b_name": "堺市",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 0.89,
+   "km_straight": 0.88,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0115",
+   "b": "S0899",
+   "a_name": "浅香",
+   "b_name": "杉本町",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 0.87,
+   "km_straight": 0.87,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0898",
+   "b": "S1004",
+   "a_name": "百舌鳥",
+   "b_name": "三国ケ丘",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 0.97,
+   "km_straight": 0.97,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0005",
+   "b": "S0117",
+   "a_name": "美章園",
+   "b_name": "南田辺",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.44,
+   "km_straight": 1.42,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0005",
+   "b": "S0560",
+   "a_name": "美章園",
+   "b_name": "天王寺",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.43,
+   "km_straight": 1.3,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0557",
+   "b": "S0998",
+   "a_name": "長居",
+   "b_name": "我孫子町",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 1.12,
+   "km_straight": 1.06,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0557",
+   "b": "S1181",
+   "a_name": "長居",
+   "b_name": "鶴ヶ丘",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 0.85,
+   "km_straight": 0.93,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S1006",
+   "b": "S1007",
+   "a_name": "長滝",
+   "b_name": "新家",
+   "lines": [
+    "阪和線"
+   ],
+   "km_osm": 2.25,
+   "km_straight": 2.22,
+   "km_official": null,
+   "n_patterns": 2
+  },
+  {
+   "a": "S0930",
+   "b": "S1009",
+   "a_name": "鳳",
+   "b_name": "東羽衣",
+   "lines": [
+    "阪和線東羽衣支線"
+   ],
+   "km_osm": 1.56,
+   "km_straight": 1.5,
+   "km_official": null,
+   "n_patterns": 1
+  }
+ ]
+}
