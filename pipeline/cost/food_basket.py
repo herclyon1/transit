@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-基础食材月费 = 篮子实价 × 项目统一用量（单身），写进 cities/<city>.json 的 living_official.food（confidence=estimated，标「按篮子实价推算」）。
+基础食材月费 = 篮子实价 × 项目统一用量（单身），写进 cities/<city>.json 的 living_official.food（confidence=estimated，标「按平台实价推算」）。
   python3 pipeline/cost/food_basket.py urumqi
 规则（maa/用户 2026-09-15）：食费一律篮子推算进公式（各城同一把尺）；官方统计（大阪 家計調査 単身 是全国/地方块，没有市表）留作「官方参考」不进公式；
 「全省人均消费 × 食品占比」这种省级推算一律不用。
@@ -31,8 +31,9 @@ if old_food.get('confidence')=='official' and old_food.get('value') is not None 
     ref=dict(old_food); ref['label']='食费官方参考（不进公式）：'+(ref.get('label') or '统计平均'); d['living_official']['food_official_ref']=ref
 cur=d.get('currency','')
 unit={'CNY':'元/月','VND':'越南盾/月','JPY':'日元/月'}.get(cur,cur+'/月')
-d['living_official']['food']={"label":"基础食材月费（按篮子实价推算）","value":round(total),"unit":unit,"confidence":"estimated","n":None,
-  "source_url":None,"source_name":"本页篮子各项的平台实价 × 项目统一用量（单身）","fetched_at":datetime.date.today().isoformat(),
+d['living_official']['food']={"label":"基础食材月费（按平台实价推算）","value":round(total),"unit":unit,"confidence":"estimated","n":None,
+  "source_url":None,"source_name":"本页各项食材的平台实价 × 项目统一用量（单身）","source_short":"按各项实价推算","fetched_at":datetime.date.today().isoformat(),
+  "how":"上面各项食材的平台现价 × 项目统一用量："+"、".join(parts)+("；"+"、".join(missing)+" 还没有价，没算进去。" if missing else "。"),
   "note":"= "+" + ".join(parts)+f" = {round(total):,}。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。"+(f" 缺 {', '.join(missing)}，没算进去。" if missing else "")}
 json.dump(d,open(p,'w',encoding='utf-8'),ensure_ascii=False,indent=1)
 print(f"{CITY}: 基础食材月费 {round(total):,} {unit}（{len(parts)} 项）"+(f" 缺 {missing}" if missing else ''))

@@ -27,7 +27,7 @@
 **没有的连锁用本地平替**：便利店任何连锁都行、咖啡用瑞幸/库迪、汉堡用麦当劳/肯德基、仓库用顺丰/京东物流，chain 字段写成"便利店（美宜佳）"并在 note 注明平替。
 **中国大陆城市不放签证和留学生打工规则**（用户是中国公民），`work` 只写"中国公民，无工时上限"，页面不算打工上限。
 
-**食费（2026-09-15 定）**：一律用「基础食材月费」= 篮子实价 × 项目统一用量（单身）进公式（各城同一把尺）；官方统计（家計調査 単身 只有全国/地方块，没有市表）留在 `living_official.food_official_ref` 当参考线，不进公式；`confidence` 标 `estimated`、label 写「按篮子实价推算」（`pipeline/cost/food_basket.py`）。「全省人均消费 × 食品占比」这种省级推算一律不用。统一用量（单身一个月）：大米 5 kg、面粉 2 kg（或挂面 2 kg）、鸡蛋 30 个、牛奶 10 L、食用油 1 L、蔬菜 15 kg（土豆/西红柿/白菜各 5 kg）、肉 4 kg（鸡腿 2 kg、羊肉 2 kg）、苹果 6 kg、馕 15 个、外食 22 顿（工作日午餐，用篮子里的「一顿快餐」价）、可乐 2 L、啤酒 6 罐；没有馕/面粉的城市用面包 2 kg 顶。篮子键名：`rice5kg flour1kg noodles1kg eggs10 milk1l oil1l(oil5l) potato1kg tomato1kg cabbage1kg chicken1kg mutton1kg apple1kg naan1 curry_rice cola1l beer6 bread1kg`。取价法同篮子其它项：同一自提点、搜索词、综合排序前 10 取中间价。缺项跳过并在 note 里列出。
+**食费（2026-09-15 定）**：一律用「基础食材月费」= 篮子实价 × 项目统一用量（单身）进公式（各城同一把尺）；官方统计（家計調査 単身 只有全国/地方块，没有市表）留在 `living_official.food_official_ref` 当参考线，不进公式；`confidence` 标 `estimated`、label 写「按平台实价推算」（`pipeline/cost/food_basket.py`）。「全省人均消费 × 食品占比」这种省级推算一律不用。统一用量（单身一个月）：大米 5 kg、面粉 2 kg（或挂面 2 kg）、鸡蛋 30 个、牛奶 10 L、食用油 1 L、蔬菜 15 kg（土豆/西红柿/白菜各 5 kg）、肉 4 kg（鸡腿 2 kg、羊肉 2 kg）、苹果 6 kg、馕 15 个、外食 22 顿（工作日午餐，用篮子里的「一顿快餐」价）、可乐 2 L、啤酒 6 罐；没有馕/面粉的城市用面包 2 kg 顶。篮子键名：`rice5kg flour1kg noodles1kg eggs10 milk1l oil1l(oil5l) potato1kg tomato1kg cabbage1kg chicken1kg mutton1kg apple1kg naan1 curry_rice cola1l beer6 bread1kg`。取价法同篮子其它项：同一自提点、搜索词、综合排序前 10 取中间价。缺项跳过并在 note 里列出。
 
 **水电燃气（2026-09-15 定）**：官方价目 × **项目统一标准用量**，不用统计均值、不用本人账单。标准用量（单身）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。电费含燃料费调整、再生能源附加等按月变动的项；临时性政府补贴（如日本 2026 年 8–10 月電気・ガス料金支援）取补贴前的结构价，补贴后价写 note。`confidence` 标 `estimated`，source 指向价目页。
 
@@ -74,6 +74,7 @@
 | `jobs[]` | 连锁 × 具体门店 × 时薪。固定四个连锁：7-Eleven 便利店、麦当劳、星巴克、亚马逊仓库（中国用京东物流替代并注明）。没有的连锁留 null 并写明（比如缅甸没有星巴克） |
 | `wage_ref` | 官方最低时薪（现行、改定预定） |
 | `transport` | 可选：`pass` 为 null 表示该城市没有月票/定期票（乌鲁木齐：用户 2026-09-15 查地铁 App），`pass_label` 是页面替代「月票」用的标签（如「通勤费（单程 × 2 × 22，推算）」），`note` 写清推算口径 |
+| 每个价目的展示字段（2026-09-15，用户在 Mac 上看到「来源」全是内部日志后定） | `source_short`（页面上的平台短名，如「美团特价团」「多多买菜」）、`how`（一句人话：怎么取的；页面只显示它，不显示 `note`）、`items[]`（多店/多条明细 `{name, deal?, price, unit, note?}`，页面收进「看 N 家店/条」，`items_label` 可改标签）、`compare`（对照/旧值 `{label, value, unit, source_name, source_url?, n?}`，页面一行脚注）、`raw`（原始文件路径，只给审计，页面不显示）。`note` 仍是内部记录；`pipeline/cost/tidy_sources.py` 会把 source_name 里的路径挪进 `raw` |
 | `tiers[]` | 四档：`walk`（步行圈 0–5 分）、`t15`、`t25`、`t40`。每档：代表车站、`rent_1k`（单间/1K 月租）、`pass_student`、`pass_commuter`、`fare_single` |
 | `utilities` | `electricity` `gas` `water`（官方价目 × 标准用量 150 kWh / 10 m³ / 6 m³）、`mobile`（本地主流 30GB 套餐官方价）、`internet`（公寓光纤官方价）、`comm_official`（统计平均，对照） |
 | `basket` | `bigmac_set`、`latte_tall`、`coffee_shop`、`curry_rice`（或本地一顿外食）、`eggs10`、`milk1l`、`rice5kg`、`bread1kg`、`cola1l`、`beer6`。前两个用连锁 App 本地门店菜单价，其余用当地人买菜平台综合排序前 10 里最贴规格的那条折算 |
