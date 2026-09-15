@@ -3,10 +3,10 @@
   "generated": "2026-09-16",
   "source": "SUUMO 関西版 沿線・駅ページ：https://suumo.jp/chintai/{osaka,hyogo,kyoto,nara,shiga,wakayama}/ensen/ 及各 /en_<slug>/（解析结果 osaka/data/raw/suumo/lines.json）",
   "ek_rule": "检索 URL 的 ek = rn(4 位路線代码) + 5 位站代码；同一物理站每条线一个 ek；url 字段是该站 1R/1K（md=01,02）不限价的检索页",
-  "n_reach": 842,
-  "n_matched_op": 824,
+  "n_reach": 833,
+  "n_matched_op": 825,
   "n_name_only": 0,
-  "n_unmatched": 18,
+  "n_unmatched": 8,
   "n_lines": 154,
   "n_suumo_stations": 1615,
   "how": "reach.json 的 842 站 ↔ SUUMO 関西版 站代码（ek）对表 → osaka/data/suumo_ek.json。只对表，不抓房租。\n   python3 pipeline/osaka/suumo_stations.py [--refetch]\n\nSUUMO 的租房检索 URL（cost/data/cities/osaka.json 里已有 4 例）长这样：\n   https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202025390&…\n   ek = rn（4 位路線代码）+ 5 位站代码；同一物理站在每条线上各有一个 ek。\n站代码来源：SUUMO 各府县「沿線から探す」页 https://suumo.jp/chintai/<pref>/ensen/ 列出路線 slug，\n路線页 https://suumo.jp/chintai/<pref>/en_<slug>/ 底部「○○線から賃貸を探す」块里每站一个链接\n   <a href=\"/chintai/<pref>/ek_<5位>/?rn=<4位>\">駅名</a>\n六府县（大阪・兵庫・京都・奈良・滋賀・和歌山）都抓，因为 reach.json 里有 358 站在大阪府外。HTML 缓存进 osaka/data/raw/suumo/html/（不进仓库），解析结果 raw/suumo/lines.json 进仓库。\n对表：站名 NFKC 归一（去「駅」、空白）后相同 → 候选；再看候选所在路線的运营者和 reach 的 ops 有没有交集，有交集的记 op_match=true。一个都对不上的进 unmatched。"
@@ -3654,8 +3654,8 @@
    "name": "千里中央",
    "grp": "モノレール",
    "ops": [
-    "大阪モノレール",
-    "大阪市高速電気軌道"
+    "北大阪急行電鉄",
+    "大阪モノレール"
    ],
    "in_osaka": true,
    "suumo": [
@@ -8283,13 +8283,42 @@
   },
   {
    "station_id": "S0455",
-   "name": "今津駅1号線",
+   "name": "今津",
    "grp": "",
    "ops": [
-    "阪急電鉄"
+    "近畿日本鉄道",
+    "阪急電鉄",
+    "阪神電気鉄道"
    ],
    "in_osaka": false,
-   "suumo": []
+   "suumo": [
+    {
+     "rn": "2070",
+     "ek": "207003640",
+     "ek5": "03640",
+     "line": "阪急今津線（兵庫県）",
+     "pref": "hyogo",
+     "ops": [
+      "阪急電鉄"
+     ],
+     "suumo_name": "今津",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2070&ek=207003640&md=01&md=02&cn=9999999&po1=12&pc=50"
+    },
+    {
+     "rn": "2115",
+     "ek": "211503643",
+     "ek5": "03643",
+     "line": "阪神本線（兵庫県）",
+     "pref": "hyogo",
+     "ops": [
+      "阪神電気鉄道"
+     ],
+     "suumo_name": "今津",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2115&ek=211503643&md=01&md=02&cn=9999999&po1=12&pc=50"
+    }
+   ]
   },
   {
    "station_id": "S0456",
@@ -8622,7 +8651,7 @@
    "name": "桃山台",
    "grp": "阪急",
    "ops": [
-    "大阪市高速電気軌道"
+    "北大阪急行電鉄"
    ],
    "in_osaka": true,
    "suumo": [
@@ -8648,7 +8677,7 @@
    "name": "緑地公園",
    "grp": "Metro",
    "ops": [
-    "大阪市高速電気軌道"
+    "北大阪急行電鉄"
    ],
    "in_osaka": true,
    "suumo": [
@@ -14768,16 +14797,6 @@
   },
   {
    "station_id": "S0719",
-   "name": "今津駅2号線",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0720",
    "name": "大阪",
    "grp": "JR",
    "ops": [
@@ -14840,7 +14859,45 @@
    ]
   },
   {
-   "station_id": "S0724",
+   "station_id": "S0720",
+   "name": "出町柳",
+   "grp": "",
+   "ops": [
+    "京阪電気鉄道",
+    "叡山電鉄"
+   ],
+   "in_osaka": false,
+   "suumo": [
+    {
+     "rn": "2140",
+     "ek": "214025210",
+     "ek5": "25210",
+     "line": "京阪鴨東線（京都府）",
+     "pref": "kyoto",
+     "ops": [
+      "京阪電気鉄道"
+     ],
+     "suumo_name": "出町柳",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=026&rn=2140&ek=214025210&md=01&md=02&cn=9999999&po1=12&pc=50"
+    },
+    {
+     "rn": "2405",
+     "ek": "240525213",
+     "ek5": "25213",
+     "line": "叡山電鉄叡山本線（京都府）",
+     "pref": "kyoto",
+     "ops": [
+      "叡山電鉄"
+     ],
+     "suumo_name": "出町柳",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=026&rn=2405&ek=240525213&md=01&md=02&cn=9999999&po1=12&pc=50"
+    }
+   ]
+  },
+  {
+   "station_id": "S0722",
    "name": "橋本",
    "grp": "",
    "ops": [
@@ -14890,7 +14947,7 @@
    ]
   },
   {
-   "station_id": "S0725",
+   "station_id": "S0723",
    "name": "橋本",
    "grp": "",
    "ops": [
@@ -14940,37 +14997,31 @@
    ]
   },
   {
-   "station_id": "S0726",
-   "name": "長岡京駅1番のりば",
+   "station_id": "S0724",
+   "name": "長岡京",
    "grp": "",
    "ops": [
     "西日本旅客鉄道"
    ],
    "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0727",
-   "name": "長岡京駅3番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "suumo": []
+   "suumo": [
+    {
+     "rn": "2420",
+     "ek": "242026920",
+     "ek5": "26920",
+     "line": "ＪＲ東海道本線（京都府）",
+     "pref": "kyoto",
+     "ops": [
+      "西日本旅客鉄道"
+     ],
+     "suumo_name": "長岡京",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=026&rn=2420&ek=242026920&md=01&md=02&cn=9999999&po1=12&pc=50"
+    }
+   ]
   },
   {
    "station_id": "S0728",
-   "name": "長岡京駅2番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0732",
    "name": "石津北",
    "grp": "",
    "ops": [
@@ -14994,7 +15045,7 @@
    ]
   },
   {
-   "station_id": "S0733",
+   "station_id": "S0729",
    "name": "山本",
    "grp": "",
    "ops": [
@@ -15018,7 +15069,7 @@
    ]
   },
   {
-   "station_id": "S0734",
+   "station_id": "S0730",
    "name": "中山観音",
    "grp": "",
    "ops": [
@@ -15042,7 +15093,7 @@
    ]
   },
   {
-   "station_id": "S0735",
+   "station_id": "S0731",
    "name": "清荒神",
    "grp": "",
    "ops": [
@@ -15066,7 +15117,7 @@
    ]
   },
   {
-   "station_id": "S0743",
+   "station_id": "S0739",
    "name": "南吹田",
    "grp": "JR",
    "ops": [
@@ -15090,7 +15141,7 @@
    ]
   },
   {
-   "station_id": "S0744",
+   "station_id": "S0740",
    "name": "御幣島",
    "grp": "JR",
    "ops": [
@@ -15114,7 +15165,7 @@
    ]
   },
   {
-   "station_id": "S0745",
+   "station_id": "S0741",
    "name": "加島",
    "grp": "JR",
    "ops": [
@@ -15138,7 +15189,7 @@
    ]
   },
   {
-   "station_id": "S0746",
+   "station_id": "S0742",
    "name": "JR総持寺",
    "grp": "JR",
    "ops": [
@@ -15162,7 +15213,7 @@
    ]
   },
   {
-   "station_id": "S0747",
+   "station_id": "S0743",
    "name": "島本",
    "grp": "JR",
    "ops": [
@@ -15186,7 +15237,7 @@
    ]
   },
   {
-   "station_id": "S0749",
+   "station_id": "S0745",
    "name": "六甲",
    "grp": "",
    "ops": [
@@ -15210,7 +15261,7 @@
    ]
   },
   {
-   "station_id": "S0750",
+   "station_id": "S0746",
    "name": "王子公園",
    "grp": "",
    "ops": [
@@ -15234,7 +15285,7 @@
    ]
   },
   {
-   "station_id": "S0752",
+   "station_id": "S0748",
    "name": "布施",
    "grp": "近鉄",
    "ops": [
@@ -15271,7 +15322,7 @@
    ]
   },
   {
-   "station_id": "S0753",
+   "station_id": "S0749",
    "name": "大阪難波",
    "grp": "近鉄",
    "ops": [
@@ -15309,7 +15360,7 @@
    ]
   },
   {
-   "station_id": "S0754",
+   "station_id": "S0750",
    "name": "大阪阿部野橋",
    "grp": "近鉄",
    "ops": [
@@ -15333,7 +15384,7 @@
    ]
   },
   {
-   "station_id": "S0755",
+   "station_id": "S0751",
    "name": "福島",
    "grp": "阪神",
    "ops": [
@@ -15371,7 +15422,7 @@
    ]
   },
   {
-   "station_id": "S0756",
+   "station_id": "S0752",
    "name": "鳴尾・武庫川女子大前",
    "grp": "",
    "ops": [
@@ -15395,7 +15446,7 @@
    ]
   },
   {
-   "station_id": "S0762",
+   "station_id": "S0756",
    "name": "桂",
    "grp": "",
    "ops": [
@@ -15432,7 +15483,7 @@
    ]
   },
   {
-   "station_id": "S0765",
+   "station_id": "S0759",
    "name": "新神戸",
    "grp": "",
    "ops": [
@@ -15482,7 +15533,7 @@
    ]
   },
   {
-   "station_id": "S0766",
+   "station_id": "S0760",
    "name": "名谷",
    "grp": "",
    "ops": [
@@ -15506,7 +15557,7 @@
    ]
   },
   {
-   "station_id": "S0767",
+   "station_id": "S0761",
    "name": "神崎川",
    "grp": "阪急",
    "ops": [
@@ -15530,7 +15581,7 @@
    ]
   },
   {
-   "station_id": "S0768",
+   "station_id": "S0762",
    "name": "塚口",
    "grp": "",
    "ops": [
@@ -15580,7 +15631,7 @@
    ]
   },
   {
-   "station_id": "S0769",
+   "station_id": "S0763",
    "name": "塚口",
    "grp": "",
    "ops": [
@@ -15630,7 +15681,7 @@
    ]
   },
   {
-   "station_id": "S0770",
+   "station_id": "S0764",
    "name": "武庫之荘",
    "grp": "",
    "ops": [
@@ -15654,7 +15705,7 @@
    ]
   },
   {
-   "station_id": "S0771",
+   "station_id": "S0765",
    "name": "計算科学センター",
    "grp": "",
    "ops": [
@@ -15664,7 +15715,7 @@
    "suumo": []
   },
   {
-   "station_id": "S0772",
+   "station_id": "S0766",
    "name": "医療センター",
    "grp": "",
    "ops": [
@@ -15674,7 +15725,7 @@
    "suumo": []
   },
   {
-   "station_id": "S0773",
+   "station_id": "S0767",
    "name": "市民広場",
    "grp": "",
    "ops": [
@@ -15698,7 +15749,7 @@
    ]
   },
   {
-   "station_id": "S0774",
+   "station_id": "S0768",
    "name": "南公園",
    "grp": "",
    "ops": [
@@ -15722,7 +15773,7 @@
    ]
   },
   {
-   "station_id": "S0775",
+   "station_id": "S0769",
    "name": "中埠頭",
    "grp": "",
    "ops": [
@@ -15746,7 +15797,7 @@
    ]
   },
   {
-   "station_id": "S0776",
+   "station_id": "S0770",
    "name": "北埠頭",
    "grp": "",
    "ops": [
@@ -15770,7 +15821,7 @@
    ]
   },
   {
-   "station_id": "S0777",
+   "station_id": "S0771",
    "name": "中公園",
    "grp": "",
    "ops": [
@@ -15794,7 +15845,7 @@
    ]
   },
   {
-   "station_id": "S0778",
+   "station_id": "S0772",
    "name": "ポートターミナル",
    "grp": "",
    "ops": [
@@ -15818,7 +15869,7 @@
    ]
   },
   {
-   "station_id": "S0779",
+   "station_id": "S0773",
    "name": "貿易センター",
    "grp": "",
    "ops": [
@@ -15842,7 +15893,7 @@
    ]
   },
   {
-   "station_id": "S0780",
+   "station_id": "S0774",
    "name": "桜島",
    "grp": "JR",
    "ops": [
@@ -15866,7 +15917,7 @@
    ]
   },
   {
-   "station_id": "S0781",
+   "station_id": "S0775",
    "name": "ユニバーサルシティ",
    "grp": "JR",
    "ops": [
@@ -15890,7 +15941,7 @@
    ]
   },
   {
-   "station_id": "S0784",
+   "station_id": "S0778",
    "name": "淀川",
    "grp": "阪神",
    "ops": [
@@ -15914,7 +15965,7 @@
    ]
   },
   {
-   "station_id": "S0785",
+   "station_id": "S0779",
    "name": "須磨",
    "grp": "",
    "ops": [
@@ -15939,7 +15990,7 @@
    ]
   },
   {
-   "station_id": "S0787",
+   "station_id": "S0781",
    "name": "兵庫",
    "grp": "",
    "ops": [
@@ -15964,7 +16015,7 @@
    ]
   },
   {
-   "station_id": "S0789",
+   "station_id": "S0783",
    "name": "六甲道",
    "grp": "",
    "ops": [
@@ -15988,7 +16039,7 @@
    ]
   },
   {
-   "station_id": "S0790",
+   "station_id": "S0784",
    "name": "甲南山手",
    "grp": "",
    "ops": [
@@ -16012,7 +16063,7 @@
    ]
   },
   {
-   "station_id": "S0791",
+   "station_id": "S0785",
    "name": "姫島",
    "grp": "阪神",
    "ops": [
@@ -16036,7 +16087,7 @@
    ]
   },
   {
-   "station_id": "S0792",
+   "station_id": "S0786",
    "name": "千船",
    "grp": "阪神",
    "ops": [
@@ -16060,7 +16111,7 @@
    ]
   },
   {
-   "station_id": "S0793",
+   "station_id": "S0787",
    "name": "大物",
    "grp": "",
    "ops": [
@@ -16097,7 +16148,7 @@
    ]
   },
   {
-   "station_id": "S0794",
+   "station_id": "S0788",
    "name": "みさき公園",
    "grp": "南海",
    "ops": [
@@ -16134,7 +16185,7 @@
    ]
   },
   {
-   "station_id": "S0811",
+   "station_id": "S0799",
    "name": "有馬口",
    "grp": "",
    "ops": [
@@ -16171,7 +16222,7 @@
    ]
   },
   {
-   "station_id": "S0812",
+   "station_id": "S0800",
    "name": "岸里玉出",
    "grp": "南海",
    "ops": [
@@ -16221,7 +16272,7 @@
    ]
   },
   {
-   "station_id": "S0813",
+   "station_id": "S0801",
    "name": "住ノ江",
    "grp": "南海",
    "ops": [
@@ -16245,7 +16296,7 @@
    ]
   },
   {
-   "station_id": "S0814",
+   "station_id": "S0802",
    "name": "粉浜",
    "grp": "南海",
    "ops": [
@@ -16269,7 +16320,7 @@
    ]
   },
   {
-   "station_id": "S0815",
+   "station_id": "S0803",
    "name": "七道",
    "grp": "南海",
    "ops": [
@@ -16293,7 +16344,7 @@
    ]
   },
   {
-   "station_id": "S0866",
+   "station_id": "S0854",
    "name": "三ノ宮",
    "grp": "",
    "ops": [
@@ -16317,7 +16368,7 @@
    ]
   },
   {
-   "station_id": "S0867",
+   "station_id": "S0855",
    "name": "鈴蘭台",
    "grp": "",
    "ops": [
@@ -16354,7 +16405,7 @@
    ]
   },
   {
-   "station_id": "S0868",
+   "station_id": "S0856",
    "name": "唐櫃台",
    "grp": "",
    "ops": [
@@ -16378,7 +16429,7 @@
    ]
   },
   {
-   "station_id": "S0869",
+   "station_id": "S0857",
    "name": "神鉄六甲",
    "grp": "",
    "ops": [
@@ -16402,7 +16453,7 @@
    ]
   },
   {
-   "station_id": "S0870",
+   "station_id": "S0858",
    "name": "大池",
    "grp": "",
    "ops": [
@@ -16426,7 +16477,7 @@
    ]
   },
   {
-   "station_id": "S0871",
+   "station_id": "S0859",
    "name": "花山",
    "grp": "",
    "ops": [
@@ -16450,14 +16501,28 @@
    ]
   },
   {
-   "station_id": "S0872",
+   "station_id": "S0860",
    "name": "谷上",
    "grp": "",
    "ops": [
+    "神戸市交通局",
     "神戸電鉄"
    ],
    "in_osaka": false,
    "suumo": [
+    {
+     "rn": "2380",
+     "ek": "238023333",
+     "ek5": "23333",
+     "line": "地下鉄北神線（兵庫県）",
+     "pref": "hyogo",
+     "ops": [
+      "神戸市交通局"
+     ],
+     "suumo_name": "谷上",
+     "op_match": true,
+     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2380&ek=238023333&md=01&md=02&cn=9999999&po1=12&pc=50"
+    },
     {
      "rn": "2345",
      "ek": "234523330",
@@ -16470,44 +16535,11 @@
      "suumo_name": "谷上",
      "op_match": true,
      "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2345&ek=234523330&md=01&md=02&cn=9999999&po1=12&pc=50"
-    },
-    {
-     "rn": "2380",
-     "ek": "238023333",
-     "ek5": "23333",
-     "line": "地下鉄北神線（兵庫県）",
-     "pref": "hyogo",
-     "ops": [
-      "神戸市交通局"
-     ],
-     "suumo_name": "谷上",
-     "op_match": false,
-     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2380&ek=238023333&md=01&md=02&cn=9999999&po1=12&pc=50"
     }
    ]
   },
   {
-   "station_id": "S0873",
-   "name": "谷上駅4･5番線",
-   "grp": "",
-   "ops": [
-    "神戸市交通局"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0874",
-   "name": "谷上駅6番線",
-   "grp": "",
-   "ops": [
-    "神戸市交通局"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0882",
+   "station_id": "S0868",
    "name": "みなとじま",
    "grp": "",
    "ops": [
@@ -16531,7 +16563,7 @@
    ]
   },
   {
-   "station_id": "S0884",
+   "station_id": "S0870",
    "name": "有馬温泉",
    "grp": "",
    "ops": [
@@ -16555,7 +16587,7 @@
    ]
   },
   {
-   "station_id": "S0885",
+   "station_id": "S0871",
    "name": "嵐山",
    "grp": "",
    "ops": [
@@ -16592,7 +16624,7 @@
    ]
   },
   {
-   "station_id": "S0886",
+   "station_id": "S0872",
    "name": "嵐山",
    "grp": "",
    "ops": [
@@ -16629,7 +16661,7 @@
    ]
   },
   {
-   "station_id": "S0887",
+   "station_id": "S0873",
    "name": "洛西口",
    "grp": "",
    "ops": [
@@ -16653,7 +16685,7 @@
    ]
   },
   {
-   "station_id": "S0890",
+   "station_id": "S0876",
    "name": "尺土",
    "grp": "",
    "ops": [
@@ -16690,7 +16722,7 @@
    ]
   },
   {
-   "station_id": "S0891",
+   "station_id": "S0877",
    "name": "布忍",
    "grp": "近鉄",
    "ops": [
@@ -16714,7 +16746,7 @@
    ]
   },
   {
-   "station_id": "S0892",
+   "station_id": "S0878",
    "name": "甲子園",
    "grp": "",
    "ops": [
@@ -16740,7 +16772,7 @@
    ]
   },
   {
-   "station_id": "S0893",
+   "station_id": "S0879",
    "name": "摩耶",
    "grp": "",
    "ops": [
@@ -16764,7 +16796,7 @@
    ]
   },
   {
-   "station_id": "S0894",
+   "station_id": "S0880",
    "name": "相川",
    "grp": "阪急",
    "ops": [
@@ -16788,7 +16820,7 @@
    ]
   },
   {
-   "station_id": "S0895",
+   "station_id": "S0881",
    "name": "上新庄",
    "grp": "阪急",
    "ops": [
@@ -16812,7 +16844,7 @@
    ]
   },
   {
-   "station_id": "S0896",
+   "station_id": "S0882",
    "name": "北野白梅町",
    "grp": "",
    "ops": [
@@ -16836,7 +16868,7 @@
    ]
   },
   {
-   "station_id": "S0900",
+   "station_id": "S0886",
    "name": "岩屋",
    "grp": "",
    "ops": [
@@ -16860,7 +16892,7 @@
    ]
   },
   {
-   "station_id": "S0901",
+   "station_id": "S0887",
    "name": "新在家",
    "grp": "",
    "ops": [
@@ -16884,7 +16916,7 @@
    ]
   },
   {
-   "station_id": "S0902",
+   "station_id": "S0888",
    "name": "西灘",
    "grp": "",
    "ops": [
@@ -16908,7 +16940,7 @@
    ]
   },
   {
-   "station_id": "S0903",
+   "station_id": "S0889",
    "name": "石屋川",
    "grp": "",
    "ops": [
@@ -16932,7 +16964,7 @@
    ]
   },
   {
-   "station_id": "S0904",
+   "station_id": "S0890",
    "name": "久寿川",
    "grp": "",
    "ops": [
@@ -16956,45 +16988,7 @@
    ]
   },
   {
-   "station_id": "S0905",
-   "name": "今津",
-   "grp": "",
-   "ops": [
-    "近畿日本鉄道",
-    "阪神電気鉄道"
-   ],
-   "in_osaka": false,
-   "suumo": [
-    {
-     "rn": "2115",
-     "ek": "211503643",
-     "ek5": "03643",
-     "line": "阪神本線（兵庫県）",
-     "pref": "hyogo",
-     "ops": [
-      "阪神電気鉄道"
-     ],
-     "suumo_name": "今津",
-     "op_match": true,
-     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2115&ek=211503643&md=01&md=02&cn=9999999&po1=12&pc=50"
-    },
-    {
-     "rn": "2070",
-     "ek": "207003640",
-     "ek5": "03640",
-     "line": "阪急今津線（兵庫県）",
-     "pref": "hyogo",
-     "ops": [
-      "阪急電鉄"
-     ],
-     "suumo_name": "今津",
-     "op_match": false,
-     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=028&rn=2070&ek=207003640&md=01&md=02&cn=9999999&po1=12&pc=50"
-    }
-   ]
-  },
-  {
-   "station_id": "S0906",
+   "station_id": "S0891",
    "name": "竹田",
    "grp": "",
    "ops": [
@@ -17046,7 +17040,7 @@
    ]
   },
   {
-   "station_id": "S0907",
+   "station_id": "S0892",
    "name": "近鉄京都",
    "grp": "",
    "ops": [
@@ -17148,7 +17142,7 @@
    ]
   },
   {
-   "station_id": "S0908",
+   "station_id": "S0893",
    "name": "細井川",
    "grp": "",
    "ops": [
@@ -17172,7 +17166,7 @@
    ]
   },
   {
-   "station_id": "S0909",
+   "station_id": "S0894",
    "name": "住道",
    "grp": "JR",
    "ops": [
@@ -17196,7 +17190,7 @@
    ]
   },
   {
-   "station_id": "S0910",
+   "station_id": "S0895",
    "name": "千里山",
    "grp": "阪急",
    "ops": [
@@ -17220,7 +17214,7 @@
    ]
   },
   {
-   "station_id": "S0911",
+   "station_id": "S0896",
    "name": "荒本",
    "grp": "近鉄",
    "ops": [
@@ -17244,7 +17238,7 @@
    ]
   },
   {
-   "station_id": "S0912",
+   "station_id": "S0897",
    "name": "上野芝",
    "grp": "JR",
    "ops": [
@@ -17268,7 +17262,7 @@
    ]
   },
   {
-   "station_id": "S0913",
+   "station_id": "S0898",
    "name": "百舌鳥",
    "grp": "JR",
    "ops": [
@@ -17292,7 +17286,7 @@
    ]
   },
   {
-   "station_id": "S0914",
+   "station_id": "S0899",
    "name": "杉本町",
    "grp": "JR",
    "ops": [
@@ -17316,7 +17310,7 @@
    ]
   },
   {
-   "station_id": "S0917",
+   "station_id": "S0902",
    "name": "高槻市",
    "grp": "阪急",
    "ops": [
@@ -17340,7 +17334,7 @@
    ]
   },
   {
-   "station_id": "S0918",
+   "station_id": "S0903",
    "name": "大倉山",
    "grp": "",
    "ops": [
@@ -17364,27 +17358,7 @@
    ]
   },
   {
-   "station_id": "S0919",
-   "name": "北改札口",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0920",
-   "name": "西改札口",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S0921",
+   "station_id": "S0904",
    "name": "北野田",
    "grp": "南海",
    "ops": [
@@ -17408,7 +17382,7 @@
    ]
   },
   {
-   "station_id": "S0922",
+   "station_id": "S0905",
    "name": "茨木市",
    "grp": "阪急",
    "ops": [
@@ -17432,7 +17406,7 @@
    ]
   },
   {
-   "station_id": "S0923",
+   "station_id": "S0906",
    "name": "宇野辺",
    "grp": "モノレール",
    "ops": [
@@ -17456,7 +17430,7 @@
    ]
   },
   {
-   "station_id": "S0930",
+   "station_id": "S0913",
    "name": "枚岡",
    "grp": "近鉄",
    "ops": [
@@ -17480,7 +17454,7 @@
    ]
   },
   {
-   "station_id": "S0931",
+   "station_id": "S0914",
    "name": "額田",
    "grp": "近鉄",
    "ops": [
@@ -17504,7 +17478,7 @@
    ]
   },
   {
-   "station_id": "S0939",
+   "station_id": "S0922",
    "name": "少路",
    "grp": "モノレール",
    "ops": [
@@ -17528,7 +17502,7 @@
    ]
   },
   {
-   "station_id": "S0940",
+   "station_id": "S0923",
    "name": "公園東口",
    "grp": "モノレール",
    "ops": [
@@ -17552,7 +17526,7 @@
    ]
   },
   {
-   "station_id": "S0941",
+   "station_id": "S0924",
    "name": "阪大病院前",
    "grp": "モノレール",
    "ops": [
@@ -17576,7 +17550,7 @@
    ]
   },
   {
-   "station_id": "S0942",
+   "station_id": "S0925",
    "name": "豊川",
    "grp": "モノレール",
    "ops": [
@@ -17600,7 +17574,7 @@
    ]
   },
   {
-   "station_id": "S0943",
+   "station_id": "S0926",
    "name": "万博記念公園",
    "grp": "モノレール",
    "ops": [
@@ -17637,7 +17611,7 @@
    ]
   },
   {
-   "station_id": "S0944",
+   "station_id": "S0927",
    "name": "南魚崎",
    "grp": "",
    "ops": [
@@ -17661,7 +17635,7 @@
    ]
   },
   {
-   "station_id": "S0945",
+   "station_id": "S0928",
    "name": "アイランドセンター",
    "grp": "",
    "ops": [
@@ -17685,7 +17659,7 @@
    ]
   },
   {
-   "station_id": "S0946",
+   "station_id": "S0929",
    "name": "石橋阪大前",
    "grp": "阪急",
    "ops": [
@@ -17722,7 +17696,7 @@
    ]
   },
   {
-   "station_id": "S0947",
+   "station_id": "S0930",
    "name": "鳳",
    "grp": "JR",
    "ops": [
@@ -17746,7 +17720,7 @@
    ]
   },
   {
-   "station_id": "S0948",
+   "station_id": "S0931",
    "name": "須磨寺",
    "grp": "",
    "ops": [
@@ -17770,7 +17744,7 @@
    ]
   },
   {
-   "station_id": "S0951",
+   "station_id": "S0934",
    "name": "亀岡",
    "grp": "",
    "ops": [
@@ -17794,7 +17768,7 @@
    ]
   },
   {
-   "station_id": "S0952",
+   "station_id": "S0935",
    "name": "土師ノ里",
    "grp": "近鉄",
    "ops": [
@@ -17818,7 +17792,7 @@
    ]
   },
   {
-   "station_id": "S0953",
+   "station_id": "S0936",
    "name": "大阪港",
    "grp": "Metro",
    "ops": [
@@ -17842,7 +17816,7 @@
    ]
   },
   {
-   "station_id": "S0954",
+   "station_id": "S0937",
    "name": "浜寺公園",
    "grp": "南海",
    "ops": [
@@ -17866,7 +17840,7 @@
    ]
   },
   {
-   "station_id": "S0955",
+   "station_id": "S0938",
    "name": "高石",
    "grp": "南海",
    "ops": [
@@ -17890,7 +17864,7 @@
    ]
   },
   {
-   "station_id": "S0956",
+   "station_id": "S0939",
    "name": "村野",
    "grp": "京阪",
    "ops": [
@@ -17914,7 +17888,7 @@
    ]
   },
   {
-   "station_id": "S0957",
+   "station_id": "S0940",
    "name": "郡津",
    "grp": "京阪",
    "ops": [
@@ -17938,7 +17912,7 @@
    ]
   },
   {
-   "station_id": "S0958",
+   "station_id": "S0941",
    "name": "交野市",
    "grp": "京阪",
    "ops": [
@@ -17962,7 +17936,7 @@
    ]
   },
   {
-   "station_id": "S0960",
+   "station_id": "S0943",
    "name": "和泉砂川",
    "grp": "JR",
    "ops": [
@@ -17986,7 +17960,7 @@
    ]
   },
   {
-   "station_id": "S0961",
+   "station_id": "S0944",
    "name": "山中渓",
    "grp": "JR",
    "ops": [
@@ -18010,11 +17984,11 @@
    ]
   },
   {
-   "station_id": "S0962",
+   "station_id": "S0945",
    "name": "箕面船場阪大前",
    "grp": "Metro",
    "ops": [
-    "大阪市高速電気軌道"
+    "北大阪急行電鉄"
    ],
    "in_osaka": true,
    "suumo": [
@@ -18036,7 +18010,7 @@
    ]
   },
   {
-   "station_id": "S0963",
+   "station_id": "S0946",
    "name": "名越",
    "grp": "その他",
    "ops": [
@@ -18060,7 +18034,7 @@
    ]
   },
   {
-   "station_id": "S0964",
+   "station_id": "S0947",
    "name": "鳥取ノ荘",
    "grp": "南海",
    "ops": [
@@ -18084,7 +18058,7 @@
    ]
   },
   {
-   "station_id": "S0965",
+   "station_id": "S0948",
    "name": "淀屋橋",
    "grp": "Metro",
    "ops": [
@@ -18122,7 +18096,7 @@
    ]
   },
   {
-   "station_id": "S0966",
+   "station_id": "S0949",
    "name": "下新庄",
    "grp": "阪急",
    "ops": [
@@ -18146,7 +18120,7 @@
    ]
   },
   {
-   "station_id": "S0967",
+   "station_id": "S0950",
    "name": "二上神社口",
    "grp": "",
    "ops": [
@@ -18170,7 +18144,7 @@
    ]
   },
   {
-   "station_id": "S0968",
+   "station_id": "S0951",
    "name": "二上山",
    "grp": "",
    "ops": [
@@ -18194,7 +18168,7 @@
    ]
   },
   {
-   "station_id": "S0970",
+   "station_id": "S0953",
    "name": "法隆寺",
    "grp": "",
    "ops": [
@@ -18218,7 +18192,7 @@
    ]
   },
   {
-   "station_id": "S0972",
+   "station_id": "S0955",
    "name": "ウッディタウン中央",
    "grp": "",
    "ops": [
@@ -18242,7 +18216,7 @@
    ]
   },
   {
-   "station_id": "S0973",
+   "station_id": "S0956",
    "name": "新今宮駅前",
    "grp": "阪堺",
    "ops": [
@@ -18266,7 +18240,7 @@
    ]
   },
   {
-   "station_id": "S0974",
+   "station_id": "S0957",
    "name": "北千里",
    "grp": "阪急",
    "ops": [
@@ -18290,7 +18264,7 @@
    ]
   },
   {
-   "station_id": "S0975",
+   "station_id": "S0958",
    "name": "柴原",
    "grp": "",
    "ops": [
@@ -18314,7 +18288,7 @@
    ]
   },
   {
-   "station_id": "S0976",
+   "station_id": "S0959",
    "name": "湊川",
    "grp": "",
    "ops": [
@@ -18354,7 +18328,7 @@
    ]
   },
   {
-   "station_id": "S0977",
+   "station_id": "S0960",
    "name": "新開地",
    "grp": "",
    "ops": [
@@ -18426,7 +18400,7 @@
    ]
   },
   {
-   "station_id": "S0978",
+   "station_id": "S0961",
    "name": "出来島",
    "grp": "阪神",
    "ops": [
@@ -18450,7 +18424,7 @@
    ]
   },
   {
-   "station_id": "S0979",
+   "station_id": "S0962",
    "name": "伝法",
    "grp": "阪神",
    "ops": [
@@ -18474,7 +18448,7 @@
    ]
   },
   {
-   "station_id": "S0980",
+   "station_id": "S0963",
    "name": "千鳥橋",
    "grp": "阪神",
    "ops": [
@@ -18498,7 +18472,7 @@
    ]
   },
   {
-   "station_id": "S0981",
+   "station_id": "S0964",
    "name": "三国ヶ丘",
    "grp": "",
    "ops": [
@@ -18535,7 +18509,7 @@
    ]
   },
   {
-   "station_id": "S0982",
+   "station_id": "S0965",
    "name": "JR野江",
    "grp": "JR",
    "ops": [
@@ -18559,7 +18533,7 @@
    ]
   },
   {
-   "station_id": "S0983",
+   "station_id": "S0966",
    "name": "城北公園通",
    "grp": "JR",
    "ops": [
@@ -18583,7 +18557,7 @@
    ]
   },
   {
-   "station_id": "S0984",
+   "station_id": "S0967",
    "name": "甲東園",
    "grp": "",
    "ops": [
@@ -18607,7 +18581,7 @@
    ]
   },
   {
-   "station_id": "S0985",
+   "station_id": "S0968",
    "name": "箕谷",
    "grp": "",
    "ops": [
@@ -18631,7 +18605,7 @@
    ]
   },
   {
-   "station_id": "S0986",
+   "station_id": "S0969",
    "name": "絹延橋",
    "grp": "",
    "ops": [
@@ -18655,7 +18629,7 @@
    ]
   },
   {
-   "station_id": "S0987",
+   "station_id": "S0970",
    "name": "鴬の森",
    "grp": "その他",
    "ops": [
@@ -18679,7 +18653,7 @@
    ]
   },
   {
-   "station_id": "S0988",
+   "station_id": "S0971",
    "name": "北鈴蘭台",
    "grp": "",
    "ops": [
@@ -18703,7 +18677,7 @@
    ]
   },
   {
-   "station_id": "S0989",
+   "station_id": "S0972",
    "name": "山の街",
    "grp": "",
    "ops": [
@@ -18727,7 +18701,7 @@
    ]
   },
   {
-   "station_id": "S0990",
+   "station_id": "S0973",
    "name": "フラワータウン",
    "grp": "",
    "ops": [
@@ -18751,7 +18725,7 @@
    ]
   },
   {
-   "station_id": "S0991",
+   "station_id": "S0974",
    "name": "南ウッディタウン",
    "grp": "",
    "ops": [
@@ -18775,7 +18749,7 @@
    ]
   },
   {
-   "station_id": "S0992",
+   "station_id": "S0975",
    "name": "保津峡",
    "grp": "",
    "ops": [
@@ -18799,7 +18773,7 @@
    ]
   },
   {
-   "station_id": "S0995",
+   "station_id": "S0978",
    "name": "青木",
    "grp": "",
    "ops": [
@@ -18823,7 +18797,7 @@
    ]
   },
   {
-   "station_id": "S1001",
+   "station_id": "S0984",
    "name": "天満",
    "grp": "JR",
    "ops": [
@@ -18847,7 +18821,7 @@
    ]
   },
   {
-   "station_id": "S1002",
+   "station_id": "S0985",
    "name": "大阪城公園",
    "grp": "JR",
    "ops": [
@@ -18871,7 +18845,7 @@
    ]
   },
   {
-   "station_id": "S1003",
+   "station_id": "S0986",
    "name": "新今宮",
    "grp": "南海",
    "ops": [
@@ -18935,7 +18909,7 @@
    ]
   },
   {
-   "station_id": "S1005",
+   "station_id": "S0988",
    "name": "円町",
    "grp": "",
    "ops": [
@@ -18959,7 +18933,7 @@
    ]
   },
   {
-   "station_id": "S1007",
+   "station_id": "S0990",
    "name": "JR難波",
    "grp": "JR",
    "ops": [
@@ -18983,7 +18957,7 @@
    ]
   },
   {
-   "station_id": "S1008",
+   "station_id": "S0991",
    "name": "京都河原町",
    "grp": "",
    "ops": [
@@ -19007,7 +18981,7 @@
    ]
   },
   {
-   "station_id": "S1009",
+   "station_id": "S0992",
    "name": "松田町",
    "grp": "",
    "ops": [
@@ -19031,7 +19005,7 @@
    ]
   },
   {
-   "station_id": "S1010",
+   "station_id": "S0993",
    "name": "北天下茶屋",
    "grp": "阪堺",
    "ops": [
@@ -19055,7 +19029,7 @@
    ]
   },
   {
-   "station_id": "S1015",
+   "station_id": "S0998",
    "name": "我孫子町",
    "grp": "JR",
    "ops": [
@@ -19079,7 +19053,7 @@
    ]
   },
   {
-   "station_id": "S1016",
+   "station_id": "S0999",
    "name": "堺市",
    "grp": "JR",
    "ops": [
@@ -19103,7 +19077,7 @@
    ]
   },
   {
-   "station_id": "S1017",
+   "station_id": "S1000",
    "name": "和泉府中",
    "grp": "JR",
    "ops": [
@@ -19127,7 +19101,7 @@
    ]
   },
   {
-   "station_id": "S1018",
+   "station_id": "S1001",
    "name": "下松",
    "grp": "JR",
    "ops": [
@@ -19151,7 +19125,7 @@
    ]
   },
   {
-   "station_id": "S1019",
+   "station_id": "S1002",
    "name": "東岸和田",
    "grp": "JR",
    "ops": [
@@ -19175,7 +19149,7 @@
    ]
   },
   {
-   "station_id": "S1020",
+   "station_id": "S1003",
    "name": "熊取",
    "grp": "JR",
    "ops": [
@@ -19199,7 +19173,7 @@
    ]
   },
   {
-   "station_id": "S1021",
+   "station_id": "S1004",
    "name": "三国ケ丘",
    "grp": "JR",
    "ops": [
@@ -19236,7 +19210,7 @@
    ]
   },
   {
-   "station_id": "S1022",
+   "station_id": "S1005",
    "name": "北信太",
    "grp": "JR",
    "ops": [
@@ -19260,7 +19234,7 @@
    ]
   },
   {
-   "station_id": "S1023",
+   "station_id": "S1006",
    "name": "長滝",
    "grp": "JR",
    "ops": [
@@ -19284,7 +19258,7 @@
    ]
   },
   {
-   "station_id": "S1024",
+   "station_id": "S1007",
    "name": "新家",
    "grp": "JR",
    "ops": [
@@ -19308,7 +19282,7 @@
    ]
   },
   {
-   "station_id": "S1025",
+   "station_id": "S1008",
    "name": "和泉鳥取",
    "grp": "JR",
    "ops": [
@@ -19332,7 +19306,7 @@
    ]
   },
   {
-   "station_id": "S1026",
+   "station_id": "S1009",
    "name": "東羽衣",
    "grp": "JR",
    "ops": [
@@ -19356,10 +19330,11 @@
    ]
   },
   {
-   "station_id": "S1027",
+   "station_id": "S1010",
    "name": "江坂",
    "grp": "Metro",
    "ops": [
+    "北大阪急行電鉄",
     "大阪市高速電気軌道"
    ],
    "in_osaka": true,
@@ -19395,7 +19370,7 @@
    ]
   },
   {
-   "station_id": "S1028",
+   "station_id": "S1011",
    "name": "近義の里",
    "grp": "その他",
    "ops": [
@@ -19419,7 +19394,7 @@
    ]
   },
   {
-   "station_id": "S1029",
+   "station_id": "S1012",
    "name": "貝塚市役所前",
    "grp": "その他",
    "ops": [
@@ -19443,7 +19418,7 @@
    ]
   },
   {
-   "station_id": "S1030",
+   "station_id": "S1013",
    "name": "清児",
    "grp": "その他",
    "ops": [
@@ -19467,7 +19442,7 @@
    ]
   },
   {
-   "station_id": "S1031",
+   "station_id": "S1014",
    "name": "石才",
    "grp": "その他",
    "ops": [
@@ -19491,7 +19466,7 @@
    ]
   },
   {
-   "station_id": "S1032",
+   "station_id": "S1015",
    "name": "三ヶ山口",
    "grp": "その他",
    "ops": [
@@ -19515,7 +19490,7 @@
    ]
   },
   {
-   "station_id": "S1033",
+   "station_id": "S1016",
    "name": "三ツ松",
    "grp": "その他",
    "ops": [
@@ -19539,7 +19514,7 @@
    ]
   },
   {
-   "station_id": "S1034",
+   "station_id": "S1017",
    "name": "森",
    "grp": "その他",
    "ops": [
@@ -19563,7 +19538,7 @@
    ]
   },
   {
-   "station_id": "S1035",
+   "station_id": "S1018",
    "name": "水間観音",
    "grp": "その他",
    "ops": [
@@ -19587,7 +19562,7 @@
    ]
   },
   {
-   "station_id": "S1037",
+   "station_id": "S1020",
    "name": "JR淡路",
    "grp": "JR",
    "ops": [
@@ -19611,7 +19586,7 @@
    ]
   },
   {
-   "station_id": "S1039",
+   "station_id": "S1022",
    "name": "柴島",
    "grp": "阪急",
    "ops": [
@@ -19635,7 +19610,7 @@
    ]
   },
   {
-   "station_id": "S1041",
+   "station_id": "S1024",
    "name": "観月橋",
    "grp": "",
    "ops": [
@@ -19659,7 +19634,7 @@
    ]
   },
   {
-   "station_id": "S1043",
+   "station_id": "S1026",
    "name": "妙法寺",
    "grp": "",
    "ops": [
@@ -19683,7 +19658,7 @@
    ]
   },
   {
-   "station_id": "S1044",
+   "station_id": "S1027",
    "name": "りんくうタウン",
    "grp": "JR",
    "ops": [
@@ -19721,7 +19696,7 @@
    ]
   },
   {
-   "station_id": "S1045",
+   "station_id": "S1028",
    "name": "泉ヶ丘",
    "grp": "南海",
    "ops": [
@@ -19745,7 +19720,7 @@
    ]
   },
   {
-   "station_id": "S1046",
+   "station_id": "S1029",
    "name": "崇禅寺",
    "grp": "阪急",
    "ops": [
@@ -19769,7 +19744,7 @@
    ]
   },
   {
-   "station_id": "S1048",
+   "station_id": "S1031",
    "name": "箱作",
    "grp": "南海",
    "ops": [
@@ -19793,7 +19768,7 @@
    ]
   },
   {
-   "station_id": "S1049",
+   "station_id": "S1032",
    "name": "樽井",
    "grp": "南海",
    "ops": [
@@ -19817,7 +19792,7 @@
    ]
   },
   {
-   "station_id": "S1050",
+   "station_id": "S1033",
    "name": "西大路",
    "grp": "",
    "ops": [
@@ -19841,7 +19816,7 @@
    ]
   },
   {
-   "station_id": "S1054",
+   "station_id": "S1037",
    "name": "俊徳道",
    "grp": "近鉄",
    "ops": [
@@ -19865,7 +19840,7 @@
    ]
   },
   {
-   "station_id": "S1055",
+   "station_id": "S1038",
    "name": "尼崎センタープール前",
    "grp": "",
    "ops": [
@@ -19889,7 +19864,7 @@
    ]
   },
   {
-   "station_id": "S1056",
+   "station_id": "S1039",
    "name": "大石",
    "grp": "",
    "ops": [
@@ -19913,7 +19888,7 @@
    ]
   },
   {
-   "station_id": "S1057",
+   "station_id": "S1040",
    "name": "安治川口",
    "grp": "JR",
    "ops": [
@@ -19937,7 +19912,7 @@
    ]
   },
   {
-   "station_id": "S1058",
+   "station_id": "S1041",
    "name": "学研奈良登美ヶ丘",
    "grp": "",
    "ops": [
@@ -19961,7 +19936,7 @@
    ]
   },
   {
-   "station_id": "S1059",
+   "station_id": "S1042",
    "name": "学研北生駒",
    "grp": "",
    "ops": [
@@ -19985,7 +19960,7 @@
    ]
   },
   {
-   "station_id": "S1060",
+   "station_id": "S1043",
    "name": "生駒",
    "grp": "",
    "ops": [
@@ -20036,7 +20011,7 @@
    ]
   },
   {
-   "station_id": "S1061",
+   "station_id": "S1044",
    "name": "新石切",
    "grp": "近鉄",
    "ops": [
@@ -20060,7 +20035,7 @@
    ]
   },
   {
-   "station_id": "S1062",
+   "station_id": "S1045",
    "name": "吉田",
    "grp": "近鉄",
    "ops": [
@@ -20084,7 +20059,7 @@
    ]
   },
   {
-   "station_id": "S1063",
+   "station_id": "S1046",
    "name": "和泉中央",
    "grp": "南海",
    "ops": [
@@ -20108,7 +20083,7 @@
    ]
   },
   {
-   "station_id": "S1064",
+   "station_id": "S1047",
    "name": "光明池",
    "grp": "南海",
    "ops": [
@@ -20132,7 +20107,7 @@
    ]
   },
   {
-   "station_id": "S1065",
+   "station_id": "S1048",
    "name": "栂・美木多",
    "grp": "南海",
    "ops": [
@@ -20156,7 +20131,7 @@
    ]
   },
   {
-   "station_id": "S1066",
+   "station_id": "S1049",
    "name": "中百舌鳥",
    "grp": "南海",
    "ops": [
@@ -20193,7 +20168,7 @@
    ]
   },
   {
-   "station_id": "S1068",
+   "station_id": "S1051",
    "name": "衣摺加美北",
    "grp": "JR",
    "ops": [
@@ -20217,7 +20192,7 @@
    ]
   },
   {
-   "station_id": "S1069",
+   "station_id": "S1052",
    "name": "久宝寺",
    "grp": "JR",
    "ops": [
@@ -20254,7 +20229,7 @@
    ]
   },
   {
-   "station_id": "S1070",
+   "station_id": "S1053",
    "name": "泉佐野",
    "grp": "南海",
    "ops": [
@@ -20291,7 +20266,7 @@
    ]
   },
   {
-   "station_id": "S1071",
+   "station_id": "S1054",
    "name": "徳庵",
    "grp": "JR",
    "ops": [
@@ -20315,7 +20290,7 @@
    ]
   },
   {
-   "station_id": "S1073",
+   "station_id": "S1056",
    "name": "塚本",
    "grp": "JR",
    "ops": [
@@ -20339,7 +20314,7 @@
    ]
   },
   {
-   "station_id": "S1075",
+   "station_id": "S1058",
    "name": "千里丘",
    "grp": "JR",
    "ops": [
@@ -20363,7 +20338,7 @@
    ]
   },
   {
-   "station_id": "S1076",
+   "station_id": "S1059",
    "name": "岸辺",
    "grp": "JR",
    "ops": [
@@ -20387,7 +20362,7 @@
    ]
   },
   {
-   "station_id": "S1077",
+   "station_id": "S1060",
    "name": "北新地",
    "grp": "JR",
    "ops": [
@@ -20411,7 +20386,7 @@
    ]
   },
   {
-   "station_id": "S1078",
+   "station_id": "S1061",
    "name": "大阪天満宮",
    "grp": "JR",
    "ops": [
@@ -20435,7 +20410,7 @@
    ]
   },
   {
-   "station_id": "S1079",
+   "station_id": "S1062",
    "name": "大阪城北詰",
    "grp": "JR",
    "ops": [
@@ -20459,7 +20434,7 @@
    ]
   },
   {
-   "station_id": "S1080",
+   "station_id": "S1063",
    "name": "海老江",
    "grp": "JR",
    "ops": [
@@ -20483,7 +20458,7 @@
    ]
   },
   {
-   "station_id": "S1081",
+   "station_id": "S1064",
    "name": "新福島",
    "grp": "JR",
    "ops": [
@@ -20507,7 +20482,7 @@
    ]
   },
   {
-   "station_id": "S1082",
+   "station_id": "S1065",
    "name": "放出",
    "grp": "JR",
    "ops": [
@@ -20544,7 +20519,7 @@
    ]
   },
   {
-   "station_id": "S1083",
+   "station_id": "S1066",
    "name": "南千里",
    "grp": "阪急",
    "ops": [
@@ -20568,17 +20543,7 @@
    ]
   },
   {
-   "station_id": "S1084",
-   "name": "長岡京駅4番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "suumo": []
-  },
-  {
-   "station_id": "S1085",
+   "station_id": "S1067",
    "name": "摂津富田",
    "grp": "JR",
    "ops": [
@@ -20602,7 +20567,7 @@
    ]
   },
   {
-   "station_id": "S1089",
+   "station_id": "S1071",
    "name": "須磨海浜公園",
    "grp": "",
    "ops": [
@@ -20627,7 +20592,7 @@
    ]
   },
   {
-   "station_id": "S1090",
+   "station_id": "S1072",
    "name": "灘",
    "grp": "",
    "ops": [
@@ -20651,7 +20616,7 @@
    ]
   },
   {
-   "station_id": "S1091",
+   "station_id": "S1073",
    "name": "摂津本山",
    "grp": "",
    "ops": [
@@ -20675,7 +20640,7 @@
    ]
   },
   {
-   "station_id": "S1097",
+   "station_id": "S1079",
    "name": "高槻",
    "grp": "JR",
    "ops": [
@@ -20699,7 +20664,7 @@
    ]
   },
   {
-   "station_id": "S1098",
+   "station_id": "S1080",
    "name": "桂川",
    "grp": "",
    "ops": [
@@ -20723,7 +20688,7 @@
    ]
   },
   {
-   "station_id": "S1099",
+   "station_id": "S1081",
    "name": "東淀川",
    "grp": "JR",
    "ops": [
@@ -20747,7 +20712,7 @@
    ]
   },
   {
-   "station_id": "S1102",
+   "station_id": "S1084",
    "name": "和歌山大学前",
    "grp": "",
    "ops": [
@@ -20771,7 +20736,7 @@
    ]
   },
   {
-   "station_id": "S1103",
+   "station_id": "S1085",
    "name": "諏訪ノ森",
    "grp": "南海",
    "ops": [
@@ -20795,7 +20760,7 @@
    ]
   },
   {
-   "station_id": "S1104",
+   "station_id": "S1086",
    "name": "住吉大社",
    "grp": "南海",
    "ops": [
@@ -20819,7 +20784,7 @@
    ]
   },
   {
-   "station_id": "S1105",
+   "station_id": "S1087",
    "name": "萩ノ茶屋",
    "grp": "南海",
    "ops": [
@@ -20843,7 +20808,7 @@
    ]
   },
   {
-   "station_id": "S1106",
+   "station_id": "S1088",
    "name": "今宮戎",
    "grp": "南海",
    "ops": [
@@ -20867,7 +20832,7 @@
    ]
   },
   {
-   "station_id": "S1107",
+   "station_id": "S1089",
    "name": "白鷺",
    "grp": "南海",
    "ops": [
@@ -20891,7 +20856,7 @@
    ]
   },
   {
-   "station_id": "S1108",
+   "station_id": "S1090",
    "name": "滝谷",
    "grp": "南海",
    "ops": [
@@ -20915,7 +20880,7 @@
    ]
   },
   {
-   "station_id": "S1109",
+   "station_id": "S1091",
    "name": "千代田",
    "grp": "南海",
    "ops": [
@@ -20939,7 +20904,7 @@
    ]
   },
   {
-   "station_id": "S1110",
+   "station_id": "S1092",
    "name": "河内長野",
    "grp": "近鉄",
    "ops": [
@@ -20977,7 +20942,7 @@
    ]
   },
   {
-   "station_id": "S1114",
+   "station_id": "S1096",
    "name": "東生駒",
    "grp": "",
    "ops": [
@@ -21001,7 +20966,7 @@
    ]
   },
   {
-   "station_id": "S1115",
+   "station_id": "S1097",
    "name": "瓢箪山",
    "grp": "近鉄",
    "ops": [
@@ -21025,7 +20990,7 @@
    ]
   },
   {
-   "station_id": "S1116",
+   "station_id": "S1098",
    "name": "河内小阪",
    "grp": "近鉄",
    "ops": [
@@ -21049,7 +21014,7 @@
    ]
   },
   {
-   "station_id": "S1119",
+   "station_id": "S1101",
    "name": "興戸",
    "grp": "",
    "ops": [
@@ -21073,7 +21038,7 @@
    ]
   },
   {
-   "station_id": "S1120",
+   "station_id": "S1102",
    "name": "新田辺",
    "grp": "",
    "ops": [
@@ -21097,7 +21062,7 @@
    ]
   },
   {
-   "station_id": "S1121",
+   "station_id": "S1103",
    "name": "富野荘",
    "grp": "",
    "ops": [
@@ -21121,7 +21086,7 @@
    ]
   },
   {
-   "station_id": "S1122",
+   "station_id": "S1104",
    "name": "寺田",
    "grp": "",
    "ops": [
@@ -21145,7 +21110,7 @@
    ]
   },
   {
-   "station_id": "S1123",
+   "station_id": "S1105",
    "name": "久津川",
    "grp": "",
    "ops": [
@@ -21169,7 +21134,7 @@
    ]
   },
   {
-   "station_id": "S1124",
+   "station_id": "S1106",
    "name": "伊勢田",
    "grp": "",
    "ops": [
@@ -21193,7 +21158,7 @@
    ]
   },
   {
-   "station_id": "S1125",
+   "station_id": "S1107",
    "name": "向島",
    "grp": "",
    "ops": [
@@ -21217,7 +21182,7 @@
    ]
   },
   {
-   "station_id": "S1126",
+   "station_id": "S1108",
    "name": "桃山御陵前",
    "grp": "",
    "ops": [
@@ -21241,7 +21206,7 @@
    ]
   },
   {
-   "station_id": "S1127",
+   "station_id": "S1109",
    "name": "近鉄丹波橋",
    "grp": "",
    "ops": [
@@ -21265,7 +21230,7 @@
    ]
   },
   {
-   "station_id": "S1128",
+   "station_id": "S1110",
    "name": "伏見",
    "grp": "",
    "ops": [
@@ -21289,7 +21254,7 @@
    ]
   },
   {
-   "station_id": "S1129",
+   "station_id": "S1111",
    "name": "東寺",
    "grp": "",
    "ops": [
@@ -21313,7 +21278,7 @@
    ]
   },
   {
-   "station_id": "S1131",
+   "station_id": "S1113",
    "name": "我孫子前",
    "grp": "南海",
    "ops": [
@@ -21337,7 +21302,7 @@
    ]
   },
   {
-   "station_id": "S1132",
+   "station_id": "S1114",
    "name": "住吉東",
    "grp": "南海",
    "ops": [
@@ -21361,7 +21326,7 @@
    ]
   },
   {
-   "station_id": "S1133",
+   "station_id": "S1115",
    "name": "岡本",
    "grp": "",
    "ops": [
@@ -21385,7 +21350,7 @@
    ]
   },
   {
-   "station_id": "S1134",
+   "station_id": "S1116",
    "name": "三日市町",
    "grp": "南海",
    "ops": [
@@ -21409,7 +21374,7 @@
    ]
   },
   {
-   "station_id": "S1135",
+   "station_id": "S1117",
    "name": "初芝",
    "grp": "南海",
    "ops": [
@@ -21433,7 +21398,7 @@
    ]
   },
   {
-   "station_id": "S1136",
+   "station_id": "S1118",
    "name": "百舌鳥八幡",
    "grp": "南海",
    "ops": [
@@ -21457,7 +21422,7 @@
    ]
   },
   {
-   "station_id": "S1139",
+   "station_id": "S1121",
    "name": "東須磨",
    "grp": "",
    "ops": [
@@ -21481,7 +21446,7 @@
    ]
   },
   {
-   "station_id": "S1140",
+   "station_id": "S1122",
    "name": "月見山",
    "grp": "",
    "ops": [
@@ -21505,7 +21470,7 @@
    ]
   },
   {
-   "station_id": "S1143",
+   "station_id": "S1125",
    "name": "恵我ノ荘",
    "grp": "近鉄",
    "ops": [
@@ -21529,7 +21494,7 @@
    ]
   },
   {
-   "station_id": "S1144",
+   "station_id": "S1126",
    "name": "高鷲",
    "grp": "近鉄",
    "ops": [
@@ -21553,7 +21518,7 @@
    ]
   },
   {
-   "station_id": "S1145",
+   "station_id": "S1127",
    "name": "河内森",
    "grp": "京阪",
    "ops": [
@@ -21577,7 +21542,7 @@
    ]
   },
   {
-   "station_id": "S1146",
+   "station_id": "S1128",
    "name": "星ヶ丘",
    "grp": "京阪",
    "ops": [
@@ -21601,7 +21566,7 @@
    ]
   },
   {
-   "station_id": "S1147",
+   "station_id": "S1129",
    "name": "宮之阪",
    "grp": "京阪",
    "ops": [
@@ -21625,7 +21590,7 @@
    ]
   },
   {
-   "station_id": "S1148",
+   "station_id": "S1130",
    "name": "私市",
    "grp": "京阪",
    "ops": [
@@ -21649,7 +21614,7 @@
    ]
   },
   {
-   "station_id": "S1149",
+   "station_id": "S1131",
    "name": "枚方市",
    "grp": "京阪",
    "ops": [
@@ -21686,7 +21651,7 @@
    ]
   },
   {
-   "station_id": "S1150",
+   "station_id": "S1132",
    "name": "新伊丹",
    "grp": "",
    "ops": [
@@ -21710,7 +21675,7 @@
    ]
   },
   {
-   "station_id": "S1151",
+   "station_id": "S1133",
    "name": "稲野",
    "grp": "",
    "ops": [
@@ -21734,7 +21699,7 @@
    ]
   },
   {
-   "station_id": "S1152",
+   "station_id": "S1134",
    "name": "仁川",
    "grp": "",
    "ops": [
@@ -21758,7 +21723,7 @@
    ]
   },
   {
-   "station_id": "S1153",
+   "station_id": "S1135",
    "name": "小林",
    "grp": "",
    "ops": [
@@ -21782,7 +21747,7 @@
    ]
   },
   {
-   "station_id": "S1154",
+   "station_id": "S1136",
    "name": "逆瀬川",
    "grp": "",
    "ops": [
@@ -21806,7 +21771,7 @@
    ]
   },
   {
-   "station_id": "S1155",
+   "station_id": "S1137",
    "name": "宝塚南口",
    "grp": "",
    "ops": [
@@ -21830,7 +21795,7 @@
    ]
   },
   {
-   "station_id": "S1156",
+   "station_id": "S1138",
    "name": "雲雀丘花屋敷",
    "grp": "",
    "ops": [
@@ -21854,7 +21819,7 @@
    ]
   },
   {
-   "station_id": "S1157",
+   "station_id": "S1139",
    "name": "服部天神",
    "grp": "阪急",
    "ops": [
@@ -21878,7 +21843,7 @@
    ]
   },
   {
-   "station_id": "S1158",
+   "station_id": "S1140",
    "name": "庄内",
    "grp": "阪急",
    "ops": [
@@ -21902,7 +21867,7 @@
    ]
   },
   {
-   "station_id": "S1159",
+   "station_id": "S1141",
    "name": "西鈴蘭台",
    "grp": "",
    "ops": [
@@ -21926,7 +21891,7 @@
    ]
   },
   {
-   "station_id": "S1170",
+   "station_id": "S1152",
    "name": "鈴蘭台西口",
    "grp": "",
    "ops": [
@@ -21950,7 +21915,7 @@
    ]
   },
   {
-   "station_id": "S1172",
+   "station_id": "S1154",
    "name": "深日町",
    "grp": "南海",
    "ops": [
@@ -21974,7 +21939,7 @@
    ]
   },
   {
-   "station_id": "S1173",
+   "station_id": "S1155",
    "name": "深日港",
    "grp": "南海",
    "ops": [
@@ -21998,7 +21963,7 @@
    ]
   },
   {
-   "station_id": "S1174",
+   "station_id": "S1156",
    "name": "多奈川",
    "grp": "南海",
    "ops": [
@@ -22022,7 +21987,7 @@
    ]
   },
   {
-   "station_id": "S1175",
+   "station_id": "S1157",
    "name": "上桂",
    "grp": "",
    "ops": [
@@ -22046,7 +22011,7 @@
    ]
   },
   {
-   "station_id": "S1176",
+   "station_id": "S1158",
    "name": "松尾大社",
    "grp": "",
    "ops": [
@@ -22070,7 +22035,7 @@
    ]
   },
   {
-   "station_id": "S1177",
+   "station_id": "S1159",
    "name": "富田",
    "grp": "阪急",
    "ops": [
@@ -22094,7 +22059,7 @@
    ]
   },
   {
-   "station_id": "S1178",
+   "station_id": "S1160",
    "name": "総持寺",
    "grp": "阪急",
    "ops": [
@@ -22118,7 +22083,7 @@
    ]
   },
   {
-   "station_id": "S1179",
+   "station_id": "S1161",
    "name": "駒ヶ谷",
    "grp": "近鉄",
    "ops": [
@@ -22142,7 +22107,7 @@
    ]
   },
   {
-   "station_id": "S1180",
+   "station_id": "S1162",
    "name": "西天下茶屋",
    "grp": "南海",
    "ops": [
@@ -22179,7 +22144,7 @@
    ]
   },
   {
-   "station_id": "S1183",
+   "station_id": "S1165",
    "name": "梅小路京都西",
    "grp": "",
    "ops": [
@@ -22203,7 +22168,7 @@
    ]
   },
   {
-   "station_id": "S1190",
+   "station_id": "S1172",
    "name": "中ふ頭",
    "grp": "Metro",
    "ops": [
@@ -22227,7 +22192,7 @@
    ]
   },
   {
-   "station_id": "S1191",
+   "station_id": "S1173",
    "name": "ポートタウン西",
    "grp": "Metro",
    "ops": [
@@ -22251,7 +22216,7 @@
    ]
   },
   {
-   "station_id": "S1192",
+   "station_id": "S1174",
    "name": "フェリーターミナル",
    "grp": "Metro",
    "ops": [
@@ -22275,7 +22240,7 @@
    ]
   },
   {
-   "station_id": "S1193",
+   "station_id": "S1175",
    "name": "南港東",
    "grp": "Metro",
    "ops": [
@@ -22299,7 +22264,7 @@
    ]
   },
   {
-   "station_id": "S1194",
+   "station_id": "S1176",
    "name": "南港口",
    "grp": "Metro",
    "ops": [
@@ -22323,7 +22288,7 @@
    ]
   },
   {
-   "station_id": "S1195",
+   "station_id": "S1177",
    "name": "平林",
    "grp": "Metro",
    "ops": [
@@ -22347,11 +22312,11 @@
    ]
   },
   {
-   "station_id": "S1196",
+   "station_id": "S1178",
    "name": "箕面萱野",
    "grp": "Metro",
    "ops": [
-    "大阪市高速電気軌道"
+    "北大阪急行電鉄"
    ],
    "in_osaka": true,
    "suumo": [
@@ -22373,7 +22338,7 @@
    ]
   },
   {
-   "station_id": "S1197",
+   "station_id": "S1179",
    "name": "当麻寺",
    "grp": "",
    "ops": [
@@ -22397,7 +22362,7 @@
    ]
   },
   {
-   "station_id": "S1198",
+   "station_id": "S1180",
    "name": "夢洲",
    "grp": "Metro",
    "ops": [
@@ -22407,7 +22372,7 @@
    "suumo": []
   },
   {
-   "station_id": "S1199",
+   "station_id": "S1181",
    "name": "鶴ヶ丘",
    "grp": "JR",
    "ops": [
@@ -22431,7 +22396,7 @@
    ]
   },
   {
-   "station_id": "S1200",
+   "station_id": "S1182",
    "name": "福",
    "grp": "阪神",
    "ops": [
@@ -22455,7 +22420,7 @@
    ]
   },
   {
-   "station_id": "S1201",
+   "station_id": "S1183",
    "name": "河内松原",
    "grp": "近鉄",
    "ops": [
@@ -22479,7 +22444,7 @@
    ]
   },
   {
-   "station_id": "S1202",
+   "station_id": "S1184",
    "name": "河内天美",
    "grp": "近鉄",
    "ops": [
@@ -22503,7 +22468,7 @@
    ]
   },
   {
-   "station_id": "S1203",
+   "station_id": "S1185",
    "name": "高見ノ里",
    "grp": "近鉄",
    "ops": [
@@ -22527,7 +22492,7 @@
    ]
   },
   {
-   "station_id": "S1204",
+   "station_id": "S1186",
    "name": "上ノ太子",
    "grp": "近鉄",
    "ops": [
@@ -22551,7 +22516,7 @@
    ]
   },
   {
-   "station_id": "S1207",
+   "station_id": "S1189",
    "name": "福神",
    "grp": "",
    "ops": [
@@ -22575,7 +22540,7 @@
    ]
   },
   {
-   "station_id": "S1212",
+   "station_id": "S1194",
    "name": "今池",
    "grp": "阪堺",
    "ops": [
@@ -22599,44 +22564,7 @@
    ]
   },
   {
-   "station_id": "S1219",
-   "name": "出町柳",
-   "grp": "",
-   "ops": [
-    "京阪電気鉄道"
-   ],
-   "in_osaka": false,
-   "suumo": [
-    {
-     "rn": "2140",
-     "ek": "214025210",
-     "ek5": "25210",
-     "line": "京阪鴨東線（京都府）",
-     "pref": "kyoto",
-     "ops": [
-      "京阪電気鉄道"
-     ],
-     "suumo_name": "出町柳",
-     "op_match": true,
-     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=026&rn=2140&ek=214025210&md=01&md=02&cn=9999999&po1=12&pc=50"
-    },
-    {
-     "rn": "2405",
-     "ek": "240525213",
-     "ek5": "25213",
-     "line": "叡山電鉄叡山本線（京都府）",
-     "pref": "kyoto",
-     "ops": [
-      "叡山電鉄"
-     ],
-     "suumo_name": "出町柳",
-     "op_match": false,
-     "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=026&rn=2405&ek=240525213&md=01&md=02&cn=9999999&po1=12&pc=50"
-    }
-   ]
-  },
-  {
-   "station_id": "S1220",
+   "station_id": "S1201",
    "name": "龍谷大前深草",
    "grp": "",
    "ops": [
@@ -22660,7 +22588,7 @@
    ]
   },
   {
-   "station_id": "S1221",
+   "station_id": "S1202",
    "name": "石清水八幡宮",
    "grp": "",
    "ops": [
@@ -22684,7 +22612,7 @@
    ]
   },
   {
-   "station_id": "S1222",
+   "station_id": "S1203",
    "name": "牧野",
    "grp": "京阪",
    "ops": [
@@ -22708,7 +22636,7 @@
    ]
   },
   {
-   "station_id": "S1223",
+   "station_id": "S1204",
    "name": "千林",
    "grp": "京阪",
    "ops": [
@@ -22732,7 +22660,7 @@
    ]
   },
   {
-   "station_id": "S1224",
+   "station_id": "S1205",
    "name": "野江",
    "grp": "京阪",
    "ops": [
@@ -22756,7 +22684,7 @@
    ]
   },
   {
-   "station_id": "S1225",
+   "station_id": "S1206",
    "name": "土居",
    "grp": "京阪",
    "ops": [
@@ -22780,7 +22708,7 @@
    ]
   },
   {
-   "station_id": "S1226",
+   "station_id": "S1207",
    "name": "守口市",
    "grp": "京阪",
    "ops": [
@@ -22804,7 +22732,7 @@
    ]
   },
   {
-   "station_id": "S1227",
+   "station_id": "S1208",
    "name": "滝井",
    "grp": "京阪",
    "ops": [
@@ -22828,7 +22756,7 @@
    ]
   },
   {
-   "station_id": "S1228",
+   "station_id": "S1209",
    "name": "西三荘",
    "grp": "京阪",
    "ops": [
@@ -22852,7 +22780,7 @@
    ]
   },
   {
-   "station_id": "S1229",
+   "station_id": "S1210",
    "name": "光善寺",
    "grp": "京阪",
    "ops": [
@@ -22876,7 +22804,7 @@
    ]
   },
   {
-   "station_id": "S1230",
+   "station_id": "S1211",
    "name": "古川橋",
    "grp": "京阪",
    "ops": [
@@ -22900,7 +22828,7 @@
    ]
   },
   {
-   "station_id": "S1231",
+   "station_id": "S1212",
    "name": "大和田",
    "grp": "京阪",
    "ops": [
@@ -22924,7 +22852,7 @@
    ]
   },
   {
-   "station_id": "S1232",
+   "station_id": "S1213",
    "name": "寝屋川市",
    "grp": "京阪",
    "ops": [
@@ -22948,7 +22876,7 @@
    ]
   },
   {
-   "station_id": "S1233",
+   "station_id": "S1214",
    "name": "萱島",
    "grp": "京阪",
    "ops": [
@@ -22972,7 +22900,7 @@
    ]
   },
   {
-   "station_id": "S1234",
+   "station_id": "S1215",
    "name": "香里園",
    "grp": "京阪",
    "ops": [
@@ -22996,7 +22924,7 @@
    ]
   },
   {
-   "station_id": "S1235",
+   "station_id": "S1216",
    "name": "淀",
    "grp": "",
    "ops": [
@@ -23020,7 +22948,7 @@
    ]
   },
   {
-   "station_id": "S1236",
+   "station_id": "S1217",
    "name": "丹波橋",
    "grp": "",
    "ops": [
@@ -23044,7 +22972,7 @@
    ]
   },
   {
-   "station_id": "S1237",
+   "station_id": "S1218",
    "name": "渡辺橋",
    "grp": "京阪",
    "ops": [
@@ -23068,7 +22996,7 @@
    ]
   },
   {
-   "station_id": "S1238",
+   "station_id": "S1219",
    "name": "中之島",
    "grp": "京阪",
    "ops": [
@@ -23092,7 +23020,7 @@
    ]
   },
   {
-   "station_id": "S1239",
+   "station_id": "S1220",
    "name": "大江橋",
    "grp": "京阪",
    "ops": [
@@ -23116,7 +23044,7 @@
    ]
   },
   {
-   "station_id": "S1240",
+   "station_id": "S1221",
    "name": "なにわ橋",
    "grp": "京阪",
    "ops": [
@@ -23140,7 +23068,7 @@
    ]
   },
   {
-   "station_id": "S1241",
+   "station_id": "S1222",
    "name": "関目",
    "grp": "京阪",
    "ops": [
@@ -23164,7 +23092,7 @@
    ]
   },
   {
-   "station_id": "S1242",
+   "station_id": "S1223",
    "name": "伏見稲荷",
    "grp": "",
    "ops": [
@@ -23188,7 +23116,7 @@
    ]
   },
   {
-   "station_id": "S1243",
+   "station_id": "S1224",
    "name": "御殿山",
    "grp": "京阪",
    "ops": [
@@ -23212,7 +23140,7 @@
    ]
   },
   {
-   "station_id": "S1244",
+   "station_id": "S1225",
    "name": "祇園四条",
    "grp": "",
    "ops": [
@@ -23236,7 +23164,7 @@
    ]
   },
   {
-   "station_id": "S1245",
+   "station_id": "S1226",
    "name": "三条",
    "grp": "",
    "ops": [
@@ -23273,7 +23201,7 @@
    ]
   },
   {
-   "station_id": "S1246",
+   "station_id": "S1227",
    "name": "樟葉",
    "grp": "京阪",
    "ops": [
@@ -23297,7 +23225,7 @@
    ]
   },
   {
-   "station_id": "S1247",
+   "station_id": "S1228",
    "name": "神宮丸太町",
    "grp": "",
    "ops": [
@@ -23321,7 +23249,7 @@
    ]
   },
   {
-   "station_id": "S1248",
+   "station_id": "S1229",
    "name": "森小路",
    "grp": "京阪",
    "ops": [
@@ -23345,7 +23273,7 @@
    ]
   },
   {
-   "station_id": "S1249",
+   "station_id": "S1230",
    "name": "鳥羽街道",
    "grp": "",
    "ops": [
@@ -23369,7 +23297,7 @@
    ]
   },
   {
-   "station_id": "S1250",
+   "station_id": "S1231",
    "name": "七条",
    "grp": "",
    "ops": [
@@ -23393,7 +23321,7 @@
    ]
   },
   {
-   "station_id": "S1251",
+   "station_id": "S1232",
    "name": "清水五条",
    "grp": "",
    "ops": [
@@ -23417,7 +23345,7 @@
    ]
   },
   {
-   "station_id": "S1252",
+   "station_id": "S1233",
    "name": "墨染",
    "grp": "",
    "ops": [
@@ -23441,7 +23369,7 @@
    ]
   },
   {
-   "station_id": "S1253",
+   "station_id": "S1234",
    "name": "伏見桃山",
    "grp": "",
    "ops": [
@@ -23465,7 +23393,7 @@
    ]
   },
   {
-   "station_id": "S1254",
+   "station_id": "S1235",
    "name": "藤森",
    "grp": "",
    "ops": [
@@ -23489,7 +23417,7 @@
    ]
   },
   {
-   "station_id": "S1255",
+   "station_id": "S1236",
    "name": "枚方公園",
    "grp": "京阪",
    "ops": [
@@ -23556,16 +23484,6 @@
    "why": "SUUMO 沿線页没列这站（多半是没房源：机场/山区/新站）"
   },
   {
-   "station_id": "S0455",
-   "name": "今津駅1号線",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
    "station_id": "S0709",
    "name": "神戸空港",
    "grp": "",
@@ -23576,47 +23494,7 @@
    "why": "SUUMO 沿線页没列这站（多半是没房源：机场/山区/新站）"
   },
   {
-   "station_id": "S0719",
-   "name": "今津駅2号線",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0726",
-   "name": "長岡京駅1番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0727",
-   "name": "長岡京駅3番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0728",
-   "name": "長岡京駅2番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0771",
+   "station_id": "S0765",
    "name": "計算科学センター",
    "grp": "",
    "ops": [
@@ -23626,7 +23504,7 @@
    "why": "SUUMO 沿線页没列这站（多半是没房源：机场/山区/新站）"
   },
   {
-   "station_id": "S0772",
+   "station_id": "S0766",
    "name": "医療センター",
    "grp": "",
    "ops": [
@@ -23636,57 +23514,7 @@
    "why": "SUUMO 沿線页没列这站（多半是没房源：机场/山区/新站）"
   },
   {
-   "station_id": "S0873",
-   "name": "谷上駅4･5番線",
-   "grp": "",
-   "ops": [
-    "神戸市交通局"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0874",
-   "name": "谷上駅6番線",
-   "grp": "",
-   "ops": [
-    "神戸市交通局"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0919",
-   "name": "北改札口",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S0920",
-   "name": "西改札口",
-   "grp": "",
-   "ops": [
-    "阪急電鉄"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S1084",
-   "name": "長岡京駅4番のりば",
-   "grp": "",
-   "ops": [
-    "西日本旅客鉄道"
-   ],
-   "in_osaka": false,
-   "why": "不是站（站台/出口节点）"
-  },
-  {
-   "station_id": "S1198",
+   "station_id": "S1180",
    "name": "夢洲",
    "grp": "Metro",
    "ops": [

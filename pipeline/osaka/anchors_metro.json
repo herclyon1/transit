@@ -430,5 +430,44 @@
     "samples": 48
    }
   ]
+ },
+ "南北線": {
+  "line_key": "北大阪急行電鉄|南北線",
+  "source": "北大阪急行電鉄 各駅時刻表（下り なかもず方面 平日 12 時台の同一列車の発時刻差）https://www.kita-kyu.co.jp/train/traffic/{minohkayano,minohsemba,senrichuo,momoyamadai,ryokuchikoen}/ ＋ Osaka Metro 江坂 時刻表 https://kensaku.osakametro.co.jp/timetable/ja/subway/dia/station/25850/1019/1（2026-09-16 取）",
+  "stations": [
+   "箕面萱野",
+   "箕面船場阪大前",
+   "千里中央",
+   "桃山台",
+   "緑地公園",
+   "江坂"
+  ],
+  "segments": [
+   {
+    "from": "箕面萱野",
+    "to": "箕面船場阪大前",
+    "min": 2
+   },
+   {
+    "from": "箕面船場阪大前",
+    "to": "千里中央",
+    "min": 2
+   },
+   {
+    "from": "千里中央",
+    "to": "桃山台",
+    "min": 3
+   },
+   {
+    "from": "桃山台",
+    "to": "緑地公園",
+    "min": 3
+   },
+   {
+    "from": "緑地公園",
+    "to": "江坂",
+    "min": 4
+   }
+  ]
  }
 }

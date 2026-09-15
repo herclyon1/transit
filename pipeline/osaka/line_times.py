@@ -163,7 +163,7 @@ def measured_segments(path=None):
     with open(path) as f:
         data = json.load(f)
     for line, o in data.items():
-        lk = f"大阪市高速電気軌道|{line}"
+        lk = o.get("line_key") or f"大阪市高速電気軌道|{line}"   # 北大阪急行 など Metro 以外は line_key を明記
         for s in o["segments"]:
             out[(lk, s["from"], s["to"])] = float(s["min"])
             out[(lk, s["to"], s["from"])] = float(s["min"])

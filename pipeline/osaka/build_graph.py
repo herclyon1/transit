@@ -171,6 +171,10 @@ def order_and_measure(polys, stops):
 # ---------------------------------------------------------------- 名前の正規化
 
 _SUFFIX = re.compile(r"(駅|停留場|停留所)$")
+# OSM の stop ノードに「今津駅1号線」「長岡京駅3番のりば」「谷上駅4・5番線」のように
+# 駅名+番線で名前が付いているものがある（2026-09-16 時点で bbox 内 19 ノード）。
+# 駅名部分だけ残して母駅に束ねる（canonical_stations が同名近接で同一駅にする）。
+_PLATFORM = re.compile(r"^(.{1,12}?)駅.*(のりば|番線|号線|ホーム)$")
 
 # stations_final.json(漢字表記) と OSM(かな表記) の食い違い。実測で判明したぶんだけ。
 NAME_ALIAS = {"難波": "なんば", "我孫子": "あびこ"}
@@ -180,6 +184,7 @@ def norm_name(s):
     if not s:
         return ""
     s = unicodedata.normalize("NFKC", s).strip()
+    s = _PLATFORM.sub(r"\1", s)
     s = _SUFFIX.sub("", s)
     s = s.replace(" ", "").replace("　", "")
     return NAME_ALIAS.get(s, s)
@@ -213,6 +218,10 @@ ALL_STOP_ROUTES = {"subway", "monorail", "tram", "light_rail"}
 def service_class(name, route):
     """(種別, 判定根拠, 推定フラグ) を返す。新幹線は専用種別にして後段で除外する。"""
     n = unicodedata.normalize("NFKC", name or "")
+    # 社名を先に落とす（2026-09 OSM で御堂筋線 relation が江坂で割れ、「北大阪急行電鉄南北線」が
+    # 急行 と誤判定された）
+    for c in _COMPANY_IN_NAME:
+        n = n.replace(c, "")
     for k in TRAIN_NAMES["新幹線"]:
         if k in n:
             return "新幹線", k, False
@@ -230,7 +239,7 @@ def service_class(name, route):
 
 _PAREN = re.compile(r"[（(\[].*?[）)\]]")
 # 路線名に埋まっている社名。長いものから消す
-_COMPANY_IN_NAME = ["大阪市高速電気軌道", "近畿日本鉄道", "南海電気鉄道", "京阪電気鉄道",
+_COMPANY_IN_NAME = ["北大阪急行電鉄", "北大阪急行", "大阪市高速電気軌道", "近畿日本鉄道", "南海電気鉄道", "京阪電気鉄道",
                     "阪神電気鉄道", "阪堺電気軌道", "泉北高速鉄道", "山陽電気鉄道",
                     "神戸電鉄", "能勢電鉄", "水間鉄道", "叡山電鉄", "京福電気鉄道",
                     "阪急電鉄", "大阪モノレール", "Osaka Metro", "Osaka Metor",
@@ -243,7 +252,7 @@ _OP_CANON = {"JR West": "西日本旅客鉄道", "JR西日本": "西日本旅客
              "東海旅客鉄道株式会社": "東海旅客鉄道", "京福電気鉄道株式会社": "京福電気鉄道",
              "叡山電鉄株式会社": "叡山電鉄"}
 # operator タグが空の relation 用。路線名から事業者を引く
-_OP_FROM_NAME = [("南海", "南海電気鉄道"), ("阪急", "阪急電鉄"), ("阪神", "阪神電気鉄道"),
+_OP_FROM_NAME = [("北大阪急行", "北大阪急行電鉄"), ("南海", "南海電気鉄道"), ("阪急", "阪急電鉄"), ("阪神", "阪神電気鉄道"),
                  ("近鉄", "近畿日本鉄道"), ("京阪", "京阪電気鉄道"), ("阪堺", "阪堺電気軌道"),
                  ("能勢電鉄", "能勢電鉄"), ("水間", "水間鉄道"), ("泉北", "泉北高速鉄道"),
                  ("Osaka Metro", "大阪市高速電気軌道"), ("Osaka Metor", "大阪市高速電気軌道"),
@@ -326,6 +335,9 @@ def build_stations():
             t = n.get("tags", {})
             if not t.get("name"):
                 continue
+            # 改札口・出入口ノード（阪急京都線 relation に西院の「北改札口」「西改札口」が stop として入っている）は駅ではない
+            if t.get("railway") in ("train_station_entrance", "subway_entrance") or t.get("name", "").endswith("改札口"):
+                continue
             reg[n["id"]] = {
                 "osm_id": n["id"],
                 "name": t["name"],
@@ -336,6 +348,22 @@ def build_stations():
                 "operator": t.get("operator", ""),
                 "ksj_line": t.get("KSJ2:LIN", ""),
             }
+    # 名前タグの無い stop ノード（阪堺線 relation の 我孫子道 7045946293・宿院 7046009195 は
+    # public_transport=stop_position だけで name が無い）は、80 m 以内の名前つき停留場から名前を借りる。
+    # 落とすと relation の停車列からその停留場が消える。
+    named = list(reg.values())
+    adopted = 0
+    for src in ("rel_nodes",):
+        for n in load(src):
+            if n["id"] in reg or n.get("tags", {}).get("name"):
+                continue
+            best = min(named, key=lambda s: meters(n["lat"], n["lon"], s["lat"], s["lon"]))
+            if meters(n["lat"], n["lon"], best["lat"], best["lon"]) > 80:
+                continue
+            reg[n["id"]] = dict(best, osm_id=n["id"], lat=n["lat"], lon=n["lon"],
+                                name_from=best["osm_id"])
+            adopted += 1
+    print(f"  無名 stop ノードに隣接停留場の名前を借用: {adopted}")
     return reg
 
 

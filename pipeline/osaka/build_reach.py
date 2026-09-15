@@ -40,9 +40,15 @@ MEASURED = measured_segments()
 
 # 直通運転: OSM relation が事業者・路線境界で切れているせいで生じる偽の乗換。
 # 日中も高頻度で直通する組だけを列挙する（朝夕のみの日生エクスプレス等は入れない）。
-# 御堂筋線⇄北大阪急行は OSM 側で既に1本の pattern なのでここには不要。
+# 御堂筋線⇄北大阪急行は 2026-08 時点の OSM では1本の pattern だったが、2026-09 の OSM で江坂で
+# relation が割れた（21371798/21371799）ので THROUGH に入れる。全列車直通:
+# 北大阪急行電鉄 https://www.kita-kyu.co.jp/ 「Osaka Metro御堂筋線と相互直通運転」。
+# 阪急 千里線⇄京都本線（淡路）は入れない: 日中の直通は 北千里⇄大阪梅田 普通 3本/h だけで、
+# それは OSM が「京都本線・千里線」として別 pattern に持っている（relation 11985308）。堺筋線→京都本線の
+# 直通準急は朝夕のみ（淡路 京都河原町方面 平日 12 時台の準急 6 本はすべて大阪梅田発、阪急公式 一列車時刻表 2026-09-16 確認）。
 # 阪神なんば線⇄近鉄奈良線の大阪難波は難波枢纽群内なので枢纽時間には影響しない。
 THROUGH = {
+    ("大阪市高速電気軌道|御堂筋線", "北大阪急行電鉄|南北線"),     # 江坂: 全列車直通
     ("大阪市高速電気軌道|中央線", "近畿日本鉄道|けいはんな線"),   # 長田: 全列車直通
     ("大阪市高速電気軌道|堺筋線", "阪急電鉄|千里線"),             # 天神橋筋六丁目
     ("南海電気鉄道|高野線", "南海電気鉄道|泉北線"),               # 中百舌鳥: 準急/区急直通
@@ -56,7 +62,9 @@ def is_through(k1, k2):
 
 def osaka_polygons():
     """japan.geojson から大阪府の多角形群（[[ [lon,lat],... ], ...]）を取り出す"""
-    g = json.load(open(os.path.join(HERE, "japan.geojson")))
+    # 大合并后 japan.geojson 不在这里了，改读同目录的 osaka_pref.geojson（同一来源裁出的大阪府一块）
+    cand = [os.path.join(HERE, "japan.geojson"), os.path.join(HERE, "osaka_pref.geojson")]
+    g = json.load(open(next(c for c in cand if os.path.exists(c))))
     for f in g["features"]:
         if f["properties"].get("nam_ja") == "大阪府":
             geom = f["geometry"]
@@ -134,7 +142,9 @@ def build_graph(data, speeds, include_b):
     sid_op = defaultdict(set)
     for s in reg.values():
         if "station_id" in s:
-            sid_name[s["station_id"]] = norm(s["name"])
+            # build_graph の name_norm（番線・改札口サフィックス除去済み）を使う。norm(s["name"]) だと
+            # 同一駅の最後のノードが「今津駅1号線」なら駅名がそれになってしまう
+            sid_name[s["station_id"]] = s.get("name_norm") or norm(s["name"])
     for p in data["patterns"]:
         for i in p["stops"]:
             if i in reg and "station_id" in reg[i]:
@@ -303,10 +313,13 @@ def main():
     reg = {s["osm_id"]: s for s in data["stations"]}
     # 同じ物理駅に複数ノードがあるので、v0の513站に一致したノードを優先して代表にする
     sid_pos = {}
-    for s in sorted(reg.values(), key=lambda x: 0 if x.get("v0") else 1):
+    # 番線・改札口の名前のノード（今津駅1号線 等）は代表にしない: v0 一致 → 素の駅名 → その他 の順
+    def _rank(x):
+        return (0 if x.get("v0") else 1, 0 if x.get("name_norm") == norm(x["name"]) else 1)
+    for s in sorted(reg.values(), key=_rank):
         if "station_id" in s and s["station_id"] not in sid_pos:
-            sid_pos[s["station_id"]] = (s["station_lat"], s["station_lon"], s["name"],
-                                        s.get("grp", ""))
+            nm = s["name"] if norm(s["name"]) == s.get("name_norm", norm(s["name"])) else s["name_norm"]
+            sid_pos[s["station_id"]] = (s["station_lat"], s["station_lon"], nm, s.get("grp", ""))
     # 事業者は その駅に停まる服务型から集める（v0の513站に載らない緩衝帯の駅にも付く）
     sid_ops = defaultdict(set)
     for p_ in data["patterns"]:
@@ -344,7 +357,7 @@ def main():
             "via": [(vb[h].get(sid) or [None, False])[0] for h in IG.HUBS],
             "fare": [bool((vb[h].get(sid) or [None, False])[1]) for h in IG.HUBS],
         })
-    path = os.path.join(HERE, "reach.json")
+    path = os.path.join(HERE, "..", "..", "osaka", "data", "reach.json")  # 页面读的就是这份
     with open(path, "w") as f:
         json.dump({"hubs": IG.HUBS, "stations": rows}, f, ensure_ascii=False)
     n_in = sum(1 for r in rows if r["in_osaka"])

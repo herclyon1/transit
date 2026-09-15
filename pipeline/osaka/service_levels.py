@@ -19,6 +19,8 @@ LEVELS = {
     # ---------------------------------------------------------------- Osaka Metro / ニュートラム
     # 地下鉄各線は日中も高頻度。御堂筋線以外も概ね 6-10本/h で 3本/h 判定に影響しない。
     "大阪市高速電気軌道|御堂筋線|普通": (12, "commuter", False, "measured", WIKI + "大阪市高速電気軌道御堂筋線"),
+    # 2026-09 OSM で御堂筋線 relation が江坂で割れ、江坂〜箕面萱野が別 relation になった。全列車が御堂筋線と直通（build_reach の THROUGH で罰時ゼロ）
+    "北大阪急行電鉄|南北線|普通": (8, "commuter", False, "measured", "https://www.kita-kyu.co.jp/train/traffic/senrichuo/ 千里中央 平日 12 時台 下り 8 本（御堂筋線直通）"),
     "大阪市高速電気軌道|谷町線|普通": (8, "commuter", False, "inferred", WIKI + "大阪市高速電気軌道谷町線"),
     "大阪市高速電気軌道|四つ橋線|普通": (7, "commuter", False, "inferred", WIKI + "大阪市高速電気軌道四つ橋線"),
     "大阪市高速電気軌道|中央線|普通": (7, "commuter", False, "inferred", WIKI + "大阪市高速電気軌道中央線"),
