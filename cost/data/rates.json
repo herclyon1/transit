@@ -5,9 +5,9 @@
  "fx": {
   "JPY": 1.0,
   "CNY": 23.038109,
-  "TWD": 4.864029,
-  "VND": 0.005952,
-  "MMK": 0.073305,
+  "TWD": 4.869658,
+  "VND": 0.005959,
+  "MMK": 0.073578,
   "EUR": 178.52,
   "USD": 154.54939,
   "AUD": 110.183928
@@ -26,17 +26,17 @@
   "TWD": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-09-14"
+   "date": "2026-09-15"
   },
   "VND": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-09-14"
+   "date": "2026-09-15"
   },
   "MMK": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-09-14"
+   "date": "2026-09-15"
   },
   "EUR": {
    "name": "欧洲央行每日参考汇率",
