@@ -228,31 +228,6 @@
    }
   },
   {
-   "chain": "便利店/超市理货收银：理货",
-   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
-   "basket": "retail",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
-   "wage": {
-    "value": 18.0,
-    "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-07",
-    "confidence": "listing",
-    "contact": "157****7073",
-    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  15719907073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "180 CNY/天",
-    "hours": {
-     "posted": "10:00-20:00",
-     "per_day": 10.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
    "chain": "外卖/快递/仓储：分拣",
    "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "delivery",
@@ -271,6 +246,31 @@
     "hours": {
      "posted": "早上10点-晚上22点",
      "per_day": 12.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：理货",
+   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "retail",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
+   "wage": {
+    "value": 18.0,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-07",
+    "confidence": "listing",
+    "contact": "157****7073",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  15719907073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "180 CNY/天",
+    "hours": {
+     "posted": "10:00-20:00",
+     "per_day": 10.0,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"

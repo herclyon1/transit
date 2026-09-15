@@ -39,6 +39,9 @@ def resolve(link, jar):
     parts=re.findall(r"url \+= '([^']*)'",r); full=''.join(parts).replace('@','')
     return full if full.startswith('http') else None
 
+_FW=str.maketrans('，：；！？（）【】、', ',:;!?()[],')
+def norm(t): return re.sub(r'\s+','',(t or '').translate(_FW))
+
 def art_key(art):
     biz=re.search(r'biz = "([^"]*)"',art); mid=re.search(r'var mid = "(\d+)"',art); idx=re.search(r'var idx = "(\d+)"',art)
     return f"{biz.group(1) if biz else ''}_{mid.group(1) if mid else ''}_{idx.group(1) if idx else ''}".replace('=','')
@@ -115,7 +118,7 @@ def process(art, city, today, recs, log, fallback_date=''):
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('city'); ap.add_argument('--max-articles',type=int,default=30); ap.add_argument('--days',type=int,default=180)
-    ap.add_argument('--replay',action='store_true',help='不碰网：把 articles/ 缓存里的文章重新切帖抽取（调解析用）'); ap.add_argument('--date',default=None,help='用哪天的 raw 目录（默认今天）')
+    ap.add_argument('--query',action='append',help='只跑这些查询词（可多次；不给则用 QUERIES）'); ap.add_argument('--replay',action='store_true',help='不碰网：把 articles/ 缓存里的文章重新切帖抽取（调解析用）'); ap.add_argument('--date',default=None,help='用哪天的 raw 目录（默认今天）')
     a=ap.parse_args()
     city=a.city; today=datetime.date.today(); outdir=os.path.join(os.path.dirname(__file__),'..','..','..','cost','data','raw',city,a.date or today.strftime('%Y%m%d')); os.makedirs(outdir,exist_ok=True)
     cache=os.path.join(outdir,'articles'); os.makedirs(cache,exist_ok=True); ix=load_index(cache)
@@ -134,7 +137,7 @@ def main():
         write_outputs(outdir, 'weixin_sogou', recs, log, a.days); return
     jar=os.path.join(outdir,'.sogou.cookies'); open(jar,'a').close(); curl('https://weixin.sogou.com/',jar)
     seen=set(); n_art=0; n_net=0
-    for q in QUERIES[city]:
+    for q in (a.query or QUERIES[city]):
         items=search(q,jar); time.sleep(random.uniform(2,4)); log.append(f'搜「{q}」：{len(items)} 篇')
         for it in sorted(items,key=lambda x:-x['ts']):
             if n_art>=a.max_articles: break
@@ -149,7 +152,7 @@ def main():
                 mp=resolve(it['link'],jar); time.sleep(random.uniform(2,4))
                 if not mp: log.append(f'  反爬没解开：{it["title"][:40]}'); continue
                 day=datetime.date.fromtimestamp(it['ts']).isoformat()
-                hit=next((k for k,v in ix['articles'].items() if v.get('title')==it['title'] and v.get('published')==day),None)   # 同标题同日期的已缓存：只补链接不重下
+                hit=next((k for k,v in ix['articles'].items() if norm(v.get('title',''))==norm(it['title']) and v.get('published')==day),None)   # 同标题同日期的已缓存：只补链接不重下（搜狗把全角标点转成了半角）
                 if hit:
                     art=cached_article(hit,cache)
                     if art: art['url']=art['url'] or mp; ix['articles'][hit]['url']=ix['articles'][hit].get('url') or mp
