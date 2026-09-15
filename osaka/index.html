@@ -511,7 +511,7 @@ function stationCard(s,t,low,th){
     if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
     h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
   h+='</div>';
-  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mfoot">日中3本/h以上の系統が無い駅。既定ビューでは不可达、「⚡ 低频线」を入れると到達可能</p>';
+  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mfoot">这站白天没有每小时 3 班以上的线路：默认视图里算不可达，打开「⚡ 低频线」才算得到。</p>';
   h+='<p class="mfoot">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 该线没有实测，速度按同等级线路的中位数借用，误差比实测和锚定大</p>';
   return h;
 }
