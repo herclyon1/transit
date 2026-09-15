@@ -6,6 +6,9 @@
 
   python3 pipeline/cost/phone_grab.py            # 前 10 条 → cost/data/raw/<city>/<今天>/<app>.jsonl
   python3 pipeline/cost/phone_grab.py --n 5 --kw 拌面
+  贝壳租房（整租/合租都行）：手机停在列表第一屏，Mac 跑
+  python3 pipeline/cost/phone_grab.py --city urumqi --kw 南门 --sort 价格从低到高 --scroll 4 --n 40
+  → cost/data/raw/urumqi/<今天>/beike.jsonl（每条带 type 整租/合租、keyword、sort），然后 python3 pipeline/cost/rent_from_beike.py urumqi 算档位房租
 
 多多买菜（拼多多 App 内，自研内核）：只有读屏（TalkBack）开着才读得到，脚本会检查。
 美团特价团（原生 MRN 页面）：不用读屏。价格拆成 ¥ / 整数 / .小数 三个节点，脚本拼回去。
@@ -21,6 +24,7 @@ ap.add_argument('--n', type=int, default=10)
 ap.add_argument('--kw', default=None, help='关键词/筛选说明，读不到时手动写')
 ap.add_argument('--out', default=None)
 ap.add_argument('--scroll', type=int, default=0, help='原生列表（贝壳）屏幕外的条目不在树里，给 N 就自动下滑 N 屏合并')
+ap.add_argument('--sort', default='默认', help='列表当时的排序（贝壳：默认 / 价格从低到高 …），树里读不到，跑之前自己写；进 jsonl 的 sort 字段')
 a = ap.parse_args()
 
 def adb(*args):
@@ -91,8 +95,9 @@ def parse_beike_page(nodes):
     rows = sorted(nodes, key=lambda r: (r[2], r[1]))
     out, cur = [], None
     for i, (t, x, y) in enumerate(rows):
-        if re.match(r'^(整租|合租)\d居·', t):
-            cur = {'name': t, 'spec': None, 'distance': None, 'price': None}; out.append(cur)
+        m = re.match(r'^(整租|合租)(?:\d居)?[·\s]', t)      # 整租1居·小区 / 合租3居·小区 / 合租·小区（合租页标题不一定带「N居」，2026-09-15 放宽）
+        if m:
+            cur = {'name': t, 'type': m.group(1), 'spec': None, 'distance': None, 'price': None}; out.append(cur)
         elif cur:
             if '㎡' in t and cur['spec'] is None: cur['spec'] = t
             elif t.startswith('距离'): cur['distance'] = t
@@ -105,8 +110,9 @@ def parse_anjuke_page(nodes):
     rows = sorted(nodes, key=lambda r: (r[2], r[1]))
     out, cur = [], None
     for i, (t, x, y) in enumerate(rows):
-        if re.match(r'^(整租|合租)\s*\|', t):
-            cur = {'name': t, 'spec': None, 'distance': None, 'price': None}; out.append(cur)
+        m = re.match(r'^(整租|合租)\s*\|', t)
+        if m:
+            cur = {'name': t, 'type': m.group(1), 'spec': None, 'distance': None, 'price': None}; out.append(cur)
         elif cur:
             if '㎡' in t and cur['spec'] is None: cur['spec'] = t
             elif t.startswith('距'): cur['distance'] = t
@@ -131,7 +137,7 @@ def parse_beike():
         before = len(items); take(to_nodes(dump()))
         stale = stale + 1 if len(items) == before else 0
         if stale >= 2: break
-    return a.kw or station, '默认', {'platform': '安居客' if APP == 'anjuke' else '贝壳', 'filter': filt}, items
+    return a.kw or station, a.sort, {'platform': '安居客' if APP == 'anjuke' else '贝壳', 'filter': filt}, items
 
 kw, sort, meta, items = {'ddmc': parse_ddmc, 'meituan': parse_meituan, 'beike': parse_beike, 'anjuke': parse_beike}[APP]()
 if not items:

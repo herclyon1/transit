@@ -59,11 +59,11 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 #card .links a::after{content:"›";color:var(--ink-3);margin-left:8px}
 /* 岗位行（地图 App 地点卡片列表行的形）：名字 17 半粗 / 灰副题 15 / 元数据 13；右侧时薪 17 半粗；点开详情 */
 .job{position:relative} .job + .job::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
-.job .jr{display:flex;align-items:center;gap:11px;width:100%;min-height:69px;padding:13.5px 16px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.job .jr{display:flex;align-items:center;gap:11px;width:100%;min-height:68px;padding:14px 16px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}   /* iOS 27 Kit › Lists › Rows › Large 68 */
 .job .jr.static{cursor:default}
-.job .lab{flex:1 1 auto;min-width:0} .job .name{font-weight:600;line-height:1.2941em} .job .hint{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.job .meta{color:var(--ink-3);font-size:.7647em;line-height:1.3846em;margin-top:2px} .job .meta .nw{white-space:nowrap}
-.job .val{flex:none;text-align:right;font-variant-numeric:tabular-nums} .job .val b{font-weight:600;white-space:nowrap} .job .val .dim{font-size:.8824em}
+.job .lab{flex:1 1 auto;min-width:0} .job .name{font-weight:600;line-height:1.2941em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .job .hint{color:var(--ink-2);font-size:.8824em;line-height:1.2em;margin-top:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.job .det .meta{color:var(--ink-2);margin-bottom:6px} .job .meta .nw{white-space:nowrap}
+.job .val{flex:none;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap} .job .val b{font-weight:600;white-space:nowrap} .job .val .dim{font-size:.8824em}
 .job .det{padding:0 16px 14px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
 .job .det .q{padding:10px 12px;border-radius:12px;background:var(--fill);color:var(--ink);white-space:pre-wrap;margin-bottom:8px}
 .job .det .src{margin-top:4px} .job .det .cta{margin-top:10px}
@@ -335,15 +335,16 @@ function jobsHtml(d,cur){
     const src=[w.source_url?`<a href="${w.source_url}" target="_blank" rel="noopener">${srcLabel}</a>`:srcLabel, fmtDay(w.posted_at||w.fetched_at)].filter(Boolean).join(' · ');
     const hourlyPost=/\/小时|\/时|\/h\b|時給|每小时|\/giờ|k\/h/.test(w.wage_posted||''); const dailyPost=/\/天|日薪|日结|\/ngày/.test(w.wage_posted||'');
     const hl=(w.wage_posted&&!hourlyPost&&w.hours&&(dailyPost?w.hours.per_day:(w.hours.monthly||w.hours.per_day)))?`${w.wage_posted} ÷ ${(!dailyPost&&w.hours.monthly)?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${money(val,w.unit||'',cur)}`:'';   // 时薪帖不写「1177 ÷ 9 = 1177」（#4）
-    return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${jobMeta(jb)}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
-      +`<div class="det" hidden>${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
+    const meta=jobMeta(jb);   // Kit 两行行（iOS Rows › Large 68 / macOS Sidebars › Large 40）：标题 + 一行副题（雇主 · 工资 · 班次 · 日期，超出省略），元数据全文进展开区
+    return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${[jobEmployer(jb),meta.replace(/<[^>]+>/g,'')].filter(Boolean).join(' · ')}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
+      +`<div class="det" hidden>${meta?`<div class="meta">${meta}</div>`:''}${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
   const all=(d.jobs||[]); const main=all.filter(jb=>jb.headline!==false&&V(jb.wage)!=null), side=all.filter(jb=>(jb.tags||[]).length&&V(jb.wage)!=null), chain=all.filter(jb=>jb.basket==='chain'&&V(jb.wage)==null);
   let h='';
   if(!main.length) h+='<div class="empty">还没有一条帖子同时写工资和班次</div>';
   const mo=main.filter(isMonthly), hr=main.filter(jb=>!isMonthly(jb));   // 时薪岗和月薪岗分开（用户 09-15）
   if(mo.length){ h+=`<div class="sub">月薪岗 · 按帖子工时折成时薪 · ${mo.length} 条</div>`; for(const jb of mo) h+=row(jb); }
   if(hr.length){ h+=`<div class="sub">时薪 / 日薪岗 · 帖子直接写时薪 · ${hr.length} 条</div>`; for(const jb of hr) h+=row(jb); }
-  for(const jb of chain) h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${cleanSrc(jb.wage.source_name||'')}</div></span><span class="val"><span class="dim">官方不公示<br><small>（小程序面议）</small></span></span></div></div>`;
+  for(const jb of chain) h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${[jobEmployer(jb),jb.wage.source_short||cleanSrc(jb.wage.source_name||'')].filter(Boolean).join(' · ')}</div></span><span class="val"><span class="dim">官方不公示</span></span></div></div>`;
   const groups={};
   for(const jb of side) for(const t of jb.tags) (groups[t]=groups[t]||[]).push(jb);
   for(const t of Object.keys(groups)){ h+=`<div class="sub">${TAGZH[t]||t} · 不进中位数</div>`; for(const jb of groups[t]) h+=row(jb); }
