@@ -104,7 +104,8 @@
   rule({name:'信息浮层（Kit 无 → 玻璃卡）', ref:'清单 E4', plat:'ios', sel:'#info', leaf:false, declared:'E4', check:()=>[]});
   rule({name:'图例浮层（Kit 无图例）', ref:'清单 E2', plat:'both', sel:'#legend, #lg', leaf:false, declared:'E2', check:()=>[]});
   rule({name:'提示框遮罩', ref:'随 Alert', plat:'both', sel:'#doneCard', leaf:false, check:()=>[]});
-  rule({name:'学習 详情内联卡（清单 D3 随 A13：Mac Group Box r12 黑 3% / 手机 r20）', ref:'清单 D3/A13', plat:'both', sel:'#card.on, #cardSect', leaf:false, declared:'D3', check:el=>{ if(!el.matches('#card.on')) return []; const r=R(el); return MAC?(near(r,12)?[]:[`圆角 ${num(r)}≠12（不是 Group Box）`]):(anyOf(r,[16,20,26])?[]:[`圆角 ${num(r)}∉{16,20,26}`]); }});
+  rule({name:'学習 详情内联卡内容（外层 #cardSect.mcard 是分组卡片，随 A13）', ref:'清单 D3/A13', plat:'both', sel:'#card.on', leaf:false, declared:'D3', check:()=>[]});
+  rule({name:'列表分组容器 .mlist（iOS 分组列表 r26 / Mac 侧栏组）', ref:'清单 A9', plat:'both', sel:'.mlist', leaf:false, declared:'A9', check:el=>MAC?[]:(near(R(el),26)?[]:[`圆角 ${num(R(el))}≠26`])});
   rule({name:'提示框图标/文字块', ref:'随 Alert', plat:'both', sel:'#doneCard .ico, #doneCard .txt', check:()=>[]});
   // — 地图控件与杂项（Kit 无，清单登记过） —
   rule({name:'MapLibre ± 控件（Kit 无 ± → Button Group 36 胶囊 / iOS 无）', ref:'清单 A24', plat:'both', sel:'.maplibregl-ctrl-group, .maplibregl-ctrl-group button', declared:'A24', check:()=>[]});
