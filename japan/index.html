@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <title>地図 · 学習</title>
@@ -32,8 +35,8 @@
   #card .sub{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:2px}
   #card .disp{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);color:var(--red);font-size:.7647em;line-height:1.3846em}
   #card .x{display:none}
-  #cardWrap{padding:11px 20px}
-  #legend{padding:8px 20px 12px;color:var(--ink);font-size:.7647em;line-height:1.85em}
+  #cardWrap{padding:12px 16px}
+  #legend{padding:8px 16px 12px;color:var(--ink);font-size:.7647em;line-height:1.85em}
   #legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
   #legend .hr{margin:6px 0;border-top:1px solid var(--line);transform:scaleY(.5)}
   #legend .h{font-weight:600;color:var(--ink-2);margin:4px 0 2px}
@@ -51,19 +54,22 @@
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">地図 · 学習</div><div class="t-sub dim" id="hint">点一下看详情</div></div>
     <span class="slot"><button class="btn-glass fill" id="cClose" aria-label="关闭详情" hidden><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
-    <section class="sect" id="cardSect" hidden><div class="group"><div id="cardWrap"><div id="card"></div></div></div></section>
-    <section class="sect">
-      <h2>图层</h2>
-      <div class="group" id="tools">
-        <label class="row"><span class="lab"><div class="name">交通</div><div class="hint">鉄道・空港・港湾・口岸・航路</div></span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
-        <div class="row"><span class="lab"><div class="name">底图</div></span>
-          <div class="seg" id="baseSeg"><button data-b="none" class="on" aria-pressed="true">なし</button><button data-b="pale">地図</button><button data-b="photo">写真</button><button data-b="relief">標高</button></div></div>
-      </div>
-    </section>
-    <section class="sect">
-      <h2>凡例</h2>
-      <div class="group"><div id="legend"></div></div>
-    </section>
+    <!-- 点中的单元 = 地图 App 地点卡片里的卡片 -->
+    <div class="mcard" id="cardSect" hidden><div id="cardWrap"><div id="card"></div></div></div>
+    <!-- 底图 = 地图 App「地图模式」的缩略图块（缩略图取 GSI 同一块 z13 瓦片：東京駅） -->
+    <h2 class="mh">底图</h2>
+    <div class="tiles" id="baseTiles" role="group" aria-label="底图">
+      <button data-b="none" aria-pressed="true"><span class="img"><i style="background:linear-gradient(135deg,#e9f0f7,#cfe0ee 55%,#f4e9d6 56%,#f4e9d6)"></i></span><span class="lb">なし</span></button>
+      <button data-b="pale" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/pale/13/7276/3225.png)"></i></span><span class="lb">地図</span></button>
+      <button data-b="photo" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/13/7276/3225.jpg)"></i></span><span class="lb">写真</span></button>
+      <button data-b="relief" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/relief/13/7276/3225.png)"></i></span><span class="lb">標高</span></button>
+    </div>
+    <h2 class="mh">图层</h2>
+    <div class="mcard" id="tools">
+      <label class="r"><span class="k">交通<div class="hint">鉄道・空港・港湾・口岸・航路</div></span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
+    </div>
+    <h2 class="mh">凡例</h2>
+    <div class="mcard"><div id="legend"></div></div>
   </div>
 </aside>
 <div class="hidden-ctl"><button id="b-leg"></button></div>
@@ -778,9 +784,9 @@ function setBase(b){
   ["water","riv"].forEach(id=>map.setPaintProperty(id,
     id==="water"?"fill-opacity":"line-opacity",
     b==="none" ? (id==="water"?1:["interpolate",["linear"],["zoom"],5,.35,9,.9]) : 0));
-  document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.classList.toggle("on",el.dataset.b===b));
+  document.querySelectorAll("#baseTiles button[data-b]").forEach(el=>el.setAttribute("aria-pressed",el.dataset.b===b?"true":"false"));
 }
-document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
+document.querySelectorAll("#baseTiles button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
 
 // 公共交通叠加层
 const TR=["tr-ferry","tr-stationseg","tr-rail-other","tr-rail-s3","tr-rail-priv","tr-rail-sub","tr-rail-jr",

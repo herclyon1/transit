@@ -17,7 +17,7 @@ class H(http.server.SimpleHTTPRequestHandler):
         if hasattr(self,'range') and self.range: a,b=self.range; self.range=None; dst.write(src.read(b-a+1))
         else: super().copyfile(src,dst)
     def end_headers(self):
-        self.send_header('Accept-Ranges','bytes'); super().end_headers()
+        self.send_header('Accept-Ranges','bytes'); self.send_header('Cache-Control','no-store'); super().end_headers()   # 预览不要缓存：主屏幕网页 App 会吃旧 JS
     def do_POST(self):
         # ui/accept.js 把验收结果 POST 到 /accept → 写 .accept/<page>.json（pipeline/ui/accept.py 读）
         if self.path!='/accept': self.send_error(404); return

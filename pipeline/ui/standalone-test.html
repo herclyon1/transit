@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>standalone test</title>
+<style>
+html,body{margin:0;background:#dde}
+body{position:relative;min-height:100dvh}
+#top{position:fixed;top:0;left:0;right:0;padding:env(safe-area-inset-top) 16px 8px;background:#fc0}
+#box{position:absolute;left:8px;right:8px;bottom:calc(100% - 100dvh);height:200px;background:#39f;color:#fff;font:20px -apple-system;padding:16px}
+#log{position:fixed;left:8px;right:8px;top:200px;background:#fff;font:14px ui-monospace;padding:8px;white-space:pre-wrap}
+body.fixbody{position:fixed;inset:0;overflow:hidden}
+html.fixhtml{height:100%;overflow:hidden}
+html.fixhtml body{position:relative;height:100%;margin:0}
+</style></head><body>
+<div id="top">top bar</div>
+<div id="log">log</div>
+<div id="box">BOX (fixed bottom, 200 tall)</div>
+<div id="fx" style="position:fixed;left:8px;width:200px;top:300px;height:60px;background:#c0c;color:#fff">FIXED top300</div>
+<div id="ab" style="position:absolute;left:230px;width:200px;top:300px;height:60px;background:#0a0;color:#fff">ABS top300</div>
+<div id="ab2" style="position:absolute;left:0;right:0;top:-62px;height:30px;background:#f80">ABS top-62</div>
+<script>
+const q=new URLSearchParams(location.search); const fix=q.get('fix')||'none';
+if(fix==='body') document.body.classList.add('fixbody');
+if(fix==='html') document.documentElement.classList.add('fixhtml');
+if(fix==='scroll') addEventListener('load',()=>setTimeout(()=>scrollTo(0,0),300));
+const L=[]; const log=m=>{ L.push(m); document.getElementById('log').textContent=L.slice(-8).join('\n'); };
+function post(extra){ fetch('/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:'/standalone-test/'+fix+'/index.html',w:innerWidth,h:innerHeight,root:0,results:[],env:Object.assign({fix,scrollY,vvTop:visualViewport.offsetTop,vvH:visualViewport.height,boxTop:document.getElementById('box').getBoundingClientRect().top,fxTop:document.getElementById('fx').getBoundingClientRect().top,abTop:document.getElementById('ab').getBoundingClientRect().top,ab2Top:document.getElementById('ab2').getBoundingClientRect().top,dvh:document.body.getBoundingClientRect().height,logTop:document.getElementById('log').getBoundingClientRect().top,boxBottom:document.getElementById('box').getBoundingClientRect().bottom,efp930:(e=>e&&e.id)(document.elementFromPoint(220,930)),bodyH:document.body.getBoundingClientRect().height,clientH:document.documentElement.clientHeight},extra)})}); }
+setTimeout(()=>{ log(`fix=${fix} scrollY=${scrollY} vvTop=${visualViewport.offsetTop} vvH=${visualViewport.height} boxTop=${document.getElementById('box').getBoundingClientRect().top}`); post({}); },2500);
+document.addEventListener('touchstart',e=>{ const t=e.touches[0]; const el=document.elementFromPoint(t.clientX,t.clientY); const m=`touch client=${t.clientY.toFixed(0)} page=${t.pageY.toFixed(0)} screen=${t.screenY.toFixed(0)} target=${e.target.id} efp=${el&&el.id}`; log(m); post({touch:m,target:e.target.id,clientY:t.clientY,screenY:t.screenY}); },{passive:true});
+</script></body></html>

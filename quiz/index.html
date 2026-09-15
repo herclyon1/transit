@@ -75,7 +75,12 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <title>日本都道府県 地図クイズ</title>
 <link rel="stylesheet" href="../ui/hig.css">
 <style>
@@ -119,9 +124,9 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   .fb.good{color:var(--green)} .fb.bad{color:var(--red)}
   #promptBar button{margin-top:8px}
   /* 地方跳转：一排胶囊（HIG Buttons 小号 28） */
-  #jumps{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 104px);z-index:4;display:flex;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none}
-  #jumps::-webkit-scrollbar{display:none}
-  #jumps button{flex:none}
+  #jumps{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 104px);z-index:4}
+  #jumps button{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge)}
+  #jumps button[aria-pressed="true"]{background:var(--tint);color:#fff}
   /* 选中县：popover 样子的玻璃卡 */
   #info{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 144px);z-index:4;padding:12px 40px 12px 16px;border-radius:16px;max-width:260px;display:none}
   #info .n{font-size:1em;font-weight:600}
@@ -145,9 +150,10 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #doneCard .sub{font-size:.7647em;color:var(--ink-2);line-height:1.5}
   #doneCard button{margin-top:16px}
   /* Sheet 里的设置行：select 做成 pop-up button（值 + 上下箭头） */
-  .row.pop select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit}
-  .row.pop{position:relative;cursor:pointer}
-  .row.pop .val{display:inline-flex;align-items:center;gap:6px}
+  .r.pop select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit}
+  .r.pop{position:relative;cursor:pointer}
+  .r.pop .v{display:inline-flex;align-items:center;gap:6px}
+  .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
   .sheet.small .body{overflow:hidden}
   #stats{color:var(--ink-2);font-size:.8824em}
   @media (max-width:640px){ #legend .lg-sel{display:none} }
@@ -176,15 +182,16 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   </div>
   <canvas id="eaCv"></canvas>
   <svg id="map"></svg>
-  <div id="jumps">
-    <button class="btn s glass" data-j="all">全国</button>
-    <button class="btn s glass" data-j="r1">東北</button>
-    <button class="btn s glass" data-j="r2">関東</button>
-    <button class="btn s glass" data-j="r3">中部</button>
-    <button class="btn s glass" data-j="r4">近畿</button>
-    <button class="btn s glass" data-j="r5">中国</button>
-    <button class="btn s glass" data-j="r6">四国</button>
-    <button class="btn s glass" data-j="r7">九州</button>
+  <!-- 地方跳转 = 地图 App 地点卡片里的筛选胶囊（32 高） -->
+  <div id="jumps" class="chips">
+    <button data-j="all" aria-pressed="true">全国</button>
+    <button data-j="r1" aria-pressed="false">東北</button>
+    <button data-j="r2" aria-pressed="false">関東</button>
+    <button data-j="r3" aria-pressed="false">中部</button>
+    <button data-j="r4" aria-pressed="false">近畿</button>
+    <button data-j="r5" aria-pressed="false">中国</button>
+    <button data-j="r6" aria-pressed="false">四国</button>
+    <button data-j="r7" aria-pressed="false">九州</button>
   </div>
   <div id="info" class="glass"></div>
   <div id="legend" class="glass"></div>
@@ -199,21 +206,19 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">都道府県クイズ</div><div class="t-sub dim" id="stats"></div></div><span class="slot"></span></div>
   <div class="body">
-    <section class="sect">
-      <h2>范围与题型</h2>
-      <div class="group">
-        <label class="row pop"><span class="lab"><div class="name">范围</div></span><span class="val" id="scopeVal">43県（除都道府）<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
+    <h2 class="mh">范围与题型</h2>
+    <div class="mcard">
+        <label class="r pop"><span class="k">范围</span><span class="v dim" id="scopeVal">43県（除都道府）<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
           <select id="scope" aria-label="范围">
             <option value="43">43県（除都道府）</option><option value="47">全部47</option><option value="r1">東北</option><option value="r2">関東</option>
             <option value="r3">中部</option><option value="r4">近畿</option><option value="r5">中国</option><option value="r6">四国</option><option value="r7">九州・沖縄</option>
           </select></label>
-        <label class="row pop"><span class="lab"><div class="name">题型</div></span><span class="val" id="qtypeVal">考县名<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
+        <label class="r pop"><span class="k">题型</span><span class="v dim" id="qtypeVal">考县名<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
           <select id="qtype" aria-label="题型"><option value="name">考县名</option><option value="cap">考县厅</option><option value="mix">县名+县厅</option></select></label>
-        <label class="row" id="labelToggle"><span class="lab"><div class="name">名称标签</div></span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
-        <label class="row" id="seaToggle"><span class="lab"><div class="name">远岛海域</div></span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
-      </div>
-      <p class="foot">旧版页面；将来重做进「地図·学習」。</p>
-    </section>
+        <label class="r" id="labelToggle"><span class="k">名称标签</span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
+        <label class="r" id="seaToggle"><span class="k">远岛海域</span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
+    </div>
+    <p class="mnote">旧版页面；将来重做进「地図·学習」。</p>
   </div>
 </aside>
 <script src="../ui/hig.js"></script>
@@ -1486,7 +1491,7 @@ function enterHist(kind){
   buildHistPanel(kind, r.feats);
 }
 const JUMP_REGION = {all:null, r1:1, r2:2, r3:3, r4:4, r5:5, r6:6, r7:7};
-document.querySelectorAll("#jumps button").forEach(b => b.onclick = () => zoomToRegion(JUMP_REGION[b.dataset.j]));
+document.querySelectorAll("#jumps button").forEach(b => b.onclick = () => { zoomToRegion(JUMP_REGION[b.dataset.j]); document.querySelectorAll("#jumps button").forEach(x=>x.setAttribute("aria-pressed", x===b?"true":"false")); });
 let rsT = null;
 window.addEventListener("resize", () => {
   clearTimeout(rsT);

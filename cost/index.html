@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>薪资 · 购买力</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2334c759'/><text x='32' y='44' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff' font-family='-apple-system,sans-serif'>¥</text></svg>">
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
@@ -22,25 +24,22 @@
 /* 货币：pop-up button（HIG）——玻璃胶囊里套原生 select，点开是系统菜单 */
 .cur{position:relative}
 .cur select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font:inherit}
-/* 列表态 */
-#list .row .val{font-size:.8824em}
-/* 卡片态：render() 输出的 section/h3/.row/.src/table 映射成分组列表 */
-#card .group .row{min-height:44px;padding:11px 20px;align-items:baseline}
-#card .group .row .k{flex:1 1 auto;min-width:0;color:var(--ink)}
-#card .group .row .v{color:var(--ink);font-weight:600;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-#card .group .row .v.none{color:var(--ink-3);font-weight:400}
-#card .group .src{padding:0 20px 11px;margin-top:-6px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em;word-break:break-word}
-#card .group .src + .row::before{content:none}
-#card .group .src a{color:var(--tint);text-decoration:none}
-#card .group .empty{padding:11px 20px;color:var(--ink-2);font-size:.8824em}
-#card .group > .src:first-child{margin-top:0;padding-top:11px}
+/* 卡片态：render() 输出的 section/h3/.r/.src/table 映射成地图 App 地点卡片（groups()） */
+#card .mcard .r{align-items:baseline}
+#card .mcard .r .k{color:var(--ink)}
+#card .mcard .r .v{font-weight:600}
+#card .mcard .r .v.none{font-weight:400}
+#card .mcard .src + .r::before{content:none}
+#card .mcard > .src:first-child{margin-top:0;padding-top:12px}
+.mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+.mbtn{padding:16px var(--inset) 0}
 .chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
 .chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
 .chip.crowd{background:var(--orange)} .chip.estimated{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
 .stale{color:var(--orange)}
-.derived{margin:0 20px 11px;padding:10px 12px;border-radius:12px;background:var(--fill)}
+.derived{margin:0 16px 12px;padding:10px 12px;border-radius:12px;background:var(--fill)}
 .derived .big{font-size:1.6471em;font-weight:700}
-#card .group > div[style*="overflow-x"]{padding:0 20px 8px}
+#card .mcard > div[style*="overflow-x"]{padding:0 16px 8px}
 table.tiers{border-collapse:collapse;font-size:.7647em;line-height:1.3846em;width:100%}
 table.tiers th{font-weight:600;color:var(--ink-2);text-align:left;padding:6px 6px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
 table.tiers td{padding:7px 6px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
@@ -48,8 +47,7 @@ table.tiers tr:last-child td{border-bottom:0}
 table.tiers td a{color:var(--ink);font-weight:600;text-decoration:none}
 table.tiers .chip{width:6px;height:6px;padding:0;margin-left:4px;vertical-align:middle}
 table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-shadow:none;background:var(--ink-3)}
-#card .links a{display:block;padding:11px 20px;color:var(--tint);text-decoration:none}
-#card section.src{padding:12px 36px 0;color:var(--ink-2);font-size:.7647em}
+#card .links a{display:block;padding:12.5px 16px;color:var(--tint);text-decoration:none}
 </style>
 </head>
 <body>
@@ -67,11 +65,11 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
   <div id="list">
     <div class="head"><label class="search" style="flex:1 1 auto"><i class="sf" data-sf="magnifyingglass"></i><input id="q" type="search" placeholder="搜索城市" autocomplete="off"><button class="clear" type="button" aria-label="清除"><i class="sf" data-sf="xmark.circle.fill"></i></button></label></div>
     <div class="body">
-      <section class="sect"><h2>薪资 · 购买力</h2>
-        <p class="foot" style="padding-top:0">外国人在各城市真实能挣多少、真实要花多少：时薪、通勤、房租、生活费，换算成工时。每个数字带来源、日期、置信度。点地图上的点或下面的城市。</p>
-        <div class="group" id="cityRows"></div>
-        <p class="foot"><span class="dot measured"></span> 有数据　<span class="dot"></span> 待调查　<span id="curDate"></span></p>
-      </section>
+      <!-- 地图 App 首页的「建议卡」：说明这张图是什么，× 掉就记住 -->
+      <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">外国人在各城市真实能挣多少、真实要花多少：时薪、通勤、房租、生活费，换算成工时。每个数字带来源、日期、置信度。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
+      <h2 class="mh">城市 <i class="sf" data-sf="chevron.right"></i></h2>
+      <div class="mlist" id="cityRows"></div>
+      <p class="mnote">● 有数据　○ 待调查　<span id="curDate"></span></p>
     </div>
   </div>
   <div id="card" hidden>
@@ -118,13 +116,19 @@ map=new maplibregl.Map({
 if(window.matchMedia('(min-width: 900px)').matches) map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
+const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'🇻🇳',MMR:'🇲🇲',DEU:'🇩🇪',USA:'🇺🇸',AUS:'🇦🇺'};
+// 建议卡：× 掉记住
+try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
+$('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
+$('introMore').addEventListener('click',()=>{ location.href='data/README.md'; });
 function cityRows(filter){
   const q=(filter||'').trim().toLowerCase();
   const rows=CITIES.filter(c=>!q||[c.name.zh,c.name.en,c.name.local||'',COUNTRY[c.country]||''].join(' ').toLowerCase().includes(q))
     .sort((a,b)=>(b.status==='ready')-(a.status==='ready'));
-  $('cityRows').innerHTML=rows.map(c=>`<button class="row" data-id="${c.id}"><span class="lab"><div class="name">${c.name.zh}<span class="dim t-foot">　${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span><span class="val">${c.status==='ready'?'<span class="dot measured"></span>':'<span class="dot"></span>'}</span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="row"><span class="lab dim">没有匹配的城市</span></div>';
+  // 地图 App 搜索结果行：34 圆图标（国旗）+ 标题 17 半粗 + 副标题 15 + ›
+  $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency} · ${c.status==='ready'?'● 有数据':'○ 待调查'}</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
   HIG.sf();
-  $('cityRows').querySelectorAll('button.row').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); map.flyTo({center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); show(c);}));
+  $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); map.flyTo({center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); show(c);}));
 }
 cityRows('');
 $('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
@@ -157,16 +161,19 @@ async function show(c){
   OPEN=c; $('card').hidden=false; $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
   $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
   $('cMeta').textContent=`${({JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'})[c.country]||c.country} · 货币 ${c.currency}`;
-  $('cBody').innerHTML='<section class="sect"><div class="group"><div class="empty">载入…</div></div></section>';
+  $('cBody').innerHTML='<div class="mcard"><div class="empty">载入…</div></div>';
   let d=cache[c.id];
   if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
   $('cBody').innerHTML=groups(render(c,d)); HIG.sf();
 }
-// render() 的 <section><h3>…</h3>REST</section> → HIG 分组：<section class="sect"><h2>…</h2><div class="group">REST</div></section>
+// render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
+// 最前面加一颗 50 高的主按钮（地图 App「规划」的位置）：跳到「换算成工时」
 function groups(h){
-  return h.replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<section class="sect"><h2>${t}</h2><div class="group">${rest}</div></section>`)
-          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<section class="sect"><div class="group links">$1</div></section>')
-          .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<section class="sect"><div class="group"><div class="empty">$1</div></div></section>'); }
+  return '<div class="mbtn"><button class="btn l tint stack" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button></div>'
+        + h.replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh"${/换算成工时/.test(t)?' id="hours"':''}>${t}</h2><div class="mcard">${rest}</div>`)
+          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<div class="mcard links" style="margin-top:28px">$1</div>')
+          .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<div class="mcard"><div class="empty">$1</div></div>')
+          .replace(/<section class="src">([\s\S]*?)<\/section>/g,'<p class="mnote">$1</p>'); }
 // ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
 function money(v,unit,cur){
   if(v==null) return null;
@@ -181,7 +188,7 @@ function num(k,m,cur){
   const chip=`<span class="chip ${m.confidence||''}">${({official:'官方',listing:'挂牌',measured:'实测',crowd:'众包',estimated:'推算'})[m.confidence]||'?'}</span>`;
   const src=m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_name||'来源'}</a>`:(m.source_name||'');
   const meta=[src, m.fetched_at?(stale(m.fetched_at)?`<span class="stale">${m.fetched_at} 旧</span>`:m.fetched_at):'', m.n?`n=${m.n}`:'', m.note||''].filter(Boolean).join(' · ');
-  return `<div class="row"><span class="k">${k}</span><span class="v ${val==null?'none':''}">${val==null?'暂无':val}${chip}</span></div>${meta?`<div class="src">${meta}</div>`:''}`;
+  return `<div class="r"><span class="k">${k}</span><span class="v ${val==null?'none':''}">${val==null?'暂无':val}${chip}</span></div>${meta?`<div class="src">${meta}</div>`:''}`;
 }
 function render(c,d){
   if(!d) return '<section class="empty">这个城市还没有数据文件。数据规范见 data/README.md。</section>';
@@ -189,7 +196,7 @@ function render(c,d){
   const V=x=>x&&x.value!=null?x.value:null;
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
-  if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="row"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
+  if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="r"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
       if(w.rule&&w.rule.note) h+=`<div class="src">${w.rule.note}</div>`;
       if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>'; } }
   else h+='<div class="empty">待调查</div>';

@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
@@ -36,13 +39,12 @@ html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#ff
 .tsw{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 2px 0 6px;vertical-align:-1px}
 .tsw:first-child{margin-left:0}
 html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.72) contrast(.92) saturate(.45)}
-/* 图例行（可达枢纽） */
-#lg .row{min-height:36px;padding:6px 20px}
-#lg .swatch{width:11px;height:11px;border-radius:50%;flex:0 0 auto;border:1px solid #0006}
-#note{padding:0 20px 12px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-#stat,#areastat{padding-top:6px}
-#tiersLg{padding:0 20px 10px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-.row .lab .name .acc{color:var(--acc)}
+/* 图例（可达枢纽）= 地图 App 搜索结果行：34 圆图标就是色样 */
+#lg .mrow{min-height:52px;padding:9px 16px}
+#lg .mrow .ico{border:1px solid #0003}
+.mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+#tiersLg{margin-top:0;padding-top:0}
+.mcard .r .k .acc{color:var(--acc)}
 .hidden-ctl{display:none}
 </style>
 </head>
@@ -56,35 +58,33 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
-    <section class="sect">
-      <h2>到枢纽的时间</h2>
-      <div class="group" id="bar">
-        <div class="row"><span class="lab"><div class="name">阈值</div></span><span class="val ink num" id="thv">25 分</span></div>
-        <div class="row slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
-        <div class="row"><span class="lab"><div class="name">可达枢纽数</div></span>
-          <div class="seg" id="minhub" title="只显示阈值内可达 ≥N 个枢纽的车站"><button data-n="1" class="on" aria-pressed="true">≥1</button><button data-n="2">≥2</button><button data-n="3">≥3</button><button data-n="4">全4</button></div></div>
-        <label class="row"><span class="lab"><div class="name">含低频优等 <span class="acc">⚡</span></div></span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
-        <label class="row"><span class="lab"><div class="name">枢纽标记 <span class="acc">◆</span></div></span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
-        <label class="row"><span class="lab"><div class="name">面覆盖（＋步行）</div></span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
-        <div id="walkWrap" hidden>
-          <div class="row"><span class="lab"><div class="name">步行</div></span><span class="val ink num" id="wkv">10 分</span></div>
-          <div class="row slider"><input type="range" id="wk" min="0" max="20" step="1" value="10" aria-label="步行"></div>
-          <label class="row"><span class="lab"><div class="name">势力范围模式</div></span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
-        </div>
-        <label class="row"><span class="lab"><div class="name">居住等级（面层）</div></span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
-        <div id="tiersLg" hidden>
-          <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
-          <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
-          <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
+    <!-- 地图 App 地点卡片的排法：段头 + 半透明卡片；控件行是地图 App「地图模式」那类设置行 -->
+    <h2 class="mh">到枢纽的时间</h2>
+    <div class="mcard" id="bar">
+      <div class="r"><span class="k">阈值</span><span class="v num" id="thv">25 分</span></div>
+      <div class="r slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
+      <div class="r"><span class="k">可达枢纽数</span>
+        <div class="seg" id="minhub" title="只显示阈值内可达 ≥N 个枢纽的车站"><button data-n="1" class="on" aria-pressed="true">≥1</button><button data-n="2">≥2</button><button data-n="3">≥3</button><button data-n="4">全4</button></div></div>
+      <label class="r"><span class="k">含低频优等 <span class="acc">⚡</span></span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+      <label class="r"><span class="k">枢纽标记 <span class="acc">◆</span></span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
+      <label class="r"><span class="k">面覆盖（＋步行）</span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
+      <div id="walkWrap" hidden>
+        <div class="r"><span class="k">步行</span><span class="v num" id="wkv">10 分</span></div>
+        <div class="r slider"><input type="range" id="wk" min="0" max="20" step="1" value="10" aria-label="步行"></div>
+        <label class="r"><span class="k">势力范围模式</span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
       </div>
-      <p class="foot" id="stat"></p>
-      <p class="foot" id="areastat"></p>
-    </section>
-    <section class="sect" id="info">
-      <h2>可达枢纽</h2>
-      <div class="group"><div id="lg"></div><div class="note" id="note">载入中…</div></div>
-      <p class="foot">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
-    </section>
+      <label class="r"><span class="k">居住等级（面层）</span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
+      <div id="tiersLg" class="src" hidden>
+        <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
+        <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
+        <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
+    </div>
+    <p class="mnote" id="stat"></p>
+    <p class="mnote" id="areastat"></p>
+    <h2 class="mh">可达枢纽</h2>
+    <div class="mlist" id="lg"></div>
+    <div class="mcard" style="margin-top:12px"><div class="txt" id="note">载入中…</div></div>
+    <p class="mnote">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
   </div>
 </aside>
 <!-- 旧脚本还引用这几个按钮：保留在 DOM 里但不显示（主题跟随系统，面板不再折叠，图例常驻） -->
@@ -647,15 +647,15 @@ function buildLegend(){
   const lg=document.getElementById('lg');
   lg.innerHTML='';
   const add=(sw,txt,muted)=>{
-    const r=document.createElement('div'); r.className='row';
-    r.innerHTML='<span class="swatch" style="'+sw+'"></span><span class="t-foot"'
-      + (muted?' style="color:'+cssvar('--sub')+'"':'') + '>'+txt+'</span>';
+    const r=document.createElement('div'); r.className='mrow';
+    r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name" style="font-weight:400'
+      + (muted?';color:'+cssvar('--sub'):'') + '">'+txt+'</div></span>';
     lg.appendChild(r);
   };
   HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
   add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'),
       '粗白/黑边 = 四枢纽全覆盖');
-  add('background:'+cssvar('--sub')+';width:15px;height:15px', '点越大 = 阈值内可达枢纽越多');
+  add('background:'+cssvar('--sub'), '点越大 = 阈值内可达枢纽越多');
   add('background:'+cssvar('--dim')+';border-color:'+cssvar('--dimbd'), '阈值内不可达', 1);
   add('background:transparent;border:2px dashed '+cssvar('--acc'), '仅低频线可达 ⚡', 1);
 }

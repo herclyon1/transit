@@ -14,6 +14,7 @@
   --line:rgba(60,60,67,.29);   /* separator */
   --fill:rgba(120,120,128,.2); /* systemFill（分段控件底 #767680 12%、搜索框 #787880 16%） */
   --fill-2:rgba(120,120,128,.16);
+  --fill-3:rgba(120,120,128,.1);  /* 地图 App 地点卡片里的半透明卡片：玻璃底上暗 6% */
   --tint:#0088ff;          /* kit tint */
   --green:#34c759; --orange:#ff9500; --red:#ff383c; --yellow:#ffcc00; --teal:#30b0c7; --indigo:#5856d6;
   --disabled:#aeaeb2;
@@ -28,14 +29,14 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#000000; --bg-elev:#1c1c1e; --ink:#ffffff; --ink-2:rgba(235,235,245,.6); --ink-3:rgba(235,235,245,.3);
-    --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32);
+    --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32); --fill-3:rgba(120,120,128,.2);
     --tint:#0a84ff; --green:#30d158; --orange:#ff9f0a; --red:#ff453a; --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6;
     --glass:rgba(30,30,32,.55); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 8px 28px rgba(0,0,0,.5); --seg-on:#636366;
   }
 }
 :root[data-theme="dark"]{
   --bg:#000000; --bg-elev:#1c1c1e; --ink:#ffffff; --ink-2:rgba(235,235,245,.6); --ink-3:rgba(235,235,245,.3);
-  --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32);
+  --line:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill-2:rgba(120,120,128,.32); --fill-3:rgba(120,120,128,.2);
   --tint:#0a84ff; --green:#30d158; --orange:#ff9f0a; --red:#ff453a; --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6;
   --glass:rgba(30,30,32,.55); --glass-edge:rgba(255,255,255,.14); --glass-shadow:0 8px 28px rgba(0,0,0,.5); --seg-on:#636366;
 }
@@ -116,7 +117,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .sheet{position:fixed;left:8px;right:8px;bottom:0;z-index:15;height:44dvh;max-height:calc(100dvh - 62px);
        border-radius:var(--r-sheet) var(--r-sheet) 0 0;display:flex;flex-direction:column;
        transition:height .32s cubic-bezier(.2,.8,.2,1);will-change:height;touch-action:none}
-.sheet.large{height:calc(100dvh - 62px)}
+.sheet.large{height:calc(100dvh - 62px);left:0;right:0}   /* 地图 App 大档：Sheet 满宽（搜索结果页实测） */
 .sheet.small{height:calc(env(safe-area-inset-bottom) + 96px)}
 .sheet.dragging{transition:none}
 .sheet .grab{flex:none;height:15px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
@@ -168,6 +169,9 @@ a.row:active,button.row:active{background:var(--fill)}
 .dot.crowd{background:var(--orange)} .dot.estimated{background:var(--ink-3)}
 
 /* ---------- 10. 地图页壳：地图全屏，控件浮在上面（HIG Maps：别用不可交互的东西盖住地图；自定义控件要有描边/阴影对比）---------- */
+/* 地图页的壳。主屏幕网页 App 用 status-bar-style=default（视口从状态栏之下开始，env(safe-area-inset-top)=0，fixed 元素、rect、触摸一致，
+   和 maa 手机页同一做法）。black-translucent 在 iOS 27 的网页 App 容器里会把布局视口缩成 894 并向上偏 62（scrollY=-62），
+   fixed 元素画在视觉视口、点击却按布局视口算，差一个状态栏高，锁 body/html 都治不好——pipeline/ui/standalone-test.html 是当时的实验页，留着备查。 */
 .map-shell{position:fixed;inset:0;overflow:hidden}
 .map-shell .map{position:absolute;inset:0}
 /* 右侧浮动控件组（地图 App 实测：竖向玻璃胶囊 49 宽、每个按钮 44、右边距 22、底边在 sheet 中档上沿之上 35） */
@@ -178,14 +182,20 @@ a.row:active,button.row:active{background:var(--fill)}
 .pill{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 12px);z-index:16;
       height:44px;padding:0 14px 0 18px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--ink)}
 
-/* ---------- 11. 宽屏（iPad 横屏 / Mac）：HIG Maps「iPadOS/macOS 用侧栏或 popover」，sheet 变成左侧 320 的侧栏 ---------- */
+/* ---------- 11. 宽屏（iPad / Mac）：HIG Maps「iPadOS/macOS 用侧栏或 popover」。
+   iPadOS 27 地图 App 实测（iPad Pro 13″ 竖屏 1032×1376，2026-09-15 09:56）：侧栏面板宽 440、距左 24、顶 = 状态栏 + 8、距底 20，
+   圆角同 Sheet（38），搜索胶囊 44 高、距面板边 16、距面板顶 16；控件簇在右上角距右 24。工具条在宽屏上跟着挪到右上角。 ---------- */
 @media (min-width: 900px){
-  .sheet{left:16px;right:auto;top:calc(env(safe-area-inset-top) + 64px);bottom:16px;width:320px;height:auto !important;max-height:none;
-         border-radius:var(--r-card);transition:none}
+  .sheet{left:24px;right:auto;top:calc(env(safe-area-inset-top) + 8px);bottom:20px;width:440px;height:auto !important;max-height:none;
+         border-radius:var(--r-sheet);transition:none}
   .sheet .grab{display:none}
-  .sheet .head{padding-top:15px}          /* 没有抓手时，第一行仍距侧栏顶 15 */
-  .map-ctl{right:16px}
-  .pill{left:auto;right:16px;transform:none}
+  .sheet .head{padding-top:16px}
+  .bar{left:auto;right:0;padding:calc(env(safe-area-inset-top) + 8px) 24px 10px;justify-content:flex-end;gap:12px}
+  .bar .spacer{display:none}
+  .bar .seg{flex:0 0 auto;width:auto}
+  .bar .seg button{flex:0 0 auto;padding-left:12px;padding-right:12px}
+  .map-ctl{right:24px}
+  .pill{left:auto;right:24px;transform:none}
 }
 
 /* ---------- 12. 动效（HIG Motion）：短、准，只给主要交互；系统开了减弱动态就全关 ---------- */
@@ -206,12 +216,91 @@ a.row:active,button.row:active{background:var(--fill)}
 :root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
 /* ---------- 14. 滑块（UI Kit › Sliders 7:53847）：轨道 4 高圆角，填充色 tint，圆钮 28 白色带阴影；整行左右内缩 20 ---------- */
 .row.slider{padding:8px 20px 10px}
-.row.slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:none;cursor:pointer}
+.row.slider input[type=range],.r.slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:none;cursor:pointer}
 .row.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--tint) 0,var(--tint) var(--p,50%),var(--fill) var(--p,50%),var(--fill) 100%)}
-.row.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;margin-top:-12px;
-  box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08)}
+.r.slider input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--tint) 0,var(--tint) var(--p,50%),var(--fill) var(--p,50%),var(--fill) 100%)}
+.row.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;margin-top:-12px;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08)}
+.r.slider input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;margin-top:-12px;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08)}
 .row.slider input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--fill)}
+.r.slider input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--fill)}
 .row.slider input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--tint)}
+.r.slider input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--tint)}
 .row.slider input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.r.slider input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15)}
 /* 行里的分段控件占满右侧 */
 .row .seg{flex:1 1 auto;max-width:60%}
+
+/* ---------- 14. 地图 App 的 Sheet 内容组件（iOS 27 地图 App 实测，2026-09-15；见 DESIGN-HIG.md「地图 App 组件」）----------
+   段头 .mh：17 半粗 label 色，上 28 下 10，距 Sheet 边 20，可带 › ；
+   卡片 .mcard：半透明填充圆角 20，距 Sheet 边 20，左右内边 16；头行 .hdr = 24 图标 + 17 半粗；行 .r = 47（17/22 + 12.5×2）值右对齐；分隔线 1；
+   列表 .mlist/.mrow（搜索结果、最近）：白卡片圆角 26 距边 20 卡片间 13；行 69 = 13.5 + 17/22 + 15/20 + 13.5；圆图标 34 距卡片边 16；文字 61；分隔线 1 内缩 61/16；
+   筛选胶囊 .chips：32 高，间 8，选中 tint 白字，未选中 fill + 1 描边；
+   缩略图块 .tiles（地图模式）：87 图 + 2 选中描边 = 91，圆角 12，间 10，标签 13 距块 10；
+   建议卡 .sugg（首页「附近的公共交通」）：白 55% 圆角 16，圆图标 36，标题 17 半粗，副标题 15，右上 ×，下方 17 tint 链接；
+   快捷圆钮 .quick（首页 家/工作/添加）：70 圆 + 13 标签。 */
+.mh{margin:0;padding:28px var(--inset) 10px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:4px}
+.mh .sf{width:.7em;height:.7em;color:var(--ink-3)}
+.mh:first-child{padding-top:4px}
+.mcard{margin:0 var(--inset);border-radius:20px;background:var(--fill-3);overflow:hidden}
+.mcard + .mcard{margin-top:12px}
+.mcard .hdr{display:flex;align-items:center;gap:10px;padding:12px 16px 4px;font-weight:600;line-height:1.2941em}
+.mcard .hdr .ico{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;background:var(--tint);flex:none}
+.mcard .hdr .ico .sf{width:.85em;height:.85em}
+.mcard .r{position:relative;display:flex;align-items:center;gap:12px;min-height:47px;padding:12.5px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
+.mcard .r + .r::before,.mcard .src + .r::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
+.mcard .r .k{flex:1 1 auto;min-width:0}
+.mcard .r .k .hint{font-size:.7647em;line-height:1.3846em;color:var(--ink-2);font-weight:400}
+.mcard .hdr + .r::before{content:none}
+.mcard .r .v{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mcard .r .v.none{color:var(--ink-3)}
+.mcard .r.slider{padding:8px 16px 10px}
+.mcard .r .seg{flex:1 1 auto;max-width:60%}
+.mcard .src{padding:0 16px 10px;margin-top:-6px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em;word-break:break-word}
+.mcard .src a{color:var(--tint);text-decoration:none}
+.mcard .empty{padding:12.5px 16px;color:var(--ink-2)}
+.mcard .txt{padding:12px 16px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
+.mlist{margin:0 var(--inset);background:var(--bg-elev);border-radius:var(--r-card);overflow:hidden}
+.mlist + .mlist{margin-top:13px}
+.mrow{position:relative;display:flex;align-items:center;gap:11px;min-height:69px;padding:13.5px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left;cursor:pointer}
+.mrow + .mrow::before{content:"";position:absolute;left:61px;right:16px;top:0;height:1px;background:var(--line)}
+.mrow .ico{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:var(--fill);color:#fff;font-size:1.0588em;line-height:1}
+.mrow .ico .sf{width:1em;height:1em}
+.mrow .lab{flex:1 1 auto;min-width:0}
+.mrow .name{font-weight:600;line-height:1.2941em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .hint{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .chev{color:var(--ink-3);width:.75em;height:.75em}
+.mrow:active{background:var(--fill)}
+.chips{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;height:32px;padding:0 12px;border:0;border-radius:999px;background:var(--fill);color:var(--ink);font:inherit;font-size:.8824em;font-weight:500;box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;white-space:nowrap}
+.chips button[aria-pressed="true"]{background:var(--tint);color:#fff;box-shadow:none}
+.tiles{display:flex;gap:10px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none}
+.tiles::-webkit-scrollbar{display:none}
+.tiles button{flex:0 0 auto;width:91px;border:0;background:none;padding:0;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.tiles .img{display:block;width:91px;height:91px;border-radius:14px;padding:2px}
+.tiles .img i{display:block;width:100%;height:100%;border-radius:12px;background:var(--fill) center/cover no-repeat}
+.tiles button[aria-pressed="true"] .img{box-shadow:inset 0 0 0 2px var(--tint)}
+.tiles .lb{margin-top:10px;font-size:.7647em;line-height:1.3846em}
+.tiles button[aria-pressed="true"] .lb{font-weight:600}
+.sugg{margin:0 var(--inset);padding:14px 16px 14px;border-radius:16px;background:rgba(255,255,255,.55);display:grid;grid-template-columns:36px 1fr 20px;column-gap:12px;align-items:start}
+.sugg .ico{width:36px;height:36px;border-radius:50%;background:var(--tint);color:#fff;display:flex;align-items:center;justify-content:center}
+.sugg .ico .sf{width:1.1em;height:1.1em}
+.sugg .t{font-weight:600;line-height:1.2941em}
+.sugg .s{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);margin-top:2px}
+.sugg .a{grid-column:2;margin-top:12px;color:var(--tint);background:none;border:0;padding:0;font:inherit;text-align:left;cursor:pointer}
+.sugg .x{border:0;background:none;padding:0;color:var(--ink-3);cursor:pointer;width:20px;height:20px;display:flex;align-items:center;justify-content:center}
+.sugg .x .sf{width:.9em;height:.9em}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sugg{background:rgba(255,255,255,.08)} }
+:root[data-theme="dark"] .sugg{background:rgba(255,255,255,.08)}
+.quick{display:flex;gap:16px;padding:0 var(--inset)}
+.quick button{width:70px;border:0;background:none;padding:0;font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.quick .c{width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.6);color:var(--tint);display:flex;align-items:center;justify-content:center}
+.quick .c .sf{width:1.7em;height:1.7em}
+.quick .lb{margin-top:8px;font-size:.7647em;line-height:1.3846em}
+.quick .sub{font-size:.7647em;line-height:1.3846em;color:var(--tint)}
+/* 地点卡片主按钮：50 高 tint，图标在上、13 标签在下（「规划」） */
+.btn.l.stack{flex-direction:column;gap:2px;padding:6px 20px;line-height:1}
+.btn.l.stack .sf{width:1em;height:1em}
+.btn.l.stack span{font-size:.7647em;font-weight:600}
+.mbtn{padding:0 var(--inset)}
+.mbtn .btn{width:100%}

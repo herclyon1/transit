@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>地図ツール</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230088ff'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="ui/hig.css">
 <style>
 /* 首页 = 设置 App 的顶层：大标题 + 分组列表，每张图一行（图标、名称、一句副标题、箭头），说明放段尾。
    数字全部来自 ui/hig.css（设置 App 实测）。 */
-/* 设置 App iOS 27 实测（iPhone 18 Pro Max）：大标题与卡片同一布局边距 20；标题行框顶 = 安全区 + 58（空导航条 44 + 14）；标题到首张卡片 13 */
-main{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 58px) 0 calc(env(safe-area-inset-bottom) + 40px)}
+/* 设置 App iOS 27 实测（iPhone 18 Pro Max）：大标题与卡片同一布局边距 20；标题行框顶 = 视口顶 + 58（空导航条 44 + 14）；标题到首张卡片 13 */
+main{max-width:640px;margin:0 auto;padding:58px 0 calc(env(safe-area-inset-bottom) + 40px)}   /* 视口顶已在状态栏之下（Safari 和网页 App 都是），不再加 safe-area */
 header{padding:0 var(--inset) 0;display:flex;align-items:flex-end;gap:12px}
 header h1{margin:0;flex:1 1 auto}
 main>.sub{padding:4px var(--inset) 3px}
