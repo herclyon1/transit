@@ -24,19 +24,22 @@
  ],
  "jobs": [
   {
-   "chain": "零售/便利店连锁门店（7-Eleven 平替）",
-   "store": "无合格挂牌",
+   "chain": "连锁锚点（麦当劳/肯德基）",
+   "store": "官方渠道不公示工资",
+   "basket": "chain",
+   "headline": false,
+   "tags": [],
    "wage": {
     "value": null,
     "unit": "元/小时",
-    "source_url": "https://www.dianzhangzhipin.com/joblist/c177-p290303/",
-    "source_name": "店长直聘（58 集团餐饮零售门店招聘，店长/门店招聘者直发；2026-09-15 网页版逐条读正文，原始 cost/data/raw/urumqi/20260915/dianzhangzhipin.json）",
+    "source_url": null,
+    "source_name": "肯德基/必胜客 微信小程序「地图」页（用户 2026-09-15 截图，乌鲁木齐红山MALL PH 店）；麦当劳官网「查看餐厅雇员职位」只有小程序码",
     "fetched_at": "2026-09-15",
-    "confidence": "listing",
+    "confidence": "official",
     "n": null,
-    "note": "乌鲁木齐零售一线没有一条帖子正文同时写明工资数字和班次工时，本项空。",
+    "posted_at": null,
     "hours": null,
-    "posted_at": null
+    "note": "官方小程序全部「薪资面议」（值班组长、学生兼职都是），没有一个数字——中国城市的连锁锚点按用户 2026-09-15 定的口径记空，跨国对照改用有效岗位时薪中位数，法定最低只当参考线。"
    }
   },
   {

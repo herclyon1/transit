@@ -34,6 +34,7 @@
 #card .mcard .src + .r::before{content:none}
 #card .mcard > .src:first-child{margin-top:0;padding-top:12px}
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+.val .nrow{display:block;font-size:.7059em;line-height:1.3333em;text-align:right}
 .mbtn{padding:16px var(--inset) 0}
 .chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
 .chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
@@ -141,7 +142,7 @@ function cityRows(filter){
   // 地图 App 搜索结果行：34 圆图标（国旗）+ 标题 17 半粗 + 副标题 15 + ›
   // 右侧 = 这座城市「到枢纽 15 分那档每月要打的工时」+ 彩色胶囊（签证上限内 / 超上限 / 待调查）——股市行的形：名字 + 灰副标题，右侧数值 + 胶囊
   const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">${c.status==='ready'?'缺项':'待调查'}</span></span>`;
-    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><span class="tag ${over?'orange':(hh.cap?'green':'gray')}">${over?'超上限':(hh.cap?'上限内':'无上限')}</span></span>`; };
+    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><span class="tag ${over?'orange':(hh.cap?'green':'gray')}">${over?'超上限':(hh.cap?'上限内':'无上限')}</span><small class="dim nrow">${hh.n} 条岗位</small></span>`; };   // n 条 = 中位数背后的样本数（maa 09-15：样本薄要看得见）
   $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
   HIG.sf();
   $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
@@ -182,7 +183,7 @@ function hoursFor(d){
   const food=d.living_official&&V(d.living_official.food); const tiers=d.tiers||[]; const t=tiers.find(x=>/15/.test(x.label||''))||tiers[1]||tiers[0];
   const rent=t&&V(t.rent_1k); if(!refWage||!food||rent==null) return null;
   const total=rent+util+comm+food+(t&&V(t.pass_student)||0); const cap=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null;
-  return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label};
+  return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label, n:refWageOf(d).n};
 }
 const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
