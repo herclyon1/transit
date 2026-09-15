@@ -7,6 +7,7 @@
   const ok=(name, got, want, tol, note)=>{ const pass = typeof want==='number' ? Math.abs(got-want)<=tol : got===want; R.push({name, got: typeof got==='number'?num(got):got, want, pass, note}); };
   const rect=el=>el.getBoundingClientRect(); const cs=(el,ps)=>getComputedStyle(el,ps||null); const px=v=>parseFloat(v)||0;
   const q=s=>document.querySelector(s); const qa=s=>[...document.querySelectorAll(s)].filter(e=>rect(e).width>0);
+  const safeBottom=()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;left:0;width:0;height:0;padding-top:env(safe-area-inset-bottom)'; document.body.appendChild(p); const v=px(cs(p).paddingTop); p.remove(); return v; };
   const safeNow=()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;left:0;width:0;height:0;padding-top:env(safe-area-inset-top)'; document.body.appendChild(p); const v=px(cs(p).paddingTop); p.remove(); return v; };
   // 主屏幕网页 App（黑色半透明状态栏）里 innerHeight 不含状态栏、client 坐标整体偏 +安全区；用 visualViewport 校正：屏幕 y = client y + OY
   // 网页 App 冷启动后视口会在一两秒内从 894 变成 956（状态栏半透明生效），所以这些都在量的时候现算，不在脚本加载时算
@@ -20,9 +21,9 @@
     // 顶部工具条：44 圆钮，左 16，贴安全区顶
     const bar=q('.bar'); if(bar){ const b=qa('.bar .btn-glass')[0]; if(b){ const r=rect(b); ok(MAC?'工具条按钮高 36':'工具条按钮高 44', r.height, MAC?36:44, 0.5); ok(MAC?'工具条按钮宽 ≥36':'工具条按钮宽 ≥44', r.width>=(MAC?35.5:43.5), true, 0, num(r.width)); if(wide){ const rb=Math.max(...qa('.bar > *').filter(b=>!b.classList.contains('spacer')).map(b=>rect(b).right)); ok(MAC?'工具条靠右 8（macOS 地图 App 控件簇）':'工具条靠右 24（iPad 地图 App 控件簇）', W-rb, MAC?8:24, 0.5); ok('工具条顶 = 安全区 + 8', Math.min(...qa('.bar .btn-glass').map(b=>rect(b).top)), safe+8, 0.5); ok(MAC?'工具条圆钮 36':'工具条圆钮 44', r.height, MAC?36:44, 0.5); } else { ok('工具条左内缩 = 布局边距 '+INSET, r.left, INSET, 0.5); ok('工具条按钮顶 = 安全区', r.top+OY, safe, 0.5, 'safe-top '+num(safe)); } } }
     // Sheet
-    const sh=q('.sheet'); if(sh){ const r=rect(sh); const d=sh.dataset.detent||'medium';
-      if(!wide){ ok('Sheet 左内缩 8', r.left, 8, 0.5); ok('Sheet 右内缩 8', W-r.right, 8, 0.5); ok('Sheet 圆角 38', px(cs(sh).borderTopLeftRadius), 38, 0.5);
-        if(d==='medium') ok('Sheet 中档 = 44% 屏', 100*r.height/H, 44, 1); else if(d==='large') ok('Sheet 大档 = 屏高 − 62', H-r.height, 62, 1); else ok('Sheet 小档 = 96 + 安全区底', r.height, 96+0, 40, '档位 small');
+    const sh=q('.sheet'); if(sh){ const r=rect(sh); const d=sh.dataset.detent||'medium'; const vis=Math.min(r.height, H-r.top);   /* ui/sheet.js 用 transform 定位，元素本身永远是大档高 */
+      if(!wide){ if(d!=='large'){ ok('Sheet 左内缩 8', r.left, 8, 0.5); ok('Sheet 右内缩 8', W-r.right, 8, 0.5); } else ok('Sheet 大档满宽', r.left===0&&W-r.right===0, true, 0, num(r.left)+'/'+num(W-r.right)); ok('Sheet 圆角 38', px(cs(sh).borderTopLeftRadius), 38, 0.5);
+        if(d==='medium') ok('Sheet 中档 = 44.2% 屏（422.67/956）', 100*vis/H, 44.21, 0.6); else if(d==='large') ok('Sheet 大档 = 屏高 − 62', H-vis, 62, 1); else ok('Sheet 小档 = 96 + 安全区底', vis, 96+safeBottom(), 1, '档位 small');
         const g=q('.sheet .grab i'); if(g){ const gr=rect(g); ok('抓手 58×4', gr.width===58&&Math.abs(gr.height-4)<0.5, true, 0, num(gr.width)+'×'+num(gr.height)); ok('抓手距顶 5', gr.top-r.top, 5, 0.5); ok('抓手居中', Math.abs((gr.left+gr.right)/2-(r.left+r.right)/2), 0, 1); }
       } else if(MAC){ const panel=sh.classList.contains('panel-wide'); ok(panel?'面板宽 282（macOS 地图 App 地点卡片）':'侧栏宽 200（macOS 地图 App）', r.width, panel?282:200, 0.5); ok('侧栏左 8', r.left, 8, 0.5); ok('侧栏顶 8', r.top, safe+8, 0.5); ok('侧栏底 8', H-r.bottom, 8, 0.5); ok('侧栏圆角 14', px(cs(sh).borderTopLeftRadius), 14, 0.5); const cp=q('.sheet.split #card'); if(cp&&!cp.hidden){ const cr=rect(cp); ok('地点卡片面板 282 宽、贴侧栏右 8', Math.abs(cr.width-282)<0.5&&Math.abs(cr.left-r.right-8)<0.5, true, 0, num(cr.width)+' left+'+num(cr.left-r.right)); }
       } else { ok('侧栏宽 440（iPad 地图 App）', r.width, 440, 0.5); ok('侧栏左 24', r.left, 24, 0.5); ok('侧栏顶 = 安全区 + 8', r.top, safe+8, 0.5); ok('侧栏底 20', H-r.bottom, 20, 0.5); ok('侧栏圆角 38', px(cs(sh).borderTopLeftRadius), 38, 0.5); }
@@ -32,6 +33,31 @@
         const st=qa('.sheet .head .tt .t-sub')[0]; if(st){ const c=cs(st); ok('卡片头副标题 15/20', Math.abs(px(c.fontSize)-root*15/17)<0.2, true, 0, num(px(c.fontSize))+'/'+num(px(c.lineHeight))); ok('卡片头副标题单行', rect(st).height, root*20/17, 0.5); }
         const body=qa('.sheet .body')[0]; if(body&&tt){ ok('正文距标题块 16', rect(body).top-rect(head).bottom+px(cs(head).paddingBottom), 16, 0.5); } }
     }
+    // Sheet 物理（ui/sheet.js）：公式对 WWDC18 803 / WWDC23 10158 的数，合成手势对实测（NUMBERS.md「Sheet 物理」）
+    if(sh&&!wide&&window.SHEET&&SHEET.sim){ const P=SHEET.physics, T=SHEET.tops(), cur0=SHEET.get();
+      ok('投影 1000pt/s → 155pt（k 0.155s，地图 App 甩手实测）', P.project(1000), 155, 0.01);
+      ok('橡皮筋 200pt（视口 '+num(H)+'）→ '+num((1-1/(200*.55/H+1))*H), P.rubber(200,H), (1-1/(200*.55/H+1))*H, 0.01);
+      const sp=P.spring(100,0,0.34); ok('落档弹簧 duration .34 bounce 0：0.34s 后剩 1.36%', 100*sp[0]/100, 1.36, 0.05);
+      ok('落档弹簧无过冲（临界阻尼）', P.spring(100,0,0.6)[0]>0&&P.spring(100,0,1.0)[0]>=0, true, 0);
+      const fl=P.settleFor(-1250); let mn=0; for(let t=0;t<0.6;t+=0.005) mn=Math.min(mn, P.spring(411,-1250,t,fl)[0]); ok('甩手落档 bounce 0.2：411pt 过冲 5–9pt（地图 App 6.7）', -mn, 7, 2.5, 'bounce '+fl.bounce.toFixed(2));
+      if(T.medium&&T.large){ const S=SHEET.sim, y0=600, t0=performance.now();
+        S.place(T.medium); S.begin(y0,t0,false,false); S.move(y0-120,t0+80); ok('拖动跟手 1:1（上推 120）', SHEET.top(), T.medium-120, 0.01); S.move(y0-120,t0+300);
+        ok('静止松手：离得近的档（中档 −120 → 回中档）', S.end(t0+300), 'medium', 0);
+        const MAPS={large:62, medium:533.33};   // 地图 App 的档位（956 高屏）：甩手实验的判定按它的几何
+        ok('甩手 60pt@1250pt/s → 大档（地图 App 实测）', P.nearest(MAPS, MAPS.medium-60+P.project(-1250)), 'large', 0);
+        ok('甩手 60pt@1000pt/s → 留中档（地图 App 实测）', P.nearest(MAPS, MAPS.medium-60+P.project(-1000)), 'medium', 0);
+        ok('甩手 30pt@1250pt/s → 留中档（地图 App 实测）', P.nearest(MAPS, MAPS.medium-30+P.project(-1250)), 'medium', 0);
+        ok('甩手 50pt@1250pt/s → 大档（地图 App 实测）', P.nearest(MAPS, MAPS.medium-50+P.project(-1250)), 'large', 0);
+        S.place(T.medium); S.begin(y0,t0,false,false); S.move(y0-30,t0+24); S.move(y0-60,t0+48); ok('合成甩手 60pt@1250：速度→投影→落档 = '+P.nearest(T, T.medium-60+P.project(-1250)), S.end(t0+48), P.nearest(T, T.medium-60+P.project(-1250)), 0);
+        S.place(T.large); S.begin(y0,t0,false,false); S.move(y0-200,t0+100); ok('越过大档：橡皮筋（推 200 只走 '+num(P.rubber(200,H))+'）', T.large-SHEET.top(), P.rubber(200,H), 0.05); S.move(y0,t0+400); S.end(t0+400);
+        S.place(T[cur0]); SHEET.set(cur0);
+        const tr=window.__sheetTrace; if(tr&&tr.length>5){ const rel=tr.find(x=>x.phase==='settle'); const d0=rel?rel.top-rel.target:0; let worst=0, t1=null;
+          let gap=0, pt=null; for(const x of tr){ if(x.phase!=='settle') continue; const m=x.target+P.spring(d0,0,Math.max(0,x.ta))[0]; if(x.ta>0) worst=Math.max(worst, Math.abs(x.top-m)); if(t1==null&&Math.abs(x.top-x.target)<1) t1=x.t; if(pt!=null) gap=Math.max(gap, x.t-pt); pt=x.t; }
+          ok('真机落档轨迹 vs 弹簧模型（最大偏差 pt）', worst, 0, 1, 'd0 '+num(d0)+' 样本 '+tr.filter(x=>x.phase==='settle').length);
+          ok('落档期间不掉帧（最长帧间隔 ≤ 34ms）', Math.round(gap*1000), 0, 34, '样本 '+tr.length);
+          ok('真机落档 1pt 内用时 ≈ 0.37s（120pt，模型）', t1==null?9:t1, 0.37, 0.06); ok('真机落档终点 = 档位', tr[tr.length-1].top, tr[tr.length-1].target, 0.05); }
+        else ok('真机落档轨迹已采到', !!tr, true, 0, '要在 load 后 600ms 由 accept.js 自己合成一次手势');
+      } }
     // 分组列表
     const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
     const single=qa('.row').find(r=>!r.querySelector('.hint,.seg,input[type=range]')&&!r.classList.contains('slider')); if(single){ const rr=rect(single); ok('单行 52.33（Row Regular 52 + 分隔线）', rr.height, 52.33, 0.5, single.textContent.trim().slice(0,12)); ok('行左内缩 '+(single.classList.contains('icon')?'18（有图标）':'20'), px(cs(single).paddingLeft), single.classList.contains('icon')?18:20, 0.1); ok('行右内缩 20', px(cs(single).paddingRight), 20, 0.1);
@@ -110,9 +136,13 @@
     document.title=(bad.length?'ACCEPT-FAIL-'+bad.length:'ACCEPT-OK')+' '+location.pathname;
     // &chain=cost,osaka,japan,quiz：POST 完跳到下一页（主屏幕网页 App 里一次点开就把五页跑完）
     const chain=(location.search.match(/[&?]chain=([^&]*)/)||[])[1]; const go=()=>{ if(!chain) return; const [nxt,...rest]=chain.split(',').filter(Boolean); if(!nxt) return; setTimeout(()=>{ location.href=(window.HIG&&HIG.ROOT||'/')+(nxt==='index'?'':nxt+'/')+'index.html?accept=1&quiet=1'+(rest.length?'&chain='+rest.join(','):''); }, 2500); };
-    try{ fetch(location.origin+'/accept', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({page: location.pathname, ua: navigator.userAgent, w: W, h: H, root, standalone: !!navigator.standalone||matchMedia('(display-mode: standalone)').matches, env: {clientH: document.documentElement.clientHeight, vvH: visualViewport&&visualViewport.height, vvTop: visualViewport&&visualViewport.offsetTop, screenH: screen.height, safeTop: safe, barPadTop: q('.bar')&&cs(q('.bar')).paddingTop, barTop: q('.bar')&&rect(q('.bar')).top, btnTop: qa('.bar .btn-glass')[0]&&rect(qa('.bar .btn-glass')[0]).top, sheetTop: q('.sheet')&&rect(q('.sheet')).top, sheetH: q('.sheet')&&rect(q('.sheet')).height, scrollY: window.scrollY, bodyH: document.body.getBoundingClientRect().height, bodyTop: document.body.getBoundingClientRect().top, htmlH: document.documentElement.getBoundingClientRect().height, efp930: (e=>e&&(e.id||e.className||e.tagName))(document.elementFromPoint(220,930)), sheetBottom: q('.sheet')&&rect(q('.sheet')).bottom, dvh: (()=>{const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;height:100dvh;width:0'; document.body.appendChild(p); const v=rect(p).height; p.remove(); return v;})()}, results: res})}).then(go,go); }catch(e){ go(); }
+    try{ fetch(location.origin+'/accept', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({page: location.pathname, trace: window.__sheetTrace, ua: navigator.userAgent, w: W, h: H, root, standalone: !!navigator.standalone||matchMedia('(display-mode: standalone)').matches, env: {clientH: document.documentElement.clientHeight, vvH: visualViewport&&visualViewport.height, vvTop: visualViewport&&visualViewport.offsetTop, screenH: screen.height, safeTop: safe, barPadTop: q('.bar')&&cs(q('.bar')).paddingTop, barTop: q('.bar')&&rect(q('.bar')).top, btnTop: qa('.bar .btn-glass')[0]&&rect(qa('.bar .btn-glass')[0]).top, sheetTop: q('.sheet')&&rect(q('.sheet')).top, sheetH: q('.sheet')&&rect(q('.sheet')).height, scrollY: window.scrollY, bodyH: document.body.getBoundingClientRect().height, bodyTop: document.body.getBoundingClientRect().top, htmlH: document.documentElement.getBoundingClientRect().height, efp930: (e=>e&&(e.id||e.className||e.tagName))(document.elementFromPoint(220,930)), sheetBottom: q('.sheet')&&rect(q('.sheet')).bottom, dvh: (()=>{const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;height:100dvh;width:0'; document.body.appendChild(p); const v=rect(p).height; p.remove(); return v;})()}, results: res})}).then(go,go); }catch(e){ go(); }
     console.log('ACCEPT', JSON.stringify(res));
   }
+  // 真机轨迹：load 后 600ms 合成一次「上推 120、停住、松手」，逐帧记 SHEET.top()（等价于对地图 App 录像逐帧量）
+  window.addEventListener('load', ()=>setTimeout(()=>{ if(!(window.SHEET&&SHEET.sim)||window.innerWidth>=900) return; const T=SHEET.tops(); if(!T.medium) return; const S=SHEET.sim, tr=window.__sheetTrace=[]; const cur0=SHEET.get(); S.place(T.medium);
+    const t0=performance.now(); S.begin(600,t0,false,false); S.move(480,t0+80); setTimeout(()=>{ const tr0=performance.now(); S.move(480,tr0); const d=S.end(tr0); const target=SHEET.tops()[d];
+      const tick=()=>{ const t=(performance.now()-tr0)/1000; tr.push({phase:'settle', t, ta:SHEET.elapsed(), top:SHEET.top(), target}); if(t<0.8) requestAnimationFrame(tick); else { S.place(T[cur0]); SHEET.set(cur0); } }; requestAnimationFrame(tick); }, 200); }, 600));
   window.HIG_ACCEPT=show;
   window.addEventListener('load', ()=>setTimeout(show, 2500));
   // 再点一下屏幕就重量一次（网页 App 冷启动后视口会变）
