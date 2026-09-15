@@ -21,25 +21,28 @@
 <link rel="stylesheet" href="../ui/hig.css">
 <style>
   /* 界面照地图 App（HIG Maps / Sheets / Segmented controls）：地图全屏；顶部玻璃返回钮 + 玻璃分段控件切区域；
-     底部非模态 Sheet：选中的详情、图层开关、凡例；宽屏变左侧 320 侧栏。尺寸出处见 ../DESIGN-HIG.md。 */
+     底部非模态 Sheet：选中的详情、底图、图层开关、凡例；宽屏变左侧栏（Mac = Utility Panel 280）。控件一律用 ../ui/hig.css 的 Kit 类
+     （KIT-MAP.md），这里只写位置/布局和「内容」（图例色块）。尺寸出处见 ../DESIGN-HIG.md、hig-kit/NUMBERS.md。 */
   html,body{overflow:hidden}
   #map{position:absolute;inset:0}
   .maplibregl-ctrl-attrib{font-size:.6471em}
   .maplibregl-ctrl-bottom-right{bottom:calc(env(safe-area-inset-bottom) + 100px)}
   @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
-  .bar .seg{flex:0 1 260px}   /* 高度/内边按 hig.css 的 Kit 工具条分段（Large 48 段 44） */
-  .bar .seg button{font-size:.8824em}
+  .bar .seg{flex:0 1 260px}   /* 高度/内边/标签字号按 hig.css 的 Kit 工具条分段（Large 48 段 44、标签 13.33 Medium） */
   #card{display:none}
   #card.on{display:block}
-  #card .n{font-weight:600;font-size:1em;line-height:1.2941em}
-  #card .sub{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:2px}
-  #card .disp{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);color:var(--red);font-size:.7647em;line-height:1.3846em}
-  #card .x{display:none}
-  #cardWrap{padding:12px 16px}
-  #legend{padding:8px 16px 12px;color:var(--ink);font-size:.7647em;line-height:1.85em}
-  #legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
-  #legend .hr{margin:6px 0;border-top:1px solid var(--line);transform:scaleY(.5)}
-  #legend .h{font-weight:600;color:var(--ink-2);margin:4px 0 2px}
+  /* 底图分段控件（Kit Segmented Controls › Small 32 / Mac Regular 24 r6）的位置：和同列的 .mcard 一样内缩（布局边距；Mac 14），占满 */
+  .segrow{padding:0 var(--inset)}
+  .segrow .seg{display:flex}
+  @media (min-width:900px) and (pointer:fine){ .segrow{padding:0 14px} }
+  /* 凡例容器：里面第一个段头是 :first-child（hig.css 给首段头的上距 10 / Mac 2），补回组间距（30 / Mac 16）的差 */
+  #lgSect{padding-top:20px}
+  @media (min-width:900px) and (pointer:fine){ #lgSect{padding-top:14px} }
+  /* 图例色块 = 内容（kit-audit「内容」），不是控件：10 方块 r2，行文字前 8 */
+  .tsw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:-1px;flex:none}
+  .tsw.dash{width:14px;height:0;border-radius:0;background:none;border-top:2px dashed currentColor;vertical-align:3px}
+  /* 卡片里的争议说明（.txt 是 hig.css 卡片文字块）用红色 */
+  .mcard .txt.disp{color:var(--red)}
   .hidden-ctl{display:none}
 </style></head><body>
 <div class="map-shell"><div id="map" class="map"></div></div>
@@ -54,23 +57,24 @@
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">地図 · 学習</div><div class="t-sub dim" id="hint">点一下看详情</div></div>
     <span class="slot"><button class="btn-glass fill" id="cClose" aria-label="关闭详情" hidden><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
-    <!-- 点中的单元 = 地图 App 地点卡片里的卡片 -->
-    <div class="mcard" id="cardSect" hidden><div id="cardWrap"><div id="card"></div></div></div>
-    <!-- 底图 = 地图 App「地图模式」的缩略图块（缩略图取 GSI 同一块 z13 瓦片：東京駅） -->
+    <!-- 点中的单元 = Kit Lists › Grouped Table View（Mac Group Box + Forms 行）：一张卡（名称行 .hdr + 属性行 .r）+ 人口・面积卡（三行 .r）+ Footer 来源 -->
+    <div id="cardSect" hidden><div id="card"></div></div>
+    <!-- 底图 = Kit Segmented Controls › Small 32（Mac Regular 24 r6）：なし / 地図 / 写真 / 標高（地理院タイル；KIT-MAP：缩略图块 .tiles → .seg） -->
     <h2 class="mh">底图</h2>
-    <div class="tiles" id="baseTiles" role="group" aria-label="底图">
-      <button data-b="none" aria-pressed="true"><span class="img"><i style="background:linear-gradient(135deg,#e9f0f7,#cfe0ee 55%,#f4e9d6 56%,#f4e9d6)"></i></span><span class="lb">なし</span></button>
-      <button data-b="pale" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/pale/13/7276/3225.png)"></i></span><span class="lb">地図</span></button>
-      <button data-b="photo" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/13/7276/3225.jpg)"></i></span><span class="lb">写真</span></button>
-      <button data-b="relief" aria-pressed="false"><span class="img"><i style="background-image:url(https://cyberjapandata.gsi.go.jp/xyz/relief/13/7276/3225.png)"></i></span><span class="lb">標高</span></button>
-    </div>
+    <div class="segrow"><div class="seg" id="baseSeg" role="group" aria-label="底图">
+      <button data-b="none" aria-pressed="true">なし</button><button data-b="pale" aria-pressed="false">地図</button><button data-b="photo" aria-pressed="false">写真</button><button data-b="relief" aria-pressed="false">標高</button>
+    </div></div>
     <h2 class="mh">图层</h2>
     <div class="mcard" id="tools">
-      <label class="r"><span class="k">交通<div class="hint">鉄道・空港・港湾・口岸・航路</div></span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
-      <label class="r"><span class="k">海域・远岛<div class="hint">領海・EEZ 近似线，沖ノ鳥島・南鳥島・尖閣・竹島等</div></span><span class="sw"><input type="checkbox" id="b-sea" checked><i></i></span></label>
+      <label class="r"><span class="k">交通</span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
+      <label class="r"><span class="k">港湾</span><span class="sw"><input type="checkbox" id="b-port"><i></i></span></label>
+      <label class="r"><span class="k">空港</span><span class="sw"><input type="checkbox" id="b-air"><i></i></span></label>
+      <label class="r"><span class="k">海域・远岛</span><span class="sw"><input type="checkbox" id="b-sea" checked><i></i></span></label>
     </div>
-    <h2 class="mh">凡例</h2>
-    <div class="mcard"><div id="legend"></div></div>
+    <!-- 各开关的说明 = Kit Lists › Footer（行里不再放副题：Mac Forms 行带开关的是 48，两行制是 56，说明文字放段脚） -->
+    <div class="mfoot">交通：鉄道・空港・港湾・口岸・航路。港湾・空港：国土数値情報の港湾データ・空港データ、種別で色分け。海域・远岛：領海・EEZ 近似线，沖ノ鳥島・南鳥島・尖閣・竹島等。</div>
+    <!-- 凡例 = 每类一组：段头 .mh + .mcard 里一行一个色块（drawLegend 生成） -->
+    <div id="lgSect"></div>
   </div>
 </aside>
 <div class="hidden-ctl"><button id="b-leg"></button></div>
@@ -122,6 +126,11 @@ const EAC=[
  "MDV","#C9455E",  // モルディブ：国家代表色 red
 ];
 
+// 港湾・空港的种别 → 颜色（README 说颜色由页面定）：港湾按港湾法的种别从深到浅（国際戦略 → その他），空港按空港法的种别从深到浅、
+// 共用空港（自衛隊・米軍と共用）用褐色，和東亜图例里的军用色一路；两组和交通图例的「空港 #5B4B8A」「航路 #3E7CB1」都分得开。
+const PORT_KINDS=[["国際戦略港湾","#0B3D5C"],["国際拠点港湾","#1F6F8B"],["重要港湾","#4F9BB8"],["地方港湾","#8EC3D6"],["その他","#C2D6DF"]];
+const AIR_KINDS=[["拠点空港（会社管理）","#3B2E5A"],["拠点空港（国管理）","#5B4B8A"],["拠点空港（特定地方管理）","#7A6AA8"],["地方管理空港","#9A8FC0"],["共用空港","#7A6A55"],["その他","#BDB5CF"]];
+
 // 市区町村码 → 名。町丁那一级的「市町村」必须从**町丁自己带的 e-Stat 码**读，
 // 不能拿 OSM 的市界去命中——两份数据在飞地和市界上有 607 处分歧（全量比对过），
 // 用户点大阪府泉佐野市的飞地「大口新田」被标成泉南市就是这么来的。
@@ -138,6 +147,18 @@ const muniOf=p=>{
   const code=String(p.pref).padStart(2,"0")+String(p.city).padStart(3,"0");
   return MUNI_NAMES[code]||null;
 };
+// 人口・面積・人口密度：令和7年国勢調査 人口速報集計（data/README-pref-stats.md）。県按 2 位码，市区町村按 5 位团体码（町丁带的 pref+city 就是它）；
+// 没有町丁（z<11）时按「県码|名」反查（政令市の区 = 市名+区名，如 大阪市北区）。查不到 → 三行都显示「—」。
+let PREF_STATS={}, MUNI_STATS={}, MUNI_STATS_BY_NAME={}, statsReady=0;   // statsReady=2 两份都到了；没到之前查不到不算「表里没有」
+fetch("data/pref_stats.json").then(r=>r.json()).then(j=>{ (j.prefs||[]).forEach(x=>{ PREF_STATS[x.code]=x; }); statsReady++; }).catch(()=>{});
+fetch("data/muni_stats.json").then(r=>r.json()).then(j=>{ MUNI_STATS=j.munis||{}; for(const c in MUNI_STATS) MUNI_STATS_BY_NAME[c.slice(0,2)+"|"+MUNI_STATS[c].name]=MUNI_STATS[c]; statsReady++; }).catch(()=>{});
+function statsFor(prefCode, ch, ku, mu, prefName){
+  const pp=String(prefCode).padStart(2,"0");
+  if(ch&&ch.properties&&ch.properties.city!=null){ const m=MUNI_STATS[pp+String(ch.properties.city).padStart(3,"0")]; if(m) return {st:m,label:m.name}; }
+  if(ku&&ku.properties&&ku.properties.n){ const nm=(ku.properties.shi||"")+ku.properties.n; return {st:MUNI_STATS_BY_NAME[pp+"|"+nm]||null,label:nm}; }
+  if(mu&&mu.properties&&mu.properties.n){ return {st:MUNI_STATS_BY_NAME[pp+"|"+mu.properties.n]||null,label:mu.properties.n}; }
+  const p=PREF_STATS[pp]; return {st:p||null,label:(p&&p.name)||prefName||"—"};
+}
 
 // GitHub Pages 的 CDN（Fastly）对首次未缓存的对象会无视 Range 回 200 整文件（jp.pmtiles、ea_lakes 都撞过：桌面 Chrome 首访
 // 整张日本图空白，pmtiles.js 报「Server returned no content-length header… HTTP Byte Serving」；刷新后 206 正常，Safari 没复现）。
@@ -161,10 +182,14 @@ const V="?v=20260810u";
 const prefColor=["match",["get","reg"]]; REGIONS.forEach((_,i)=>prefColor.push(i,RC[i])); prefColor.push("#CCC");
 
 // 壳（ui/shell.js）：地图 + Sheet 由壳建；这页的点击要跨图层命中测试，所以走 click(e) 而不是 layers() 的按图层表；详情卡片是 Sheet 里的内联卡（地图 App 的「这是哪」提示），不叠放
-const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attributionControl:false,maxZoom:15,
+// 署名（MapLibre 折叠 ⓘ；Mac = Kit Toolbar Medium 24，hig.css A25）：OSM（ODbL）+ 国土数値情報 利用約款要求的出典句 + e-Stat 出典
+const ATTR='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · '
+  +'<a href="https://nlftp.mlit.go.jp/ksj/">国土数値情報</a>（港湾データ・空港データ）（国土交通省）を加工して作成 · '
+  +'<a href="https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&lid=000001482693">令和7年国勢調査 人口速報集計</a>（総務省統計局）';
+const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), attribution:ATTR, map:{maxZoom:15,
   style:{version:8,
-    // CJK 字形：只生成了标注实际用到的 86 个码位区段（1159 个字符），
-    // 不是整套中日文字库——整套要上百 MB，这样只有 10MB。
+    // CJK 字形：只生成标注实际用到的码位区段，不是整套中日文字库（整套要上百 MB）。
+    // 09-16 核对：目录里 256 个区段共 16,077 字，港湾・空港名用到的 586 字全在（pipeline 重切字形时再核一次）。
     glyphs:TB+"glyphs/{fontstack}/{range}.pbf",
     sources:{
       jp :{type:"vector",url:"pmtiles://"+TB+"jp.pmtiles"+V},
@@ -190,6 +215,9 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
                  tileSize:256,maxzoom:15,attribution:"地理院タイル"},
       // 公共交通：国土数値情報（国土交通省）N02-24 鉄道 / C28-21 空港 / N09-12 定期旅客航路
       tr :{type:"vector",url:"pmtiles://"+TB+"transit.pmtiles"+V},
+      // 港湾・空港の標点：国土数値情報 C02-14 港湾（994 点）/ C28-21 空港（97 点），kind 分色（data/README-ports-airports.md）
+      ports   :{type:"geojson",data:"data/ports.geojson"},
+      airports:{type:"geojson",data:"data/airports.geojson"},
       // 東亜交通：OSM（21 个国家/地区的 Geofabrik 提取包 + 俄远东）。
       // 日本境内**不用**这一份——N02 的分类（新幹線/JR/民鉄/三セク）比 OSM 稳，
       // 所以東亜视图里的日本仍旧走上面那个 tr 源，两份拼起来正好不重不漏。
@@ -421,6 +449,24 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
         paint:{"circle-radius":["interpolate",["linear"],["zoom"],9,2.2,12,2.6,15,4.2],
                "circle-color":"#fff","circle-stroke-color":"#37474F",
                "circle-stroke-width":["interpolate",["linear"],["zoom"],9,1,15,1.4]}},
+      // ── 港湾・空港（各自一个开关，默认关）：种别决定颜色和出场缩放级 ──
+      // 港湾 C02：国際戦略（5）z5 起 → 国際拠点（18）→ 重要（102）z7 → 地方（808）・その他（61）z9；圆点大小也按种别分档
+      {id:"pt-port",source:"ports",type:"circle",minzoom:5,layout:{visibility:"none"},
+        filter:["case",["<",["zoom"],7],["match",["get","kind"],["国際戦略港湾","国際拠点港湾"],true,false],
+                       ["<",["zoom"],9],["match",["get","kind"],["国際戦略港湾","国際拠点港湾","重要港湾"],true,false],true],
+        paint:{"circle-color":["match",["get","kind"],...PORT_KINDS.flatMap(([n,c])=>[n,c]),PORT_KINDS[4][1]],
+               "circle-radius":["interpolate",["linear"],["zoom"],
+                 5,["match",["get","kind"],"国際戦略港湾",3.2,"国際拠点港湾",2.8,"重要港湾",2.4,"地方港湾",1.8,1.6],
+                 12,["match",["get","kind"],"国際戦略港湾",6.4,"国際拠点港湾",5.6,"重要港湾",4.8,"地方港湾",3.6,3.2]],
+               "circle-stroke-color":"#fff","circle-stroke-width":1}},
+      // 空港 C28：拠点空港（会社管理・国管理・特定地方管理，29）z4 起，地方管理・共用・その他 z6 起
+      {id:"pt-air",source:"airports",type:"circle",minzoom:4,layout:{visibility:"none"},
+        filter:["case",["<",["zoom"],6],["match",["get","kind"],["拠点空港（会社管理）","拠点空港（国管理）","拠点空港（特定地方管理）"],true,false],true],
+        paint:{"circle-color":["match",["get","kind"],...AIR_KINDS.flatMap(([n,c])=>[n,c]),AIR_KINDS[5][1]],
+               "circle-radius":["interpolate",["linear"],["zoom"],
+                 4,["match",["get","kind"],["拠点空港（会社管理）","拠点空港（国管理）"],3,"拠点空港（特定地方管理）",2.6,2],
+                 11,["match",["get","kind"],["拠点空港（会社管理）","拠点空港（国管理）"],6,"拠点空港（特定地方管理）",5.2,4]],
+               "circle-stroke-color":"#fff","circle-stroke-width":1}},
       // ── 東亜交通（同样默认关，跟日本那份共用「交通」按钮）──
       // 颜色沿用日本那套图例，同类同色：高速鉄道＝新幹線蓝、普通鉄道＝JR 绿、
       // 地下鉄＝橙、軌道/モノレール＝褐、空港＝紫、航路＝浅蓝。
@@ -611,6 +657,20 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
                        ["<",["zoom"],14],["==",["get","lab"],1],
                        [">=",["get","lab"],1]],
         paint:{"text-color":"#26343F","text-halo-color":"#fff","text-halo-width":1.4}},
+      // 港湾名 z8 起（z<10 只写国際戦略・国際拠点・重要），空港名 z5 起（z<7 只写拠点空港）；开着「交通」时空港名由 tr-air-lab 写，这层收掉（applyTransit）
+      {id:"pt-port-lab",source:"ports",type:"symbol",minzoom:8,
+        layout:{visibility:"none","text-field":["get","name"],"text-font":["NotoSansJP Regular"],
+          "text-size":["interpolate",["linear"],["zoom"],8,9.5,12,11.5],"text-optional":true,
+          "text-variable-anchor":["top","bottom","left","right"],"text-radial-offset":0.6},
+        filter:["case",["<",["zoom"],10],["match",["get","kind"],["国際戦略港湾","国際拠点港湾","重要港湾"],true,false],true],
+        paint:{"text-color":"#175A70","text-halo-color":"#fff","text-halo-width":1.4}},
+      {id:"pt-air-lab",source:"airports",type:"symbol",minzoom:5,
+        layout:{visibility:"none","text-field":["get","name"],"text-font":["NotoSansJP Regular"],
+          "text-size":["interpolate",["linear"],["zoom"],5,9,11,12.5],"text-optional":true,
+          "text-variable-anchor":["top","bottom","left","right"],"text-radial-offset":0.6},
+        filter:["case",["<",["zoom"],7],["match",["get","kind"],["拠点空港（会社管理）","拠点空港（国管理）","拠点空港（特定地方管理）"],true,false],true],
+        paint:{"text-color":["match",["get","kind"],["拠点空港（会社管理）","拠点空港（国管理）","拠点空港（特定地方管理）"],"#3B2E5A","#6B6480"],
+          "text-halo-color":"#fff","text-halo-width":1.5}},
       // 東亜交通的标注。国际空港 z5 起，国内空港要到 z9；港口和口岸 z9 起。
       // 名字优先取 OSM 的 name:zh，没有中文才退英文/本地名（见 pipeline/ea_transit_ex.py）。
       {id:"etr-air-lab",source:"etr","source-layer":"airpt",type:"symbol",minzoom:5,
@@ -821,9 +881,9 @@ function setBase(b){
   ["water","riv"].forEach(id=>map.setPaintProperty(id,
     id==="water"?"fill-opacity":"line-opacity",
     b==="none" ? (id==="water"?1:["interpolate",["linear"],["zoom"],5,.35,9,.9]) : 0));
-  document.querySelectorAll("#baseTiles button[data-b]").forEach(el=>el.setAttribute("aria-pressed",el.dataset.b===b?"true":"false"));
+  document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.setAttribute("aria-pressed",el.dataset.b===b?"true":"false"));
 }
-document.querySelectorAll("#baseTiles button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
+document.querySelectorAll("#baseSeg button[data-b]").forEach(el=>el.onclick=()=>setBase(el.dataset.b));
 
 // 公共交通叠加层
 const TR=["tr-ferry","tr-stationseg","tr-rail-other","tr-rail-s3","tr-rail-priv","tr-rail-sub","tr-rail-jr",
@@ -844,6 +904,8 @@ const ETRLEG=[["#0B4F8A","高速鉄道"],["#2E7D32","鉄道"],["#C2410C","地下
               ["#3E7CB1","フェリー航路"],["#1F6F8B","港湾"],["#B4451F","国境検問所"],
               ["#C46A28","高速道路"],["#D8A24A","一級道路"]];
 // 两个视图共用同一个「交通」按钮：現代日本用 N02 那套，東亜用 OSM 那套＋日本的 N02。
+// 港湾・空港两个开关（数据只有日本，两个视图都能开；空港名开着「交通」时由 tr-air-lab 写，这里的标注层收掉免得一处两个名）
+let portOn=false, airOn=false;
 function applyTransit(){
   const jp = transit && region==="jp";
   const ea = transit && region==="ea";
@@ -851,7 +913,16 @@ function applyTransit(){
   if(ea) TRJP.forEach(id=>map.setLayoutProperty(id,"visibility","visible"));
   ETR.forEach(id=>map.setLayoutProperty(id,"visibility",ea?"visible":"none"));
   document.getElementById("b-tr").checked=transit;
+  ["pt-port","pt-port-lab"].forEach(id=>map.setLayoutProperty(id,"visibility",portOn?"visible":"none"));
+  map.setLayoutProperty("pt-air","visibility",airOn?"visible":"none");
+  map.setLayoutProperty("pt-air-lab","visibility",(airOn&&!transit)?"visible":"none");
+  document.getElementById("b-port").checked=portOn;
+  document.getElementById("b-air").checked=airOn;
 }
+function setPorts(on){ portOn=on; applyTransit(); if(legOpen) drawLegend(); }
+function setAirports(on){ airOn=on; applyTransit(); if(legOpen) drawLegend(); }
+document.getElementById("b-port").addEventListener("change",e=>setPorts(e.target.checked));
+document.getElementById("b-air").addEventListener("change",e=>setAirports(e.target.checked));
 function setTransit(on){
   transit=on;
   // 开交通时町丁名推迟一级，避免几百个町丁名把站名淹掉
@@ -864,17 +935,19 @@ let seaOn=true;
 function setSea(on){ seaOn=on; ["jp-eez","jp-isl-fill","jp-isl-line","jp-isl-lab"].forEach(id=>{ if(map.getLayer(id)) map.setLayoutProperty(id,"visibility",(on&&region==="jp")?"visible":"none"); }); }
 document.getElementById("b-sea").addEventListener("change",e=>setSea(e.target.checked));
 
+// 凡例 = Kit 列表：每类一组（段头 .mh + .mcard），一行一个色块（色块是内容，不是控件）
 function drawLegend(){
-  const el=document.getElementById("legend");
+  const el=document.getElementById("lgSect");
+  const sw=(c,dash)=>dash?`<i class="tsw dash" style="color:${c}"></i>`:`<i class="tsw" style="background:${c}"></i>`;
+  const group=(title,items)=>`<h2 class="mh">${title}</h2><div class="mcard">`
+    +items.map(([c,n,dash])=>`<div class="r"><span class="k">${sw(c,dash)}${n}</span></div>`).join("")+"</div>";
   let h="";
-  if(transit)
-    h+="<div class='h'>公共交通</div>"
-      +(region==="jp"?TRLEG:ETRLEG).map(([c,n])=>`<i style="background:${c}"></i>${n}`).join("<br>")
-      +"<div class='hr'></div>";
+  if(transit) h+=group("公共交通", region==="jp"?TRLEG:ETRLEG);
+  if(portOn) h+=group("港湾", PORT_KINDS.map(([n,c])=>[c,n]));
+  if(airOn)  h+=group("空港", AIR_KINDS.map(([n,c])=>[c,n]));
   h += region==="jp"
-    ? "<div class='h'>地方</div>"+REGIONS.map((x,i)=>`<i style="background:${RC[i]}"></i>${x}`).join("<br>")
-      +`<div class='hr'></div><i style="background:${RUS}"></i>北方領土（ロシア実効支配）`
-    : "<div class='h'>凡例</div><i style='background:#8a3f3f'></i>虚线＝官方划法与实控不同";
+    ? group("地方", REGIONS.map((x,i)=>[RC[i],x]).concat([[RUS,"北方領土（ロシア実効支配）"]]))
+    : group("凡例", [["#8a3f3f","虚线＝官方划法与实控不同",true]]);
   el.innerHTML=h;
 }
 let legOpen=false;
@@ -901,11 +974,43 @@ function clearSelection(){
 document.getElementById("b-jp").onclick=()=>setRegion("jp");
 document.getElementById("b-ea").onclick=()=>setRegion("ea");
 
-map.on("load",()=>{setRegion("jp"); setLegend(true);});
+// 初始化不等 load：只要有一个来源取不到（CDN 抽风、本地服务器掉连接），MapLibre 的 map.loaded() 永远是 false、load 永远不发，
+// 于是区域/图例/开关全没初始化（本会话 09-16 用 Network.setBlockedURLs 挡掉 ea_lakes 复现）。样式一装好（style.load）图层就都在，
+// 这里要做的只是改 layout/filter 和画图例，不需要瓦片；load 留作兜底。
+let inited=false;
+const init=()=>{ if(inited) return; inited=true; setRegion("jp"); setLegend(true); };
+map.on("style.load",init); map.on("load",init);
 
 const CN_NAME={CHN:"中国",JPN:"日本",KOR:"韩国",PRK:"朝鲜",MNG:"蒙古",TWN:"台湾",HKG:"香港",MAC:"澳门",VNM:"越南",LAO:"老挝",KHM:"柬埔寨",THA:"泰国",MMR:"缅甸",MYS:"马来西亚",SGP:"新加坡",IDN:"印度尼西亚",PHL:"菲律宾",BRN:"文莱",TLS:"东帝汶",IND:"印度",NPL:"尼泊尔",BTN:"不丹",BGD:"孟加拉国",LKA:"斯里兰卡",RUS:"俄罗斯",KAZ:"哈萨克斯坦",KGZ:"吉尔吉斯斯坦",TJK:"塔吉克斯坦",AFG:"阿富汗",PAK:"巴基斯坦"};
+// 卡片 = Kit 列表：.hdr（24 图标 + 名称）+ 属性行 .r（k 左 / v 右，副题 .hint）；人口・面積卡三行 + Footer 出典
+const esc=v=>String(v==null?"":v).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const row=(k,v,hint,cls)=>`<div class="r"><span class="k">${esc(k)}${hint?`<div class="hint">${esc(hint)}</div>`:""}</span>${v!=null?`<span class="v${cls?" "+cls:""}">${esc(v)}</span>`:""}</div>`;
+const hdr=(name,icon)=>`<div class="hdr"><span class="ico"><i class="sf" data-sf="${icon||"mappin"}"></i></span><span>${esc(name)}</span></div>`;
+const card1=(name,rows,icon,note)=>`<div class="mcard">${hdr(name,icon)}${rows}${note?`<div class="txt disp">${esc(note)}</div>`:""}</div>`;
+const fmtN=(n,unit)=>n==null?null:Number(n).toLocaleString("ja-JP")+(unit?" "+unit:"");
+function statsCard(r){   // r = statsFor(...) → {st, label}；查不到的值显示「—」
+  const st=r&&r.st, v=(n,u)=>{ const t=fmtN(st?st[n]:null,u); return t==null?["—","none"]:[t,""]; };
+  const rows=[["人口",...v("pop","人")],["面積",...v("area_km2","km²")],["人口密度",...v("density","人/km²")]].map(([k,t,c])=>row(k,t,null,c)).join("");
+  return `<div class="mcard">${hdr((r&&r.label?r.label+" · ":"")+"人口・面積","chart.bar")}${rows}</div>`
+    +`<div class="mfoot">令和7年国勢調査 人口速報集計（総務省統計局、2025年10月1日現在）。面積は同表の参考値（国土地理院 面積調）。${st?"":(statsReady>=2?"この単位は速報表に載っていない。":"読み込み中：もう一度点すると出る。")}</div>`;
+}
+function showCard(html){
+  const c=document.getElementById("card"); c.innerHTML=html; c.style.display="block"; c.classList.add("on");
+  document.getElementById("cardSect").hidden=false; document.body.classList.add("carded");
+  document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false; HIG.sf();
+  if(SHEET.get()==="small") SHEET.set("medium");
+}
+// 港湾・空港的点击：开着才查，手指 22px / 鼠标 12px 容差。返回 {rows: 加进行政单元卡片的行, cards: 点在海上没命中陆地时单独出的卡}
+function ptHits(e){
+  const out={rows:"",cards:""}; if(!(portOn||airOn)) return out;
+  const R=matchMedia("(pointer: coarse)").matches?11:6, bb=[[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]];
+  const add=(lab,f,icon)=>{ const q=f.properties, kind=q.kind+(q.status&&q.status!=="供用中"?"・"+q.status:"");
+    out.rows+=row(lab,q.name,kind); out.cards+=card1(q.name, row("種別",q.kind)+(q.status&&q.status!=="供用中"?row("供用",q.status):"")+row("都道府県",q.pref||"—"), icon); };
+  if(portOn){ const f=map.queryRenderedFeatures(bb,{layers:["pt-port"]})[0]; if(f&&f.properties) add("港湾",f,"mappin"); }
+  if(airOn){ const f=map.queryRenderedFeatures(bb,{layers:["pt-air"]})[0]; if(f&&f.properties) add("空港",f,"mappin"); }
+  return out;
+}
 function onMapClick(e){
-  const c=document.getElementById("card");
   const fillId=region==="jp"?"jp-fill":"ea-fill";
   const selId =region==="jp"?"jp-sel" :"ea-sel";
   const dispId=region==="jp"?"jp-disp-fill":"ea-disp-fill";   // 命中打填充层，不打虚线（#42）
@@ -922,23 +1027,21 @@ function onMapClick(e){
   // 远岛：岛体只有几像素，先用带容差的方框查（#54）
   if(region==="jp" && map.getLayer("jp-isl-fill") && seaOn){ const R=matchMedia("(pointer: coarse)").matches?12:6;
     const isl=map.queryRenderedFeatures([[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]],{layers:["jp-isl-fill"]})[0];
-    if(isl){ clearSelection(); c.innerHTML=`<div class="n">${isl.properties.n}</div><div class="sub">${isl.properties.own||""}</div>`;
-      c.style.display="block"; c.classList.add("on"); document.getElementById("cardSect").hidden=false; document.body.classList.add("carded");
-      document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false; if(SHEET.get()==="small") SHEET.set("medium"); return; } }
+    if(isl){ clearSelection(); showCard(card1(isl.properties.n, row("所属",isl.properties.own||"—"))); return; } }
+  const pt=ptHits(e), pts=pt.rows;
   const hit=map.queryRenderedFeatures(e.point,{layers:hitLayers})[0];
-  if(!hit){ clearSelection(); closeCard(); return; }   // 点空白：所有高亮（含北方領土/俄方实控区）和卡片、关闭钮一起收（#43 #44）
+  if(!hit){ clearSelection(); if(pt.cards){ showCard(pt.cards); } else closeCard(); return; }   // 点空白：所有高亮（含北方領土/俄方实控区）和卡片、关闭钮一起收（#43 #44）；点在海上的港湾/空港标点则单独出一张卡
   const p=hit.properties, d=map.queryRenderedFeatures(e.point,{layers:[dispId]})[0];
   if(map.getLayer("ea-rus-sel")) map.setFilter("ea-rus-sel",["==",["get","n"],"\u0000"]);
   if(map.getLayer("jp-disp-sel")) map.setFilter("jp-disp-sel",["==",["get","dn"],"\u0000"]);
-  let html;
+  let html, stats=null;
   if(p.dn){
     // 北方領土。填色按实际管理走（俄罗斯），卡片两边立场都写上。
     map.setFilter(selId, region==="jp"?["==",["get","code"],-1]:["==",["get","n"],"\u0000"]);
     if(region==="jp") ["jp-selm","jp-selk","jp-selmA","jp-selmB","jp-selmC","jp-selmD","jp-selcA","jp-selcB","jp-selcC","jp-selcD"].forEach(id=>map.setFilter(id,["==",["get","n"],"\u0000"]));
     else map.setFilter("jp-sel",["==",["get","code"],-1]);
     map.setFilter("jp-disp-sel",["==",["get","dn"],p.dn]);
-    html=`<div class="n">${p.dn}</div><div class="sub">実効支配：ロシア連邦 サハリン州</div>`;
-    if(p.note) html+=`<div class="disp">${p.note}</div>`;
+    html=card1(p.dn, row("実効支配","ロシア連邦 サハリン州")+pts, "mappin", p.note||null);
   }else if(region==="jp"){
     map.setFilter(selId,["==",["get","code"],p.code]);
     // 命中测试一律打填充层。之前这里打的是 jp-muni（线层），
@@ -973,56 +1076,55 @@ function onMapClick(e){
     map.setFilter("jp-selm", (muName && !ch)
       ? ["all",["==",["get","n"],muName],["==",["get","pref"],selPref]]
       : ["==",["get","n"],"\u0000"]);
-    html=`<div class="n">${p.n}</div><div class="sub">県庁：${p.cap}　地方：${p.regn}</div>`;
-    if(muName) html+=`<div class="sub">市町村：${muName}</div>`;
-    if(ku&&ku.properties&&ku.properties.n) html+=`<div class="sub">行政区：${ku.properties.n}</div>`;
+    let rows=row("県庁",p.cap)+row("地方",p.regn);
+    if(muName) rows+=row("市町村",muName);
+    if(ku&&ku.properties&&ku.properties.n) rows+=row("行政区",ku.properties.n);
     if(ch&&ch.properties&&ch.properties.n){
       const cc=ch.properties;
-      html+=`<div class="sub">町丁：${cc.n}</div>`;
-      if(cc.pop!=null&&cc.pop!=="") html+=`<div class="sub">人口 ${Number(cc.pop).toLocaleString()} 人 ／ ${Number(cc.hh||0).toLocaleString()} 世帯 <span style="opacity:.7">（令和2年）</span></div>`;
-      else html+=`<div class="sub" style="opacity:.7">人口：无数据</div>`;   // 0 人和没数据分开（#52）
+      rows+=row("町丁",cc.n);
+      if(cc.pop!=null&&cc.pop!=="") rows+=row("人口・世帯",`${Number(cc.pop).toLocaleString()} 人 ／ ${Number(cc.hh||0).toLocaleString()} 世帯`,"町丁、令和2年国勢調査");
+      else rows+=row("人口・世帯","无数据","町丁、令和2年国勢調査","none");   // 0 人和没数据分开（#52）
     }
     if(transit){
       const R=matchMedia("(pointer: coarse)").matches?11:4, bb=[[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]];   // 手指给 22px 容差，鼠标 8px（#46）
       const st=map.queryRenderedFeatures(bb,{layers:["tr-station"]})[0];
-      if(st&&st.properties&&st.properties.n)
-        html+=`<div class="sub">駅：${st.properties.n}　<span style="opacity:.75">${st.properties.ln||""}</span></div>`;
+      if(st&&st.properties&&st.properties.n) rows+=row("駅",st.properties.n,st.properties.ln||null);
       const ap=map.queryRenderedFeatures(bb,{layers:["tr-air"]})[0];
-      if(ap&&ap.properties&&ap.properties.n) html+=`<div class="sub">空港：${ap.properties.n}</div>`;
+      if(ap&&ap.properties&&ap.properties.n && !(airOn&&pts.includes(">"+esc(ap.properties.n)+"<"))) rows+=row("空港",ap.properties.n);   // 「空港」开着时同名的由 pt-air 那行（带种别）写，不写两遍
     }
+    rows+=pts;
     const dd=map.queryRenderedFeatures(e.point,{layers:["jp-disp-fill"]})[0];
-    if(dd&&dd.properties&&dd.properties.dn)
-      html+=`<div class="sub" style="color:#8a3f3f">${dd.properties.dn}：${dd.properties.note}</div>`;
+    html=card1(p.n, rows, "mappin", (dd&&dd.properties&&dd.properties.dn)?`${dd.properties.dn}：${dd.properties.note}`:null);
+    stats=statsFor(p.code, ch, ku, mu, p.n);
   }else if(p.de_facto==="RUS"){
     map.setFilter(selId,["==",["get","n"],"\u0000"]);
     map.setFilter("jp-sel",["==",["get","code"],-1]);
     map.setFilter("ea-rus-sel",["==",["get","n"],p.n]);
-    html=`<div class="n">${p.n}</div><div class="sub">ロシア連邦 サハリン州（州都：ユジノサハリンスク）</div>`;
-    if(p.note) html+=`<div class="sub">${p.note}</div>`;
+    html=card1(p.n, row("実効支配","ロシア連邦 サハリン州")+row("州都","ユジノサハリンスク")+pts, "mappin", p.note||null);
   }else if(p.grp!==undefined){
     map.setFilter(selId,["==",["get","n"],p.n]);
     map.setFilter("jp-sel",["==",["get","code"],-1]);
-    html=`<div class="n">${p.n}</div><div class="sub">${CN_NAME[p.grp]||p.grp}</div>`;   // ISO 代码换国家名（#45）
-    if(p.cap) html+=`<div class="sub">首府：${p.cap}</div>`;
+    let rows=row("国・地域",CN_NAME[p.grp]||p.grp);   // ISO 代码换国家名（#45）
+    if(p.cap) rows+=row("首府",p.cap);
     if(transit){   // 東亜交通层：駅/空港/港湾/口岸/航路 点得出名字（#47）
       const R=matchMedia("(pointer: coarse)").matches?11:4, bb=[[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]];
       const ETR=[["etr-station","駅"],["etr-airpt","空港"],["etr-port","港湾"],["etr-bc","口岸"],["etr-ferry","航路"]];
       for(const [lid,lab] of ETR){ if(!map.getLayer(lid)) continue; const f=map.queryRenderedFeatures(bb,{layers:[lid]})[0];
-        if(f&&f.properties&&(f.properties.n||f.properties.name)) html+=`<div class="sub">${lab}：${f.properties.n||f.properties.name}${f.properties.ln?`　<span style="opacity:.75">${f.properties.ln}</span>`:""}</div>`; }
+        if(f&&f.properties&&(f.properties.n||f.properties.name)) rows+=row(lab,f.properties.n||f.properties.name,f.properties.ln||null); }
     }
-    if(sub&&sub.properties&&sub.properties.n) html+=`<div class="sub">下位区画：${sub.properties.n}</div>`;
+    if(sub&&sub.properties&&sub.properties.n) rows+=row("下位区画",sub.properties.n);
+    rows+=pts;
+    html=card1(p.n, rows);
   }else{
     // 命中的是東亜视图里的日本（属性来自 pref 层，没有 grp）
     map.setFilter(selId,["==",["get","n"],"\u0000"]);
     map.setFilter("jp-sel",["==",["get","code"],p.code]);
-    html=`<div class="n">${p.n}</div><div class="sub">日本　県庁：${p.cap}　地方：${p.regn}</div>`;
+    html=card1(p.n, row("国・地域","日本")+row("県庁",p.cap)+row("地方",p.regn)+pts);
+    stats=statsFor(p.code, null, null, null, p.n);
   }
-  if(!p.dn && d&&d.properties&&d.properties.note)
-    html+=`<div class="disp">${d.properties.dn}：${d.properties.note}</div>`;
-  c.innerHTML=html;
-  c.style.display="block"; c.classList.add("on"); document.getElementById("cardSect").hidden=false;
-  document.body.classList.add("carded");
-  document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false;
-  if(SHEET.get()==="small") SHEET.set("medium");
+  if(!p.dn && d&&d.properties&&d.properties.note && !html.includes('class="txt disp"'))
+    html=html.replace(/<\/div>$/,`<div class="txt disp">${esc(`${d.properties.dn}：${d.properties.note}`)}</div></div>`);
+  if(stats) html+=statsCard(stats);
+  showCard(html);
 }
 </script></body></html>
