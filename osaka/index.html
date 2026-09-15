@@ -551,7 +551,7 @@ function stationCard(s,t,low,th){
     if(COST===undefined) h+='<div class="r"><span class="k">单间月租</span><span class="v none">载入中…</span></div>';
     else if(!bd) h+='<div class="r"><span class="k">单间月租<div class="hint">到'+(dh>=0?HUBS[dh]:'最近枢纽')+'超过 40 分，没有对应档</div></span><span class="v none">—</span></div>';
     else if(!tier||!tier.rent_1k) h+='<div class="r"><span class="k">单间月租<div class="hint">'+bd[2]+'档还没查</div></span><span class="v none">待调查</span></div>';
-    else h+='<a class="r" href="../cost/index.html" title="打开薪资 · 购买力"><span class="k">单间月租<div class="hint">到'+(dh>=0?HUBS[dh]:'最近枢纽')+' '+v.toFixed(0)+' 分 → '+tier.label+' · '+(tier.rent_1k.n?tier.rent_1k.n+' 套样本':'')+'</div></span><span class="v">'+tier.rent_1k.value.toLocaleString('ja-JP')+' 円/月</span><i class="sf" data-sf="chevron.right" style="width:.7em;height:.7em;color:var(--ink-3)"></i></a>';
+    else h+='<a class="r" href="../cost/index.html" title="打开薪资 · 购买力"><span class="k">单间月租<div class="hint">到'+(dh>=0?HUBS[dh]:'最近枢纽')+' '+v.toFixed(0)+' 分 → '+tier.label+' · '+(tier.rent_1k.n?'SUUMO 在挂 '+tier.rent_1k.n.toLocaleString('ja-JP')+' 套的下四分位':'')+'</div></span><span class="v">'+tier.rent_1k.value.toLocaleString('ja-JP')+' 円/月</span><i class="sf" data-sf="chevron.right" style="width:.7em;height:.7em;color:var(--ink-3)"></i></a>';
     h+='</div>'; }
   if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mfoot">这站白天没有每小时 3 班以上的线路：默认视图里算不可达，打开「⚡ 低频线」才算得到。</p>';
   h+='<p class="mfoot">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 该线没有实测，速度按同等级线路的中位数借用，误差比实测和锚定大</p>';
