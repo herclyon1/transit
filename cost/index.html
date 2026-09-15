@@ -220,6 +220,11 @@ function render(c,d){
   const foot=m=>m?[m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_name||'来源'}</a>`:(m.source_name||''), m.fetched_at||''].filter(Boolean).join(' · '):'待调查';
   const big=(v,unit)=>{ const t=money(v,unit,cur); if(t==null) return '<span class="dim">暂无</span>'; const m=t.match(/^([\d.,]+)\s*(.*)$/); return m?`${m[1]}<small>${m[2]}</small>`:t; };
   const jobs=(d.jobs||[]).filter(j=>V(j.wage)!=null); const wj=jobs.length?jobs.reduce((a,b)=>V(a.wage)<=V(b.wage)?a:b):null;
+  // 时薪怎么来的：帖子写的工资 ÷ 帖子写的工时（wage-must-carry-hours）；24 小时岗/12 小时班在这里能看见
+  const hoursLine=w=>{ const hh=w&&w.hours; if(!hh||(!hh.monthly&&!hh.per_day)) return '';
+    const per=hh.per_day?`${hh.per_day} h/天`:'', days=hh.days_per_month?`${hh.days_per_month} 天/月`:'';
+    const BASIS={posted:'帖子写明',rule_24h:'上一休一，按 24 h 在岗计',rule_12h:'上一休一可倒班，按 12 h 计'};
+    return (w.wage_posted?`${w.wage_posted} `:'')+(hh.monthly?`÷ ${hh.monthly} h/月（${[per,days].filter(Boolean).join(' × ')}${BASIS[hh.basis]?'，'+BASIS[hh.basis]:''}）`:`÷ ${per}`)+(hh.posted?` · 班次「${hh.posted}」`:''); };
   const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_student||t15.pass_commuter);
   const foodM=d.living_official&&d.living_official.food;
   h+='<section class="raw"><div class="actions">'
@@ -227,7 +232,7 @@ function render(c,d){
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'<button class="btn" type="button" disabled><i class="sf" data-sf="map"></i><span>可达性图</span></button>')
     +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${wj?wj.chain:'门店直发挂牌'}</div><div class="n">${wj?big(V(wj.wage),wj.wage.unit||cur+'/小时'):'<span class="dim">暂无</span>'}</div><div class="f">${wj?foot(wj.wage):'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${wj?wj.chain:'门店直发挂牌'}</div><div class="n">${wj?big(V(wj.wage),wj.wage.unit||cur+'/小时'):'<span class="dim">暂无</span>'}</div><div class="f">${wj?(hoursLine(wj.wage)||foot(wj.wage)):'没有一条帖子同时写工资和班次'}</div></div>`
     +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 月票</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">统计平均 · 月</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
@@ -241,7 +246,7 @@ function render(c,d){
   h+='</section>';
   // ---- 岗位：连锁 × 门店 × 时薪
   h+='<section><h3>具体岗位（门店直发 / 招工帖，能直接去应聘）</h3>';
-  if(d.jobs&&d.jobs.length){ for(const jb of d.jobs){ h+=num(`${jb.chain}`,Object.assign({},jb.wage,{note:`${jb.store}${jb.wage.note?' · '+jb.wage.note:''}`}),cur); } }
+  if(d.jobs&&d.jobs.length){ for(const jb of d.jobs){ const hl=hoursLine(jb.wage); h+=num(`${jb.chain}`,Object.assign({},jb.wage,{note:`${jb.store}${hl?' · '+hl:''}${jb.wage.note?' · '+jb.wage.note:''}`}),cur); } }
   else h+='<div class="empty">待调查</div>';
   if(d.wage_ref){ h+='<div class="src" style="margin-top:6px">法定最低：'+[d.wage_ref.min_official,d.wage_ref.min_official_next].filter(x=>x&&x.value!=null).map(x=>`<a href="${x.source_url}" target="_blank" rel="noopener">${x.value.toLocaleString()} ${x.unit}</a>（${x.note||''}）`).join('　')+'</div>'; }
   h+='</section>';

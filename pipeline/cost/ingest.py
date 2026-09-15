@@ -54,8 +54,9 @@ def entry(r):
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",
                      "contact": r.get('contact'), "note": note,
-                     "wage_posted": f"{r['wage_value']:g} {r['wage_unit']}",
-                     "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h, "basis": "posted"}}}
+                     "wage_posted": f"{r['wage_value']:g} {r['wage_unit'].replace('CNY','元')}",
+                     "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h,
+                               "basis": "rule_24h" if '24h岗' in flag else ("rule_12h" if '可倒班' in flag else "posted")}}}   # 24h/12h 是口径推断，不是帖子写的
 
 new=[entry(r) for r in picked]
 d['jobs']=manual+new; d['updated']=datetime.date.today().isoformat()
