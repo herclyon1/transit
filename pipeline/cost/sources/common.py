@@ -19,8 +19,9 @@ SEP=r'[-–—~～至到]'
 RANGE=re.compile(r'(\d{3,5})\s*(?:元)?\s*'+SEP+r'\s*(\d{3,5})')
 CN={'一':1,'两':2,'二':2,'三':3,'四':4,'五':5,'六':6,'半':0.5}
 
-PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
-def mask(t): return PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t) if isinstance(t,str) else t
+PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')                 # 中国大陆手机 11 位
+PHONE_VN=re.compile(r'(?<![\d+])(0\d{2}|\+?84\d{2})(\d{4})(\d{3})(?!\d)')     # 越南手机 0xx xxxx xxx / +84
+def mask(t): return PHONE_VN.sub(lambda m:m.group(1)+'****'+m.group(3), PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t)) if isinstance(t,str) else t
 def dump(r): return mask(json.dumps(r,ensure_ascii=False))   # 仓库是公开的：raw / 任何字段里的手机号一律打码后落盘（contact 早就打了）
 
 class Rec(dict):
@@ -157,9 +158,9 @@ def extract_common(r, city_hint):
 
 def judge(r, days=180):
     reasons=[]
-    if r.get('wage_value') is None: reasons.append('range_wage' if r.get('wage_range') else 'no_wage')
-    u=r.get('wage_unit')
-    if (u=='CNY/月' and not r.get('hours_month')) or (u=='CNY/天' and not r.get('hours_per_day')) or (u=='CNY/小时' and not (r.get('hours_per_day') or r.get('hours_text'))) or (u is None and not r.get('hours_month')):
+    if r.get('wage_value') is None: reasons.append('ambiguous' if r.get('ambiguous') else ('range_wage' if r.get('wage_range') else 'no_wage'))   # ambiguous = 一帖多岗位多工资，配不上
+    u=(r.get('wage_unit') or '')
+    if (u.endswith('/月') and not r.get('hours_month')) or (u.endswith('/天') and not r.get('hours_per_day')) or (u.endswith('/小时') and not (r.get('hours_per_day') or r.get('hours_text'))) or (not u and not r.get('hours_month')):
         reasons.append('hours_partial' if (r.get('hours_per_day') or r.get('days_per_month')) else 'no_hours')   # 只差工时的一半：报告里单列，可打电话确认
     if r.get('via_agent') and not r.get('employer'): reasons.append('agent_unnamed')
     try:
@@ -172,7 +173,7 @@ def judge(r, days=180):
     if not r.get('basket'): reasons.append('off_basket')
     return reasons
 
-def is_post(r): return bool(re.search(r'\d{3,5}',r['raw'])) and bool(r.get('basket') or re.search(r'招|聘|工资|薪',r['raw']))
+def is_post(r): return bool(re.search(r'\d{3,5}',r['raw'])) and bool(r.get('basket') or re.search(r'招|聘|工资|薪|tuyển|lương|thu nhập',r['raw'],re.I))
 def write_outputs(outdir, source, recs, log, days=180):
     junk=[r for r in recs if not is_post(r)]; recs=[r for r in recs if is_post(r)]
     # 同一来源当天重跑：只替换本来源的行，别的来源保留；prev = 上一轮本来源收了几条

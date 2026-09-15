@@ -143,6 +143,118 @@
     },
     "posted_at": "2026-09-06"
    }
+  },
+  {
+   "chain": "外卖/快递/仓储：kho",
+   "tags": [],
+   "headline": true,
+   "store": "CÔNG TY TNHH CONTAINER TÂY NGUYÊN（Việc Làm Tốt，Việc Làm Tốt）",
+   "basket": "delivery",
+   "ingest_key": "vieclamtot|https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134561434.htm|300000.0",
+   "wage": {
+    "value": 37500,
+    "unit": "越南盾/小时",
+    "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134561434.htm",
+    "source_name": "Việc Làm Tốt｜Việc Làm Tốt｜CONTAINER TÂY NGUYÊN TUYỂN DỤN",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-07",
+    "confidence": "listing",
+    "contact": "站内投递",
+    "note": "帖子原文：“CONTAINER TÂY NGUYÊN TUYỂN DỤNG CÔNG VIỆC ỔN ĐỊNH / CÔNG TY TNHH CONTAINER TÂY NGUYÊN / Xã Hòa Phú, TP. Buôn Ma Thuột (cũ), Đắk Lắk / PHỤ SẮT: 4 người / - Lương từ 7.800.000đ/tháng (300k/ngày) + thưởng / - Đào tạo nghề, phát triển”",
+    "wage_posted": "300000 越南盾/天",
+    "hours": {
+     "posted": "07h30 - 11h30 / 13h00 - 17h00 / tháng nghỉ 4 ngày",
+     "per_day": 8.0,
+     "days_per_month": 26,
+     "monthly": 208,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：dọn dẹp",
+   "tags": [],
+   "headline": true,
+   "store": "tạ quang huy（Việc Làm Tốt，Việc Làm Tốt）",
+   "basket": "cleaning",
+   "ingest_key": "vieclamtot|https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/133633083.htm|6500000.0",
+   "wage": {
+    "value": 23214,
+    "unit": "越南盾/小时",
+    "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/133633083.htm",
+    "source_name": "Việc Làm Tốt｜Việc Làm Tốt｜tuyển dụng nhân viên dọn dẹp v",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-07-19",
+    "confidence": "listing",
+    "contact": "站内投递",
+    "note": "帖子原文：“tuyển dụng nhân viên dọn dẹp và sắp xếp đồ đạc / tạ quang huy / Đường Ngô Quyền, Phường Thắng Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tuyển dụng nhân viên dọn dẹp phòng, sắp xếp đồ đạc /  / Khách Sạn The Maison Hotel 24 Ngô Quyền, ”",
+    "wage_posted": "6.5e+06 越南盾/月",
+    "hours": {
+     "posted": "7h sáng - 17h chiều / tháng nghỉ 2 ngày",
+     "per_day": 10.0,
+     "days_per_month": 28,
+     "monthly": 280,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "家政/钟点（私人家庭）：giúp việc",
+   "tags": [
+    "home"
+   ],
+   "headline": false,
+   "store": "LÝ TỨ（Việc Làm Tốt，Việc Làm Tốt）",
+   "basket": "home",
+   "ingest_key": "vieclamtot|https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134513736.htm|5000000.0",
+   "wage": {
+    "value": 48077,
+    "unit": "越南盾/小时",
+    "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134513736.htm",
+    "source_name": "Việc Làm Tốt｜Việc Làm Tốt｜Tìm người giúp việc",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-04",
+    "confidence": "listing",
+    "contact": "站内投递",
+    "note": "帖子原文：“Tìm người giúp việc / LÝ TỨ / Phường Tân Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tìm giúp việc nhà Buổi sáng - Phường Tân Lợi, BMT /  / - Thời gian: 7:00-11:00 sáng (4 tiếng) /   / - Làm từ T2- T7 (nghỉ CN hằng tuần) /   / - Nấu ăn, lau nh”",
+    "wage_posted": "5e+06 越南盾/月",
+    "hours": {
+     "posted": "7:00-11:00 sáng / nghỉ 1 ngày/tuần",
+     "per_day": 4.0,
+     "days_per_month": 26,
+     "monthly": 104,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：phục vụ",
+   "tags": [
+    "temp"
+   ],
+   "headline": false,
+   "store": "Lucass （Việc Làm Tốt，Việc Làm Tốt）",
+   "basket": "food",
+   "ingest_key": "vieclamtot|https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134124462.htm|60000.0",
+   "wage": {
+    "value": 60000.0,
+    "unit": "越南盾/小时",
+    "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134124462.htm",
+    "source_name": "Việc Làm Tốt｜Việc Làm Tốt｜Tuyển Trợ Lý Ca Tối Lễ Hội BMT",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-08-13",
+    "confidence": "listing",
+    "contact": "站内投递",
+    "note": "帖子原文：“Tuyển Trợ Lý Ca Tối Lễ Hội BMT 300K/5H / Lucass  / , Buôn Ma Thuột, Daklak, Phường Tự An, TP. Buôn Ma Thuột (cũ), Đắk Lắk / CẦN TUYỂN 01 TRỢ LÝ SỰ KIỆN CA TỐI BMT /  / 1. Thời gian & Địa điểm: / Thời gian: 17h30 – 22h30 (Đúng 5 tiến”",
+    "wage_posted": "60000 越南盾/小时",
+    "hours": {
+     "posted": "17h30 – 22h30",
+     "per_day": 5.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
   }
  ],
  "wage_ref": {
@@ -577,5 +689,14 @@
    "note": "未采集。",
    "label": "消费支出合计（统计平均，未采集）"
   }
+ },
+ "jobs_ingest": {
+  "updated": "2026-09-15",
+  "raw_rows": 5,
+  "unique": 5,
+  "dup_manual": 1,
+  "side": 2,
+  "picked": 4,
+  "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
  }
 }

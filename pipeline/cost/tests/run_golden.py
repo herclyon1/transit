@@ -9,6 +9,7 @@ import os, sys, json, datetime
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sources'))
 from common import Rec, extract_common, judge
 from weixin_sogou import CITY_HINT, split_posts
+from vieclamtot import extract_vi
 gold=[json.loads(l) for l in open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'golden.jsonl'),encoding='utf-8')]
 bad=0
 for g in gold:
@@ -23,8 +24,10 @@ for g in gold:
         else: print('✓',g['name'])
         continue
     r=Rec(city='urumqi', source=g.get('source','weixin_sogou'), source_url='https://example.test/x', fetched_at='2026-09-15', posted_at=datetime.date.today().isoformat(), raw=g['raw'], account='golden', article_title='golden')
-    if g.get('site_apply'): r['site_apply']=True
-    extract_common(r, CITY_HINT['urumqi']); r['reasons']=judge(r,180)
+    if g.get('site_apply') or g.get('lang')=='vi': r['site_apply']=True
+    if g.get('lang')=='vi': r.update(in_city=True, employer='golden co'); extract_vi(r)
+    else: extract_common(r, CITY_HINT['urumqi'])
+    r['reasons']=judge(r,180)
     diffs=[]
     for k,v in g['expect'].items():
         got=r.get(k)

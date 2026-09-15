@@ -12,6 +12,8 @@ import os, sys, json, glob, datetime, collections, re
 PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
 mask=lambda t:PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t)   # 公开仓库：帖子原文里的手机号打码
 CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
+CITY_FILE={'buon_ma_thuot':'buonmathuot'}.get(CITY,CITY)          # raw 目录名 → cities/<file>.json
+CUR_ZH={'CNY':'元','VND':'越南盾','JPY':'日元','TWD':'新台币','KRW':'韩元','USD':'美元','EUR':'欧元','AUD':'澳元','MMK':'缅元'}
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
 BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁','home':'家政/钟点（私人家庭）','chain':'连锁锚点'}
 SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','wechat_group':'微信群招工帖（用户截图）','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
@@ -29,7 +31,7 @@ for r in rows:
     key=((r.get('contact') or r.get('employer') or r.get('location_phrase') or '').strip(), r.get('basket'), r.get('wage_value'), r.get('wage_unit'))
     if key not in best or (r.get('posted_at','') > best[key].get('posted_at','')): best[key]=r
 uniq=list(best.values())
-cf=os.path.join(ROOT,'cities',f'{CITY}.json'); d=json.load(open(cf,encoding='utf-8'))
+cf=os.path.join(ROOT,'cities',f'{CITY_FILE}.json'); d=json.load(open(cf,encoding='utf-8')); CUR=CUR_ZH.get(d.get('currency','CNY'),d.get('currency',''))
 manual=[j for j in d.get('jobs',[]) if not j.get('ingest_key')]
 manual_urls={j['wage'].get('source_url') for j in manual}
 by=collections.defaultdict(list); side=[]; n_dup_manual=0
@@ -55,19 +57,19 @@ side.sort(key=lambda r:(r['_tags'][0], r['hourly'])); picked+=side[:6]
 def entry(r):
     h=r.get('hours_month'); hpd=r.get('hours_per_day'); dpm=r.get('days_per_month'); flag=r.get('hours_flag','')
     note=mask(f"帖子原文：“{r['raw'][:220].replace(chr(10),' / ')}”")
-    if '24h岗' in flag and h: note+=f"。24 小时岗：月工时按 24 h × {dpm} 班 = {h} h 计，含夜间值守；若按 12 小时在岗算则 {round(r['wage_value']/(12*dpm),1)} 元/时。"
-    if '可倒班' in flag and h: note+=f"。帖子写「上一休一，也可白夜班倒」：按 12 h 班 × {dpm} 班 = {h} h 计；若按 24 h 在岗算则 {round(r['wage_value']/(24*dpm),1)} 元/时。"
+    if '24h岗' in flag and h: note+=f"。24 小时岗：月工时按 24 h × {dpm} 班 = {h} h 计，含夜间值守；若按 12 小时在岗算则 {round(r['wage_value']/(12*dpm),1)} {CUR}/时。"
+    if '可倒班' in flag and h: note+=f"。帖子写「上一休一，也可白夜班倒」：按 12 h 班 × {dpm} 班 = {h} h 计；若按 24 h 在岗算则 {round(r['wage_value']/(24*dpm),1)} {CUR}/时。"
     if r.get('probation'): note+="。帖子写的是试用期工资。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
     return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
             "store": f"{r.get('employer') or ('地点 '+(r.get('location_phrase') or '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
             "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url') or r.get('article_title','')}|{r.get('wage_value')}",   # 群帖没有 URL，用「截图 文件名」
-            "wage": {"value": r['hourly'], "unit": "元/小时", "source_url": r.get('source_url'),
+            "wage": {"value": r['hourly'], "unit": f"{CUR}/小时", "source_url": r.get('source_url'),
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",
                      "contact": r.get('contact'), "note": note,
-                     "wage_posted": f"{r['wage_value']:g} {r['wage_unit'].replace('CNY','元')}",
+                     "wage_posted": f"{r['wage_value']:g} {r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')}",
                      "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h,
                                "basis": "rule_24h" if '24h岗' in flag else ("rule_12h" if '可倒班' in flag else "posted")}}}   # 24h/12h 是口径推断，不是帖子写的
 
