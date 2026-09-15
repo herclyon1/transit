@@ -7,7 +7,7 @@
  "lang": "zh",
  "hub": {
   "name": "梅田 / 难波 / 天王寺 / 京桥（客流前四的枢纽）",
-  "note": "档位 = 从车站坐轨道交通到最近枢纽的分钟数（来自本站的车站可达性图）。每档挑 3–4 个真实车站当代表，租金取 SUUMO 该站页面的 1K 行情，月票取该站到枢纽的官方定期券价格。"
+  "note": "档位 = 从车站坐地铁到最近枢纽的分钟数（大阪地铁官方最短経路検索，2026-09-16 08:00 出发），并按地铁分区标出「几区 · 单程 · 通勤 · 通学」；每档挑 3–5 个真实地铁站当代表。租金 = SUUMO 在挂房源（1R/1K、20 ㎡以上、徒歩 10 分内、築年不限）便宜的四分之一处，不是相場。"
  },
  "work": [
   {
@@ -635,8 +635,37 @@
     "note": "帖子原文：“キッチン・ホールスタッフ（スシロー北加賀屋店 / 株式会社あきんどスシロー / 大阪府大阪市住之江区 / パート 求人数 5 / 賃金 1,177円〜1,200円 / 就業時間 交替制（シフト制） / 休日 他 週休二日制：その他 / （キッチンのお仕事） / ・お寿司の調理、調理補助 / ・食器の洗浄 / ・厨房の清掃 / など”。起薪（求人票下限）：求人票写 1177〜1200，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。",
     "wage_posted": "1177〜1200 日元/小时（取下限）",
     "hours": {
-     "posted": "他 週休二日制：その他",
+     "posted": "交替制（シフト制） / 他 週休二日制：その他",
      "per_day": null,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：お店での接客や調理（イオンモール",
+   "tags": [],
+   "headline": true,
+   "store": "ドリームフーズ株式会社（ハローワーク，求人番号 25030-06254561）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2503006254561&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2503006254561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 25030-06254561｜お店での接客や調理（イオンモール鶴見緑地店）",
+    "source_short": "ハローワーク",
+    "source_title": "お店での接客や調理（イオンモール鶴見緑地店）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“お店での接客や調理（イオンモール鶴見緑地店） / ドリームフーズ株式会社 / 大阪府大阪市鶴見区 / パート 求人数 3 / 賃金 1,177円〜1,177円 / 就業時間 （1）10時00分〜14時00分 （2）18時00分〜21時00分 / 休日 他 週休二日制：毎週 / 『週１日～勤務ＯＫ★ / お友達同士の応募も大歓迎です★ / 平日のみ・昼だけ・夜だけの勤務が可能です。（店舗要相談）』 / ●店舗での接客サービスや簡単な調理のお仕事です。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）10:00〜14:00 / 他 週休二日制：毎週",
+     "per_day": 4.0,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
@@ -666,35 +695,6 @@
     "hours": {
      "posted": "（1）10:00〜17:00 / 他 週休二日制：毎週",
      "per_day": 7.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "餐饮服务员/后厨：接客・ホール・調理補助",
-   "tags": [],
-   "headline": true,
-   "store": "株式会社菜花野（ハローワーク，求人番号 27030-28509061）",
-   "basket": "food",
-   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703028509061&kJKbn=1|1177.0",
-   "wage": {
-    "value": 1177.0,
-    "unit": "日元/小时",
-    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703028509061&kJKbn=1",
-    "source_name": "ハローワーク｜求人番号 27030-28509061｜接客・ホール・調理補助",
-    "source_short": "ハローワーク",
-    "source_title": "接客・ホール・調理補助",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-14",
-    "confidence": "listing",
-    "contact": "ハローワーク窓口/オンライン自主応募",
-    "note": "帖子原文：“接客・ホール・調理補助 / 株式会社菜花野 / 大阪府大阪市港区 / パート 求人数 1 / 賃金 1,177円〜1,300円 / 就業時間  / 休日 日他 週休二日制：毎週 / レストラン・ホール係 / 調理補助 / レジ業務”。起薪（求人票下限）：求人票写 1177〜1300，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。",
-    "wage_posted": "1177〜1300 日元/小时（取下限）",
-    "hours": {
-     "posted": "日他 週休二日制：毎週",
-     "per_day": null,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
@@ -1159,7 +1159,7 @@
     "note": "帖子原文：“カフェ / コスモスタイル株式会社 / 大阪府大阪市中央区 / パート 求人数 5 / 賃金 1,200円〜1,300円 / 就業時間 交替制（シフト制） / 休日 他 週休二日制：毎週 / パンケーキが人気のカフェで一緒に働ける仲間大募集！ / ふわふわパンケーキや季節のパフェなど、 / ＳＮＳ映えする可愛いメニュー豊富なＣＡＦＥ♪”。起薪（求人票下限）：求人票写 1200〜1300，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。",
     "wage_posted": "1200〜1300 日元/小时（取下限）",
     "hours": {
-     "posted": "他 週休二日制：毎週",
+     "posted": "交替制（シフト制） / 他 週休二日制：毎週",
      "per_day": null,
      "days_per_month": null,
      "monthly": null,
@@ -1239,203 +1239,338 @@
   {
    "id": "walk",
    "label": "步行圈",
-   "commute": "到枢纽 0–5 分钟",
+   "commute": "到枢纽 0–8 分钟 · 地铁 1 区",
    "stations": [
-    "天神桥筋六丁目（到梅田 2 分）",
+    "天神橋筋六丁目（梅田 8 分，1 区）",
     "天王寺（枢纽本身）",
-    "难波（枢纽本身）"
+    "なんば（枢纽本身）"
    ],
    "rent_1k": {
-    "value": 80000,
+    "value": 59000,
     "unit": "日元/月",
-    "source_url": "https://suumo.jp/chintai/soba/osaka/ek_25390/",
-    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，按在挂房源统计） 天神桥筋六丁目",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202025390&sngz=&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+    "source_name": "SUUMO 在挂房源（按站检索，賃料+管理費が安い順）",
+    "source_short": "SUUMO 在挂房源",
+    "fetched_at": "2026-09-15",
     "confidence": "listing",
-    "n": null,
-    "note": "1K：天神桥筋六丁目 8.0 万、天王寺 8.2、难波 7.1、梅田 11.1。不含礼金、押金、管理费。"
+    "n": 2030,
+    "how": "SUUMO 按站搜 ワンルーム/1K、専有 20 ㎡以上、駅徒歩 10 分以内、築年不限，按「賃料+管理費が安い順」把去重后的房源全部翻完，每站取下四分位（便宜的四分之一处）——这是刚来的留学生/打工者真会租到的那档（築 20–40 年、20 ㎡ 上下）；3 站取中位数 = 59,000 円。管理费另计（见「租房一次性费用」）。",
+    "items": [
+     {
+      "name": "天神橋筋六丁目",
+      "price": 59000,
+      "unit": "日元/月",
+      "note": "最低 32,000、中位 70,200（710 间）"
+     },
+     {
+      "name": "天王寺",
+      "price": 58000,
+      "unit": "日元/月",
+      "note": "最低 34,000、中位 66,750（334 间）"
+     },
+     {
+      "name": "なんば",
+      "price": 66000,
+      "unit": "日元/月",
+      "note": "最低 44,800、中位 73,750（986 间）"
+     }
+    ],
+    "items_label": "看 3 站",
+    "compare": {
+     "label": "SUUMO 相場页（新築・徒歩 5 分内条件）对照",
+     "value": 80000,
+     "unit": "日元/月",
+     "source_name": "SUUMO 车站家賃相場（2026-07-10 更新）"
+    },
+    "note": "旧值（2026-09-14）用的是 SUUMO 车站页相場，被新建房源拉高（用户 09-15：大阪房租奇高）；改为在挂房源下四分位。"
    },
    "pass_student": {
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
+    "confidence": "official",
+    "n": null,
     "value": 3430,
     "unit": "日元/月",
-    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "大阪地铁官网 乘车·定期运费表",
-    "fetched_at": "2026-09-14",
-    "confidence": "official",
-    "n": null,
-    "note": "地铁 1 区通学定期；步行圈其实可以不买。"
+    "how": "地铁1区通学定期 1 个月 3,430 円。区数同单程。"
    },
    "pass_commuter": {
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
+    "confidence": "official",
+    "n": null,
     "value": 7930,
     "unit": "日元/月",
-    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "大阪地铁官网 乘车·定期运费表",
-    "fetched_at": "2026-09-14",
-    "confidence": "official",
-    "n": null,
-    "note": "地铁 1 区通勤定期。"
+    "how": "地铁1区通勤定期 1 个月 7,930 円（含无障碍费）。区数同单程。"
    },
    "fare_single": {
-    "value": 190,
-    "unit": "日元",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
     "source_name": "大阪地铁官网 乘车·定期运费表",
-    "fetched_at": "2026-09-14",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "地铁 1 区。"
+    "value": 190,
+    "unit": "日元",
+    "how": "地铁1区（≤3 km）单程 190 円。到枢纽的最短经路和公里数按大阪地铁官方「最短経路・運賃検索」（https://kensaku.osakametro.co.jp/route/ja/web/dia/，2026-09-16 08:00 出发，候補1）：天神橋筋六丁目→梅田 8 分（1.8 km）。"
    }
   },
   {
    "id": "t15",
    "label": "15 分钟档",
-   "commute": "到枢纽 10–15 分钟",
+   "commute": "到枢纽 10–12 分钟 · 地铁 2 区",
    "stations": [
-    "江坂（12 分）",
-    "千林大宫（12 分）",
-    "喜连瓜破（11 分）",
-    "布施（11 分）"
+    "千林大宮（東梅田 12 分）",
+    "江坂（梅田 11 分）",
+    "喜連瓜破（天王寺 12 分）",
+    "野田阪神（なんば 10 分）"
    ],
    "rent_1k": {
-    "value": 64000,
+    "value": 60000,
     "unit": "日元/月",
-    "source_url": "https://suumo.jp/chintai/soba/osaka/ek_21550/",
-    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，按在挂房源统计） 千林大宫",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202021550&sngz=&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+    "source_name": "SUUMO 在挂房源（按站检索，賃料+管理費が安い順）",
+    "source_short": "SUUMO 在挂房源",
+    "fetched_at": "2026-09-15",
     "confidence": "listing",
-    "n": null,
-    "note": "1K：千林大宫 6.4 万、喜连瓜破 6.3、江坂 7.9；布施单间 6.5。取中位。"
+    "n": 3040,
+    "how": "SUUMO 按站搜 ワンルーム/1K、専有 20 ㎡以上、駅徒歩 10 分以内、築年不限，按「賃料+管理費が安い順」把去重后的房源全部翻完，每站取下四分位（便宜的四分之一处）——这是刚来的留学生/打工者真会租到的那档（築 20–40 年、20 ㎡ 上下）；4 站取中位数 = 60,000 円。管理费另计（见「租房一次性费用」）。",
+    "items": [
+     {
+      "name": "千林大宮",
+      "price": 55000,
+      "unit": "日元/月",
+      "note": "最低 32,000、中位 62,000（622 间）"
+     },
+     {
+      "name": "江坂",
+      "price": 68000,
+      "unit": "日元/月",
+      "note": "最低 30,000、中位 75,000（1286 间）"
+     },
+     {
+      "name": "喜連瓜破",
+      "price": 50000,
+      "unit": "日元/月",
+      "note": "最低 28,000、中位 56,000（97 间）"
+     },
+     {
+      "name": "野田阪神",
+      "price": 66000,
+      "unit": "日元/月",
+      "note": "最低 32,000、中位 72,000（1035 间）"
+     }
+    ],
+    "items_label": "看 4 站",
+    "compare": {
+     "label": "SUUMO 相場页（新築・徒歩 5 分内条件）对照",
+     "value": 66500,
+     "unit": "日元/月",
+     "source_name": "SUUMO 车站家賃相場（2026-07-10 更新）"
+    },
+    "note": "旧值（2026-09-14）用的是 SUUMO 车站页相場，被新建房源拉高（用户 09-15：大阪房租奇高）；改为在挂房源下四分位。"
    },
    "pass_student": {
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
+    "confidence": "official",
+    "n": null,
     "value": 4200,
     "unit": "日元/月",
-    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
-    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
-    "fetched_at": "2026-09-14",
-    "confidence": "official",
-    "n": null,
-    "note": "地铁 2 区通学定期（江坂→梅田、千林大宫→东梅田都是 2 区；北急官方表里 江坂→2 区 通学 4,200 与地铁官网一致）。布施走近铁，近铁官网只有查询表单，未取到。"
+    "how": "地铁2区通学定期 1 个月 4,200 円。区数同单程。"
    },
    "pass_commuter": {
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
+    "confidence": "official",
+    "n": null,
     "value": 9480,
     "unit": "日元/月",
-    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
-    "source_name": "大阪地铁官网 乘车·定期运费表",
-    "fetched_at": "2026-09-14",
-    "confidence": "official",
-    "n": null,
-    "note": "地铁 2 区通勤定期。"
+    "how": "地铁2区通勤定期 1 个月 9,480 円（含无障碍费）。区数同单程。"
    },
    "fare_single": {
-    "value": 240,
-    "unit": "日元",
     "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
     "source_name": "大阪地铁官网 乘车·定期运费表",
-    "fetched_at": "2026-09-14",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "地铁 2 区。"
+    "value": 240,
+    "unit": "日元",
+    "how": "地铁2区（3–7 km）单程 240 円。到枢纽的最短经路和公里数按大阪地铁官方「最短経路・運賃検索」（https://kensaku.osakametro.co.jp/route/ja/web/dia/，2026-09-16 08:00 出发，候補1）：千林大宮→東梅田 12 分（6.3 km）、江坂→梅田 11 分（6.4 km）、喜連瓜破→天王寺 12 分（6.8 km）、野田阪神→なんば 10 分（4.9 km）。"
    }
   },
   {
    "id": "t25",
    "label": "25 分钟档",
-   "commute": "到枢纽 20–25 分钟",
+   "commute": "到枢纽 14–21 分钟 · 地铁 3 区",
    "stations": [
-    "千里中央（21 分）",
-    "泉大津（21 分）",
-    "金刚（23 分）",
-    "高槻市（22 分）"
+    "大日（東梅田 19 分）",
+    "守口（東梅田 16 分）",
+    "八尾南（天王寺 19 分）",
+    "南巽（なんば 16 分）",
+    "住之江公園（なんば 14 分）"
    ],
    "rent_1k": {
-    "value": 78000,
+    "value": 46000,
     "unit": "日元/月",
-    "source_url": "https://suumo.jp/chintai/soba/osaka/ek_21580/",
-    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，按在挂房源统计） 千里中央",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202022003&sngz=&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+    "source_name": "SUUMO 在挂房源（按站检索，賃料+管理費が安い順）",
+    "source_short": "SUUMO 在挂房源",
+    "fetched_at": "2026-09-15",
     "confidence": "listing",
-    "n": null,
-    "note": "1K：千里中央 8.8 万、高槻市 9.4、泉大津 6.8；金刚单间 7.7。中位约 7.8 万。郊外挂牌多是新房源，行情反而不低。"
+    "n": 494,
+    "how": "SUUMO 按站搜 ワンルーム/1K、専有 20 ㎡以上、駅徒歩 10 分以内、築年不限，按「賃料+管理費が安い順」把去重后的房源全部翻完，每站取下四分位（便宜的四分之一处）——这是刚来的留学生/打工者真会租到的那档（築 20–40 年、20 ㎡ 上下）；5 站取中位数 = 46,000 円。管理费另计（见「租房一次性费用」）。",
+    "items": [
+     {
+      "name": "大日",
+      "price": 42000,
+      "unit": "日元/月",
+      "note": "最低 23,000、中位 65,000（89 间）"
+     },
+     {
+      "name": "守口",
+      "price": 47000,
+      "unit": "日元/月",
+      "note": "最低 24,000、中位 59,000（129 间）"
+     },
+     {
+      "name": "八尾南",
+      "price": 43000,
+      "unit": "日元/月",
+      "note": "最低 41,000、中位 49,000（8 间）"
+     },
+     {
+      "name": "南巽",
+      "price": 53099,
+      "unit": "日元/月",
+      "note": "最低 38,000、中位 55,100（165 间）"
+     },
+     {
+      "name": "住之江公園",
+      "price": 46000,
+      "unit": "日元/月",
+      "note": "最低 35,000、中位 56,000（103 间）"
+     }
+    ],
+    "items_label": "看 5 站",
+    "compare": {
+     "label": "SUUMO 相場页（新築・徒歩 5 分内条件）对照",
+     "value": 65000,
+     "unit": "日元/月",
+     "source_name": "SUUMO 车站家賃相場（2026-07-10 更新）"
+    },
+    "note": "旧值（2026-09-14）用的是 SUUMO 车站页相場，被新建房源拉高（用户 09-15：大阪房租奇高）；改为在挂房源下四分位。"
    },
    "pass_student": {
-    "value": 7430,
-    "unit": "日元/月",
-    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
-    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "千里中央→梅田（北急+地铁 2 区）通学定期。南海官网：泉大津→难波 6,060、金刚→难波 6,090。阪急高槻市官网只有查询表单，未取到。"
+    "value": 4880,
+    "unit": "日元/月",
+    "how": "地铁3区通学定期 1 个月 4,880 円。区数同单程。"
    },
    "pass_commuter": {
-    "value": 14900,
-    "unit": "日元/月",
-    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
-    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "千里中央→梅田 通勤定期。南海官网：泉大津→难波 18,770、金刚→难波 19,290。"
+    "value": 11030,
+    "unit": "日元/月",
+    "how": "地铁3区通勤定期 1 个月 11,030 円（含无障碍费）。区数同单程。"
    },
    "fare_single": {
-    "value": 380,
-    "unit": "日元",
-    "source_url": "https://www.kita-kyu.co.jp/pdf/fares.pdf",
-    "source_name": "北大阪急行官网 运费表 PDF（2025-01-19 大阪地铁改定后）",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "千里中央→梅田 单程。南海官网：泉大津 490、金刚 490。"
+    "value": 290,
+    "unit": "日元",
+    "how": "地铁3区（7–13 km）单程 290 円。到枢纽的最短经路和公里数按大阪地铁官方「最短経路・運賃検索」（https://kensaku.osakametro.co.jp/route/ja/web/dia/，2026-09-16 08:00 出发，候補1）：大日→東梅田 19 分（10.3 km）、守口→東梅田 16 分（8.5 km）、八尾南→天王寺 19 分（10.5 km）、南巽→なんば 16 分（8.2 km）、住之江公園→なんば 14 分（7.7 km）。"
    }
   },
   {
    "id": "t40",
    "label": "40 分钟档",
-   "commute": "到枢纽 35–40 分钟",
+   "commute": "到枢纽 25–35 分钟 · 地铁 4 区",
    "stations": [
-    "泉佐野（36 分）",
-    "和泉中央（37 分）",
-    "彩都西（38 分）"
+    "なかもず（なんば 25 分 / 梅田 35 分；天王寺 18 分是 3 区）",
+    "八尾南→なんば 31 分（到天王寺 19 分是 3 区）"
    ],
    "rent_1k": {
-    "value": 70000,
+    "value": 50000,
     "unit": "日元/月",
-    "source_url": "https://suumo.jp/chintai/soba/osaka/ek_02480/",
-    "source_name": "SUUMO 车站页面租金行情（2026-07-10 更新，按在挂房源统计） 泉佐野",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2000&ek=200027590&sngz=&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+    "source_name": "SUUMO 在挂房源（按站检索，賃料+管理費が安い順）",
+    "source_short": "SUUMO 在挂房源",
+    "fetched_at": "2026-09-15",
     "confidence": "listing",
-    "n": null,
-    "note": "1K：泉佐野 7.0 万、彩都西 7.0；和泉中央 1DK 7.6。远郊 1K 不比 15 分钟档便宜，因为挂牌多是新建。"
+    "n": 184,
+    "how": "SUUMO 按站搜 ワンルーム/1K、専有 20 ㎡以上、駅徒歩 10 分以内、築年不限，按「賃料+管理費が安い順」把去重后的房源全部翻完，每站取下四分位（便宜的四分之一处）——这是刚来的留学生/打工者真会租到的那档（築 20–40 年、20 ㎡ 上下）；1 站取中位数 = 50,000 円。管理费另计（见「租房一次性费用」）。 只有 なかもず 一站在地铁 4 区里有整站数据；私铁远郊（泉佐野 相場 7.0 万、和泉中央 1DK 7.6 万）作对照。",
+    "items": [
+     {
+      "name": "なかもず",
+      "price": 50000,
+      "unit": "日元/月",
+      "note": "最低 34,000、中位 58,000（184 间）"
+     }
+    ],
+    "items_label": "看 1 站",
+    "compare": {
+     "label": "SUUMO 相場页（新築・徒歩 5 分内条件）对照",
+     "value": 70000,
+     "unit": "日元/月",
+     "source_name": "SUUMO 车站家賃相場（2026-07-10 更新）"
+    },
+    "note": "旧值（2026-09-14）用的是 SUUMO 车站页相場，被新建房源拉高（用户 09-15：大阪房租奇高）；改为在挂房源下四分位。"
    },
    "pass_student": {
-    "value": 6370,
-    "unit": "日元/月",
-    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
-    "source_name": "南海电铁官网 运费检索",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "泉佐野→难波（34.0 km）通学定期；和泉中央→难波 6,640。"
+    "value": 4980,
+    "unit": "日元/月",
+    "how": "地铁4区通学定期 1 个月 4,980 円。区数同单程。"
    },
    "pass_commuter": {
-    "value": 24130,
-    "unit": "日元/月",
-    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
-    "source_name": "南海电铁官网 运费检索",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "泉佐野→难波 通勤定期；和泉中央→难波 22,870。"
+    "value": 11830,
+    "unit": "日元/月",
+    "how": "地铁4区通勤定期 1 个月 11,830 円（含无障碍费）。区数同单程。"
    },
    "fare_single": {
-    "value": 650,
-    "unit": "日元",
-    "source_url": "https://kensaku.nankai.co.jp/pc/U1",
-    "source_name": "南海电铁官网 运费检索",
-    "fetched_at": "2026-09-14",
+    "source_url": "https://subway.osakametro.co.jp/guide/fare/fare/price.php",
+    "source_name": "大阪地铁官网 乘车·定期运费表",
+    "source_short": "大阪地铁官网",
+    "fetched_at": "2026-09-15",
     "confidence": "official",
     "n": null,
-    "note": "泉佐野→难波 单程；和泉中央 590。"
+    "value": 340,
+    "unit": "日元",
+    "how": "地铁4区（13–19 km）单程 340 円。到枢纽的最短经路和公里数按大阪地铁官方「最短経路・運賃検索」（https://kensaku.osakametro.co.jp/route/ja/web/dia/，2026-09-16 08:00 出发，候補1）：なかもず→なんば 25 分（14.0 km）、なかもず→梅田 35 分（18.1 km）、八尾南→なんば 31 分（13.9 km）。",
+    "note": "地铁到四个枢纽最远就是 4 区（なかもず→梅田 18.1 km）；5 区 390 円只在分区表里，地铁站到枢纽用不到。私铁远郊对照：泉佐野→なんば 36 分 南海 650 円、和泉中央 37 分、彩都西 38 分（2026-09-14 旧档位，作对照不进主值）。"
    }
   }
  ],
@@ -1448,7 +1583,8 @@
    "fetched_at": "2026-09-15",
    "confidence": "estimated",
    "n": null,
-   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。従量電灯A：最低料金（15 kWh まで）522.58 + 第 1 段階 20.21 円/kWh × 105 + 第 2 段階 25.61 × 30 = 3,412.93；再エネ賦課金 4.18 円/kWh × 150 = 627（2026-05～2027-04 低圧单价，最低料金部分另有单价，此处按 4.18 统一）；燃料費調整 2026 年 10 月分 最初の 15 kWh 33.66 + 2.24 × 135 = 336.06（平均燃料价格超上限，按上限 40,700 円/kl 计）。合计 4,376 円。国家“電気・ガス料金支援”2026 年 8/10 月每 kWh 减 3.5 円、9 月减 4.5 円，10 月分实付为 3,851 円；补贴是临时措施，取补贴前的结构价。旧值对照：総務省 家計調査 2025 单身勤劳者 电费均值 6,033 円（统计，已降为对照，见 living_official）。"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。従量電灯A：最低料金（15 kWh まで）522.58 + 第 1 段階 20.21 円/kWh × 105 + 第 2 段階 25.61 × 30 = 3,412.93；再エネ賦課金 4.18 円/kWh × 150 = 627（2026-05～2027-04 低圧单价，最低料金部分另有单价，此处按 4.18 统一）；燃料費調整 2026 年 10 月分 最初の 15 kWh 33.66 + 2.24 × 135 = 336.06（平均燃料价格超上限，按上限 40,700 円/kl 计）。合计 4,376 円。国家“電気・ガス料金支援”2026 年 8/10 月每 kWh 减 3.5 円、9 月减 4.5 円，10 月分实付为 3,851 円；补贴是临时措施，取补贴前的结构价。旧值对照：総務省 家計調査 2025 单身勤劳者 电费均值 6,033 円（统计，已降为对照，见 living_official）。",
+   "label": "电费"
   },
   "gas": {
    "value": 2705,
@@ -1458,7 +1594,8 @@
    "fetched_at": "2026-09-15",
    "confidence": "estimated",
    "n": null,
-   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。A 料金（0–20 m³）：基本料金 759.00 + 調整単位料金 194.67 円/m³ × 10 = 2,705 円（円未満切捨て）。9 月検針分单价 184.43 → 2,603 円（大阪ガス自家的 10 m³ 计算例也是 2,603）。原料費調整每月变。旧值对照：家計調査 2025 单身勤劳者 燃气均值 2,829 円。"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。A 料金（0–20 m³）：基本料金 759.00 + 調整単位料金 194.67 円/m³ × 10 = 2,705 円（円未満切捨て）。9 月検針分单价 184.43 → 2,603 円（大阪ガス自家的 10 m³ 计算例也是 2,603）。原料費調整每月变。旧值对照：家計調査 2025 单身勤劳者 燃气均值 2,829 円。",
+   "label": "燃气"
   },
   "water": {
    "value": 1606,
@@ -1468,7 +1605,8 @@
    "fetched_at": "2026-09-15",
    "confidence": "estimated",
    "n": null,
-   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。一般用（口径 13 mm）：水道 基本料金 935（含税）+ 従量 1–10 m³ 10 円/m³ × 6 = 1,001；下水道 基本 605（10 m³ まで）= 605；合计 1,606 円/月（早見表 6 m³ 栏同值）。旧值对照：家計調査 2025 单身勤劳者 上下水道均值 1,862 円。"
+   "note": "项目统一标准用量（单身，见 cost/data/README.md）：电 150 kWh/月、燃气 10 m³/月、水 6 m³/月。一般用（口径 13 mm）：水道 基本料金 935（含税）+ 従量 1–10 m³ 10 円/m³ × 6 = 1,001；下水道 基本 605（10 m³ まで）= 605；合计 1,606 円/月（早見表 6 m³ 栏同值）。旧值对照：家計調査 2025 单身勤劳者 上下水道均值 1,862 円。",
+   "label": "水费"
   },
   "mobile": {
    "value": 2970,
@@ -1655,11 +1793,40 @@
  },
  "jobs_ingest": {
   "updated": "2026-09-15",
-  "raw_rows": 407,
-  "unique": 231,
+  "raw_rows": 364,
+  "unique": 204,
   "dup_manual": 0,
   "side": 1,
   "picked": 36,
   "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
+ },
+ "rent_fees": {
+  "label": "租房一次性费用 / 管理费",
+  "source_url": "https://suumo.jp/chintai/osaka/",
+  "source_name": "SUUMO 在挂房源（同上检索，便宜的四分之一段）",
+  "source_short": "SUUMO 在挂房源",
+  "fetched_at": "2026-09-15",
+  "confidence": "listing",
+  "items": [
+   {
+    "name": "管理费 / 共益费（每月）",
+    "price": 5000,
+    "unit": "日元/月",
+    "note": "各站中位 3,000–8,000；市中心 6,500–8,000"
+   },
+   {
+    "name": "敷金（押金）",
+    "price": 0,
+    "unit": "日元",
+    "note": "便宜段 87–100% 的房源写「-」（免押金）"
+   },
+   {
+    "name": "礼金",
+    "price": 50000,
+    "unit": "日元",
+    "note": "34–74% 的房源免礼金；收的话中位 5–6.5 万（约一个月房租）"
+   }
+  ],
+  "how": "从各站便宜的四分之一段房源里统计：管理费按月另付，多数免押金，礼金约一半免、收的话一个月。"
  }
 }
