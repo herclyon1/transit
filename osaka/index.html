@@ -108,7 +108,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
         <div class="mrow no-press"><span class="ico" style="background:#e08b45"></span><span class="lab"><div class="name">C 扣分</div></span></div>
         <div class="mrow no-press"><span class="ico" style="background:#d05252"></span><span class="lab"><div class="name">D 不建议</div></span></div>
       </div>
-      <p class="mfoot">治安×便利×环境，2026 粗略版，点区块看说明</p>
+      <p class="mfoot">作者标注，没有出处（2026-09-16 审计：104 块无一引数据）；改成数据分的方法见 data/README-tiers-audit.md</p>
     </div>
     <h2 class="mh">说明</h2>
     <div class="mcard"><div class="txt" id="note">载入中…</div></div>
@@ -139,7 +139,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
         <div class="r slider"><input type="range" id="wk" min="0" max="20" step="1" value="10" aria-label="步行"></div>
         <label class="r"><span class="k">势力范围模式</span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
       </div>
-      <label class="r"><span class="k">居住等级（面层）</span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
+      <label class="r"><span class="k">居住等级（作者标注）</span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
     </div>
   </div>
 </aside>
@@ -228,7 +228,7 @@ const APP = HIGShell.create({initial:'medium', attribution:'',   // 样式自带
       return {title:s.name, sub:cardSub(s,t), html:stationCard(s,t,low,th)}; }
     showWalkOne(null);
     if(item.kind==='tier'){ const p=item.p; const sub=(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier; return {title:p.name, sub,
-      html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v ink"><i class="tsw" style="background:${tcol(p.tier)}"></i>${p.tier}</span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mfoot">治安×便利×环境，2026 粗略版</p>`}; }
+      html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v ink"><i class="tsw" style="background:${tcol(p.tier)}"></i>${p.tier}</span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mfoot">作者标注，没有出处；数据分（府警犯罪率／可达／灾害）待拍板</p>`}; }
     return null; }});
 const map = APP.map; window.map = map;
 // 卡片开着时地图可见区：窄屏卡片占下 44%，宽屏侧栏+面板在左；flyTo 用 padding 把目标放进可见区（#36）
