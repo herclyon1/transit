@@ -6,7 +6,7 @@
   const R=[]; const num=v=>Math.round(v*100)/100;
   const ok=(name, got, want, tol, note)=>{ const pass = typeof want==='number' ? Math.abs(got-want)<=tol : got===want; R.push({name, got: typeof got==='number'?num(got):got, want, pass, note}); };
   const rect=el=>el.getBoundingClientRect(); const cs=(el,ps)=>getComputedStyle(el,ps||null); const px=v=>parseFloat(v)||0;
-  const q=s=>document.querySelector(s); const qa=s=>[...document.querySelectorAll(s)].filter(e=>rect(e).width>0);
+  const q=s=>document.querySelector(s); const qa=s=>[...document.querySelectorAll(s)].filter(e=>rect(e).width>0&&getComputedStyle(e).visibility!=='hidden');   /* 叠放卡片没打开时 visibility:hidden，不算 */
   const safeBottom=()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;left:0;width:0;height:0;padding-top:env(safe-area-inset-bottom)'; document.body.appendChild(p); const v=px(cs(p).paddingTop); p.remove(); return v; };
   const safeNow=()=>{ const p=document.createElement('div'); p.style.cssText='position:fixed;top:0;left:0;width:0;height:0;padding-top:env(safe-area-inset-top)'; document.body.appendChild(p); const v=px(cs(p).paddingTop); p.remove(); return v; };
   // 主屏幕网页 App（黑色半透明状态栏）里 innerHeight 不含状态栏、client 坐标整体偏 +安全区；用 visualViewport 校正：屏幕 y = client y + OY
@@ -58,6 +58,22 @@
           ok('真机落档 1pt 内用时 ≈ 0.37s（120pt，模型）', t1==null?9:t1, 0.37, 0.06); ok('真机落档终点 = 档位', tr[tr.length-1].top, tr[tr.length-1].target, 0.05); }
         else ok('真机落档轨迹已采到', !!tr, true, 0, '要在 load 后 600ms 由 accept.js 自己合成一次手势');
       } }
+    // 行按下高亮（ui/press.js，地图 App 实测：触到即变、0.2s ease-out、systemGray4 85%、松手 0.1s 淡出、滚动即取消）
+    if(window.HIGPress&&'ontouchstart' in window){ const P=window.HIGPress; ok('行高亮样式：systemGray4 85% / 0.2s ease-out / 淡出 0.1s', /rgba\(209,209,214,\.85\)/.test(P.CSS)&&/\.2s ease-out/.test(P.CSS)&&/\.1s ease-out/.test(P.CSS), true, 0);
+      const lab=document.createElement('div'); lab.style.cssText='position:fixed;left:-9999px;top:0;width:300px'; lab.innerHTML='<div class="group"><a class="row" href="#"><span class="lab"><span class="name">探针行</span></span></a></div>'; document.body.appendChild(lab); const rw=lab.querySelector('.row');
+      ok('行不可选字（长按不弹选择）', cs(rw).webkitUserSelect||cs(rw).userSelect, 'none', 0);
+      const te=(type,x,y)=>{ const t=new Touch({identifier:1,target:rw,clientX:x,clientY:y}); window.__accSynthetic=true; try{ rw.dispatchEvent(new TouchEvent(type,{bubbles:true,cancelable:true,touches:type==='touchend'?[]:[t],changedTouches:[t]})); } finally { window.__accSynthetic=false; } };
+      te('touchstart',10,10); ok('触到即高亮（同一帧加 class）', rw.classList.contains('hig-press'), true, 0); ok('高亮过渡 0.2s', cs(rw).transitionDuration, '0.2s', 0);
+      te('touchmove',10,40); ok('滑动 >10pt 取消高亮', rw.classList.contains('hig-press'), false, 0);
+      te('touchstart',10,10); te('touchend',10,10); ok('松手后高亮先留着（≥120ms 再淡出）', rw.classList.contains('hig-press'), true, 0); lab.remove(); }
+    // 叠放卡片（HIGSheet.stack：地图 App 地点卡片 = 第二张 Sheet 从底下弹上来，后面那张退到中档）
+    if(window.CARD&&!wide&&window.SHEET){ const C=window.CARD; const wasShown=C.shown; if(!wasShown) C.present(); const ce=C.ctl.el; const T=C.ctl.tops();
+      ok('叠放卡片挂在 body 下、带 .sheet.stacked', ce.parentNode===document.body&&ce.classList.contains('stacked'), true, 0);
+      ok('叠放卡片：present 后落中档', C.ctl.get(), 'medium', 0); ok('叠放卡片从视口底边起飞（top = H）', C.ctl.top(), C.ctl.sim.H(), 1.5);
+      C.ctl.sim.place(T.medium); const cr=rect(ce); ok('叠放卡片圆角 38、左右内缩 8', px(cs(ce).borderTopLeftRadius)===38&&Math.abs(cr.left-8)<0.5, true, 0, cs(ce).borderTopLeftRadius+' left '+num(cr.left));
+      const cg=ce.querySelector('.grab i'); if(cg) ok('叠放卡片抓手 58×4 距顶 5', Math.abs(rect(cg).width-58)<0.5&&Math.abs(rect(cg).top-cr.top-5)<0.5, true, 0, num(rect(cg).width)+' @'+num(rect(cg).top-cr.top));
+      const cb=ce.querySelector('.head .btn-glass'); if(cb) ok('叠放卡片关闭钮 44 距顶 15 距边 15', Math.abs(rect(cb).height-44)<0.5&&Math.abs(rect(cb).top-cr.top-15)<0.5&&Math.abs(cr.right-rect(cb).right-15)<0.5, true, 0, num(rect(cb).top-cr.top)+'/'+num(cr.right-rect(cb).right));
+      if(!wasShown){ C.dismiss(); ok('叠放卡片：dismiss 后 shown=false', C.shown, false, 0); } }
     // 分组列表
     const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
     const single=qa('.row').find(r=>!r.querySelector('.hint,.seg,input[type=range]')&&!r.classList.contains('slider')); if(single){ const rr=rect(single); ok('单行 52.33（Row Regular 52 + 分隔线）', rr.height, 52.33, 0.5, single.textContent.trim().slice(0,12)); ok('行左内缩 '+(single.classList.contains('icon')?'18（有图标）':'20'), px(cs(single).paddingLeft), single.classList.contains('icon')?18:20, 0.1); ok('行右内缩 20', px(cs(single).paddingRight), 20, 0.1);
@@ -146,5 +162,5 @@
   window.HIG_ACCEPT=show;
   window.addEventListener('load', ()=>setTimeout(show, 2500));
   // 再点一下屏幕就重量一次（网页 App 冷启动后视口会变）
-  window.addEventListener('touchend', ()=>setTimeout(show, 400), {passive:true});
+  window.addEventListener('touchend', ()=>{ if(!window.__accSynthetic) setTimeout(show, 400); }, {passive:true});   // 探针自己合成的触摸不算
 })();

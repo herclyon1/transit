@@ -13,6 +13,8 @@
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
 <link rel="stylesheet" href="../ui/hig.css">
 <style>
+@media (min-width:900px){#card .grab{display:none}}
+#card.stacked{z-index:16}
 /* 想法见 ../IDEAS.md 第 6 节；数据规范见 data/README.md。
    界面照地图 App：地图全屏；左上一个玻璃圆钮回目录、右上货币；底部一张非模态 Sheet——
    没选城市时是「搜索 + 城市列表」，点了城市就是那座城的卡片。宽屏时 Sheet 变成左侧 320 的侧栏。
@@ -74,6 +76,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
     </div>
   </div>
   <div id="card" hidden>
+    <div class="grab"><i></i></div>
     <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2" id="cName"></div><div class="t-sub dim" id="cMeta"></div></div><span class="slot"><button class="btn-glass fill" id="cClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
     <div class="body" id="cBody"></div>
   </div>
@@ -82,6 +85,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 <div class="menu" id="curMenu" hidden role="menu" aria-label="货币"><button role="menuitemradio" aria-checked="true" data-value="local"><i class="sf" data-sf="checkmark"></i>当地</button></div>
 
 <script src="../ui/sheet.js"></script>
+<script src="../ui/press.js"></script>
 <script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
 <script>
@@ -140,7 +144,7 @@ function cityRows(filter){
 cityRows(''); loadHeads().then(()=>cityRows($('q').value));
 $('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
 $('q').closest('.search').querySelector('.clear').addEventListener('click',()=>{$('q').value='';cityRows('');$('q').closest('.search').classList.remove('has');});
-window.SHEET=HIG.sheet($('sheet'),{initial:'medium'});
+window.SHEET=HIG.sheet($('sheet'),{initial:'medium'}); window.CARD=window.HIGSheet&&HIGSheet.stack(SHEET,$('card'));
 
 // 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
 fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
@@ -160,7 +164,7 @@ HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='
 map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });
 map.on('mouseenter','city-dot',()=>map.getCanvas().style.cursor='pointer');
 map.on('mouseleave','city-dot',()=>map.getCanvas().style.cursor='');
-$('cClose').addEventListener('click',()=>{$('card').hidden=true;$('list').hidden=false;OPEN=null;});
+$('cClose').addEventListener('click',()=>{ if(window.CARD) CARD.dismiss(); else $('card').hidden=true; $('list').hidden=false; OPEN=null; });
 })();
 
 var OPEN=null; const cache={};
@@ -177,7 +181,8 @@ function hoursFor(d){
 const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
 async function show(c){
-  OPEN=c; $('card').hidden=false; if(!matchMedia('(min-width: 900px) and (pointer: fine)').matches) $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
+  OPEN=c; if(window.CARD) CARD.present(); else $('card').hidden=false;   /* 窄屏：卡片是叠在上面的第二张 Sheet（地图 App），列表留在后面；宽屏照旧 */
+  if(!window.CARD && !matchMedia('(min-width: 900px) and (pointer: fine)').matches) $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
   $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
   $('cMeta').textContent=`${({JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'})[c.country]||c.country} · 货币 ${c.currency}`;
   $('cBody').innerHTML='<div class="mcard"><div class="empty">载入…</div></div>';

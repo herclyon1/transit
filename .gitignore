@@ -9,3 +9,4 @@ truth_cache/
 # 抓取缓存与 cookie 不进仓库（2026-09-15：articles/ 曾把 313 MB 网页推上去了）
 cost/data/raw/**/articles/
 cost/data/raw/**/.sogou.cookies
+pipeline/cost/tools/.build/
