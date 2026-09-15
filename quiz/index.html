@@ -59,7 +59,7 @@ zoomToHistFeat(単元外接框)+showHistInfo(不再固定k=400缩到空海)。�
 (MutationObserver常驻,clearSelection去描边关卡但不动缩放)。【已撤销:v23曾试浏览高精度懒加载niiyz全分辨率,因.hires
 stroke:none连县轮廓一起消失+8万~48万顶点手机每帧重绘巨卡,弊远大于利,全数移除;s0010(冲绳2084顶点)是smartnews源
 上限,即浏览基底,真正全岛竹岛级需polygon union库/客户端并集(未加载)不可行,勿再尝试整县高精度。】
-面板lg-jmp：dai=関東州/南洋庁(组级zoomToPacific)/全図/标记钮；kyo=南洋群島/全図/标记钮。
+图例=第二张Sheet #legend(iOS .sheet.opt小档/Mac Popover,工具条#lgBtn开合;手机上替掉设置Sheet):跳转钮.lg-jmp dai=関東州/南洋庁(组级zoomToPacific)/全図,kyo=南洋群島/全図;标记/海域是开关行(#mkTg/#seaTg,seaTg与#showSea双向同步);国家勾选/说明收在details#lgFold里。范围/题型=Kit行+.pop钮开Kit Menu(#scopeMenu/#qtypeMenu),<select>藏着只存值。
 已知陷阱：①world-atlas各精度层id前导零不一致，按id匹配必须数值归一化；
 ②新西兰查塔姆群岛跨反经线，历史视图必须projection.rotate([-150,0])；
 ③東京都南鳥島/沖ノ鳥島会撑爆取景，日本视图fit必须用mainFC（各县主体多边形）；
@@ -134,22 +134,19 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #info .c{color:var(--tint);margin-top:2px;font-size:.8824em}
   #info .r{color:var(--ink-2);margin-top:2px;font-size:.8824em}
   #info .x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);cursor:pointer;border-radius:50%;background:var(--fill)}
-  #legend{position:absolute;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom) + 144px);z-index:4;padding:10px 16px;border-radius:16px;font-size:.7647em;line-height:1.85em;display:none}
-  #legend .lg-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  #legend .lg-head b{font-size:1.0769em}
-  #legend .lg-sel{color:var(--tint);flex:1;min-width:120px}
-  #legend .lg-toggle{margin-left:auto}
-  #legend .lg-body{display:none;margin-top:6px;max-height:36vh;overflow:auto}
-  #legend.open .lg-body{display:block}
-  /* 東亜图例的国家勾选：iOS 没有 checkbox → iOS 27 Kit › Lists › Rows › Editing 的多选圆（22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底白勾）；
+  /* 图例 = 第二张 Sheet（KIT-MAP：iOS 第二张 .sheet.opt 小档，抓手 + 头 + 关闭；Mac = hig.css 11b 的 Popover r20，从工具条「图例」钮下弹出）。
+     控件样式全在 hig.css（.sheet.opt / .r / .sw / .r.disc / .mfoot / .btn.s）；这里只有布局：跳转钮一排、国家勾选网格。 */
+  .lg-jumps{display:flex;flex-wrap:wrap;gap:8px;padding:4px var(--inset) 12px}
+  #cbGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:2px 8px;padding:6px 12px 12px}   /* 两列：7 字国名（巴布亚新几内亚）17 号 + 多选圆 22 + 间 6 = 147，375 宽机也放得下 */
+  /* 東亜图例的国家勾选：iOS 没有 checkbox → iOS 27 Kit › Lists › Rows › Editing 的多选圆（22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底白勾、标签 Body 17）；
      Mac = macOS 27 Kit › Toggles - Checkboxes › Regular（16×16 r5.5、未选黑 10%、选中 #0088ff 白勾 9×9、按下 +黑 7%/19%、标签 Medium 13 间 5）（NUMBERS.md） */
-  #cbGrid label{display:inline-flex;align-items:center;gap:6px;min-height:28px}
+  #cbGrid label{display:inline-flex;align-items:center;gap:6px;min-height:32px}
   #cbGrid input[type="checkbox"]{appearance:none;-webkit-appearance:none;margin:0;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #bfbfbf;background:none;position:relative;flex:none}
   #cbGrid input[type="checkbox"]:checked{background:var(--tint);box-shadow:none}
   #cbGrid input[type="checkbox"]:checked::after{content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(../ui/sf/checkmark.png) center/13px no-repeat;mask:url(../ui/sf/checkmark.png) center/13px no-repeat}
   #cbGrid input[type="checkbox"]:disabled{opacity:.4}
-  /* E2 图例小按钮 = .btn.s（iOS 27 Kit › Buttons › Small 28 Bordered：底 #767680 12% + tint 字；macOS Kit › Push buttons › Regular 24 r6 Bordered：底黑 8%，Medium 13 黑字） */
-  .lg-jmp{margin-left:4px} .lg-jmp,#legend .lg-toggle{background:rgba(118,118,128,.12);color:var(--tint)}
+  /* E2 图例跳转钮 = .btn.s（iOS 27 Kit › Buttons › Small 28 Bordered：底 #767680 12% + tint 字；macOS Kit › Push buttons › Regular 24 r6 Bordered：底黑 8%，Medium 13 黑字） */
+  .lg-jmp{background:rgba(118,118,128,.12);color:var(--tint)}
   #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2);z-index:6;background:var(--bg)}
   /* 结算：居中的卡（HIG Alerts 的样子：圆角 26、标题 17 半粗、正文 13） */
   #doneCard{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:5;background:rgba(0,0,0,.2)}
@@ -161,21 +158,21 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #doneCard .sub{font-size:.7647em;color:var(--ink-2);line-height:1.3846em;margin-top:4px}
   #doneCard .btn{margin-top:14px;width:100%;height:48px;border-radius:999px}
   @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) #doneCard .box{background:rgba(40,40,40,.7);background-image:none;box-shadow:0 15px 50px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(255,255,255,.14)} }
-  /* Sheet 里的设置行：select 做成 pop-up button（值 + 上下箭头） */
-  .r.pop select{position:absolute;inset:0;width:100%;height:100%;opacity:0;font:inherit}
-  .r.pop{position:relative;cursor:pointer}
-  .r.pop .v{display:inline-flex;align-items:center;gap:6px}
+  /* Sheet 里的范围/题型行：值是 hig.css 的 Pop-up 配件（.r .pop），点开是 Kit Menu（.menu）；原生 <select> 只藏着存值，不显示 */
+  .r:has(.pop){cursor:pointer}
   .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
   .sheet.small .body{overflow:hidden}
   #stats{color:var(--ink-2)}
-  @media (max-width:640px){ #legend .lg-sel{display:none} }
   /* Mac（KIT-INVENTORY E1–E4）：E1 题目条/E4 信息浮层 = macOS 27 Kit › Popovers（r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；
      E2 小按钮 = Push buttons Regular Bordered（黑 8%）；E3 完成卡 = Alerts › Stacked：260 宽 r26、同材质、图标 72 @(22,20)、标题 Bold 13 + 说明 Regular 13、内边 16、按钮 Large 28 距文字 14 */
   @media (min-width:900px) and (pointer:fine){
-    #jumps,#legend{left:304px;bottom:16px}   /* 侧栏 8 + 280（Kit Utility Panel）+ 16，不再压在侧栏底下；Mac 没有底部工具条 */
-    #legend{right:16px} #info{right:16px;bottom:16px}
+    #jumps{left:304px;bottom:16px}   /* 侧栏 8 + 280（Kit Utility Panel）+ 16，不再压在侧栏底下；Mac 没有底部工具条 */
+    #info{right:16px;bottom:16px}   /* 图例 Popover 在右上（hig.css .sheet.opt），信息浮层留在右下，两者不叠 */
     #promptBar,#info{border-radius:20px;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
-    .lg-jmp,#legend .lg-toggle{background:rgba(0,0,0,.08);color:var(--ink)}
+    .lg-jmp{background:rgba(0,0,0,.08);color:var(--ink)}
+    .lg-jumps{padding:8px 14px 8px}   /* Popover 里与 Group Box（.sheet .mcard 内缩 14）对齐 */
+    #cbGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 6px;padding:4px 10px 8px}   /* Popover 280 − Group Box 内缩 14×2 − 10×2 = 232 → 两列 113：7 字国名 13 号 91 + 框 16 + 间 5 = 112 */
+    #lgToggle{min-height:48px}   /* Kit Forms › Row 带控件 = 48。hig.css 的 .sheet .r.disc 只给了 20 的 Disclosure 盒，行算出来是 44（12+20+12），应挪进 hig.css 的 :has() 那条；这里先取 Kit 的 48 */
     #cbGrid label{gap:5px;min-height:24px;font-weight:500}
     #cbGrid input[type="checkbox"]{width:16px;height:16px;border-radius:5.5px;background:rgba(0,0,0,.1);box-shadow:none}
     #cbGrid input[type="checkbox"]:active{background:rgba(0,0,0,.19)}
@@ -189,7 +186,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   }
   @media (min-width:900px) and (pointer:fine) and (prefers-color-scheme:dark){
     :root:not([data-theme="light"]) #promptBar,:root:not([data-theme="light"]) #info,:root:not([data-theme="light"]) #doneCard .box{background:rgba(40,40,40,.7);background-image:none}
-    :root:not([data-theme="light"]) .lg-jmp,:root:not([data-theme="light"]) #legend .lg-toggle{background:rgba(255,255,255,.1)}
+    :root:not([data-theme="light"]) .lg-jmp{background:rgba(255,255,255,.1)}
   }
   @media (prefers-reduced-motion:reduce){ .pref{transition:none} }
 </style>
@@ -204,6 +201,8 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
     <button data-m="dainippon">大日本</button>
     <button data-m="kyoeiken">東亜</button>
   </div>
+  <!-- 图例（大日本/東亜才有）：Kit 工具条钮，点开/收起第二张 Sheet（Mac 是从这颗钮下弹出的 Popover） -->
+  <button class="btn-glass glass" id="lgBtn" type="button" aria-label="图例" aria-controls="legend" aria-expanded="false" hidden><i class="sf" data-sf="list.bullet"></i></button>
 </div>
 
 <div id="stage">
@@ -228,7 +227,6 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
     <button data-j="r7" aria-pressed="false">九州</button>
   </div>
   <div id="info" class="glass"></div>
-  <div id="legend" class="glass"></div>
   <div id="doneCard"><div class="box">
     <img class="ico" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230088ff'/%3E%3Cpath d='M6 23 12 9l7 8 3-4 4 10z' fill='%23fff'/%3E%3C/svg%3E">
     <div class="txt"><div class="big">本轮清零</div>
@@ -243,19 +241,29 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   <div class="body">
     <h2 class="mh">范围与题型</h2>
     <div class="mcard">
-        <label class="r pop"><span class="k">范围</span><span class="v dim" id="scopeVal">43県（除都道府）<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
-          <select id="scope" aria-label="范围">
+        <!-- 范围/题型：Kit 行 + Pop-up 配件（.r .pop），点开 Kit Menu（#scopeMenu/#qtypeMenu，从 <select> 的选项生成）；<select> 藏着只存值，change 事件照旧 -->
+        <div class="r"><span class="k">范围</span><button class="pop" type="button" id="scopeVal" aria-label="范围">43県（除都道府）</button>
+          <select id="scope" aria-label="范围" hidden>
             <option value="43">43県（除都道府）</option><option value="47">全部47</option><option value="r1">東北</option><option value="r2">関東</option>
             <option value="r3">中部</option><option value="r4">近畿</option><option value="r5">中国</option><option value="r6">四国</option><option value="r7">九州・沖縄</option>
-          </select></label>
-        <label class="r pop"><span class="k">题型</span><span class="v dim" id="qtypeVal">考县名<i class="sf" data-sf="chevron.down" style="width:.7em;height:.7em"></i></span>
-          <select id="qtype" aria-label="题型"><option value="name">考县名</option><option value="cap">考县厅</option><option value="mix">县名+县厅</option></select></label>
+          </select></div>
+        <div class="r"><span class="k">题型</span><button class="pop" type="button" id="qtypeVal" aria-label="题型">考县名</button>
+          <select id="qtype" aria-label="题型" hidden><option value="name">考县名</option><option value="cap">考县厅</option><option value="mix">县名+县厅</option></select></div>
         <label class="r" id="labelToggle"><span class="k">名称标签</span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
         <label class="r" id="seaToggle"><span class="k">远岛海域</span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
     </div>
     <p class="mnote" id="reviewHint" hidden></p>
     <p class="mnote">数据：国土数値情報 行政区域（N03，经 smartnews-smri 整理）· geoBoundaries CGAZ（CC-BY 4.0）· Natural Earth 1:10m · 領海・EEZ 为近似范围。旧版页面，将来重做进「地図·学習」。</p>
   </div>
+</aside>
+<!-- 范围/题型的 Kit Menu（hig.css .menu；项由 <select> 的 option 生成，勾在当前值上） -->
+<div class="menu" id="scopeMenu" hidden role="menu" aria-label="范围"></div>
+<div class="menu" id="qtypeMenu" hidden role="menu" aria-label="题型"></div>
+<!-- 图例 = 第二张 Sheet（大日本/東亜）：抓手 + 头（标题 + 关闭）+ 跳转钮 + 一张卡片（标记/海域开关 + 可展开的国家勾选/说明）+ 段脚提示。内容由 buildHistPanel() 填 -->
+<aside class="sheet glass opt" id="legend" hidden aria-label="图例">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-head" id="lgTitle"></div></div><span class="slot"><button class="btn-glass fill" id="lgClose" type="button" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
+  <div class="body" id="lgBody"></div>
 </aside>
 <script src="../ui/sheet.js"></script>
 <script src="../ui/press.js"></script>
@@ -701,11 +709,12 @@ function setMode(m){
   // 各模式下无效的控件直接禁用，避免"改了没反应"的困惑：scope只作用于混考
   $("scope").disabled = (m === "campaign" || m === "dainippon" || m === "kyoeiken");
   $("qtype").disabled = (m === "dainippon" || m === "kyoeiken");
-  for(const id of ["scope","qtype"]){ const row=$(id).closest(".r"); if(row){ row.classList.toggle("disabled",$(id).disabled); row.title=$(id).disabled?"这个模式里不可选":""; } }   // 灰掉，别像还能点（#62）
+  for(const id of ["scope","qtype"]){ const row=$(id).closest(".r"); if(row){ row.classList.toggle("disabled",$(id).disabled); row.title=$(id).disabled?"这个模式里不可选":""; } const b=$(id+"Val"); if(b) b.disabled=$(id).disabled; }   // 灰掉，别像还能点（#62）；Pop-up 钮同步禁用
   if(m === "campaign"){ const v=$("scopeVal"); if(v) v.firstChild.nodeValue="全 43 県（闯关固定）"; } else if(typeof syncSelLabel==="function"){ syncSelLabel("scope","scopeVal"); }
+  { const hist = (m === "dainippon" || m === "kyoeiken"); $("lgBtn").hidden = !hist; if(hist) lgClosed = false; }   // 工具条「图例」钮只在历史模式出现；换模式时图例重新打开
   if(m === "dainippon" || m === "kyoeiken"){
     $("promptBar").style.display = "none";
-    $("stats").textContent = m === "kyoeiken" ? "" : "历史版图浏览 ・点任意行政区看详情";
+    $("stats").textContent = m === "kyoeiken" ? "" : "历史版图浏览";   // 「点任意行政区看详情」在图例 Sheet 的段脚里，这里一行放不下
     enterHist(m);
     return;
   }
@@ -936,7 +945,7 @@ $("qtype").onchange = e => {
 $("showLabels").onchange = updateLabels;
 $("showSea").onchange = () => {
   seaOn = $("showSea").checked;
-  const _tg = document.getElementById("seaTg"); if(_tg) _tg.textContent = "海域:" + (seaOn ? "开" : "关"); // 与hist面板按钮双向同步
+  const _tg = document.getElementById("seaTg"); if(_tg) _tg.checked = seaOn; // 与图例里的「海域」开关双向同步
   if(mode === "browse" || mode === "dainippon" || mode === "kyoeiken")
     drawSeaZones(mode === "browse" ? "browse" : mode);
   else gSea.style("display","none");
@@ -970,7 +979,7 @@ function setViewJapan(){
   histLblFeats = null;
   if(features) rebindPrefLabels();
   gWorld.style("display","none");
-  $("legend").style.display = "none";
+  hideLegend();
   $("jumps").style.display = "flex";
   gMap.style("display",null); gLbl.style("display",null); gHl.style("display",null);
   const w = $("stage").clientWidth, h = $("stage").clientHeight;
@@ -1456,50 +1465,47 @@ function drawHiIslands(md){
       hiFocus(d.k, mk ? mk[2] : d.n, mk && mk[3] ? mk[3].own : null);
     });
 }
+// 图例 = 第二张 Sheet #legend（KIT-MAP：iOS .sheet.opt 小档 / Mac Popover）。手机上它替掉设置 Sheet（同大阪「图层」），Mac 上两者并存；
+// lgClosed = 用户点过关闭（resize 重建面板时不再自动弹出），lgExpanded = 「显示国家/说明」那行展开着
+let lgClosed = false, lgExpanded = false;
+const wideSplit = () => matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+function showLegend(){ $("legend").hidden = false; $("sheet").hidden = !wideSplit(); $("lgBtn").setAttribute("aria-expanded","true"); }
+function hideLegend(){ $("legend").hidden = true; $("sheet").hidden = false; $("lgBtn").setAttribute("aria-expanded","false"); }
 function buildHistPanel(kind, feats){
   const isDai = kind === "dainippon";
-  const wasOpen = $("legend").classList.contains("open");
   let body = "";
   if(!isDai){
     const cs = [...new Set(feats.map(f => f.properties.grp).filter(g => g && g !== "JPN"))]
       .sort((a,b) => (ADM0_ZH[a]||a).localeCompare(ADM0_ZH[b]||b, "zh"));
-    body += `<div id="cbGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:2px 8px;">`
+    body += `<div id="cbGrid">`
       + `<label style="opacity:.55;cursor:default;"><input type="checkbox" checked disabled> 日本（固定）</label>`
       + cs.map(a => `<label style="cursor:pointer;"><input type="checkbox" data-a="${a}"${kyoHidden[a] ? "" : " checked"}> ${ADM0_ZH[a]||a}</label>`).join("")
       + `</div>`;
   }else{
-    body += `<div style="color:var(--ink-2);">${DAI_NOTE}</div>`;
+    body += `<div class="txt">${DAI_NOTE}</div>`;
   }
-  const mkBtns = `<button class="lg-jmp btn s" id="mkTg">标记:${mkOn?"开":"关"}</button><button class="lg-jmp btn s" id="seaTg">海域:${seaOn?"开":"关"}</button>`;
   const jumps = isDai
-    ? `<button class="lg-jmp btn s" data-jf="関東州">関東州</button><button class="lg-jmp btn s" data-jg="nanyo">南洋庁</button><button class="lg-jmp btn s" data-jf="">全図</button>${mkBtns}`
-    : `<button class="lg-jmp btn s" data-jg="nanyo">南洋群島</button><button class="lg-jmp btn s" data-jf="">全図</button>${mkBtns}`;
-  $("legend").innerHTML =
-    `<div class="lg-head"><b>${isDai ? DAI_TITLE : KYO_TITLE}</b><span class="lg-sel">${isDai ? "点任意行政区看详情" : "点任意国家看详情"}</span>`
-    + jumps
-    + `<button class="lg-toggle btn s" id="lgToggle">${isDai ? "说明" : "显示国家"} ▾</button></div>`
-    + `<div class="lg-body">${body}</div>`;
-  if(wasOpen) $("legend").classList.add("open");
-  const tg = document.getElementById("lgToggle");
-  tg.textContent = tg.textContent.replace("▾", $("legend").classList.contains("open") ? "▴" : "▾");
-  tg.onclick = () => {
-    const open = $("legend").classList.toggle("open");
-    tg.textContent = tg.textContent.replace(/[▾▴]/, open ? "▴" : "▾");
+    ? `<button class="lg-jmp btn s" type="button" data-jf="関東州">関東州</button><button class="lg-jmp btn s" type="button" data-jg="nanyo">南洋庁</button><button class="lg-jmp btn s" type="button" data-jf="">全図</button>`
+    : `<button class="lg-jmp btn s" type="button" data-jg="nanyo">南洋群島</button><button class="lg-jmp btn s" type="button" data-jf="">全図</button>`;
+  $("lgTitle").textContent = isDai ? "大日本" : KYO_TITLE;   // Sheet 头只放得下一行（Mac 标题栏 24 / iOS 头 54）；大日本的年代和口径放段脚
+  $("lgBody").innerHTML =
+    `<div class="lg-jumps">${jumps}</div>`
+    + `<div class="mcard">`
+    + `<label class="r"><span class="k">标记</span><span class="sw"><input type="checkbox" id="mkTg"${mkOn ? " checked" : ""}><i></i></span></label>`
+    + `<label class="r"><span class="k">海域</span><span class="sw"><input type="checkbox" id="seaTg"${seaOn ? " checked" : ""}><i></i></span></label>`
+    + `</div>`
+    // 可展开行单独一张卡：Kit Disclosure 配件的箭头画在 .r.disc::before，跟在别的 .r 后面会被分隔线规则盖掉（hig.css .mcard .r + .r::before）
+    + `<div class="mcard"><details id="lgFold"${lgExpanded ? " open" : ""}><summary class="r disc" id="lgToggle"><span class="k">${isDai ? "说明" : "显示国家"}</span></summary>`
+    + body + `</details></div>`
+    + `<div class="mfoot">${isDai ? DAI_TITLE.replace(/^大日本（|）$/g, "") + " ・点任意行政区看详情" : "点任意国家看详情"}</div>`;
+  $("lgFold").addEventListener("toggle", () => { lgExpanded = $("lgFold").open; });
+  $("mkTg").onchange = () => { mkOn = $("mkTg").checked; const r = drawHist(kind); histMarkers(kind, r.shown); };
+  $("seaTg").onchange = () => {
+    seaOn = $("seaTg").checked;
+    const sc = document.getElementById("showSea"); if(sc) sc.checked = seaOn;   // 与设置 Sheet 的「远岛海域」双向同步
+    drawSeaZones(kind);
   };
   document.querySelectorAll("#legend .lg-jmp").forEach(b => b.onclick = () => {
-    if(b.id === "mkTg"){
-      mkOn = !mkOn;
-      b.textContent = "标记:" + (mkOn ? "开" : "关");
-      const r = drawHist(kind); histMarkers(kind, r.shown);
-      return;
-    }
-    if(b.id === "seaTg"){
-      seaOn = !seaOn;
-      b.textContent = "海域:" + (seaOn ? "开" : "关");
-      const sc = document.getElementById("showSea"); if(sc) sc.checked = seaOn;
-      drawSeaZones(kind);
-      return;
-    }
     if(b.dataset.jg === "nanyo"){ zoomToPacific(kind); return; }
     const n = b.dataset.jf;
     if(!n){ svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity); return; }
@@ -1514,7 +1520,8 @@ function buildHistPanel(kind, feats){
     histLblFeats = r.shown;
     updateLabels();
   });
-  $("legend").style.display = "block";
+  HIG.sf();
+  if(!lgClosed) showLegend();
 }
 function enterHist(kind){
   if(kind==="dainippon" && !ADMIN1){ $("loading").style.display="block";
@@ -1528,7 +1535,8 @@ function enterHist(kind){
   if(zoom) zoom.scaleExtent([1,600]); // 环礁级小岛需极深缩放（NE10m分辨率上限内）
   $("jumps").style.display = "none";
   $("info").style.display = "none";
-  $("info").style.top = "calc(env(safe-area-inset-top) + 64px)"; $("info").style.bottom = "auto"; // hist下信息卡置右上（让开顶部分段），避让底部面板
+  if(wideSplit()){ $("info").style.top = ""; $("info").style.bottom = ""; }   // Mac：图例 Popover 在右上（hig.css），信息浮层留在 CSS 的右下
+  else { $("info").style.top = "calc(env(safe-area-inset-top) + 64px)"; $("info").style.bottom = "auto"; } // 手机：信息卡置右上（让开顶部分段），避让底部的图例 Sheet
   gMap.style("display","none"); gHl.style("display","none");
   if(kind === "dainippon"){
     gCtx.style("display",null).selectAll("path").data([DAI_CTX]).join("path")
@@ -1574,8 +1582,20 @@ window.addEventListener("resize", () => {
 
 const APP=HIGShell.create({map:false, initial:'small'});   // 壳只管 Sheet（这页的图是 D3 SVG，不是 MapLibre）
 { const rh=reviewHint(); const el=document.getElementById("reviewHint"); if(rh&&el){ el.textContent=rh; el.hidden=false; } }   // 间隔重复提示（#59）
-function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v) v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
-for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id); sel.addEventListener('change',()=>syncSelLabel(id,lab)); syncSelLabel(id,lab); }
+function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v) v.firstChild.nodeValue=sel.options[sel.selectedIndex].text;   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
+  const m=document.getElementById(id+'Menu'); if(sel&&m) m.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked', b.dataset.value===sel.value?'true':'false')); }   // 菜单里的勾跟着 <select> 的值（确认框取消后会退回）
+// 范围/题型：Pop-up 钮点开 Kit Menu（HIG.menu），选中 → 写回藏着的 <select> 并发 change，原有的确认/回退逻辑照旧；点行的其它地方也算点钮
+for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){
+  const sel=document.getElementById(id), btn=document.getElementById(lab), menu=document.getElementById(id+'Menu');
+  for(const o of sel.options){ const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.dataset.value=o.value; b.innerHTML='<i class="sf" data-sf="checkmark"></i>'; b.appendChild(document.createTextNode(o.text)); menu.appendChild(b); }
+  HIG.menu(btn, menu, v=>{ if(sel.value!==v){ sel.value=v; sel.dispatchEvent(new Event('change')); } syncSelLabel(id,lab); });
+  btn.addEventListener('click', ()=>{ if(menu.hidden) return; const r=menu.getBoundingClientRect(); if(r.bottom>window.innerHeight-8) menu.style.top=Math.max(8, btn.getBoundingClientRect().top-6-r.height)+'px'; });   // 底部 Sheet 里往下放不下就翻到钮上方
+  btn.closest('.r').addEventListener('click', e=>{ if(e.target.closest('.pop')||btn.disabled) return; e.stopPropagation(); btn.click(); });
+  sel.addEventListener('change',()=>syncSelLabel(id,lab)); syncSelLabel(id,lab);
+}
+HIG.sf();
+$("lgBtn").addEventListener("click", ()=>{ if($("legend").hidden){ lgClosed=false; showLegend(); } else { lgClosed=true; hideLegend(); } });
+$("lgClose").addEventListener("click", ()=>{ lgClosed=true; hideLegend(); });
 new MutationObserver(()=>{ document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false')); })
   .observe(document.getElementById('modeSeg'),{attributes:true,subtree:true,attributeFilter:['class']});
 </script>
@@ -1832,5 +1852,9 @@ v20: 修复清单：海域虚线拦截地图点击（.seaz加pointer-events:none
      "去混考"未兑现全43县承诺（现强制scope=43）；删KYO_ADD尼不孟整国死数据（约-21KB，
      v18起无引用）；维护头注释4处过时描述修正（JP_IDEAL_CN已废/gWorldOut/zoom上限/
      mkOn默认值）
+v28 (2026-09-16): 界面控件全部换成 Apple iOS 27 / macOS 27 UI Kit 组件(kit-audit Mac KIT-OK):
+     范围/题型的原生<select>→Kit行+Pop-up配件(.r .pop)+Kit Menu(hig.css .menu, role=menuitemradio), syncSelLabel()保留并同步菜单勾;
+     图例浮层→第二张Sheet(.sheet.opt: iOS小档 抓手+头+关闭, Mac Popover r20 从工具条「图例」钮下弹出), 标记/海域改开关行, 国家勾选/说明改可展开行(details+.r.disc),
+     Mac上信息浮层#info留在右下(不再与Popover叠在右上); 设置Sheet的副题去掉「点任意行政区看详情」(移到图例段脚)。
 -->
 </html>
