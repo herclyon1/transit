@@ -10,6 +10,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'
 from common import Rec, extract_common, judge
 from weixin_sogou import CITY_HINT, split_posts
 from vieclamtot import extract_vi
+from hellowork import to_rec as hw_rec
 gold=[json.loads(l) for l in open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'golden.jsonl'),encoding='utf-8')]
 bad=0
 for g in gold:
@@ -23,11 +24,14 @@ for g in gold:
         if diffs: bad+=1; print('✗',g['name']); [print('   ',d) for d in diffs]
         else: print('✓',g['name'])
         continue
-    r=Rec(city='urumqi', source=g.get('source','weixin_sogou'), source_url='https://example.test/x', fetched_at='2026-09-15', posted_at=datetime.date.today().isoformat(), raw=g['raw'], account='golden', article_title='golden')
-    if g.get('site_apply') or g.get('lang')=='vi': r['site_apply']=True
-    if g.get('lang')=='vi': r.update(in_city=True, employer='golden co'); extract_vi(r)
-    else: extract_common(r, CITY_HINT['urumqi'])
-    r['reasons']=judge(r,180)
+    if g.get('lang')=='ja':
+        r=hw_rec(g['listing'],'osaka',None,datetime.date.today()); r['posted_at']=datetime.date.today().isoformat(); r['reasons']=judge(r,180)
+    else: r=Rec(city='urumqi', source=g.get('source','weixin_sogou'), source_url='https://example.test/x', fetched_at='2026-09-15', posted_at=datetime.date.today().isoformat(), raw=g['raw'], account='golden', article_title='golden')
+    if g.get('lang')!='ja':
+        if g.get('site_apply') or g.get('lang')=='vi': r['site_apply']=True
+        if g.get('lang')=='vi': r.update(in_city=True, employer='golden co'); extract_vi(r)
+        else: extract_common(r, CITY_HINT['urumqi'])
+        r['reasons']=judge(r,180)
     diffs=[]
     for k,v in g['expect'].items():
         got=r.get(k)

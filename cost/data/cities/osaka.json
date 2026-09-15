@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "city": "osaka",
- "updated": "2026-09-14",
+ "updated": "2026-09-15",
  "currency": "JPY",
  "status": "ready",
  "lang": "zh",
@@ -119,6 +119,951 @@
      "basis": "posted"
     },
     "posted_at": "2026-09-14"
+   }
+  },
+  {
+   "chain": "保安：警備職（施設巡回）（大阪市北区）",
+   "tags": [],
+   "headline": true,
+   "store": "日本プロテクション株式会社（ハローワーク，求人番号 27020-57767861）",
+   "basket": "security",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057767861&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057767861&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-57767861｜警備職（施設巡回）（大阪市北区）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“警備職（施設巡回）（大阪市北区） / 日本プロテクション株式会社 / 大阪府大阪市北区 / パート 求人数 2 / 賃金 1,177円〜1,177円 / 就業時間 （1）07時00分〜16時00分 / 休日 土日祝 週休二日制：毎週 / 受付け・巡回業務”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）07:00〜16:00 / 土日祝 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：【面接会】警備員／天王寺区・生野",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社ゴールド警備保障（ハローワーク，求人番号 27060-27781261）",
+   "basket": "security",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2706027781261&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2706027781261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27060-27781261｜【面接会】警備員／天王寺区・生野区・東成区及び近隣地区",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“【面接会】警備員／天王寺区・生野区・東成区及び近隣地区 / 株式会社ゴールド警備保障 / 大阪府大阪市天王寺区 / パート 求人数 3 / 賃金 1,177円〜1,177円 / 就業時間 変形労働時間制 （1）08時00分〜17時00分 （2）09時00分〜18時00分 （3）21時00分〜05時00分 / 休日 他 週休二日制：毎週 / ☆７０歳以上の男女の方も歓迎致します / 交通誘導警備 / ・マンション改修工事現場等での歩行者、自転車への声掛け”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）08:00〜17:00 / 他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：警備員（大阪市中央区）",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社アカツキ（ハローワーク，求人番号 27080-20686361）",
+   "basket": "security",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2708020686361&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2708020686361&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27080-20686361｜警備員（大阪市中央区）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“警備員（大阪市中央区） / 株式会社アカツキ / 大阪府大阪市中央区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 変形労働時間制 （1）10時00分〜09時59分 （2）07時00分〜10時00分 / 休日 他 週休二日制：毎週 / ○官公庁施設内での警備業務 / （２名による昼夜勤務）”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）10:00〜09:59 / 他 週休二日制：毎週",
+     "per_day": 24.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：警備員・生涯現役・６０歳７０歳８",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社第一管財ＳＡＫＡＩ（ハローワーク，求人番号 27080-20771961）",
+   "basket": "security",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2708020771961&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2708020771961&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27080-20771961｜警備員・生涯現役・６０歳７０歳８０歳歓迎・泉佐野市泉南他",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“警備員・生涯現役・６０歳７０歳８０歳歓迎・泉佐野市泉南他 / 株式会社第一管財ＳＡＫＡＩ / 大阪府大阪市阿倍野区 / パート 求人数 2 / 賃金 1,177円〜1,177円 / 就業時間 交替制（シフト制） （1）08時00分〜17時00分 （2）09時00分〜18時00分 / 休日 他 週休二日制：毎週 / 簡単な歩行者の誘導業務が中心です。 / 最初の間は多人数の現場となるため安心です。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）08:00〜17:00 / 他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：タワーマンション施設警備員（大阪",
+   "tags": [],
+   "headline": true,
+   "store": "（事業所の意向により公開していません）（ハローワーク，求人番号 27020-57923261）",
+   "basket": "security",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057923261&kJKbn=1|1178.0",
+   "wage": {
+    "value": 1178.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057923261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-57923261｜タワーマンション施設警備員（大阪市浪速区）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“タワーマンション施設警備員（大阪市浪速区） / （事業所の意向により公開していません） / 大阪府大阪市浪速区 / パート 求人数 1 / 賃金 1,178円〜1,178円 / 就業時間 変形労働時間制 （1）20時45分〜08時15分 / 休日 他 週休二日制：その他 / ＪＲ難波駅徒歩１分！地上３９階建てタワーマンション管理事務所 / での施設警備員のお仕事です。”",
+    "wage_posted": "1178 日元/小时",
+    "hours": {
+     "posted": "（1）20:45〜08:15 / 他 週休二日制：その他",
+     "per_day": 11.5,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：日常清掃（放送大学大阪学習センタ",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社ホープクリエイト（ハローワーク，求人番号 27160-04058061）",
+   "basket": "cleaning",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2716004058061&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2716004058061&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27160-04058061｜日常清掃（放送大学大阪学習センター）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-07-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“日常清掃（放送大学大阪学習センター） / 株式会社ホープクリエイト / 大阪府大阪市天王寺区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）07時00分〜09時30分 / 休日 月火水金日祝 週休二日制：その他 / ＊日常清掃（トイレ清掃あり）”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）07:00〜09:30 / 月火水金日祝 週休二日制：その他",
+     "per_day": 2.5,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：マンション清掃員",
+   "tags": [],
+   "headline": true,
+   "store": "（事業所の意向により公開していません）（ハローワーク，求人番号 27010-42331261）",
+   "basket": "cleaning",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042331261&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042331261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27010-42331261｜マンション清掃員",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“マンション清掃員 / （事業所の意向により公開していません） / 大阪府大阪市中央区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）12時00分〜14時00分 / 休日 水土日祝他 週休二日制：その他 / ・清掃業務（階段、共用廊下、エレベーターホール等） / ・エレベーター内外、消火器、ガラス、収納扉等の拭き掃除 / ・外周清掃”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）12:00〜14:00 / 水土日祝他 週休二日制：その他",
+     "per_day": 2.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：マンションの清掃／アスタラビスタ",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社セラ・コーポレーション（ハローワーク，求人番号 27010-42453561）",
+   "basket": "cleaning",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042453561&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042453561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27010-42453561｜マンションの清掃／アスタラビスタ新梅田",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“マンションの清掃／アスタラビスタ新梅田 / 株式会社セラ・コーポレーション / 大阪府大阪市北区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）13時00分〜15時00分 / 休日 月火水金土日 週休二日制：毎週 / マンションの清掃 / 一人作業”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）13:00〜15:00 / 月火水金土日 週休二日制：毎週",
+     "per_day": 2.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：施設日常清掃（大阪市住之江区南港",
+   "tags": [],
+   "headline": true,
+   "store": "（事業所の意向により公開していません）（ハローワーク，求人番号 27020-58216061）",
+   "basket": "cleaning",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702058216061&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702058216061&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-58216061｜施設日常清掃（大阪市住之江区南港中）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“施設日常清掃（大阪市住之江区南港中） / （事業所の意向により公開していません） / 大阪府大阪市住之江区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間 （1）07時30分〜14時30分 / 休日 火金 週休二日制：毎週 / 施設内の日常清掃 / ・男女トイレ清掃 / ・室内清掃”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）07:30〜14:30 / 火金 週休二日制：毎週",
+     "per_day": 7.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：分譲マンション管理員（大阪市住之",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社長谷工コミュニティ（ハローワーク，求人番号 27010-42445561）",
+   "basket": "cleaning",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042445561&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701042445561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27010-42445561｜分譲マンション管理員（大阪市住之江区）【６０歳以上歓迎】",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“分譲マンション管理員（大阪市住之江区）【６０歳以上歓迎】 / 株式会社長谷工コミュニティ / 大阪府大阪市住之江区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間 （1）09時00分〜17時00分 / 休日 火水木他 週休二日制：毎週 / 分譲マンションの日常管理人 / 週４勤務 / ・【窓口業務】居住者の問い合わせ等に対応 / ・【巡回業務】建物、設備等に異常がないかどうか点検”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）09:00〜17:00 / 火水木他 週休二日制：毎週",
+     "per_day": 8.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "工厂普工：日用雑貨の組立・梱包・検品",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社ウエ・ルコ（ハローワーク，求人番号 27020-57722461）",
+   "basket": "factory",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057722461&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702057722461&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-57722461｜日用雑貨の組立・梱包・検品",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-10",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“日用雑貨の組立・梱包・検品 / 株式会社ウエ・ルコ / 大阪府大阪市西淀川区 / パート 求人数 5 / 賃金 1,177円〜1,177円 / 就業時間 （1）09時00分〜18時00分 （2）09時00分〜16時00分 / 休日 土日祝他 週休二日制：毎週 / ・作業場での家庭用品や日用雑貨品の / 組立・梱包・検品作業 / ・日用雑貨品を取り扱うため軽作業が中心となります。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）09:00〜18:00 / 土日祝他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "工厂普工：検査室業務（品質管理係）【資格・",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社ポオトデリカトオカツ（ハローワーク，求人番号 27070-17930061）",
+   "basket": "factory",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707017930061&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707017930061&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27070-17930061｜検査室業務（品質管理係）【資格・経験不問】",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“検査室業務（品質管理係）【資格・経験不問】 / 株式会社ポオトデリカトオカツ / 大阪府東大阪市 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）08時00分〜17時00分 （2）07時30分〜16時30分 / 休日 他 週休二日制：毎週 / 小学校の理科実験くらいのレベルなので、経験は不要です。 / ※製造作業ではありません。 / 具体的にはこちら↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）08:00〜17:00 / 他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "工厂普工：パン製造（ベルタ店）／大阪市",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社エフエフビー（ハローワーク，求人番号 40180-16227761）",
+   "basket": "factory",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=4018016227761&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=4018016227761&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 40180-16227761｜パン製造（ベルタ店）／大阪市",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“パン製造（ベルタ店）／大阪市 / 株式会社エフエフビー / 大阪府大阪市阿倍野区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）08時00分〜13時00分 （2）13時00分〜18時00分 / 休日 他 週休二日制：毎週 / ＊スーパー内ベーカリーで焼き立てパンの製造 / ＊経験者歓迎”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）08:00〜13:00 / 他 週休二日制：毎週",
+     "per_day": 5.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "工厂普工：軽作業スタッフ（パート・アルバイ",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社特発製作所（ハローワーク，求人番号 27060-27669561）",
+   "basket": "factory",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2706027669561&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2706027669561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27060-27669561｜軽作業スタッフ（パート・アルバイト）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“軽作業スタッフ（パート・アルバイト） / 株式会社特発製作所 / 大阪府大阪市淀川区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間  / 休日 土日祝他 週休二日制：毎週 / 自動車部品等に使われるバネ製造の加工の一部や補助作業 / ・治具を使ったワークの曲げ加工”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "土日祝他 週休二日制：毎週",
+     "per_day": null,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "工厂普工：梱包作業・製作補助（特販部）",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社いわさき（ハローワーク，求人番号 27040-21218461）",
+   "basket": "factory",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704021218461&kJKbn=1|1187.0",
+   "wage": {
+    "value": 1187.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704021218461&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27040-21218461｜梱包作業・製作補助（特販部）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“梱包作業・製作補助（特販部） / 株式会社いわさき / 大阪府大阪市東住吉区 / パート 求人数 1 / 賃金 1,187円〜1,187円 / 就業時間 （1）09時00分〜15時00分 （2）09時00分〜16時00分 / 休日 土日祝他 週休二日制：毎週 / 栄養指導用フードモデル（食品サンプル）の梱包、出荷、簡単な / 製作補助業務などを担当していただきます。”",
+    "wage_posted": "1187 日元/小时",
+    "hours": {
+     "posted": "（1）09:00〜15:00 / 土日祝他 週休二日制：毎週",
+     "per_day": 6.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：ホールスタッフ（なんばウォーク西",
+   "tags": [],
+   "headline": true,
+   "store": "（事業所の意向により公開していません）（ハローワーク，求人番号 27030-25171161）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703025171161&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703025171161&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27030-25171161｜ホールスタッフ（なんばウォーク西店）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-08-18",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“ホールスタッフ（なんばウォーク西店） / （事業所の意向により公開していません） / 大阪府大阪市中央区 / パート 求人数 3 / 賃金 1,177円〜1,177円 / 就業時間 交替制（シフト制） （1）11時00分〜15時00分 （2）11時30分〜16時00分 （3）12時00分〜20時00分 / 休日 他 週休二日制：毎週 / ＊中華料理店のホールスタッフ / ＊レジ係”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）11:00〜15:00 / 他 週休二日制：毎週",
+     "per_day": 4.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：ランチ調理（ガスト",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社すかいらーくレストランツ（ハローワーク，求人番号 13170-38527461）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1317038527461&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1317038527461&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 13170-38527461｜ランチ調理（ガスト",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“ランチ調理（ガスト / 株式会社すかいらーくレストランツ / 大阪府東大阪市 / パート 求人数 2 / 賃金 1,177円〜1,177円 / 就業時間 （1）10時00分〜17時00分 / 休日 他 週休二日制：毎週 / ◎簡単な調理補助から始めて、調理全般から洗い場まで担当してい / ただきます。 / ・食事の盛り付け”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）10:00〜17:00 / 他 週休二日制：毎週",
+     "per_day": 7.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：お店での接客や調理（近江ちゃんぽ",
+   "tags": [],
+   "headline": true,
+   "store": "ドリームフーズ株式会社（ハローワーク，求人番号 25030-06287261）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2503006287261&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2503006287261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 25030-06287261｜お店での接客や調理（近江ちゃんぽん亭",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“お店での接客や調理（近江ちゃんぽん亭 / ドリームフーズ株式会社 / 大阪府大阪市中央区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間  / 休日 他 週休二日制：毎週 / 『週１日～勤務ＯＫ★ / お友達同士の応募も大歓迎です★ / 平日のみ・昼だけ・夜だけの勤務が可能です。（店舗要相談）』 / ●店舗での接客サービスや簡単な調理のお仕事です。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "他 週休二日制：毎週",
+     "per_day": null,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：ホールスタッフ・簡単な調理補助（",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社横綱（ラーメン横綱）（ハローワーク，求人番号 26010-22276161）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2601022276161&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2601022276161&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 26010-22276161｜ホールスタッフ・簡単な調理補助（ラーメン横綱",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-01",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“ホールスタッフ・簡単な調理補助（ラーメン横綱 / 株式会社横綱（ラーメン横綱） / 大阪府東大阪市 / パート 求人数 5 / 賃金 1,180円〜1,180円 / 就業時間  / 休日 他 週休二日制：毎週 / ラーメン店での接客と簡単な調理が中心のお仕事です。 / 社員さんや先輩アルバイトさんと一緒に覚えていきますので未経験 / の方でも安心して働いて頂けます。”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "他 週休二日制：毎週",
+     "per_day": null,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：【積極採用中】ホールスタッフ（な",
+   "tags": [],
+   "headline": true,
+   "store": "エクセル・サポート・サービス株式会社（ハローワーク，求人番号 27020-53515761）",
+   "basket": "food",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702053515761&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702053515761&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-53515761｜【積極採用中】ホールスタッフ（なごみ庵きたはま瓜破店）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-01",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“【積極採用中】ホールスタッフ（なごみ庵きたはま瓜破店） / エクセル・サポート・サービス株式会社 / 大阪府大阪市平野区 / パート 求人数 2 / 賃金 1,180円〜1,180円 / 就業時間 （1）10時00分〜16時00分 / 休日 他 週休二日制：毎週 / なごみ庵きたはま瓜破店で「ホールスタッフ」を募集します。 / 主に通夜・葬儀、法事料理などを取り扱う日本料理店内で”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）10:00〜16:00 / 他 週休二日制：毎週",
+     "per_day": 6.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：加工係（日勤）",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社ポオトデリカトオカツ（ハローワーク，求人番号 27070-13549861）",
+   "basket": "retail",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707013549861&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707013549861&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27070-13549861｜加工係（日勤）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-07-07",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“加工係（日勤） / 株式会社ポオトデリカトオカツ / 大阪府東大阪市 / パート 求人数 2 / 賃金 1,177円〜1,177円 / 就業時間 （1）08時00分〜17時00分 / 休日 他 週休二日制：毎週 / 主にコンビニ向けのお弁当を作っています。難しい資格や経験は一 / 切必要有りません。丁寧に教えますので安心してご応募下さい！”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）08:00〜17:00 / 他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：子供服販売",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社スーリー（ハローワーク，求人番号 23020-61440561）",
+   "basket": "retail",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2302061440561&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2302061440561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 23020-61440561｜子供服販売",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“子供服販売 / 株式会社スーリー / 大阪府大阪市阿倍野区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 交替制（シフト制） （1）09時30分〜18時00分 （2）11時30分〜20時00分 / 休日 他 週休二日制：毎週 / スーリーあべのハルカス近鉄店にて、子供服の接客販売。 / （従事すべき業務の変更範囲：原則なし）”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）09:30〜18:00 / 他 週休二日制：毎週",
+     "per_day": 8.5,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：衣料品の販売",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社田原屋（ハローワーク，求人番号 27010-40808961）",
+   "basket": "retail",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701040808961&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701040808961&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27010-40808961｜衣料品の販売",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-04",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“衣料品の販売 / 株式会社田原屋 / 大阪府大阪市城東区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間 （1）09時30分〜15時15分 （2）11時15分〜17時00分 （3）16時00分〜21時15分 / 休日 他 週休二日制：毎週 / パシオス / 深江橋店でのお仕事です。 / 紳士服 / 婦人服 / 子供服の田原屋の業務 / ・品出し / ・商品整理”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）09:30〜15:15 / 他 週休二日制：毎週",
+     "per_day": 5.8,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：（大阪府）深夜レジ・品出し（ラ・",
+   "tags": [],
+   "headline": true,
+   "store": "大黒天物産株式会社（ハローワーク，求人番号 33030-15421561）",
+   "basket": "retail",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=3303015421561&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=3303015421561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 33030-15421561｜（大阪府）深夜レジ・品出し（ラ・ムー東大阪店）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-04",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“（大阪府）深夜レジ・品出し（ラ・ムー東大阪店） / 大黒天物産株式会社 / 大阪府東大阪市 / パート 求人数 3 / 賃金 1,180円〜1,180円 / 就業時間 （1）22時00分〜06時00分 / 休日 他 週休二日制：毎週 / 食品スーパーにおけるレジ業務全般を担当していただきます。 / 簡単な商品出しや売場での陳列、軽作業などもお願いいたします。”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）22:00〜06:00 / 他 週休二日制：毎週",
+     "per_day": 8.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "便利店/超市理货收银：【早朝の品出し】食品スーパーマー",
+   "tags": [],
+   "headline": true,
+   "store": "（事業所の意向により公開していません）（ハローワーク，求人番号 27020-58498561）",
+   "basket": "retail",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702058498561&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702058498561&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-58498561｜【早朝の品出し】食品スーパーマーケット／都島区",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“【早朝の品出し】食品スーパーマーケット／都島区 / （事業所の意向により公開していません） / 大阪府大阪市都島区 / パート 求人数 2 / 賃金 1,180円〜1,180円 / 就業時間 （1）06時00分〜10時00分 （2）06時00分〜11時00分 / 休日 他 週休二日制：その他 / オーガニック食品やこだわりの食品などを扱うスーパー / 「パントリー都島店」の早朝の荷受け・品出し・商品管理（ / 期限 / チェック）などを行います。”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）06:00〜10:00 / 他 週休二日制：その他",
+     "per_day": 4.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "连锁锚点：フロア担当／イオンモール鶴見緑地",
+   "tags": [],
+   "headline": true,
+   "store": "日本マクドナルド株式会社（ハローワーク，求人番号 13080-88860261）",
+   "basket": "chain",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308088860261&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308088860261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 13080-88860261｜フロア担当／イオンモール鶴見緑地店",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“フロア担当／イオンモール鶴見緑地店 / 日本マクドナルド株式会社 / 大阪府大阪市鶴見区 / パート 求人数 2 / 賃金 1,177円〜1,177円 / 就業時間 （1）09時00分〜14時00分 （2）11時00分〜15時00分 （3）14時00分〜18時00分 / 休日 他 週休二日制：毎週 / マクドナルドでは多種多様な方（学生、主婦（夫）、シニア、外国 / 人等）が多数活躍しています。写真付きのマニュアルとカリキュラ / ムに沿ったサポートで安心してスタートでき”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）09:00〜14:00 / 他 週休二日制：毎週",
+     "per_day": 5.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "连锁锚点：店舗スタッフ／資材搬入／中津駅前",
+   "tags": [],
+   "headline": true,
+   "store": "日本マクドナルド株式会社マクドナルド中津駅前店（ハローワーク，求人番号 27020-55524261）",
+   "basket": "chain",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702055524261&kJKbn=1|1200.0",
+   "wage": {
+    "value": 1200.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2702055524261&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27020-55524261｜店舗スタッフ／資材搬入／中津駅前店／新規オープン",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-03",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“店舗スタッフ／資材搬入／中津駅前店／新規オープン / 日本マクドナルド株式会社マクドナルド中津駅前店 / 大阪府大阪市北区 / パート 求人数 2 / 賃金 1,200円〜1,200円 / 就業時間 （1）06時00分〜10時00分 / 休日 火木日祝 週休二日制：毎週 / マクドナルドでは多種多様な方（学生、主婦（夫）、シニア、外国 / 人等）が活躍しています。写真付のマニュアルとカリキュラムに沿 / ったサポートで安心してスタートできます。”",
+    "wage_posted": "1200 日元/小时",
+    "hours": {
+     "posted": "（1）06:00〜10:00 / 火木日祝 週休二日制：毎週",
+     "per_day": 4.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "连锁锚点：フロア担当／新大阪宮原店",
+   "tags": [],
+   "headline": true,
+   "store": "日本マクドナルド株式会社（ハローワーク，求人番号 13080-88863761）",
+   "basket": "chain",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308088863761&kJKbn=1|1200.0",
+   "wage": {
+    "value": 1200.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308088863761&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 13080-88863761｜フロア担当／新大阪宮原店",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“フロア担当／新大阪宮原店 / 日本マクドナルド株式会社 / 大阪府大阪市淀川区 / パート 求人数 2 / 賃金 1,200円〜1,200円 / 就業時間 （1）06時00分〜14時00分 （2）14時00分〜17時00分 （3）17時00分〜23時00分 / 休日 他 週休二日制：毎週 / マクドナルドでは多種多様な方（学生、主婦（夫）、シニア、外国 / 人等）が多数活躍しています。写真付きのマニュアルとカリキュラ / ムに沿ったサポートで安心してスタートできます。”",
+    "wage_posted": "1200 日元/小时",
+    "hours": {
+     "posted": "（1）06:00〜14:00 / 他 週休二日制：毎週",
+     "per_day": 8.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "连锁锚点：【急募】コンビニ業務全般（オープ",
+   "tags": [],
+   "headline": true,
+   "store": "株式会社浜口商店セブンイレブン（ハローワーク，求人番号 27030-26644961）",
+   "basket": "chain",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703026644961&kJKbn=1|1231.0",
+   "wage": {
+    "value": 1231.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2703026644961&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27030-26644961｜【急募】コンビニ業務全般（オープニングスタッフ募集）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-01",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“【急募】コンビニ業務全般（オープニングスタッフ募集） / 株式会社浜口商店セブンイレブン / 大阪府大阪市西区 / パート 求人数 15 / 賃金 1,231円〜1,231円 / 就業時間 交替制（シフト制） （1）06時00分〜09時00分 （2）09時00分〜14時00分 （3）22時00分〜06時00分 / 休日 他 週休二日制：その他 / ◆９月２４日オープン予定のセブンイレブン新店舗での業務です。 / ◎主な仕事内容：レジ接客、会計業務・商品陳列、補充、売場”",
+    "wage_posted": "1231 日元/小时",
+    "hours": {
+     "posted": "（1）06:00〜09:00 / 他 週休二日制：その他",
+     "per_day": 3.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "连锁锚点：調理および接客／ホテル近鉄ユニバ",
+   "tags": [],
+   "headline": true,
+   "store": "日本マクドナルド株式会社（ハローワーク，求人番号 13080-79607761）",
+   "basket": "chain",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308079607761&kJKbn=1|1250.0",
+   "wage": {
+    "value": 1250.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=1308079607761&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 13080-79607761｜調理および接客／ホテル近鉄ユニバーサル・シティ店",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-08-25",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“調理および接客／ホテル近鉄ユニバーサル・シティ店 / 日本マクドナルド株式会社 / 大阪府大阪市此花区 / パート 求人数 2 / 賃金 1,250円〜1,250円 / 就業時間 （1）07時00分〜10時00分 （2）09時00分〜17時00分 （3）18時00分〜23時00分 / 休日 他 週休二日制：毎週 / マクドナルドでは多種多様な方（学生、主婦（夫）、シニア、外国 / 人等）が多数活躍しています。写真付きのマニュアルとカリキュラ / ムに沿ったサポートで安心し”",
+    "wage_posted": "1250 日元/小时",
+    "hours": {
+     "posted": "（1）07:00〜10:00 / 他 週休二日制：毎週",
+     "per_day": 3.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：倉庫内作業",
+   "tags": [],
+   "headline": true,
+   "store": "共和運送株式会社（ハローワーク，求人番号 27070-15842761）",
+   "basket": "delivery",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707015842761&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2707015842761&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27070-15842761｜倉庫内作業",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-08-12",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“倉庫内作業 / 共和運送株式会社 / 大阪府東大阪市 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）04時50分〜05時50分 / 休日 日祝他 週休二日制：その他 / 大手出版物の配送業。大阪府下県内の一般書店・コンビニストアに / 本の配送している会社です。 / ＊ベルトコンベアーの上に荷物を載せるお仕事をお任せします。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）04:50〜05:50 / 日祝他 週休二日制：その他",
+     "per_day": 1.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：商品のピッキング作業（此花区北港",
+   "tags": [],
+   "headline": true,
+   "store": "大阪運輸株式会社（ハローワーク，求人番号 27040-20484461）",
+   "basket": "delivery",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704020484461&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704020484461&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27040-20484461｜商品のピッキング作業（此花区北港緑地２－１－３７）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-07",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“商品のピッキング作業（此花区北港緑地２－１－３７） / 大阪運輸株式会社 / 大阪府大阪市此花区 / パート 求人数 5 / 賃金 1,177円〜1,177円 / 就業時間 （1）09時00分〜18時00分 / 休日 日他 週休二日制：毎週 / ＊大手メーカーの酒類を１本単位で仕分けする作業です。 / ＊ハンディ（業務用のスマホのような端末）を使って”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）09:00〜18:00 / 日他 週休二日制：毎週",
+     "per_day": 9.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：商業施設ゴミ仕分け（ＨＯＯＰ）",
+   "tags": [],
+   "headline": true,
+   "store": "東洋テックビルサービス株式会社（ハローワーク，求人番号 27010-41719461）",
+   "basket": "delivery",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701041719461&kJKbn=1|1177.0",
+   "wage": {
+    "value": 1177.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2701041719461&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27010-41719461｜商業施設ゴミ仕分け（ＨＯＯＰ）",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-09",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“商業施設ゴミ仕分け（ＨＯＯＰ） / 東洋テックビルサービス株式会社 / 大阪府大阪市阿倍野区 / パート 求人数 1 / 賃金 1,177円〜1,177円 / 就業時間 （1）13時00分〜15時00分 / 休日 月水木日他 週休二日制：毎週 / 商業施設内のゴミ仕分け清掃 / ・ゴミの仕分けのみの作業となります。”",
+    "wage_posted": "1177 日元/小时",
+    "hours": {
+     "posted": "（1）13:00〜15:00 / 月水木日他 週休二日制：毎週",
+     "per_day": 2.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：夜間仕分け作業職（城東・パート）",
+   "tags": [],
+   "headline": true,
+   "store": "飛騨運輸株式会社（ハローワーク，求人番号 21040-05425661）",
+   "basket": "delivery",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2104005425661&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2104005425661&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 21040-05425661｜夜間仕分け作業職（城東・パート）兼業可",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-01",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“夜間仕分け作業職（城東・パート）兼業可 / 飛騨運輸株式会社 / 大阪府大阪市鶴見区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間 （1）02時30分〜07時30分 / 休日 月日祝他 週休二日制：毎週 / 到着した荷物の仕分けや積込み・荷卸し作業、ホームの整理などを / していただきます。 / ※Ｗワーク可”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）02:30〜07:30 / 月日祝他 週休二日制：毎週",
+     "per_day": 5.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：高齢者宅に夕食をお届けする配達ス",
+   "tags": [],
+   "headline": true,
+   "store": "医療法人隆星会（ハローワーク，求人番号 27040-20035861）",
+   "basket": "delivery",
+   "ingest_key": "hellowork|https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704020035861&kJKbn=1|1180.0",
+   "wage": {
+    "value": 1180.0,
+    "unit": "日元/小时",
+    "source_url": "https://www.hellowork.mhlw.go.jp/kensaku/GECA110010.do?screenId=GECA110010&action=kyujinhyoBtn&kJNo=2704020035861&kJKbn=1",
+    "source_name": "ハローワーク｜求人番号 27040-20035861｜高齢者宅に夕食をお届けする配達スタッフ（週２日～）平野南",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-01",
+    "confidence": "listing",
+    "contact": "ハローワーク窓口/オンライン自主応募",
+    "note": "帖子原文：“高齢者宅に夕食をお届けする配達スタッフ（週２日～）平野南 / 医療法人隆星会 / 大阪府大阪市平野区 / パート 求人数 1 / 賃金 1,180円〜1,180円 / 就業時間 （1）14時30分〜18時00分 / 休日 他 週休二日制：毎週 / ＊１４：３０～１８：００のお仕事！ / ＊経験不問！ＷワークＯＫ！ミドル・シニア活躍中！”",
+    "wage_posted": "1180 日元/小时",
+    "hours": {
+     "posted": "（1）14:30〜18:00 / 他 週休二日制：毎週",
+     "per_day": 3.5,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
    }
   }
  ],
@@ -593,5 +1538,14 @@
    "note": "咖喱饭一盘（外食）。 总务省零售物价统计，只做对照，待换成 Uber Eats/出前館 梅田周边实价。",
    "label": "外食咖喱饭一盘（统计对照）"
   }
+ },
+ "jobs_ingest": {
+  "updated": "2026-09-15",
+  "raw_rows": 247,
+  "unique": 138,
+  "dup_manual": 0,
+  "side": 0,
+  "picked": 35,
+  "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
  }
 }

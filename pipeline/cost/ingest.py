@@ -28,7 +28,8 @@ for f in sorted(glob.glob(os.path.join(ROOT,'raw',CITY,'*','jobs_raw.jsonl'))):
 best={}
 for r in rows:
     # 同一电话 + 同篮子 + 同工资 = 同一帖（群里转发、公众号两天两发都会重）；没电话再退到雇主/地点
-    key=((r.get('contact') or r.get('employer') or r.get('location_phrase') or '').strip(), r.get('basket'), r.get('wage_value'), r.get('wage_unit'))
+    ph=r.get('contact') if re.search(r'\d{3}|微信',r.get('contact') or '') else None      # 「站内投递」「ハローワーク窓口」不是身份，别把整个来源折成一条
+    key=((ph or r.get('employer') or r.get('location_phrase') or r.get('source_url') or '').strip(), r.get('basket'), r.get('wage_value'), r.get('wage_unit'))
     if key not in best or (r.get('posted_at','') > best[key].get('posted_at','')): best[key]=r
 uniq=list(best.values())
 cf=os.path.join(ROOT,'cities',f'{CITY_FILE}.json'); d=json.load(open(cf,encoding='utf-8')); CUR=CUR_ZH.get(d.get('currency','CNY'),d.get('currency',''))
