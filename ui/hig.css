@@ -444,7 +444,8 @@ a.row:active,button.row:active{background:var(--fill)}
   :root:not([data-theme="light"]) .sheet .stat,:root:not([data-theme="light"]) .sheet .mcard{background:rgba(255,255,255,.03)}
   :root:not([data-theme="light"]) .sheet .mrow:hover{background:rgba(255,255,255,.06)}
   :root:not([data-theme="light"]) .sheet .mrow:active,:root:not([data-theme="light"]) .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
-  :root:not([data-theme="light"]) .sheet .seg,:root:not([data-theme="light"]) .sheet.split #card .actions{background:rgba(255,255,255,.1)}
+  :root:not([data-theme="light"]) .sheet .seg,:root:not([data-theme="light"]) .sheet.split #card .actions .btn:not(a){background:rgba(255,255,255,.1)}
+  :root:not([data-theme="light"]) .sheet.split #card .actions{background:none}
 }
 @media (min-width: 900px) and (pointer: fine){
   :root[data-theme="dark"] .sheet{background:rgba(12,12,12,.85);-webkit-backdrop-filter:blur(80px) saturate(200%);backdrop-filter:blur(80px) saturate(200%)}
@@ -452,7 +453,8 @@ a.row:active,button.row:active{background:var(--fill)}
   :root[data-theme="dark"] .sheet .stat,:root[data-theme="dark"] .sheet .mcard{background:rgba(255,255,255,.03)}
   :root[data-theme="dark"] .sheet .mrow:hover{background:rgba(255,255,255,.06)}
   :root[data-theme="dark"] .sheet .mrow:active,:root[data-theme="dark"] .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
-  :root[data-theme="dark"] .sheet .seg,:root[data-theme="dark"] .sheet.split #card .actions{background:rgba(255,255,255,.1)}
+  :root[data-theme="dark"] .sheet .seg,:root[data-theme="dark"] .sheet.split #card .actions .btn:not(a){background:rgba(255,255,255,.1)}
+  :root[data-theme="dark"] .sheet.split #card .actions{background:none}
 }
 /* ---------- 11c. 首页 Mac = Kit 侧栏行 + Group Box（KIT-INVENTORY F2–F4）：行 Large 40、图标 24 @14、标题 Regular 13 + 副题 11、无分隔线无箭头；分组 = Group Box r12 黑 3%；段头 18 / Bold 11 ---------- */
 @media (min-width: 900px) and (pointer: fine){
