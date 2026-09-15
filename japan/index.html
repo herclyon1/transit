@@ -138,6 +138,15 @@ const muniOf=p=>{
   return MUNI_NAMES[code]||null;
 };
 
+// GitHub Pages 的 CDN（Fastly）对首次未缓存的对象会无视 Range 回 200 整文件（jp.pmtiles、ea_lakes 都撞过：桌面 Chrome 首访
+// 整张日本图空白，pmtiles.js 报「Server returned no content-length header… HTTP Byte Serving」；刷新后 206 正常，Safari 没复现）。
+// 包一层：抛这个错就等 500 ms 重发一次（第二次命中 CDN 缓存就是 206），连续两次 200 才真报错。（maa 会话 2026-09-15 发现）
+{ const orig=pmtiles.FetchSource.prototype.getBytes;
+  pmtiles.FetchSource.prototype.getBytes=async function(off,len,signal,etag){
+    try{ return await orig.call(this,off,len,signal,etag); }
+    catch(e){ if(!/Byte Serving/.test((e&&e.message)||'')||(signal&&signal.aborted)) throw e;
+      await new Promise(r=>setTimeout(r,500));
+      return orig.call(this,off,len,signal,etag); } }; }
 const proto=new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles",proto.tile);
 // 瓦片和字形统一放在仓库根的 tiles/，页面在子目录里，所以按页面 URL 解析成绝对路径
