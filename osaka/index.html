@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="../ui/hig.css">
 <style>
 /* 界面照地图 App（HIG Maps / Sheets）：地图全屏，左上玻璃圆钮回目录，底部非模态 Sheet 装全部控制项，
-   宽屏变左侧 320 侧栏。主题跟随系统（HIG Settings：不做冗余的明暗开关）；地理院没有暗色瓦片，
+   Mac = Kit Windows › Left Pane 256 侧栏 + 点车站/面块弹出的 Utility Panel 280（.sheet.split，ui/hig.css 11b）。
+   控件一律用 ui/hig.css 的 Kit 类（KIT-MAP.md），本页只写位置/布局和地图上的内容（标记、色样）。主题跟随系统（HIG Settings：不做冗余的明暗开关）；地理院没有暗色瓦片，
    深色模式用 MapLibre raster 画笔把底图反色（brightness-min 1 / max 0 + hue-rotate 180），不碰车站点。尺寸出处见 ../DESIGN-HIG.md。 */
 :root{--acc:#ff9500;--accTxt:#c25700;--accfg:#fff;--sub:var(--ink-2);--fg:var(--ink);--bg:var(--bg);--line:var(--line);
       --pop:var(--bg-elev);--popfg:var(--ink);--popdim:var(--ink-2);--track:#6b7480;--trackop:0.55;--dim:#aab1ba;--dimbd:#868d96;--ring:#ffffff;--shadow:0 1px 3px #0003;--btn:var(--fill)}
@@ -23,6 +24,7 @@ html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#ff
 .maplibregl-map{font:inherit}
 .maplibregl-ctrl-bottom-right{bottom:calc(44dvh + 8px)}
 @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
+@media (pointer:coarse){.maplibregl-ctrl-group{display:none}}   /* KIT-MAP：iOS 地图 App 没有 ± 钮（捏合缩放）；Mac 保留（Kit Toolbar 玻璃钮） */
 .maplibregl-ctrl-attrib{font-size:.6471em}
 .maplibregl-canvas:focus{outline:none}
 /* 枢纽 = 地图 App 里带名字的车站图标：圆角方块 + 白色电车符号，13 半粗标签带白描边 */
@@ -54,20 +56,20 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   :root:not([data-theme="light"]) .hpop .maplibregl-popup-content{background:rgba(40,40,40,.7);background-image:none}
   :root:not([data-theme="light"]) .hpop .maplibregl-popup-tip{border-top-color:rgba(40,40,40,.7);border-bottom-color:rgba(40,40,40,.7)}
 }
-.tierpop b{font-size:1.1em} .tierpop .t{display:inline-block;padding:0 6px;border-radius:999px;color:#fff;font-weight:700;margin-left:6px}
 .warn{color:var(--red)}
 .tsw{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 2px 0 6px;vertical-align:-1px}
 .tsw:first-child{margin-left:0}
-/* 图例（可达枢纽）= 地图 App 搜索结果行：34 圆图标就是色样 */
-#lg .mrow{min-height:52px;padding:9px 16px}
-#lg .mrow .ico{border:1px solid #0003}
+/* 图例（可达枢纽 / 居住等级）= Kit Lists › Rows › Default 52（一行字，34 圆图标就是色样）；图例不是按钮，不要按下态和悬停态 */
+#lg .mrow,#tiersLg .mrow{min-height:52px;padding:9px 16px;cursor:default}
+#lg .mrow .ico,#tiersLg .mrow .ico{border:1px solid #0003}
+#lg .mrow .name,#tiersLg .mrow .name{font-weight:400}
 /* 桌面 = macOS 27 UI Kit 侧栏行 Large 40（ui/hig.css 11b；NUMBERS.md「macOS 27 UI Kit」） */
-@media (min-width:900px) and (pointer:fine){ #lg .mrow{min-height:40px;padding:5px 4px} }
-.mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-#tiersLg{padding-top:10px}
-.mcard .r .k .acc{color:var(--acc)}
+@media (min-width:900px) and (pointer:fine){ #lg .mrow,#tiersLg .mrow{min-height:40px;padding:5px 4px} #lg .mrow:hover,#tiersLg .mrow:hover{background:none} }
+/* 宽屏触屏（iPad）：地点卡片顶替侧栏内容；Mac（.sheet.split）卡片是贴在侧栏右边的 Utility Panel，侧栏内容留着 */
 @media (min-width:900px){ .sheet:has(#card:not([hidden])) > .body{display:none} #card .body{padding-top:0} }
-#card .mcard .r .k .tsw{margin:0 8px 0 0;width:12px;height:12px;border-radius:50%;vertical-align:-1px}
+@media (min-width:900px) and (pointer:fine){ .sheet.split:has(#card:not([hidden])) > .body{display:block} }
+#card .mcard .r .tsw{margin:0 8px 0 0;width:12px;height:12px;border-radius:50%;vertical-align:-1px}
+#card .mcard .r .v .tsw{margin:0 6px 0 0}
 #card .mcard .r .v.dimv{color:var(--ink-3)}
 </style>
 </head>
@@ -78,30 +80,34 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   <span class="spacer"></span>
   <button class="btn-glass glass" id="optBtn" type="button" aria-label="图层"><i class="sf" data-sf="square.stack.3d.up"></i></button>
 </div>
-<aside class="sheet glass panel-wide" id="sheet" aria-label="控制项">
+<aside class="sheet glass split" id="sheet" aria-label="控制项">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim" id="osakaSub">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
-    <!-- 主抽屉只放「结果」：阈值值卡（形取自健身统计卡，滑块取 Kit）、筛选胶囊、图例。开关类选项在右上「图层」小 Sheet 里 -->
-    <div class="stats" id="bar" style="padding-top:2px">
-      <div class="stat wide">
-        <div class="t">到枢纽的时间<i class="sf" data-sf="clock"></i></div>
-        <div class="s">阈值内可达 ≥N 个枢纽的车站才画</div>
-        <div class="n" id="thv">25 分</div>
-        <div class="r slider" style="padding:8px 0 0;min-height:0"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
-      </div>
+    <!-- 主抽屉只放「结果」：阈值组（KIT-MAP：Lists › Grouped Table View / Mac Forms：标题行 trailing 显示阈值 + 滑块行 + 分段行）、图例。开关类选项在右上「图层」小 Sheet 里 -->
+    <div class="mcard" id="bar" style="margin-top:2px">
+      <div class="r"><span class="k">到枢纽的时间</span><span class="v ink num" id="thv">25 分</span></div>
+      <div class="r slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
+      <div class="r"><span class="k">可达枢纽数</span><div class="seg" id="minhub" role="group" aria-label="可达枢纽数"><button type="button" data-n="1" aria-pressed="true">≥1</button><button type="button" data-n="2" aria-pressed="false">≥2</button><button type="button" data-n="3" aria-pressed="false">≥3</button><button type="button" data-n="4" aria-pressed="false">全4</button></div></div>
     </div>
-    <div class="chips" id="minhub" role="group" aria-label="可达枢纽数" style="margin-top:12px"><button data-n="1" class="on" aria-pressed="true">≥1 枢纽</button><button data-n="2" aria-pressed="false">≥2</button><button data-n="3" aria-pressed="false">≥3</button><button data-n="4" aria-pressed="false">全4</button></div>
-    <p class="mnote" id="stat"></p>
-    <p class="mnote" id="areastat"></p>
+    <p class="mfoot"><span id="stat">载入中…</span><br>只画阈值内可达 ≥N 个枢纽的车站</p>
+    <p class="mfoot" id="areastat" hidden></p>
     <h2 class="mh">可达枢纽</h2>
     <div class="mlist" id="lg"></div>
-    <div id="tiersLg" class="mnote" hidden>
-      <i class="tsw" style="background:#3fa57d"></i>S 首选 <i class="tsw" style="background:#8fbf54"></i>A 好
-      <i class="tsw" style="background:#e3c24e"></i>B 普通 <i class="tsw" style="background:#e08b45"></i>C 扣分
-      <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
-    <div class="mcard" style="margin-top:12px"><div class="txt" id="note">载入中…</div></div>
-    <p class="mnote">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
+    <p class="mfoot">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
+    <div id="tiersLg" hidden>
+      <h2 class="mh">居住等级</h2>
+      <div class="mlist">
+        <div class="mrow no-press"><span class="ico" style="background:#3fa57d"></span><span class="lab"><div class="name">S 首选</div></span></div>
+        <div class="mrow no-press"><span class="ico" style="background:#8fbf54"></span><span class="lab"><div class="name">A 好</div></span></div>
+        <div class="mrow no-press"><span class="ico" style="background:#e3c24e"></span><span class="lab"><div class="name">B 普通</div></span></div>
+        <div class="mrow no-press"><span class="ico" style="background:#e08b45"></span><span class="lab"><div class="name">C 扣分</div></span></div>
+        <div class="mrow no-press"><span class="ico" style="background:#d05252"></span><span class="lab"><div class="name">D 不建议</div></span></div>
+      </div>
+      <p class="mfoot">治安×便利×环境，2026 粗略版，点区块看说明</p>
+    </div>
+    <h2 class="mh">说明</h2>
+    <div class="mcard"><div class="txt" id="note">载入中…</div></div>
   </div>
   <!-- 地点卡片（地图 App 点 POI = 叠放的第二张 Sheet，壳的 HIGSheet.stack）：车站 / 等级面块 -->
   <div id="card" hidden>
@@ -116,7 +122,10 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">图层</div></div><span class="slot"><button class="btn-glass fill" id="optClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
     <div class="mcard">
-      <label class="r"><span class="k">⚡ 低频线（每小时不到 3 班的线和优等列车）</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+      <label class="r"><span class="k">⚡ 低频线</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+    </div>
+    <p class="mfoot">低频线 = 每小时不到 3 班的线和优等列车；打开后它们也算进到达时间，含等车时间</p>
+    <div class="mcard">
       <label class="r"><span class="k">枢纽标记</span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
       <label class="r"><span class="k">面覆盖（＋步行）</span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
       <div id="walkWrap" hidden>
@@ -188,7 +197,7 @@ const $ = id => document.getElementById(id);
 
 // 「图层」小 Sheet：也走 HIG.sheet（能拖、抓手能点，#32）；打开它时先收掉地点卡片，别两张叠着互相盖（#31）
 let OPT=null;
-$('optBtn').addEventListener('click',()=>{ if(APP.open) APP.dismiss(); $('optSheet').hidden=false; $('sheet').hidden=true; HIG.sf();
+$('optBtn').addEventListener('click',()=>{ if(APP.open) APP.dismiss(); $('optSheet').hidden=false; if(!APP.wideSplit()) $('sheet').hidden=true; HIG.sf();   // Mac：Kit Popover 从工具条钮下弹出，不盖侧栏，侧栏留着
   if(!OPT && window.HIG && HIG.sheet){ OPT=HIG.sheet($('optSheet'),{initial:'medium', detents:['medium','large']}); } else if(OPT && OPT.sim){ OPT.sim.layout(); OPT.set('medium'); } });
 $('optClose').addEventListener('click',()=>{ $('optSheet').hidden=true; $('sheet').hidden=false; });
 for(const id of ['th','wk']){ const r=$(id); const f=()=>r.style.setProperty('--p',((r.value-r.min)/(r.max-r.min)*100)+'%'); r.addEventListener('input',f); f(); }
@@ -208,16 +217,16 @@ const APP = HIGShell.create({initial:'medium', attribution:'<a href="https://map
   // 地图 App 点 POI = 开叠放卡片，不是气泡（maa 09-15）：车站 → 标题站名、副题线路/最短、正文四枢纽时间；等级面块 → 名称 + 等级 + 说明
   onDismiss(){ showWalkOne(null); },
   card(item){ if(POP){ POP.remove(); POP=null; }
-    if(item.kind==='station'){ const s=item.s, low=$('lowfreq').checked, th=+$('th').value, t=low?s.t_low:s.t_default; const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity]));
+    if(item.kind==='station'){ const s=item.s, low=$('lowfreq').checked, th=+$('th').value, t=low?s.t_low:s.t_default;
       showWalkOne(s);
-      return {title:s.name, sub:[(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '), html:stationCard(s,t,low,th)}; }
+      return {title:s.name, sub:cardSub(s,t), html:stationCard(s,t,low,th)}; }
     showWalkOne(null);
-    if(item.kind==='tier'){ const p=item.p; return {title:p.name, sub:(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier,
-      html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v"><span class="tag" style="background:${tcol(p.tier)};color:#fff">${p.tier}</span></span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mnote">治安×便利×环境，2026 粗略版</p>`}; }
+    if(item.kind==='tier'){ const p=item.p; const sub=(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier; return {title:p.name, sub,
+      html:`${APP.wideSplit()?'<h2 class="mh">'+sub+'</h2>':''}<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v ink"><i class="tsw" style="background:${tcol(p.tier)}"></i>${p.tier}</span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mfoot">治安×便利×环境，2026 粗略版</p>`}; }
     return null; }});
 const map = APP.map; window.map = map;
 // 卡片开着时地图可见区：窄屏卡片占下 44%，宽屏侧栏+面板在左；flyTo 用 padding 把目标放进可见区（#36）
-function cardPad(){ return APP.wide ? {left:(APP.wideSplit?680:280)+40, top:40, right:40, bottom:40} : {top:40, left:20, right:20, bottom:Math.round(innerHeight*0.44)+20}; }
+function cardPad(){ return APP.wide() ? {left:(APP.wideSplit()?552:464)+40, top:40, right:40, bottom:40} : {top:40, left:20, right:20, bottom:Math.round(innerHeight*0.44)+20}; }
 const zL = () => map.getZoom()+1;              // Leaflet 口径的 zoom
 const css = c => 'rgb('+c[0]+','+c[1]+','+c[2]+')';
 const EMPTY = {type:'FeatureCollection',features:[]};
@@ -413,7 +422,7 @@ const area = {
           for(let h=0;h<4;h++){ const tv = t[h]; if(tv===null || tv>A) continue; const v = tv + walk; if(v < best[base+h]) best[base+h] = v; } } }
     }
     const ast = $('areastat');
-    if(ast) ast.textContent = (WALK && noPoly>0) ? '面覆盖: '+noPoly+' 站无路网等时圈，用直线圆代替' : (!WALK ? (walkFailed ? '面覆盖: 路网等时圈没载入（网络？），先以直线圆显示，再开一次面覆盖会重试' : '面覆盖: 路网等时圈载入中…（先以直线圆显示）') : '');
+    if(ast){ ast.textContent = (WALK && noPoly>0) ? '面覆盖: '+noPoly+' 站无路网等时圈，用直线圆代替' : (!WALK ? (walkFailed ? '面覆盖: 路网等时圈没载入（网络？），先以直线圆显示，再开一次面覆盖会重试' : '面覆盖: 路网等时圈载入中…（先以直线圆显示）') : ''); ast.hidden=!ast.textContent; }
     const terr = $('terr').checked; const ALPHA = terr ? 235 : 175;
     const img = ctx.createImageData(W,H); const px = img.data; const cols = HUBS.map(h=>HUE[h]);
     const who = new Int8Array(W*H).fill(-1); let covered = 0;
@@ -492,22 +501,25 @@ function openPopup(lnglat, html, opts={}){
   return POP;
 }
 map.on('click', e=>{ if(Date.now() - lastLongPress > 700 && POP && !map.queryRenderedFeatures(e.point,{layers:['stations-hit','tiers-fill'].filter(l=>map.getLayer(l))}).length){ POP.remove(); POP=null; } });
+function cardSub(s,t){ const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity])); return [(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '); }
 function stationCard(s,t,low,th){
   let h='<div class="mcard">';
-  h+='<div class="r"><span class="k">步行范围</span><span class="v hint">'+((WALK&&WALK[s.station_id])?'地图上蓝色 = 从本站步行 5 / 10 / 15 / 20 分能到的范围（真实路网）':(walkFailed?'路网等时圈没载入':'路网等时圈载入中…'))+'</span></div>';
+  if(APP.wideSplit()) h='<h2 class="mh">'+cardSub(s,t)+'</h2>'+h;   // Mac：Kit 面板标题栏只放站名（hig.css 11b），线路/最短挪到正文段头
+  h+=(WALK&&WALK[s.station_id]) ? '<div class="r"><span class="k">步行范围<div class="hint">蓝色圈 = 步行 5/10/15/20 分，按真实路网</div></span></div>'
+    : '<div class="r"><span class="k">步行范围</span><span class="v none">'+(walkFailed?'路网没载入':'载入中…')+'</span></div>';
   HUBS.forEach((hub,i)=>{ const v=t[i], inTh=v!==null && v<=th; let mark='';
     if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
     h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
   h+='</div>';
-  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mnote">日中3本/h以上の系統が無い駅。既定ビューでは不可达、「⚡ 低频线」を入れると到達可能</p>';
-  h+='<p class="mnote">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 同等级中位数，误差可能较大</p>';
+  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mfoot">这站白天没有每小时 3 班以上的线路：默认视图里算不可达，打开「⚡ 低频线」才算得到。</p>';
+  h+='<p class="mfoot">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 该线没有实测，速度按同等级线路的中位数借用，误差比实测和锚定大</p>';
   return h;
 }
 
 function buildLegend(){
   const lg=$('lg'); lg.innerHTML='';
-  const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow no-press'; r.style.cursor='default';   // 图例不是按钮（#38）
-    r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name" style="font-weight:400'+(muted?';color:'+cssvar('--sub'):'')+'">'+txt+'</div></span>'; lg.appendChild(r); };
+  const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow no-press';   // 图例不是按钮（#38）
+    r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name"'+(muted?' style="color:'+cssvar('--sub')+'"':'')+'>'+txt+'</div></span>'; lg.appendChild(r); };
   HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
   add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '更大、白圈更粗 = 四枢纽全覆盖');
   add('background:'+cssvar('--sub'), '点越大 = 阈值内可达枢纽越多');
@@ -604,7 +616,7 @@ $('wk').addEventListener('input',()=>{ $('wkv').textContent = $('wk').value+' �
 $('lowfreq').addEventListener('change',redrawAll);
 $('areaOn').addEventListener('change',e=>{
   $('walkWrap').hidden = !e.target.checked;
-  if(e.target.checked){ ensureWalk(); area.add(); } else { area.remove(); $('areastat').textContent = ''; }
+  if(e.target.checked){ ensureWalk(); area.add(); } else { area.remove(); $('areastat').textContent = ''; $('areastat').hidden = true; }
   if(DATA) render();   // 势力范围モードの点表示は面の有無に連動する
 });
 // 居住等级面层：治安×环境的 S–D 分区（geometry 见 data/tiers.geojson 的 meta）。GL 图层在车站之下，车站照样能点

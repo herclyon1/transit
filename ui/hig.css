@@ -288,15 +288,18 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet.split #card .head .tt .t-sub{display:none}
   /* 关闭钮 = Kit Utility Panel › Stoplights 44×10：三个 10 圆 @0/17/34，关 #ff5c60、最小化 #fac800、缩放 #35c759；网页只有「关」可用，另外两个按 Kit 不可用态灰 15%；悬停红点显示 ×（Kit 悬停带符号）。
      所有面板/侧栏头的关闭钮（.btn-glass.fill：cost 地点面板、大阪图层弹出窗、学習/クイズ 详情卡）同一套；点击区 44×24 */
-  .sheet .head:has(.btn-glass.fill){flex-direction:row-reverse}
-  .sheet .head .slot:has(.btn-glass.fill){width:52px;height:24px;justify-content:flex-start}
-  .sheet .head .btn-glass.fill{width:44px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
-  .sheet .head .btn-glass.fill .sf{display:none}
-  .sheet .head .btn-glass.fill::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
+  .sheet.split #card .head:has(.btn-glass.fill){flex-direction:row-reverse}
+  .sheet.split #card .head .slot:has(.btn-glass.fill){width:52px;height:24px;justify-content:flex-start}
+  .sheet.split #card .head .btn-glass.fill{width:44px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
+  .sheet.split #card .head .btn-glass.fill .sf{display:none}
+  /* 红绿灯只属于窗口和 Utility Panel（Kit Titlebars › Window Controls / Utility Panel › Stoplights）；侧栏内的「关闭详情」和 Popover 的关闭不是窗口控件，用 Kit 工具条玻璃钮 Medium 24（内符号 20） */
+  .sheet:not(.split) .head .btn-glass.fill,.sheet.opt .head .btn-glass.fill{width:24px;height:24px;min-width:0;padding:0;border-radius:12px;background:rgba(0,0,0,.06);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .sheet:not(.split) .head .btn-glass.fill .sf,.sheet.opt .head .btn-glass.fill .sf{width:12px;height:12px;display:block}
+  .sheet.split #card .head .btn-glass.fill::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
      font:700 9px/10px -apple-system,sans-serif;color:rgba(0,0,0,.6);text-align:center}
-  .sheet .head .btn-glass.fill::after{content:"";position:absolute;left:17px;top:7px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:17px 0 0 rgba(0,0,0,.15)}
-  .sheet .head .btn-glass.fill:hover::before{content:"×"}
-  .sheet .head .btn-glass.fill:active::before{background:#e0443e}
+  .sheet.split #card .head .btn-glass.fill::after{content:"";position:absolute;left:17px;top:7px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:17px 0 0 rgba(0,0,0,.15)}
+  .sheet.split #card .head .btn-glass.fill:hover::before{content:"×"}
+  .sheet.split #card .head .btn-glass.fill:active::before{background:#e0443e}
   .sheet.split #card .body{padding-top:0}
   /* 动作行：iOS 的胶囊按钮在 Mac 换成 Kit Segmented Controls › Regular 24 r6（轨道黑 8%，段 Medium 13，无内边），只放做了的功能 */
   .sheet.split #card .actions{gap:0;margin:8px 14px 0;padding:0;border-radius:6px;background:rgba(0,0,0,.08)}
@@ -320,14 +323,15 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .mcard .hdr{padding:8px 12px 2px;line-height:1.2308em}
   /* KIT-MAP：分组卡片里的行 = macOS 27 Kit › Forms › Row：文字行 40（文字 16 高 @12）、带 24 控件 48、两行 56；分隔 1px 黑 5% 内缩 10 */
   .sheet .mcard .r{min-height:40px;padding:12px 10px;gap:8px}
-  .sheet .mcard .r:has(.sw,.seg,.pop,.btn,input[type=range]){min-height:48px}
-  .sheet .mcard .r:has(.hint){min-height:56px;padding:12px 10px}
+  .sheet .mcard .r:has(.sw,.seg,.pop,.btn,.disc,input[type=range]),.sheet .mcard .r.disc{min-height:48px}
+  .sheet .mcard .r:has(.hint),.sheet .mcard .r:has(.hint):has(.sw,.seg,.pop,.btn,input[type=range]){min-height:56px;padding:12px 10px}   /* 两行行 56 压过带控件的 48（:has 特异度） */
   .sheet .mcard .r + .r::before,.sheet .mcard .src + .r::before{left:10px;right:10px;background:rgba(0,0,0,.05)}
-  .sheet .mfoot{padding:6px 10px;min-height:0;font-size:.8462em;line-height:1.2727em}   /* Subheadline 11 secondary */
+  .sheet .mfoot{margin:0 14px;padding:6px 10px;min-height:0;font-size:.8462em;line-height:1.2727em}   /* 和 .sheet .mcard 的 14 对齐 */   /* Subheadline 11 secondary */
   .sheet .mh.prominent{font-size:1em;line-height:1.2308em;font-weight:700;padding:14px 14px 6px}   /* Sidebars › Headers › Large：Bold 13 */
   .sheet .mh .act{font-size:.8462em}
   .sheet .r.disc::after{width:20px;height:20px;border-radius:5px;background:rgba(0,0,0,.08);-webkit-mask:none;mask:none;position:relative}   /* Disclosure Buttons › Small 20 r5 */
-  .sheet .r.disc::before{content:"";position:absolute;right:15px;width:10px;height:10px;background:var(--ink);-webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat}
+  .sheet .mcard .r + .r.disc{border-top:1px solid rgba(0,0,0,.05)}   /* 可展开行的分隔线改 border，::before 留给箭头 */
+  .sheet .mcard .r + .r.disc::before,.sheet .mcard .r.disc::before,.sheet .r.disc::before{content:"";position:absolute;right:15px;left:auto;top:auto;height:10px;width:10px;background:var(--ink);   /* 压过分隔线的 ::before（同特异度，写在后面） */-webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat}
   details[open] > .sheet .r.disc::before,.sheet details[open] > .r.disc::before,.sheet .r.disc[aria-expanded="true"]::before{-webkit-mask-image:url(sf/chevron.up.png);mask-image:url(sf/chevron.up.png)}
   .sheet .r .pop{height:24px;padding:0 8px 0 10px;border-radius:6px;background:rgba(0,0,0,.08);color:var(--ink);font-weight:500}   /* Pop-up Buttons › Regular 24 r6 */
   .sheet .r .pop::after{width:10px;height:10px;background:var(--ink)}
@@ -399,11 +403,11 @@ a.row:active,button.row:active{background:var(--fill)}
   html .maplibregl-ctrl-attrib.maplibregl-compact{min-height:24px;border-radius:12px;margin:0} html .maplibregl-ctrl-attrib-button{width:24px;height:24px}
   html .maplibregl-ctrl-attrib{font-size:.7692em;line-height:1.3em}
   /* C1 第二张 Sheet（大阪「图层」）= Kit Popovers：从工具条钮下弹出，r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%、箭头 46×10；头同面板头（24，红灯关闭） */
-  .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
+  html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
      -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
   .sheet.opt::before{content:"";position:absolute;top:-10px;right:13px;width:46px;height:10px;background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
   .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center;flex-direction:row-reverse}
-  .sheet.opt .head .slot{width:52px;height:24px} .sheet.opt .head .tt{padding:0} .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}
+  .sheet.opt .head .slot{width:52px;height:24px} .sheet.opt .head .tt{padding:0} html .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}   /* html 前缀：第 14 节的 iOS 规则在后面，同权重会盖掉 */
   /* 表格（四档/分区/工时；Kit 无表格 → HIG Tables）：字号 Body 13，单元格内边 4 */
   html .sheet table{font-size:1em;line-height:1.2308em} html .sheet table th,html .sheet table td{padding:4px 6px 4px 0}   /* html 前缀：页内 table.tiers{.7647em} 同权重在后面 */
   html .hpop .maplibregl-popup-content{font-size:1em;line-height:1.2308em}   /* 大阪车站弹出窗（Kit Popover）里的表：Body 13，不随手机的 .7647em */
@@ -521,8 +525,13 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .mcard .r{position:relative;display:flex;align-items:center;gap:12px;min-height:52px;padding:15px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
 .mcard .r + .r::before,.mcard .src + .r::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
 .mcard .r .k{flex:1 1 auto;min-width:0}
-.mcard .r .k .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);font-weight:400}   /* Large 68：Subtitle Regular 15/18 @36 */
+.mcard .r .k .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* Large 68：Subtitle Regular 15/18 @36，一行，放不下省略（多行就不是 Kit 行了） */
+.mcard .r .k{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* 标题一行省略；.hint 自己是块，各自省略 */
+.mcard .r > .sf{flex:none;width:.75em;height:.75em;color:var(--ink-3)}   /* trailing Symbol 配件（􀰑 等）独立一格，不跟在文字后面 */
 .mcard .r:has(.hint){min-height:68px;padding:14px 16px}
+.mcard .r:has(.sw){padding-top:12px;padding-bottom:12px}   /* Accessories - Trailing › Toggle：28 高在 52 行里上下 12 */
+.mcard .r:has(.seg){padding-top:10px;padding-bottom:10px}   /* Small 分段 32 在 52 行里上下 10 */
+.mcard .r:has(.hint):has(.sw,.seg){min-height:68px}
 .mcard .r .v{color:var(--ink-2)}   /* trailing Detail = secondaryLabel */
 .mcard .r .v b,.mcard .r .v.ink{color:var(--ink)}
 /* 可展开行：Accessories - Trailing › Disclosure Collapsed 􀆊 / Expanded 􀆈（Semibold 17，8 宽，距边 16） */
@@ -545,6 +554,7 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 .mlist + .mlist{margin-top:13px}
 .mrow{position:relative;display:flex;align-items:center;gap:11px;min-height:68px;padding:14px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left;cursor:pointer}
 .mrow + .mrow::before{content:"";position:absolute;left:61px;right:16px;top:0;height:1px;background:var(--line)}
+.mrow:not(:has(.ico)) + .mrow:not(:has(.ico))::before{left:16px}   /* 没有前置图标的行（来源列表）：分隔线内缩 16（Kit Rows 无 accessory） */
 .mrow .ico{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:var(--fill);color:#fff;font-size:1.0588em;line-height:1}
 .mrow .ico .sf{width:1em;height:1em}
 .mrow .lab{flex:1 1 auto;min-width:0}
@@ -630,3 +640,8 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 .sheet.opt{height:auto !important;max-height:60dvh}
 .sheet.opt .head{padding:0 15px 10px}
 .sheet.opt .head .tt .t-head{font-size:1em;font-weight:600;line-height:1.2941em;padding-top:12px}
+/* A25 底图署名 ⓘ（手机）= Kit Toolbars › Buttons 44 玻璃圆钮；Mac 在 11b 里是 24 */
+.maplibregl-ctrl-attrib.maplibregl-compact{box-sizing:border-box;width:44px;height:44px;min-height:44px;padding:0;border-radius:22px;background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge);margin:0 16px 16px 0}
+.maplibregl-ctrl-attrib.maplibregl-compact-show{width:auto;height:auto;padding:12px 48px 12px 16px;border-radius:22px}   /* 展开：文字在左，44 钮在右 */
+.maplibregl-ctrl-attrib-button{width:44px;height:44px;border-radius:50%;background-repeat:no-repeat;background-position:center;background-size:24px 24px;background-color:transparent}
+.maplibregl-ctrl-attrib.maplibregl-compact-show{border-radius:22px}

@@ -9,6 +9,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <title>薪资 · 购买力</title>
+<meta name="description" content="时薪、房租、通勤、生活费，换算成每月要打的工时。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2334c759'/><text x='32' y='44' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff' font-family='-apple-system,sans-serif'>¥</text></svg>">
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
 <link rel="stylesheet" href="../ui/hig.css">
@@ -23,41 +24,22 @@
 .maplibregl-ctrl-attrib{font-size:.6471em}
 .maplibregl-ctrl-bottom-right{bottom:calc(44dvh + 8px)}
 @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
-/* 列表行右侧：数值 17 半粗 + 胶囊（股市行的形） */
-.mrow .val{display:flex;align-items:center;gap:6px;flex:none;font-variant-numeric:tabular-nums}
+/* 列表行右侧：数值 17 半粗 + 第二行小字（股市行的形；Kit Rows › Large 的 trailing Detail 位） */
+.mrow .val{display:flex;flex-direction:column;align-items:flex-end;gap:0;flex:0 0 auto;line-height:1.2941em;font-variant-numeric:tabular-nums}
 .mrow .val b{font-weight:600;white-space:nowrap} .mrow .val b small{font-size:.7647em;font-weight:400;color:var(--ink-2)}
-/* 卡片态：render() 输出的 section/h3/.r/.src/table 映射成地图 App 地点卡片（groups()） */
-#card .mcard .r{align-items:baseline}
+.mrow .hint .en-hint{display:none}   /* 英文名平时在第一行；Mac 侧栏行（Kit 单行 13）挪到副题开头，见 hig.css 11b */
+.val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
+.dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
+/* 卡片态：render() 输出的 section/h3/.r/.src 映射成 Kit 分组列表（groups()）；所有控件样式在 ../ui/hig.css，这里只有对齐 */
+#card .mcard .r:not(.disc){align-items:baseline}   /* Kit Rows › Large：trailing Detail 与标题同一基线（y 15）；可展开行的 Disclosure 配件要垂直居中，不改 */
 #card .mcard .r .k{color:var(--ink)}
 #card .mcard .r .v{font-weight:600}
 #card .mcard .r .v.none{font-weight:400}
 #card .mcard .src + .r::before{content:none}
 #card .mcard > .src:first-child{margin-top:0;padding-top:12px}
-.mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-.mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mrow .val{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:0;line-height:1.2941em}
-.mrow .hint .en-hint{display:none}   /* 英文名平时在第一行；Mac 侧栏行（Kit 单行 13）挪到副题开头，见 hig.css 11b */
-.val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
-.dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
-.mbtn{padding:16px var(--inset) 0}
-.chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
-.chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
-.chip.crowd{background:var(--orange)} .chip.estimated{background:none;color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+#card .mh > .n{margin-left:auto}   /* 段头右端的代表车站数（Kit Sidebars › Header 的 trailing detail 位） */
 .stale{color:var(--orange)}
-.derived{margin:0 16px 12px;padding:10px 12px;border-radius:12px;background:var(--fill)}
-.derived .big{font-size:1.6471em;font-weight:700}
-#card .mcard > div[style*="overflow-x"]{padding:0 16px 8px}
-table.tiers{border-collapse:collapse;font-size:.7647em;line-height:1.3846em;width:100%}
-table.tiers th{font-weight:600;color:var(--ink-2);text-align:left;padding:6px 6px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap}
-table.tiers td{padding:7px 6px 7px 0;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
-table.tiers tr:last-child td{border-bottom:0}
-table.tiers td a{color:var(--ink);font-weight:600;text-decoration:none}
-table.tiers .chip{width:6px;height:6px;padding:0;margin-left:4px;vertical-align:middle}
-table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-shadow:none;background:var(--ink-3)}
-#card .links a{display:flex;align-items:center;justify-content:space-between;min-height:47px;padding:12.5px 16px;color:var(--ink);text-decoration:none;position:relative}
-#card .links a + a::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
-#card .links a::after{content:"›";color:var(--ink-3);margin-left:8px}
-/* 岗位行（地图 App 地点卡片列表行的形）：名字 17 半粗 / 灰副题 15 / 元数据 13；右侧时薪 17 半粗；点开详情 */
+/* 岗位行 / 来源行（Kit Rows › Large 68 + Disclosure；Mac 数字在 hig.css 11b「.sheet .job .jr」）：名字 17 半粗 / 灰副题 15；右侧时薪 17 半粗；点开详情 */
 .job{position:relative} .job + .job::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
 .job .jr{display:flex;align-items:center;gap:11px;width:100%;min-height:68px;padding:14px 16px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}   /* iOS 27 Kit › Lists › Rows › Large 68 */
 .job .jr.static{cursor:default}
@@ -65,18 +47,15 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 .job .det .meta{color:var(--ink-2);margin-bottom:6px} .job .meta .nw{white-space:nowrap}
 .job .val{flex:none;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap} .job .val b{font-weight:600;white-space:nowrap} .job .val .dim{font-size:.8824em}
 .job .det{padding:0 16px 14px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
-.job .det .q{padding:10px 12px;border-radius:12px;background:var(--fill);color:var(--ink);white-space:pre-wrap;margin-bottom:8px}
+.job .det .mcard{margin:0 0 8px} .job .det .txt{white-space:pre-wrap}   /* 帖子原文 = 嵌套一组（Mac Group Box / iOS 分组列表的文字格），原样换行；只调位置 */
 .job .det .src{margin-top:4px} .job .det .cta{margin-top:10px}
 .job .btn.s.dis{opacity:.55;pointer-events:none}
 .mcard .sub{padding:12px 16px 4px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em;font-weight:600}
-/* 来源行展开区：一句「怎么取的」+ 链接；次级列表 details（「看 8 家店」）；对照脚注 */
+/* 来源行展开区：一句「怎么取的」+ 链接；次级列表 = Kit Disclosure 行（.r.disc）+ 同组后续行；对照脚注 */
 .job .det .how{color:var(--ink);margin-bottom:4px} .job .det .how a{color:var(--tint);text-decoration:none}
 .job .det .foot{margin-top:6px;color:var(--ink-3)}
-.sublist{margin-top:8px} .sublist summary{cursor:pointer;color:var(--tint);font-weight:500;list-style:none;display:flex;align-items:center;gap:4px} .sublist summary::-webkit-details-marker{display:none}
-.sublist summary::after{content:"›";color:var(--ink-3);transition:transform .2s} .sublist[open] summary::after{transform:rotate(90deg)}
-.sublist .r{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)} .sublist .r:last-child{border-bottom:0}
-.sublist .r .k{flex:1 1 auto;min-width:0;color:var(--ink)} .sublist .r .k .hint{color:var(--ink-3);font-size:.9em} .sublist .r .v{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
-.tiers-how{padding:8px 16px 0;color:var(--ink-2);font-size:.8824em;line-height:1.3333em} .tiers-how .job .jr{padding-left:0;padding-right:0} .tiers-how .job + .job::before{left:0;right:0} .tiers-how .job .det{padding-left:0;padding-right:0}
+.job .det details{margin:8px -16px 0;font-size:1.1333em} .job .det details .hint{white-space:normal;overflow:visible}   /* 次级列表顶回卡片边、字号回到 17：行和卡片里其它 .r 行对齐；副题照 .mcard .r 的行折行，不套岗位行的单行截断（位置，不是控件样式） */
+@media (min-width:900px) and (pointer:fine){ .job .det details{margin:6px -12px 0;font-size:1.1818em} }
 </style>
 </head>
 <body>
@@ -91,12 +70,12 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 <aside class="sheet glass split" id="sheet" aria-label="城市">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div id="list">
+    <!-- 页头 = Kit Top - Sheet 两行标题（iOS Semibold 15 + Medium 12）/ Mac 窗口标题 Bold 15 + Medium 11；说明句只留在 <title>/<meta>，「数据规范 ›」进段脚（用户 09-16 问题一，和 money 会话商定） -->
+    <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">薪资 · 购买力</div><div class="t-sub dim" id="listSub">城市</div></div><span class="slot"></span></div>
     <div class="body">
-      <!-- 地图 App 首页的「建议卡」：说明这张图是什么，× 掉就记住 -->
-      <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">时薪、房租、通勤、生活费，换算成每月要打的工时。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
       <h2 class="mh">城市</h2>
       <div class="mlist" id="cityRows"></div>
-      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span></p>
+      <p class="mfoot">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span>　<a href="https://github.com/herclyon1/transit/blob/main/cost/data/README.md" target="_blank" rel="noopener">数据规范 ›</a></p>
       <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
       <h2 class="mh" id="draftHead" hidden>待调查</h2>
       <div class="mlist dimlist" id="draftRows" hidden></div>
@@ -163,10 +142,8 @@ function addCities(map){
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
 const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'🇻🇳',MMR:'🇲🇲',DEU:'🇩🇪',USA:'🇺🇸',AUS:'🇦🇺'};
-// 建议卡：× 掉记住
-try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
-$('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
-$('introMore').addEventListener('click',()=>{ window.open('https://github.com/herclyon1/transit/blob/main/cost/data/README.md','_blank','noopener'); });   // Pages 不渲染 .md，去 GitHub 看渲染过的（#16）
+// 页头的 trailing Action「数据规范」（Header › Prominent 只有这一个动作位；原建议卡的 × 随卡片一起去掉）
+/* 「数据规范」现在是段脚里的链接（Kit Footer），不再有单独按钮 */   // Pages 不渲染 .md，去 GitHub 看渲染过的（#16）
 // 国旗 = emoji 圆标（用户 09-15 定，和最初一样）。🇹🇼 在模拟器上画成方框是「地区 = 中国大陆」的系统行为，不是 emoji 的锅（maa 实测：地区改日本、语言仍简中，六面旗都正常）
 const flagIco=c=>`<span class="ico">${FLAG[c.country]||'🏙'}</span>`;
 function cityRows(){
@@ -174,14 +151,15 @@ function cityRows(){
   // 375 宽的行：名字栏只有 ~133px，副题只放得下「留学签 · 周 28h 上限」/「本国公民 · 无上限」；样本数和超上限放右侧第二行 11pt（22+15=37 ≤ 内容高 42，行高仍 69；maa 真机 09-15）
   const capLine=hh=>{ if(!hh.visa) return ''; const v=hh.visa.replace(/签证$/,'签'); return /公民/.test(hh.visa)?'本国公民 · 无上限':`${v} · ${hh.capWeek?`周 ${hh.capWeek}h 上限`:'无上限'}`; };
   const right=c=>{ const hh=HEAD[c.id]; if(hh===undefined&&!HEADS_DONE) return `<span class="val"><span class="dim">…</span></span>`;   // 还没取到
-    if(HEADERR[c.id]) return `<span class="val"><span class="tag gray" title="${HEADERR[c.id]}">没加载出来</span></span>`;   // 网络失败 ≠ 数据缺项（#15）
-    if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
+    if(HEADERR[c.id]) return `<span class="val"><span class="dim" title="${HEADERR[c.id]}">没加载出来</span></span>`;   // 网络失败 ≠ 数据缺项（#15）；Kit 行没有胶囊，写成 trailing Detail
+    if(!hh) return `<span class="val"><span class="dim">缺项</span></span>`;
     const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="nrow ${over?'over':'dim'}">${over?'超出上限 · ':''}${hh.n} 条</small></span>`; };
   const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name">${c.name.zh} <span class="en dim" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
   const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
   $('cityRows').innerHTML=(LOADERR?`<div class="empty">${LOADERR}</div>`:'')+ready.map(row).join('');
   $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span class="en" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
   $('draftHead').hidden=$('draftRows').hidden=!draft.length;
+  const ls=$('listSub'); if(ls) ls.textContent=`${ready.length} 座城市有数据`+(draft.length?` · ${draft.length} 座待调查`:'');   // Sheet 头第二行放状态，不放说明句
   HIG.sf();
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
 }
@@ -218,15 +196,20 @@ function compareHtml(c,d,cur){
       pass:(t.pass_commuter||t.pass_student)?money(V(t.pass_commuter||t.pass_student),(t.pass_commuter||t.pass_student).unit||ccur+'/月',ccur):null, util:money(util+comm,ccur+'/月',ccur),
       food:dd.living_official&&dd.living_official.food?money(V(dd.living_official.food),dd.living_official.food.unit||ccur+'/月',ccur):null, hrs:hf?hf.hrs+' 小时/月':null, cap:hf&&hf.cap?hf.cap+' 小时/月':'无上限'}; };
   const A=pick(pd,pc), B=pick(d,c); const rows=[['时薪中位数','wage'],['15 分档单间月租','rent'],['通勤','pass'],['水电网络','util'],['食费','food'],['每月要打的工时','hrs'],['签证上限','cap']];
-  return `<section><h3>对比：${pc.name.zh} vs ${c.name.zh}</h3><div style="overflow-x:auto"><table class="tiers"><thead><tr><th></th><th>${pc.name.zh}</th><th>${c.name.zh}</th></tr></thead><tbody>`
-    + rows.map(([lb,k])=>`<tr><td>${lb}</td><td>${A[k]==null?'<span class="none">暂无</span>':A[k]}</td><td>${B[k]==null?'<span class="none">暂无</span>':B[k]}</td></tr>`).join('')
-    + `</tbody></table></div><div class="src">${CUR==='local'?'各自本币；右上角切同一货币或「购买力（PPP）」再比。':''}岗位样本：${pc.name.zh} ${A.n||0} 条 / ${c.name.zh} ${B.n||0} 条。</div></section>`;
+  // Kit 行：标题 = 项目，副题 = 钉住的城市（左）的值，trailing Detail = 这座城的值（一行放不下两个数，280 面板会裁）
+  const cell=v=>v==null?'暂无':v;
+  return `<section class="raw"><h2 class="mh">对比：${pc.name.zh} vs ${c.name.zh}</h2><div class="mcard">`
+    + rows.map(([lb,k])=>`<div class="r"><span class="k">${lb}<div class="hint">${pc.name.zh} ${cell(A[k])}</div></span><span class="v${B[k]==null?' none':' ink'}">${cell(B[k])}</span></div>`).join('')
+    + `</div><p class="mfoot">副题是 ${pc.name.zh}，右边是 ${c.name.zh}。${CUR==='local'?'各自本币；右上角切同一货币或「购买力（PPP）」再比。':''}岗位样本：${pc.name.zh} ${A.n||0} 条 / ${c.name.zh} ${B.n||0} 条。</p></section>`;
 }
 // 重画卡片但不丢滚动位置和已展开的行（换币、汇率到达，#14）
 function rerender(){ if(!APP||!APP.open) return; const body=document.querySelector('#card .body'); const top=body?body.scrollTop:0;
   const opened=[...document.querySelectorAll('#card .job')].map((j,i)=>j.querySelector('.det')&&!j.querySelector('.det').hidden?i:-1).filter(i=>i>=0);
-  Promise.resolve(show(APP.open)).then(()=>{ const b2=document.querySelector('#card .body'); if(b2) b2.scrollTop=top;
-    const jobs=[...document.querySelectorAll('#card .job')]; for(const i of opened){ const j=jobs[i]; if(!j) continue; const det=j.querySelector('.det'), btn=j.querySelector('.jr'); if(det){ det.hidden=false; btn&&btn.setAttribute('aria-expanded','true'); } } }); }
+  const openedDet=[...document.querySelectorAll('#card details')].map((x,i)=>x.open?i:-1).filter(i=>i>=0);   // 可展开行（各档数字怎么来的 / 看 N 家店）也保持展开
+  Promise.resolve(show(APP.open)).then(()=>{
+    const jobs=[...document.querySelectorAll('#card .job')]; for(const i of opened){ const j=jobs[i]; if(!j) continue; const det=j.querySelector('.det'), btn=j.querySelector('.jr'); if(det){ det.hidden=false; btn&&btn.setAttribute('aria-expanded','true'); } }
+    const dets=[...document.querySelectorAll('#card details')]; for(const i of openedDet){ if(dets[i]) dets[i].open=true; }
+    const b2=document.querySelector('#card .body'); if(b2) b2.scrollTop=top; }); }   // 先把展开的行放回去再定滚动位置，否则靠下的位置会被还没展开时的高度夹住
 // 月票标签：城市没有月票（d.transport.pass === null，乌鲁木齐 = 用户 2026-09-15 查地铁 App）时，「通学月票/通勤月票」改叫 d.transport.pass_label（「通勤费（单程 × 2 × 22，推算）」）
 const passLabel=(d,kind)=>{ const tr=d&&d.transport; if(tr&&tr.pass===null) return tr.pass_label||'通勤费（推算）'; return kind==='student'?'通学月票':kind==='commuter'?'通勤月票':'月票'; };
 // 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 参考时薪；和卡片里「换算成工时」同一公式
@@ -261,16 +244,16 @@ const HEAD={}, HEADERR={}; let HEADS_DONE=false;   // id → hoursFor 结果；�
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(e=>{ HEADERR[c.id]=String(e&&e.message||e); }))).then(()=>{ HEADS_DONE=true; }); }
 function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:{left:760,top:0,right:0,bottom:0}},flyTo);   // 桌面：侧栏 360 + 面板 380 盖着左边，点要飞到露出来的那块
   return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
-// render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
-// 最前面加一颗 50 高的主按钮（地图 App「规划」的位置）：跳到「换算成工时」
+// render() 的 <section><h3>…</h3>REST</section> → Kit 分组列表：<h2 class="mh">…</h2><div class="mcard">REST</div>；<section class="raw"> 原样输出（自己写 .mh/.mcard/.mfoot）；
+// <section class="links"> → .mlist 的 .mrow 来源行；<section class="src"> → .mfoot
 function groups(h){
   return '<div style="height:16px"></div>'
         + h.replace(/<section class="raw">([\s\S]*?)<\/section>/g,'$1')
-          .replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh"${/换算成工时/.test(t)?' id="hours"':''}>${t}</h2><div class="mcard">${rest}</div>`)
-          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<h2 class="mh" id="srcs">来源与相关图</h2><div class="mcard links">$1</div>')
+          .replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh">${t}</h2><div class="mcard">${rest}</div>`)
+          .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<h2 class="mh" id="srcs">来源与相关图</h2><div class="mlist">$1</div>')   // Kit Lists › Rows › Large 68（.mrow）
           .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<div class="mcard"><div class="empty">$1</div></div>')
-          .replace(/<section class="src">([\s\S]*?)<\/section>/g,'<p class="mnote">$1</p>'); }
-// ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
+          .replace(/<section class="src">([\s\S]*?)<\/section>/g,'<p class="mfoot">$1</p>'); }
+// ---- 渲染：每个数字带「置信度 · 来源 · 日期」副题和来源链接；null 一律「暂无」，绝不编数 ----
 // 币种的中文名：单位里「元/月」「日元/小时」这种中文写法，换币时换的是这一段（unit.replace('CNY','JPY') 对中文单位永远无效，09-15 审查 #1）
 const UTIL_LABEL={electricity:'电',gas:'燃气',water:'水',mobile:'手机',internet:'宽带',comm_official:'通信（统计平均）'};   // 数据里没写 label 的键名（#12）
 const CURNAME={CNY:'元',JPY:'日元',VND:'越南盾',TWD:'新台币',KRW:'韩元',MMK:'缅元',THB:'泰铢',USD:'美元',EUR:'欧元',AUD:'澳元',GBP:'英镑',HKD:'港元',SGD:'新加坡元',ppp:'国际元'};
@@ -301,7 +284,9 @@ function srcRow(k,m,cur){
   const how=m.how||(m.note?plainNote(m.note):'');
   const link=m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${cleanSrc(m.source_name)||short||'打开来源'}</a>`:(cleanSrc(m.source_name)&&cleanSrc(m.source_name)!==short?cleanSrc(m.source_name):'');
   const items=(m.items||[]).filter(it=>it&&it.price!=null);
-  const sub=items.length?`<details class="sublist"><summary>${m.items_label||`看 ${items.length} 条`}</summary>${items.map(it=>`<div class="r"><span class="k">${it.name}${it.deal?`<div class="hint">${it.deal}</div>`:''}${it.note?`<div class="hint">${it.note}</div>`:''}</span><span class="v">${money(it.price,it.unit||'',cur)}</span></div>`).join('')}</details>`:'';
+  // 次级列表（「看 8 家店」）= Kit Rows › Accessories › Disclosure（summary.r.disc）+ 同组后续行（.r：标题 + 副题，trailing Detail = 价）
+  const ps=items.map(it=>it.price); const range=items.length>1?`最低 ${money(Math.min(...ps),items[0].unit||'',cur)} · 最高 ${money(Math.max(...ps),items[0].unit||'',cur)}`:(items[0]&&items[0].name||'');
+  const sub=items.length?`<details><summary class="r disc"><span class="k">${m.items_label||`看 ${items.length} 条`}<div class="hint">${range}</div></span></summary>${items.map(it=>`<div class="r"><span class="k">${it.name}${it.deal?`<div class="hint">${it.deal}</div>`:''}${it.note?`<div class="hint">${it.note}</div>`:''}</span><span class="v">${money(it.price,it.unit||'',cur)}</span></div>`).join('')}</details>`:'';
   const cmp=m.compare&&m.compare.value!=null?`<div class="foot">${m.compare.label||'对照'} ${money(m.compare.value,m.compare.unit||m.unit||'',cur)}${m.compare.n?`（${m.compare.n} 条）`:''}${m.compare.source_url?` <a href="${m.compare.source_url}" target="_blank" rel="noopener">${cleanSrc(m.compare.source_name)||'来源'}</a>`:(m.compare.source_name?` · ${cleanSrc(m.compare.source_name)}`:'')}</div>`:'';
   return `<div class="job"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${k}</div><div class="hint">${hint}</div></span><span class="val">${val==null?'<span class="dim">暂无</span>':`<b>${val}</b>`}</span></button>`
         +`<div class="det" hidden>${how?`<div class="how">${how}${link?' '+link:''}</div>`:(link?`<div class="how">${link}</div>`:'')}${CONF_HOW[m.confidence]?`<div class="src">${CONF[m.confidence]}：${CONF_HOW[m.confidence]}</div>`:''}${sub}${cmp}</div></div>`;
@@ -337,7 +322,7 @@ function jobsHtml(d,cur){
     const hl=(w.wage_posted&&!hourlyPost&&w.hours&&(dailyPost?w.hours.per_day:(w.hours.monthly||w.hours.per_day)))?`${w.wage_posted} ÷ ${(!dailyPost&&w.hours.monthly)?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${money(val,w.unit||'',cur)}`:'';   // 时薪帖不写「1177 ÷ 9 = 1177」（#4）
     const meta=jobMeta(jb);   // Kit 两行行（iOS Rows › Large 68 / macOS Sidebars › Large 40）：标题 + 一行副题（雇主 · 工资 · 班次 · 日期，超出省略），元数据全文进展开区
     return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${[jobEmployer(jb),meta.replace(/<[^>]+>/g,'')].filter(Boolean).join(' · ')}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
-      +`<div class="det" hidden>${meta?`<div class="meta">${meta}</div>`:''}${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
+      +`<div class="det" hidden>${meta?`<div class="meta">${meta}</div>`:''}${quote?`<div class="mcard"><div class="txt">“${quote}”</div></div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
   const all=(d.jobs||[]); const main=all.filter(jb=>jb.headline!==false&&V(jb.wage)!=null), side=all.filter(jb=>(jb.tags||[]).length&&V(jb.wage)!=null), chain=all.filter(jb=>jb.basket==='chain'&&V(jb.wage)==null);
   let h='';
   if(!main.length) h+='<div class="empty">还没有一条帖子同时写工资和班次</div>';
@@ -360,31 +345,39 @@ function render(c,d){
   if(!d) return '<section class="empty">这个城市还没有数据文件。</section>';
   const cur=d.currency||c.currency; let h='';
   const V=x=>x&&x.value!=null?x.value:null;
-  // ---- 动作行（地图 App 地点卡片：主动作 + 次动作等宽）+ 2×2 统计卡（健身 › 摘要 的形）
-  const TAG={official:['官方','green'],listing:['平台现价',''],measured:['实测','gray'],crowd:['众包','orange'],estimated:['推算','gray']};
-  const tag=m=>m&&m.confidence?`<span class="tag ${TAG[m.confidence]?TAG[m.confidence][1]:''}">${TAG[m.confidence]?TAG[m.confidence][0]:m.confidence}</span>`:'';
-  const foot=m=>m?[m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_short||cleanSrc(m.source_name)||'来源'}</a>`:(m.source_short||cleanSrc(m.source_name)||''), fmtDay(m.fetched_at)||''].filter(Boolean).join(' · '):'待调查';
-  const big=(v,unit)=>{ const t=money(v,unit,cur); if(t==null) return '<span class="dim">暂无</span>'; const m=t.match(/^([\d.,]+)\s*(.*)$/); return m?`${m[1]}<small>${m[2]}</small>`:t; };
+  // 置信度 · 来源 · 日期 —— KIT-MAP：置信度胶囊删掉，写进行的副题 / 段脚（Kit 行只有标题、副题、trailing Detail）
+  const shortOf=m=>m&&(m.source_short||cleanSrc(m.source_name))||'';
+  const meta=(m,...lead)=>{ const parts=[...lead, CONF[m&&m.confidence]||'', shortOf(m), m&&fmtDay(m.fetched_at)||'']; return parts.filter((x,i)=>x&&parts.indexOf(x)===i&&!parts.some((y,j)=>j!==i&&y!==x&&y.includes(x))).join(' · '); };   // 「推算 · 按官方单程推算」这种包含关系只留长的
+  const srcA=m=>m&&m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${shortOf(m)||'来源'}</a>`:shortOf(m);
+  const tip=x=>(shortOf(x)+(x.how?' · '+x.how:'')).replace(/"/g,'&quot;');
+  // 一行 = Kit Rows › Default 52（标题 + trailing Detail）；有来源的整行是链接，trailing 再放 Kit Symbol 配件 􀰑（大小照 .mrow .chev：.75em、tertiaryLabel）
+  const ARROW='<i class="sf" data-sf="arrow.up.right" style="width:.75em;height:.75em;color:var(--ink-3)"></i>';
+  const vrow=(lb,x,unit,hint)=>{ const k=`<span class="k">${lb}${hint?`<div class="hint">${hint}</div>`:''}</span>`;
+    if(!x||x.value==null) return `<div class="r">${k}<span class="v none">暂无</span></div>`;
+    const v=`<span class="v">${money(x.value,x.unit||unit||'',cur)}</span>`;
+    return x.source_url?`<a class="r" href="${x.source_url}" target="_blank" rel="noopener" title="${tip(x)}">${k}${v}${ARROW}</a>`:`<div class="r">${k}${v}</div>`; };
   const jobs=(d.jobs||[]).filter(j=>V(j.wage)!=null&&j.headline!==false); const wj=jobs.length?jobs.reduce((a,b)=>V(a.wage)<=V(b.wage)?a:b):null; const RWc=refWageOf(d);
-  // 时薪怎么来的：帖子写的工资 ÷ 帖子写的工时（wage-must-carry-hours）；24 小时岗/12 小时班在这里能看见
-  const hoursLine=w=>{ const hh=w&&w.hours; if(!hh||(!hh.monthly&&!hh.per_day)) return '';
-    const per=hh.per_day?`${hh.per_day} h/天`:'', days=hh.days_per_month?`${hh.days_per_month} 天/月`:'';
-    const BASIS={posted:'帖子写明',default_24h:'上一休一，按 24 小时在岗默认'};
-    return (w.wage_posted?`${w.wage_posted} `:'')+(hh.monthly?`÷ ${hh.monthly} h/月（${[per,days].filter(Boolean).join(' × ')}${BASIS[hh.basis]?'，'+BASIS[hh.basis]:''}）`:`÷ ${per}`)+(hh.posted?` · 班次「${hh.posted}」`:''); };
-  const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_commuter||t15.pass_student); const passKind=t15&&t15.pass_commuter?'commuter':'student';   // 「通勤」卡优先通勤月票（#9）
-  const foodM=d.living_official&&d.living_official.food;
+  const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_commuter||t15.pass_student); const passKind=t15&&t15.pass_commuter?'commuter':'student';   // 「通勤」行优先通勤月票（#9）
+  const foodM=d.living_official&&d.living_official.food; const wUnit0=wj&&wj.wage.unit||cur+'/小时';
+  // ---- 动作行（Kit Buttons › Medium 34，首枚 Prominent；Mac = 分段控件）
   h+='<section class="raw"><div class="actions">'
     +'<button class="btn tint" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button>'
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'')
     +`<button class="btn${PIN===c.id?' tint':''}" type="button" onclick="togglePin('${c.id}')"><i class="sf" data-sf="pin"></i><span>${PIN===c.id?'已钉住':(PIN?'和'+(CITIES.find(x=>x.id===PIN)||{name:{zh:''}}).name.zh+'比':'钉住对比')}</span></button>`
-    +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.kind} ${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?(RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 · 中位 ${money(RWc.hourMid,wj.wage.unit||cur+'/小时',cur,true)}`:`最低 ${money(RWc.min,wj.wage.unit||cur+'/小时',cur,true)} · 最高 ${money(RWc.max,wj.wage.unit||cur+'/小时',cur,true)}`):'没有一条帖子同时写工资和班次'}</div></div>`
-    +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
-    +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · ${passLabel(d,passKind)}</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
-    +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">${foodM&&/实价推算/.test(foodM.label||'')?'基础食材 · 按平台实价推算':'统计平均 · 月'}</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
-    +'</div></section>';
-  h+=compareHtml(c,d,cur);   // 钉住对比：独立一组（groups() 会把 <section><h3> 变成地点卡片的一组）
+    +'</div>';
+  // ---- 「换算成工时」一组（KIT-MAP：四张统计卡改成分组列表的行，Kit Rows › Large 68：标题 + 副题 = 样本 · 来源 · 日期，trailing Detail = 数字，不再放大）
+  h+='<h2 class="mh">换算成工时</h2><div class="mcard">';
+  { const hf=hoursFor(d); if(hf&&hf.hrs){ let line='';   // 「N 小时意味着什么」（maa 09-15）：留学签按每周（上限 28）算占比，本国公民按每天（22 天）算；只用现有字段
+      if(hf.capWeek){ const wk=hf.hrs*12/52, pct=Math.round(wk/hf.capWeek*100); line=wk>hf.capWeek?`每周要打 ${wk.toFixed(1)} 小时，超出上限 ${hf.capWeek} 小时——靠打工付不起`:`每周 ${wk.toFixed(1)} 小时（上限 ${hf.capWeek}）→ 占上限 ${pct}%`; }
+      else { const day=hf.hrs/22; line=`每天 ${day.toFixed(1)} 小时（按 22 天）`+(Math.round(day*10)/10>8?'——超过 8 小时/天':''); }
+      h+=`<div class="r"><span class="k">每月要打的工时<div class="hint">${hf.tier||'15 分钟档'} · ${line}</div></span><span class="v${hf.cap&&hf.hrs>hf.cap?' stale':''}">${hf.hrs} 小时</span></div>`; } }
+  h+=`<div class="r"><span class="k">时薪<div class="hint">${RWc.n?`${RWc.kind} ${RWc.n} 条的中位数 · ${RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 中位 ${money(RWc.hourMid,wUnit0,cur,true)}`:`最低 ${money(RWc.min,wUnit0,cur,true)} · 最高 ${money(RWc.max,wUnit0,cur,true)}`}`:'没有一条帖子同时写工资和班次'}</div></span><span class="v${RWc.n?'':' none'}">${RWc.n?money(RWc.wage,wUnit0,cur):'暂无'}</span></div>`;
+  h+=vrow('房租',rent,cur+'/月',rent?meta(rent,(t15?t15.label:'到枢纽 15 分')+' · 单间'):'待调查');
+  h+=vrow('通勤',pass,cur+'/月',pass?meta(pass,(t15?t15.label:'到枢纽 15 分')+' · '+passLabel(d,passKind)):'待调查');
+  h+=vrow('食费',foodM,cur+'/月',foodM?meta(foodM,/实价推算/.test(foodM.label||'')?'基础食材':'统计平均 · 月'):'待调查');
+  h+='</div><p class="mfoot">到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数；各档见下面「各档要打的工时」。右端带箭头的行点开来源。</p></section>';
+  h+=compareHtml(c,d,cur);   // 钉住对比：独立一组
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
   if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="r"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
@@ -396,30 +389,32 @@ function render(c,d){
   // ---- 工资怎么构成（有典例的城市才显示；乌鲁木齐：底薪 + 社保补贴 + 全勤 + 加班/夜班补贴，用户 09-15 定用沪上阿姨那帖当典例）
   if(d.wage_structure&&d.wage_structure.items){ const ws=d.wage_structure;
     h+='<section><h3>工资怎么构成</h3>'+ws.items.map(x=>`<div class="r"><span class="k">${x.k}</span><span class="v">${x.v}</span></div>`).join('')+`<div class="src">典例：${ws.example||''}${ws.note?'。'+ws.note:''}</div></section>`; }
-  // ---- 岗位：一行一条（地图 App 地点卡片里的列表行）：岗位名 / 雇主或地点 / 右侧时薪大字；小字「工资 · 班次 · 月休 · 发帖日」；「打电话」胶囊；点开才展开原文/算式/来源
+  // ---- 岗位：一行一条（Kit Rows › Large 68 + Disclosure）：岗位名 / 雇主 · 工资 · 班次 · 日期 / 右侧时薪；点开才展开原文/算式/来源
   h+='<section><h3>具体岗位</h3>'+jobsHtml(d,cur)+'</section>';
-  // ---- 住哪里：四档
-  const tiers=d.tiers||[];
-  h+='<section><h3>住哪里 · 按到枢纽的分钟数分档</h3>';
-  if(d.hub) h+=`<div class="src" style="margin-bottom:6px">枢纽：${d.hub.name}。${d.hub.note||''}</div>`;
+  // ---- 住哪里：四档（KIT-MAP：表格改成每档一组 .mcard：段头 = 档位 + 代表车站数，行 = 一居月租 / 合租单间 / 通学月票 / 通勤月票 / 单程；置信度 · 来源 · 日期写进段脚）
+  const tiers=d.tiers||[]; const noPass=d.transport&&d.transport.pass===null; const hasShare=tiers.some(t=>t.rent_share);   // 乌鲁木齐：年轻人主要租合租单间，另列一行（用户 09-15）
+  const FIELDS=t=>[['rent_1k','一居月租']].concat(hasShare?[['rent_share','合租单间']]:[]).concat(noPass?[[t.pass_commuter?'pass_commuter':'pass_student',passLabel(d,'any')]]:[['pass_student','通学月票'],['pass_commuter','通勤月票']]).concat([['fare_single','单程']]);
+  const tierHead=t=>`<h2 class="mh">${t.label}${t.stations&&t.stations.length?`<span class="n">${t.stations.length} 站</span>`:''}</h2>`;
+  const tierFoot=t=>{ const parts=[]; if(t.commute) parts.push(t.commute); if(t.stations&&t.stations.length) parts.push('代表车站：'+t.stations.join('、'));
+    const g=new Map(); for(const [k,lb] of FIELDS(t)){ const x=t[k]; if(!x||x.value==null) continue; const key=meta(x); if(!g.has(key)) g.set(key,[]); g.get(key).push(lb); }   // 同来源的字段合并成一句
+    for(const [key,lbs] of g) parts.push(`${lbs.join('、')}：${key}`);
+    return parts.length?`<p class="mfoot">${parts.join('。')}。</p>`:''; };
+  h+='<section class="raw"><h2 class="mh">住哪里 · 按到枢纽的分钟数分档</h2>';
   if(tiers.length){
-    const noPass=d.transport&&d.transport.pass===null;
-    const hasShare=tiers.some(t=>t.rent_share);   // 乌鲁木齐：年轻人主要租合租单间，另列一列（用户 09-15）
-    h+=`<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>代表车站</th><th>一居月租</th>${hasShare?'<th>合租单间</th>':''}${noPass?`<th>${passLabel(d,'any')}</th>`:'<th>通学月票</th><th>通勤月票</th>'}<th>单程</th></tr></thead><tbody>`;
-    for(const t of tiers){ const cell=x=>x&&x.value!=null?`<a href="${x.source_url||'#'}" target="_blank" rel="noopener" title="${(x.source_short||cleanSrc(x.source_name)||'')+(x.how?' · '+x.how:'')}">${money(x.value,x.unit,cur,true)}</a><span class="chip ${x.confidence}"></span>`:'<span class="none">暂无</span>';
-      h+=`<tr><td><b>${t.label}</b><div class="src">${t.commute||''}</div></td><td class="src">${(t.stations||[]).join('<br>')}</td><td>${cell(t.rent_1k)}</td>${hasShare?`<td>${cell(t.rent_share)}</td>`:''}${noPass?`<td>${cell(t.pass_commuter||t.pass_student)}</td>`:`<td>${cell(t.pass_student)}</td><td>${cell(t.pass_commuter)}</td>`}<td>${cell(t.fare_single)}</td></tr>`; }
-    h+='</tbody></table></div><div class="src">单位 '+(CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR))+'；房租 = 在挂房源里便宜的四分之一处（刚来的人真会租到的那档），不含礼金、押金、管理费；点数字打开来源。'+(noPass&&(d.transport.how||'')?' '+d.transport.how:'')+'</div>';
-    // 各档数字怎么来的：同来源行的形，默认收起
-    h+='<details class="sublist tiers-how"><summary>各档数字怎么来的</summary>'+tiers.map(t=>[['rent_1k','一居月租'],['rent_share','合租单间'],[noPass?'pass_commuter':'pass_student',noPass?passLabel(d,'any'):'通学月票'],['pass_commuter','通勤月票'],['fare_single','单程']].filter(([k])=>!(noPass&&k==='pass_commuter'&&false)).map(([k,lb])=>t[k]&&!(noPass&&k==='pass_commuter'&&lb==='通勤月票')?srcRow(`${t.label} · ${lb}`,t[k],cur):'').join('')).join('')+'</details>';
+    h+=`<p class="mfoot">${d.hub?`枢纽：${d.hub.name}。${d.hub.note||''}`:''}房租 = 在挂房源里便宜的四分之一处（刚来的人真会租到的那档），不含礼金、押金、管理费。${noPass&&(d.transport.how||'')?d.transport.how+' ':''}右端带箭头的行点开来源。</p>`;
+    for(const t of tiers) h+=tierHead(t)+'<div class="mcard">'+FIELDS(t).map(([k,lb])=>vrow(lb,t[k],'')).join('')+'</div>'+tierFoot(t);
+    // 各档数字怎么来的：Kit Disclosure 行，展开 = 同组后续行（来源行的形，默认收起）
+    h+='<div class="mcard"><details><summary class="r disc"><span class="k">各档数字怎么来的<div class="hint">每档每项的取法、来源链接和明细</div></span></summary>'+tiers.map(t=>FIELDS(t).map(([k,lb])=>t[k]?srcRow(`${t.label} · ${lb}`,t[k],cur):'').join('')).join('')+'</details>';
     // 租房一次性费用（大阪：管理费/敷金/礼金，SUUMO 便宜段统计）
-    if(d.rent_fees) h+=`<div class="sub" style="padding-top:14px">${d.rent_fees.label||'租房一次性费用'}</div>`+srcRow('管理费 · 押金 · 礼金',Object.assign({value:null},d.rent_fees),cur).replace('<span class="dim">暂无</span>','<span class="dim">点开看</span>');
-  } else h+='<div class="empty">待调查</div>';
+    if(d.rent_fees) h+=`<div class="sub">${d.rent_fees.label||'租房一次性费用'}</div>`+srcRow('管理费 · 押金 · 礼金',Object.assign({value:null},d.rent_fees),cur).replace('<span class="dim">暂无</span>','<span class="dim">点开看</span>');
+    h+='</div>';
+  } else h+='<div class="mcard"><div class="empty">待调查</div></div>';
   h+='</section>';
-  // ---- 地铁分区票价（有分区制的城市才有）
+  // ---- 地铁分区票价（有分区制的城市才有）：每区一组，行 = 单程 / 通学月票 / 通勤月票
   if(d.transit_zones&&d.transit_zones.zones){ const z=d.transit_zones;
-    h+=`<section><h3>${z.label||'地铁分区票价'}</h3><div style="overflow-x:auto"><table class="tiers"><thead><tr><th>分区</th><th>距离 km</th><th>单程</th><th>通学月票</th><th>通勤月票</th></tr></thead><tbody>`;
-    for(const r of z.zones) h+=`<tr><td><b>${r.zone}</b></td><td>${r.km}</td><td>${money(r.single,'',cur,true)}</td><td>${money(r.student,'',cur,true)}</td><td>${money(r.commuter,'',cur,true)}</td></tr>`;
-    h+=`</tbody></table></div><div class="src"><a href="${z.source_url}" target="_blank" rel="noopener">${z.source_short||cleanSrc(z.source_name)}</a> · ${fmtDay(z.fetched_at)} · 单位 ${CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR)}。${z.note||''}</div></section>`; }
+    h+=`<section class="raw"><h2 class="mh">${z.label||'地铁分区票价'}</h2><p class="mfoot">${srcA(z)}${z.fetched_at?' · '+fmtDay(z.fetched_at):''}。${z.note||''}</p>`;
+    for(const r of z.zones) h+=`<h2 class="mh">${r.zone}<span class="n">${r.km} km</span></h2><div class="mcard"><div class="r"><span class="k">单程</span><span class="v">${money(r.single,cur,cur)}</span></div><div class="r"><span class="k">通学月票</span><span class="v">${money(r.student,cur+'/月',cur)}</span></div><div class="r"><span class="k">通勤月票</span><span class="v">${money(r.commuter,cur+'/月',cur)}</span></div></div>`;
+    h+='</section>'; }
   // ---- 生活费明细
   h+='<section><h3>水电网络 / 月</h3>';
   if(d.utilities) for(const [k,x] of Object.entries(d.utilities)) h+=srcRow(x.label||UTIL_LABEL[k]||k,x,cur); else h+='<div class="empty">待调查</div>';
@@ -427,35 +422,32 @@ function render(c,d){
   if(d.basket) for(const [k,x] of Object.entries(d.basket)) h+=srcRow(plainLabel(x.label||k),x,cur); else h+='<div class="empty">待调查</div>';
   h+='</section>';
   if(d.living_official&&Object.keys(d.living_official).length){ h+='<section><h3>每月食费与统计对照</h3>'; for(const [k,x] of Object.entries(d.living_official)) h+=srcRow(plainLabel(x.label||k),x,cur); h+='</section>'; }   // 没内容不出空段（#18）
-  // ---- 换算成工时：按档
+  // ---- 各档要打的工时（KIT-MAP：表格改成每档一组：月开销 / 要打的工时 / 其中房租）
   const RW=refWageOf(d); const refWage=RW.wage; const wUnit=(RW.n&&(d.jobs||[]).find(j=>j.wage&&j.wage.unit)||{wage:{}}).wage.unit||cur+'/小时'; const refName=RW.name+(RW.n?`（最低 ${money(RW.min,wUnit,cur)}，最高 ${money(RW.max,wUnit,cur)}）`:'');
   const u=d.utilities||{}; const util=['electricity','gas','water'].map(k=>V(u[k])).reduce((a,b)=>a+(b||0),0); const comm=(V(u.mobile)||0)+(V(u.internet)||0)||V(u.comm_official)||0;
   const food=d.living_official&&V(d.living_official.food); const capRaw=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null, cap=capRaw&&Math.round(capRaw);
-  h+='<section><h3>换算成工时</h3>';
+  h+='<section class="raw"><h2 class="mh" id="hours">各档要打的工时</h2>';
   if(refWage&&food&&tiers.length){
     const mUnit=cur+'/月';
-    // 「N 小时意味着什么」（maa 09-15）：15 分钟档的月工时翻成人话——留学签按每周（上限 28）算占比，本国公民按每天（22 天）算；只用现有字段
-    { const hf=hoursFor(d); if(hf&&hf.hrs){ let line='', sub=`按 ${hf.tier||'15 分钟档'} 每月 ${hf.hrs} 小时算`;
-        if(hf.capWeek){ const wk=hf.hrs*12/52, pct=Math.round(wk/hf.capWeek*100); line=wk>hf.capWeek?`每周要打 ${wk.toFixed(1)} 小时，超出上限 ${hf.capWeek} 小时——靠打工付不起`:`每周 ${wk.toFixed(1)} 小时（上限 ${hf.capWeek}）→ 占上限 ${pct}%`; }
-        else { const day=hf.hrs/22; line=`每天 ${day.toFixed(1)} 小时（按 22 天）`+(Math.round(day*10)/10>8?'——超过 8 小时/天':''); }
-        h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${line}</div><div class="hint">${sub}</div></span></div></div>`; } }
-    h+=`<div class="src">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 食费 ${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
-    h+='<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>月开销</th><th>要打的工时</th><th>其中房租</th></tr></thead><tbody>';
-    for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student); if(r==null) { h+=`<tr><td><b>${t.label}</b></td><td class="none">房租暂无</td><td></td><td></td></tr>`; continue; }
+    h+=`<p class="mfoot">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 食费 ${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</p>`;
+    for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student);
+      if(r==null){ h+=`<h2 class="mh">${t.label}</h2><div class="mcard"><div class="r"><span class="k">月开销</span><span class="v none">房租暂无</span></div></div>`; continue; }
       const total=r+util+comm+food+(ps||0); const hrs=total/refWage; const over=capRaw&&Math.round(hrs)>Math.round(capRaw);
-      h+=`<tr><td><b>${t.label}</b></td><td>${money(Math.round(total),mUnit,cur)}</td><td><b class="${over?'stale':''}">${Math.round(hrs)} 小时</b>${over?`<div class="src stale">超出上限 ${Math.round(hrs-capRaw)} 小时</div>`:(capRaw&&hrs>capRaw*0.9?'<div class="src">接近上限</div>':'')}</td><td>${Math.round(r/refWage)} 小时</td></tr>`; }
-    h+='</tbody></table></div>';
-  } else h+='<div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div>';
+      const note=over?`<div class="hint stale">超出上限 ${Math.round(hrs-capRaw)} 小时</div>`:(capRaw&&hrs>capRaw*0.9?'<div class="hint">接近上限</div>':'');
+      h+=`<h2 class="mh">${t.label}</h2><div class="mcard"><div class="r"><span class="k">月开销</span><span class="v">${money(Math.round(total),mUnit,cur)}</span></div>`
+        +`<div class="r"><span class="k">要打的工时${note}</span><span class="v${over?' stale':''}">${Math.round(hrs)} 小时</span></div>`
+        +`<div class="r"><span class="k">其中房租</span><span class="v">${Math.round(r/refWage)} 小时</span></div></div>`; }
+  } else h+='<div class="mcard"><div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div></div>';
   h+='</section>';
-  { // 来源列：每行 = 平台 · 标题 · 日期（maa 09-15 验收后定），链接在行本身；标题 = source_title（岗位帖）或所属条目的标签（篮子/水电/房租）；source_name 是内部记录不上页
+  { // 来源列：Kit Rows › Large 68（.mrow）：标题 = 帖子/条目标题，副题 = 平台 · 日期，trailing 􀰑（maa 09-15 验收后定的口径：source_name 是内部记录不上页）
     const srcs=new Map(); const seen=new Set();
     const walk=(o,label)=>{ if(!o||typeof o!=='object') return; if(Array.isArray(o)){ o.forEach(x=>walk(x,label)); return; }
       const lb=o.label||o.chain||label;
       if(o.source_url&&!srcs.has(o.source_url)){ const plat=o.source_short||cleanSrc(o.source_name)||o.source_url.replace(/^https?:\/\//,'').split('/')[0]; const title=o.source_title||(lb?plainLabel(String(lb).replace(/^[^：:]*[：:]/,'')):''); const key=plat+'|'+title; if(!seen.has(key)){ seen.add(key); srcs.set(o.source_url,{plat,title,date:fmtDay(o.posted_at||o.fetched_at)}); } }
       for(const k of Object.keys(o)){ if(k!=='source_url'&&k!=='note'&&o[k]&&typeof o[k]==='object') walk(o[k], k==='wage'?lb:(o[k].label||lb)); } };
     walk(d,'');
-    h+='<section class="links">'+(c.links?Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图（档位的来源）'})[k]||k}</a>`).join(''):'')
-      +[...srcs].map(([u,x])=>`<a href="${u}" target="_blank" rel="noopener"><span>${[x.plat,x.title,x.date].filter(Boolean).join(' · ')}</span></a>`).join('')+'</section>'; }
+    h+='<section class="links">'+(c.links?Object.entries(c.links).map(([k,v])=>`<a class="mrow" href="${v}"><span class="lab"><div class="name">${({reach:'车站可达性图'})[k]||k}</div><div class="hint">${({reach:'档位的来源 · 本站'})[k]||'本站'}</div></span><i class="sf chev" data-sf="chevron.right"></i></a>`).join(''):'')
+      +[...srcs].map(([u,x])=>`<a class="mrow" href="${u}" target="_blank" rel="noopener"><span class="lab"><div class="name">${x.title||x.plat}</div><div class="hint">${[x.title?x.plat:'',x.date].filter(Boolean).join(' · ')||x.plat}</div></span><i class="sf chev" data-sf="arrow.up.right"></i></a>`).join('')+'</section>'; }
   h+=`<section class="src">更新 ${fmtDay(d.updated)||d.updated||'—'}${d.status==='ready'?'':' · 草稿，数据未填完'}</section>`;
   return h;
 }
