@@ -17,7 +17,7 @@
 #card.stacked{z-index:16}
 /* 想法见 ../IDEAS.md 第 6 节；数据规范见 data/README.md。
    界面照地图 App：地图全屏；左上一个玻璃圆钮回目录、右上货币；底部一张非模态 Sheet——
-   没选城市时是「搜索 + 城市列表」，点了城市就是那座城的卡片。宽屏时 Sheet 变成左侧 320 的侧栏。
+   没选城市时是城市列表（三城，不设搜索），点了城市就是那座城的卡片。宽屏时 Sheet 变成左侧侧栏（macOS 27 Kit）。
    所有尺寸来自 ../ui/hig.css（DESIGN-HIG.md 有出处）。 */
 #map{position:absolute;inset:0}
 .maplibregl-ctrl-attrib{font-size:.6471em}
@@ -96,7 +96,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
       <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">时薪、房租、通勤、生活费，换算成每月要打的工时。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
       <h2 class="mh">城市</h2>
       <div class="mlist" id="cityRows"></div>
-      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 月薪岗折算时薪的中位数　<span id="curDate"></span></p>
+      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span></p>
       <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
       <h2 class="mh" id="draftHead" hidden>待调查</h2>
       <div class="mlist dimlist" id="draftRows" hidden></div>
@@ -121,7 +121,7 @@ const $=id=>document.getElementById(id);
 // 城市清单很小，先取到再建图：点直接内嵌进样式的 source，不用等 load 事件
 let CITIES=[], RATES=null, CUR='local', map=null, APP=null;
 (async()=>{
-try{ CITIES=await (await fetch('data/cities.json')).json(); }catch(e){ CITIES=[]; }
+let LOADERR=null; try{ const r=await fetch('data/cities.json'); if(!r.ok) throw new Error('HTTP '+r.status); CITIES=await r.json(); }catch(e){ CITIES=[]; LOADERR='城市清单没加载出来（'+(e&&e.message||e)+'），检查网络后刷新。'; }   // 不静默（#15）
 // 壳（ui/shell.js）：地图 + Sheet + 叠放卡片 + 点击→卡片；这页只给 layers() 和 card()
 APP=HIGShell.create({
   attribution:'',   // 底图样式自带「OpenFreeMap © OpenMapTiles Data from OpenStreetMap」，别再加一份
@@ -166,18 +166,20 @@ const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'�
 // 建议卡：× 掉记住
 try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
 $('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
-$('introMore').addEventListener('click',()=>{ location.href='data/README.md'; });
+$('introMore').addEventListener('click',()=>{ window.open('https://github.com/herclyon1/transit/blob/main/cost/data/README.md','_blank','noopener'); });   // Pages 不渲染 .md，去 GitHub 看渲染过的（#16）
 // 国旗 = emoji 圆标（用户 09-15 定，和最初一样）。🇹🇼 在模拟器上画成方框是「地区 = 中国大陆」的系统行为，不是 emoji 的锅（maa 实测：地区改日本、语言仍简中，六面旗都正常）
 const flagIco=c=>`<span class="ico">${FLAG[c.country]||'🏙'}</span>`;
 function cityRows(){
   // 地图 App 搜索结果行：34 圆图标 + 标题 17 半粗 + 副标题 15 + ›；右侧 = 到枢纽 15 分那档每月要打的工时 + 样本数（股市行的形）
   // 375 宽的行：名字栏只有 ~133px，副题只放得下「留学签 · 周 28h 上限」/「本国公民 · 无上限」；样本数和超上限放右侧第二行 11pt（22+15=37 ≤ 内容高 42，行高仍 69；maa 真机 09-15）
   const capLine=hh=>{ if(!hh.visa) return ''; const v=hh.visa.replace(/签证$/,'签'); return /公民/.test(hh.visa)?'本国公民 · 无上限':`${v} · ${hh.capWeek?`周 ${hh.capWeek}h 上限`:'无上限'}`; };
-  const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
+  const right=c=>{ const hh=HEAD[c.id]; if(hh===undefined&&!HEADS_DONE) return `<span class="val"><span class="dim">…</span></span>`;   // 还没取到
+    if(HEADERR[c.id]) return `<span class="val"><span class="tag gray" title="${HEADERR[c.id]}">没加载出来</span></span>`;   // 网络失败 ≠ 数据缺项（#15）
+    if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
     const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="nrow ${over?'over':'dim'}">${over?'超出上限 · ':''}${hh.n} 条</small></span>`; };
   const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name">${c.name.zh} <span class="en dim" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
   const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
-  $('cityRows').innerHTML=ready.map(row).join('');
+  $('cityRows').innerHTML=(LOADERR?`<div class="empty">${LOADERR}</div>`:'')+ready.map(row).join('');
   $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span class="en" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
   $('draftHead').hidden=$('draftRows').hidden=!draft.length;
   HIG.sf();
@@ -190,25 +192,53 @@ fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_a
   fetch('https://open.er-api.com/v6/latest/JPY').then(x=>x.json()).then(live=>{
     if(!live||live.result!=='success'||!live.rates) return;
     const fx={}; for(const k of Object.keys(r.fx||{})){ if(live.rates[k]) fx[k]=1/live.rates[k]; }
-    if(Object.keys(fx).length){ RATES={...r, fx:{...r.fx,...fx}}; fillCur(new Date(live.time_last_update_unix*1000).toISOString().slice(0,10), '实时'); if(APP.open) show(APP.open); }
+    if(Object.keys(fx).length){ RATES={...r, fx:{...r.fx,...fx}}; fillCur(new Date(live.time_last_update_unix*1000).toISOString().slice(0,10), '实时'); if(CUR!=='local') rerender(); }   // 当地币不受汇率影响，不重画（#14）
   }).catch(()=>{});
 }).catch(()=>{});
 function fillCur(date, kind){
   const m=$('curMenu'); m.querySelectorAll('button:not([data-value=local])').forEach(o=>o.remove());
   for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.setAttribute('aria-checked', k===CUR?'true':'false'); b.dataset.value=k; b.innerHTML='<i class="sf" data-sf="checkmark"></i>'+k; m.appendChild(b); }
-  HIG.sf(); $('curBtn').title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
+  if(RATES.ppp){ const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.setAttribute('aria-checked', CUR==='ppp'?'true':'false'); b.dataset.value='ppp'; b.innerHTML='<i class="sf" data-sf="checkmark"></i>购买力（PPP）'; m.appendChild(b); }
+  HIG.sf(); $('curBtn').title=`汇率 ${date}（${kind}）`+(RATES.ppp_year?`；PPP ${Object.values(RATES.ppp_year)[0]||''} 世界银行`:''); const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
 }
-HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(APP.open) show(APP.open);});
+HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='local'?'当地':(CUR==='ppp'?'PPP':CUR); rerender();});
 })();
 
 const cache={};
+// 两城对比（#20）：「钉住对比」把当前城市钉住，再打开别的城市时卡片顶部出一张对比表；再点一次取消
+let PIN=null;
+function togglePin(id){ PIN = (PIN===id) ? null : id; rerender(); }
+function compareHtml(c,d,cur){
+  if(!PIN||PIN===c.id||!cache[PIN]) return '';
+  const pc=CITIES.find(x=>x.id===PIN), pd=cache[PIN]; if(!pc||!pd) return '';
+  const V=x=>x&&x.value!=null?x.value:null;
+  const pick=(dd,cc)=>{ const RW=refWageOf(dd), hf=hoursFor(dd), t=(dd.tiers||[]).find(x=>/15/.test(x.label||''))||(dd.tiers||[])[1]||{}; const u=dd.utilities||{}; const ccur=dd.currency||cc.currency;
+    const util=['electricity','gas','water'].map(k=>V(u[k])).reduce((a,b)=>a+(b||0),0); const comm=(V(u.mobile)||0)+(V(u.internet)||0)||V(u.comm_official)||0;
+    return {cur:ccur, wage:RW.n?money(RW.wage,(dd.jobs||[]).find(j=>j.wage&&j.wage.unit)?.wage.unit||ccur+'/小时',ccur):null, n:RW.n, rent:t.rent_1k?money(V(t.rent_1k),t.rent_1k.unit||ccur+'/月',ccur):null,
+      pass:(t.pass_commuter||t.pass_student)?money(V(t.pass_commuter||t.pass_student),(t.pass_commuter||t.pass_student).unit||ccur+'/月',ccur):null, util:money(util+comm,ccur+'/月',ccur),
+      food:dd.living_official&&dd.living_official.food?money(V(dd.living_official.food),dd.living_official.food.unit||ccur+'/月',ccur):null, hrs:hf?hf.hrs+' 小时/月':null, cap:hf&&hf.cap?hf.cap+' 小时/月':'无上限'}; };
+  const A=pick(pd,pc), B=pick(d,c); const rows=[['时薪中位数','wage'],['15 分档单间月租','rent'],['通勤','pass'],['水电网络','util'],['食费','food'],['每月要打的工时','hrs'],['签证上限','cap']];
+  return `<section><h3>对比：${pc.name.zh} vs ${c.name.zh}</h3><div style="overflow-x:auto"><table class="tiers"><thead><tr><th></th><th>${pc.name.zh}</th><th>${c.name.zh}</th></tr></thead><tbody>`
+    + rows.map(([lb,k])=>`<tr><td>${lb}</td><td>${A[k]==null?'<span class="none">暂无</span>':A[k]}</td><td>${B[k]==null?'<span class="none">暂无</span>':B[k]}</td></tr>`).join('')
+    + `</tbody></table></div><div class="src">${CUR==='local'?'各自本币；右上角切同一货币或「购买力（PPP）」再比。':''}岗位样本：${pc.name.zh} ${A.n||0} 条 / ${c.name.zh} ${B.n||0} 条。</div></section>`;
+}
+// 重画卡片但不丢滚动位置和已展开的行（换币、汇率到达，#14）
+function rerender(){ if(!APP||!APP.open) return; const body=document.querySelector('#card .body'); const top=body?body.scrollTop:0;
+  const opened=[...document.querySelectorAll('#card .job')].map((j,i)=>j.querySelector('.det')&&!j.querySelector('.det').hidden?i:-1).filter(i=>i>=0);
+  Promise.resolve(show(APP.open)).then(()=>{ const b2=document.querySelector('#card .body'); if(b2) b2.scrollTop=top;
+    const jobs=[...document.querySelectorAll('#card .job')]; for(const i of opened){ const j=jobs[i]; if(!j) continue; const det=j.querySelector('.det'), btn=j.querySelector('.jr'); if(det){ det.hidden=false; btn&&btn.setAttribute('aria-expanded','true'); } } }); }
 // 月票标签：城市没有月票（d.transport.pass === null，乌鲁木齐 = 用户 2026-09-15 查地铁 App）时，「通学月票/通勤月票」改叫 d.transport.pass_label（「通勤费（单程 × 2 × 22，推算）」）
 const passLabel=(d,kind)=>{ const tr=d&&d.transport; if(tr&&tr.pass===null) return tr.pass_label||'通勤费（推算）'; return kind==='student'?'通学月票':kind==='commuter'?'通勤月票':'月票'; };
 // 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 参考时薪；和卡片里「换算成工时」同一公式
 // 参考时薪 = 有效岗位的时薪中位数（2026-09-15 起；之前用最低值，一条 24 小时岗就把乌鲁木齐从 229 拉到 316）。
 // 有效 = headline!==false：临时单、郊区、私人家政不算（「上一休一」没写班长的根本不折时薪，进不了 jobs）；卡片里另给最低/最高。
 // 时薪岗和月薪岗不混（用户 09-15）：月薪岗 = 帖子写月薪、按帖子工时折成时薪；时薪/日薪岗 = 帖子直接写时薪或日薪（多为兼职）。首页和统计卡用月薪岗的中位数，时薪岗另给一个中位数
-function isMonthly(jb){ const w=jb.wage||{}, h=w.hours||{}; return /\/月/.test(w.wage_posted||'') || (!w.wage_posted && !!h.monthly); }
+function isMonthly(jb){ const w=jb.wage||{}, h=w.hours||{}; const wp=w.wage_posted||'';
+  if(/\/月|月薪|月工资|万円\b|円\/月|đ\/tháng|triệu/.test(wp)) return true;
+  if(/\/小时|\/时|\/h\b|時給|每小时|\/天|日薪|日结|\/ngày|\/giờ|k\/h/.test(wp)) return false;
+  const note=w.note||''; if(/[“"][^”"]*(\d{4,5})\s*元?\s*\/?\s*月|月薪|到手\s*\d{4}/.test(note)) return true;
+  if(/[“"][^”"]*(時給|每小时|元\/小时|\d+\s*元\/时)/.test(note)) return false;
+  return !wp && !!h.monthly; }   // 都看不出来才按「记了月工时」猜（#5）
 function median(arr){ const ws=arr.slice().sort((a,b)=>a-b); if(!ws.length) return null; return ws.length%2?ws[(ws.length-1)/2]:(ws[ws.length/2-1]+ws[ws.length/2])/2; }
 function refWageOf(d){ const V=x=>x&&x.value!=null?x.value:null;
   const valid=(d.jobs||[]).filter(jb=>jb.headline!==false&&V(jb.wage)!=null);
@@ -227,8 +257,8 @@ function hoursFor(d){
   const w0=d.work&&d.work[0];
   return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label, n:refWageOf(d).n, visa:w0&&w0.visa, capWeek:w0&&V(w0.rule)};
 }
-const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
-function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
+const HEAD={}, HEADERR={}; let HEADS_DONE=false;   // id → hoursFor 结果；有数据的城市开页就取；取不到记原因（#15）
+function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(e=>{ HEADERR[c.id]=String(e&&e.message||e); }))).then(()=>{ HEADS_DONE=true; }); }
 function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:{left:760,top:0,right:0,bottom:0}},flyTo);   // 桌面：侧栏 360 + 面板 380 盖着左边，点要飞到露出来的那块
   return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
 // render() 的 <section><h3>…</h3>REST</section> → 地图 App 地点卡片：<h2 class="mh">…</h2><div class="mcard">REST</div>；
@@ -241,21 +271,21 @@ function groups(h){
           .replace(/<section class="empty">([\s\S]*?)<\/section>/g,'<div class="mcard"><div class="empty">$1</div></div>')
           .replace(/<section class="src">([\s\S]*?)<\/section>/g,'<p class="mnote">$1</p>'); }
 // ---- 渲染：每个数字带置信度芯片和来源；null 一律「暂无」，绝不编数 ----
-function money(v,unit,cur){
+// 币种的中文名：单位里「元/月」「日元/小时」这种中文写法，换币时换的是这一段（unit.replace('CNY','JPY') 对中文单位永远无效，09-15 审查 #1）
+const UTIL_LABEL={electricity:'电',gas:'燃气',water:'水',mobile:'手机',internet:'宽带',comm_official:'通信（统计平均）'};   // 数据里没写 label 的键名（#12）
+const CURNAME={CNY:'元',JPY:'日元',VND:'越南盾',TWD:'新台币',KRW:'韩元',MMK:'缅元',THB:'泰铢',USD:'美元',EUR:'欧元',AUD:'澳元',GBP:'英镑',HKD:'港元',SGD:'新加坡元',ppp:'国际元'};
+// 小数位按数量级：≥100 取整，10–100 一位，<10 两位（190 日元换美元不再显示成「1」，#2）
+const fmtNum=x=>x==null?'':x.toLocaleString(undefined,{maximumFractionDigits:x>=100?0:(x>=10?1:2)});
+function money(v,unit,cur,bare){   // bare=true 只要数字（表格里单位写在表脚）
   if(v==null) return null;
-  if(CUR==='local'||!RATES||!RATES.fx[cur]||!RATES.fx[CUR]) return `${v.toLocaleString()} ${unit}`;
-  const jpy=v*RATES.fx[cur]; const out=jpy/RATES.fx[CUR];
-  return `${Math.round(out).toLocaleString()} ${unit.replace(cur,CUR)}`;
+  const per=(unit||'').includes('/')?(unit||'').slice((unit||'').indexOf('/')):'';
+  const out=(x,u)=>bare?fmtNum(x):`${fmtNum(x)} ${(u||'').replace(/^[A-Z]{3}(?=\/|$)/,m=>CURNAME[m]||m)}`.trim();   // 单位缺省写成 JPY/月 的也换成人话
+  if(CUR==='local'||!RATES||!RATES.fx[cur]) return out(v,unit);
+  if(CUR==='ppp'){ const f=RATES.ppp&&RATES.ppp[cur]; if(!f) return out(v,unit); return out(v/f,'国际元'+per); }   // 购买力平价：世界银行 PPP 因子（#7）
+  if(!RATES.fx[CUR]) return out(v,unit);
+  return out(v*RATES.fx[cur]/RATES.fx[CUR],(CURNAME[CUR]||CUR)+per);
 }
 function stale(d){ if(!d) return false; const t=Date.parse(d); return isFinite(t) && (Date.now()-t)>365*864e5; }
-function num(k,m,cur){
-  if(!m) return '';
-  const val=money(m.value,m.unit||'',cur);
-  const chip=`<span class="chip ${m.confidence||''}">${CONF[m.confidence]||'?'}</span>`;
-  const src=m.source_url?`<a href="${m.source_url}" target="_blank" rel="noopener">${m.source_name||'来源'}</a>`:(m.source_name||'');
-  const meta=[src, m.fetched_at?(stale(m.fetched_at)?`<span class="stale">${m.fetched_at} 旧</span>`:m.fetched_at):'', m.n?`n=${m.n}`:'', m.note||''].filter(Boolean).join(' · ');
-  return `<div class="r"><span class="k">${k}</span><span class="v ${val==null?'none':''}">${val==null?'暂无':val}${chip}</span></div>${meta?`<div class="src">${meta}</div>`:''}`;
-}
 // 置信度的人话（用户 09-15：「挂牌」「推算」这种词换人话或点开有解释）
 const CONF={official:'官方价目',listing:'平台现价',measured:'实测',crowd:'众包',estimated:'推算'};
 const CONF_HOW={official:'官方公布的价目或规则，直接引用。',listing:'当地人实际在用的平台上现在挂着的价，不是统计均值。',measured:'实地量到的。',crowd:'众包网站的值，只做对照。',estimated:'按公布的单价乘以项目统一用量、或按规则折算出来的，用量是假定的。'};
@@ -290,7 +320,7 @@ function jobMeta(jb){ const w=jb.wage||{}, hh=w.hours||{}; const parts=[];
   if(hh.basis==='default_24h') parts.push('24 小时在岗（默认）'); else if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
   const shift=(hh.posted||'').match(/上[一二三]休[一二三]|白夜班倒|两班倒|週休二日/); if(shift) parts.push(shift[0]);
   else if(hh.days_per_month) parts.push(hh.days_per_month>=30?'全月无休':`月休 ${30-hh.days_per_month} 天`);
-  if(w.posted_at){ const m=w.posted_at.match(/(\d{4})-(\d{2})-(\d{2})/); if(m) parts.push(`${+m[2]} 月 ${+m[3]} 日`); }
+  if(w.posted_at){ const m=w.posted_at.match(/(\d{4})-(\d{2})-(\d{2})/); if(m){ const age=(Date.now()-Date.parse(w.posted_at))/864e5; const y=new Date().getFullYear(); parts.push(`${+m[1]!==y?m[1]+' 年 ':''}${+m[2]} 月 ${+m[3]} 日${age>180?'<span class="stale">（已过 180 天）</span>':''}`); } }   // 帖子年龄可见（#10）
   return parts.map(x=>`<span class="nw">${x}</span>`).join(' · '); }   // 每段不换行，只在「·」处折（窄屏上「日」不再孤零零掉下去）
 function jobContact(jb){ const w=jb.wage||{}, c=w.contact||'';
   if(/^1[3-9]\d[\d*]{4}\d{4}$/.test(c.replace(/\s/g,''))) return `<span class="btn s dis" aria-disabled="true"><i class="sf" data-sf="phone.fill"></i>${c}</span>`;   // 打了码的号：显示、不可拨
@@ -303,7 +333,8 @@ function jobsHtml(d,cur){
   const row=jb=>{ const w=jb.wage||{}; const val=V(w); const note=w.note||''; const quote=(note.match(/[“"]([\s\S]*?)[”"]/)||[])[1]; const rest=note.replace(/帖子原文[:：]?[“"][\s\S]*?[”"][。]?/,'').replace(/^正文原文[:：]?[“"][\s\S]*?[”"][;；。]?/,'').trim();
     const srcLabel=[w.source_short||cleanSrc(w.source_name).split('｜')[0], w.source_title].filter(Boolean).join(' · ')||'来源';   // 平台 · 标题（source_name 是内部记录）
     const src=[w.source_url?`<a href="${w.source_url}" target="_blank" rel="noopener">${srcLabel}</a>`:srcLabel, fmtDay(w.posted_at||w.fetched_at)].filter(Boolean).join(' · ');
-    const hl=(w.wage_posted&&w.hours&&(w.hours.monthly||w.hours.per_day))?`${w.wage_posted} ÷ ${w.hours.monthly?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${val} ${w.unit||''}`:'';
+    const hourlyPost=/\/小时|\/时|\/h\b|時給|每小时|\/giờ|k\/h/.test(w.wage_posted||''); const dailyPost=/\/天|日薪|日结|\/ngày/.test(w.wage_posted||'');
+    const hl=(w.wage_posted&&!hourlyPost&&w.hours&&(dailyPost?w.hours.per_day:(w.hours.monthly||w.hours.per_day)))?`${w.wage_posted} ÷ ${(!dailyPost&&w.hours.monthly)?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${money(val,w.unit||'',cur)}`:'';   // 时薪帖不写「1177 ÷ 9 = 1177」（#4）
     return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${jobMeta(jb)}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
       +`<div class="det" hidden>${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
   const all=(d.jobs||[]); const main=all.filter(jb=>jb.headline!==false&&V(jb.wage)!=null), side=all.filter(jb=>(jb.tags||[]).length&&V(jb.wage)!=null), chain=all.filter(jb=>jb.basket==='chain'&&V(jb.wage)==null);
@@ -316,12 +347,13 @@ function jobsHtml(d,cur){
   const groups={};
   for(const jb of side) for(const t of jb.tags) (groups[t]=groups[t]||[]).push(jb);
   for(const t of Object.keys(groups)){ h+=`<div class="sub">${TAGZH[t]||t} · 不进中位数</div>`; for(const jb of groups[t]) h+=row(jb); }
-  if(d.wage_ref&&d.wage_ref.min_official&&d.wage_ref.min_official.value!=null){ const x=d.wage_ref.min_official; h+=`<div class="src" style="margin-top:6px">法定最低 <a href="${x.source_url}" target="_blank" rel="noopener">${x.value.toLocaleString()} ${x.unit}</a>（只当参考线）</div>`; }
+  if(d.wage_ref&&d.wage_ref.min_official&&d.wage_ref.min_official.value!=null){ const x=d.wage_ref.min_official, nx=d.wage_ref.min_official_next;
+    h+=`<div class="src" style="margin-top:6px">法定最低 <a href="${x.source_url}" target="_blank" rel="noopener">${money(x.value,x.unit,cur)}</a>（只当参考线${x.note?'；'+cleanSrc(x.note):''}）${nx&&nx.value!=null?`；<a href="${nx.source_url||x.source_url}" target="_blank" rel="noopener">${money(nx.value,nx.unit||x.unit,cur)}</a>${nx.note?'（'+cleanSrc(nx.note)+'）':'（改定预定）'}`:''}${d.wage_ref.note?`<div class="src">${cleanSrc(d.wage_ref.note)}</div>`:''}</div>`; }   // 改定预定值 + 口径（#8 #17）
   return h;
 }
 document.addEventListener('click',e=>{ const b=e.target.closest('#card .job .jr:not(.static)'); if(!b) return; const det=b.parentElement.querySelector('.det'); det.hidden=!det.hidden; b.setAttribute('aria-expanded',String(!det.hidden)); });
 function render(c,d){
-  if(!d) return '<section class="empty">这个城市还没有数据文件。数据规范见 data/README.md。</section>';
+  if(!d) return '<section class="empty">这个城市还没有数据文件。</section>';
   const cur=d.currency||c.currency; let h='';
   const V=x=>x&&x.value!=null?x.value:null;
   // ---- 动作行（地图 App 地点卡片：主动作 + 次动作等宽）+ 2×2 统计卡（健身 › 摘要 的形）
@@ -335,23 +367,26 @@ function render(c,d){
     const per=hh.per_day?`${hh.per_day} h/天`:'', days=hh.days_per_month?`${hh.days_per_month} 天/月`:'';
     const BASIS={posted:'帖子写明',default_24h:'上一休一，按 24 小时在岗默认'};
     return (w.wage_posted?`${w.wage_posted} `:'')+(hh.monthly?`÷ ${hh.monthly} h/月（${[per,days].filter(Boolean).join(' × ')}${BASIS[hh.basis]?'，'+BASIS[hh.basis]:''}）`:`÷ ${per}`)+(hh.posted?` · 班次「${hh.posted}」`:''); };
-  const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_student||t15.pass_commuter);
+  const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_commuter||t15.pass_student); const passKind=t15&&t15.pass_commuter?'commuter':'student';   // 「通勤」卡优先通勤月票（#9）
   const foodM=d.living_official&&d.living_official.food;
   h+='<section class="raw"><div class="actions">'
     +'<button class="btn tint" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button>'
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'')
+    +`<button class="btn${PIN===c.id?' tint':''}" type="button" onclick="togglePin('${c.id}')"><i class="sf" data-sf="pin"></i><span>${PIN===c.id?'已钉住':(PIN?'和'+(CITIES.find(x=>x.id===PIN)||{name:{zh:''}}).name.zh+'比':'钉住对比')}</span></button>`
     +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.kind} ${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?(RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 · 中位 ${RWc.hourMid}`:`最低 ${RWc.min} · 最高 ${RWc.max}`):'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.kind} ${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?(RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 · 中位 ${money(RWc.hourMid,wj.wage.unit||cur+'/小时',cur,true)}`:`最低 ${money(RWc.min,wj.wage.unit||cur+'/小时',cur,true)} · 最高 ${money(RWc.max,wj.wage.unit||cur+'/小时',cur,true)}`):'没有一条帖子同时写工资和班次'}</div></div>`
     +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
-    +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · ${passLabel(d,'any')}</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
+    +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · ${passLabel(d,passKind)}</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">${foodM&&/实价推算/.test(foodM.label||'')?'基础食材 · 按平台实价推算':'统计平均 · 月'}</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
     +'</div></section>';
+  h+=compareHtml(c,d,cur);   // 钉住对比：独立一组（groups() 会把 <section><h3> 变成地点卡片的一组）
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
   if(d.work&&d.work.length){ for(const w of d.work){ h+=`<div class="r"><span class="k">${w.visa}</span><span class="v ${V(w.rule)!=null?'':'none'}">${V(w.rule)!=null?w.rule.value+' '+w.rule.unit:(/公民/.test(w.visa)?'无工时上限':'上限暂无')}</span></div>`;
       if(w.rule&&w.rule.note) h+=`<div class="src">${w.rule.note}</div>`;
-      if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>'; } }
+      if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>';
+      if(w.platforms_note) h+=`<div class="src">${cleanSrc(w.platforms_note)}</div>`; } }   // 哪个平台靠谱（#19）
   else h+='<div class="empty">待调查</div>';
   h+='</section>';
   // ---- 工资怎么构成（有典例的城市才显示；乌鲁木齐：底薪 + 社保补贴 + 全勤 + 加班/夜班补贴，用户 09-15 定用沪上阿姨那帖当典例）
@@ -366,9 +401,9 @@ function render(c,d){
   if(tiers.length){
     const noPass=d.transport&&d.transport.pass===null;
     h+=`<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>代表车站</th><th>单间月租</th>${noPass?`<th>${passLabel(d,'any')}</th>`:'<th>通学月票</th><th>通勤月票</th>'}<th>单程</th></tr></thead><tbody>`;
-    for(const t of tiers){ const cell=x=>x&&x.value!=null?`<a href="${x.source_url||'#'}" target="_blank" rel="noopener" title="${(x.source_short||cleanSrc(x.source_name)||'')+(x.how?' · '+x.how:'')}">${money(x.value,x.unit,cur).replace(/ JPY\/month| JPY/,'')}</a><span class="chip ${x.confidence}"></span>`:'<span class="none">暂无</span>';
+    for(const t of tiers){ const cell=x=>x&&x.value!=null?`<a href="${x.source_url||'#'}" target="_blank" rel="noopener" title="${(x.source_short||cleanSrc(x.source_name)||'')+(x.how?' · '+x.how:'')}">${money(x.value,x.unit,cur,true)}</a><span class="chip ${x.confidence}"></span>`:'<span class="none">暂无</span>';
       h+=`<tr><td><b>${t.label}</b><div class="src">${t.commute||''}</div></td><td class="src">${(t.stations||[]).join('<br>')}</td><td>${cell(t.rent_1k)}</td>${noPass?`<td>${cell(t.pass_commuter||t.pass_student)}</td>`:`<td>${cell(t.pass_student)}</td><td>${cell(t.pass_commuter)}</td>`}<td>${cell(t.fare_single)}</td></tr>`; }
-    h+='</tbody></table></div><div class="src">单位 '+cur+'；房租不含礼金、押金、管理费；点数字打开来源。'+(noPass&&(d.transport.how||'')?' '+d.transport.how:'')+'</div>';
+    h+='</tbody></table></div><div class="src">单位 '+(CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR))+'；房租不含礼金、押金、管理费；点数字打开来源。'+(noPass&&(d.transport.how||'')?' '+d.transport.how:'')+'</div>';
     // 各档数字怎么来的：同来源行的形，默认收起
     h+='<details class="sublist tiers-how"><summary>各档数字怎么来的</summary>'+tiers.map(t=>[['rent_1k','单间月租'],[noPass?'pass_commuter':'pass_student',noPass?passLabel(d,'any'):'通学月票'],['fare_single','单程']].map(([k,lb])=>t[k]?srcRow(`${t.label} · ${lb}`,t[k],cur):'').join('')).join('')+'</details>';
   } else h+='<div class="empty">待调查</div>';
@@ -376,27 +411,27 @@ function render(c,d){
   // ---- 地铁分区票价（有分区制的城市才有）
   if(d.transit_zones&&d.transit_zones.zones){ const z=d.transit_zones;
     h+=`<section><h3>${z.label||'地铁分区票价'}</h3><div style="overflow-x:auto"><table class="tiers"><thead><tr><th>分区</th><th>距离 km</th><th>单程</th><th>通学月票</th><th>通勤月票</th></tr></thead><tbody>`;
-    for(const r of z.zones) h+=`<tr><td><b>${r.zone}</b></td><td>${r.km}</td><td>${r.single.toLocaleString()}</td><td>${r.student.toLocaleString()}</td><td>${r.commuter.toLocaleString()}</td></tr>`;
-    h+=`</tbody></table></div><div class="src"><a href="${z.source_url}" target="_blank" rel="noopener">${z.source_name}</a> · ${z.fetched_at} · ${z.note||''}</div></section>`; }
+    for(const r of z.zones) h+=`<tr><td><b>${r.zone}</b></td><td>${r.km}</td><td>${money(r.single,'',cur,true)}</td><td>${money(r.student,'',cur,true)}</td><td>${money(r.commuter,'',cur,true)}</td></tr>`;
+    h+=`</tbody></table></div><div class="src"><a href="${z.source_url}" target="_blank" rel="noopener">${z.source_short||cleanSrc(z.source_name)}</a> · ${fmtDay(z.fetched_at)} · 单位 ${CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR)}。${z.note||''}</div></section>`; }
   // ---- 生活费明细
   h+='<section><h3>水电网络 / 月</h3>';
-  if(d.utilities) for(const [k,x] of Object.entries(d.utilities)) h+=srcRow(x.label||k,x,cur); else h+='<div class="empty">待调查</div>';
+  if(d.utilities) for(const [k,x] of Object.entries(d.utilities)) h+=srcRow(x.label||UTIL_LABEL[k]||k,x,cur); else h+='<div class="empty">待调查</div>';
   h+='</section><section><h3>基础食材与一顿饭 · 单价</h3>';
   if(d.basket) for(const [k,x] of Object.entries(d.basket)) h+=srcRow(plainLabel(x.label||k),x,cur); else h+='<div class="empty">待调查</div>';
-  h+='</section><section><h3>每月食费与统计对照</h3>';
-  if(d.living_official) for(const [k,x] of Object.entries(d.living_official)) h+=srcRow(plainLabel(x.label||k),x,cur);
   h+='</section>';
+  if(d.living_official&&Object.keys(d.living_official).length){ h+='<section><h3>每月食费与统计对照</h3>'; for(const [k,x] of Object.entries(d.living_official)) h+=srcRow(plainLabel(x.label||k),x,cur); h+='</section>'; }   // 没内容不出空段（#18）
   // ---- 换算成工时：按档
-  const RW=refWageOf(d); const refWage=RW.wage; const refName=RW.name+(RW.n?`（最低 ${RW.min}，最高 ${RW.max}）`:'');
+  const RW=refWageOf(d); const refWage=RW.wage; const wUnit=(RW.n&&(d.jobs||[]).find(j=>j.wage&&j.wage.unit)||{wage:{}}).wage.unit||cur+'/小时'; const refName=RW.name+(RW.n?`（最低 ${money(RW.min,wUnit,cur)}，最高 ${money(RW.max,wUnit,cur)}）`:'');
   const u=d.utilities||{}; const util=['electricity','gas','water'].map(k=>V(u[k])).reduce((a,b)=>a+(b||0),0); const comm=(V(u.mobile)||0)+(V(u.internet)||0)||V(u.comm_official)||0;
   const food=d.living_official&&V(d.living_official.food); const capRaw=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null, cap=capRaw&&Math.round(capRaw);
   h+='<section><h3>换算成工时</h3>';
   if(refWage&&food&&tiers.length){
-    h+=`<div class="src">按 ${refName} 时薪 ${refWage.toLocaleString()} 算：房租 + 水电燃气 ${util.toLocaleString()} + 手机宽带 ${comm.toLocaleString()} + 食费 ${food.toLocaleString()} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
+    const mUnit=cur+'/月';
+    h+=`<div class="src">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 食费 ${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
     h+='<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>月开销</th><th>要打的工时</th><th>其中房租</th></tr></thead><tbody>';
     for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student); if(r==null) { h+=`<tr><td><b>${t.label}</b></td><td class="none">房租暂无</td><td></td><td></td></tr>`; continue; }
       const total=r+util+comm+food+(ps||0); const hrs=total/refWage; const over=capRaw&&Math.round(hrs)>Math.round(capRaw);
-      h+=`<tr><td><b>${t.label}</b></td><td>${Math.round(total).toLocaleString()}</td><td><b class="${over?'stale':''}">${Math.round(hrs)} 小时</b>${over?`<div class="src stale">超出上限 ${Math.round(hrs-capRaw)} 小时</div>`:(capRaw&&hrs>capRaw*0.9?'<div class="src">接近上限</div>':'')}</td><td>${Math.round(r/refWage)} 小时</td></tr>`; }
+      h+=`<tr><td><b>${t.label}</b></td><td>${money(Math.round(total),mUnit,cur)}</td><td><b class="${over?'stale':''}">${Math.round(hrs)} 小时</b>${over?`<div class="src stale">超出上限 ${Math.round(hrs-capRaw)} 小时</div>`:(capRaw&&hrs>capRaw*0.9?'<div class="src">接近上限</div>':'')}</td><td>${Math.round(r/refWage)} 小时</td></tr>`; }
     h+='</tbody></table></div>';
   } else h+='<div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div>';
   h+='</section>';
@@ -408,7 +443,7 @@ function render(c,d){
       for(const k of Object.keys(o)){ if(k!=='source_url'&&k!=='note'&&o[k]&&typeof o[k]==='object') walk(o[k], k==='wage'?lb:(o[k].label||lb)); } };
     walk(d,'');
     h+='<section class="links">'+(c.links?Object.entries(c.links).map(([k,v])=>`<a href="${v}">${({reach:'车站可达性图（档位的来源）'})[k]||k}</a>`).join(''):'')
-      +[...srcs].slice(0,20).map(([u,x])=>`<a href="${u}" target="_blank" rel="noopener"><span>${[x.plat,x.title,x.date].filter(Boolean).join(' · ')}</span></a>`).join('')+'</section>'; }
+      +[...srcs].map(([u,x])=>`<a href="${u}" target="_blank" rel="noopener"><span>${[x.plat,x.title,x.date].filter(Boolean).join(' · ')}</span></a>`).join('')+'</section>'; }
   h+=`<section class="src">更新 ${fmtDay(d.updated)||d.updated||'—'}${d.status==='ready'?'':' · 草稿，数据未填完'}</section>`;
   return h;
 }
