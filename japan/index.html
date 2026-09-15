@@ -67,6 +67,7 @@
     <h2 class="mh">图层</h2>
     <div class="mcard" id="tools">
       <label class="r"><span class="k">交通<div class="hint">鉄道・空港・港湾・口岸・航路</div></span><span class="sw"><input type="checkbox" id="b-tr"><i></i></span></label>
+      <label class="r"><span class="k">海域・远岛<div class="hint">領海・EEZ 近似线，沖ノ鳥島・南鳥島・尖閣・竹島等</div></span><span class="sw"><input type="checkbox" id="b-sea" checked><i></i></span></label>
     </div>
     <h2 class="mh">凡例</h2>
     <div class="mcard"><div id="legend"></div></div>
@@ -167,6 +168,8 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
     glyphs:TB+"glyphs/{fontstack}/{range}.pbf",
     sources:{
       jp :{type:"vector",url:"pmtiles://"+TB+"jp.pmtiles"+V},
+      // 海域范围（EEZ 近似线）+ 远岛高精度海岸线（沖ノ鳥島/南鳥島/尖閣/竹島/硫黄/大東/小笠原，OSM 实测），从旧クイズ搬来（09-15 审查 #54）
+      sea:{type:"geojson",data:"data/sea_islands.geojson"},
       // 町丁・字等按地方拆成 4 份：整份 z14 有 225MB，超 GitHub 单文件 100MB 上限。
       // 拆开后每份 30~71MB，且不必牺牲最高层级的细节。视口只会取用到的那一份。
       choA:{type:"vector",url:"pmtiles://"+TB+"ka_a.pmtiles"+V},
@@ -306,6 +309,16 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
         paint:{"line-color":"#2B3742","line-width":["interpolate",["linear"],["zoom"],4,.6,10,1.8]}},
       {id:"jp-sel",source:"jp","source-layer":"pref",type:"line",
         filter:["==",["get","code"],-1],paint:{"line-color":"#12263A","line-width":3.2}},
+      {id:"jp-eez",source:"sea",type:"line",filter:["==",["get","kind"],"eez"],maxzoom:9,
+        paint:{"line-color":"#3a6ea5","line-width":1.2,"line-dasharray":[3,2],"line-opacity":0.75}},
+      {id:"jp-isl-fill",source:"sea",type:"fill",filter:["==",["get","kind"],"isl"],
+        paint:{"fill-color":["case",["==",["get","k"],"takeshima"],"#c5ced4","#eebfba"],"fill-opacity":0.95}},
+      {id:"jp-isl-line",source:"sea",type:"line",filter:["==",["get","kind"],"isl"],
+        paint:{"line-color":"#7a3f3f","line-width":0.6}},
+      {id:"jp-isl-lab",source:"sea",type:"symbol",filter:["==",["get","kind"],"isllab"],
+        layout:{"text-field":["get","n"],"text-font":["NotoSansJP Regular"],"text-size":11,"text-offset":[0,1.1],"text-anchor":"top",
+          "text-allow-overlap":false},
+        paint:{"text-color":"#4a5560","text-halo-color":"#fff","text-halo-width":1.4}},
       // 选中高亮：跟着点到的最细一级走，三层各一条
       {id:"jp-selmA",source:"choA","source-layer":"cho",type:"fill",minzoom:11,
         filter:["==",["get","n"],"\u0000"],paint:{"fill-color":"#1F7A5A","fill-opacity":0.18}},
@@ -701,13 +714,14 @@ const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attribu
     ]},
   center:[137.5,37.5],zoom:4.3}});
 const map=APP.map; window.map=map;  // 供自动截图验收脚本使用
+map.on("error", e=>{ const msg=String(e&&e.error&&e.error.message||e); (window.__mapErr=window.__mapErr||[]).push(msg); console.error("map error:", msg); });   // 样式/瓦片错误留痕（验收读 window.__mapErr）
 map.touchZoomRotate.disableRotation();
 window.__map=map;
 
 const JP=["jp-cho-fillA","jp-choA","jp-cho-fillB","jp-choB","jp-cho-fillC","jp-choC","jp-cho-fillD","jp-choD",
   "jp-muni-fill","jp-muni","jp-ku-fill","jp-ku","jp-selmA","jp-selmB","jp-selmC","jp-selmD","jp-selm","jp-selk",
   "jp-selcA","jp-selcB","jp-selcC","jp-selcD",
-  "jp-lab-muni","jp-lab-ku","jp-lab-cho"];
+  "jp-lab-muni","jp-lab-ku","jp-lab-cho","jp-eez","jp-isl-fill","jp-isl-line","jp-isl-lab"];
 const EA=["ea-fill","ea-cap","ea-caplab","ea-sub-fill","ea-sub","ea-sub-sel","ea-sublab","ea-rus","ea-rus-line","ea-rus-sel","ea-rus-lab",
   "ea-line","ea-sel","ea-disp-fill","ea-disp","ea-lab","ea-labd","ea-lab-disp"];
 // 日本这几层**两个视图共用**，永远可见，只靠 setRegion 改 paint / filter。
@@ -720,6 +734,7 @@ let region="jp";
 function setRegion(r){
   region=r; if(map.getLayer("jp-sel")){ clearSelection(); closeCard(); }
   JP.forEach(id=>map.setLayoutProperty(id,"visibility",r==="jp"?"visible":"none"));
+  if(typeof seaOn!=="undefined" && !seaOn) ["jp-eez","jp-isl-fill","jp-isl-line","jp-isl-lab"].forEach(id=>{ if(map.getLayer(id)) map.setLayoutProperty(id,"visibility","none"); });
   EA.forEach(id=>map.setLayoutProperty(id,"visibility",r==="ea"?"visible":"none"));
   // 日本只有一份几何、一套图层，两个视图的差别就下面这几行。
   JPBOTH.forEach(id=>map.setLayoutProperty(id,"visibility","visible"));
@@ -845,6 +860,9 @@ function setTransit(on){
   if(legOpen) drawLegend();
 }
 document.getElementById("b-tr").addEventListener("change",e=>setTransit(e.target.checked));
+let seaOn=true;
+function setSea(on){ seaOn=on; ["jp-eez","jp-isl-fill","jp-isl-line","jp-isl-lab"].forEach(id=>{ if(map.getLayer(id)) map.setLayoutProperty(id,"visibility",(on&&region==="jp")?"visible":"none"); }); }
+document.getElementById("b-sea").addEventListener("change",e=>setSea(e.target.checked));
 
 function drawLegend(){
   const el=document.getElementById("legend");
@@ -901,6 +919,12 @@ function onMapClick(e){
     ? map.queryRenderedFeatures(e.point,{layers:["ea-sub-fill"]})[0] : null;
   if(map.getLayer("ea-sub-sel"))
     map.setFilter("ea-sub-sel", sub?["all",["==",["get","n"],sub.properties.n],["==",["get","up"],sub.properties.up]]:["==",["get","n"],"\u0000"]);   // 同名的社/坊跨省不一起亮（#41）
+  // 远岛：岛体只有几像素，先用带容差的方框查（#54）
+  if(region==="jp" && map.getLayer("jp-isl-fill") && seaOn){ const R=matchMedia("(pointer: coarse)").matches?12:6;
+    const isl=map.queryRenderedFeatures([[e.point.x-R,e.point.y-R],[e.point.x+R,e.point.y+R]],{layers:["jp-isl-fill"]})[0];
+    if(isl){ clearSelection(); c.innerHTML=`<div class="n">${isl.properties.n}</div><div class="sub">${isl.properties.own||""}</div>`;
+      c.style.display="block"; c.classList.add("on"); document.getElementById("cardSect").hidden=false; document.body.classList.add("carded");
+      document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false; if(SHEET.get()==="small") SHEET.set("medium"); return; } }
   const hit=map.queryRenderedFeatures(e.point,{layers:hitLayers})[0];
   if(!hit){ clearSelection(); closeCard(); return; }   // 点空白：所有高亮（含北方領土/俄方实控区）和卡片、关闭钮一起收（#43 #44）
   const p=hit.properties, d=map.queryRenderedFeatures(e.point,{layers:[dispId]})[0];
