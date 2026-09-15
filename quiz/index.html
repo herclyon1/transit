@@ -224,6 +224,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
 <script src="../ui/sheet.js"></script>
 <script src="../ui/press.js"></script>
 <script src="../ui/hig.js"></script>
+<script src="../ui/shell.js"></script>
 <script src="../vendor/d3.min.js"></script>
 <script src="../vendor/topojson.min.js"></script>
 <script>
@@ -1512,7 +1513,7 @@ window.addEventListener("resize", () => {
   }, 150); // 防抖：历史视图resize要整体重建路径
 });
 
-window.SHEET=HIG.sheet(document.getElementById('sheet'),{initial:'small'});
+const APP=HIGShell.create({map:false, initial:'small'});   // 壳只管 Sheet（这页的图是 D3 SVG，不是 MapLibre）
 for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id), v=document.getElementById(lab);
   const f=()=>{ v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }; sel.addEventListener('change',f); f(); }
 new MutationObserver(()=>{ document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false')); })

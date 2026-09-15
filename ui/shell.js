@@ -8,10 +8,10 @@ window.HIGShell = (function(){
   function create(o){
     const $ = id => document.getElementById(id);
     // ---- 地图：一律 MapLibre GL，不转不倾斜（地图 App 的 2D 手感）；宽屏才给右下缩放钮（iPad/Mac 地图 App 有，手机没有）
-    const map = new maplibregl.Map(Object.assign({
+    const map = o.map === false ? null : new maplibregl.Map(Object.assign({    // map:false = 页面自己画图（クイズ是 D3 的 SVG），壳只管 Sheet 和卡片
       container: o.mapEl || 'map', attributionControl: { compact: true, customAttribution: o.attribution || '' },
       dragRotate: false, pitchWithRotate: false, touchZoomRotate: true }, o.map || {}));
-    if (o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    if (map && o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     // ---- Sheet（主抽屉）+ 叠放的地点卡片（地图 App：点搜索结果 = 第二张 Sheet 从底边弹到中档，后面那张退到中档）
     const sheetEl = o.sheetEl || $('sheet'), listEl = o.listEl || $('list');
     const cardEl = o.cardEl !== undefined ? o.cardEl : (($('card') && $('card').querySelector('.grab')) ? $('card') : null);   // 只有带抓手的 #card 才是叠放的第二张 Sheet（学習的 #card 是内联卡）
@@ -43,8 +43,8 @@ window.HIGShell = (function(){
         map.on('click', id, e => { if (e.features && e.features[0]) clicks[id](e.features[0], e); });
         map.on('mouseenter', id, () => map.getCanvas().style.cursor = 'pointer');
         map.on('mouseleave', id, () => map.getCanvas().style.cursor = ''); } };
-    if (o.layersOnLoad === false) wire(); else map.on('load', wire);
-    if (o.click) map.on('click', e => o.click(e, map));      // 要跨多个图层命中测试的页（学習：都道府県/市区町村/東亜）自己 queryRenderedFeatures
+    if (map){ if (o.layersOnLoad === false) wire(); else map.on('load', wire);
+      if (o.click) map.on('click', e => o.click(e, map)); }      // 要跨多个图层命中测试的页（学習：都道府県/市区町村/東亜）自己 queryRenderedFeatures
     return { map, sheet, card, present, dismiss, get open(){ return open; }, wide, wideSplit };
   }
   return { create };
