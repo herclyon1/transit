@@ -304,10 +304,10 @@ function render(c,d){
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'<button class="btn" type="button" disabled><i class="sf" data-sf="map"></i><span>可达性图</span></button>')
     +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.n} 条${RWc.kind} · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?`最低 ${RWc.min} · 最高 ${RWc.max}${RWc.nHour&&RWc.kind==='月薪岗'?` · 时薪岗 ${RWc.nHour} 条中位 ${RWc.hourMid}`:''}`:'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.kind} ${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?(RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 · 中位 ${RWc.hourMid}`:`最低 ${RWc.min} · 最高 ${RWc.max}`):'没有一条帖子同时写工资和班次'}</div></div>`
     +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 月票</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
-    +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">统计平均 · 月</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
+    +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">${foodM&&/篮子/.test(foodM.label||'')?'基础食材 · 篮子实价推算':'统计平均 · 月'}</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
     +'</div></section>';
   // ---- 能干什么活
   h+='<section><h3>能干什么活</h3>';
@@ -348,7 +348,7 @@ function render(c,d){
   const food=d.living_official&&V(d.living_official.food); const capRaw=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null, cap=capRaw&&Math.round(capRaw);
   h+='<section><h3>换算成工时</h3>';
   if(refWage&&food&&tiers.length){
-    h+=`<div class="src">按 ${refName} 时薪 ${refWage.toLocaleString()} 算：房租 + 水电燃气 ${util.toLocaleString()} + 手机宽带 ${comm.toLocaleString()} + 统计食费 ${food.toLocaleString()} + 通学月票${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
+    h+=`<div class="src">按 ${refName} 时薪 ${refWage.toLocaleString()} 算：房租 + 水电燃气 ${util.toLocaleString()} + 手机宽带 ${comm.toLocaleString()} + 食费 ${food.toLocaleString()} + 通学月票${cap?`。签证打工上限约 ${cap} 小时/月`:''}</div>`;
     h+='<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>月开销</th><th>要打的工时</th><th>其中房租</th></tr></thead><tbody>';
     for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student); if(r==null) { h+=`<tr><td><b>${t.label}</b></td><td class="none">房租暂无</td><td></td><td></td></tr>`; continue; }
       const total=r+util+comm+food+(ps||0); const hrs=total/refWage; const over=capRaw&&Math.round(hrs)>Math.round(capRaw);

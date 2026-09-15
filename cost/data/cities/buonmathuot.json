@@ -669,15 +669,15 @@
  },
  "living_official": {
   "food": {
-   "value": null,
+   "label": "基础食材月费（按篮子实价推算）",
+   "value": 1964034,
    "unit": "越南盾/月",
-   "source_url": null,
-   "source_name": "",
-   "fetched_at": "2026-09-15",
-   "confidence": "official",
+   "confidence": "estimated",
    "n": null,
-   "note": "未采集：分区食费（chi ăn uống bình quân 1 nhân khẩu 1 tháng, vùng Tây Nguyên）只在 VHLSS 全文报告表里，新闻稿不带。nso.gov.vn / gso.gov.vn / 达乐统计局 2026-09-15 从日本连不上（用户手机也在东京，一样）。镜像站 niengiamthongke.net 只卖转录版（excel/word/pdf，150,000 đ/省，「Giá bán: Liên hệ」），不是原版 PDF，不用。",
-   "label": "食费（统计平均，未采集）"
+   "source_url": null,
+   "source_name": "本页篮子各项的平台实价 × 项目统一用量（单身）",
+   "fetched_at": "2026-09-15",
+   "note": "= 大米 5 kg 119200×1 + 鸡蛋 10 个 27500×3 + 牛奶 1 L 46500×10 + 面包 1 kg 61250×2 + 一顿快餐 49000×22 + 可乐 1 L 12667×2 + 啤酒 6 罐 71500×1 = 1,964,034。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。"
   },
   "total": {
    "value": null,
