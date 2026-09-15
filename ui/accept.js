@@ -93,6 +93,22 @@
       const cg=ce.querySelector('.grab i'); if(cg) ok('叠放卡片抓手 60×4 距顶 5', Math.abs(rect(cg).width-60)<0.5&&Math.abs(rect(cg).top-cr.top-5)<0.5, true, 0, num(rect(cg).width)+' @'+num(rect(cg).top-cr.top));
       const cb=ce.querySelector('.head .btn-glass'); if(cb) ok('叠放卡片关闭钮 44 距顶 16 距边 16（Kit）', Math.abs(rect(cb).height-44)<0.5&&Math.abs(rect(cb).top-cr.top-16)<0.5&&Math.abs(cr.right-rect(cb).right-16)<0.5, true, 0, num(rect(cb).top-cr.top)+'/'+num(cr.right-rect(cb).right));
       if(!wasShown){ C.dismiss(); ok('叠放卡片：dismiss 后 shown=false', C.shown, false, 0); } }
+    // 功能探针（09-15 审查修的 bug，各页自己的）
+    if(location.pathname.includes('/osaka/')&&typeof dropPin==='function'&&window.map){ const n0=document.querySelectorAll('.maplibregl-marker').length; try{ dropPin({lng:135.50,lat:34.70}); dropPin({lng:135.51,lat:34.71}); }catch(e){}
+      ok('落两次钉子后钉子还在（#22）', document.querySelectorAll('.maplibregl-marker').length-n0, 1, 0); const pp=document.querySelector('.maplibregl-popup'); ok('钉子气泡带来源等级（#27）', !!pp&&/实测|锚定|借用/.test(pp.innerText), true, 0);
+      ok('低频开关叫法统一「⚡ 低频线」（#34）', /⚡ 低频线/.test(document.getElementById('lowfreq').closest('label').innerText), true, 0);
+      ok('图例行不是按钮（#38）', [...document.querySelectorAll('#lg .mrow')].every(r=>r.classList.contains('no-press')), true, 0);
+      ok('面覆盖画布在标记之下（#24）', (()=>{ const a=document.querySelector('canvas.area'); if(!a) return true; const kids=[...window.map.getCanvasContainer().children]; const mi=kids.findIndex(k=>k.classList&&k.classList.contains('maplibregl-marker')); return kids.indexOf(a)>=0&&(mi<0||kids.indexOf(a)<mi); })(), true, 0);
+      if(window.pin){ try{ pin.remove(); window.pin=null; }catch(e){} } const pp2=document.querySelector('.maplibregl-popup'); if(pp2) pp2.remove(); }
+    if(location.pathname.includes('/japan/')&&window.map&&typeof onMapClick==='function'){ try{ onMapClick({point:window.map.project([150.0,30.0])}); }catch(e){}
+      ok('点空白后卡片、关闭钮、卡片容器一起收（#44）', document.getElementById('card').style.display==='none'&&document.getElementById('cardSect').hidden&&document.getElementById('cClose').hidden, true, 0);
+      ok('点空白后所有选中描边清空（#43）', ['jp-selk','ea-sub-sel','ea-rus-sel','jp-disp-sel'].every(id=>!window.map.getLayer(id)||JSON.stringify(window.map.getFilter(id)).includes('\\u0000')), true, 0);
+      ok('区高亮按 市+区 过滤、只在 z≥8 画（#40）', window.map.getLayer('jp-selk')&&window.map.getLayer('jp-selk').minzoom>=8, true, 0);
+      ok('東亜卡片有国家名对照表（#45）', typeof CN_NAME==='object'&&Object.keys(CN_NAME).length>=20, true, 0); }
+    if(location.pathname.includes('/quiz/')&&typeof setMode==='function'&&typeof updateLabels==='function'){ const info=document.getElementById('info'); ok('クイズ详情卡不被小档 Sheet 盖住（bottom = safe+144，#55）', px(cs(info).bottom)>=144, true, 0, cs(info).bottom);
+      const sl=document.getElementById('showLabels'); const was=sl.checked; sl.checked=true; const vis=()=>[...document.querySelectorAll('svg text')].filter(t=>t.textContent&&cs(t).display!=='none').length; setMode('browse'); const b=vis(); setMode('quiz'); const q=vis();
+      ok('答题时县名标签不显示（#61）', q<b/3, true, 0, b+' → '+q); ok('闯关/答题时「范围」行灰掉（#62）', (setMode('campaign'), document.getElementById('scope').closest('.r').classList.contains('disabled')), true, 0);
+      setMode('browse'); sl.checked=was; updateLabels(); }
     // 分组列表（首页）：桌面 = Kit Group Box r12 内缩 14 + Sidebar Large 行 40 图标 24 + Header 18 / Bold 11
     if(MAC){ const g=qa('.group')[0]; if(g){ ok('分组 = Kit Group Box r12', px(cs(g).borderTopLeftRadius), 12, 0.5); ok('分组内缩 14', rect(g).left-(g.closest('main')?rect(g.closest('main')).left:0), 14, 0.5); const rw=qa('.group .row')[0]; if(rw){ ok('首页行 40（Kit Sidebar Large）', rect(rw).height, 40, 0.5); const ic=rw.querySelector('.ico'); if(ic) ok('首页行图标 24', rect(ic).width, 24, 0.5); ok('首页行无箭头', !qa('.group .row .chev').length, true, 0); } const h2=qa('.sect h2')[0]; if(h2){ const c=cs(h2); ok('首页段头 Bold 11 secondary', Math.abs(px(c.fontSize)-11)<0.1&&+c.fontWeight>=700, true, 0, c.fontSize+' w'+c.fontWeight); } } }
     else { const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }

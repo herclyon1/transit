@@ -142,7 +142,8 @@ window.HIGSheet = (function(){
       raf(step); }
 
     // 触摸（Safari）：body 里的第一下 move 决定归谁；决定归 Sheet 的就 preventDefault，原生滚动便不会开始
-    el.addEventListener('touchstart', e => { begin(e.touches[0].clientY, e.timeStamp, !!(body && body.contains(e.target)), !!(grab && grab.contains(e.target))); }, { passive: true });
+    // 滑块/输入框上的触摸归控件自己（大阪页阈值滑块被 Sheet 手势抢走，09-15 审查 #37）
+    el.addEventListener('touchstart', e => { if (e.target.closest && e.target.closest('input, select, textarea, [data-native-touch]')) return; begin(e.touches[0].clientY, e.timeStamp, !!(body && body.contains(e.target)), !!(grab && grab.contains(e.target))); }, { passive: true });
     el.addEventListener('touchmove', e => { if (move(e.touches[0].clientY, e.timeStamp)) e.preventDefault(); }, { passive: false });
     el.addEventListener('touchend', e => { const onGrab = g && g.onGrab && !g.moved; end(e.timeStamp); if (onGrab) e.preventDefault(); });   // 抓手轻点已处理，压掉随后的 click
     el.addEventListener('touchcancel', e => end(e.timeStamp));

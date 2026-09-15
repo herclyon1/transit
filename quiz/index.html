@@ -127,6 +127,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #jumps{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 104px);z-index:4}
   #jumps button{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge)}
   #jumps button[aria-pressed="true"]{background:var(--tint);color:#fff}
+  .r.disabled{opacity:.45;pointer-events:none}   /* 该模式下不可选的行灰掉（#62） */
   /* 选中县：popover 样子的玻璃卡 */
   #info{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom) + 144px);z-index:4;padding:12px 40px 12px 16px;border-radius:16px;max-width:260px;display:none}
   #info .n{font-size:1em;font-weight:600}
@@ -218,7 +219,8 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
         <label class="r" id="labelToggle"><span class="k">名称标签</span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
         <label class="r" id="seaToggle"><span class="k">远岛海域</span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
     </div>
-    <p class="mnote">旧版页面；将来重做进「地図·学習」。</p>
+    <p class="mnote" id="reviewHint" hidden></p>
+    <p class="mnote">数据：国土数値情報 行政区域（N03，经 smartnews-smri 整理）· geoBoundaries CGAZ（CC-BY 4.0）· Natural Earth 1:10m · 領海・EEZ 为近似范围。旧版页面，将来重做进「地図·学習」。</p>
   </div>
 </aside>
 <script src="../ui/sheet.js"></script>
@@ -424,6 +426,17 @@ function buildPend(items){
   items.forEach(it => { const i = itemId(it); pend[i] = (pend[i]||0) + 1; });
 }
 function loadMiss(){try{return JSON.parse(localStorage.getItem("jpq_miss")||"{}");}catch(e){return {};}}
+// 间隔重复（#59）：记每次清零/通关的日期，打开页面时按 1/3/7 天提示该不该来
+function loadDone(){try{return JSON.parse(localStorage.getItem("jpq_done")||"[]");}catch(e){return [];}}
+function markDone(kind){ try{ const d=loadDone(); d.push({kind, at:new Date().toISOString().slice(0,10)}); localStorage.setItem("jpq_done",JSON.stringify(d.slice(-30))); }catch(e){} }
+function reviewHint(){
+  const d=loadDone(); if(!d.length) return "";
+  const last=d[d.length-1]; const days=Math.floor((Date.now()-new Date(last.at+"T00:00:00"))/864e5);
+  const plan=[1,3,7]; const due=plan.find(x=>days>=x && !d.some(e=>e.at>last.at));
+  if(days===0) return `今天已经${last.kind==="campaign"?"通关":"清零"}过一轮。按遗忘曲线，明天、第 3 天、第 7 天再各来一轮。`;
+  const nextDue=plan.find(x=>x>days);
+  return `上次${last.kind==="campaign"?"通关":"清零"}是 ${days} 天前${due?"，今天该再来一轮了":"，下一轮在第 "+(nextDue||7)+" 天"}。`;
+}
 function saveMiss(m){try{localStorage.setItem("jpq_miss",JSON.stringify(m));}catch(e){}}
 
 let lastK = 1;
@@ -434,7 +447,11 @@ function computeGeom(){
 }
 let histLblFeats = null; // 历史/東亜模式当前显示单元（名称标签数据源）
 function updateLabels(){
-  const show = $("showLabels").checked;
+  const testing = mode === "quiz" || (mode === "campaign" && (phase === "stagequiz" || phase === "review"));
+  const asksName = ($("qtype").value || "").indexOf("cap") !== 0;   // 只考县厅时标签不泄题
+  const hideForQuiz = testing && asksName;
+  const show = $("showLabels").checked && !hideForQuiz;   // 答题时不许把答案印在图上（#61）
+  { const row=$("labelToggle"); if(row){ row.classList.toggle("disabled", hideForQuiz); row.title = hideForQuiz ? "答题时不显示县名，考完自动恢复" : ""; } }
   if(mode === "dainippon" || mode === "kyoeiken"){
     if(!show || !histLblFeats){ gLbl.style("display","none"); return; }
     const savedC = projection.clipExtent(); projection.clipExtent(null); // 质心/包围盒不能受视口裁剪影响
@@ -632,8 +649,10 @@ function dissolvedGeom(rings){ // 融合并只保留显著环(丢弃链接产生
   return {type:"MultiPolygon", coordinates: keep.map(function(r){return [r];})};
 }
 
+let modePrev = "browse";
 function setMode(m){
   if(!features) return;
+  if(mode !== m) modePrev = mode;
   mode = m;
   document.querySelectorAll("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.m === m));
   gMap.selectAll("path").classed("reveal",false).classed("flashOk",false).classed("flashNg",false);
@@ -648,6 +667,8 @@ function setMode(m){
   // 各模式下无效的控件直接禁用，避免"改了没反应"的困惑：scope只作用于混考
   $("scope").disabled = (m === "campaign" || m === "dainippon" || m === "kyoeiken");
   $("qtype").disabled = (m === "dainippon" || m === "kyoeiken");
+  for(const id of ["scope","qtype"]){ const row=$(id).closest(".r"); if(row){ row.classList.toggle("disabled",$(id).disabled); row.title=$(id).disabled?"这个模式里不可选":""; } }   // 灰掉，别像还能点（#62）
+  if(m === "campaign"){ const v=$("scopeVal"); if(v) v.firstChild.nodeValue="全 43 県（闯关固定）"; } else if(typeof syncSelLabel==="function"){ syncSelLabel("scope","scopeVal"); }
   if(m === "dainippon" || m === "kyoeiken"){
     $("promptBar").style.display = "none";
     $("stats").textContent = m === "kyoeiken" ? "" : "历史版图浏览 ・点任意行政区看详情";
@@ -702,7 +723,7 @@ function beginStageQuiz(){
   next();
 }
 function beginReview(pool){
-  phase = "review";
+  phase = "review"; updateLabels(); zoomToRegion(null);   // 复习题是前几关的県，先回到全国视野（#63）
   queue = shuffle(buildItems(shuffle(pool.slice()).slice(0, 8)));
   buildPend(queue);
   total = queue.length; done = 0; cur = null; locked = false; req = {};
@@ -713,9 +734,11 @@ function advanceStage(){
   stageIdx++;
   $("promptBar").style.display = "none";
   if(stageIdx < STAGES.length) startStudy();
-  else showCard("闯关完成",
-    `七个地方全部通关，累计失误 ${misses} 次。<br>建议现在切"混考"做一轮全43县收尾，明天、第3天、第7天再各来一轮。`,
-    "去混考", () => { $("scope").value = "43"; scopePrev = "43"; setMode("quiz"); }); // 文案承诺全43县，故强制scope
+  else { markDone("campaign");
+    const missed = Object.keys(roundMiss).sort((a,b) => roundMiss[b]-roundMiss[a]).map(i => `${P[i][0]}×${roundMiss[i]}`).join("、");   // 列出错过的県（#60）
+    showCard("闯关完成",
+    `七个地方全部通关，累计失误 ${misses} 次。<br>` + (missed ? `错过的：${missed}<br>` : `一次都没错。<br>`) + `建议现在切"混考"做一轮全43县收尾，明天、第3天、第7天再各来一轮。`,
+    "去混考", () => { $("scope").value = "43"; scopePrev = "43"; syncSelLabel("scope","scopeVal"); setMode("quiz"); }); } // 文案承诺全43县，故强制scope；面板显示同步（#57）
 }
 function next(){
   $("fb").textContent = ""; $("fb").className = "fb"; locked = false;
@@ -827,6 +850,7 @@ function finish(){
     .map(i => `${P[i][0]}×${roundMiss[i]}`).join("、");
   const worst = scopeIds().filter(i => m[i]).sort((a,b) => m[b]-m[a]).slice(0,5)
     .map(i => `${P[i][0]}×${m[i]}`).join("、");
+  markDone("quiz");
   showCard("本轮清零",
     `${total} 个全部定位完成，本轮失误 ${misses} 次。<br>` +
     (roundList ? `本轮错过：${roundList}<br>` : `本轮零失误。<br>`) +
@@ -884,7 +908,8 @@ $("showSea").onchange = () => {
   else gSea.style("display","none");
 };
 
-function zoomToRegion(r){
+function markJump(r){ document.querySelectorAll("#jumps button").forEach(b=>b.setAttribute("aria-pressed", JUMP_REGION[b.dataset.j]===r ? "true" : "false")); }   // 选中态跟视野走（#64）
+function zoomToRegion(r){ markJump(r);
   const w = $("stage").clientWidth, h = $("stage").clientHeight;
   if(r === null || r === undefined){ resetZoomStack(); svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity); return; }
   pushZoom(); // v23b: 区域跳转入栈,点海面可退回
@@ -901,12 +926,12 @@ function rebindPrefLabels(){
     .join("text").attr("class","lbl").text(d => P[d.properties.id][0].replace(/[県都府]$/,""));
 }
 function setViewJapan(){
-  resetZoomStack(); gDispLbl && gDispLbl.style("display","none");
+  resetZoomStack(); if(typeof markJump==="function") markJump(null); gDispLbl && gDispLbl.style("display","none");
   var _cv=$("eaCv"); if(_cv) _cv.style.display="none";
   projection.clipExtent(null); if(typeof eaRefine==="function") eaRefine._clip=null;
   if(typeof eaTier!=="undefined") eaTier=-1;
   if(zoom) zoom.scaleExtent([1,200]); // 支持看清冲鸟礁级小岛
-  $("info").style.top = "auto"; $("info").style.bottom = "12px";
+  $("info").style.top = ""; $("info").style.bottom = "";   // 回到 CSS 的 bottom:safe+144（避开小档 Sheet），别用 12px 压到 Sheet 底下（#55）
   gMk.style("display","none"); gWorldOut.style("display","none"); gCtx.style("display","none");
   histLblFeats = null;
   if(features) rebindPrefLabels();
@@ -1461,7 +1486,7 @@ function enterHist(kind){
   if(kind==="dainippon" && !ADMIN1){ $("loading").style.display="block";
     fetch("data/admin1.topojson").then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json();})
       .then(t=>{ ADMIN1=t; $("loading").style.display="none"; if(mode==="dainippon") enterHist("dainippon"); })
-      .catch(e=>{ $("loading").style.display="none"; alert("大日本地图数据加载失败: "+e.message); }); return; }
+      .catch(e=>{ $("loading").style.display="none"; alert("大日本地图数据加载失败: "+e.message+"\n检查网络后再点一次。"); setMode(modePrev==="dainippon"?"browse":modePrev); }); return; }   // 失败回退，不卡死（#56）
   if(kind==="kyoeiken" && !EA[0]){ $("loading").style.display="block";
     eaLoad(0,()=>{ $("loading").style.display="none"; eaLoad(1); if(mode==="kyoeiken") enterHist("kyoeiken"); }); return; }
   projection.clipExtent(null); eaRefine._clip=null; eaTier=-1; // fitExtent前必须清投影裁剪; 档位标记复位以便重绘
@@ -1469,7 +1494,7 @@ function enterHist(kind){
   if(zoom) zoom.scaleExtent([1,600]); // 环礁级小岛需极深缩放（NE10m分辨率上限内）
   $("jumps").style.display = "none";
   $("info").style.display = "none";
-  $("info").style.top = "8px"; $("info").style.bottom = "auto"; // hist下信息卡置右上，避让底部面板
+  $("info").style.top = "calc(env(safe-area-inset-top) + 64px)"; $("info").style.bottom = "auto"; // hist下信息卡置右上（让开顶部分段），避让底部面板
   gMap.style("display","none"); gHl.style("display","none");
   if(kind === "dainippon"){
     gCtx.style("display",null).selectAll("path").data([DAI_CTX]).join("path")
@@ -1514,8 +1539,9 @@ window.addEventListener("resize", () => {
 });
 
 const APP=HIGShell.create({map:false, initial:'small'});   // 壳只管 Sheet（这页的图是 D3 SVG，不是 MapLibre）
-for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id), v=document.getElementById(lab);
-  const f=()=>{ v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }; sel.addEventListener('change',f); f(); }
+{ const rh=reviewHint(); const el=document.getElementById("reviewHint"); if(rh&&el){ el.textContent=rh; el.hidden=false; } }   // 间隔重复提示（#59）
+function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v) v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
+for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id); sel.addEventListener('change',()=>syncSelLabel(id,lab)); syncSelLabel(id,lab); }
 new MutationObserver(()=>{ document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false')); })
   .observe(document.getElementById('modeSeg'),{attributes:true,subtree:true,attributeFilter:['class']});
 </script>

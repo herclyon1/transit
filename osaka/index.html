@@ -62,7 +62,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 </div>
 <aside class="sheet glass panel-wide" id="sheet" aria-label="控制项">
   <div class="grab" aria-hidden="true"><i></i></div>
-  <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim" id="osakaSub">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
     <!-- 主抽屉只放「结果」：阈值值卡（形取自健身统计卡，滑块取 Kit）、筛选胶囊、图例。开关类选项在右上「图层」小 Sheet 里 -->
     <div class="stats" id="bar" style="padding-top:2px">
@@ -98,7 +98,7 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">图层</div></div><span class="slot"><button class="btn-glass fill" id="optClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
     <div class="mcard">
-      <label class="r"><span class="k">含低频优等</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+      <label class="r"><span class="k">⚡ 低频线（每小时不到 3 班的线和优等列车）</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
       <label class="r"><span class="k">枢纽标记</span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
       <label class="r"><span class="k">面覆盖（＋步行）</span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
       <div id="walkWrap" hidden>
@@ -155,7 +155,7 @@ const NOTE_HTML = '<b>面覆盖</b>　打开后，每个像素格按「min over 
     +'借用=同等级中位数，误差可能较大。<b>无独立真值校准，误差为自我交叉验证估计。</b>'
     +'<br><br><b>虚线圈的含义</b>　这些站没有日中≥3本/h 的线，不是「远」而是「班次稀」。'
     +'難波西南侧那一片就属于这类——汐見橋線 30分毎、阪堺線恵美須町側 28分毎，'
-    +'打开⚡开关即可看到它们的到达时间。'
+    +'打开「⚡ 低频线」开关即可看到它们的到达时间。'
     +'<br><br><b class="warn">优等停站型的覆盖</b>　主力 7 条线（京阪本線・南海高野線・'
     +'近鉄南大阪/大阪/奈良線・阪急宝塚本線・阪神本線）的急行/特急停站型已从各线时刻表补入'
     +'（枚方市→京橋 38→18 分、堺東→難波 22→11 分）。仍有 41/80 条线在 OSM 中只有各停停站型，'
@@ -168,7 +168,10 @@ const NOTE_HTML = '<b>面覆盖</b>　打开后，每个像素格按「min over 
 const cssvar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const $ = id => document.getElementById(id);
 
-$('optBtn').addEventListener('click',()=>{ $('optSheet').hidden=false; $('sheet').hidden=true; HIG.sf(); });
+// 「图层」小 Sheet：也走 HIG.sheet（能拖、抓手能点，#32）；打开它时先收掉地点卡片，别两张叠着互相盖（#31）
+let OPT=null;
+$('optBtn').addEventListener('click',()=>{ if(APP.open) APP.dismiss(); $('optSheet').hidden=false; $('sheet').hidden=true; HIG.sf();
+  if(!OPT && window.HIG && HIG.sheet){ OPT=HIG.sheet($('optSheet'),{initial:'medium', detents:['medium','large']}); } else if(OPT && OPT.sim){ OPT.sim.layout(); OPT.set('medium'); } });
 $('optClose').addEventListener('click',()=>{ $('optSheet').hidden=true; $('sheet').hidden=false; });
 for(const id of ['th','wk']){ const r=$(id); const f=()=>r.style.setProperty('--p',((r.value-r.min)/(r.max-r.min)*100)+'%'); r.addEventListener('input',f); f(); }
 
@@ -179,15 +182,24 @@ const APP = HIGShell.create({initial:'medium', attribution:'<a href="https://map
     style:{version:8, sources:{ gsi:{type:'raster', tiles:['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'], tileSize:256, maxzoom:18} },
       layers:[ {id:'bg',type:'background',paint:{'background-color':'#f2f2f7'}},
                {id:'gsi',type:'raster',source:'gsi',paint:{'raster-fade-duration':0}} ]}},
-  layers(map){ return {'stations-hit': f=>{ const st=BYID[f.properties.id]; if(st) APP.present({kind:'station', s:st}); }, 'tiers-fill': f=>APP.present({kind:'tier', p:f.properties})}; },
+  // 车站和等级面块同时在手指下时车站优先（两层各挂 click 会都触发，等级块盖掉车站——09-15 审查 #23）；点车站把它飞到卡片上方可见处（#36）
+  click(e, map){ const st=map.getLayer('stations-hit') && map.queryRenderedFeatures(e.point,{layers:['stations-hit']})[0];
+    if(st){ const s=BYID[st.properties.id]; if(s) APP.present({kind:'station', s:s}, {flyTo:{center:[s.lon,s.lat], padding:cardPad(), duration:500}}); return; }
+    const tf=map.getLayer('tiers-fill') && map.queryRenderedFeatures(e.point,{layers:['tiers-fill']})[0];
+    if(tf) APP.present({kind:'tier', p:tf.properties}); },
   // 地图 App 点 POI = 开叠放卡片，不是气泡（maa 09-15）：车站 → 标题站名、副题线路/最短、正文四枢纽时间；等级面块 → 名称 + 等级 + 说明
+  onDismiss(){ showWalkOne(null); },
   card(item){ if(POP){ POP.remove(); POP=null; }
     if(item.kind==='station'){ const s=item.s, low=$('lowfreq').checked, th=+$('th').value, t=low?s.t_low:s.t_default; const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity]));
+      showWalkOne(s);
       return {title:s.name, sub:[(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '), html:stationCard(s,t,low,th)}; }
+    showWalkOne(null);
     if(item.kind==='tier'){ const p=item.p; return {title:p.name, sub:(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier,
       html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v"><span class="tag" style="background:${tcol(p.tier)};color:#fff">${p.tier}</span></span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mnote">治安×便利×环境，2026 粗略版</p>`}; }
     return null; }});
 const map = APP.map; window.map = map;
+// 卡片开着时地图可见区：窄屏卡片占下 44%，宽屏侧栏+面板在左；flyTo 用 padding 把目标放进可见区（#36）
+function cardPad(){ return APP.wide ? {left:(APP.wideSplit?680:280)+40, top:40, right:40, bottom:40} : {top:40, left:20, right:20, bottom:Math.round(innerHeight*0.44)+20}; }
 const zL = () => map.getZoom()+1;              // Leaflet 口径的 zoom
 const css = c => 'rgb('+c[0]+','+c[1]+','+c[2]+')';
 const EMPTY = {type:'FeatureCollection',features:[]};
@@ -202,6 +214,9 @@ map.on('load', ()=>{
   map.addSource('tiers',{type:'geojson',data:EMPTY});
   map.addLayer({id:'tiers-fill',type:'fill',source:'tiers',paint:{'fill-color':['get','col'],'fill-opacity':['case',['boolean',['feature-state','hover'],false],0.65,0.45]}});
   map.addLayer({id:'tiers-line',type:'line',source:'tiers',paint:{'line-color':'#fff','line-opacity':0.7,'line-width':['case',['==',['get','kind'],'zone'],1,0.6]}});
+  map.addSource('walkone',{type:'geojson',data:EMPTY});   // 打开某站卡片时画它自己的步行等时圈（#30）
+  map.addLayer({id:'walkone-fill',type:'fill',source:'walkone',paint:{'fill-color':'#0a7aff','fill-opacity':['match',['get','m'],5,0.22,10,0.15,15,0.09,0.05]}});
+  map.addLayer({id:'walkone-line',type:'line',source:'walkone',paint:{'line-color':'#0a7aff','line-opacity':0.55,'line-width':0.8}});
   map.addSource('lines',{type:'geojson',data:EMPTY});
   map.addLayer({id:'lines',type:'line',source:'lines',paint:{'line-color':cssvar('--track'),'line-opacity':parseFloat(cssvar('--trackop')),
     'line-width':['step',['zoom'],0.7,10,1.0,12,1.6]}});   // 旧：z≥13 1.6 / z≥11 1.0 / 其余 0.7（Leaflet zoom，这里减 1）
@@ -214,9 +229,9 @@ map.on('load', ()=>{
   // 見た目の半径が小さいと指でもマウスでも押しにくいので、同じ popup を持つ透明な当たり判定の円を上に重ねる
   map.addLayer({id:'stations-hit',type:'circle',source:'stations',paint:{'circle-radius':['get','hr'],'circle-opacity':0,'circle-stroke-width':0}});
   setDark(THEME==='dark');
-  fetch('data/lines_osaka.json').then(r=>r.json()).then(ls=>{
+  fetch('data/lines_osaka.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(ls=>{
     map.getSource('lines').setData({type:'FeatureCollection',features:ls.map(l=>({type:'Feature',properties:{},geometry:{type:'LineString',coordinates:l.c.map(p=>[p[1],p[0]])}}))});
-  });
+  }).catch(e=>loadFail('轨道线路（lines_osaka.json）',e));
   drawHubs(); if(DATA) render();
 });
 
@@ -243,7 +258,7 @@ function fastestHub(t){ let bi=-1, bv=Infinity; t.forEach((v,i)=>{ if(v!==null &
 let DATA=null;
 const WALK_M_PER_MIN = 80;   // 4.8km/h（等時圏の取得時も同じ歩速を指定してある）
 // 実路網の徒歩等時圏（5/10/15/20分, station_id → {5:[ring...],...}）。2MB 級なので面覆盖を初めて開いたときに読む
-let WALK = null, WALK_K = null, walkLoading = null;
+let WALK = null, WALK_K = null, walkLoading = null, walkFailed = 0;
 // 帯内補間用の迂回係数 k_m = m/μ（μ = 帯輪郭頂点までの直線徒歩分の平均）：帯の中でも滑らかに面が育つ
 function prepWalkK(){
   const byId = {}; for(const s of DATA.stations) byId[s.station_id] = s;
@@ -261,11 +276,21 @@ function prepWalkK(){
     WALK_K[sid] = ks;
   }
 }
+// 某一站的步行等时圈（#30）：WALK 没到就先去取，到了再画；s=null 清掉
+let walkOneSid=null;
+function showWalkOne(s){
+  walkOneSid = s ? s.station_id : null; const src = map.getSource('walkone'); if(!src) return;
+  if(!s){ src.setData(EMPTY); return; }
+  if(!WALK){ ensureWalk(); if(walkLoading) walkLoading.then(()=>{ if(walkOneSid===s.station_id) showWalkOne(s); }); src.setData(EMPTY); return; }
+  const polys = WALK[s.station_id]; if(!polys){ src.setData(EMPTY); return; }
+  const feats=[]; for(const m of [20,15,10,5]){ if(!polys[m]) continue; feats.push({type:'Feature',properties:{m},geometry:{type:'Polygon',coordinates:polys[m].map(r=>r.map(p=>[p[1],p[0]]))}}); }
+  src.setData({type:'FeatureCollection',features:feats});
+}
 function ensureWalk(){
   if(WALK || walkLoading) return;
   walkLoading = fetch('data/walk_polys.json').then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(w=>{
-    WALK = w; if(DATA) prepWalkK(); if(area.on) area.draw();
-  }).catch(e=>{ console.warn('walk_polys 読み込み失敗、直線円で継続', e); });
+    WALK = w; if(DATA) prepWalkK(); if(area.on) area.draw(); refreshPin(); if(APP.open&&APP.open.kind==='station') APP.present(APP.open);   // 卡片里的「步行范围」行跟着更新
+  }).catch(e=>{ console.warn('walk_polys 読み込み失敗、直線円で継続', e); walkLoading=null; walkFailed=(walkFailed||0)+1; if(area.on) area.draw(); });   // 失败后下次长按/开面层再试，不永远「载入中」（#26）
 }
 
 // ---- 面カバレッジ: 画面をセル格子に切り、各セルについて ある枢纽hへの総時間 = min over 駅s ( 軌道時間(s→h) + 徒歩時間(セル→s) )
@@ -274,7 +299,7 @@ function ensureWalk(){
 const area = {
   on:false, c:null,
   add(){ if(this.on) return; this.on=true;
-    if(!this.c){ this.c=document.createElement('canvas'); this.c.className='area'; this.c.style.cssText='position:absolute;inset:0;pointer-events:none;transition:opacity .12s'; map.getContainer().appendChild(this.c);
+    if(!this.c){ this.c=document.createElement('canvas'); this.c.className='area'; this.c.style.cssText='position:absolute;inset:0;pointer-events:none;transition:opacity .12s'; map.getCanvasContainer().insertBefore(this.c, map.getCanvas().nextSibling);
       map.on('movestart',()=>{ if(this.on) this.c.style.opacity='0'; }); map.on('moveend',()=>{ if(this.on) this.reset(); }); map.on('resize',()=>{ if(this.on) this.reset(); }); }
     this.reset(); },
   remove(){ this.on=false; if(this.c){ this.c.style.opacity='0'; } },
@@ -370,7 +395,7 @@ const area = {
           for(let h=0;h<4;h++){ const tv = t[h]; if(tv===null || tv>A) continue; const v = tv + walk; if(v < best[base+h]) best[base+h] = v; } } }
     }
     const ast = $('areastat');
-    if(ast) ast.textContent = (WALK && noPoly>0) ? '面覆盖: '+noPoly+' 站无路网等时圈，用直线圆代替' : (!WALK ? '面覆盖: 路网等时圈载入中…（先以直线圆显示）' : '');
+    if(ast) ast.textContent = (WALK && noPoly>0) ? '面覆盖: '+noPoly+' 站无路网等时圈，用直线圆代替' : (!WALK ? (walkFailed ? '面覆盖: 路网等时圈没载入（网络？），先以直线圆显示，再开一次面覆盖会重试' : '面覆盖: 路网等时圈载入中…（先以直线圆显示）') : '');
     const terr = $('terr').checked; const ALPHA = terr ? 235 : 175;
     const img = ctx.createImageData(W,H); const px = img.data; const cols = HUBS.map(h=>HUE[h]);
     const who = new Int8Array(W*H).fill(-1); let covered = 0;
@@ -451,34 +476,36 @@ function openPopup(lnglat, html, opts={}){
 map.on('click', e=>{ if(Date.now() - lastLongPress > 700 && POP && !map.queryRenderedFeatures(e.point,{layers:['stations-hit','tiers-fill'].filter(l=>map.getLayer(l))}).length){ POP.remove(); POP=null; } });
 function stationCard(s,t,low,th){
   let h='<div class="mcard">';
+  h+='<div class="r"><span class="k">步行范围</span><span class="v hint">'+((WALK&&WALK[s.station_id])?'地图上蓝色 = 从本站步行 5 / 10 / 15 / 20 分能到的范围（真实路网）':(walkFailed?'路网等时圈没载入':'路网等时圈载入中…'))+'</span></div>';
   HUBS.forEach((hub,i)=>{ const v=t[i], inTh=v!==null && v<=th; let mark='';
     if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
     h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
   h+='</div>';
-  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mnote">日中3本/h以上の系統が無い駅。既定ビューでは不可达、⚡（含低频优等）を入れると到達可能</p>';
+  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mnote">日中3本/h以上の系統が無い駅。既定ビューでは不可达、「⚡ 低频线」を入れると到達可能</p>';
   h+='<p class="mnote">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 同等级中位数，误差可能较大</p>';
   return h;
 }
 
 function buildLegend(){
   const lg=$('lg'); lg.innerHTML='';
-  const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow';
+  const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow no-press'; r.style.cursor='default';   // 图例不是按钮（#38）
     r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name" style="font-weight:400'+(muted?';color:'+cssvar('--sub'):'')+'">'+txt+'</div></span>'; lg.appendChild(r); };
   HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
   add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '更大、白圈更粗 = 四枢纽全覆盖');
   add('background:'+cssvar('--sub'), '点越大 = 阈值内可达枢纽越多');
   add('background:'+cssvar('--dim')+';border-color:'+cssvar('--dimbd'), '阈值内不可达', 1);
-  add('background:transparent;border:2px dashed '+cssvar('--acc'), '仅低频线可达 ⚡', 1);
+  add('background:'+cssvar('--dim')+';opacity:.6;border:2px solid '+cssvar('--acc'), '仅低频线可达 ⚡（灰点橙圈）', 1);   // 和地图上的画法一致：GL 画不了虚线圆（#33）
 }
 
-fetch('data/reach.json').then(r=>r.json()).then(d=>{
+const loadFail=(what,e)=>{ console.warn(what,e); $('note').innerHTML='<b>'+what+'没加载出来</b>（'+(e&&e.message||e)+'）。检查网络后下拉刷新。'; $('stat').textContent='数据没加载出来'; };
+fetch('data/reach.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{
   DATA=d; if(WALK && !WALK_K) prepWalkK(); buildLegend();
   const cnt={measured:0,anchored:0,borrowed:0}; let tot=0;
   for(const s of d.stations) for(const p of s.prov) if(p){cnt[p]++;tot++;}
   const pct=k=>tot? (100*cnt[k]/tot).toFixed(0) : 0;
   $('note').innerHTML = NOTE_HTML.replace('{M}',pct('measured')).replace('{A}',pct('anchored')).replace('{B}',pct('borrowed'));
   if(map.loaded()||map.getSource('stations')) render();
-});
+}).catch(e=>loadFail('车站可达数据（reach.json）',e));
 
 // 地図の任意地点を長押し/右クリック → その地点から四枢纽への時間（最寄り経由駅つき）。徒歩は駅と同じ実路網等時圏＋迂回係数で判定する
 function pipRings(rings, lat, lon){ let inside = false;
@@ -499,7 +526,9 @@ function pointQuery(ll){
       if(walk===null) continue; }
     else { if(tsl > 20) continue; walk = tsl; }
     const t = low ? s.t_low : s.t_default;
-    for(let h=0;h<4;h++){ if(t[h]===null) continue; const v = t[h] + walk; if(bestT[h]===null || v < bestT[h]){ bestT[h]=v; bestVia[h]={name:s.name, walk:walk}; } }
+    for(let h=0;h<4;h++){ if(t[h]===null) continue; const v = t[h] + walk; if(bestT[h]===null || v < bestT[h]){ bestT[h]=v;
+      const lowUsed = low && s.via[h] && (s.t_default[h]===null || s.t_low[h] < s.t_default[h]-0.01);
+      bestVia[h]={name:s.name, walk:walk, prov:s.prov[h], mark:(lowUsed?' ⚡'+(s.fare[h]?'💴':''):'')}; } }
   }
   const fg = cssvar('--popfg'), dim = cssvar('--popdim');
   let h = '<b>此地点的可达性</b>';
@@ -509,7 +538,7 @@ function pointQuery(ll){
     HUBS.forEach((hub,i)=>{ const v = bestT[i], inTh = v!==null && v<=th;
       h += '<tr><td style="padding:1px 8px 1px 0"><span class="tsw" style="background:'+css(HUE[hub])+'"></span> '+hub+'</td>'
         + '<td style="padding:1px 8px 1px 0;color:'+(inTh?fg:dim)+';'+(inTh?'font-weight:700':'')+'">'+(v===null?'20分步行圈外':v.toFixed(0)+' 分')+'</td>'
-        + '<td style="color:'+dim+';font-size:11px">'+(bestVia[i] ? '步行'+bestVia[i].walk.toFixed(0)+'分→'+bestVia[i].name : '')+'</td></tr>'; });
+        + '<td style="color:'+dim+';font-size:11px">'+(bestVia[i] ? '步行'+bestVia[i].walk.toFixed(0)+'分→'+bestVia[i].name+' · '+(PROV_LABEL[bestVia[i].prov]||'—')+bestVia[i].mark : '')+'</td></tr>'; });
     h += '</table>';
     if(!WALK) h += '<div style="margin-top:4px;color:'+dim+';font-size:11px">路网等时圈载入中，本次为直线估算</div>';
   }
@@ -523,14 +552,22 @@ function dropPin(lngLat){
   if(!DATA) return; lastLongPress = Date.now();
   if(pin){ pin.remove(); pin=null; }
   pin = new maplibregl.Marker({element:pinEl(), anchor:'bottom'}).setLngLat(lngLat).addTo(map);
-  openPopup(lngLat, pointQuery(lngLat), {offset:[0,-30], onClose:()=>{ if(pin){ pin.remove(); pin=null; } }});
+  const mine = pin;   // 旧气泡被顶掉时会同步触发它的 close：只许删自己那颗钉子，不许删刚落的新钉子（09-15 审查 #22）
+  openPopup(lngLat, pointQuery(lngLat), {offset:[0,-30], onClose:()=>{ if(pin===mine){ pin.remove(); pin=null; } }});
 }
+// 阈值 / 低频开关 / 等时圈到达后，钉子气泡跟着重算（#28）
+function refreshPin(){ if(pin && POP){ POP.setHTML(pointQuery(pin.getLngLat())); } }
 map.on('contextmenu', e=>{ e.preventDefault(); dropPin(e.lngLat); });
 { const cv = map.getCanvasContainer(); let t=null, p0=null;
-  cv.addEventListener('touchstart', e=>{ if(e.touches.length!==1) return; p0=[e.touches[0].clientX,e.touches[0].clientY];
+  cv.addEventListener('touchstart', e=>{ if(e.touches.length!==1){ if(t){ clearTimeout(t); t=null; } return; } p0=[e.touches[0].clientX,e.touches[0].clientY];   // 第二指落下 = 缩放，不是长按（#25）
     t=setTimeout(()=>{ t=null; const r=cv.getBoundingClientRect(); dropPin(map.unproject([p0[0]-r.left,p0[1]-r.top])); },600); }, {passive:true});
   cv.addEventListener('touchmove', e=>{ if(t && p0 && Math.hypot(e.touches[0].clientX-p0[0], e.touches[0].clientY-p0[1])>8){ clearTimeout(t); t=null; } }, {passive:true});
-  const cancel=()=>{ if(t){ clearTimeout(t); t=null; } }; cv.addEventListener('touchend',cancel); cv.addEventListener('touchcancel',cancel); }
+  const cancel=()=>{ if(t){ clearTimeout(t); t=null; } }; cv.addEventListener('touchend',cancel); cv.addEventListener('touchcancel',cancel);
+  // 桌面：鼠标按住 600ms 不动也落钉（副题写的「长按」在 Mac 上才成立，#35）
+  let mt=null, mp=null;
+  cv.addEventListener('mousedown', e=>{ if(e.button!==0) return; mp=[e.clientX,e.clientY]; mt=setTimeout(()=>{ mt=null; lastLongPress=Date.now(); const r=cv.getBoundingClientRect(); dropPin(map.unproject([mp[0]-r.left,mp[1]-r.top])); },600); });
+  cv.addEventListener('mousemove', e=>{ if(mt && mp && Math.hypot(e.clientX-mp[0], e.clientY-mp[1])>8){ clearTimeout(mt); mt=null; } });
+  const mcancel=()=>{ if(mt){ clearTimeout(mt); mt=null; } }; cv.addEventListener('mouseup',mcancel); cv.addEventListener('mouseleave',mcancel); }
 
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', THEME);
@@ -542,7 +579,8 @@ function applyTheme(){
   if(DATA){ buildLegend(); render(); if(area.on) area.draw(); }
 }
 applyTheme();
-function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); if(APP.open) APP.present(APP.open); }
+if(matchMedia('(pointer: fine)').matches) $('osakaSub').textContent='点车站看时间 · 右键或按住 0.6 秒查地点';
+function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); if(APP.open) APP.present(APP.open); refreshPin(); }
 $('th').addEventListener('input',()=>{ $('thv').textContent = $('th').value+' 分'; redrawAll(); });
 $('wk').addEventListener('input',()=>{ $('wkv').textContent = $('wk').value+' 分'; if(area.on) area.draw(); });
 $('lowfreq').addEventListener('change',redrawAll);
@@ -558,11 +596,11 @@ let tiersLoading=null, tiersLoaded=false;
 function ensureTiers(){
   if(tiersLoaded) return Promise.resolve();
   if(tiersLoading) return tiersLoading;
-  tiersLoading=fetch('data/tiers.geojson').then(r=>r.json()).then(fc=>{
+  tiersLoading=fetch('data/tiers.geojson').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(fc=>{
     fc.features.sort((a,b)=>(a.properties.kind==='muni'?0:1)-(b.properties.kind==='muni'?0:1));   // 整市粗块先画、细分块后画
     fc.features.forEach((f,i)=>{ f.id=i; f.properties.col=tcol(f.properties.tier); });
     map.getSource('tiers').setData(fc); tiersLoaded=true; TIERS=fc;
-  });
+  }).catch(e=>{ tiersLoading=null; loadFail('居住等级面层（tiers.geojson）',e); throw e; });   // 失败后下次开面层再试（#29）
   return tiersLoading;
 }
 let TIERS=null, hoverId=null;
