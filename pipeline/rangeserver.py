@@ -18,5 +18,12 @@ class H(http.server.SimpleHTTPRequestHandler):
         else: super().copyfile(src,dst)
     def end_headers(self):
         self.send_header('Accept-Ranges','bytes'); super().end_headers()
+    def do_POST(self):
+        # ui/accept.js 把验收结果 POST 到 /accept → 写 .accept/<page>.json（pipeline/ui/accept.py 读）
+        if self.path!='/accept': self.send_error(404); return
+        import json; n=int(self.headers.get('Content-Length') or 0); d=json.loads(self.rfile.read(n) or b'{}')
+        os.makedirs('.accept',exist_ok=True); name=(d.get('page','') or '').strip('/'); name=(name[:-10] if name.endswith('index.html') else name).strip('/').replace('/','_') or 'index'
+        open(os.path.join('.accept',name+'.json'),'w').write(json.dumps(d,ensure_ascii=False,indent=1))
+        self.send_response(204); self.send_header('Access-Control-Allow-Origin','*'); self.end_headers()
     def log_message(self,*a): pass
 http.server.ThreadingHTTPServer(('127.0.0.1',int(sys.argv[1]) if len(sys.argv)>1 else 8788),H).serve_forever()

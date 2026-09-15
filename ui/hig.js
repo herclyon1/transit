@@ -30,5 +30,7 @@ window.HIG = (function(){
     return { set: apply, get: ()=>cur, el };
   }
   document.addEventListener('DOMContentLoaded', sf);
+  // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
+  if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js'; document.head.appendChild(a); }
   return { sf, sheet, ROOT };
 })();

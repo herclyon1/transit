@@ -12,17 +12,18 @@
 <style>
 /* 首页 = 设置 App 的顶层：大标题 + 分组列表，每张图一行（图标、名称、一句副标题、箭头），说明放段尾。
    数字全部来自 ui/hig.css（设置 App 实测）。 */
-main{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 0 calc(env(safe-area-inset-bottom) + 40px)}
-header{padding:0 36px 6px;display:flex;align-items:flex-end;gap:12px}
+/* 设置 App iOS 27 实测（iPhone 18 Pro Max）：大标题与卡片同一布局边距 20；标题行框顶 = 安全区 + 58（空导航条 44 + 14）；标题到首张卡片 13 */
+main{max-width:640px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 58px) 0 calc(env(safe-area-inset-bottom) + 40px)}
+header{padding:0 var(--inset) 0;display:flex;align-items:flex-end;gap:12px}
 header h1{margin:0;flex:1 1 auto}
-header .sub{padding:2px 36px 18px}
+main>.sub{padding:4px var(--inset) 3px}
 /* Claw'd（Anthropic 官方素材，未改动）：不属于 HIG 的任何模式，是用户保留的资产；放在大标题右侧当页头插图，尺寸按 Large Title 行高。 */
 .clawd{position:relative;width:54px;height:41px;flex:none;overflow:visible;cursor:pointer;user-select:none;-webkit-user-select:none}
 .clawd>div{position:absolute;width:228.4%;height:231.25%;left:-60.88%;top:-131.25%}
 .clawd svg{display:block;pointer-events:none}
 .clawd.fallback{background:url(clawd/clawd.svg) center/contain no-repeat}
 .group + .sect{margin-top:0}
-.credits{padding:30px 36px 0}
+.credits{padding:30px calc(var(--inset) + 20px) 0}
 </style>
 </head>
 <body>
@@ -38,16 +39,16 @@ header .sub{padding:2px 36px 18px}
     <div class="group">
       <a class="row icon" href="japan/">
         <span class="ico" style="background:var(--indigo)"><i class="sf" data-sf="graduationcap.fill"></i></span>
-        <span class="lab"><div class="name">地図 · 学習</div><div class="hint">日本 47 都道府県 → 市町村 → 町丁字四级下钻；東亜 27 国</div></span>
+        <span class="lab"><div class="name">地図 · 学習</div><div class="hint">日本四级下钻 · 東亜 27 国</div></span>
         <i class="sf chev" data-sf="chevron.right"></i>
       </a>
       <a class="row icon" href="quiz/">
         <span class="ico" style="background:var(--orange)"><i class="sf" data-sf="questionmark.circle"></i></span>
-        <span class="lab"><div class="name">都道府県クイズ</div><div class="hint">位置、県名、県庁所在地：浏览 · 闯关 · 混考</div></span>
+        <span class="lab"><div class="name">都道府県クイズ</div><div class="hint">位置 · 県名 · 県庁所在地</div></span>
         <i class="sf chev" data-sf="chevron.right"></i>
       </a>
     </div>
-    <p class="foot">現代日本：1741 市町村 · 171 行政区 · 207,959 町丁字。東亜：621 单元，铁路・空港・港湾・口岸・航路。大日本（1942）需历史 GIS 数据，暂缓。クイズ是旧版页面，将来重做进「地図·学習」。</p>
+    <p class="foot">地図·学習：日本 47 都道府県 → 市町村 → 町丁字四级下钻，東亜 27 国。現代日本：1741 市町村 · 171 行政区 · 207,959 町丁字。東亜：621 单元，铁路・空港・港湾・口岸・航路。大日本（1942）需历史 GIS 数据，暂缓。クイズ是旧版页面，将来重做进「地図·学習」。</p>
   </section>
 
   <section class="sect">
@@ -55,12 +56,12 @@ header .sub{padding:2px 36px 18px}
     <div class="group">
       <a class="row icon" href="osaka/">
         <span class="ico" style="background:var(--teal)"><i class="sf" data-sf="tram.fill"></i></span>
-        <span class="lab"><div class="name">大阪 · 居住</div><div class="hint">到梅田／難波／天王寺／京橋各几分钟，这一片住起来怎么样</div></span>
+        <span class="lab"><div class="name">大阪 · 居住</div><div class="hint">到梅田／難波／天王寺／京橋几分钟</div></span>
         <i class="sf chev" data-sf="chevron.right"></i>
       </a>
       <a class="row icon" href="cost/">
         <span class="ico" style="background:var(--green)"><i class="sf" data-sf="yensign"></i></span>
-        <span class="lab"><div class="name">薪资 · 购买力</div><div class="hint">外国人在各城市真实能挣多少、要花多少，换算成工时</div></span>
+        <span class="lab"><div class="name">薪资 · 购买力</div><div class="hint">各城市真实收入与开销，换算成工时</div></span>
         <i class="sf chev" data-sf="chevron.right"></i>
       </a>
     </div>

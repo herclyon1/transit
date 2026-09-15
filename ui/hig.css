@@ -22,7 +22,9 @@
   --glass-shadow:0 8px 28px rgba(0,0,0,.16);
   --seg-on:#ffffff;
   --r-sheet:38px; --r-card:26px; --r-tile:16px;
+  --inset:16px;            /* UIKit 布局边距：窄机 16，≥414pt 宽的 Plus/Max 机型 20（iOS 27 设置/地图 App 在 iPhone 18 Pro Max 上实测 20） */
 }
+@media (min-width: 414px){ :root{--inset:20px} }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#000000; --bg-elev:#1c1c1e; --ink:#ffffff; --ink-2:rgba(235,235,245,.6); --ink-3:rgba(235,235,245,.3);
@@ -71,7 +73,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 
 /* ---------- 5. 顶部工具条（UI Kit › Toolbar - Top - iPhone 1:54472）----------
    54 高（44 按钮 + 10 下边距），左右 16；按钮组 44 圆形玻璃；大标题 34/41 粗体在下一行。 */
-.bar{position:fixed;top:0;left:0;right:0;z-index:20;padding:calc(env(safe-area-inset-top) + 0px) 16px 10px;
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;padding:calc(env(safe-area-inset-top) + 0px) var(--inset) 10px;
      display:flex;align-items:center;gap:10px;pointer-events:none}
 .bar>*{pointer-events:auto}
 .bar .spacer{flex:1 1 auto;pointer-events:none}
@@ -117,30 +119,43 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .sheet.large{height:calc(100dvh - 62px)}
 .sheet.small{height:calc(env(safe-area-inset-bottom) + 96px)}
 .sheet.dragging{transition:none}
-.sheet .grab{flex:none;height:16px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
+.sheet .grab{flex:none;height:15px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
 .sheet .grab i{width:58px;height:4px;border-radius:100px;background:var(--ink);opacity:.2}
-.sheet .head{flex:none;padding:0 16px 10px;min-height:54px;display:flex;align-items:center;gap:10px}
-.sheet .head .t-large,.sheet .head .t-title2{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 标题区 = 地图 App 地点卡片头（iOS 27 实测）：第一行（44 玻璃圆钮 / 搜索胶囊）距 Sheet 顶 15；圆钮距 Sheet 边 15，搜索胶囊 16；
+   标题 22/28 粗体居中，副标题 15/20；两侧各留 44 的槽位；正文从标题块之下 16 开始。 */
+.sheet .head{flex:none;padding:0 15px 16px;display:flex;align-items:flex-start;gap:0}
+.sheet .head .tt{flex:1 1 auto;min-width:0;text-align:center;padding-top:0}
+.sheet .head .tt .t-title2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet .head .slot{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.sheet .head .search{flex:1 1 auto;margin:0 1px}
+.btn-glass.fill{background:var(--fill);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
 .sheet .body{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
              padding:0 0 calc(env(safe-area-inset-bottom) + 16px)}
 
-/* ---------- 9. 分组列表（UI Kit › Lists；设置 App 实测：卡片圆角 26、行高 53.33、文字内缩 20、分隔线内缩 20、
-   段头 17 半粗 上 28 下 6、段尾 13/18 上 6 下 24、卡片与卡片相隔 35）---------- */
-.group{margin:0 16px;background:var(--bg-elev);border-radius:var(--r-card);overflow:hidden}
+/* ---------- 9. 分组列表（UI Kit › Row 550:50430：Regular 52 / Tall 68；iOS 27 设置 App 在 iPhone 18 Pro Max 上实测：
+   卡片内缩 20（= 布局边距）、圆角 26、单行 52.33（含 1/3 分隔线）、图标 28 距卡片边 18、文字与分隔线内缩 60（无图标 20）、
+   分隔线 0.67 粗、卡片与卡片相隔 35、大标题到首张卡片 13；段头 17 半粗 上 28 下 6、段尾 13/18 上 6 下 24（设置 App，另一会话实测）。
+   Sheet 里的列表照地图 App 地点卡片：卡片与段头都从 Sheet 边内缩 20，段头用 label 色。 ---------- */
+.group{margin:0 var(--inset);background:var(--bg-elev);border-radius:var(--r-card);overflow:hidden}
 .group + .group{margin-top:35px}
 .sect{margin:0}
-.sect h2,.sect .h{margin:0;padding:28px 36px 6px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2)}
+.sect h2,.sect .h{margin:0;padding:28px calc(var(--inset) + 20px) 6px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2)}
 .sect:first-child h2,.sect:first-child .h{padding-top:10px}
-.sect .foot{margin:0;padding:6px 36px 24px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
+.sect .foot{margin:0;padding:6px calc(var(--inset) + 20px) 24px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
 .sect .foot + *{margin-top:0}
-.row{position:relative;display:flex;align-items:center;gap:12px;min-height:53.33px;padding:7.5px 18px 7.5px 20px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
-.row + .row::before{content:"";position:absolute;left:20px;right:20px;top:0;height:1px;background:var(--line);transform:scaleY(.34);transform-origin:top}
-.row.icon + .row.icon::before{left:64px}
-.row .ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
-.row .ico .sf{width:1.05em;height:1.05em}
+.sheet .sect h2,.sheet .sect .h{padding-left:var(--inset);padding-right:var(--inset);color:var(--ink)}
+.sheet .sect .foot{padding-left:var(--inset);padding-right:var(--inset)}
+.row{position:relative;display:flex;align-items:center;gap:14px;min-height:52.33px;padding:15px 20px 15px 20px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
+.row:has(.hint){padding-top:13px;padding-bottom:13px;min-height:68.33px}
+.row + .row::before{content:"";position:absolute;left:20px;right:20px;top:0;height:1px;background:var(--line);transform:scaleY(.67);transform-origin:top}
+.row.icon{padding-left:18px}
+.row.icon + .row.icon::before{left:60px}
+.row .ico{width:28px;height:28px;border-radius:6.5px;display:flex;align-items:center;justify-content:center;color:#fff;flex:none}
+.row .ico .sf{width:1em;height:1em}
 .row .lab{flex:1 1 auto;min-width:0}
 .row .lab .name{font-size:1em;line-height:1.2941em}
-.row .lab .hint{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);margin-top:1px}
+.row .lab .name,.row .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}   /* UIKit subtitle 单元格：单行截断 */
+.row .lab .hint{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);margin-top:0}
 .row .val{color:var(--ink-2);font-size:1em;white-space:nowrap;text-align:right}
 .row .val.ink{color:var(--ink);font-weight:600}
 .row .chev{color:var(--ink-3);width:.8em;height:.8em}
@@ -156,7 +171,7 @@ a.row:active,button.row:active{background:var(--fill)}
 .map-shell{position:fixed;inset:0;overflow:hidden}
 .map-shell .map{position:absolute;inset:0}
 /* 右侧浮动控件组（地图 App 实测：竖向玻璃胶囊 49 宽、每个按钮 44、右边距 22、底边在 sheet 中档上沿之上 35） */
-.map-ctl{position:fixed;right:16px;z-index:16;display:flex;flex-direction:column;border-radius:999px;padding:0}
+.map-ctl{position:fixed;right:var(--inset);z-index:16;display:flex;flex-direction:column;border-radius:999px;padding:0}
 .map-ctl .btn-glass{background:none;box-shadow:none}
 .map-ctl .btn-glass + .btn-glass{margin-top:-4px}
 /* 顶部状态胶囊（地图 App「定位服务已关闭 ›」那种） */
@@ -165,9 +180,10 @@ a.row:active,button.row:active{background:var(--fill)}
 
 /* ---------- 11. 宽屏（iPad 横屏 / Mac）：HIG Maps「iPadOS/macOS 用侧栏或 popover」，sheet 变成左侧 320 的侧栏 ---------- */
 @media (min-width: 900px){
-  .sheet{left:16px;right:auto;top:calc(env(safe-area-inset-top) + 16px);bottom:16px;width:320px;height:auto !important;max-height:none;
+  .sheet{left:16px;right:auto;top:calc(env(safe-area-inset-top) + 64px);bottom:16px;width:320px;height:auto !important;max-height:none;
          border-radius:var(--r-card);transition:none}
   .sheet .grab{display:none}
+  .sheet .head{padding-top:15px}          /* 没有抓手时，第一行仍距侧栏顶 15 */
   .map-ctl{right:16px}
   .pill{left:auto;right:16px;transform:none}
 }

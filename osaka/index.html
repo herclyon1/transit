@@ -54,7 +54,7 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
 </div>
 <aside class="sheet glass" id="sheet" aria-label="控制项">
   <div class="grab" aria-hidden="true"><i></i></div>
-  <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2">大阪 · 居住</div><div class="t-foot dim">色 = 最快枢纽 · 点大小 = 可达枢纽数 · 点车站看四元组 · 长按任意处查该地点</div></div></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
     <section class="sect">
       <h2>到枢纽的时间</h2>
@@ -83,6 +83,7 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
     <section class="sect" id="info">
       <h2>可达枢纽</h2>
       <div class="group"><div id="lg"></div><div class="note" id="note">载入中…</div></div>
+      <p class="foot">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
     </section>
   </div>
 </aside>

@@ -4,3 +4,4 @@ __pycache__/
 walk_cache/
 truth_cache/
 .routes_key
+.accept/

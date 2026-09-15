@@ -37,7 +37,6 @@
   #legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
   #legend .hr{margin:6px 0;border-top:1px solid var(--line);transform:scaleY(.5)}
   #legend .h{font-weight:600;color:var(--ink-2);margin:4px 0 2px}
-  #hint{padding:0 20px 12px;color:var(--ink-2);font-size:.8824em}
   .hidden-ctl{display:none}
 </style></head><body>
 <div class="map-shell"><div id="map" class="map"></div></div>
@@ -49,8 +48,8 @@
 </div>
 <aside class="sheet glass" id="sheet" aria-label="详情与图层">
   <div class="grab" aria-hidden="true"><i></i></div>
-  <div class="head"><div style="flex:1 1 auto;min-width:0"><div class="t-title2">地図 · 学習</div><div class="t-foot dim" id="hint">点一下看详情</div></div>
-    <button class="btn-glass" id="cClose" aria-label="关闭详情" hidden style="background:var(--fill);height:36px;min-width:36px"><i class="sf" data-sf="xmark"></i></button></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">地図 · 学習</div><div class="t-sub dim" id="hint">点一下看详情</div></div>
+    <span class="slot"><button class="btn-glass fill" id="cClose" aria-label="关闭详情" hidden><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
     <section class="sect" id="cardSect" hidden><div class="group"><div id="cardWrap"><div id="card"></div></div></div></section>
     <section class="sect">
