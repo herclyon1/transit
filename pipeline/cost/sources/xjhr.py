@@ -36,7 +36,7 @@ def to_rec(d, city, today):
     r=Rec(city=city, source='xjhr', source_url=d['url'], fetched_at=today.isoformat(), posted_at=rel_date(d.get('updated',''),today), raw=raw, account='新疆人才网', article_title=d.get('title',''), site_apply=True)
     extract_common(r, CITY_HINT[city])
     comp=d.get('company') or ''
-    if AGENT.search(comp):                                           # 中介：雇主要从正文里找，且不能又是中介名
+    if AGENT.search(comp) or r.get('via_agent'):                     # 中介（公司名或正文「金盟人力企业微信」露馅）：雇主要从正文里找，且不能又是中介名
         r['via_agent']=True; body=raw.replace(comp,'')
         em=re.search(r'([一-龥A-Za-z0-9·]{2,20}(?:公司|集团|酒店|饭店|餐厅|超市|便利店|工厂|厂|医院|学校|幼儿园|物业|商场|广场|仓|驿站|门店|店|院|中心|基地|银行|车站|机场))',body)
         r['employer']=em.group(1) if em and not AGENT.search(em.group(1)) else None; r['employer_from_location']=False
