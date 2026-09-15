@@ -57,6 +57,8 @@ window.HIG = (function(){
   document.addEventListener('DOMContentLoaded', ()=>{ sf(); switches(); });
   // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
   if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js?v='+Date.now(); document.head.appendChild(a); }
+  // ?kitaudit → 组件对账（页面上每个控件对上哪个 Kit 组件；pipeline/ui/kit-audit.py 收集）
+  if(/[?&]kitaudit/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/kitaudit.js?v='+Date.now(); document.head.appendChild(a); }
   // 下拉菜单（UIMenu）：点 anchor 开合，菜单贴在 anchor 下方 6，靠右对齐；点项 → onPick(value)；Esc/点外面关。
   function menu(anchor, el, onPick){
     const close=()=>{ el.hidden=true; anchor.setAttribute('aria-expanded','false'); };

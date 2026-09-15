@@ -4,6 +4,8 @@
 改完的行标「已按 Kit + commit」；全部改完才许说「按 Kit 重做完成」。推送前 Mac 1440 / 手机 375 每个标签、每个可展开项点开截图自己看，探针只是底线。
 
 状态：**✅ 已按 Kit（commit）** · **⛔ 未按 Kit → 计划** · **◇ Kit 没有此组件 → 按 HIG/系统 App 实测，写明规则**。
+
+**闸门（用户 2026-09-15 晚）**：`python3 pipeline/ui/kit-audit.py`（ui/kitaudit.js）把每页每个看得见的控件逐个对上 Kit 组件，两端（Mac 1440 无头 Chrome + iPhone 模拟器）都 KIT-OK 才许说「按 Kit 重做完成」；本清单的 ✅ 以它的输出为准，报告里 ⚠/✗ 一条就是一条没做完。
 数字出处：iOS = Figma 「Apple iOS and iPadOS 27 UI Kit」节点 id（NUMBERS.md 上半），macOS = Sketch 「Apple macOS 27 UI Kit」页›artboard（NUMBERS.md「macOS 27 UI Kit」）。
 分工：cost/index.html、ui/hig.css、ui/shell.js、本清单 = 本会话；osaka/japan/quiz 三个文件 = maa 会话（interaction 分支），它们页内的项本会话只在 hig.css 里改，页内改动等分支合并。
 
