@@ -219,7 +219,8 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
         <label class="r" id="labelToggle"><span class="k">名称标签</span><span class="sw"><input type="checkbox" id="showLabels"><i></i></span></label>
         <label class="r" id="seaToggle"><span class="k">远岛海域</span><span class="sw"><input type="checkbox" id="showSea" checked><i></i></span></label>
     </div>
-    <p class="mnote">旧版页面；将来重做进「地図·学習」。</p>
+    <p class="mnote" id="reviewHint" hidden></p>
+    <p class="mnote">数据：国土数値情報 行政区域（N03，经 smartnews-smri 整理）· geoBoundaries CGAZ（CC-BY 4.0）· Natural Earth 1:10m · 領海・EEZ 为近似范围。旧版页面，将来重做进「地図·学習」。</p>
   </div>
 </aside>
 <script src="../ui/sheet.js"></script>
@@ -425,6 +426,17 @@ function buildPend(items){
   items.forEach(it => { const i = itemId(it); pend[i] = (pend[i]||0) + 1; });
 }
 function loadMiss(){try{return JSON.parse(localStorage.getItem("jpq_miss")||"{}");}catch(e){return {};}}
+// 间隔重复（#59）：记每次清零/通关的日期，打开页面时按 1/3/7 天提示该不该来
+function loadDone(){try{return JSON.parse(localStorage.getItem("jpq_done")||"[]");}catch(e){return [];}}
+function markDone(kind){ try{ const d=loadDone(); d.push({kind, at:new Date().toISOString().slice(0,10)}); localStorage.setItem("jpq_done",JSON.stringify(d.slice(-30))); }catch(e){} }
+function reviewHint(){
+  const d=loadDone(); if(!d.length) return "";
+  const last=d[d.length-1]; const days=Math.floor((Date.now()-new Date(last.at+"T00:00:00"))/864e5);
+  const plan=[1,3,7]; const due=plan.find(x=>days>=x && !d.some(e=>e.at>last.at));
+  if(days===0) return `今天已经${last.kind==="campaign"?"通关":"清零"}过一轮。按遗忘曲线，明天、第 3 天、第 7 天再各来一轮。`;
+  const nextDue=plan.find(x=>x>days);
+  return `上次${last.kind==="campaign"?"通关":"清零"}是 ${days} 天前${due?"，今天该再来一轮了":"，下一轮在第 "+(nextDue||7)+" 天"}。`;
+}
 function saveMiss(m){try{localStorage.setItem("jpq_miss",JSON.stringify(m));}catch(e){}}
 
 let lastK = 1;
@@ -711,7 +723,7 @@ function beginStageQuiz(){
   next();
 }
 function beginReview(pool){
-  phase = "review"; updateLabels();
+  phase = "review"; updateLabels(); zoomToRegion(null);   // 复习题是前几关的県，先回到全国视野（#63）
   queue = shuffle(buildItems(shuffle(pool.slice()).slice(0, 8)));
   buildPend(queue);
   total = queue.length; done = 0; cur = null; locked = false; req = {};
@@ -722,9 +734,11 @@ function advanceStage(){
   stageIdx++;
   $("promptBar").style.display = "none";
   if(stageIdx < STAGES.length) startStudy();
-  else showCard("闯关完成",
-    `七个地方全部通关，累计失误 ${misses} 次。<br>建议现在切"混考"做一轮全43县收尾，明天、第3天、第7天再各来一轮。`,
-    "去混考", () => { $("scope").value = "43"; scopePrev = "43"; syncSelLabel("scope","scopeVal"); setMode("quiz"); }); // 文案承诺全43县，故强制scope；面板显示同步（#57）
+  else { markDone("campaign");
+    const missed = Object.keys(roundMiss).sort((a,b) => roundMiss[b]-roundMiss[a]).map(i => `${P[i][0]}×${roundMiss[i]}`).join("、");   // 列出错过的県（#60）
+    showCard("闯关完成",
+    `七个地方全部通关，累计失误 ${misses} 次。<br>` + (missed ? `错过的：${missed}<br>` : `一次都没错。<br>`) + `建议现在切"混考"做一轮全43县收尾，明天、第3天、第7天再各来一轮。`,
+    "去混考", () => { $("scope").value = "43"; scopePrev = "43"; syncSelLabel("scope","scopeVal"); setMode("quiz"); }); } // 文案承诺全43县，故强制scope；面板显示同步（#57）
 }
 function next(){
   $("fb").textContent = ""; $("fb").className = "fb"; locked = false;
@@ -836,6 +850,7 @@ function finish(){
     .map(i => `${P[i][0]}×${roundMiss[i]}`).join("、");
   const worst = scopeIds().filter(i => m[i]).sort((a,b) => m[b]-m[a]).slice(0,5)
     .map(i => `${P[i][0]}×${m[i]}`).join("、");
+  markDone("quiz");
   showCard("本轮清零",
     `${total} 个全部定位完成，本轮失误 ${misses} 次。<br>` +
     (roundList ? `本轮错过：${roundList}<br>` : `本轮零失误。<br>`) +
@@ -1524,6 +1539,7 @@ window.addEventListener("resize", () => {
 });
 
 const APP=HIGShell.create({map:false, initial:'small'});   // 壳只管 Sheet（这页的图是 D3 SVG，不是 MapLibre）
+{ const rh=reviewHint(); const el=document.getElementById("reviewHint"); if(rh&&el){ el.textContent=rh; el.hidden=false; } }   // 间隔重复提示（#59）
 function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v) v.firstChild.nodeValue=sel.options[sel.selectedIndex].text; }   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
 for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){ const sel=document.getElementById(id); sel.addEventListener('change',()=>syncSelLabel(id,lab)); syncSelLabel(id,lab); }
 new MutationObserver(()=>{ document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false')); })
