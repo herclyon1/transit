@@ -23,22 +23,25 @@ def extract_common(r, city_hint):
     t=r['raw']
     # ---- 工资：确数优先；区间/面议/保底+提成记为 range
     wage=None; unit=None; rng=RANGE.search(t) and not re.search(r'(\d{1,2})[:：]\d{2}\s*[-–—~至到]\s*(\d{1,2})[:：]\d{2}',RANGE.search(t).group(0))
-    m=(re.search(r'(\d{1,3}(?:\.\d)?)\s*元\s*(?:/|一|每|一个)?\s*小时',t) or re.search(r'(?:时薪|每小时|元/小时|/时|/h)[^\d\n]{0,4}(\d{1,3}(?:\.\d)?)',t))
+    m=(re.search(r'(\d{1,3}(?:\.\d)?)\s*元?\s*(?:/|一|每|一个)\s*小时',t) or re.search(r'(\d{1,3}(?:\.\d)?)\s*(?:元)?\s*/\s*(?:时|h|H)(?![\d])',t) or re.search(r'(?:时薪|每小时|元/小时)[^\d\n]{0,4}(\d{1,3}(?:\.\d)?)',t))
     if m: wage=_num(m.group(1)); unit='CNY/小时'
     else:
-        m=(re.search(r'(?:月薪|月工资|工资|薪资|薪水|待遇|综合到手|到手)[^\d\n]{0,8}(\d{4,5})(?!\s*[-–—~至到]\s*\d)(?!\d)',t) or re.search(r'(\d{4,5})\s*(?:元)?\s*/\s*月',t)
+        m=(re.search(r'(?:月薪|月工资|月收入|工资|薪资|薪水|待遇|综合到手|到手|底薪)[^\d\n]{0,8}(\d{4,5})(?!\s*[-–—~至到/]\s*\d)(?!\d)',t) or re.search(r'(\d{4,5})\s*(?:元)?\s*/\s*月',t)
            or re.search(r'(?<![\d\-–—~至到])(\d{4,5})\s*(?:元)?\s*(?:单休|双休|月休|包吃|管吃|包住|管住)',t))
         if m: wage=_num(m.group(1)); unit='CNY/月'
         else:
-            m=(re.search(r'(\d{2,3})\s*元\s*(?:/|一|每)\s*天',t) or re.search(r'(?:日薪|日结|日工资)[^\d\n]{0,6}(\d{2,3})(?!\s*[-–—~至到]\s*\d)(?!\d)',t) or re.search(r'一天\s*(\d{2,3})\s*元?(?!\s*[-–—~至到]\s*\d)(?!\d)',t))
+            m=(re.search(r'(\d{2,3})\s*元?\s*(?:/|一|每)\s*天(?!\s*[-–—~至到]\s*\d)',t) or re.search(r'(?:日薪|日结|日工资)[^\d\n]{0,6}(\d{2,3})(?!\s*[-–—~至到]\s*\d)(?!\d)',t) or re.search(r'一天\s*(\d{2,3})\s*元?(?!\s*[-–—~至到]\s*\d)(?!\d)',t))
             if m and not re.search(r'\d+\s*[-–—~至到]\s*'+m.group(1),t): wage=_num(m.group(1)); unit='CNY/天'
+    # 「基础薪资1200+餐补+提成」「底薪3000+提成」是组合薪资，不是确数
+    if wage is not None and unit=='CNY/月' and re.search(r'(?:底薪|基础薪资|基本工资|保底)[^\n\d]{0,4}'+str(int(wage))+r'\s*(?:元)?\s*[+＋]|'+str(int(wage))+r'\s*(?:元)?\s*[+＋]\s*(?:提成|补贴|绩效|奖金|餐补|月餐补)',t): wage=None; unit=None; rng=True
     r['wage_value']=wage; r['wage_unit']=unit; r['wage_range']=bool(rng and wage is None)
     if '面议' in t: r['wage_range']=True
     # ---- 工时/班次
     hours_text=[]; hpd=None; dpm=None; flag=''
     # 班次时间：两边都得是「8点/8:00/8：30」这种钟点，避免把 18-45岁、260-280、9.14-9.27 当成时间
     PFX=r'(?:早上|早|上午|中午|下午|晚上|晚|凌晨|次日|第二天)?'
-    ms=re.search(PFX+r'(\d{1,2})(?:[:：](\d{2})|点(半)?|时)\s*[-–—~至到]\s*'+PFX+r'(\d{1,2})(?:[:：](\d{2})|点(半)?|时)',t)
+    ms=(re.search(PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半)?|时)\s*[-–—~至到]\s*'+PFX+r'(\d{1,2})(?:[:：.](\d{2})|点(半)?|时)',t)
+        or re.search(r'早\s*(\d{1,2})()()\s*晚\s*(\d{1,2})()()',t))
     if ms:
         h1=int(ms.group(1))+(int(ms.group(2) or 0)/60)+(0.5 if ms.group(3) else 0); h2=int(ms.group(4))+(int(ms.group(5) or 0)/60)+(0.5 if ms.group(6) else 0)
         pre=t[max(0,ms.start()-3):ms.start()]
@@ -78,7 +81,12 @@ def extract_common(r, city_hint):
     em=re.search(r'([一-龥A-Za-z0-9·（）()]{2,20}(?:公司|集团|酒店|饭店|餐厅|超市|便利店|工厂|厂|医院|学校|幼儿园|小区|物业|商场|广场|仓|驿站|门店|店|院|所|中心|基地|银行|车站|机场))',t)
     r['employer']=re.sub(r'^(?:民族不限|免费住宿|工资周结|工资月结|男女不限|包吃包住|管吃管住|长期|急招|招聘|诚聘|招)+','',em.group(1)) if em else None
     if r['employer'] and len(r['employer'])<3: r['employer']=None
-    r['via_agent']=bool(re.search('|'.join(AGENT_KW),t)) or bool(re.search(r'直招|直聘',t)) is False and r['employer'] is None
+    loc=re.search(r'([一-龥]{2,12}(?:路|街|附近|小区|广场|商场|大厦|园区|校区|机场|车站|市场|开发区|一号院|城|楼)(?:附近)?)',t)
+    r['location_phrase']=loc.group(1) if loc else None
+    self_agent=bool(re.search(r'劳务派遣|人力资源(?:服务)?(?:有限)?公司|中介|人才(?:开发|服务)|外包公司|派遣公司',t))
+    if r['employer'] is None and r['location_phrase'] and not self_agent:
+        r['employer']='地点：'+r['location_phrase']; r['employer_from_location']=True      # 群帖惯例：具体地点 + 直拨电话，没有公司名
+    r['via_agent']=self_agent or bool(re.search('|'.join(AGENT_KW),t))
     # 岗位名：从篮子关键词出发取「××保安员」「仓储操作员」这种短语；没有篮子词的帖子进不了库，所以不会有碎片标题
     r['basket']=None; r['title']=None
     for k,kws in BASKET_KW.items():
@@ -96,7 +104,8 @@ def judge(r, days=90):
     reasons=[]
     if r.get('wage_value') is None: reasons.append('range_wage' if r.get('wage_range') else 'no_wage')
     u=r.get('wage_unit')
-    if (u=='CNY/月' and not r.get('hours_month')) or (u=='CNY/天' and not r.get('hours_per_day')) or (u=='CNY/小时' and not (r.get('hours_per_day') or r.get('hours_text'))) or (u is None and not r.get('hours_month')): reasons.append('no_hours')
+    if (u=='CNY/月' and not r.get('hours_month')) or (u=='CNY/天' and not r.get('hours_per_day')) or (u=='CNY/小时' and not (r.get('hours_per_day') or r.get('hours_text'))) or (u is None and not r.get('hours_month')):
+        reasons.append('hours_partial' if (r.get('hours_per_day') or r.get('days_per_month')) else 'no_hours')   # 只差工时的一半：报告里单列，可打电话确认
     if r.get('via_agent') and not r.get('employer'): reasons.append('agent_unnamed')
     try:
         age=(datetime.date.today()-datetime.date.fromisoformat(r['posted_at'][:10])).days
@@ -108,7 +117,19 @@ def judge(r, days=90):
     if not r.get('basket'): reasons.append('off_basket')
     return reasons
 
+def is_post(r): return bool(re.search(r'\d{3,5}',r['raw'])) and bool(r.get('basket') or re.search(r'招|聘|工资|薪',r['raw']))
 def write_outputs(outdir, source, recs, log, days=90):
+    junk=[r for r in recs if not is_post(r)]; recs=[r for r in recs if is_post(r)]
+    # 同一来源当天重跑：只替换本来源的行，别的来源保留；prev = 上一轮本来源收了几条
+    def keep_others(fn):
+        fp=os.path.join(outdir,fn); mine=0; others=[]
+        if os.path.exists(fp):
+            for l in open(fp,encoding='utf-8'):
+                if json.loads(l).get('source')==source: mine+=1
+                else: others.append(l)
+            open(fp,'w',encoding='utf-8').write(''.join(others))
+        return mine
+    prev=keep_others('jobs_raw.jsonl'); keep_others('rejected.jsonl')
     acc=[]; rej=[]; dist=collections.Counter()
     for r in recs:
         rs=judge(r, days); r['reasons']=rs
@@ -120,7 +141,14 @@ def write_outputs(outdir, source, recs, log, days=90):
         for r in rej: f.write(json.dumps(r,ensure_ascii=False)+'\n')
     rep=os.path.join(outdir,'report.md')
     with open(rep,'a',encoding='utf-8') as f:
-        f.write(f"\n## {source} · {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n看了 **{len(recs)}** 条，收 **{len(acc)}** 条，拒 {len(rej)} 条。\n\n拒绝原因分布：" + '、'.join(f'{k} {v}' for k,v in dist.most_common()) + "\n\n")
+        f.write(f"\n## {source} · {datetime.datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n看了 **{len(recs)}** 条招工帖（另有 {len(junk)} 条模板/广告/碎片不计），收 **{len(acc)}** 条，拒 {len(rej)} 条" + (f"；上一轮收 {prev} 条，本轮多找回 {len(acc)-prev} 条" if prev else '') + "。\n\n拒绝原因分布：" + '、'.join(f'{k} {v}' for k,v in dist.most_common()) + "\n\n")
+        part=[r for r in rej if r['reasons']==['hours_partial']]
+        if part:
+            f.write(f'只差工时的一半（有月休/班次之一，打电话可确认）{len(part)} 条：\n' + ''.join(f"- {r.get('title')} | {r.get('employer') or '—'} | {r.get('wage_value')} {r.get('wage_unit')} | 已知 {r.get('hours_text')} | {r.get('contact') or ''}\n" for r in part[:20]) + '\n')
+        by=collections.defaultdict(lambda:[0,0])
+        for r in recs: by[r.get('account','')][0]+=1
+        for r in acc: by[r.get('account','')][1]+=1
+        f.write('按来源账号：' + '、'.join(f'{k or "?"} 看 {v[0]} 收 {v[1]}' for k,v in sorted(by.items(), key=lambda x:-x[1][0])) + '\n\n')
         if acc:
             f.write('| 篮子 | 岗位 | 雇主 | 工资 | 工时 | 月工时 | 时薪 | 发帖 | 来源 |\n|---|---|---|---|---|---|---|---|---|\n')
             for r in acc: f.write(f"| {r.get('basket')} | {r.get('title')} | {r.get('employer') or '—'}{'（中介转）' if r.get('via_agent') else ''} | {r.get('wage_value')} {r.get('wage_unit')} | {r.get('hours_text')} {r.get('hours_flag','')} | {r.get('hours_month') or '—'} | {r.get('hourly') or '—'} | {r.get('posted_at')} | {r.get('account','')} |\n")

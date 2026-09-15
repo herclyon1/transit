@@ -239,7 +239,7 @@ function render(c,d){
   else h+='<div class="empty">待调查</div>';
   h+='</section>';
   // ---- 岗位：连锁 × 门店 × 时薪
-  h+='<section><h3>具体岗位（全球连锁的真实门店）</h3>';
+  h+='<section><h3>具体岗位（门店直发 / 招工帖，能直接去应聘）</h3>';
   if(d.jobs&&d.jobs.length){ for(const jb of d.jobs){ h+=num(`${jb.chain}`,Object.assign({},jb.wage,{note:`${jb.store}${jb.wage.note?' · '+jb.wage.note:''}`}),cur); } }
   else h+='<div class="empty">待调查</div>';
   if(d.wage_ref){ h+='<div class="src" style="margin-top:6px">法定最低：'+[d.wage_ref.min_official,d.wage_ref.min_official_next].filter(x=>x&&x.value!=null).map(x=>`<a href="${x.source_url}" target="_blank" rel="noopener">${x.value.toLocaleString()} ${x.unit}</a>（${x.note||''}）`).join('　')+'</div>'; }
