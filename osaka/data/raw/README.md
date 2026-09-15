@@ -9,3 +9,4 @@
 | `osm/supermarkets_overpass.json` | OpenStreetMap `shop=supermarket` 节点/面（面取 center），bbox 34.27–35.06N / 135.09–135.75E，2,332 家 | Overpass API https://overpass-api.de/api/interpreter ，查询 `nwr["shop"="supermarket"](34.27,135.09,35.06,135.75); out center tags;`，osm base 2026-09-15T19:44:21Z，ODbL | 进（740 KB） |
 
 只用 想定最大規模（A31a-20-*）和浸水深ランク `A31a_205`（1: <0.5 m，2: 0.5–3 m，3: 3–5 m，4: 5–10 m，5: 10–20 m）。码表 https://nlftp.mlit.go.jp/ksj/gml/codelist/water_depth_code.html 。
+| `suumo/lines.json` | SUUMO 関西版 154 条路線 × 1,615 站的 5 位站代码（ek）和 4 位路線代码（rn），六府县 | 各府县 https://suumo.jp/chintai/<pref>/ensen/ 及路線页 https://suumo.jp/chintai/<pref>/en_<slug>/ 底部「○○線から賃貸を探す」链接 `/chintai/<pref>/ek_<ek>/?rn=<rn>`，2026-09-16 取；HTML 缓存在 `suumo/html/`（不进仓库） | 进（136 KB） |
