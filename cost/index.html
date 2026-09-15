@@ -63,7 +63,7 @@
   <div id="map" class="map"></div>
 </div>
 <div class="bar">
-  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i><span class="lb">目录</span></a>
   <span class="spacer"></span>
   <button class="btn-glass glass text cur" id="curBtn" type="button" aria-label="货币"><span id="curLabel">当地</span><i class="sf" data-sf="chevron.down" style="width:.8em;height:.8em"></i></button>
 </div>
@@ -77,7 +77,7 @@
       <div class="mlist" id="cityRows"></div>
       <p class="mfoot">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span>　<a href="https://github.com/herclyon1/transit/blob/main/cost/data/README.md" target="_blank" rel="noopener">数据规范 ›</a></p>
       <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
-      <h2 class="mh" id="draftHead" hidden>待调查</h2>
+      <h2 class="mh" id="draftHead" hidden data-fold="closed">待调查</h2>
       <div class="mlist dimlist" id="draftRows" hidden></div>
     </div>
   </div>
@@ -164,6 +164,8 @@ function cityRows(){
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
 }
 cityRows(); loadHeads().then(()=>cityRows());
+// Mac 侧栏「待调查」段默认折叠（hig.css 11b .mh[data-fold]，Maps 侧栏段头的展开箭头）；手机上段头不可点，属性不起作用
+$('draftHead').addEventListener('click',()=>{ const h=$('draftHead'); if(!matchMedia('(min-width: 900px) and (pointer: fine)').matches) return; h.dataset.fold=h.dataset.fold==='open'?'closed':'open'; });
 
 // 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
 fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
@@ -247,7 +249,7 @@ function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:
 // render() 的 <section><h3>…</h3>REST</section> → Kit 分组列表：<h2 class="mh">…</h2><div class="mcard">REST</div>；<section class="raw"> 原样输出（自己写 .mh/.mcard/.mfoot）；
 // <section class="links"> → .mlist 的 .mrow 来源行；<section class="src"> → .mfoot
 function groups(h){
-  return '<div style="height:16px"></div>'
+  return '<div class="gap"></div>'   // 卡片头到第一组 16（iOS）；Mac 卡片 .body 自带 20，.gap 归零（hig.css 11b）
         + h.replace(/<section class="raw">([\s\S]*?)<\/section>/g,'$1')
           .replace(/<section>\s*<h3>([^<]*)<\/h3>([\s\S]*?)<\/section>/g,(m,t,rest)=>`<h2 class="mh">${t}</h2><div class="mcard">${rest}</div>`)
           .replace(/<section class="links">([\s\S]*?)<\/section>/g,'<h2 class="mh" id="srcs">来源与相关图</h2><div class="mlist">$1</div>')   // Kit Lists › Rows › Large 68（.mrow）
@@ -361,10 +363,10 @@ function render(c,d){
   const jobs=(d.jobs||[]).filter(j=>V(j.wage)!=null&&j.headline!==false); const wj=jobs.length?jobs.reduce((a,b)=>V(a.wage)<=V(b.wage)?a:b):null; const RWc=refWageOf(d);
   const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_commuter||t15.pass_student); const passKind=t15&&t15.pass_commuter?'commuter':'student';   // 「通勤」行优先通勤月票（#9）
   const foodM=d.living_official&&d.living_official.food; const wUnit0=wj&&wj.wage.unit||cur+'/小时';
-  // ---- 动作行（Kit Buttons › Medium 34，首枚 Prominent；Mac = 分段控件）
+  // ---- 动作行（Kit Buttons › Medium 34，首枚 Prominent；Mac = Maps 卡片的按钮列：链接 = 主钮 45、其余 = 次钮 36，.jump 不显示）
   h+='<section class="raw"><div class="actions">'
-    +'<button class="btn tint" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button>'
-    +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
+    +'<button class="btn tint jump" type="button" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i><span>换算成工时</span></button>'
+    +'<button class="btn jump" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'')
     +`<button class="btn${PIN===c.id?' tint':''}" type="button" onclick="togglePin('${c.id}')"><i class="sf" data-sf="pin"></i><span>${PIN===c.id?'已钉住':(PIN?'和'+(CITIES.find(x=>x.id===PIN)||{name:{zh:''}}).name.zh+'比':'钉住对比')}</span></button>`
     +'</div>';

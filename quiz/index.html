@@ -163,7 +163,8 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   /* Mac（KIT-INVENTORY E1–E4）：E1 题目条/E4 信息浮层 = macOS 27 Kit › Popovers（r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；
      E2 小按钮 = Push buttons Regular Bordered（黑 8%）；E3 完成卡 = Alerts › Stacked：260 宽 r26、同材质、图标 72 @(22,20)、标题 Bold 13 + 说明 Regular 13、内边 16、按钮 Large 28 距文字 14 */
   @media (min-width:900px) and (pointer:fine){
-    #jumps{left:304px;bottom:16px}   /* 侧栏 8 + 280（Kit Utility Panel）+ 16，不再压在侧栏底下；Mac 没有底部工具条 */
+    #jumps{left:216px;bottom:16px}   /* 侧栏 200（Maps）+ 16，不再压在侧栏底下；Mac 没有底部工具条 */
+    html #legend{top:94px}   /* 图例 Popover 从右列第二颗钮（模式分段 36 + 6 + 图例钮 36）下弹出：8 + 36 + 6 + 36 + 8 */
     #info{right:16px;bottom:16px}   /* 图例 Popover 在右上（hig.css .sheet.opt），信息浮层留在右下，两者不叠 */
     #promptBar,#info{border-radius:20px;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
     .lg-jmp{background:rgba(0,0,0,.08);color:var(--ink)}
@@ -192,7 +193,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
 </head>
 <body>
 <div class="bar">
-  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i><span class="lb">目录</span></a>
   <div class="seg glass" id="modeSeg" role="group" aria-label="模式">
     <button data-m="browse" class="on" aria-pressed="true">浏览</button>
     <button data-m="campaign">闯关</button>
@@ -243,7 +244,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
         <!-- 范围/题型：Kit 行 + Pop-up 配件（.r .pop），点开 Kit Menu（#scopeMenu/#qtypeMenu，从 <select> 的选项生成）；<select> 藏着只存值，change 事件照旧 -->
         <div class="r"><span class="k">范围</span><button class="pop" type="button" id="scopeVal" aria-label="范围">43県（除都道府）</button>
           <select id="scope" aria-label="范围" hidden>
-            <option value="43">43県（除都道府）</option><option value="47">全部47</option><option value="r1">東北</option><option value="r2">関東</option>
+            <option value="43" data-short="43県">43県（除都道府）</option><option value="47" data-short="全部47">全部47</option><option value="r1">東北</option><option value="r2">関東</option>
             <option value="r3">中部</option><option value="r4">近畿</option><option value="r5">中国</option><option value="r6">四国</option><option value="r7">九州・沖縄</option>
           </select></div>
         <div class="r"><span class="k">题型</span><button class="pop" type="button" id="qtypeVal" aria-label="题型">考县名</button>
@@ -1592,7 +1593,7 @@ window.addEventListener("resize", () => {
 
 const APP=HIGShell.create({map:false, initial:'small'});   // 壳只管 Sheet（这页的图是 D3 SVG，不是 MapLibre）
 { const rh=reviewHint(); const el=document.getElementById("reviewHint"); if(rh&&el){ el.textContent=rh; el.hidden=false; } }   // 间隔重复提示（#59）
-function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v) v.firstChild.nodeValue=sel.options[sel.selectedIndex].text;   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
+function syncSelLabel(id,lab){ const sel=document.getElementById(id), v=document.getElementById(lab); if(sel&&v){ const o=sel.options[sel.selectedIndex]; v.firstChild.nodeValue=(matchMedia('(min-width: 900px) and (pointer: fine)').matches&&o.dataset.short)||o.text; }   // Mac 侧栏 200 宽：Pop-up 钮上用短标签（data-short），菜单里仍是全文   // 只刷显示，不触发 change（change 在混考里会问「重新开始？」）
   const m=document.getElementById(id+'Menu'); if(sel&&m) m.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked', b.dataset.value===sel.value?'true':'false')); }   // 菜单里的勾跟着 <select> 的值（确认框取消后会退回）
 // 范围/题型：Pop-up 钮点开 Kit Menu（HIG.menu），选中 → 写回藏着的 <select> 并发 change，原有的确认/回退逻辑照旧；点行的其它地方也算点钮
 for(const [id,lab] of [['scope','scopeVal'],['qtype','qtypeVal']]){

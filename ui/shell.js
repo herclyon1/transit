@@ -11,7 +11,11 @@ window.HIGShell = (function(){
     const map = o.map === false ? null : new maplibregl.Map(Object.assign({    // map:false = 页面自己画图（クイズ是 D3 的 SVG），壳只管 Sheet 和卡片
       container: o.mapEl || 'map', attributionControl: { compact: true, customAttribution: o.attribution || '' },
       dragRotate: false, pitchWithRotate: false, touchZoomRotate: true }, o.map || {}));
-    if (map && o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    if (map && o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), wideSplit() ? 'top-right' : 'bottom-right');   // Mac：± 接在右侧控件列下面（macOS 地图 App）；iPad：右下
+    if (wideSplit()){   // Mac 右侧控件列（.bar 竖排 @右 8）有多高，± 就从多高开始：--bar-h = 8 + 列高 + 6（hig.css 11b .maplibregl-ctrl-top-right）
+      const bar = document.querySelector('.bar'); const setH = () => { if (!bar) return; const items = [...bar.children].filter(el => !el.classList.contains('spacer') && !(el.tagName === 'A' && el === bar.firstElementChild) && !el.hidden && el.offsetParent !== null);
+        const h = items.length ? Math.max(...items.map(el => el.offsetTop + el.offsetHeight)) : 8; document.documentElement.style.setProperty('--bar-h', (items.length ? 8 + h + 6 : 8) + 'px'); };
+      if (bar && window.ResizeObserver){ new ResizeObserver(setH).observe(bar); new MutationObserver(setH).observe(bar, { attributes: true, subtree: true, attributeFilter: ['hidden', 'class', 'style'] }); } setH(); }
     if (map){   // 版权收成 (i)，只有用户点它才展开：MapLibre 每次 attribution 文本变化（来源加载、换样式）都会把 compact-show 加回去，用 MutationObserver 压住
       let manual = false;   // 用户点过 (i) 之后就由他控制，不再自动收
       const fold = () => { const a = map.getContainer().querySelector('.maplibregl-ctrl-attrib'); if (!a) return;
