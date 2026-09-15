@@ -44,7 +44,7 @@ def detail(jid, today):
     return {'url':url,'title':title,'pay':pay,'company':company,'region':region,'posted':posted,'raw':raw}
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('city'); ap.add_argument('--span',type=int,default=260,help='从首页最大 id 往下扫多少个'); ap.add_argument('--days',type=int,default=90); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('city'); ap.add_argument('--span',type=int,default=260,help='从首页最大 id 往下扫多少个'); ap.add_argument('--days',type=int,default=180); a=ap.parse_args()
     city=a.city; today=datetime.date.today()
     outdir=os.path.join(os.path.dirname(__file__),'..','..','..','cost','data','raw',city,today.strftime('%Y%m%d')); os.makedirs(outdir,exist_ok=True)
     # 站内搜索和翻页都跳登录（2026-09-15 实测），只有首页 20 条和 show.php?id= 详情页是公开的：从首页最大 id 往下逐个读详情
@@ -56,7 +56,7 @@ def main():
         d=detail(jid,today); time.sleep(random.uniform(0.8,1.6))
         if not d: miss+=1; continue
         if not any(k in (d['title']+d['raw'][:200]) for k in kws): continue
-        r=Rec(city=city, source='wlmqkp', source_url=d['url'], fetched_at=today.isoformat(), posted_at=d['posted'] or '', raw=d['raw'], account='乌鲁木齐快聘网', article_title=d['title'])
+        r=Rec(city=city, source='wlmqkp', source_url=d['url'], fetched_at=today.isoformat(), posted_at=d['posted'] or '', raw=d['raw'], account='乌鲁木齐快聘网', article_title=d['title'], site_apply=True)
         extract_common(r, CITY_HINT[city])
         r['employer']=d['company'] or r.get('employer'); r['title']=d['title'] or r.get('title'); r['location']=d['region'] or r.get('location'); r['in_city']=True if d['region'] else r['in_city']
         if r['employer'] and re.search(r'人力资源|劳务|派遣|外包|人才',r['employer']): r['via_agent']=True
