@@ -97,33 +97,11 @@ let CITIES=[], RATES=null, CUR='local', map=null, APP=null;
 try{ CITIES=await (await fetch('data/cities.json')).json(); }catch(e){ CITIES=[]; }
 // 壳（ui/shell.js）：地图 + Sheet + 叠放卡片 + 点击→卡片；这页只给 layers() 和 card()
 APP=HIGShell.create({
-  attribution:'Natural Earth（公有领域）',
-  map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:9,
-  style:{version:8,
-    // 字形沿用仓库里那套 NotoSansJP 全 256 段
-    // 花括号不能进 new URL（会被转义成 %7B），先解析目录再拼模板
-    glyphs:new URL('../tiles/glyphs/',document.baseURI).href+'{fontstack}/{range}.pbf',
-    sources:{
-      c110:{type:'geojson',data:new URL('data/countries_110m.geojson',document.baseURI).href},
-      c50 :{type:'geojson',data:new URL('data/countries_50m.geojson',document.baseURI).href},
-      cities:{type:'geojson',data:{type:'FeatureCollection',features:CITIES.map(c=>({type:'Feature',
-        properties:{id:c.id,label:c.name.zh,status:c.status},geometry:{type:'Point',coordinates:[c.lon,c.lat]}}))}}},
-    layers:[
-      {id:'bg',type:'background',paint:{'background-color':'#DCEBF5'}},
-      {id:'land110',type:'fill',source:'c110',maxzoom:3.5,paint:{'fill-color':'#F4F1EA'}},
-      {id:'line110',type:'line',source:'c110',maxzoom:3.5,paint:{'line-color':'#B8C2CC','line-width':0.6}},
-      {id:'land50',type:'fill',source:'c50',minzoom:3.5,paint:{'fill-color':'#F4F1EA'}},
-      {id:'line50',type:'line',source:'c50',minzoom:3.5,paint:{'line-color':'#B8C2CC','line-width':0.8}},
-      {id:'cname',type:'symbol',source:'c50',minzoom:3.5,layout:{'text-field':['coalesce',['get','zh'],['get','en']],'text-font':['NotoSansJP Regular'],'text-size':11,'symbol-placement':'point'},paint:{'text-color':'#8A93A0','text-halo-color':'#F4F1EA','text-halo-width':1}},
-      {id:'city-halo',type:'circle',source:'cities',paint:{'circle-radius':['interpolate',['linear'],['zoom'],1,7,6,12],'circle-color':'#fff','circle-opacity':0.9}},
-      {id:'city-dot',type:'circle',source:'cities',paint:{
-        'circle-radius':['interpolate',['linear'],['zoom'],1,4.5,6,8],
-        'circle-color':['case',['==',['get','status'],'ready'],'#1B2433','#fff'],
-        'circle-stroke-color':['case',['==',['get','status'],'ready'],'#1B2433','#6B7688'],'circle-stroke-width':2}},
-      {id:'city-lab',type:'symbol',source:'cities',layout:{'text-field':['get','label'],'text-font':['NotoSansJP Regular'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':'#1B2433','text-halo-color':'#fff','text-halo-width':1.5}}
-    ]}},
-  // 图层都写在 style 里了；这里只交代「点哪个图层 → 开哪张卡」
-  layers(){ return {'city-dot': f=>show(CITIES.find(c=>c.id===f.properties.id))}; },
+  attribution:'© OpenStreetMap contributors · OpenFreeMap',
+  // 底图：OpenFreeMap（免费、无密钥、OpenStreetMap 数据）的矢量瓦片，样式 data/style_apple_light.json 照地图 App 浅色配色改的 positron；
+  // 有路网和地名，进城不再是一片空白。城市点/标注在 load 后加在最上面。Natural Earth 国界那套只剩离线兜底（fallbackStyle）。
+  map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:17, style:styleUrl()},
+  layers(map){ addCities(map); return {'city-dot': f=>show(CITIES.find(c=>c.id===f.properties.id))}; },
   // 要素 → 卡片：标题/副标题立刻给，正文取到城市 JSON 再给
   async card(c){
     let d=cache[c.id];
@@ -132,6 +110,23 @@ APP=HIGShell.create({
   }
 });
 map=APP.map;
+// 主题跟随系统：暗色换 data/style_apple_dark.json（地图 App 暗色配色），换完把城市点加回去
+function styleUrl(){ return new URL(matchMedia('(prefers-color-scheme: dark)').matches?'data/style_apple_dark.json':'data/style_apple_light.json',document.baseURI).href; }
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{ map.setStyle(styleUrl(),{diff:false}); map.once('style.load',()=>addCities(map)); });   // diff:true 会把新样式里没有的 cities 图层删掉且不发 style.load
+function addCities(map){
+    for(const id of ['city-lab','city-dot','city-halo']) if(map.getLayer(id)) map.removeLayer(id);
+    if(map.getSource('cities')) map.removeSource('cities');
+    const dark=matchMedia('(prefers-color-scheme: dark)').matches, ink=dark?'#F2F2F7':'#1B2433', paper=dark?'#1F1F21':'#fff', dim=dark?'#8E8E93':'#6B7688';
+    map.addSource('cities',{type:'geojson',data:{type:'FeatureCollection',features:CITIES.map(c=>({type:'Feature',
+        properties:{id:c.id,label:c.name.zh,status:c.status},geometry:{type:'Point',coordinates:[c.lon,c.lat]}}))}});
+    // 城市点：地图 App 的城市标注是黑字白描边、没有圆点；我们这里的点是「有数据的城市」这个交互目标，所以留一个小圆点（有数据 = 深色实心，待调查 = 白底灰圈）
+    map.addLayer({id:'city-halo',type:'circle',source:'cities',maxzoom:10,paint:{'circle-radius':['interpolate',['linear'],['zoom'],1,7,6,12],'circle-color':paper,'circle-opacity':0.9}});
+    map.addLayer({id:'city-dot',type:'circle',source:'cities',maxzoom:10,paint:{
+        'circle-radius':['interpolate',['linear'],['zoom'],1,4.5,6,8],
+        'circle-color':['case',['==',['get','status'],'ready'],ink,paper],
+        'circle-stroke-color':['case',['==',['get','status'],'ready'],ink,dim],'circle-stroke-width':2}});
+    map.addLayer({id:'city-lab',type:'symbol',source:'cities',maxzoom:10,layout:{'text-field':['get','label'],'text-font':['Noto Sans Bold'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':ink,'text-halo-color':paper,'text-halo-width':1.5}});
+}
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
 const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'🇻🇳',MMR:'🇲🇲',DEU:'🇩🇪',USA:'🇺🇸',AUS:'🇦🇺'};

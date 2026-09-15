@@ -12,6 +12,8 @@ window.HIGShell = (function(){
       container: o.mapEl || 'map', attributionControl: { compact: true, customAttribution: o.attribution || '' },
       dragRotate: false, pitchWithRotate: false, touchZoomRotate: true }, o.map || {}));
     if (map && o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+    if (map){ const fold = () => { const a = map.getContainer().querySelector('.maplibregl-ctrl-attrib'); if (a) a.classList.remove('maplibregl-compact-show'); };   // 版权一开始收成 (i)，点开才展开（MapLibre 默认首屏和换样式后都是展开的）
+      map.once('load', fold); map.on('style.load', () => setTimeout(fold, 0)); }
     // ---- Sheet（主抽屉）+ 叠放的地点卡片（地图 App：点搜索结果 = 第二张 Sheet 从底边弹到中档，后面那张退到中档）
     const sheetEl = o.sheetEl || $('sheet'), listEl = o.listEl || $('list');
     const cardEl = o.cardEl !== undefined ? o.cardEl : (($('card') && $('card').querySelector('.grab')) ? $('card') : null);   // 只有带抓手的 #card 才是叠放的第二张 Sheet（学習的 #card 是内联卡）
