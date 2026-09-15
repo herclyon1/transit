@@ -1,0 +1,105 @@
+{
+ "meta": {
+  "source": "SUUMO 関西版 賃貸物件一覧 FR301FC001（按站检索，参数见 cond），站码来自 osaka/data/suumo_ek.json",
+  "cond": "ワンルーム/1K・専有 20 ㎡以上・駅徒歩 10 分以内・築年不限・賃料+管理費が安い順・SUUMO 按建物去重后的全部页",
+  "params": "md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+  "updated": "2026-09-16",
+  "how": "按站房租：SUUMO 在挂 ワンルーム/1K 房源的 賃料（不含管理費）中位数 → osaka/data/station_rent.json（增量，按 ek 键）。\n   python3 pipeline/osaka/suumo_station_rent.py 天神橋筋六丁目 千林大宮 大日 なかもず     # 站名 / station_id（S0563）/ 9 位 ek 都行\n   python3 pipeline/osaka/suumo_station_rent.py --all                                   # 全部 825 站（约 1–2 小时、几千次请求）——先问用户\n   python3 pipeline/osaka/suumo_station_rent.py --all --only-osaka                     # 只跑府内 486 站\n\n站 → ek 的对表来自 osaka/data/suumo_ek.json（suumo_stations.py）。同一物理站在每条线上各有一个 ek，检索 URL 里全部带上（ek= 可重复），\nSUUMO 按建物去重后给一份列表，这样 梅田/京橋 这种多线站不会重复算。\n检索条件 = cost/data/cities/osaka.json tiers 里那 4 条 URL 的参数：md=01,02（ワンルーム/1K）mb=20（専有 20 ㎡以上）et=10（駅徒歩 10 分以内）\ncn=9999999（築年不限）po1=12（賃料+管理費が安い順）pc=50（每页 50 栋）。翻完全部页，賃料 取中位数、下四分位（Q1，和 tiers 现值同口径）、最低、n。\n礼貌：UA、每次请求间隔 ≥2 s、失败重试 2 次（退避 5/10 s）。解析用 pipeline/cost/suumo_list.py 的 parse_rows。"
+ },
+ "stations": {
+  "205025390": {
+   "station_id": "S0582",
+   "name": "天神橋筋六丁目",
+   "in_osaka": true,
+   "eks": [
+    "205025390",
+    "202025390",
+    "209025390"
+   ],
+   "lines": [
+    "地下鉄堺筋線（大阪府）",
+    "地下鉄谷町線（大阪府）",
+    "阪急千里線（大阪府）"
+   ],
+   "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2050&ek=205025390&ek=202025390&ek=209025390&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+   "fetched_at": "2026-09-16",
+   "cond": "ワンルーム/1K・専有 20 ㎡以上・駅徒歩 10 分以内・築年不限・賃料+管理費が安い順・SUUMO 按建物去重后的全部页",
+   "total_listed": 5627,
+   "pages": 6,
+   "n": 710,
+   "median": 70200,
+   "q1": 59000,
+   "min": 32000,
+   "max": 242000,
+   "note": "賃料 不含管理費；median = 賃料中位，q1 = 下四分位（cost/data/cities/osaka.json tiers 用的口径），n = 去重后的房源行数，total_listed = SUUMO 标的含重复挂牌总数"
+  },
+  "202021550": {
+   "station_id": "S0587",
+   "name": "千林大宮",
+   "in_osaka": true,
+   "eks": [
+    "202021550"
+   ],
+   "lines": [
+    "地下鉄谷町線（大阪府）"
+   ],
+   "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202021550&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+   "fetched_at": "2026-09-16",
+   "cond": "ワンルーム/1K・専有 20 ㎡以上・駅徒歩 10 分以内・築年不限・賃料+管理費が安い順・SUUMO 按建物去重后的全部页",
+   "total_listed": 2032,
+   "pages": 5,
+   "n": 635,
+   "median": 62000,
+   "q1": 55000,
+   "min": 32000,
+   "max": 92000,
+   "note": "賃料 不含管理費；median = 賃料中位，q1 = 下四分位（cost/data/cities/osaka.json tiers 用的口径），n = 去重后的房源行数，total_listed = SUUMO 标的含重复挂牌总数"
+  },
+  "202022003": {
+   "station_id": "S0589",
+   "name": "大日",
+   "in_osaka": true,
+   "eks": [
+    "202022003",
+    "201022000"
+   ],
+   "lines": [
+    "地下鉄谷町線（大阪府）",
+    "大阪モノレール本線（大阪府）"
+   ],
+   "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2020&ek=202022003&ek=201022000&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+   "fetched_at": "2026-09-16",
+   "cond": "ワンルーム/1K・専有 20 ㎡以上・駅徒歩 10 分以内・築年不限・賃料+管理費が安い順・SUUMO 按建物去重后的全部页",
+   "total_listed": 497,
+   "pages": 2,
+   "n": 99,
+   "median": 66000,
+   "q1": 42000,
+   "min": 23000,
+   "max": 140000,
+   "note": "賃料 不含管理費；median = 賃料中位，q1 = 下四分位（cost/data/cities/osaka.json tiers 用的口径），n = 去重后的房源行数，total_listed = SUUMO 标的含重复挂牌总数"
+  },
+  "200027590": {
+   "station_id": "S0550",
+   "name": "なかもず",
+   "in_osaka": true,
+   "eks": [
+    "200027590"
+   ],
+   "lines": [
+    "地下鉄御堂筋線（大阪府）"
+   ],
+   "url": "https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=060&bs=040&ra=027&rn=2000&ek=200027590&md=01&md=02&mb=20&et=10&cn=9999999&po1=12&pc=50",
+   "fetched_at": "2026-09-16",
+   "cond": "ワンルーム/1K・専有 20 ㎡以上・駅徒歩 10 分以内・築年不限・賃料+管理費が安い順・SUUMO 按建物去重后的全部页",
+   "total_listed": 821,
+   "pages": 3,
+   "n": 185,
+   "median": 58000,
+   "q1": 50000,
+   "min": 34000,
+   "max": 79000,
+   "note": "賃料 不含管理費；median = 賃料中位，q1 = 下四分位（cost/data/cities/osaka.json tiers 用的口径），n = 去重后的房源行数，total_listed = SUUMO 标的含重复挂牌总数"
+  }
+ }
+}
