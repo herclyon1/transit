@@ -19,8 +19,8 @@ LABEL={'eggs10':'鸡蛋 10 个','milk1l':'牛奶 1L','rice5kg':'大米 5kg','flo
 # 同类才比价：搜索结果里混进来的别的品类（乌鸡蛋/卤蛋/鹌鹑蛋、酸奶/奶粉/淡奶油、米粉/糯米、洗菜篮…）按键剔除，再取中位——不然「鸡蛋」的中位会被乌鸡蛋和卤蛋抬到 10 元
 EXCL={'eggs10':r'乌鸡|卤蛋|鹌鹑|鸽|咸蛋|皮蛋|茶叶蛋|溏心|篮|蛋糕|蛋挞','milk1l':r'酸奶|奶粉|奶茶|乳饮|蛋白饮|淡奶油|奶油|奶酪|炼乳|豆奶|椰|燕麦奶','rice5kg':r'糯米|米粉|米线|米饼|粥|黑米|紫米|小米',
       'bread1kg':r'蛋糕|饼干|面包机|月饼','cola1l':r'无糖|零度|气泡水|雪碧|美年达|芬达|汉斯|果汁','beer6':r'精酿|白啤|果啤|无醇|啤酒杯|开瓶器','flour1kg':r'面包粉|蛋糕粉|饺子皮|面条|挂面|饼',
-      'noodles1kg':r'方便面|拉面|粉丝|米线','oil1l':r'香油|芝麻油|橄榄油|亚麻|茶油|猪油|黄油','potato1kg':r'红薯|紫薯|山药|薯片|薯条|粉条','tomato1kg':r'番茄酱|圣女果|小番茄|樱桃番茄|沙司',
-      'cabbage1kg':r'娃娃菜|包菜|甘蓝|泡菜|酸菜','chicken1kg':r'鸡翅|鸡胸|鸡爪|鸡脖|鸡架|整鸡|鸡块|炸鸡|卤','mutton1kg':r'羊蝎子|羊排|羊杂|羊蹄|羊头|烤串|肉串|羊肉卷|羊肉片','apple1kg':r'苹果醋|苹果干|苹果汁|果酱|干','naan1':r'馕坑|馕饼机|馕包肉'}
+      'noodles1kg':r'方便面|拉面|粉丝|米线','oil1l':r'香油|芝麻油|橄榄油|亚麻|茶油|猪油|黄油','potato1kg':r'红薯|紫薯|蜜薯|山药|薯片|薯条|粉条|洋葱|皮芽子','tomato1kg':r'番茄酱|圣女果|小番茄|樱桃番茄|沙司|莴笋|西兰花|黄瓜|辣椒',
+      'cabbage1kg':r'娃娃菜|包包菜|包菜|甘蓝|泡菜|酸菜|西兰花|莴笋|菜花|油菜|菠菜|生菜|芹菜|韭菜','chicken1kg':r'鸡翅|鸡胸|鸡爪|鸡脖|鸡架|整鸡|鸡块|炸鸡|卤|鸭|盐焗|土鸡|走地鸡|三黄|碎肉|kg/件','mutton1kg':r'羊蝎子|羊排|羊杂|羊蹄|羊头|烤串|肉串|羊肉串|羊肉卷|羊肉片|脊骨|羊骨|水饺|饺子|抓饭','apple1kg':r'苹果醋|苹果干|苹果汁|果酱|干|火龙果|香梨|梨|桃|橙|柑|葡萄|哈密瓜','naan1':r'馕坑|馕饼机|馕包肉'}
 NUM=r'(\d+(?:\.\d+)?)'
 def spec(name):
     """商品名里的规格 → (总重 kg, 总容量 L, 个数)。「200mL*20袋」「净重1.65kg±50g」「5斤」「30枚/板」「500g*2袋」。"""
@@ -77,7 +77,10 @@ def main():
         for r in rs:
             u,sp=unit_price(r,how)
             if u: priced.append((r,u,sp))
-        if not priced: print(f'  {kw}：{len(rs)} 条都读不出规格，跳过'); continue
+        if not priced:
+            # 剔完同类/读不出规格就一条不剩：不保留旧值也不写 null（validate 不许 null），把这项从篮子里拿掉，等换词再搜（如「鸡腿」→「琵琶腿」「鸡全腿」）
+            reason=f'搜「{kw}」前 {len(rs)+len(dropped)} 条剔掉不是同一种东西的 {len(dropped)} 条'+(f'（{"、".join(dropped)}）' if dropped else '')+'后一条不剩'
+            b.pop(key,None); print(f'  {kw}：{reason}，从篮子拿掉，换个词再搜'); done.append(f'{LABEL.get(key,key)} 拿掉（{kw}：一条同类都没有）'); continue
         med=statistics.median([u for _,u,_ in priced]); keep=[x for x in priced if med/2<=x[1]<=med*2] or priced
         val=round(statistics.median([u for _,u,_ in keep]),2)
         unit_zh={'kg':'元/kg','kg5':'元/5kg','l':'元/L','n10':'元/10 个','n1':'元/个','n6':'元/6 罐'}[how]
