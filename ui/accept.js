@@ -74,6 +74,23 @@
     const bseg=qa('.bar .seg')[0]; if(bseg) ok('工具条分段控件 44（与圆钮同高；Kit 待核）', rect(bseg).height, 44, 0.5);
     const sw=qa('.sw')[0]; if(sw&&document.documentElement.classList.contains('native-switch')){ const r=rect(sw.querySelector('input')); ok('开关 = Safari 原生 switch（尺寸随系统）', r.width>20&&r.height>14, true, 0, num(r.width)+'×'+num(r.height)); }
     else if(sw){ const r=rect(sw); ok('开关 63×28', r.width===63&&r.height===28, true, 0, num(r.width)+'×'+num(r.height)); const k=cs(sw.querySelector('i'),'::after'); ok('开关圆钮 38×24', px(k.width)===38&&px(k.height)===24, true, 0, k.width+'×'+k.height); }
+    // 开关动效探针（照 hig-kit/tools/accept-phone.js 的 lab 样本，不用录像）：屏外造两个开关量颜色、位移、镜片、轻点只翻一次
+    if(!document.documentElement.classList.contains('native-switch')){
+      const lab=document.createElement('div'); lab.style.cssText='position:fixed;left:-9999px;top:0';
+      lab.innerHTML='<label class="sw"><input type="checkbox" checked><i></i></label><label class="sw"><input type="checkbox"><i></i></label>'; document.body.appendChild(lab);
+      const dark=matchMedia('(prefers-color-scheme: dark)').matches; const [on,off]=lab.querySelectorAll('.sw i');
+      ok('开关开 = 系统绿', cs(on).backgroundColor, dark?'rgb(48, 209, 88)':'rgb(52, 199, 89)', 0);
+      ok('开关关 = 灰', /60,\s*60,\s*67|120,\s*120,\s*128/.test(cs(on.parentElement.nextElementSibling.querySelector('i')).backgroundColor), true, 0, cs(off).backgroundColor);
+      const kx=/matrix\([^)]*,\s*([-\d.]+),\s*[-\d.]+\)$/.exec(cs(on,'::after').transform); ok('开关开：圆钮位移 21', kx?parseFloat(kx[1]):NaN, 21, 0.5);
+      const held=lab.querySelectorAll('.sw')[1]; held.classList.add('live','hold'); const hm=/matrix\(([-\d.]+),\s*[-\d.]+,\s*[-\d.]+,\s*([-\d.]+)/.exec(cs(held.querySelector('i'),'::after').transform);
+      ok('按住：圆钮放大成 58×38（scale 1.526,1.583）', hm&&Math.abs(parseFloat(hm[1])-1.526)<0.02&&Math.abs(parseFloat(hm[2])-1.583)<0.02, true, 0, hm?hm[1]+','+hm[2]:'none');
+      ok('按住：圆钮变半透明玻璃', /gradient/.test(cs(held.querySelector('i'),'::after').backgroundImage), true, 0); held.classList.remove('hold');
+      const tapSw=held, tapIn=tapSw.querySelector('input'); let changes=0; tapIn.addEventListener('change',()=>changes++); const was=tapIn.checked;
+      const pe=(type,t)=>t.dispatchEvent(new PointerEvent(type,{bubbles:true,cancelable:true,pointerId:7,clientX:10,clientY:10,isPrimary:true}));
+      pe('pointerdown',tapIn); pe('pointerup',tapSw); tapIn.click();
+      ok('轻点一下：开关翻转一次', tapIn.checked===!was, true, 0, was+'→'+tapIn.checked); ok('轻点一下：change 只发一次', changes, 1, 0);
+      lab.remove();
+    }
     const sl=qa('.row.slider input[type=range]')[0]; if(sl) ok('滑块热区 28', rect(sl).height, 28, 0.5);
     }
     const mn=q('.menu'); if(mn){ const was=mn.hidden; mn.hidden=false; const mb=mn.querySelector('button'); ok('下拉菜单 248 宽 圆角 26（UIMenu）', Math.abs(rect(mn).width-248)<0.5&&px(cs(mn).borderTopLeftRadius)===26, true, 0, num(rect(mn).width)+' r'+cs(mn).borderTopLeftRadius); if(mb) ok('菜单行 42 标签距左 50', Math.abs(rect(mb).height-42)<0.5&&px(cs(mb).paddingLeft)===50, true, 0, num(rect(mb).height)+' pl'+cs(mb).paddingLeft); ok('菜单上下内边 5', px(cs(mn).paddingTop)===5&&px(cs(mn).paddingBottom)===5, true, 0, cs(mn).padding); mn.hidden=was; }

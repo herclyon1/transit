@@ -21,6 +21,9 @@
 .maplibregl-ctrl-attrib{font-size:.6471em}
 .maplibregl-ctrl-bottom-right{bottom:calc(44dvh + 8px)}
 @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
+/* 列表行右侧：数值 17 半粗 + 胶囊（股市行的形） */
+.mrow .val{display:flex;align-items:center;gap:6px;flex:none;font-variant-numeric:tabular-nums}
+.mrow .val b{font-weight:600;white-space:nowrap} .mrow .val b small{font-size:.7647em;font-weight:400;color:var(--ink-2)}
 /* 卡片态：render() 输出的 section/h3/.r/.src/table 映射成地图 App 地点卡片（groups()） */
 #card .mcard .r{align-items:baseline}
 #card .mcard .r .k{color:var(--ink)}
@@ -64,10 +67,10 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
     <div class="head"><label class="search" style="flex:1 1 auto"><i class="sf" data-sf="magnifyingglass"></i><input id="q" type="search" placeholder="搜索城市" autocomplete="off"><button class="clear" type="button" aria-label="清除"><i class="sf" data-sf="xmark.circle.fill"></i></button></label></div>
     <div class="body">
       <!-- 地图 App 首页的「建议卡」：说明这张图是什么，× 掉就记住 -->
-      <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">外国人在各城市真实能挣多少、真实要花多少：时薪、通勤、房租、生活费，换算成工时。每个数字带来源、日期、置信度。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
+      <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">时薪、房租、通勤、生活费，换算成每月要打的工时。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
       <h2 class="mh">城市 <i class="sf" data-sf="chevron.right"></i></h2>
       <div class="mlist" id="cityRows"></div>
-      <p class="mnote">● 有数据　○ 待调查　<span id="curDate"></span></p>
+      <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 门店最低时薪　<span id="curDate"></span></p>
     </div>
   </div>
   <div id="card" hidden>
@@ -126,11 +129,14 @@ function cityRows(filter){
   const rows=CITIES.filter(c=>!q||[c.name.zh,c.name.en,c.name.local||'',COUNTRY[c.country]||''].join(' ').toLowerCase().includes(q))
     .sort((a,b)=>(b.status==='ready')-(a.status==='ready'));
   // 地图 App 搜索结果行：34 圆图标（国旗）+ 标题 17 半粗 + 副标题 15 + ›
-  $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency} · ${c.status==='ready'?'● 有数据':'○ 待调查'}</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
+  // 右侧 = 这座城市「到枢纽 15 分那档每月要打的工时」+ 彩色胶囊（签证上限内 / 超上限 / 待调查）——股市行的形：名字 + 灰副标题，右侧数值 + 胶囊
+  const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">${c.status==='ready'?'缺项':'待调查'}</span></span>`;
+    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><span class="tag ${over?'orange':(hh.cap?'green':'gray')}">${over?'超上限':(hh.cap?'上限内':'无上限')}</span></span>`; };
+  $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
   HIG.sf();
   $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); map.flyTo({center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); show(c);}));
 }
-cityRows('');
+cityRows(''); loadHeads().then(()=>cityRows($('q').value));
 $('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
 $('q').closest('.search').querySelector('.clear').addEventListener('click',()=>{$('q').value='';cityRows('');$('q').closest('.search').classList.remove('has');});
 window.SHEET=HIG.sheet($('sheet'),{initial:'medium'});
@@ -157,6 +163,18 @@ $('cClose').addEventListener('click',()=>{$('card').hidden=true;$('list').hidden
 })();
 
 var OPEN=null; const cache={};
+// 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 门店最低时薪；和卡片里「换算成工时」同一公式
+function hoursFor(d){
+  if(!d) return null; const V=x=>x&&x.value!=null?x.value:null;
+  const wageJob=(d.jobs||[]).map(jb=>V(jb.wage)).filter(x=>x!=null); const refWage=wageJob.length?Math.min(...wageJob):(d.wage_ref&&V(d.wage_ref.min_official));
+  const u=d.utilities||{}; const util=['electricity','gas','water'].map(k=>V(u[k])).reduce((a,b)=>a+(b||0),0); const comm=(V(u.mobile)||0)+(V(u.internet)||0)||V(u.comm_official)||0;
+  const food=d.living_official&&V(d.living_official.food); const tiers=d.tiers||[]; const t=tiers.find(x=>/15/.test(x.label||''))||tiers[1]||tiers[0];
+  const rent=t&&V(t.rent_1k); if(!refWage||!food||rent==null) return null;
+  const total=rent+util+comm+food+(t&&V(t.pass_student)||0); const cap=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null;
+  return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label};
+}
+const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
+function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
 async function show(c){
   OPEN=c; $('card').hidden=false; if(!matchMedia('(min-width: 900px) and (pointer: fine)').matches) $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
   $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
