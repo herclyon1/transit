@@ -92,6 +92,13 @@
       const cg=ce.querySelector('.grab i'); if(cg) ok('叠放卡片抓手 58×4 距顶 5', Math.abs(rect(cg).width-58)<0.5&&Math.abs(rect(cg).top-cr.top-5)<0.5, true, 0, num(rect(cg).width)+' @'+num(rect(cg).top-cr.top));
       const cb=ce.querySelector('.head .btn-glass'); if(cb) ok('叠放卡片关闭钮 44 距顶 15 距边 15', Math.abs(rect(cb).height-44)<0.5&&Math.abs(rect(cb).top-cr.top-15)<0.5&&Math.abs(cr.right-rect(cb).right-15)<0.5, true, 0, num(rect(cb).top-cr.top)+'/'+num(cr.right-rect(cb).right));
       if(!wasShown){ C.dismiss(); ok('叠放卡片：dismiss 后 shown=false', C.shown, false, 0); } }
+    // 功能探针（09-15 审查修的 bug，各页自己的）
+    if(location.pathname.includes('/osaka/')&&typeof dropPin==='function'&&window.map){ const n0=document.querySelectorAll('.maplibregl-marker').length; try{ dropPin({lng:135.50,lat:34.70}); dropPin({lng:135.51,lat:34.71}); }catch(e){}
+      ok('落两次钉子后钉子还在（#22）', document.querySelectorAll('.maplibregl-marker').length-n0, 1, 0); const pp=document.querySelector('.maplibregl-popup'); ok('钉子气泡带来源等级（#27）', !!pp&&/实测|锚定|借用/.test(pp.innerText), true, 0);
+      ok('低频开关叫法统一「⚡ 低频线」（#34）', /⚡ 低频线/.test(document.getElementById('lowfreq').closest('label').innerText), true, 0);
+      ok('图例行不是按钮（#38）', [...document.querySelectorAll('#lg .mrow')].every(r=>r.classList.contains('no-press')), true, 0);
+      ok('面覆盖画布在标记之下（#24）', (()=>{ const a=document.querySelector('canvas.area'); if(!a) return true; const kids=[...window.map.getCanvasContainer().children]; const mi=kids.findIndex(k=>k.classList&&k.classList.contains('maplibregl-marker')); return kids.indexOf(a)>=0&&(mi<0||kids.indexOf(a)<mi); })(), true, 0);
+      if(window.pin){ try{ pin.remove(); window.pin=null; }catch(e){} } const pp2=document.querySelector('.maplibregl-popup'); if(pp2) pp2.remove(); }
     // 分组列表
     const g=qa('.group')[0]; if(g){ ok('卡片圆角 26', px(cs(g).borderTopLeftRadius), 26, 0.5); const gr=rect(g); const host=sh&&sh.contains(g)?rect(sh):(g.closest('main')?rect(g.closest('main')):{left:0,right:W}); ok('卡片内缩 = 布局边距 '+INSET, gr.left-host.left, INSET, 0.5); }
     const single=qa('.row').find(r=>!r.querySelector('.hint,.seg,input[type=range]')&&!r.classList.contains('slider')); if(single){ const rr=rect(single); ok('单行 52.33（Row Regular 52 + 分隔线）', rr.height, 52.33, 0.5, single.textContent.trim().slice(0,12)); ok('行左内缩 '+(single.classList.contains('icon')?'18（有图标）':'20'), px(cs(single).paddingLeft), single.classList.contains('icon')?18:20, 0.1); ok('行右内缩 20', px(cs(single).paddingRight), 20, 0.1);
