@@ -34,10 +34,9 @@
 #card .mcard .src + .r::before{content:none}
 #card .mcard > .src:first-child{margin-top:0;padding-top:12px}
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-.mrow .val{flex:0 0 auto;width:min-content;flex-wrap:wrap;justify-content:flex-end;row-gap:2px}   /* min-content：两行各自不换行，宽度 = 较宽那行，名字那栏才有地方 */
 .mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.val .nrow{flex-basis:100%;font-size:.7059em;line-height:1.3333em;text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px;white-space:nowrap}
-.val .nrow .tag{font-size:1em}
+.mrow .val{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:0;line-height:1.2941em}
+.val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
 .mrow .ico.txt{font-size:.7647em;font-weight:600;letter-spacing:.02em;color:var(--ink-2);background:var(--fill)}
 .dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
 .dimlist .mrow .ico.txt{color:var(--ink-3)}
@@ -64,7 +63,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 .job .jr{display:flex;align-items:center;gap:11px;width:100%;min-height:69px;padding:13.5px 16px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 .job .jr.static{cursor:default}
 .job .lab{flex:1 1 auto;min-width:0} .job .name{font-weight:600;line-height:1.2941em} .job .hint{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.job .meta{color:var(--ink-3);font-size:.7647em;line-height:1.3846em;margin-top:2px}
+.job .meta{color:var(--ink-3);font-size:.7647em;line-height:1.3846em;margin-top:2px} .job .meta .nw{white-space:nowrap}
 .job .val{flex:none;text-align:right;font-variant-numeric:tabular-nums} .job .val b{font-weight:600;white-space:nowrap} .job .val .dim{font-size:.8824em}
 .job .det{padding:0 16px 14px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
 .job .det .q{padding:10px 12px;border-radius:12px;background:var(--fill);color:var(--ink);white-space:pre-wrap;margin-bottom:8px}
@@ -118,7 +117,7 @@ let CITIES=[], RATES=null, CUR='local', map=null, APP=null;
 try{ CITIES=await (await fetch('data/cities.json')).json(); }catch(e){ CITIES=[]; }
 // 壳（ui/shell.js）：地图 + Sheet + 叠放卡片 + 点击→卡片；这页只给 layers() 和 card()
 APP=HIGShell.create({
-  attribution:'© OpenStreetMap contributors · OpenFreeMap',
+  attribution:'',   // 底图样式自带「OpenFreeMap © OpenMapTiles Data from OpenStreetMap」，别再加一份
   // 底图：OpenFreeMap（免费、无密钥、OpenStreetMap 数据）的矢量瓦片，样式 data/style_apple_light.json 照地图 App 浅色配色改的 positron；
   // 有路网和地名，进城不再是一片空白。城市点/标注在 load 后加在最上面。Natural Earth 国界那套只剩离线兜底（fallbackStyle）。
   map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:17, style:styleUrl()},
@@ -159,9 +158,10 @@ $('introMore').addEventListener('click',()=>{ location.href='data/README.md'; })
 const CODE={JPN:'JP',CHN:'CN',TWN:'TW',KOR:'KR',VNM:'VN',MMR:'MM',DEU:'DE',USA:'US',AUS:'AU'};   // 不用 emoji 旗（台北的旗在 iOS 上是方框），用地区代码
 function cityRows(){
   // 地图 App 搜索结果行：34 圆图标 + 标题 17 半粗 + 副标题 15 + ›；右侧 = 到枢纽 15 分那档每月要打的工时 + 样本数（股市行的形）
-  const capLine=hh=>!hh.visa?'':(/公民/.test(hh.visa)?'本国公民 · 无上限':`${hh.visa} · ${hh.capWeek?`每周 ${hh.capWeek} 小时上限`:'无上限'}`);   // 人话：「留学签证 · 每周 28 小时上限」/「本国公民 · 无上限」
+  // 375 宽的行：名字栏只有 ~133px，副题只放得下「留学签 · 周 28h 上限」/「本国公民 · 无上限」；样本数和超上限放右侧第二行 11pt（22+15=37 ≤ 内容高 42，行高仍 69；maa 真机 09-15）
+  const capLine=hh=>{ if(!hh.visa) return ''; const v=hh.visa.replace(/签证$/,'签'); return /公民/.test(hh.visa)?'本国公民 · 无上限':`${v} · ${hh.capWeek?`周 ${hh.capWeek}h 上限`:'无上限'}`; };
   const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
-    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="dim nrow">${hh.cap?`<span class="tag ${over?'orange':'green'}">${over?'超出上限':'上限内'}</span>`:''}${hh.n} 条岗位</small></span>`; };   // 第二行：签证胶囊 + 样本数，名字那栏才有地方
+    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="nrow ${over?'over':'dim'}">${over?'超出上限 · ':''}${hh.n} 条</small></span>`; };
   const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}"><span class="ico txt">${CODE[c.country]||'—'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
   const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
   $('cityRows').innerHTML=ready.map(row).join('');
@@ -246,11 +246,11 @@ function jobEmployer(jb){ const st=(jb.store||'').replace(/（.*$/,'').replace(/
 function cleanSrc(t){ return (t||'').replace(/[（(][^（()）]*(?:cost\/data|\.json|原始|无障碍树)[^（()）]*[）)]/g,'').replace(/[;；]?\s*原始[^;；。）)]*/g,'').replace(/\bn=\d+/g,'').replace(/\s*·\s*$/,'').replace(/\s{2,}/g,' ').trim(); }
 function jobMeta(jb){ const w=jb.wage||{}, hh=w.hours||{}; const parts=[];
   if(w.wage_posted) parts.push(w.wage_posted);
-  if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
+  if(hh.basis==='default_24h') parts.push('24 小时在岗（默认）'); else if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
   const shift=(hh.posted||'').match(/上[一二三]休[一二三]|白夜班倒|两班倒|週休二日/); if(shift) parts.push(shift[0]);
   else if(hh.days_per_month) parts.push(hh.days_per_month>=30?'全月无休':`月休 ${30-hh.days_per_month} 天`);
   if(w.posted_at){ const m=w.posted_at.match(/(\d{4})-(\d{2})-(\d{2})/); if(m) parts.push(`${+m[2]} 月 ${+m[3]} 日`); }
-  return parts.join(' · '); }
+  return parts.map(x=>`<span class="nw">${x}</span>`).join(' · '); }   // 每段不换行，只在「·」处折（窄屏上「日」不再孤零零掉下去）
 function jobContact(jb){ const w=jb.wage||{}, c=w.contact||'';
   if(/^1[3-9]\d[\d*]{4}\d{4}$/.test(c.replace(/\s/g,''))) return `<span class="btn s dis" aria-disabled="true"><i class="sf" data-sf="phone.fill"></i>${c}</span>`;   // 打了码的号：显示、不可拨
   if(/^\+?[\d\-() ]{7,}$/.test(c)) return `<a class="btn s tint" href="tel:${c.replace(/[^\d+]/g,'')}"><i class="sf" data-sf="phone.fill"></i>打电话</a>`;
