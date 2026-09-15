@@ -5,7 +5,7 @@
    站名 → ek 码从沿线相場页（/chintai/soba/<pref>/en_<line>/）里找，LINES 列出要扫的线；请求间隔 2 秒。"""
 import re, sys, json, time, html, subprocess, os
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
-LINES={'tokyo':['en_chuosen','en_yamanotesen','en_keihintohokusen','en_saikyosen','en_jobansen','en_tozaisen','en_chiyodasen','en_odakyusen','en_keiosen','en_seibuikebukurosen','en_tobutojosen','en_sobusen','en_keihinkyukosen','en_tokyutoyokosen','en_hanzomonsen','en_oedosen','en_keiseihonsen','en_odakyuodawarasen','en_keiokeiosen','en_tokyudenentoshisen']}
+LINES={'osaka':['en_chikatetsumidosujisen','en_chikatetsutanimachisen','en_chikatetsuyotsubashisen','en_chikatetsusennichimaesen','en_chikatetsuchuosen','en_chikatetsusakaisujisen','en_chikatetsuimazatosujisen','en_kitaosakakyuko'],'tokyo':['en_chuosen','en_yamanotesen','en_keihintohokusen','en_saikyosen','en_jobansen','en_tozaisen','en_chiyodasen','en_odakyusen','en_keiosen','en_seibuikebukurosen','en_tobutojosen','en_sobusen','en_keihinkyukosen','en_tokyutoyokosen','en_hanzomonsen','en_oedosen','en_keiseihonsen','en_odakyuodawarasen','en_keiokeiosen','en_tokyudenentoshisen']}
 def get(url):
     r=subprocess.run(['curl','-sL','-m','40','-A',UA,url],capture_output=True,text=True); time.sleep(2); return r.stdout
 def text(h):

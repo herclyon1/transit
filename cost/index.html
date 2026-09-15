@@ -400,12 +400,15 @@ function render(c,d){
   if(d.hub) h+=`<div class="src" style="margin-bottom:6px">枢纽：${d.hub.name}。${d.hub.note||''}</div>`;
   if(tiers.length){
     const noPass=d.transport&&d.transport.pass===null;
-    h+=`<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>代表车站</th><th>单间月租</th>${noPass?`<th>${passLabel(d,'any')}</th>`:'<th>通学月票</th><th>通勤月票</th>'}<th>单程</th></tr></thead><tbody>`;
+    const hasShare=tiers.some(t=>t.rent_share);   // 乌鲁木齐：年轻人主要租合租单间，另列一列（用户 09-15）
+    h+=`<div style="overflow-x:auto"><table class="tiers"><thead><tr><th>档位</th><th>代表车站</th><th>一居月租</th>${hasShare?'<th>合租单间</th>':''}${noPass?`<th>${passLabel(d,'any')}</th>`:'<th>通学月票</th><th>通勤月票</th>'}<th>单程</th></tr></thead><tbody>`;
     for(const t of tiers){ const cell=x=>x&&x.value!=null?`<a href="${x.source_url||'#'}" target="_blank" rel="noopener" title="${(x.source_short||cleanSrc(x.source_name)||'')+(x.how?' · '+x.how:'')}">${money(x.value,x.unit,cur,true)}</a><span class="chip ${x.confidence}"></span>`:'<span class="none">暂无</span>';
-      h+=`<tr><td><b>${t.label}</b><div class="src">${t.commute||''}</div></td><td class="src">${(t.stations||[]).join('<br>')}</td><td>${cell(t.rent_1k)}</td>${noPass?`<td>${cell(t.pass_commuter||t.pass_student)}</td>`:`<td>${cell(t.pass_student)}</td><td>${cell(t.pass_commuter)}</td>`}<td>${cell(t.fare_single)}</td></tr>`; }
-    h+='</tbody></table></div><div class="src">单位 '+(CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR))+'；房租不含礼金、押金、管理费；点数字打开来源。'+(noPass&&(d.transport.how||'')?' '+d.transport.how:'')+'</div>';
+      h+=`<tr><td><b>${t.label}</b><div class="src">${t.commute||''}</div></td><td class="src">${(t.stations||[]).join('<br>')}</td><td>${cell(t.rent_1k)}</td>${hasShare?`<td>${cell(t.rent_share)}</td>`:''}${noPass?`<td>${cell(t.pass_commuter||t.pass_student)}</td>`:`<td>${cell(t.pass_student)}</td><td>${cell(t.pass_commuter)}</td>`}<td>${cell(t.fare_single)}</td></tr>`; }
+    h+='</tbody></table></div><div class="src">单位 '+(CUR==='local'?(CURNAME[cur]||cur):(CURNAME[CUR]||CUR))+'；房租 = 在挂房源里便宜的四分之一处（刚来的人真会租到的那档），不含礼金、押金、管理费；点数字打开来源。'+(noPass&&(d.transport.how||'')?' '+d.transport.how:'')+'</div>';
     // 各档数字怎么来的：同来源行的形，默认收起
-    h+='<details class="sublist tiers-how"><summary>各档数字怎么来的</summary>'+tiers.map(t=>[['rent_1k','单间月租'],[noPass?'pass_commuter':'pass_student',noPass?passLabel(d,'any'):'通学月票'],['fare_single','单程']].map(([k,lb])=>t[k]?srcRow(`${t.label} · ${lb}`,t[k],cur):'').join('')).join('')+'</details>';
+    h+='<details class="sublist tiers-how"><summary>各档数字怎么来的</summary>'+tiers.map(t=>[['rent_1k','一居月租'],['rent_share','合租单间'],[noPass?'pass_commuter':'pass_student',noPass?passLabel(d,'any'):'通学月票'],['pass_commuter','通勤月票'],['fare_single','单程']].filter(([k])=>!(noPass&&k==='pass_commuter'&&false)).map(([k,lb])=>t[k]&&!(noPass&&k==='pass_commuter'&&lb==='通勤月票')?srcRow(`${t.label} · ${lb}`,t[k],cur):'').join('')).join('')+'</details>';
+    // 租房一次性费用（大阪：管理费/敷金/礼金，SUUMO 便宜段统计）
+    if(d.rent_fees) h+=`<div class="sub" style="padding-top:14px">${d.rent_fees.label||'租房一次性费用'}</div>`+srcRow('管理费 · 押金 · 礼金',Object.assign({value:null},d.rent_fees),cur).replace('<span class="dim">暂无</span>','<span class="dim">点开看</span>');
   } else h+='<div class="empty">待调查</div>';
   h+='</section>';
   // ---- 地铁分区票价（有分区制的城市才有）

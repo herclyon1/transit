@@ -63,8 +63,12 @@ def to_rec(d, city, basket_hint, today):
     flag=('多班可选 ' if len(segs)>1 else '')+('交替制 ' if '交替制' in d['hours'] else '')
     m=re.search(r'年間休日数：(\d+)日',d['holiday']); dpm=None
     if m: dpm=round((365-int(m.group(1)))/12)           # パート没写年間休日数的不猜天数：時給直接就是时薪，天数在求人票的「週所定労働日数」里
-    r['hours_text']=' / '.join(hours+([d['holiday']] if d['holiday'] else [])); r['hours_per_day']=hpd; r['days_per_month']=dpm; r['hours_flag']=flag.strip(); r['hours_month']=round(hpd*dpm) if (hpd and dpm) else None
+    # 就業時間没有时刻段（只写「交替制（シフト制）」等）时，hours_text 取就業時間原句而不是休日那行（maa 09-15：スシロー北加賀屋店/菜花野 抓成了休日）
+    shift_only=re.sub(r'\s+',' ',d['hours']).strip() if not segs else ''
+    core=hours or ([shift_only] if shift_only else [])
+    r['hours_text']=' / '.join(core+([d['holiday']] if (d['holiday'] and core) else [])); r['hours_per_day']=hpd; r['days_per_month']=dpm; r['hours_flag']=flag.strip(); r['hours_month']=round(hpd*dpm) if (hpd and dpm) else None
     r['hourly']=r['wage_value'] if r['wage_unit']=='JPY/小时' else (round(r['wage_value']/r['hours_month']) if (r['wage_unit']=='JPY/月' and r['hours_month']) else None)
+    # 就業時間为空（菜花野那种）：hours_text 留空 → judge 记 no_hours 进 rejected（「帖子写明工时/班次」门槛）；只有休日那行不算工时
     r['contact']='ハローワーク窓口/オンライン自主応募'
     r['via_agent']='派遣' in d['kind'] or '請負' in d['kind'] or bool(re.search(r'派遣|請負',d['company']))
     # 篮子：连锁按事業所名（日本マクドナルド 的「フロア担当」就是连锁锚点）；其余先看職種名，再看仕事の内容；搜索词不当篮子依据（搜「コンビニ」会带出办公室岗）
