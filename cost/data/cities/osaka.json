@@ -1713,6 +1713,18 @@
      "price": 500,
      "unit": "日元",
      "note": "另列一行"
+    },
+    {
+     "name": "スターバックス 梅田イーマ店 ブリュードコーヒー（Uber Eats）",
+     "price": 561,
+     "unit": "日元",
+     "note": "Uber Eats 平台价，对照"
+    },
+    {
+     "name": "カフェ・ド・クリエ 阪急三番街店 ブレンドコーヒー（Uber Eats）",
+     "price": 530,
+     "unit": "日元",
+     "note": "Uber Eats 平台价，对照"
     }
    ],
    "compare": {
@@ -1723,40 +1735,69 @@
     "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
     "source_name": "总务省统计局 小売物価統計調査（動向編）2026 年 2 月 第１表 大阪市"
    },
-   "note": "总务省小売物価統計 2026-02 大阪市：コーヒー(外食) セルフ 335、喫茶店 453（09-16 从 e-Stat 第１表 xlsx 大阪市列核对；之前写的 439 不对）。ドトール S 300 为实价。"
+   "note": "总务省小売物価統計 2026-02 大阪市：コーヒー(外食) セルフ 335、喫茶店 453（09-16 从 e-Stat 第１表 xlsx 大阪市列核对；之前写的 439 不对）。ドトール S 300 为实价。 09-16 06:2x 试过 Uber Eats（梅田駅）：ドトール・コメダ・上島珈琲 不在平台；タリーズ ディアモール大阪 菜单没有普通咖啡（只有カフェオレ 630）；スタバ 梅田イーマ ブリュードコーヒー 561、カフェ・ド・クリエ 阪急三番街 ブレンド 530——只有 2 家有平价一杯，凑不齐 5 家，且平台价含加价，所以咖啡馆一杯仍用官网店内价，不换。"
   },
   "curry_rice": {
-   "value": 460,
+   "value": 780,
    "unit": "日元",
-   "source_url": "https://www.matsuyafoods.co.jp/matsuya/menu/gyumeshi/gyumeshi_hp_250422.html",
-   "source_name": "松屋官网 メニュー 牛めし 並盛（税込，2026-09-08 版）",
-   "source_short": "松屋官网菜单",
+   "label": "外食咖喱饭（Uber Eats 梅田周边 5 家中位）",
+   "source_url": "https://www.ubereats.com/jp/search?q=%E3%82%AB%E3%83%AC%E3%83%BC%E3%83%A9%E3%82%A4%E3%82%B9",
+   "source_name": "Uber Eats 网页版（配送地址 梅田駅・大阪市北区梅田3丁目1）搜「カレーライス」默认排序前 5 家餐馆的普通カレー，2026-09-16 06:1x JST",
+   "source_short": "Uber Eats",
    "fetched_at": "2026-09-16",
-   "confidence": "official",
-   "n": null,
-   "label": "一顿快餐（松屋 牛めし 並盛，对照）",
-   "how": "松屋官网牛めし页读 並盛 税込价——上班上学的人一顿最便宜的正经饭。22 时到次日 5 时加 7% 深夜费，个别店价格不同。同类对照：吉野家 牛丼 並盛 498、CoCo壱 ポークカレー 646（大阪府用官网标价，其他地区便宜 21）。",
+   "confidence": "listing",
+   "n": 5,
+   "how": "Uber Eats 网页版把配送地址设成 梅田駅，搜「カレーライス」，默认排序里剔掉超市/便利店（KOHYO・ミニストップ・ウエルシア・ローソン100）和カレーうどん店，取前 5 家餐馆（松屋・すき家・吉野家・マイカリー食堂・なか卯）各自最便宜的普通咖喱饭（並，店家标配附味噌汁/豚汁的照算），取中位（n=5）。平台价含平台加价、不含配達手数料/サービス料——松屋 同款店内官网 680、Uber 770（+13%）。取数时间 06 时，休业店排后但菜单可读；出前館网页要登录没用。CoCo壱番屋（難波中1丁目店，48 分）不在搜索结果前列，只作对照 646（官网店内）。",
    "items": [
     {
-     "name": "松屋 牛めし 並盛",
-     "price": 460,
+     "name": "松屋 梅田角田町店 創業ビーフカレー（味噌汁付）",
+     "price": 770,
      "unit": "日元",
-     "note": "小盛 430 / 大盛 680；官网 2026-09-08 版"
+     "note": "店内官网 680；Uber Eats 平台价",
+     "url": "https://www.ubereats.com/jp/store/%E6%9D%BE%E5%B1%8B-%E6%A2%85%E7%94%B0%E8%A7%92%E7%94%B0%E7%94%BA%E5%BA%97-matsuya-umeda-kakudacho/SGjX7x4IQwurJpxTq_yGjw"
     },
     {
-     "name": "吉野家 牛丼 並盛",
-     "price": 498,
+     "name": "すき家 梅田太融寺店 カレー（ポーク）",
+     "price": 900,
      "unit": "日元",
-     "note": "税込；官网牛丼菜单"
+     "note": "Uber Eats 平台价",
+     "url": "https://www.ubereats.com/jp/store/%E3%81%99%E3%81%8D%E5%AE%B6-%E6%A2%85%E7%94%B0%E5%A4%AA%E8%9E%8D%E5%AF%BA%E5%BA%97-sukiya-umeda-taiyuji/5r7t6i09QdGE-cFCStDDXg"
     },
     {
-     "name": "CoCo壱番屋 ポークカレー",
+     "name": "吉野家 桜橋店 黒カレー",
+     "price": 780,
+     "unit": "日元",
+     "note": "Uber Eats 平台价",
+     "url": "https://www.ubereats.com/jp/store/%E5%90%89%E9%87%8E%E5%AE%B6-%E6%A1%9C%E6%A9%8B%E5%BA%97-yoshinoya-sakurabashi/r_FoMsjIQoaADVAPQiZOFQ"
+    },
+    {
+     "name": "マイカリー食堂 南森町店 マイカレー（豚汁付）",
+     "price": 750,
+     "unit": "日元",
+     "note": "Uber Eats 平台价",
+     "url": "https://www.ubereats.com/jp/store/%E3%83%9E%E3%82%A4%E3%82%AB%E3%83%AA%E3%83%BC%E9%A3%9F%E5%A0%82-%E5%8D%97%E6%A3%AE%E7%94%BA%E5%BA%97-my-curry-shokudo-minamimorimachi/-ROKms8ESfSxDDgPsZlHEw"
+    },
+    {
+     "name": "なか卯 梅田東店 和風カレー",
+     "price": 900,
+     "unit": "日元",
+     "note": "Uber Eats 平台价",
+     "url": "https://www.ubereats.com/jp/store/%E3%81%AA%E3%81%8B%E5%8D%AF-%E6%A2%85%E7%94%B0%E6%9D%B1%E5%BA%97-nakau-umeda-higashi/SQUhEZkUR3mJfLJfOjnUOA"
+    },
+    {
+     "name": "CoCo壱番屋 ポークカレー（店内官网）",
      "price": 646,
      "unit": "日元",
-     "note": "店内税込；东京·神奈川·大阪府按官网标价，其他地区 −21"
+     "note": "对照：官网大阪府标价，不在 Uber 搜索前列"
+    },
+    {
+     "name": "松屋 牛めし 並盛（店内官网，原「一顿快餐」）",
+     "price": 460,
+     "unit": "日元",
+     "note": "对照：09-16 上午的旧值，官网 2026-09-08 版"
     }
    ],
-   "items_label": "看 3 家连锁的实价",
+   "items_label": "看 5 家店",
    "compare": {
     "label": "统计对照（カレーライス(外食) 1 皿，大阪市 2026-02）",
     "value": 789,
@@ -1765,7 +1806,7 @@
     "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&query=5g&stat_infid=000040427931",
     "source_name": "总务省统计局 小売物価統計調査（動向編）2026 年 2 月 第１表 大阪市"
    },
-   "note": "总务省零售物价统计 2026-02 大阪市 咖喱饭 789 改为对照（09-16 从 e-Stat xlsx 大阪市列核对）；一顿快餐取松屋牛めし並盛 460。吉野家 https://www.yoshinoya.com/menu/gyudon/ ；CoCo壱 https://www.ichibanya.co.jp/menu/list.html?cid=1（地域別価格 说明在同页）。"
+   "note": "Uber Eats 梅田 5 家：松屋 梅田角田町店 創業ビーフカレー（味噌汁付） 770；すき家 梅田太融寺店 カレー（ポーク） 900；吉野家 桜橋店 黒カレー 780；マイカリー食堂 南森町店 マイカレー（豚汁付） 750；なか卯 梅田東店 和風カレー 900；中位 780。旧值 460 是松屋牛めし店内价（换了口径：咖喱饭·外卖平台价）。"
   },
   "eggs10": {
    "value": 354,
