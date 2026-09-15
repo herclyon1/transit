@@ -88,7 +88,7 @@ def main():
         note='；'.join(f"{r.get('rank','?')}.{r['name'][:28]} {r['price']:g} 元/{sp} → {u:.2f} {unit_zh}" for r,u,sp in keep)
         b[key]={'value':val,'unit':'元','label':LABEL.get(key,key),
                 'source_url':'pinduoduo://com.xunmeng.pinduoduo/ywgnpxpt.html?_p_page=vgt_search' if plat=='多多买菜' else None,
-                'source_name':f"{plat}（拼多多 App）{d.get('city',city)} 自提点 {where} 搜索“{kw}” {rs[0].get('sort','综合')}排序前 {len(rs)}" if plat=='多多买菜' else f"{plat} {where} 搜索“{kw}”",
+                'source_name':f"{plat}（拼多多 App）{d.get('city',city)} 自提点 {where} 搜索“{kw}” {rs[0].get('sort','综合')}排序前 {len(rs)}" if plat=='多多买菜' else f"{plat}团购（美团 App）乌鲁木齐 定位 {where} 搜索“{kw}” {rs[0].get('sort','智能排序')}前 {len(rs)}",
                 'source_short':plat,'fetched_at':rs[0].get('fetched_at',datetime.date.today().isoformat()),'confidence':'listing','n':len(keep),
                 'how':f'前 {len(rs)+len(dropped)} 条里先剔掉不是同一种东西的 {len(dropped)} 条'+(f'（{"、".join(dropped)}）' if dropped else '')+f'，其余按商品名里的规格折到 {unit_zh}，去掉离中位 2 倍以外的，取中位（n={len(keep)}）——'+('美团团购 智能排序前一屏（团购一份 = 一个，到店自取，馕不能快递）' if plat=='美团' else '买菜 App 综合排序前一屏里普通人挑得到的价')+'',
                 'note':f'篮子单位价 = 中位 {val:g} {unit_zh}。{note}'}
