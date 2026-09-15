@@ -47,7 +47,9 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
 #tiersLg{padding-top:10px}
 .mcard .r .k .acc{color:var(--acc)}
-.hidden-ctl{display:none}
+@media (min-width:900px){ .sheet:has(#card:not([hidden])) > .body{display:none} #card .body{padding-top:0} }
+#card .mcard .r .k .tsw{margin:0 8px 0 0;width:12px;height:12px;border-radius:50%;vertical-align:-1px}
+#card .mcard .r .v.dimv{color:var(--ink-3)}
 </style>
 </head>
 <body>
@@ -81,6 +83,12 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
       <i class="tsw" style="background:#d05252"></i>D 不建议<br>治安×便利×环境，2026 粗略版，点区块看说明</div>
     <div class="mcard" style="margin-top:12px"><div class="txt" id="note">载入中…</div></div>
     <p class="mnote">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
+  </div>
+  <!-- 地点卡片（地图 App 点 POI = 叠放的第二张 Sheet，壳的 HIGSheet.stack）：车站 / 等级面块 -->
+  <div id="card" hidden>
+    <div class="grab"><i></i></div>
+    <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2" id="cName"></div><div class="t-sub dim" id="cMeta"></div></div><span class="slot"><button class="btn-glass fill" id="cClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
+    <div class="body" id="cBody"></div>
   </div>
 </aside>
 <!-- 「图层」小 Sheet：地图 App「地图模式」那张的形——标题居中 + 关闭 44，一张卡片放开关行 -->
@@ -170,7 +178,14 @@ const APP = HIGShell.create({initial:'medium', attribution:'<a href="https://map
     style:{version:8, sources:{ gsi:{type:'raster', tiles:['https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png'], tileSize:256, maxzoom:18} },
       layers:[ {id:'bg',type:'background',paint:{'background-color':'#f2f2f7'}},
                {id:'gsi',type:'raster',source:'gsi',paint:{'raster-fade-duration':0}} ]}},
-  layers(map){ return {'stations-hit': f=>openStation(f), 'tiers-fill': (f,e)=>openTier(f,e)}; }});
+  layers(map){ return {'stations-hit': f=>{ const st=BYID[f.properties.id]; if(st) APP.present({kind:'station', s:st}); }, 'tiers-fill': f=>APP.present({kind:'tier', p:f.properties})}; },
+  // 地图 App 点 POI = 开叠放卡片，不是气泡（maa 09-15）：车站 → 标题站名、副题线路/最短、正文四枢纽时间；等级面块 → 名称 + 等级 + 说明
+  card(item){ if(POP){ POP.remove(); POP=null; }
+    if(item.kind==='station'){ const s=item.s, low=$('lowfreq').checked, th=+$('th').value, t=low?s.t_low:s.t_default; const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity]));
+      return {title:s.name, sub:[(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '), html:stationCard(s,t,low,th)}; }
+    if(item.kind==='tier'){ const p=item.p; return {title:p.name, sub:(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier,
+      html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v"><span class="tag" style="background:${tcol(p.tier)};color:#fff">${p.tier}</span></span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mnote">治安×便利×环境，2026 粗略版</p>`}; }
+    return null; }});
 const map = APP.map; window.map = map;
 const zL = () => map.getZoom()+1;              // Leaflet 口径的 zoom
 const css = c => 'rgb('+c[0]+','+c[1]+','+c[2]+')';
@@ -432,28 +447,15 @@ function openPopup(lnglat, html, opts={}){
   POP.on('close', ()=>{ if(opts.onClose) opts.onClose(); });
   return POP;
 }
-function openStation(f){ const s=BYID[f.properties.id]; if(!s) return; const low=$('lowfreq').checked, th=+$('th').value; openPopup([s.lon,s.lat], popup(s, low?s.t_low:s.t_default, low, th)); }
 map.on('click', e=>{ if(Date.now() - lastLongPress > 700 && POP && !map.queryRenderedFeatures(e.point,{layers:['stations-hit','tiers-fill'].filter(l=>map.getLayer(l))}).length){ POP.remove(); POP=null; } });
-
-function popup(s,t,low,th){
-  const fg = cssvar('--popfg'), dim = cssvar('--popdim');
-  let h = '<b>'+s.name+'</b>';
-  if(s.ops && s.ops.length) h += ' <span style="color:'+dim+'">'+s.ops.join('/')+'</span>';
-  if(!s.in_osaka) h += ' <span style="color:'+dim+'">(府外)</span>';
-  h += '<table style="margin-top:5px;border-collapse:collapse">';
-  let mn=null;
-  HUBS.forEach((hub,i)=>{
-    const v=t[i]; if(v!==null && (mn===null || v<mn)) mn=v;
-    let mark='';
-    if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)){
-      mark = ' <span title="经由低频优等">⚡</span>'+(s.fare[i]?'<span title="需特急券">💴</span>':'') + '<span style="color:'+dim+';font-size:11px"> 経由 '+s.via[i]+'</span>'; }
-    const inTh = v!==null && v<=th;
-    h += '<tr><td style="padding:1px 8px 1px 0"><span class="tsw" style="background:'+css(HUE[hub])+'"></span> '+hub+'</td>'
-      + '<td style="padding:1px 8px 1px 0;color:'+(inTh?fg:dim)+';'+(inTh?'font-weight:700':'')+'">'+(v===null?'不可达':v.toFixed(1)+' 分')+'</td>'
-      + '<td style="color:'+dim+';font-size:11px">'+(s.prov[i]?PROV_LABEL[s.prov[i]]:'—')+mark+'</td></tr>';
-  });
-  h += '</table><div style="margin-top:4px;color:'+fg+'">最短 '+(mn===null?'—':mn.toFixed(1)+' 分')+'</div>';
-  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h += '<div style="margin-top:5px;color:'+dim+';font-size:11px">日中3本/h以上の系統が無い駅。既定ビューでは不可达、⚡を入れると到達可能</div>';
+function stationCard(s,t,low,th){
+  let h='<div class="mcard">';
+  HUBS.forEach((hub,i)=>{ const v=t[i], inTh=v!==null && v<=th; let mark='';
+    if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
+    h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
+  h+='</div>';
+  if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mnote">日中3本/h以上の系統が無い駅。既定ビューでは不可达、⚡（含低频优等）を入れると到達可能</p>';
+  h+='<p class="mnote">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 同等级中位数，误差可能较大</p>';
   return h;
 }
 
@@ -539,7 +541,7 @@ function applyTheme(){
   if(DATA){ buildLegend(); render(); if(area.on) area.draw(); }
 }
 applyTheme();
-function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); }
+function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); if(APP.open) APP.present(APP.open); }
 $('th').addEventListener('input',()=>{ $('thv').textContent = $('th').value+' 分'; redrawAll(); });
 $('wk').addEventListener('input',()=>{ $('wkv').textContent = $('wk').value+' 分'; if(area.on) area.draw(); });
 $('lowfreq').addEventListener('change',redrawAll);
@@ -563,9 +565,6 @@ function ensureTiers(){
   return tiersLoading;
 }
 let TIERS=null, hoverId=null;
-function openTier(f,e){ const p=f.properties;
-  openPopup(e.lngLat, `<div class="tierpop"><b>${p.name}</b><span class="t" style="background:${tcol(p.tier)}">${p.tier}</span>`+
-    `<div style="color:var(--sub);font-size:11px;margin-top:3px">${p.kind==='zone'?p.parent+' · 细分块':'整市'}</div>`+(p.note?`<div style="margin-top:4px">${p.note}</div>`:'')+`</div>`); }
 map.on('mousemove','tiers-fill',e=>{ const id=e.features[0].id; if(hoverId!==null && hoverId!==id) map.setFeatureState({source:'tiers',id:hoverId},{hover:false}); hoverId=id; map.setFeatureState({source:'tiers',id},{hover:true}); });
 map.on('mouseleave','tiers-fill',()=>{ if(hoverId!==null) map.setFeatureState({source:'tiers',id:hoverId},{hover:false}); hoverId=null; });
 $('tiersOn').addEventListener('change',e=>{

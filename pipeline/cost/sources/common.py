@@ -6,7 +6,8 @@
 （微信文章来源必须有电话/微信；站内投递的站点 site_apply 用帖子 URL 即可）。
 时薪 = 月薪 ÷ 帖子写明的月工时（wage-must-carry-hours）；算不出月工时的不算「有工时」。
 2026-09-15 审计后补的规则：区间写法「3500—4000元/月」「4150元 - 4500元/月」记 range；多段班次求和；午休 N 小时扣减；
-「地点：」不再写进雇主；篮子关键词不在公司名里找；地址行里的外地地名优先于文章模板头；临时单（今天/预计 N 天）标 temp。
+「地点：」不再写进雇主；篮子关键词不在公司名里找；地址行里的外地地名优先于文章模板头；临时单（今天/预计 N 天）标 temp；
+「上一休一」不再默认 24 h（只认帖子写明的班长）。
 """
 import re, os, json, datetime, collections
 
@@ -96,9 +97,9 @@ def extract_common(r, city_hint):
         on=CN.get(m.group(1)) or int(m.group(1)); off=CN.get(m.group(2)) or int(m.group(2))
         dpm=dpm or round(30*on/(on+off)); hours_text.append(m.group(0))
         if on==1 and off>=1 and not hpd:
-            # 「上一休一」= 24 小时在岗；但帖子自己给了 12 小时倒班的选项（「也可白夜班倒」「12小时」）就按 12 算
-            if re.search(r'也可.{0,4}(?:白夜|倒班|两班)|白夜班倒|12\s*小时',t): hpd=12; flag+='上一休一可倒班 '
-            else: hpd=24; flag+='24h岗 '   # 月工时 = 24 × 班数，卡片里注明
+            # 2026-09-15 用户定：只写「上一休一」没写每班几小时的，不默认 24h/12h——算「工时只写了一半」，进列表标「打电话确认班次」，不折时薪。
+            # 帖子明写「24小时」或「12小时」的才算（下面 24 小时 / N小时班 的分支会接住）
+            flag+='上一休一未写班长 '
     m=re.search(r'(\d{1,2})\s*小时\s*(?:班|制|一班|/班)',t)
     if m and not hpd: hpd=float(m.group(1)); hours_text.append(m.group(0))
     m=re.search(r'(?:每月|一个月|月)[^\n\d]{0,3}休(?:息)?\s*(\d{1,2}|一|两|二|三|四|五|六)\s*(?:个)?\s*(?:整)?天',t)

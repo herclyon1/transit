@@ -6,7 +6,7 @@
 - 读 cost/data/raw/<city>/*/jobs_raw.jsonl（所有日期），按 (雇主/地点, 篮子, 工资) 去重，同一岗位留最新发帖；
 - 每个篮子取时薪最低的 5 条（「普通人去应聘拿到的价」），写进 cities/<city>.json 的 jobs[]，条目带 ingest_key；
 - 手写的条目（没有 ingest_key）原样保留，raw 里和手写条目同一 source_url 的不再重复入库；临时单（temp）不进篮子最低值；重跑先删旧的 ingest 条目再写；
-- 24 小时岗（hours_flag 含 24h岗）时薪按 24×班数算，note 里注明，并另给 12 小时在岗口径的对照数。
+- 「上一休一」没写班长的不折时薪（hours_partial，进 call_list）；帖子写明 24 小时的按 24×班数算。
 """
 import os, sys, json, glob, datetime, collections, re
 PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
@@ -37,7 +37,6 @@ manual_urls={j['wage'].get('source_url') for j in manual}
 by=collections.defaultdict(list); side=[]; n_dup_manual=0
 def tags(r):
     t=[]
-    if '24h岗' in (r.get('hours_flag') or ''): t.append('24h')     # 24 小时在岗口径：进篮子，不进首页中位数
     if r.get('temp'): t.append('temp')                               # 临时单/日结：不进篮子最低值、不进首页
     if r.get('suburb'): t.append('suburb')                           # 达坂城等郊区：留列表，不进篮子和首页
     if r.get('basket')=='home': t.append('home')                     # 私人家庭钟点/家政：留列表，不进篮子和首页
@@ -57,8 +56,7 @@ side.sort(key=lambda r:(r['_tags'][0], r['hourly'])); picked+=side[:6]
 def entry(r):
     h=r.get('hours_month'); hpd=r.get('hours_per_day'); dpm=r.get('days_per_month'); flag=r.get('hours_flag','')
     note=mask(f"帖子原文：“{r['raw'][:220].replace(chr(10),' / ')}”")
-    if '24h岗' in flag and h: note+=f"。24 小时岗：月工时按 24 h × {dpm} 班 = {h} h 计，含夜间值守；若按 12 小时在岗算则 {round(r['wage_value']/(12*dpm),1)} {CUR}/时。"
-    if '可倒班' in flag and h: note+=f"。帖子写「上一休一，也可白夜班倒」：按 12 h 班 × {dpm} 班 = {h} h 计；若按 24 h 在岗算则 {round(r['wage_value']/(24*dpm),1)} {CUR}/时。"
+    if '24h' in flag and h: note+=f"。帖子写明 24 小时在岗：月工时 24 h × {dpm} 班 = {h} h，含夜间值守。"
     if r.get('probation'): note+="。帖子写的是试用期工资。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
@@ -71,7 +69,7 @@ def entry(r):
                      "contact": r.get('contact'), "note": note,
                      "wage_posted": f"{r['wage_value']:g} {r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')}",
                      "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h,
-                               "basis": "rule_24h" if '24h岗' in flag else ("rule_12h" if '可倒班' in flag else "posted")}}}   # 24h/12h 是口径推断，不是帖子写的
+                               "basis": "posted"}}}   # 只认帖子写明的工时（2026-09-15 起不再有 rule_24h/rule_12h）
 
 new=[entry(r) for r in picked]
 d['jobs']=manual+new; d['updated']=datetime.date.today().isoformat()

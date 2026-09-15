@@ -174,7 +174,7 @@ HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='
 const cache={};
 // 城市一眼能比的数：到枢纽 15 分那档「每月要打的工时」= (房租 + 水电燃气 + 手机宽带 + 统计食费 + 通学月票) ÷ 参考时薪；和卡片里「换算成工时」同一公式
 // 参考时薪 = 有效岗位的时薪中位数（2026-09-15 起；之前用最低值，一条 24 小时岗就把乌鲁木齐从 229 拉到 316）。
-// 有效 = headline!==false：24 小时在岗口径、临时单、郊区、私人家政都不算；卡片里另给最低/最高。
+// 有效 = headline!==false：临时单、郊区、私人家政不算（「上一休一」没写班长的根本不折时薪，进不了 jobs）；卡片里另给最低/最高。
 function refWageOf(d){ const V=x=>x&&x.value!=null?x.value:null;
   const ws=(d.jobs||[]).filter(jb=>jb.headline!==false&&V(jb.wage)!=null).map(jb=>V(jb.wage)).sort((a,b)=>a-b);
   if(!ws.length) return {wage:d.wage_ref&&V(d.wage_ref.min_official), n:0, name:'法定最低'};
@@ -230,7 +230,7 @@ function render(c,d){
   // 时薪怎么来的：帖子写的工资 ÷ 帖子写的工时（wage-must-carry-hours）；24 小时岗/12 小时班在这里能看见
   const hoursLine=w=>{ const hh=w&&w.hours; if(!hh||(!hh.monthly&&!hh.per_day)) return '';
     const per=hh.per_day?`${hh.per_day} h/天`:'', days=hh.days_per_month?`${hh.days_per_month} 天/月`:'';
-    const BASIS={posted:'帖子写明',rule_24h:'上一休一，按 24 h 在岗计',rule_12h:'上一休一可倒班，按 12 h 计'};
+    const BASIS={posted:'帖子写明'};
     return (w.wage_posted?`${w.wage_posted} `:'')+(hh.monthly?`÷ ${hh.monthly} h/月（${[per,days].filter(Boolean).join(' × ')}${BASIS[hh.basis]?'，'+BASIS[hh.basis]:''}）`:`÷ ${per}`)+(hh.posted?` · 班次「${hh.posted}」`:''); };
   const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_student||t15.pass_commuter);
   const foodM=d.living_official&&d.living_official.food;
@@ -253,9 +253,9 @@ function render(c,d){
   h+='</section>';
   // ---- 岗位：连锁 × 门店 × 时薪
   h+='<section><h3>具体岗位（门店直发 / 招工帖，能直接去应聘）</h3>';
-  const TAGZH={'24h':'24 小时在岗口径，不进首页中位数',temp:'临时单/日结',suburb:'郊区（离市区远）',home:'私人家庭家政'};
+  const TAGZH={temp:'临时单/日结',suburb:'郊区（离市区远）',home:'私人家庭家政'};
   const jobRow=jb=>{ const hl=hoursLine(jb.wage); const tg=(jb.tags||[]).map(t=>TAGZH[t]||t).join('，'); return num(`${jb.chain}`,Object.assign({},jb.wage,{note:`${jb.store}${tg?' · '+tg:''}${hl?' · '+hl:''}${jb.wage.note?' · '+jb.wage.note:''}`}),cur); };
-  const mainJobs=(d.jobs||[]).filter(jb=>jb.headline!==false||(jb.tags||[]).join()==='24h'), sideJobs=(d.jobs||[]).filter(jb=>!mainJobs.includes(jb));
+  const mainJobs=(d.jobs||[]).filter(jb=>jb.headline!==false), sideJobs=(d.jobs||[]).filter(jb=>!mainJobs.includes(jb));
   if(mainJobs.length){ for(const jb of mainJobs) h+=jobRow(jb); }
   else h+='<div class="empty">待调查</div>';
   if(sideJobs.length){ h+='<div class="src" style="margin-top:10px"><b>另列（不进篮子最低值、不进首页）：临时/日结 · 郊区 · 私人家政</b></div>'; for(const jb of sideJobs) h+=jobRow(jb); }
