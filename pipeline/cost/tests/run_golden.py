@@ -8,10 +8,20 @@ expect 里 contact 可以写 True/False（有没有）或具体值；reasons 不
 import os, sys, json, datetime
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sources'))
 from common import Rec, extract_common, judge
-from weixin_sogou import CITY_HINT
+from weixin_sogou import CITY_HINT, split_posts
 gold=[json.loads(l) for l in open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'golden.jsonl'),encoding='utf-8')]
 bad=0
 for g in gold:
+    if g.get('kind')=='split':
+        posts=split_posts(g['raw']); e=g['expect']; diffs=[]
+        if len(posts)!=e['n_posts']: diffs.append(f"切出 {len(posts)} 条，期望 {e['n_posts']}：{[p[:18] for p in posts]}")
+        for i,key in enumerate(['first','second','third']):
+            if i<len(posts):
+                if e.get(key+'_has') and e[key+'_has'] not in posts[i]: diffs.append(f'第 {i+1} 条缺「{e[key+"_has"]}」')
+                if e.get(key+'_lacks') and e[key+'_lacks'] in posts[i]: diffs.append(f'第 {i+1} 条不该含「{e[key+"_lacks"]}」')
+        if diffs: bad+=1; print('✗',g['name']); [print('   ',d) for d in diffs]
+        else: print('✓',g['name'])
+        continue
     r=Rec(city='urumqi', source=g.get('source','weixin_sogou'), source_url='https://example.test/x', fetched_at='2026-09-15', posted_at=datetime.date.today().isoformat(), raw=g['raw'], account='golden', article_title='golden')
     if g.get('site_apply'): r['site_apply']=True
     extract_common(r, CITY_HINT['urumqi']); r['reasons']=judge(r,180)
