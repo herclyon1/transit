@@ -11,7 +11,7 @@
  },
  "hub": {
   "name": "六岔路口 Ngã Sáu（胜利纪念碑 Tượng đài Chiến thắng，Nguyễn Tất Thành、Lê Duẩn、Phan Chu Trinh、Nơ Trang Long 等六条路交汇）",
-  "note": "为什么取 Ngã Sáu 而不是中心市场 Chợ Buôn Ma Thuột：省交通厅公布的全部公交线路（sogtvt.daklak.gov.vn/cac-tuyen-xe-buyt-tren-dia-ban-tinh-dak-lak-532.html，2018 年表）里经过市区的 1、4、7、9、10、11、12、13、14、15、23、24 号线全走 Nguyễn Tất Thành–Lê Duẩn 这条轴，都在 Ngã Sáu 交汇；中心市场（Nguyễn Công Trứ / Y Jút）只有走 Lê Hồng Phong–Nguyễn Công Trứ 的线经过，离 Ngã Sáu 约 0.8 km。Ngã Sáu 同时是城市零公里点、胜利纪念碑所在，Lê Thánh Tông/Phan Chu Trinh 商圈围绕它。坐标 12.6798, 108.0447（OSM）。**邦美蜀没有市内公交系统**：省内 xe buýt 全是跨县线路（运营方 Công ty CP Vận tải ô tô Đắk Lắk、HTX Quyết Thắng 等），且 2019-08-01 起 4、6、23、28、29 号线停运（省交通厅公告 sogtvt.daklak.gov.vn/cac-tuyen-xe-buyt-ngung-hoat-dong-1673.html），2023-12 起 12、13 号线、2024-06-10 起 10 号线停运（运营方对媒体，daklak24h 2024-08-17）；还在跑的 1（Đạt Lý–Cư Jút）、7（Krông Pắc–Bến xe phía Nam）、9（Buôn Hồ–Bến xe phía Nam）、11（BMT–Krông Bông）、14（BMT–Đắk Mil）、15（BMT–Buôn Đôn）、24（BMT–Gia Nghĩa）都是 5:30–19:00、15 分/班的跨县线，票价按里程，官方没有公布票价表。本地人通勤靠摩托车。**档位因此按“到 Ngã Sáu 的路程距离 + 越南城市公交平均 20 km/h + 5 分钟候车”推算（estimated）**：步行圈 ≤1 km；15 分档 1–3.5 km；25 分档 3.5–7 km；40 分档 7–12 km。房租帖按帖子里的街道/phường 定位（Chợ Tốt 帖有坐标，但很多是 phường 中心点，误差 ±1–2 km；其他平台用 Nominatim 或手工估）。2025-07-01 省级重组后原 BMT 市 13 phường 8 xã 合并为 phường Buôn Ma Thuột、Tân An、Tân Lập、Thành Nhất、Ea Kao 及若干 xã，帖子仍多用旧 phường 名，本文件两种都记。**房租平台现状（2026-09-15 实测）**：邦美蜀单间/一室的网上挂牌极少，主要在 Facebook/Zalo 群（无法抓取）。能抓到的：Chợ Tốt/Nhà Tốt 公开 API 全市在租 53 条中 phòng trọ 仅 1 条（还是两卧整租）、căn hộ 1 条（按时计费旅馆）、nhà ở 37 条（多为整栋/铺面/仓库）；muaban.net phòng trọ 3 条；phongtro123.com 20 条但只有 1 条在 12 个月内；cafeland 11 条全部“Tin Hết Hạn”（2026-03 过期）；tromoi.com 1 条无价；alonhadat 显示 2 条但列表由 JS 渲染读不到；mogi.vn Đắk Lắk 0 条；homedy 用 HCM/河内房源填充。batdongsan.com.vn、guland.vn、nhatot.com 网页 被 Cloudflare 人机验证拦截（按规则停止，未过验证码）。全市现挂单间/一室共 5 条：中位 2,000,000 đ/月（0.6–2.5 tr）；Chợ Tốt 近 3 个月已下架 phòng trọ 10 条（12–30 ㎡）中位 1,250,000 đ/月，只做对照。"
+  "note": "为什么取 Ngã Sáu 而不是中心市场 Chợ Buôn Ma Thuột：省交通厅公布的全部公交线路（sogtvt.daklak.gov.vn/cac-tuyen-xe-buyt-tren-dia-ban-tinh-dak-lak-532.html，2018 年表）里经过市区的 1、4、7、9、10、11、12、13、14、15、23、24 号线全走 Nguyễn Tất Thành–Lê Duẩn 这条轴，都在 Ngã Sáu 交汇；中心市场（Nguyễn Công Trứ / Y Jút）只有走 Lê Hồng Phong–Nguyễn Công Trứ 的线经过，离 Ngã Sáu 约 0.8 km。Ngã Sáu 同时是城市零公里点、胜利纪念碑所在，Lê Thánh Tông/Phan Chu Trinh 商圈围绕它。坐标 12.6798, 108.0447（OSM）。邦美蜀没有市内公交系统：省内 xe buýt 全是跨县线路（运营方 Công ty CP Vận tải ô tô Đắk Lắk、HTX Quyết Thắng 等），且 2019-08-01 起 4、6、23、28、29 号线停运（省交通厅公告 sogtvt.daklak.gov.vn/cac-tuyen-xe-buyt-ngung-hoat-dong-1673.html），2023-12 起 12、13 号线、2024-06-10 起 10 号线停运（运营方对媒体，daklak24h 2024-08-17）；还在跑的 1（Đạt Lý–Cư Jút）、7（Krông Pắc–Bến xe phía Nam）、9（Buôn Hồ–Bến xe phía Nam）、11（BMT–Krông Bông）、14（BMT–Đắk Mil）、15（BMT–Buôn Đôn）、24（BMT–Gia Nghĩa）都是 5:30–19:00、15 分/班的跨县线，票价按里程，官方没有公布票价表。本地人通勤靠摩托车。档位因此按“到 Ngã Sáu 的路程距离 + 越南城市公交平均 20 km/h + 5 分钟候车”推算（estimated）：步行圈 ≤1 km；15 分档 1–3.5 km；25 分档 3.5–7 km；40 分档 7–12 km。房租帖按帖子里的街道/phường 定位（Chợ Tốt 帖有坐标，但很多是 phường 中心点，误差 ±1–2 km；其他平台用 Nominatim 或手工估）。2025-07-01 省级重组后原 BMT 市 13 phường 8 xã 合并为 phường Buôn Ma Thuột、Tân An、Tân Lập、Thành Nhất、Ea Kao 及若干 xã，帖子仍多用旧 phường 名，本文件两种都记。房租平台现状（2026-09-15 实测）：邦美蜀单间/一室的网上挂牌极少，主要在 Facebook/Zalo 群（无法抓取）。能抓到的：Chợ Tốt/Nhà Tốt 公开 API 全市在租 53 条中 phòng trọ 仅 1 条（还是两卧整租）、căn hộ 1 条（按时计费旅馆）、nhà ở 37 条（多为整栋/铺面/仓库）；muaban.net phòng trọ 3 条；phongtro123.com 20 条但只有 1 条在 12 个月内；cafeland 11 条全部“Tin Hết Hạn”（2026-03 过期）；tromoi.com 1 条无价；alonhadat 显示 2 条但列表由 JS 渲染读不到；mogi.vn Đắk Lắk 0 条；homedy 用 HCM/河内房源填充。batdongsan.com.vn、guland.vn、nhatot.com 网页 被 Cloudflare 人机验证拦截（按规则停止，未过验证码）。全市现挂单间/一室共 5 条：中位 2,000,000 đ/月（0.6–2.5 tr）；Chợ Tốt 近 3 个月已下架 phòng trọ 10 条（12–30 ㎡）中位 1,250,000 đ/月，只做对照。"
  },
  "work": [
   {
@@ -41,7 +41,7 @@
     "value": 20000,
     "unit": "越南盾/小时",
     "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134679630.htm",
-    "source_name": "Việc Làm Tốt（Chợ Tốt 招聘，公开 API gateway.chotot.com/v1/public/ad-listing，region_v2=9053 area_v2=905301；2026-09-15 逐条读正文，原始 cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl）帖 134679630",
+    "source_name": "Việc Làm Tốt帖 134679630",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": null,
@@ -53,7 +53,8 @@
      "monthly": 150,
      "basis": "posted"
     },
-    "posted_at": "2026-09-14"
+    "posted_at": "2026-09-14",
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl"
    }
   },
   {
@@ -63,7 +64,7 @@
     "value": 21400,
     "unit": "越南盾/小时",
     "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134494154.htm",
-    "source_name": "Việc Làm Tốt（Chợ Tốt 招聘，公开 API；2026-09-15 逐条读正文，原始 cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl）帖 134494154（同店 2026-09-06 帖 134494369 同文）",
+    "source_name": "Việc Làm Tốt帖 134494154（同店 2026-09-06 帖 134494369 同文）",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 2,
@@ -75,7 +76,8 @@
      "monthly": null,
      "basis": "posted"
     },
-    "posted_at": "2026-09-03"
+    "posted_at": "2026-09-03",
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl"
    }
   },
   {
@@ -85,7 +87,7 @@
     "value": 25000,
     "unit": "越南盾/小时",
     "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/133946419.htm",
-    "source_name": "Việc Làm Tốt（Chợ Tốt 招聘，公开 API；2026-09-15 逐条读正文，原始 cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl）帖 133946419",
+    "source_name": "Việc Làm Tốt帖 133946419",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": null,
@@ -97,7 +99,8 @@
      "monthly": null,
      "basis": "posted"
     },
-    "posted_at": "2026-08-04"
+    "posted_at": "2026-08-04",
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl"
    }
   },
   {
@@ -107,7 +110,7 @@
     "value": 40000,
     "unit": "越南盾/小时",
     "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134187424.htm",
-    "source_name": "Việc Làm Tốt（Chợ Tốt 招聘，公开 API；2026-09-15 逐条读正文，原始 cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl）帖 134187424",
+    "source_name": "Việc Làm Tốt帖 134187424",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 8,
@@ -119,7 +122,8 @@
      "monthly": null,
      "basis": "posted"
     },
-    "posted_at": "2026-08-17"
+    "posted_at": "2026-08-17",
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl"
    }
   },
   {
@@ -129,7 +133,7 @@
     "value": 17200,
     "unit": "越南盾/小时",
     "source_url": "https://www.vieclamtot.com/viec-lam-thanh-pho-buon-ma-thuot-dak-lak/134494369.htm",
-    "source_name": "Việc Làm Tốt（Chợ Tốt 招聘，公开 API；2026-09-15 逐条读正文，原始 cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl）帖 134494369",
+    "source_name": "Việc Làm Tốt帖 134494369",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 2,
@@ -141,7 +145,8 @@
      "monthly": 348,
      "basis": "posted"
     },
-    "posted_at": "2026-09-06"
+    "posted_at": "2026-09-06",
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/jobs.jsonl"
    }
   },
   {
@@ -284,7 +289,7 @@
     "value": 2300000,
     "unit": "越南盾/月",
     "source_url": "https://www.nhatot.com/thue-phong-tro-thanh-pho-buon-ma-thuot-dak-lak",
-    "source_name": "Chợ Tốt/Nhà Tốt 公开 API（region_v2=9053, area_v2=905301，含近期已下架 phòng trọ，原始 cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json）",
+    "source_name": "Chợ Tốt/Nhà Tốt 公开 API",
     "fetched_at": "2026-09-15",
     "confidence": "estimated",
     "n": 2,
@@ -295,7 +300,8 @@
      "n": 2,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
     },
-    "label": null
+    "label": null,
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json"
    },
    "pass_student": {
     "value": null,
@@ -343,7 +349,7 @@
     "value": 2500000,
     "unit": "越南盾/月",
     "source_url": "https://www.nhatot.com/134471957.htm",
-    "source_name": "Chợ Tốt/Nhà Tốt 公开 API（region_v2=9053, area_v2=905301, st=u）+ muaban.net + phongtro123.com 合并（2026-09-15 抓取，原始 cost/data/raw/buon_ma_thuot/20260915/rent.jsonl）",
+    "source_name": "Chợ Tốt/Nhà Tốt 公开 API（region_v2=9053, area_v2=905301, st=u）+ muaban.net + phongtro123.com 合并",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 1,
@@ -353,7 +359,8 @@
      "source_name": "Chợ Tốt 近 3 个月已下架 phòng trọ（1–3.5 km，12–20 ㎡）中位，非在挂价",
      "n": 6,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
-    }
+    },
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
    },
    "pass_student": {
     "value": null,
@@ -401,7 +408,7 @@
     "value": 1750000,
     "unit": "越南盾/月",
     "source_url": "https://muaban.net/bat-dong-san/cho-thue-nha-tro-phong-tro-tp-buon-ma-thuot-dak-lak",
-    "source_name": "muaban.net（Nhà trọ, phòng trọ TP. Buôn Ma Thuột）+ phongtro123.com（2026-09-15 抓取，原始 cost/data/raw/buon_ma_thuot/20260915/rent.jsonl）",
+    "source_name": "muaban.net（Nhà trọ, phòng trọ TP. Buôn Ma Thuột）+ phongtro123.com",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 2,
@@ -411,7 +418,8 @@
      "source_name": "Chợ Tốt 2 个月前下架 căn hộ mini Lương Định Của 25 ㎡（非在挂价）",
      "n": 1,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
-    }
+    },
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
    },
    "pass_student": {
     "value": null,
@@ -459,12 +467,13 @@
     "value": 1300000,
     "unit": "越南盾/月",
     "source_url": "https://muaban.net/bat-dong-san/cho-thue-nha-tro-phong-tro-tp-buon-ma-thuot-dak-lak/cho-thue-phong-trong-nha-nguyen-can-id71143123",
-    "source_name": "muaban.net（Nhà trọ, phòng trọ TP. Buôn Ma Thuột）+ Chợ Tốt/Nhà Tốt 公开 API（2026-09-15 抓取，原始 cost/data/raw/buon_ma_thuot/20260915/rent.jsonl）",
+    "source_name": "muaban.net（Nhà trọ, phòng trọ TP. Buôn Ma Thuột）+ Chợ Tốt/Nhà Tốt 公开 API",
     "fetched_at": "2026-09-15",
     "confidence": "listing",
     "n": 2,
     "note": "7–12 km 圈在挂 2 条取中位：muaban 71143123 “cho thuê phòng trong nhà nguyên căn, sau chợ Ea Kao, cách hồ Ea Kao 2 km, 10 phút ra tới Đại học Tây Nguyên”（译：整栋房内单间出租，Ea Kao 市场后，距 Ea Kao 湖 2 km，10 分钟到西原大学）14 ㎡ 可带家具 2,000,000 đ/月，2026-08-24 发（约 7.3 km）；Chợ Tốt 178748069 “Cho thuê nhà cấp 4 cũ 70 m2 có sân rộng thôn 1 xã Hoà Xuân”（译：出租旧平房 70 ㎡ 带大院，Hòa Xuân 1 村，近 Trần Phú 高中）600,000 đ/月，昨天挂，10.1 km。范围 600,000–2,000,000，两条性质差异大（郊区旧平房 vs 带家具单间），只能当参考。",
-    "compare": null
+    "compare": null,
+    "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl"
    },
    "pass_student": {
     "value": null,
@@ -604,79 +613,87 @@
    "value": 27500,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/260407060",
-   "source_name": "Co.op Online（Saigon Co.op 官方网店 cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“trứng gà 10 trứng”默认排序前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（Saigon Co.op 官方网店 cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“trứng gà 10 trứng”默认排序前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "第 3 条 “Trứng gà Co.op Select L 10 trứng 600g-QL”（译：Co.op 自有品牌 L 号鸡蛋 10 枚 600 g）现价 27,500 đ（标价 33,000，促销 −5,500）。第 1 条 “Trứng gà vĩ 10 trứng” 275,000 đ 明显是录入错误（应为 27,500 级别）不取；第 2 条 “Trứng gà ta vĩ 10 trứng”（土鸡蛋 10 枚）43,700。前 10 条：1. Trứng gà vĩ 10 trứng 275,000（异常）；2. Trứng gà ta vĩ 10 trứng 43,700；3. Trứng gà Co.op Select L 10 trứng 600g 27,500（标 33,000）；4. Trứng gà nướng Tafa Hàn Quốc 6 trứng 31,500；5. Trứng gà ta tiềm (2T/gói) 11,200；6. Trứng gà tươi Tafa 600g hộp nhựa 28,000（标 31,300）；7. Mề gà CP 500g 45,000；8. Chân gà 500g CP 30,500；9. Cánh gà 500g CP 53,000；10. Đùi gà tỏi 500g CP 56,000。Bách Hóa Xanh（邦美蜀有店）网页对境外返回空页、接口 apibhx.tgdd.vn 超时；WinMart 搜索接口后端报错（Mongo timeout），未能对照。",
-   "label": "鸡蛋 10 个"
+   "label": "鸡蛋 10 个",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   },
   "milk1l": {
    "value": 46500,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/250107567",
-   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“sữa tươi 1L”默认排序前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“sữa tươi 1L”默认排序前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "第 1 条 “Sữa tươi nguyên chất tiệt trùng Green Farm 1L”（译：Vinamilk Green Farm 纯鲜奶灭菌 1 L 盒）46,500 đ。更大众的 Vinamilk 100% 1L 41,200（有糖/无糖，搜索“sữa tươi tiệt trùng 1L”第 9、10 条）、TH true MILK 1L 43,500。前 10 条：1. Green Farm nguyên chất 1L 46,500；2. Green Farm rất ít đường 1L 46,500；3. Green Farm Organic 1L 63,200；4. Devondale nguyên chất 1L 67,900；5. Sữa kem Anchor 1L 204,500（淡奶油，非鲜奶）；6. Promess nguyên kem 1L 44,800（标 48,800）；7. Promess không béo 1L 43,000；8. TH có đường 1L 43,500；9. TH nguyên chất 1L 43,500；10. TH ít đường 1L 43,500。",
-   "label": "牛奶 1L"
+   "label": "牛奶 1L",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   },
   "rice5kg": {
    "value": 119200,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/250104217",
-   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“gạo 5kg”默认排序前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“gạo 5kg”默认排序前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "第 1 条 “Gạo Jasmine Xuân Hồng 5kg”（译：春红牌茉莉香米 5 kg）119,200 đ。便宜档：Gạo Thiên Kim Tây Đô 5kg 83,500、Co.op Happy 5kg 84,000、Co.op Select OM18 5kg 99,000（标 105,000）。前 10 条：1. Jasmine Xuân Hồng 5kg 119,200；2. Gạo thơm lài 5kg 125,500；3. Japonica Neptune 5kg 140,000（标 160,900）；4. ST25 Xuân Hồng 5kg 197,000；5. Thiên Kim Tây Đô 5kg 83,500；6. Co.op Happy trắng xốp mềm 5kg 84,000；7. ST25 Neptune 5kg 187,000（标 228,000）；8. Meizan nàng thơm 5kg 135,900；9. Special ST25 Neptune 5kg 159,200（标 222,000）；10. Jasmine Co.op Select 5kg 115,000（标 137,500）。",
-   "label": "大米 5kg"
+   "label": "大米 5kg",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   },
   "bread1kg": {
    "value": 61250,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/250513518",
-   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“bánh mì sandwich lạt”默认排序前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“bánh mì sandwich lạt”默认排序前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "第 1 条 “Bánh Sandwich lạt 400g”（译：原味吐司 400 g）24,500 đ ÷ 0.4 = 61,250 đ/kg。前 10 条：1. Bánh Sandwich lạt 400g 24,500；2. Otto Sandwich tươi lạt 245g 17,000（69,400/kg）；3. Bánh Sandwich sữa 190g 21,900；4. Sandwich nho 420g 29,900；5. Kinh Đô sandwich chà bông 50g 7,500；6. Sandwich lúa mạch đen 300g 29,900；7. Sandwich bí đỏ nho 300g 19,400；8. Bánh mì bi 200g 18,900；9. Bánh mì sữa Baby 200g 18,900；10. Bánh mì sữa Otto 90g 8,600。越南人日常主食面包是街边 bánh mì baguette（Co.op 自烤 Baguette 250g 4,900 促销价 → 19,600/kg），这里按项目口径取切片吐司。",
-   "label": "面包 1kg（吐司折算）"
+   "label": "面包 1kg（吐司折算）",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   },
   "cola1l": {
    "value": 12667,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/250102844",
-   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“coca cola 1.5L”默认排序全部 3 条 + “coca cola”前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“coca cola 1.5L”默认排序全部 3 条 + “coca cola”前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "“Nước giải khát Coca Cola giảm đường 1.5L”（译：可口可乐减糖 1.5 L 瓶，该店可口可乐常规瓶装只有“giảm đường”减糖版和 Zero，无经典原味 1.5L）现价 19,000 đ（标 20,800）÷ 1.5 = 12,667 đ/L。该店没有 1 L 装，只有 390ml、600ml、1.5L、2.25L；Coca Cola Zero 1.5L 18,500（标 20,200）；Coca Cola giảm đường 2.25L 24,500（10,900/L）；Pepsi Cola 1.5L 17,500（标 19,700，11,667/L）。搜索“coca cola”前 10 条：1. Coca Cola pet 390ml 8,000；2. Coca Cola Light lon 320ml 10,600；3. Coca Cola lon 320ml 9,500（标 11,300）；4. Coca Cola không đường pet 600ml 9,000；5. Coca Cola giảm đường pet 2.25L 24,500（标 25,700）；6. Coca Cola Plus lon cao 24×320ml 276,800；7. Coca Cola Light lốc 6×320ml 61,400；8. Coca Cola Plus lon cao 320ml 12,500；9. Coca Cola Light lon 24×320ml 239,200；10. Coca Cola Zero 1.5L 18,500（标 20,200）。",
-   "label": "可乐 1L（1.5L 瓶折算）"
+   "label": "可乐 1L（1.5L 瓶折算）",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   },
   "beer6": {
    "value": 71500,
    "unit": "越南盾",
    "source_url": "https://cooponline.vn/products/250105411",
-   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“bia lốc 6 lon”默认排序前 10（2026-09-15，原始 cost/data/raw/buon_ma_thuot/20260915/basket.jsonl）",
+   "source_name": "Co.op Online（cooponline.vn）定位 Co.opmart Buôn Ma Thuột（terminal 138_sgc）搜索“bia lốc 6 lon”默认排序前 10",
    "fetched_at": "2026-09-15",
    "confidence": "listing",
    "n": 10,
    "note": "第 2 条 “Bia Saigon Export Premium lốc 6 lon x 330ml”（译：西贡出口啤酒 6 罐 × 330 ml）71,500 đ；第 1 条 Saigon Chill 是 6×250ml 小罐（72,000）不取。本地最常喝的 Bia 333 lốc 6×330ml 74,200、Sài Gòn Lager 6×330ml 71,200，Tiger 单罐 330ml 15,600（标 16,200）。前 10 条：1. Saigon Chill 6×250ml 72,000；2. Saigon Export Premium 6×330ml 71,500；3. Bia 333 6×330ml 74,200；4. Corona Extra 6×300ml 152,000；5. Sapporo Premium 6×330ml 113,500；6. Sài Gòn Lager 6×330ml 71,200；7. Sapporo thùng 6×650ml 385,000；8. Budweiser lon cao 6×330ml 113,000；9. SG Special lon cao 6×330ml 89,000；10. 7Up chanh 6×320ml 44,900（汽水）。",
-   "label": "啤酒 6 罐"
+   "label": "啤酒 6 罐",
+   "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl"
   }
  },
  "living_official": {
   "food": {
-   "label": "基础食材月费（按篮子实价推算）",
+   "label": "基础食材月费（按平台实价推算）",
    "value": 1964034,
    "unit": "越南盾/月",
    "confidence": "estimated",
    "n": null,
    "source_url": null,
-   "source_name": "本页篮子各项的平台实价 × 项目统一用量（单身）",
+   "source_name": "本页各项食材的平台实价 × 项目统一用量（单身）",
+   "source_short": "按各项实价推算",
    "fetched_at": "2026-09-15",
+   "how": "上面各项食材的平台现价 × 项目统一用量：大米 5 kg 119200×1、鸡蛋 10 个 27500×3、牛奶 1 L 46500×10、一顿快餐 49000×22、可乐 1 L 12667×2、啤酒 6 罐 71500×1、面包 1 kg 61250×2；面粉 1 kg、食用油 1 L、土豆 1 kg、西红柿 1 kg、白菜 1 kg、鸡腿 1 kg、羊肉 1 kg、苹果 1 kg、馕 1 个 还没有价，没算进去。",
    "note": "= 大米 5 kg 119200×1 + 鸡蛋 10 个 27500×3 + 牛奶 1 L 46500×10 + 一顿快餐 49000×22 + 可乐 1 L 12667×2 + 啤酒 6 罐 71500×1 + 面包 1 kg 61250×2 = 1,964,034。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。 缺 面粉 1 kg, 食用油 1 L, 土豆 1 kg, 西红柿 1 kg, 白菜 1 kg, 鸡腿 1 kg, 羊肉 1 kg, 苹果 1 kg, 馕 1 个，没算进去。"
   },
   "total": {
