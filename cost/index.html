@@ -289,7 +289,7 @@ function render(c,d){
   // 时薪怎么来的：帖子写的工资 ÷ 帖子写的工时（wage-must-carry-hours）；24 小时岗/12 小时班在这里能看见
   const hoursLine=w=>{ const hh=w&&w.hours; if(!hh||(!hh.monthly&&!hh.per_day)) return '';
     const per=hh.per_day?`${hh.per_day} h/天`:'', days=hh.days_per_month?`${hh.days_per_month} 天/月`:'';
-    const BASIS={posted:'帖子写明'};
+    const BASIS={posted:'帖子写明',default_24h:'上一休一，按 24 小时在岗默认'};
     return (w.wage_posted?`${w.wage_posted} `:'')+(hh.monthly?`÷ ${hh.monthly} h/月（${[per,days].filter(Boolean).join(' × ')}${BASIS[hh.basis]?'，'+BASIS[hh.basis]:''}）`:`÷ ${per}`)+(hh.posted?` · 班次「${hh.posted}」`:''); };
   const t15=(d.tiers||[]).find(t=>/15/.test(t.label||''))||(d.tiers||[])[1]; const rent=t15&&t15.rent_1k; const pass=t15&&(t15.pass_student||t15.pass_commuter);
   const foodM=d.living_official&&d.living_official.food;

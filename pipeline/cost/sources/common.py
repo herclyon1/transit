@@ -7,7 +7,7 @@
 时薪 = 月薪 ÷ 帖子写明的月工时（wage-must-carry-hours）；算不出月工时的不算「有工时」。
 2026-09-15 审计后补的规则：区间写法「3500—4000元/月」「4150元 - 4500元/月」记 range；多段班次求和；午休 N 小时扣减；
 「地点：」不再写进雇主；篮子关键词不在公司名里找；地址行里的外地地名优先于文章模板头；临时单（今天/预计 N 天）标 temp；
-「上一休一」不再默认 24 h（只认帖子写明的班长）。
+「上一休一」没写班长默认 24 h 在岗（用户 09-15 18:45），「上24休24」= 24 h 班 15 班；外地判断先剥「外地名+路/街」。
 """
 import re, os, json, datetime, collections
 
@@ -96,10 +96,10 @@ def extract_common(r, city_hint):
     if m:
         on=CN.get(m.group(1)) or int(m.group(1)); off=CN.get(m.group(2)) or int(m.group(2))
         dpm=dpm or round(30*on/(on+off)); hours_text.append(m.group(0))
-        if on==1 and off>=1 and not hpd:
-            # 2026-09-15 用户定：只写「上一休一」没写每班几小时的，不默认 24h/12h——算「工时只写了一半」，进列表标「打电话确认班次」，不折时薪。
-            # 帖子明写「24小时」或「12小时」的才算（下面 24 小时 / N小时班 的分支会接住）
-            flag+='上一休一未写班长 '
+        if on==24: hpd=hpd or 24; dpm=15; flag+='24h班 '                                  # 「上24休24」= 24 小时一班、月 15 班
+        elif on==1 and off>=1 and not hpd and not re.search(r'\d{1,2}\s*小时',t):
+            # 用户 09-15 18:45 定：「上一休一」没写每班几小时的，默认 24 小时在岗（进有效集）；帖子写了「12小时」之类的走下面 N小时班 的分支
+            hpd=24; flag+='24h岗(默认) '
     m=re.search(r'(\d{1,2})\s*小时\s*(?:班|制|一班|/班)',t)
     if m and not hpd: hpd=float(m.group(1)); hours_text.append(m.group(0))
     m=re.search(r'(?:每月|一个月|月)[^\n\d]{0,3}休(?:息)?\s*(\d{1,2}|一|两|二|三|四|五|六)\s*(?:个)?\s*(?:整)?天',t)
@@ -150,11 +150,12 @@ def extract_common(r, city_hint):
     hsub=city_hint.get('suburb',[]) if isinstance(city_hint,dict) else []
     r['suburb']=any(h in t for h in hsub)   # 行政上属本市但离市区远（达坂城 80 km）：记 suburb，不进篮子最低值和首页
     addr=re.search(r'(?:地址|地点|位置|工作地点|上班地点|上班地址|所在地)[:：]?\s*([^\n]{2,40})',t); addr=addr.group(1) if addr else ''
-    _in=re.compile('|'.join(map(re.escape,sorted(hin,key=len,reverse=True)))+'|北京时间'); addr2=_in.sub('',addr)   # 「北京路」是乌市的路
+    _in=re.compile('|'.join(map(re.escape,sorted(hin,key=len,reverse=True)))+'|北京时间'); addr2=re.sub('(?:'+'|'.join(map(re.escape,hout))+r')[东西南北中]?(?:路|街|大道|巷|大厦|广场|小区)','',_in.sub('',addr))   # 「北京路」「南昌路」是乌市的路
     if addr and any(h in addr2 for h in hout): r['location']=next(h for h in hout if h in addr2); r['in_city']=False
     elif addr and any(h in addr for h in hin): r['location']=next(h for h in hin if h in addr); r['in_city']=True
     else:
         t2=_in.sub('',t)
+        t2=re.sub('(?:'+'|'.join(map(re.escape,hout))+r')[东西南北中]?(?:路|街|大道|巷|大厦|广场|小区)','',t2)   # 「南昌路」「北京南路」「河南西路」是街名，不是外地（maa 09-15）
         r['location']=next((h for h in hin if h in t),None); r['in_city']=not any(h in t2 for h in hout)
 
 def judge(r, days=180):

@@ -107,6 +107,9 @@ def split_posts(text):
             continue
         if out and len(b)<25 and not re.search(r'\d',b) and not HEAD_LINE.match(b): out[-1]+='\n'+b; continue   # 短碎片并回上一条；但「③××厂招聘」这种头不能并
         out.append(b)
+    phones=set(re.findall(r'(?<!\d)1[3-9]\d(?:\d{4}|\*{4})\d{4}(?!\d)',text))
+    if len(phones)==1:   # 整篇只有一个电话：贴的几个岗位都归它（maa 09-15）
+        ph=phones.pop(); out=[p if CONTACT.search(p) else p+'\n联系：'+ph for p in out]
     return out
 
 def process(art, city, today, recs, log, fallback_date=''):
