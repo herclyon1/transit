@@ -229,6 +229,8 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .head .search input{font-size:1em}
   .sheet .head .slot{width:36px;height:36px}
   .sheet .head .btn-glass{height:36px;min-width:36px}
+  .sheet .head .tt .t-title2{font-size:1.1538em;line-height:1.3333em}          /* 侧栏头标题 = Kit Window Title (with sidebar) Bold 15；副标题 Medium 11 */
+  .sheet .head .tt .t-sub{font-size:.8462em;line-height:1.2727em;font-weight:500}
   .sheet .body{padding-bottom:8px}
   .sheet .mh{padding:16px 14px 2px;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2)}
   .sheet .mh:first-child{padding-top:2px}
@@ -310,6 +312,70 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .job .val b{font-weight:500}
   .sheet .job .det{padding:0 12px 10px;font-size:.8462em;line-height:1.2727em} .sheet .job .det .q{padding:8px 10px;border-radius:8px}
   .sheet .mcard .sub{padding:10px 12px 2px;font-size:.8462em;line-height:1.2727em}
+  /* ---- 以下按 KIT-INVENTORY.md 逐项（A1 A2 A3 A10 A14 A15 A19 A24 A25 A26 C1 F2–F4）---- */
+  /* A26 浮层材质 = Kit Materials › Regular：#ececec 63% + 模糊 60 + 饱和 1.45（侧栏/面板另用 Kit 侧栏材质，见上） */
+  html .glass{background:rgba(236,236,236,.63);-webkit-backdrop-filter:blur(60px) saturate(1.45);backdrop-filter:blur(60px) saturate(1.45);box-shadow:0 0 1px rgba(0,0,0,.25),0 8px 24px rgba(0,0,0,.12)}
+  /* A1 工具条玻璃 = Kit Titlebars and Toolbars › XL › Buttons 的玻璃：黑 25% + 白 25% + #444 60%（plus lighter）+ #f8f8f8 20%（luminosity）合成 ≈ 白 50%；背景模糊 6、饱和 2；
+     边 = 0.5 扩散 #dbdbdb（plus darker）；投影 0 8 15 黑 2%。混合模式和折射 CSS 做不了，这里是按合成结果的近似 */
+  html .bar .glass,html .bar .btn-glass,html .map-ctl .btn-glass,html .maplibregl-ctrl-group,html .maplibregl-ctrl-attrib{background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(6px) saturate(2);backdrop-filter:blur(6px) saturate(2);
+     box-shadow:0 8px 15px rgba(0,0,0,.02),inset 0 0 0 .5px rgba(219,219,219,.95)}
+  /* A2 工具条分段：段间 Kit 分隔 3×22（36 轨道里居中） */
+  html .bar .seg button{position:relative}
+  html .bar .seg button + button::before{content:"";position:absolute;left:-1.5px;top:3px;width:3px;height:22px;border-radius:1.5px;background:rgba(0,0,0,.08)}
+  html .bar .seg button[aria-pressed="true"]{background:rgba(0,0,0,.08);box-shadow:none;font-weight:500}
+  /* A3 菜单 = Kit Menus › Light › Regular：容器 r12、内边 5/12，行 24、Medium 13、文字起点 31（勾 4 宽 @0 + 图标槽），悬停底 r8；行间无分隔线；材质同 Popover（白 70% + 模糊 30，阴影 0 18 46 25%） */
+  html .menu{width:auto;min-width:184px;padding:5px 12px;border-radius:12px;background:rgba(255,255,255,.7);-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.1)}
+  html .menu button{height:24px;padding:0 12px 0 31px;border-radius:8px;font-size:1em;line-height:1.2308em;font-weight:500;margin:0 -6px;width:calc(100% + 12px)}
+  html .menu button + button::before{content:none}
+  html .menu button .sf{left:6px;width:14px;height:14px;top:5px}
+  html .menu button:hover,html .menu button:active,html .menu button:focus-visible{background:var(--tint);color:#fff}
+  html .menu button:hover .sf{color:#fff}
+  /* A10 建议卡 = Kit Group Box r12 黑 3%，图标 24（Kit 侧栏 Large 图标），字 Body 13 / Subheadline 11 */
+  .sheet .sugg{margin:0 14px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.03);grid-template-columns:24px 1fr 16px;column-gap:8px}
+  .sheet .sugg .ico{width:24px;height:24px} .sheet .sugg .ico .sf{width:.9em;height:.9em}
+  .sheet .sugg .t{line-height:1.2308em} .sheet .sugg .s{font-size:.8462em;line-height:1.2727em;margin-top:0} .sheet .sugg .a{margin-top:6px}
+  .sheet .sugg .x{width:16px;height:16px}
+  /* A14/A15 展开指示 = Kit Disclosure Buttons › Small：20×20 r5、黑 8%（按下 16%）、chevron Bold 10；行右端一颗，展开后翻成向上；「看 N 家店」的 summary 也用它 */
+  .sheet .job .jr[aria-expanded]::after,.sheet .sublist summary::after{content:"";flex:none;width:20px;height:20px;border-radius:5px;background:rgba(0,0,0,.08);
+     -webkit-mask:none;mask:none;position:relative;transform:none;transition:none}
+  .sheet .job .jr[aria-expanded]::after{margin-left:4px}
+  .sheet .job .jr[aria-expanded]::before,.sheet .sublist summary::before{content:"";position:absolute;right:12px;width:10px;height:10px;background:currentColor;
+     -webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat;pointer-events:none;color:var(--ink)}
+  .sheet .job .jr{position:relative} .sheet .job .jr[aria-expanded]::before{right:17px;top:15px}
+  .sheet .job .jr[aria-expanded="true"]::before{-webkit-mask-image:url(sf/chevron.up.png);mask-image:url(sf/chevron.up.png)}
+  .sheet .job .jr:active::after{background:rgba(0,0,0,.16)}
+  .sheet .sublist summary{position:relative;justify-content:space-between;padding-right:0;color:var(--ink);font-weight:500}
+  .sheet .sublist summary::before{right:5px;top:5px;-webkit-mask-image:url(sf/chevron.right.png);mask-image:url(sf/chevron.right.png)}
+  .sheet .sublist[open] summary::before{-webkit-mask-image:url(sf/chevron.down.png);mask-image:url(sf/chevron.down.png)}
+  .tiers-how .job .jr[aria-expanded]::before{right:5px}
+  /* A19 滑块 = Kit Sliders › Regular：控件 24 高、轨道 6 胶囊（未填黑 10%，已填 #0088ff）、圆钮 20×16 白胶囊 阴影 0 .5 6 12%，两端内缩 10 */
+  html .row.slider input[type=range],html .r.slider input[type=range]{height:24px}
+  html .row.slider input[type=range]::-webkit-slider-runnable-track,html .r.slider input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--tint) 0,var(--tint) var(--p,50%),rgba(0,0,0,.1) var(--p,50%),rgba(0,0,0,.1) 100%)}
+  html .row.slider input[type=range]::-webkit-slider-thumb,html .r.slider input[type=range]::-webkit-slider-thumb{width:20px;height:16px;border-radius:999px;margin-top:-5px;box-shadow:0 .5px 6px rgba(0,0,0,.12),inset 0 0 0 .5px rgba(0,0,0,.06)}
+  html .row.slider input[type=range]::-moz-range-track,html .r.slider input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(0,0,0,.1)}
+  html .row.slider input[type=range]::-moz-range-progress,html .r.slider input[type=range]::-moz-range-progress{height:6px;border-radius:3px}
+  html .row.slider input[type=range]::-moz-range-thumb,html .r.slider input[type=range]::-moz-range-thumb{width:20px;height:16px;border-radius:999px;box-shadow:0 .5px 6px rgba(0,0,0,.12)}
+  html .row.slider input[type=range]:active::-webkit-slider-thumb,html .r.slider input[type=range]:active::-webkit-slider-thumb{width:25px;height:20px;margin-top:-7px}   /* Kit Clicked 圆钮 25×20 */
+  /* A24 地图 ± = Kit Titlebars and Toolbars › XL › Button Group：36 胶囊，内两颗 28 距 4，分隔 22×3；距右/底 8 */
+  html .maplibregl-ctrl-bottom-right{right:8px;bottom:8px} html .maplibregl-ctrl-bottom-right .maplibregl-ctrl{margin:0 0 8px 0}
+  html .maplibregl-ctrl-group{width:36px;border-radius:999px;padding:4px;overflow:visible}
+  html .maplibregl-ctrl-group button{width:28px;height:28px;border-radius:999px;background-color:transparent;position:relative}
+  html .maplibregl-ctrl-group button + button{border-top:0;margin-top:4px}
+  html .maplibregl-ctrl-group button + button::before{content:"";position:absolute;left:3px;top:-3.5px;width:22px;height:3px;border-radius:1.5px;background:rgba(0,0,0,.08)}
+  html .maplibregl-ctrl-group button:hover{background-color:rgba(0,0,0,.06)} html .maplibregl-ctrl-group button:active{background-color:rgba(0,0,0,.16)}
+  html .maplibregl-ctrl-group:not(:empty){box-shadow:0 8px 15px rgba(0,0,0,.02),inset 0 0 0 .5px rgba(219,219,219,.95)}
+  /* A25 署名 ⓘ = Kit Medium 工具条钮 24×24 胶囊玻璃；展开后的文字 Footnote 10 */
+  html .maplibregl-ctrl-attrib.maplibregl-compact{min-height:24px;border-radius:12px;margin:0} html .maplibregl-ctrl-attrib-button{width:24px;height:24px}
+  html .maplibregl-ctrl-attrib{font-size:.7692em;line-height:1.3em}
+  /* C1 第二张 Sheet（大阪「图层」）= Kit Popovers：从工具条钮下弹出，r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%、箭头 46×10；头同面板头（24，红灯关闭） */
+  .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
+     -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+  .sheet.opt::before{content:"";position:absolute;top:-10px;right:13px;width:46px;height:10px;background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
+  .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center;flex-direction:row-reverse}
+  .sheet.opt .head .slot{width:24px;height:24px} .sheet.opt .head .tt{padding:0} .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}
+  .sheet.opt .head .btn-glass{width:24px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .sheet.opt .head .btn-glass .sf{display:none}
+  .sheet.opt .head .btn-glass::before{content:"";position:absolute;left:8px;top:8px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12)}
   /* 缩略图块：Kit 没有这种控件；面板 280 − 内缩 14×2 − 间 8×2 = 236 → 三块各 78（推算，不是 Kit 数字），标签 Subheadline 11 */
   html .sheet .tiles{padding:0 14px;gap:8px} html .sheet .tiles button{width:78px} html .sheet .tiles .img{width:78px;height:78px;border-radius:12px}
   html .sheet .tiles .img i{border-radius:10px} html .sheet .tiles .lb{margin-top:6px;font-size:.8462em;line-height:1.2727em}
@@ -328,6 +394,22 @@ a.row:active,button.row:active{background:var(--fill)}
   :root[data-theme="dark"] .sheet .mrow:active,:root[data-theme="dark"] .sheet .mrow[aria-current="true"]{background:rgba(255,255,255,.12)}
   :root[data-theme="dark"] .sheet .seg,:root[data-theme="dark"] .sheet.split #card .actions{background:rgba(255,255,255,.1)}
 }
+/* ---------- 11c. 首页 Mac = Kit 侧栏行 + Group Box（KIT-INVENTORY F2–F4）：行 Large 40、图标 24 @14、标题 Regular 13 + 副题 11、无分隔线无箭头；分组 = Group Box r12 黑 3%；段头 18 / Bold 11 ---------- */
+@media (min-width: 900px) and (pointer: fine){
+  .group{margin:0 14px;border-radius:12px;background:rgba(0,0,0,.03);padding:4px}
+  .group + .group{margin-top:14px}
+  .sect h2,.sect .h{padding:16px 28px 2px;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2)}
+  .sect:first-child h2,.sect:first-child .h{padding-top:2px}
+  .sect .foot{padding:6px 28px 14px;font-size:.8462em;line-height:1.2727em}
+  .row,.row:has(.hint),.row.icon{min-height:40px;padding:5px 10px;gap:4px;border-radius:8px}
+  .row + .row::before,.row.icon + .row.icon::before{content:none}
+  .row:hover{background:rgba(0,0,0,.05)} .row:active{background:rgba(0,0,0,.11)}
+  .row .ico{width:24px;height:24px;border-radius:6px}
+  .row .lab .name{line-height:1.2308em} .row .lab .hint{font-size:.8462em;line-height:1.2727em}
+  .row .chev{display:none}
+}
+@media (min-width: 900px) and (pointer: fine) and (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .group{background:rgba(255,255,255,.03)} :root:not([data-theme="light"]) .row:hover{background:rgba(255,255,255,.06)} }
+@media (min-width: 900px) and (pointer: fine){ :root[data-theme="dark"] .group{background:rgba(255,255,255,.03)} :root[data-theme="dark"] .row:hover{background:rgba(255,255,255,.06)} }
 /* ---------- 12. 动效（HIG Motion）：短、准，只给主要交互；系统开了减弱动态就全关 ---------- */
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{transition:none !important;animation:none !important}
