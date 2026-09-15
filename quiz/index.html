@@ -137,14 +137,11 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   /* 图例 = 第二张 Sheet（KIT-MAP：iOS 第二张 .sheet.opt 小档，抓手 + 头 + 关闭；Mac = hig.css 11b 的 Popover r20，从工具条「图例」钮下弹出）。
      控件样式全在 hig.css（.sheet.opt / .r / .sw / .r.disc / .mfoot / .btn.s）；这里只有布局：跳转钮一排、国家勾选网格。 */
   .lg-jumps{display:flex;flex-wrap:wrap;gap:8px;padding:4px var(--inset) 12px}
-  #cbGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:2px 8px;padding:6px 12px 12px}   /* 两列：7 字国名（巴布亚新几内亚）17 号 + 多选圆 22 + 间 6 = 147，375 宽机也放得下 */
+  #cbGrid .mh{padding:16px 16px 6px}
+  #cbGrid .r.sub{padding-left:32px}   /* 从属项缩进（HIG Toggles：alignment and indentation show dependencies） */
+  #cbGrid .sw.mixed i::before{content:"";position:absolute;left:4.75px;top:7px;width:6.5px;height:2px;background:#fff;border-radius:1px;z-index:1;display:none}   /* mixed 横杠 = Kit Toggles - Checkboxes › Mixed：Dash 6.5×2 r1 @(4.8,7)（16 框内）；iOS 开关没有 mixed，用副题「显示 n/N」说明，横杠只在 Mac 复选框上显示 */
   /* 東亜图例的国家勾选：iOS 没有 checkbox → iOS 27 Kit › Lists › Rows › Editing 的多选圆（22 圆、未选 1.5 描边 #bfbfbf、选中 tint 底白勾、标签 Body 17）；
      Mac = macOS 27 Kit › Toggles - Checkboxes › Regular（16×16 r5.5、未选黑 10%、选中 #0088ff 白勾 9×9、按下 +黑 7%/19%、标签 Medium 13 间 5）（NUMBERS.md） */
-  #cbGrid label{display:inline-flex;align-items:center;gap:6px;min-height:32px}
-  #cbGrid input[type="checkbox"]{appearance:none;-webkit-appearance:none;margin:0;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #bfbfbf;background:none;position:relative;flex:none}
-  #cbGrid input[type="checkbox"]:checked{background:var(--tint);box-shadow:none}
-  #cbGrid input[type="checkbox"]:checked::after{content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(../ui/sf/checkmark.png) center/13px no-repeat;mask:url(../ui/sf/checkmark.png) center/13px no-repeat}
-  #cbGrid input[type="checkbox"]:disabled{opacity:.4}
   /* E2 图例跳转钮 = .btn.s（iOS 27 Kit › Buttons › Small 28 Bordered：底 #767680 12% + tint 字；macOS Kit › Push buttons › Regular 24 r6 Bordered：底黑 8%，Medium 13 黑字） */
   .lg-jmp{background:rgba(118,118,128,.12);color:var(--tint)}
   #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--ink-2);z-index:6;background:var(--bg)}
@@ -171,14 +168,16 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
     #promptBar,#info{border-radius:20px;background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
     .lg-jmp{background:rgba(0,0,0,.08);color:var(--ink)}
     .lg-jumps{padding:8px 14px 8px}   /* Popover 里与 Group Box（.sheet .mcard 内缩 14）对齐 */
-    #cbGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 6px;padding:4px 10px 8px}   /* Popover 280 − Group Box 内缩 14×2 − 10×2 = 232 → 两列 113：7 字国名 13 号 91 + 框 16 + 间 5 = 112 */
+    #cbGrid .mh{padding:10px 10px 4px}
+    /* Mac = Kit Toggles - Checkboxes › Regular 16 r5.5（HIG：层级设置用复选框，主复选框带 mixed）：复选框放行首，标题在右；从属项缩进 16 */
+    #cbGrid .r:has(.chk){flex-direction:row-reverse;justify-content:flex-end;gap:5px}
+    #cbGrid .r.sub{padding-left:26px}
+    #cbGrid .chk{width:16px;height:16px} #cbGrid .chk i{border-radius:5.5px;background:rgba(0,0,0,.1)} #cbGrid .chk i::after{display:none}
+    #cbGrid .chk input:checked + i{background:#0088ff} #cbGrid .chk input:checked + i::after{display:block;content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(../ui/sf/checkmark.png) center/9px no-repeat;mask:url(../ui/sf/checkmark.png) center/9px no-repeat;transform:none;width:auto;height:auto;border-radius:0;box-shadow:none;top:0;left:0}
+    #cbGrid .chk.mixed i{background:#0088ff} #cbGrid .chk.mixed i::before{display:block}
+    #cbGrid .chk input:active + i{background:rgba(0,0,0,.19)}
     #lgToggle{min-height:48px}   /* Kit Forms › Row 带控件 = 48。hig.css 的 .sheet .r.disc 只给了 20 的 Disclosure 盒，行算出来是 44（12+20+12），应挪进 hig.css 的 :has() 那条；这里先取 Kit 的 48 */
-    #cbGrid label{gap:5px;min-height:24px;font-weight:500}
-    #cbGrid input[type="checkbox"]{width:16px;height:16px;border-radius:5.5px;background:rgba(0,0,0,.1);box-shadow:none}
-    #cbGrid input[type="checkbox"]:active{background:rgba(0,0,0,.19)}
-    #cbGrid input[type="checkbox"]:checked{background:#0088ff} #cbGrid input[type="checkbox"]:checked:active{background-image:linear-gradient(rgba(0,0,0,.07),rgba(0,0,0,.07))}
-    #cbGrid input[type="checkbox"]:checked::after{-webkit-mask-size:9px;mask-size:9px}
-    #doneCard .box{width:260px;border-radius:26px;padding:16px;text-align:left;display:grid;grid-template-columns:72px 1fr;column-gap:12px;align-items:start;box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+              #doneCard .box{width:260px;border-radius:26px;padding:16px;text-align:left;display:grid;grid-template-columns:72px 1fr;column-gap:12px;align-items:start;box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
     #doneCard .ico{display:block;width:72px;height:72px;margin:4px 0 0 6px;border-radius:16px}
     #doneCard .big{font-size:1em;font-weight:700;line-height:1.2308em;padding-top:4px}
     #doneCard .sub{font-size:1em;line-height:1.2308em;margin-top:2px;color:var(--ink)}
@@ -1477,10 +1476,19 @@ function buildHistPanel(kind, feats){
   if(!isDai){
     const cs = [...new Set(feats.map(f => f.properties.grp).filter(g => g && g !== "JPN"))]
       .sort((a,b) => (ADM0_ZH[a]||a).localeCompare(ADM0_ZH[b]||b, "zh"));
-    body += `<div id="cbGrid">`
-      + `<label style="opacity:.55;cursor:default;"><input type="checkbox" checked disabled> 日本（固定）</label>`
-      + cs.map(a => `<label style="cursor:pointer;"><input type="checkbox" data-a="${a}"${kyoHidden[a] ? "" : " checked"}> ${ADM0_ZH[a]||a}</label>`).join("")
-      + `</div>`;
+    // 显示/隐藏一个国家的图层 = HIG Toggles：「Use a toggle to help people choose between two opposing values that affect the state of content or a view」「Use the switch toggle style only in a list row」；
+    // 分组 = 「use a switch to let people turn on or off a group of settings」，Mac = 「Use a checkbox instead of a switch if you need to present a hierarchy of settings… show a mixed state」。
+    // 所以：每段一张 .mcard，首行「全部」是主开关（Mac 复选框带 mixed），各国一行一个开关（Kit Rows › Accessories › Toggle / macOS Checkbox）。用户 09-16 问题三，和 money 会话按 HIG 原文定；两列网格、胶囊都作废。
+    const REGION = [["东亚",["CHN","TWN","KOR","PRK","MNG","RUS","HKG","MAC"]],["东南亚",["VNM","LAO","KHM","THA","MMR","MYS","SGP","IDN","BRN","PHL","TLS"]],["南亚",["IND","BGD","NPL","BTN","LKA","MDV","PAK"]],["大洋洲",["PNG","PLW","FSM","MHL","MNP","AUS","NZL","GUM","NRU","KIR","SLB"]]];
+    const used = new Set(); const groups = REGION.map(([name, codes]) => [name, codes.filter(c => cs.includes(c) && (used.add(c), true))]);
+    const rest = cs.filter(c => !used.has(c)); if(rest.length) groups.push(["其他", rest]);
+    const sw = (attrs, on) => `<span class="sw chk"><input type="checkbox" ${attrs}${on ? " checked" : ""}><i></i></span>`;
+    body += `<div id="cbGrid">` + groups.filter(g => g[1].length).map(([name, codes], gi) => {
+      const on = codes.filter(a => !kyoHidden[a]).length;
+      return `<div class="mh">${name}</div><div class="mcard">`
+        + `<label class="r"><span class="k">全部<div class="hint" data-hint="${gi}">${on === codes.length ? "全部显示" : on ? `显示 ${on}/${codes.length}` : "全部隐藏"}</div></span>${sw(`data-all="${gi}"${on && on < codes.length ? ' data-mixed="1"' : ""}`, on === codes.length)}</label>`
+        + (gi === 0 ? `<label class="r sub"><span class="k">日本<div class="hint">固定显示</div></span>${sw('disabled', true)}</label>` : "")
+        + codes.map(a => `<label class="r sub"><span class="k">${ADM0_ZH[a]||a}</span>${sw(`data-a="${a}" data-g="${gi}"`, !kyoHidden[a])}</label>`).join("") + `</div>`; }).join("") + `</div>`;
   }else{
     body += `<div class="txt">${DAI_NOTE}</div>`;
   }
@@ -1513,13 +1521,15 @@ function buildHistPanel(kind, feats){
     const f = all.find(x => x.properties.n === n || x.properties.n.startsWith(n));
     if(f){ zoomToHistFeat(f); showHistInfo(f, kind); }
   });
-  if(!isDai) document.querySelectorAll("#cbGrid input[data-a]").forEach(cb => cb.onchange = () => {
-    kyoHidden[cb.dataset.a] = !cb.checked;
-    const r = drawHist("kyoeiken"); // 只重绘要素，不动视角、不重建面板
-    histMarkers("kyoeiken", r.shown);
-    histLblFeats = r.shown;
-    updateLabels();
-  });
+  if(!isDai){
+    const redraw = () => { const r = drawHist("kyoeiken"); histMarkers("kyoeiken", r.shown); histLblFeats = r.shown; updateLabels(); };   // 只重绘要素，不动视角、不重建面板
+    const syncGroup = gi => { const cbs = [...document.querySelectorAll(`#cbGrid input[data-a][data-g="${gi}"]`)]; const on = cbs.filter(c => c.checked).length;
+      const all = document.querySelector(`#cbGrid input[data-all="${gi}"]`); all.checked = on === cbs.length; if(on && on < cbs.length) all.dataset.mixed = "1"; else delete all.dataset.mixed; all.parentElement.classList.toggle("mixed", !!all.dataset.mixed);
+      const h = document.querySelector(`#cbGrid .hint[data-hint="${gi}"]`); h.textContent = on === cbs.length ? "全部显示" : on ? `显示 ${on}/${cbs.length}` : "全部隐藏"; };
+    document.querySelectorAll("#cbGrid input[data-a]").forEach(cb => cb.onchange = () => { kyoHidden[cb.dataset.a] = !cb.checked; syncGroup(cb.dataset.g); redraw(); });
+    document.querySelectorAll("#cbGrid input[data-all]").forEach(all => all.onchange = () => { const gi = all.dataset.all; const on = all.checked; document.querySelectorAll(`#cbGrid input[data-a][data-g="${gi}"]`).forEach(cb => { cb.checked = on; kyoHidden[cb.dataset.a] = !on; }); syncGroup(gi); redraw(); });
+    document.querySelectorAll("#cbGrid input[data-all][data-mixed]").forEach(all => all.parentElement.classList.add("mixed"));
+  }
   HIG.sf();
   if(!lgClosed) showLegend();
 }
