@@ -2,7 +2,8 @@
    页面地址加 ?kitaudit 即加载（再加 &quiet 不画覆盖层，只 POST）。和 accept.js 的区别：accept.js 只量几处关键数字；
    这里把页面上**每一个**看得见的控件和容器都过一遍，逐个对上一个 Kit 组件（数字出自 hig-kit/NUMBERS.md：iOS 27 / macOS 27 UI Kit）：
      ✅ 对上 Kit 且尺寸对          ⚠ 对上了某个 Kit 组件但尺寸/圆角/字号不对（半截）
-     ◇ Kit 没有这种组件，清单里登记过规则（KIT-INVENTORY 行号）   ✗ 没对上任何规则 = 老样式 / 漏改
+     ✗ 没对上任何 Kit 规则 = 老样式 / 漏改（KIT-MAP.md 写了每一类该换成什么）   内容 = 地图标记/图例色块/吉祥物，不是控件，不计入
+     （2026-09-15 晚用户拍板：「Kit 没有这种组件」不成立，◇ 这一档取消）
    结果：document.title = KIT-OK 或 KIT-FAIL-n；POST /accept，写 .accept/kitaudit_<页>.json（pipeline/ui/kit-audit.py 收集）。
    量之前先把页面「用起来」（打开城市卡片 / 图例 / 完成卡 / 钉子弹出），藏起来的组件才量得到。 */
 (function(){
@@ -33,7 +34,7 @@
   rule({name:'第二面板（大阪图层）= Popover', ref:'macOS 27 Kit › Popovers：r20、白 70% 模糊 30', plat:'mac', sel:'.sheet.opt', leaf:false, check:el=>near(R(el),20)?[]:[`圆角 ${num(R(el))}≠20`]});
   rule({name:'第二张 Sheet（大阪图层）', ref:'iOS 27 Kit › Sheets', plat:'ios', sel:'.sheet.opt', leaf:false, check:el=>near(R(el),34)||near(R(el),38)?[]:[`圆角 ${num(R(el))}∉{34,38}`]});
   rule({name:'抓手 60×4', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .grab i', check:el=>{ const r=rect(el); return near(r.width,60)&&near(r.height,4)?[]:[`${num(r.width)}×${num(r.height)}≠60×4`]; }});
-  rule({name:'抓手（桌面不显示）', ref:'Kit 无', plat:'mac', sel:'.sheet .grab', declared:'A5', check:()=>[]});
+  rule({name:'抓手（桌面不显示）', ref:'macOS 无 Sheet 抓手', plat:'mac', sel:'.sheet .grab', check:()=>[]});
   rule({name:'抓手块 15（抓手 60×4 @5）', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .grab', leaf:false, check:el=>{ const h=rect(el).height; return near(h,15)?[]:[`抓手块 ${num(h)}≠15`]; }});
   rule({name:'地点面板（Utility Panel 280，贴侧栏右 8）', ref:'macOS 27 Kit › Windows › Utility Panel', plat:'mac', sel:'.sheet.split #card', leaf:false,
     check:el=>{ const r=rect(el); const p=[]; if(!near(r.width,280)) p.push(`宽 ${num(r.width)}≠280`); if(!near(R(el),16)) p.push(`圆角 ${num(R(el))}≠16`); return p; }});
@@ -41,8 +42,9 @@
     check:el=>{ const b=cs(el,'::before'); const w=px(b.width); const p=[]; if(!near(w,10)) p.push(`圆点 ${num(w)}≠10`); const after=cs(el,'::after'); if(!(px(after.width)>0)) p.push('只有一个红点：Kit 组件是三个（关/最小化/缩放，不可用的灰 15%）'); return p; }});
   rule({name:'Sheet 头（Top - Sheet 70 高）', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .head', leaf:false, check:el=>{ const h=rect(el).height; return el.querySelector('.search')?[]:(near(h,54)||near(h,60)?[]:[`头高 ${num(h)}（抓手块外应 1+44+10=55）`]); }});
   rule({name:'侧栏头 / 面板标题栏 24', ref:'macOS 27 Kit › Utility Panel titlebar 24 / Window title', plat:'mac', sel:'.sheet .head', leaf:false, check:el=>{ const h=rect(el).height; return el.closest('.sheet.split #card')?(near(h,24)?[]:[`标题栏 ${num(h)}≠24`]):[]; }});
-  rule({name:'建议卡里的 × 和链接（清单 A10）', ref:'清单 A10', plat:'both', sel:'.sugg .x, .sugg .a, .sugg button, .sugg a', declared:'A10', check:()=>[]});
-  rule({name:'动作行容器（清单 A12）', ref:'清单 A12', plat:'both', sel:'.actions', leaf:false, declared:'A12', check:el=>{ const r=rect(el); return el.scrollWidth<=r.width+0.5?[]:[`内容 ${el.scrollWidth} 宽超出 ${num(r.width)}（按钮被裁）`]; }});
+  rule({name:'建议卡里的 × 和链接（随 .sugg，老样式）', ref:'KIT-MAP', plat:'both', sel:'.sugg .x, .sugg .a, .sugg button, .sugg a', check:()=>['老样式：随 .sugg 一起改成 Header Prominent 的 trailing Action']});
+  rule({name:'段头里的 Action（Header › Prominent › Trailing › Action）', ref:'iOS 27 Kit › Lists › Headers', plat:'both', sel:'.mh .act', check:()=>[]});
+  rule({name:'动作行容器', ref:'随动作行', plat:'both', sel:'.actions', leaf:false, check:el=>{ const r=rect(el); return el.scrollWidth<=r.width+0.5?[]:[`内容 ${el.scrollWidth} 宽超出 ${num(r.width)}（按钮被裁）`]; }});
   rule({name:'Sheet 头圆钮 44', ref:'iOS 27 Kit › Toolbars › Top - Sheet：44 圆 @(16,16)', plat:'ios', sel:'.sheet .head .btn-glass', check:el=>{ const r=rect(el); return near(r.width,44)&&near(r.height,44)?[]:[`${num(r.width)}×${num(r.height)}≠44`]; }});
   rule({name:'Sheet 头标题 Semibold 15/20', ref:'iOS 27 Kit › Toolbars › Top - Sheet › Title 2 Line', plat:'ios', sel:'.sheet .head .t-title2', check:el=>{ const f=font(el); return near(f.size,15,.3)&&near(f.lh,20,.3)&&f.w>=600?[]:[`${num(f.size)}/${num(f.lh)} w${f.w}`]; }});
   rule({name:'Sheet 头副标题 Medium 12/16', ref:'同上', plat:'ios', sel:'.sheet .head .t-sub', check:el=>{ const f=font(el); return near(f.size,12,.3)&&f.w>=500?[]:[`${num(f.size)}/${num(f.lh)} w${f.w}`]; }});
@@ -63,7 +65,7 @@
   rule({name:'分段里的段', ref:'随分段控件', plat:'both', sel:'.seg button', check:el=>clipped(el)});
   rule({name:'列表行里的图标 / 右侧值（随行：Kit 行图标 24 / iOS 34 圆）', ref:'随列表行（清单 A9/B1）', plat:'both', sel:'.mrow .ico, .mrow .val, .mrow .flag, .ico', check:()=>[]});
   rule({name:'菜单（Menus：r12、行 24、Medium 13）', ref:'macOS 27 Kit › Menus', plat:'mac', sel:'.menu, [role=menu]', leaf:false, check:el=>{ const p=[]; if(!near(R(el),12)) p.push(`圆角 ${num(R(el))}≠12`); const it=el.querySelector('button,[role^=menuitem]'); if(it&&!near(rect(it).height,24)) p.push(`行 ${num(rect(it).height)}≠24`); return p; }});
-  rule({name:'菜单（UIMenu：248 宽、r26、行 42）', ref:'NUMBERS：Safari 长按菜单实测（Kit 无 iPhone 菜单尺寸）', plat:'ios', sel:'.menu, [role=menu]', leaf:false, declared:'A3', check:el=>{ const it=el.querySelector('button,[role^=menuitem]'); return it&&!near(rect(it).height,42)?[`行 ${num(rect(it).height)}≠42`]:[]; }});
+  rule({name:'菜单 = Menus › iPhone（250 宽、项 42、字 @68）', ref:'iOS 27 Kit › Menus › iPhone', plat:'ios', sel:'.menu, [role=menu]', leaf:false, check:el=>{ const p=[]; if(!near(rect(el).width,250)) p.push(`宽 ${num(rect(el).width)}≠250`); const it=el.querySelector('button,[role^=menuitem]'); if(it){ if(!near(rect(it).height,42)) p.push(`项 ${num(rect(it).height)}≠42`); if(!near(px(cs(it).paddingLeft),68)) p.push(`字起点 ${num(px(cs(it).paddingLeft))}≠68`); } return p; }});
   rule({name:'菜单项', ref:'随菜单', plat:'both', sel:'.menu button, [role=menuitemradio], [role=menuitem]', check:()=>[]});
   // — 列表 —
   rule({name:'列表段头 Nested 42：Semibold 17 secondaryLabel', ref:'iOS 27 Kit › Lists › Header › Nested', plat:'ios', sel:'.mh', check:el=>{ const f=font(el); const p=[]; if(!near(f.size,17,.3)||f.w<600) p.push(`${num(f.size)} w${f.w}≠17 Semibold`); if(!/rgba\(60, 60, 67, 0\.6\)/.test(f.color)) p.push('颜色不是 secondaryLabel'); return p; }});
@@ -75,15 +77,22 @@
   rule({name:'侧栏行 Large 40 / Medium 32 / Small 24', ref:'macOS 27 Kit › Sidebars › Rows', plat:'mac', sel:'.mrow', check:el=>{ const h=rect(el).height; return anyOf(h,[24,32,40])?[]:[`行高 ${num(h)}∉{24,32,40}`]; }});
   rule({name:'可展开行（岗位/来源）= 列表行 Large 68 + 展开指示', ref:'iOS 27 Kit › Lists › Rows › Large（清单 A14）', plat:'ios', sel:'.job .jr', check:el=>{ const h=rect(el).height; return h>=52-0.5&&h<=68.5?[]:[`行高 ${num(h)}∉[52,68]`]; }});
   rule({name:'可展开行 = 侧栏行 Large 40 + Disclosure', ref:'macOS 27 Kit › Sidebars › Rows › Large（清单 A14）', plat:'mac', sel:'.job .jr', check:el=>{ const h=rect(el).height; return h<=40.5?[]:[`行高 ${num(h)}>40（内容折行）`]; }});
-  rule({name:'设置行 `.r`（Kit 无独立组件：随分组卡片行 47 / Mac 32）', ref:'清单 A13', plat:'both', sel:'.r', declared:'A13', check:el=>{ const h=rect(el).height; if(MAC) return h>=32-0.5?[]:[`行 ${num(h)}<32`]; return h>=44-0.5?[]:[`行 ${num(h)}<44（触控最小 44）`]; }});
-  rule({name:'分组卡片 .mcard（Kit 无 → 地图 App r20 / Mac Group Box r12 黑 3%）', ref:'清单 A13', plat:'both', sel:'.mcard, .stat, .sugg, .group', leaf:false, declared:'A13/A11/A10', check:el=>{ const r=R(el); if(MAC) return near(r,12)?[]:[`圆角 ${num(r)}≠12（Group Box）`]; return anyOf(r,[16,20,26])?[]:[`圆角 ${num(r)}∉{16,20,26}`]; }});
-  rule({name:'次级折叠 details/summary（HIG Disclosure；Mac Disclosure 24 r6）', ref:'清单 A15', plat:'both', sel:'details, summary', declared:'A15', check:()=>[]});
-  rule({name:'四档表（Kit 无表格 → HIG Tables，字号 13）', ref:'清单 A16', plat:'both', sel:'table', leaf:false, declared:'A16', check:el=>{ const f=font(el); return near(f.size,13,.6)||near(f.size,MAC?13:13,.6)?[]:[`字号 ${num(f.size)}≠13`]; }});
+  rule({name:'列表行 Default 52 / Large 68（Lists › Rows）', ref:'iOS 27 Kit › Lists › Rows', plat:'ios', sel:'.r', check:el=>{ const h=rect(el).height; if(el.matches('.slider')) return h>=52-0.5?[]:[`滑块行 ${num(h)}<52`]; return anyOf(h,[52,68],1.5)||h>68?[]:[`行高 ${num(h)}∉{52,68}`]; }});
+  rule({name:'表单行 40 / 48 / 56（Forms › Row）', ref:'macOS 27 Kit › Forms', plat:'mac', sel:'.r', check:el=>{ const h=rect(el).height; return anyOf(h,[40,48,56],1)||h>56?[]:[`行高 ${num(h)}∉{40,48,56}`]; }});
+  rule({name:'分组列表容器（Grouped Table View r26 白底）', ref:'iOS 27 Kit › Lists › Grouped Table View', plat:'ios', sel:'.mcard, .group', leaf:false, check:el=>near(R(el),26)?[]:[`圆角 ${num(R(el))}≠26`]});
+  rule({name:'分组框（Group Boxes r12 黑 3%）', ref:'macOS 27 Kit › Group Boxes', plat:'mac', sel:'.mcard, .group', leaf:false, check:el=>near(R(el),12)?[]:[`圆角 ${num(R(el))}≠12`]});
+  rule({name:'统计卡 .stat（Kit 没有 → KIT-MAP：改成分组列表的行）', ref:'KIT-MAP', plat:'both', sel:'.stats, .stat', leaf:false, check:()=>['老样式：要换成 .mcard 里的 .r 行（trailing Detail 放数字）']});
+  rule({name:'建议卡 .sugg（Kit 没有 → KIT-MAP：Header Prominent + Footer）', ref:'KIT-MAP', plat:'both', sel:'.sugg', leaf:false, check:()=>['老样式：改成 .mh.prominent + .mfoot']});
+  rule({name:'段脚 Footer 30：Regular 13 secondaryLabel', ref:'iOS 27 Kit › Lists › Footer', plat:'ios', sel:'.mfoot', check:el=>{ const f=font(el); return near(f.size,13,.3)?[]:[`${num(f.size)}≠13`]; }});
+  rule({name:'段脚 Subheadline 11', ref:'macOS 27 Kit › Text styles', plat:'mac', sel:'.mfoot', check:el=>{ const f=font(el); return near(f.size,11,.3)?[]:[`${num(f.size)}≠11`]; }});
+  rule({name:'可展开行（Disclosure 配件）', ref:'iOS 27 Kit › Lists › Accessories › Disclosure；macOS Disclosure Buttons Small 20 r5', plat:'both', sel:'summary:not(.maplibregl-ctrl-attrib-button), [aria-expanded]:not(.maplibregl-ctrl-attrib-button)', check:el=>{ if(!el.matches('.r.disc, .jr[aria-expanded], .mrow[aria-expanded]')) return ['折叠行没用 Kit 的 Disclosure 配件（加 .r.disc）']; const h=rect(el).height; return MAC?(anyOf(h,[40,48,56],1)?[]:[`行高 ${num(h)}∉{40,48,56}`]):(anyOf(h,[52,68],1.5)?[]:[`行高 ${num(h)}∉{52,68}`]); }});
+  rule({name:'折叠容器', ref:'随可展开行', plat:'both', sel:'details', leaf:false, check:()=>[]});
+  rule({name:'表格（Kit 没有 → KIT-MAP：每档一组 .mcard，四行 .r + trailing Detail）', ref:'KIT-MAP', plat:'both', sel:'table', leaf:false, check:el=>el.closest('.hpop')?[]:['老样式：表格要换成分组列表']});
   // — 按钮 —
-  rule({name:'动作行按钮（清单 A12：等宽 50 高 / Mac 分段 24）', ref:'清单 A12', plat:'both', sel:'.actions .btn', declared:'A12', check:el=>{ const h=rect(el).height; const p=MAC?(near(h,24)?[]:[`高 ${num(h)}≠24`]):(near(h,50)?[]:[`高 ${num(h)}≠50`]); return p.concat(clipped(el)); }});
+  rule({name:'动作行按钮 = Buttons › Medium 34（Mac：Segmented 24）', ref:'iOS 27 Kit › Buttons › Medium；macOS Segmented › Regular', plat:'both', sel:'.actions .btn', check:el=>{ const r=rect(el); const p=MAC?(near(r.height,24)?[]:[`高 ${num(r.height)}≠24`]):(near(r.height,34)&&isCapsule(el,r)?[]:[`高 ${num(r.height)}≠34 胶囊`]); return p.concat(clipped(el)); }});
   rule({name:'文字按钮 Small 28 / Medium 34 / Large 50（提示框里 48）', ref:'iOS 27 Kit › Buttons', plat:'ios', sel:'.btn', check:el=>{ const r=rect(el); return anyOf(r.height,[28,34,48,50])&&isCapsule(el,r)?[]:[`高 ${num(r.height)}∉{28,34,50} 或不是胶囊`]; }});
   rule({name:'按钮 Regular 24 r6 / Large 28 胶囊 / XL 36 胶囊', ref:'macOS 27 Kit › Push buttons', plat:'mac', sel:'.btn', check:el=>{ const r=rect(el); if(near(r.height,24)) return near(R(el),6)?[]:[`24 高但圆角 ${num(R(el))}≠6`]; return anyOf(r.height,[28,36])&&isCapsule(el,r)?[]:[`高 ${num(r.height)}∉{24,28,36}`]; }});
-  rule({name:'筛选胶囊 .chips（Kit Button S 28；现按地图 App 实测 32）', ref:'清单 A20', plat:'both', sel:'.chips button', declared:'A20', check:el=>{ const h=rect(el).height; return MAC?(near(h,28)?[]:[`高 ${num(h)}≠28`]):(anyOf(h,[28,32])?[]:[`高 ${num(h)}∉{28,32}`]); }});
+  rule({name:'筛选胶囊 = Buttons › Small 28 Bordered（Mac Push button 24 r6 / 28 胶囊）', ref:'iOS 27 Kit › Buttons › Small；macOS Push buttons', plat:'both', sel:'.chips button', check:el=>{ const h=rect(el).height; return MAC?(anyOf(h,[24,28])?[]:[`高 ${num(h)}∉{24,28}`]):(near(h,28)?[]:[`高 ${num(h)}≠28`]); }});
   rule({name:'图例小钮 = .btn.s Bordered', ref:'清单 E2', plat:'both', sel:'.lg-jmp, .lg-toggle', check:el=>{ const h=rect(el).height; return MAC?(near(h,24)?[]:[`高 ${num(h)}≠24`]):(near(h,28)?[]:[`高 ${num(h)}≠28`]); }});
   // — 开关 / 滑块 / 勾选 / 输入 —
   rule({name:'开关 63×28', ref:'iOS 27 Kit › Toggles', plat:'ios', sel:'.sw', check:el=>{ const r=rect(el); return near(r.width,63)&&near(r.height,28)?[]:[`${num(r.width)}×${num(r.height)}≠63×28`]; }});
@@ -93,7 +102,8 @@
   rule({name:'滑块 Regular（控件 24、轨 6、钮 20×16）', ref:'macOS 27 Kit › Sliders', plat:'mac', sel:'input[type=range]', check:el=>{ const h=px(cs(el,'::-webkit-slider-runnable-track').height); const t=px(cs(el,'::-webkit-slider-thumb').width); const p=[]; if(!near(h,6)) p.push(`轨 ${num(h)}≠6`); if(!near(t,20)) p.push(`钮 ${num(t)}≠20`); return p; }});
   rule({name:'多选圆 22（iOS 无 checkbox → Lists › Rows › Editing）', ref:'iOS 27 Kit › Lists › Rows › Editing（清单 E6）', plat:'ios', sel:'input[type=checkbox]:not(.sw input)', check:el=>{ const r=rect(el); const c=cs(el); if(c.appearance!=='none'&&c.webkitAppearance!=='none') return ['原生 checkbox（不是 Kit 组件）']; return near(r.width,22)&&near(r.height,22)&&isCapsule(el,r)?[]:[`${num(r.width)}×${num(r.height)}≠22 圆`]; }});
   rule({name:'勾选框 Regular 16 r5.5', ref:'macOS 27 Kit › Toggles - Checkboxes（清单 E6）', plat:'mac', sel:'input[type=checkbox]:not(.sw input)', check:el=>{ const r=rect(el); const c=cs(el); if(c.appearance!=='none'&&c.webkitAppearance!=='none') return ['原生 checkbox（不是 Kit 组件）']; return near(r.width,16)&&near(r.height,16)&&near(R(el),5.5,.3)?[]:[`${num(r.width)}×${num(r.height)} r${num(R(el))}≠16 r5.5`]; }});
-  rule({name:'原生 <select>（Kit：iOS 用 Menu/Picker，Mac 用 Pop-up Button 24 r6）', ref:'macOS 27 Kit › Pop-up Buttons；iOS 27 Kit › Menus', plat:'both', sel:'select', check:el=>{ const c=cs(el); return (c.appearance==='none'||c.webkitAppearance==='none')&&(MAC?near(rect(el).height,24):true)?[]:['原生 select 外观（不是 Kit 组件）']; }});
+  rule({name:'原生 <select>（KIT-MAP：换成行里的 Pop-up 配件 .r .pop）', ref:'iOS 27 Kit › Lists › Accessories › Pop-up Button；macOS Pop-up Buttons 24 r6', plat:'both', sel:'select', check:()=>['老样式：原生 select，换成 .r .pop']});
+  rule({name:'行里的选择 = Pop-up 配件', ref:'iOS 27 Kit › Lists › Accessories › Pop-up Button；macOS Pop-up Buttons › Regular 24 r6', plat:'both', sel:'.r .pop, .pop', check:el=>MAC?(near(rect(el).height,24)&&near(R(el),6)?[]:[`${num(rect(el).height)} r${num(R(el))}≠24 r6`]):[]});
   rule({name:'文本输入（Mac Text Field 24 r6；iOS 随搜索胶囊）', ref:'macOS 27 Kit › Text Fields', plat:'both', sel:'input[type=text], input[type=search], input:not([type]), textarea', check:el=>{ if(el.closest('.search')) return []; const r=rect(el); return MAC?(near(r.height,24)&&near(R(el),6)?[]:[`${num(r.height)} r${num(R(el))}≠24 r6`]):(near(r.height,44)?[]:[`高 ${num(r.height)}≠44`]); }});
   // — 浮层 —
   rule({name:'提示框 Alert 300 r34（按钮 48）', ref:'iOS 27 Kit › Alerts', plat:'ios', sel:'#doneCard .box, .alert', leaf:false, check:el=>{ const r=rect(el); const p=[]; if(!near(r.width,300)) p.push(`宽 ${num(r.width)}≠300`); if(!near(R(el),34)) p.push(`圆角 ${num(R(el))}≠34`); return p; }});
@@ -101,22 +111,24 @@
   rule({name:'浮层 = Popover r20', ref:'macOS 27 Kit › Popovers（清单 C2/E1/E4）', plat:'mac', sel:'#promptBar, #info, .hpop .maplibregl-popup-content', leaf:false, check:el=>near(R(el),20)?[]:[`圆角 ${num(R(el))}≠20`]});
   rule({name:'钉子弹出 = Sheet 材质 r34（iOS 无 Popover）', ref:'清单 C2', plat:'ios', sel:'.hpop .maplibregl-popup-content', leaf:false, check:el=>near(R(el),34)?[]:[`圆角 ${num(R(el))}≠34`]});
   rule({name:'弹出关闭钮 28 圆 / Mac 24', ref:'清单 C2', plat:'both', sel:'.maplibregl-popup-close-button', check:el=>{ const r=rect(el); return near(r.width,MAC?24:28)?[]:[`${num(r.width)}≠${MAC?24:28}`]; }});
-  rule({name:'题目条（Kit 无 → HIG 顶部浮层，玻璃）', ref:'清单 E1', plat:'ios', sel:'#promptBar', leaf:false, declared:'E1', check:()=>[]});
-  rule({name:'信息浮层（Kit 无 → 玻璃卡）', ref:'清单 E4', plat:'ios', sel:'#info', leaf:false, declared:'E4', check:()=>[]});
-  rule({name:'图例浮层（Kit 无图例）', ref:'清单 E2', plat:'both', sel:'#legend, #lg', leaf:false, declared:'E2', check:()=>[]});
+  rule({name:'题目条 / 信息浮层 = Sheet 材质 r34（iOS 无 Popover）', ref:'iOS 27 Kit › Sheets（Inspector r34）', plat:'ios', sel:'#promptBar, #info', leaf:false, check:el=>near(R(el),34)?[]:[`圆角 ${num(R(el))}≠34`]});
+  rule({name:'图例浮层（KIT-MAP：iOS 第二张 Sheet / Mac Popover r20）', ref:'iOS 27 Kit › Sheets；macOS Popovers', plat:'both', sel:'#legend', leaf:false, check:el=>MAC?(near(R(el),20)?[]:[`圆角 ${num(R(el))}≠20`]):(el.matches('.sheet')&&anyOf(R(el),[34,38])?[]:['老样式：图例要做成 .sheet（r34）'])});
+  rule({name:'大阪图例（在 Sheet 里的列表行）', ref:'随列表', plat:'both', sel:'#lg', leaf:false, check:()=>[]});
   rule({name:'提示框遮罩', ref:'随 Alert', plat:'both', sel:'#doneCard', leaf:false, check:()=>[]});
-  rule({name:'学習 详情内联卡内容（外层 #cardSect.mcard 是分组卡片，随 A13）', ref:'清单 D3/A13', plat:'both', sel:'#card.on', leaf:false, declared:'D3', check:()=>[]});
-  rule({name:'列表分组容器 .mlist（iOS 分组列表 r26 / Mac 侧栏组）', ref:'清单 A9', plat:'both', sel:'.mlist', leaf:false, declared:'A9', check:el=>MAC?[]:(near(R(el),26)?[]:[`圆角 ${num(R(el))}≠26`])});
+  rule({name:'学習 详情内联卡内容（外层 #cardSect.mcard 是分组列表）', ref:'iOS 27 Kit › Lists', plat:'both', sel:'#card.on', leaf:false, check:()=>[]});
+  rule({name:'列表分组容器 .mlist（Grouped Table View r26 / Mac 侧栏组）', ref:'iOS 27 Kit › Lists › Grouped Table View', plat:'both', sel:'.mlist', leaf:false, check:el=>MAC?[]:(near(R(el),26)?[]:[`圆角 ${num(R(el))}≠26`])});
   rule({name:'提示框图标/文字块', ref:'随 Alert', plat:'both', sel:'#doneCard .ico, #doneCard .txt', check:()=>[]});
   // — 地图控件与杂项（Kit 无，清单登记过） —
-  rule({name:'MapLibre ± 控件（Kit 无 ± → Button Group 36 胶囊 / iOS 无）', ref:'清单 A24', plat:'both', sel:'.maplibregl-ctrl-group, .maplibregl-ctrl-group button', declared:'A24', check:()=>[]});
-  rule({name:'底图署名 ⓘ（清单 A25：Mac 24）', ref:'清单 A25', plat:'both', sel:'.maplibregl-ctrl-attrib, .maplibregl-ctrl-attrib-button, .maplibregl-ctrl-attrib a', declared:'A25', check:()=>[]});
-  rule({name:'置信度胶囊 / 小圆点（Kit 无，24 高 tint 12%）', ref:'清单 A17', plat:'both', sel:'.tag, .chip', declared:'A17', check:el=>{ if(el.classList.contains('chip')) return []; const h=rect(el).height; return MAC?[]:(near(h,24)?[]:[`高 ${num(h)}≠24`]); }});
-  rule({name:'枢纽标记 / 标签 / 图例色块（地图 App 实测）', ref:'清单 C3', plat:'both', sel:'.hubmk, .hublbl, .tsw, #legend i, .lg-head b, .pin', declared:'C3', check:()=>[]});
-  rule({name:'缩略图块 .tiles（Kit 无 → 地图 App 地图模式块）', ref:'清单 A21', plat:'both', sel:'.tiles, .tiles button, .tiles .tile', declared:'A21', check:()=>[]});
-  rule({name:'Claw\'d 吉祥物', ref:'IDEAS.md #65', plat:'both', sel:'.clawd, #clawd', declared:'#65', check:()=>[]});
-  rule({name:'来源列表行（清单 B2：平台 · 标题 · 日期）', ref:'清单 B2/A14', plat:'both', sel:'.links a', declared:'B2', check:()=>[]});
-  rule({name:'表格里的数字链接（黑字，点开来源；清单 A16）', ref:'清单 A16', plat:'both', sel:'table a', declared:'A16', check:()=>[]});
+  rule({name:'MapLibre ± 控件（iOS 地图 App 没有 → 隐藏；Mac = Toolbar 玻璃钮 24/36）', ref:'iOS 27 Kit 无 ±；macOS Titlebars and Toolbars › Buttons', plat:'both', sel:'.maplibregl-ctrl-group', leaf:false, check:el=>{ if(!MAC) return ['iOS 上应隐藏（地图 App 捏合缩放）']; const w=rect(el).width; const b=el.querySelector('button'); const h=b?rect(b).height:0; return anyOf(w,[24,36])&&anyOf(h,[20,28])?[]:[`外框 ${num(w)}∉{24,36} 或钮 ${num(h)}∉{20,28}（XL 36 内钮 28 / Medium 24 内钮 20）`]; }});
+  rule({name:'± 钮', ref:'随 ± 控件', plat:'both', sel:'.maplibregl-ctrl-group button', check:()=>[]});
+  rule({name:'底图署名 ⓘ = 工具条圆钮（iOS 44 / Mac 24）', ref:'iOS 27 Kit › Toolbars › Buttons；macOS Toolbar Medium 24', plat:'both', sel:'.maplibregl-ctrl-attrib', leaf:false, check:el=>{ const b=el.querySelector('.maplibregl-ctrl-attrib-button'); if(!b||rect(b).width===0) return []; const h=rect(b).height; return MAC?(anyOf(h,[24,36])?[]:[`ⓘ ${num(h)}∉{24,36}`]):(near(h,44)?[]:[`ⓘ ${num(h)}≠44`]); }});
+  rule({name:'署名钮/链接', ref:'随署名', plat:'both', sel:'.maplibregl-ctrl-attrib-button, .maplibregl-ctrl-attrib a', check:()=>[]});
+  rule({name:'置信度胶囊 / 小圆点（Kit 没有 → KIT-MAP：写进行的副题）', ref:'KIT-MAP', plat:'both', sel:'.tag, .chip', check:()=>['老样式：删掉，置信度写进副题']});
+  rule({name:'地图标记 / 图例色块（内容，不是控件）', ref:'内容', plat:'both', sel:'.hubmk, .hublbl, .tsw, #legend i, .lg-head b, .pin, .marker', content:true, check:()=>[]});
+  rule({name:'缩略图块 .tiles（KIT-MAP：换成分段控件）', ref:'KIT-MAP', plat:'both', sel:'.tiles, .tiles button, .tiles .tile', check:el=>el.matches('.seg, .seg button')?[]:['老样式：底图选择用 .seg']});
+  rule({name:'Claw\'d 吉祥物（内容）', ref:'IDEAS.md #65', plat:'both', sel:'.clawd, #clawd', content:true, check:()=>[]});
+  rule({name:'来源列表行（KIT-MAP：换成 .mrow Large 68）', ref:'KIT-MAP', plat:'both', sel:'.links a', check:el=>el.matches('.mrow')?[]:['老样式：来源行要用 .mrow（标题 + 平台·日期）']});
+  rule({name:'表格里的链接（随表格）', ref:'KIT-MAP', plat:'both', sel:'table a', check:()=>[]});
   rule({name:'文内链接（tint）', ref:'Kit Colors', plat:'both', sel:'a:not(.btn):not(.btn-glass):not(.mrow)', check:el=>/rgb\(0, 136, 255\)|rgb\(10, 132, 255\)|rgb\(0, 122, 255\)/.test(cs(el).color)?[]:[`链接色 ${cs(el).color} 不是 tint`]});
   rule({name:'玻璃工具条容器', ref:'清单 A1/A26', plat:'both', sel:'.bar, .map-ctl, .btn-group', leaf:false, check:()=>[]});
   rule({name:'工具条文字钮 36（Kit 文本钮 Medium 17 在 44 里）', ref:'iOS 27 Kit › Toolbars › text button', plat:'ios', sel:'.bar .btn-glass.text', check:()=>[]});
@@ -135,7 +147,7 @@
   function classify(el){
     for(const ru of RULES){ if(ru.plat!=='both'&&ru.plat!==(MAC?'mac':'ios')) continue; if(!el.matches(ru.sel)) continue;
       let probs=[]; try{ probs=ru.check(el)||[]; }catch(e){ probs=['量不到：'+e.message]; }
-      return {rule:ru, status: probs.length?'off':(ru.declared?'declared':'ok'), probs}; }
+      return {rule:ru, status: probs.length?'off':(ru.content?'content':'ok'), probs}; }
     return null;
   }
   function run(){
@@ -144,17 +156,17 @@
       // 已识别叶子控件里的子元素（按钮里的图标/文字）不再单算
       if(leafMatched.some(p=>p!==el&&p.contains(el))) continue;
       const c=classify(el);
-      if(c){ if(c.rule.leaf!==false) leafMatched.push(el); items.push({status:c.status, kit:c.rule.name, ref:c.rule.ref+(c.rule.declared?'（清单 '+c.rule.declared+'）':''), el:desc(el), got:geo(el), probs:c.probs}); }
+      if(c){ if(c.rule.leaf!==false) leafMatched.push(el); items.push({status:c.status, kit:c.rule.name, ref:c.rule.ref, el:desc(el), got:geo(el), probs:c.probs}); }
       else items.push({status:'unknown', kit:'—', ref:'没对上任何 Kit 规则', el:desc(el), got:geo(el), probs:['老样式 / 清单没登记']});
     }
     const n=s=>items.filter(x=>x.status===s).length;
-    const summary={ok:n('ok'), declared:n('declared'), off:n('off'), unknown:n('unknown'), total:items.length};
+    const summary={ok:n('ok'), content:n('content'), off:n('off'), unknown:n('unknown'), total:items.length};
     const bad=summary.off+summary.unknown;
     document.title=(bad?'KIT-FAIL-'+bad:'KIT-OK')+' '+location.pathname;
     const out={page:location.pathname, platform:MAC?'mac':'ios', ua:navigator.userAgent, w:innerWidth, h:innerHeight, summary, items};
     window.__kit=out; window.__kitDone=true;
     if(!/[?&]quiet/.test(location.search)){ let box=document.getElementById('kitaudit'); if(!box){ box=document.createElement('pre'); box.id='kitaudit'; box.style.cssText='position:fixed;top:0;left:0;z-index:9999;margin:0;max-height:100dvh;max-width:100vw;overflow:auto;font:11px/1.45 ui-monospace,Menlo,monospace;background:rgba(255,255,255,.94);color:#000;padding:calc(env(safe-area-inset-top) + 6px) 8px 8px;white-space:pre-wrap'; document.body.appendChild(box); }
-      box.textContent=`${location.pathname} ${MAC?'Mac':'iPhone'} ${innerWidth}×${innerHeight}  ✅${summary.ok} ◇${summary.declared} ⚠${summary.off} ✗${summary.unknown}\n`+items.filter(x=>x.status==='off'||x.status==='unknown').map(x=>`${x.status==='off'?'⚠':'✗'} ${x.el}  ${x.got}\n    ${x.kit}  ${x.probs.join('；')}`).join('\n'); }
+      box.textContent=`${location.pathname} ${MAC?'Mac':'iPhone'} ${innerWidth}×${innerHeight}  ✅${summary.ok} ⚠${summary.off} ✗${summary.unknown} 内容${summary.content}\n`+items.filter(x=>x.status==='off'||x.status==='unknown').map(x=>`${x.status==='off'?'⚠':'✗'} ${x.el}  ${x.got}\n    ${x.kit}  ${x.probs.join('；')}`).join('\n'); }
     try{ fetch(location.origin+'/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({},out,{page:'kitaudit_'+(location.pathname.replace(/\/index\.html$/,'').replace(/^\/|\/$/g,'')||'index')+'_'+out.platform}))}); }catch(e){}
     console.log('KITAUDIT',JSON.stringify(summary));
     return out;

@@ -91,7 +91,7 @@ def run_phone(k,u):
 def report(k,plat,d):
     if not d: print(f'✗ {k} {plat}: 没收到对账结果（页面没加载完或 kitaudit.js 没跑）'); return 1
     s=d['summary']; bad=s['off']+s['unknown']
-    print(f"{'✓' if not bad else '✗'} {k} {plat} {d['w']}×{d['h']}  ✅{s['ok']} ◇{s['declared']} ⚠{s['off']} ✗{s['unknown']}  （共 {s['total']} 个控件）")
+    print(f"{'✓' if not bad else '✗'} {k} {plat} {d['w']}×{d['h']}  ✅{s['ok']} ⚠{s['off']} ✗{s['unknown']}  内容{s.get('content',0)}（共 {s['total']} 个）")
     # 同一种问题合并（岗位行几十条一样的），给个数和前 3 个例子
     groups={}
     for x in d['items']:
@@ -104,7 +104,7 @@ def report(k,plat,d):
         for y in xs[1:3]: print(f"         同：{y['el']}  [{y['got']}]")
     if '--all' in flags:
         for x in d['items']:
-            if x['status'] in ('ok','declared'): print(f"     {'✅' if x['status']=='ok' else '◇'} {x['el']}  [{x['got']}]  → {x['kit']}")
+            if x['status'] in ('ok','content'): print(f"     {'✅' if x['status']=='ok' else '内容'} {x['el']}  [{x['got']}]  → {x['kit']}")
     return bad
 
 total=0

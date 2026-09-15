@@ -318,8 +318,22 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .mcard{margin:0 14px;border-radius:12px;background:rgba(0,0,0,.03)}
   .sheet .mcard + .mcard{margin-top:8px}
   .sheet .mcard .hdr{padding:8px 12px 2px;line-height:1.2308em}
-  .sheet .mcard .r{min-height:32px;padding:8px 12px;gap:8px}
-  .sheet .mcard .r + .r::before,.sheet .mcard .src + .r::before{left:12px;right:12px}
+  /* KIT-MAP：分组卡片里的行 = macOS 27 Kit › Forms › Row：文字行 40（文字 16 高 @12）、带 24 控件 48、两行 56；分隔 1px 黑 5% 内缩 10 */
+  .sheet .mcard .r{min-height:40px;padding:12px 10px;gap:8px}
+  .sheet .mcard .r:has(.sw,.seg,.pop,.btn,input[type=range]){min-height:48px}
+  .sheet .mcard .r:has(.hint){min-height:56px;padding:12px 10px}
+  .sheet .mcard .r + .r::before,.sheet .mcard .src + .r::before{left:10px;right:10px;background:rgba(0,0,0,.05)}
+  .sheet .mfoot{padding:6px 10px;min-height:0;font-size:.8462em;line-height:1.2727em}   /* Subheadline 11 secondary */
+  .sheet .mh.prominent{font-size:1em;line-height:1.2308em;font-weight:700;padding:14px 14px 6px}   /* Sidebars › Headers › Large：Bold 13 */
+  .sheet .mh .act{font-size:.8462em}
+  .sheet .r.disc::after{width:20px;height:20px;border-radius:5px;background:rgba(0,0,0,.08);-webkit-mask:none;mask:none;position:relative}   /* Disclosure Buttons › Small 20 r5 */
+  .sheet .r.disc::before{content:"";position:absolute;right:15px;width:10px;height:10px;background:var(--ink);-webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat}
+  details[open] > .sheet .r.disc::before,.sheet details[open] > .r.disc::before,.sheet .r.disc[aria-expanded="true"]::before{-webkit-mask-image:url(sf/chevron.up.png);mask-image:url(sf/chevron.up.png)}
+  .sheet .r .pop{height:24px;padding:0 8px 0 10px;border-radius:6px;background:rgba(0,0,0,.08);color:var(--ink);font-weight:500}   /* Pop-up Buttons › Regular 24 r6 */
+  .sheet .r .pop::after{width:10px;height:10px;background:var(--ink)}
+  html .chips button{background:rgba(0,0,0,.08);color:var(--ink);font-weight:500}   /* Push buttons › Bordered 黑 8% */
+  html .chips button[aria-pressed="true"]{background:var(--tint);color:#fff}
+  html .actions .btn{height:24px}   /* .sheet.split #card .actions 的分段规则在上面，这里兜住不在卡片里的动作行 */
   .sheet .mcard .r .k .hint,.sheet .mcard .src,.sheet .mcard .txt{font-size:.8462em;line-height:1.2727em}
   .sheet .mcard .src{padding:0 12px 8px}
   .sheet .mcard .txt,.sheet .mcard .empty{padding:8px 12px}
@@ -491,18 +505,33 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
    缩略图块 .tiles（地图模式）：87 图 + 2 选中描边 = 91，圆角 12，间 10，标签 13 距块 10；
    建议卡 .sugg（首页「附近的公共交通」）：白 55% 圆角 16，圆图标 36，标题 17 半粗，副标题 15，右上 ×，下方 17 tint 链接；
    快捷圆钮 .quick（首页 家/工作/添加）：70 圆 + 13 标签。 */
-.mh{margin:0;padding:28px var(--inset) 10px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:4px}   /* Kit Lists › Header › Nested：Semibold 17 secondaryLabel，下 10；上 28 = 组间距（设置 App 实测，Kit 头组件不含） */
+/* KIT-MAP：分组列表 = iOS 27 Kit › Lists（Grouped Table View r26 白底；Header Nested 42 / Prominent 45；Rows Default 52 / Large 68；Footer 30；配件 Detail / Disclosure / Pop-up） */
+.mh{margin:0;padding:30px var(--inset) 10px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2);display:flex;align-items:center;   /* Nested 42 = 10 + 22 + 10，组间 20 */gap:4px}   /* Kit Lists › Header › Nested：Semibold 17 secondaryLabel，下 10；上 28 = 组间距（设置 App 实测，Kit 头组件不含） */
 .mh .sf{width:.7em;height:.7em;color:var(--ink-3)}
-.mh:first-child{padding-top:4px}
-.mcard{margin:0 var(--inset);border-radius:20px;background:var(--fill-3);overflow:hidden}
+.mh:first-child{padding-top:10px}
+.mh.prominent{font-size:1.1765em;line-height:1.25em;color:var(--ink);padding:20px var(--inset) 10px}   /* Header › Prominent 45：Semibold 20 + trailing Action Regular 15 tint */
+.mh .act{margin-left:auto;font-size:.75em;line-height:1.3333em;font-weight:400;color:var(--tint);background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-decoration:none}
+.mfoot{margin:0 var(--inset);padding:8px 16px;min-height:30px;box-sizing:border-box;font-size:.7647em;line-height:1.3846em;color:var(--ink-2);word-break:break-word}   /* Lists › Footer 30：Regular 13 @(16,8) secondaryLabel */
+.mfoot a{color:var(--tint);text-decoration:none}
+.mcard{margin:0 var(--inset);border-radius:26px;background:var(--bg-elev);overflow:hidden}   /* Grouped Table View：白底 r26（Kit corner smoothing .6 不可复现） */
 .mcard + .mcard{margin-top:12px}
 .mcard .hdr{display:flex;align-items:center;gap:10px;padding:12px 16px 4px;font-weight:600;line-height:1.2941em}
 .mcard .hdr .ico{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;background:var(--tint);flex:none}
 .mcard .hdr .ico .sf{width:.85em;height:.85em}
-.mcard .r{position:relative;display:flex;align-items:center;gap:12px;min-height:47px;padding:12.5px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
+.mcard .r{position:relative;display:flex;align-items:center;gap:12px;min-height:52px;padding:15px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
 .mcard .r + .r::before,.mcard .src + .r::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
 .mcard .r .k{flex:1 1 auto;min-width:0}
-.mcard .r .k .hint{font-size:.7647em;line-height:1.3846em;color:var(--ink-2);font-weight:400}
+.mcard .r .k .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);font-weight:400}   /* Large 68：Subtitle Regular 15/18 @36 */
+.mcard .r:has(.hint){min-height:68px;padding:14px 16px}
+.mcard .r .v{color:var(--ink-2)}   /* trailing Detail = secondaryLabel */
+.mcard .r .v b,.mcard .r .v.ink{color:var(--ink)}
+/* 可展开行：Accessories - Trailing › Disclosure Collapsed 􀆊 / Expanded 􀆈（Semibold 17，8 宽，距边 16） */
+.r.disc{cursor:pointer;list-style:none} .r.disc::-webkit-details-marker{display:none}
+.r.disc::after{content:"";flex:none;width:.7em;height:.7em;background:var(--ink-3);-webkit-mask:url(sf/chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.down.png) center/contain no-repeat}
+details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask-image:url(sf/chevron.up.png);mask-image:url(sf/chevron.up.png)}
+/* 行里的选择 = Accessories - Trailing › Pop-up Button：当前值 Regular 17 secondary + 􀆏 */
+.r .pop{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);background:none;border:0;padding:0;font:inherit;cursor:pointer}
+.r .pop::after{content:"";width:.75em;height:.75em;background:var(--ink-3);-webkit-mask:url(sf/chevron.up.chevron.down.png) center/contain no-repeat;mask:url(sf/chevron.up.chevron.down.png) center/contain no-repeat}
 .mcard .hdr + .r::before{content:none}
 .mcard .r .v{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .mcard .r .v.none{color:var(--ink-3)}
@@ -525,7 +554,7 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .mrow:active{background:var(--fill)}
 .chips{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .chips::-webkit-scrollbar{display:none}
-.chips button{flex:none;height:32px;padding:0 12px;border:0;border-radius:999px;background:var(--fill);color:var(--ink);font:inherit;font-size:.8824em;font-weight:500;box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;white-space:nowrap}
+.chips button{flex:none;height:28px;padding:0 10px;border:0;border-radius:999px;background:rgba(118,118,128,.12);color:var(--tint);font:inherit;font-size:.8824em;font-weight:500;box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;white-space:nowrap}
 .chips button[aria-pressed="true"]{background:var(--tint);color:#fff;box-shadow:none}
 .tiles{display:flex;gap:10px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none}
 .tiles::-webkit-scrollbar{display:none}
@@ -561,13 +590,13 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 /* ---------- 15. 下拉菜单（UIMenu；hig-kit NUMBERS.md：248 宽、行 42、17 regular、上下 5、圆角 26、玻璃、选中行 ✓ 在前 22 符号位、标签距左 50）----------
    用法：<div class="menu" hidden role="menu"><button role="menuitemradio" aria-checked="true"><i class="sf" data-sf="checkmark"></i>当地</button>…</div>
    HIG.menu(anchorEl, menuEl, onPick) 负责开合与键盘。用它做「货币」那类选择，不用 <select>。 */
-.menu{position:absolute;z-index:30;width:248px;padding:5px 0;border-radius:26px;overflow:hidden;
+.menu{position:absolute;z-index:30;width:250px;padding:6px 0;border-radius:26px;overflow:hidden;   /* iOS 27 Kit › Menus › iPhone：250 宽、项 42、勾 Semibold 15 @10、字 Regular 17 @68 */
       background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
       box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge)}
-.menu button{display:flex;align-items:center;width:100%;height:42px;padding:0 16px 0 50px;position:relative;border:0;background:none;color:var(--ink);
+.menu button{display:flex;align-items:center;width:100%;height:42px;padding:0 16px 0 68px;position:relative;border:0;background:none;color:var(--ink);
              font:inherit;font-size:1em;line-height:1.2941em;text-align:left;cursor:pointer}
-.menu button + button::before{content:"";position:absolute;left:50px;right:0;top:0;height:1px;background:var(--line)}
-.menu button .sf{position:absolute;left:16px;width:22px;height:22px;top:10px;display:none}
+.menu button + button::before{content:none}   /* Kit：项之间无线，只有分节 Separator */
+.menu button .sf{position:absolute;left:10px;width:14px;height:14px;top:14px;display:none}
 .menu button[aria-checked="true"] .sf{display:block}
 .menu button:active,.menu button:focus-visible{background:var(--fill)}
 
@@ -588,12 +617,13 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .tag{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:999px;font-size:.7647em;font-weight:600;background:rgba(0,136,255,.12);color:var(--tint);vertical-align:middle}
 .tag.green{background:rgba(52,199,89,.14);color:#248a3d} .tag.orange{background:rgba(255,149,0,.14);color:#c93400} .tag.gray{background:var(--fill);color:var(--ink-2)}
 
-/* ---------- 17. 地点卡片动作行 .actions（地图 App Apple Marunouchi 卡片 iOS 27 实测 11:50：N 枚等宽、50 高、间 8、距 Sheet 边 20；
-   首枚 tint 白字，其余灰底 tint 字，不可用的更浅；图标在上（距顶 8）标签 13 半粗在下（距底 8））---------- */
-.actions{display:flex;gap:8px;padding:0 var(--inset)}
-.actions .btn{flex:1 1 0;min-width:0;height:50px;padding:8px 6px;border-radius:999px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:0;
-              background:var(--fill-3);color:var(--tint);font-size:.7647em;font-weight:600;line-height:1}
-.actions .btn .sf{width:17px;height:17px}
+/* ---------- 17. 地点卡片动作行 .actions = iOS 27 Kit › Buttons › Medium 34（Bordered：#767680 12% 底 + tint 字 Regular 17；首枚 Bordered Prominent：tint 底白字；符号 + 文字，内边 12），
+   一排、间 8、距 Sheet 边 16。（历史：地图 App 实测的 50 高图标在上那种，Kit 里没有，KIT-MAP 改成 Kit 按钮。） ---------- */
+.actions{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none}
+.actions::-webkit-scrollbar{display:none}
+.actions .btn{flex:1 1 auto;min-width:0;height:34px;padding:8px 12px;border-radius:999px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;
+              background:rgba(118,118,128,.12);color:var(--tint);font-size:1em;font-weight:400;line-height:1.0588em;white-space:nowrap}
+.actions .btn .sf{width:1em;height:1em}
 .actions .btn.tint{background:var(--tint);color:#fff}
 .actions .btn:disabled{color:var(--ink-3);opacity:.7}
 /* 地图 App「地图模式」那类按需打开的小 Sheet：标题 17 半粗居中 + 关闭 44，内容按需高 */
