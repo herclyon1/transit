@@ -37,9 +37,12 @@
 .mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mrow .val{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:0;line-height:1.2941em}
 .val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
+/* 国旗：34 圆里 cover 填满，0.5px 内描边免得白旗（日本）贴边看不出圆；暗色下不反色 */
+.mrow .ico.flag{background:none;overflow:hidden;position:relative;box-shadow:inset 0 0 0 .5px var(--line)}
+.mrow .ico.flag img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 .mrow .ico.txt{font-size:.7647em;font-weight:600;letter-spacing:.02em;color:var(--ink-2);background:var(--fill)}
 .dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
-.dimlist .mrow .ico.txt{color:var(--ink-3)}
+.dimlist .mrow .ico.flag{opacity:.9}   /* 待调查也用原色旗（去饱和后日本那面发褐，难看） */
 .mbtn{padding:16px var(--inset) 0}
 .chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
 .chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
@@ -155,17 +158,19 @@ const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'�
 try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
 $('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
 $('introMore').addEventListener('click',()=>{ location.href='data/README.md'; });
-const CODE={JPN:'JP',CHN:'CN',TWN:'TW',KOR:'KR',VNM:'VN',MMR:'MM',DEU:'DE',USA:'US',AUS:'AU'};   // 不用 emoji 旗（台北的旗在 iOS 上是方框），用地区代码
+// 国旗用自带的 SVG（vendor/flags，flag-icons MIT，4x3），不用 emoji——🇹🇼 在 iOS 上画成方框是 emoji 的锅；用户 09-15：要国旗、要好看
+const FLAGSVG={JPN:'jp',CHN:'cn',TWN:'tw',KOR:'kr',VNM:'vn',MMR:'mm',DEU:'de',USA:'us',AUS:'au'};
+const flagIco=c=>FLAGSVG[c.country]?`<span class="ico flag"><img src="../vendor/flags/${FLAGSVG[c.country]}.svg" alt="${COUNTRY[c.country]||c.country}"></span>`:`<span class="ico txt">—</span>`;
 function cityRows(){
   // 地图 App 搜索结果行：34 圆图标 + 标题 17 半粗 + 副标题 15 + ›；右侧 = 到枢纽 15 分那档每月要打的工时 + 样本数（股市行的形）
   // 375 宽的行：名字栏只有 ~133px，副题只放得下「留学签 · 周 28h 上限」/「本国公民 · 无上限」；样本数和超上限放右侧第二行 11pt（22+15=37 ≤ 内容高 42，行高仍 69；maa 真机 09-15）
   const capLine=hh=>{ if(!hh.visa) return ''; const v=hh.visa.replace(/签证$/,'签'); return /公民/.test(hh.visa)?'本国公民 · 无上限':`${v} · ${hh.capWeek?`周 ${hh.capWeek}h 上限`:'无上限'}`; };
   const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
     const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="nrow ${over?'over':'dim'}">${over?'超出上限 · ':''}${hh.n} 条</small></span>`; };
-  const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}"><span class="ico txt">${CODE[c.country]||'—'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
+  const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
   const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
   $('cityRows').innerHTML=ready.map(row).join('');
-  $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico txt">${CODE[c.country]||'—'}</span><span class="lab"><div class="name dim">${c.name.zh} <span style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
+  $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
   $('draftHead').hidden=$('draftRows').hidden=!draft.length;
   HIG.sf();
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
