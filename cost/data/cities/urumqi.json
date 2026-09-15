@@ -128,56 +128,6 @@
    }
   },
   {
-   "chain": "外卖/快递/仓储：分拣",
-   "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
-   "basket": "delivery",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1|160.0",
-   "wage": {
-    "value": 13.3,
-    "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月15日乌鲁木齐兼职乌鲁木齐招聘信息",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-14",
-    "confidence": "listing",
-    "contact": "151****9624",
-    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 头区物流园招聘装卸工10人 / 内容：负责食品百货的装卸，分拣 / 要求：莮民族不限，20-35岁，能吃苦耐劳，服从管理，最低干3个月 / 时间：早上10点-晚上22点 / 薪资待遇： / 周结160一天，月结170一天 / 住宿费200一个月，吃饭自费 / 地址：头屯河区规划二路附近 / 微信电话同号：15160919624”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "160 元/天",
-    "hours": {
-     "posted": "早上10点-晚上22点",
-     "per_day": 12.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
-   "chain": "外卖/快递/仓储：兼职快递",
-   "store": "新疆寇伯爱神国际贸易有限公司（中国新疆人才网，新疆人才网）",
-   "basket": "delivery",
-   "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8413081.html|100.0",
-   "wage": {
-    "value": 16.7,
-    "unit": "元/小时",
-    "source_url": "https://www.xjhr.com/zhaopin/job_8413081.html",
-    "source_name": "中国新疆人才网｜新疆人才网｜兼职快递打包员",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-06-16",
-    "confidence": "listing",
-    "contact": null,
-    "note": "帖子原文：“兼职快递打包员 / 新疆寇伯爱神国际贸易有限公司 / 乌鲁木齐市经开区（头屯河）(新疆乌鲁木齐头屯河区校园路111号锦丰喜事会院内) / 【兼职招聘】[庆祝][庆祝][庆祝] / 一，【工作时间】 / 下午3点30—9点30 / 二，【工作内容】 / 1.根据订单完成快递单的核对，分拣，打包等工作 ，确保发货准确 / 2.货品，辅料的盘点整理，货品摆放等 / 3.库房卫生管理 / 4.贴标装货等其他事宜 / 三，【工作要求】 / 1.身体健康，效率高，能适应快节奏工作环境  / 2.工作”",
-    "wage_posted": "100 元/天",
-    "hours": {
-     "posted": "下午3点30—9点30",
-     "per_day": 6.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
    "chain": "保安：保安员",
    "store": "地点 海虹国际物流园附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "security",
@@ -296,6 +246,56 @@
     "hours": {
      "posted": "10:00-20:00",
      "per_day": 10.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：分拣",
+   "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "delivery",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1|160.0",
+   "wage": {
+    "value": 13.3,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月15日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "151****9624",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 头区物流园招聘装卸工10人 / 内容：负责食品百货的装卸，分拣 / 要求：莮民族不限，20-35岁，能吃苦耐劳，服从管理，最低干3个月 / 时间：早上10点-晚上22点 / 薪资待遇： / 周结160一天，月结170一天 / 住宿费200一个月，吃饭自费 / 地址：头屯河区规划二路附近 / 微信电话同号：15160919624”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "160 元/天",
+    "hours": {
+     "posted": "早上10点-晚上22点",
+     "per_day": 12.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：兼职快递",
+   "store": "新疆寇伯爱神国际贸易有限公司（中国新疆人才网，新疆人才网）",
+   "basket": "delivery",
+   "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8413081.html|100.0",
+   "wage": {
+    "value": 16.7,
+    "unit": "元/小时",
+    "source_url": "https://www.xjhr.com/zhaopin/job_8413081.html",
+    "source_name": "中国新疆人才网｜新疆人才网｜兼职快递打包员",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-06-16",
+    "confidence": "listing",
+    "contact": null,
+    "note": "帖子原文：“兼职快递打包员 / 新疆寇伯爱神国际贸易有限公司 / 乌鲁木齐市经开区（头屯河）(新疆乌鲁木齐头屯河区校园路111号锦丰喜事会院内) / 【兼职招聘】[庆祝][庆祝][庆祝] / 一，【工作时间】 / 下午3点30—9点30 / 二，【工作内容】 / 1.根据订单完成快递单的核对，分拣，打包等工作 ，确保发货准确 / 2.货品，辅料的盘点整理，货品摆放等 / 3.库房卫生管理 / 4.贴标装货等其他事宜 / 三，【工作要求】 / 1.身体健康，效率高，能适应快节奏工作环境  / 2.工作”",
+    "wage_posted": "100 元/天",
+    "hours": {
+     "posted": "下午3点30—9点30",
+     "per_day": 6.0,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"

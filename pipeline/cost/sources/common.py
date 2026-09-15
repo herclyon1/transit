@@ -135,6 +135,7 @@ def extract_common(r, city_hint):
             m=re.search(MOD+re.escape(w)+r'(?:员|工|师傅|人员|岗)?',tb)   # 岗位名 = 允许的修饰词 + 篮子词 + 后缀；不再把前面 4 个任意字带进来（「河区京东快递」「须要干过服务员」）
             if m and (r['basket'] is None or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start()
     r.pop('_tpos',None)
+    if r['basket']=='food' and re.search(r'超市|便利店|商超|卖场',tb) and re.search(r'收银|店员|理货',r['title'] or ''): r['basket']='retail'   # 超市收银员归零售，不归餐饮
     # 临时单：「今天下午需要」「预计干10天」「一次性」——记但不进篮子最低值
     r['temp']=bool(re.search(r'今天(?:上午|下午|晚上)?(?:需要|要|急)|明天(?:上班|需要|要)|预计干\s*\d+\s*天|只做\s*\d+\s*天|一次性|临时(?:工|用工|单)|当天结|活动兼职',t))
     # 城市：先看地址行（「地址：昌吉市榆树沟」），再看全文；文章模板头「乌鲁木齐优汇推荐」不能盖过地址行里的外地地名
