@@ -23,7 +23,7 @@
   --glass-edge:rgba(255,255,255,.7);
   --glass-shadow:0 8px 28px rgba(0,0,0,.16);
   --seg-on:#ffffff;
-  --r-sheet:38px; --r-card:26px; --r-tile:16px;
+  --r-sheet:34px; --r-sheet-large:38px; --r-card:26px; --r-tile:16px;   /* iOS 27 UI Kit › Sheets › iPhone：中档/Inspector 34、大档 38 */
   --inset:16px;            /* UIKit 布局边距：窄机 16，≥414pt 宽的 Plus/Max 机型 20（iOS 27 设置/地图 App 在 iPhone 18 Pro Max 上实测 20） */
 }
 @media (min-width: 414px){ :root{--inset:20px} }
@@ -111,23 +111,27 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .seg button{flex:1 1 0;min-width:0;height:28px;padding:3px 6px;border:0;border-radius:999px;background:none;color:var(--ink);
             font:inherit;font-size:.7843em;line-height:1.35em;font-weight:500;white-space:nowrap;cursor:pointer}
 .seg.l button{height:46px}
+/* 工具条里的分段控件（学習 現代日本/東亜、クイズ 模式）= Kit Segmented Controls › Large 48：段 44、内边 2、段间 4、标签 13.33 Medium（选中 Semibold）；页内不要再写高度 */
+html .bar .seg{height:48px;padding:2px;gap:4px} html .bar .seg button{height:44px;padding-left:12px;padding-right:12px}
 .seg button[aria-pressed="true"]{background:var(--seg-on);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
 
 /* ---------- 8. 非模态 Sheet（HIG Sheets / Maps：地图 App 实测：左右各内缩 8、圆角 38、抓手 58×4 距顶 5、
    内容顶部内边距 16、中档停靠高 = 屏高 44%，大档 = 屏高 − 62）---------- */
 .sheet{position:fixed;left:8px;right:8px;bottom:0;z-index:15;height:44dvh;max-height:calc(100dvh - 62px);
-       border-radius:var(--r-sheet) var(--r-sheet) 0 0;display:flex;flex-direction:column;
+       border-radius:var(--r-sheet);display:flex;flex-direction:column;
        transition:height .32s cubic-bezier(.2,.8,.2,1);will-change:height;touch-action:none}
-.sheet.large{height:calc(100dvh - 62px);left:0;right:0}   /* 地图 App 大档：Sheet 满宽（搜索结果页实测） */
+.sheet.large{height:calc(100dvh - 62px);left:0;right:0;bottom:0;border-radius:var(--r-sheet-large) var(--r-sheet-large) 0 0}   /* Kit Large Detent：满宽贴底、上角 38（地图 App 搜索结果页实测同） */
 .sheet.small{height:calc(env(safe-area-inset-bottom) + 96px)}
 .sheet.dragging{transition:none}
 .sheet .grab{flex:none;height:15px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
-.sheet .grab i{width:58px;height:4px;border-radius:100px;background:var(--ink);opacity:.2}
-/* 标题区 = 地图 App 地点卡片头（iOS 27 实测）：第一行（44 玻璃圆钮 / 搜索胶囊）距 Sheet 顶 15；圆钮距 Sheet 边 15，搜索胶囊 16；
-   标题 22/28 粗体居中，副标题 15/20；两侧各留 44 的槽位；正文从标题块之下 16 开始。 */
-.sheet .head{flex:none;padding:0 15px 16px;display:flex;align-items:flex-start;gap:0}
-.sheet .head .tt{flex:1 1 auto;min-width:0;text-align:center;padding-top:0}
-.sheet .head .tt .t-title2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sheet .grab i{width:60px;height:4px;border-radius:100px;background:var(--ink);opacity:.2}   /* Kit Toolbars › Top - Sheet：抓手 60×4 距顶 5（地图 App 实测 58，按 Kit） */
+/* 标题区 = iOS 27 UI Kit › Toolbars › iPhone › Top - Sheet › Title 2 Line（402×70）：抓手 60×4 @y5；44 圆钮 @(16,16)；
+   标题块 46×39 @y19 居中 = Title Semibold 15 @y2 + Subtitle Medium 12 @y22；头高 70 → 抓手块 15 + 上 1 + 44 + 下 10。
+   （历史：09-15 地图 App 地点卡片实测是 圆钮 15/15、标题 22/28 粗——Kit 有此组件，按 Kit。） */
+.sheet .head{flex:none;padding:1px 16px 10px;display:flex;align-items:flex-start;gap:0}
+.sheet .head .tt{flex:1 1 auto;min-width:0;text-align:center;padding-top:5px}
+.sheet .head .tt .t-title2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8824em;line-height:1.3333em;font-weight:600}   /* Semibold 15/20 */
+.sheet .head .tt .t-sub{font-size:.7059em;line-height:1.3333em;font-weight:500}                                                            /* Medium 12/16 */
 .sheet .head .slot{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
 .sheet .head .search{flex:1 1 auto;margin:0 1px}
 .btn-glass.fill{background:var(--fill);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
@@ -474,7 +478,7 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
    缩略图块 .tiles（地图模式）：87 图 + 2 选中描边 = 91，圆角 12，间 10，标签 13 距块 10；
    建议卡 .sugg（首页「附近的公共交通」）：白 55% 圆角 16，圆图标 36，标题 17 半粗，副标题 15，右上 ×，下方 17 tint 链接；
    快捷圆钮 .quick（首页 家/工作/添加）：70 圆 + 13 标签。 */
-.mh{margin:0;padding:28px var(--inset) 10px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:4px}
+.mh{margin:0;padding:28px var(--inset) 10px;font-size:1em;line-height:1.2941em;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:4px}   /* Kit Lists › Header › Nested：Semibold 17 secondaryLabel，下 10；上 28 = 组间距（设置 App 实测，Kit 头组件不含） */
 .mh .sf{width:.7em;height:.7em;color:var(--ink-3)}
 .mh:first-child{padding-top:4px}
 .mcard{margin:0 var(--inset);border-radius:20px;background:var(--fill-3);overflow:hidden}
@@ -497,13 +501,13 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .mcard .txt{padding:12px 16px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
 .mlist{margin:0 var(--inset);background:var(--bg-elev);border-radius:var(--r-card);overflow:hidden}
 .mlist + .mlist{margin-top:13px}
-.mrow{position:relative;display:flex;align-items:center;gap:11px;min-height:69px;padding:13.5px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left;cursor:pointer}
+.mrow{position:relative;display:flex;align-items:center;gap:11px;min-height:68px;padding:14px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left;cursor:pointer}
 .mrow + .mrow::before{content:"";position:absolute;left:61px;right:16px;top:0;height:1px;background:var(--line)}
 .mrow .ico{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;background:var(--fill);color:#fff;font-size:1.0588em;line-height:1}
 .mrow .ico .sf{width:1em;height:1em}
 .mrow .lab{flex:1 1 auto;min-width:0}
 .mrow .name{font-weight:600;line-height:1.2941em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mrow .hint{font-size:.8824em;line-height:1.3333em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mrow .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}   /* Kit Rows › Large 68：Title 17/22 @14 + Subtitle 15/18 @36 + 14 */
 .mrow .chev{color:var(--ink-3);width:.75em;height:.75em}
 .mrow:active{background:var(--fill)}
 .chips{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}

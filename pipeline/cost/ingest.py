@@ -12,10 +12,23 @@ import os, sys, json, glob, datetime, collections, re
 PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
 mask=lambda t:PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t)   # 公开仓库：帖子原文里的手机号打码
 CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
+CITY={'buonmathuot':'buon_ma_thuot'}.get(CITY,CITY)                  # 两种写法都收（09-15 用 buonmathuot 跑过一次 raw 0 → 把已入库的 4 条清掉了，git 恢复）
 CITY_FILE={'buon_ma_thuot':'buonmathuot'}.get(CITY,CITY)          # raw 目录名 → cities/<file>.json
 CUR_ZH={'CNY':'元','VND':'越南盾','JPY':'日元','TWD':'新台币','KRW':'韩元','USD':'美元','EUR':'欧元','AUD':'澳元','MMK':'缅元'}
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
 BASKET_ZH={'security':'保安','security_cert':'保安 · 持证/管理岗','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁','home':'家政/钟点（私人家庭）','chain':'连锁锚点'}
+# 页面上给人看的平台短名和帖子标题（用户/maa 09-15：来源列每行 = 平台 · 标题 · 日期，不许有竖线拼接、抓取动作、文件名、URL 片段）
+SRC_SHORT={'weixin_sogou':'微信公众号','wechat_group':'微信群','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心','dianzhangzhipin':'店长直聘','boss':'BOSS 直聘'}
+def human_title(r):
+    acc=re.sub(r'\s*(?:\+?\d[\d\s*\-]{6,}\d)\s*','',(r.get('account') or '')).strip(' ，,')   # 昵称里的（打码）电话去掉
+    if r['source']=='wechat_group':
+        grp=re.sub(r'_\d{4}-\d{2}-\d{2}.*$','',r.get('article_title') or '').replace('.docx','').strip()
+        return ' · '.join(x for x in (grp, acc) if x)
+    if r['source']=='hellowork': acc=''                                                  # 求人番号不是账号，标题够了
+    t=(r.get('article_title') or '').strip().replace('｜',' / ')
+    t=re.sub(r'[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF][^\n]*$','',t).strip()        # 标题尾部的维文/阿拉伯文另一语版本不进页面
+    t=re.sub(r'\s*\|\s*',' · ',t); t=re.sub(r'\s{2,}',' ',t).strip(' ·')
+    return ' · '.join(x for x in ((f'「{acc}」' if acc else ''), t[:40]) if x)
 SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wechat_group':'微信群招工帖（群记录导出）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
 
 DISABLED={'urumqi':{'xjhr','wlmqkp'}}   # 用户 2026-09-15：新疆人才网（虚高、不真实）、快聘网（数据前后矛盾）的乌鲁木齐数据不用
@@ -65,11 +78,12 @@ def entry(r):
     if r.get('wage_floor'): note+=f"。起薪（求人票下限）：求人票写 {r['wage_value']:g}〜{r['wage_hi']:g}，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
-    return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
+    return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '').replace('｜',' / ')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
             "store": f"{r.get('employer') or ('地点 '+r['location_phrase'] if r.get('location_phrase') else ('群帖 · '+(r.get('account') or '') if r['source']=='wechat_group' else '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
             "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url') or r.get('article_title','')}|{r.get('wage_value')}",   # 群帖没有 URL，用「截图 文件名」
             "wage": {"value": r['hourly'], "unit": f"{CUR}/小时", "source_url": r.get('source_url'),
-                     "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
+                     "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",   # 内部记录（页面不显示）
+                     "source_short": SRC_SHORT.get(r['source'],r['source']), "source_title": human_title(r),                        # 页面「来源」列：平台 · 标题 · 日期
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",
                      "contact": r.get('contact'), "note": note,
                      "wage_posted": (f"{r.get('composite_parts')}（固定部分 {r['wage_value']:g} 元/月）" if r.get('composite')=='fixed' else (f"{r['wage_value']:g}〜{r['wage_hi']:g} " if r.get('wage_floor') else f"{r['wage_value']:g} ")+r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')+('（取下限）' if r.get('wage_floor') else '')),

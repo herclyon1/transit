@@ -60,13 +60,19 @@ window.HIGSheet = (function(){
       tops = {}; if (detents.includes('large')) tops.large = LARGE_TOP;
       if (detents.includes('medium')) tops.medium = H - Math.round(H * MEDIUM_FRAC * 3) / 3;
       if (detents.includes('small')) tops.small = H - (SMALL_H + safeB);
-      if (wide()){ el.style.transform = el.style.height = el.style.transition = el.style.left = el.style.right = ''; return; }
+      if (wide()){ el.style.transform = el.style.height = el.style.transition = el.style.left = el.style.right = el.style.borderRadius = el.style.clipPath = ''; return; }
       el.style.height = (H - LARGE_TOP) + 'px'; el.style.transition = 'none'; inset = -1;
     }
-    const SIDE = 8; let inset = -1;
+    // iOS 27 UI Kit › Sheets › iPhone：中档/小档是浮着的卡片——左右底各内缩 8、四角 34；大档满宽贴底、上角 38。内缩和圆角随位置在两者间线性过渡。
+    // 元素本身仍是一整块高 H−62 往下滑（不改 height，免得每帧重排）；底边的 8 内缩和下圆角用 clip-path 裁出来：元素在视口底之下多出 (y − LARGE_TOP)，再多裁 v 就是浮起的缝
+    const SIDE = 8, R_MID = 34, R_LARGE = 38; let inset = -1;
     const place = y => { top = y; el.style.transform = 'translate3d(0,' + (y - LARGE_TOP).toFixed(2) + 'px,0)';
       const lo = tops.large, hi = tops.medium ?? tops.small; let k = (lo != null && hi != null) ? Math.max(0, Math.min(1, (y - lo) / (hi - lo))) : 1;
-      const v = Math.round(SIDE * k * 3) / 3; if (v !== inset){ inset = v; el.style.left = el.style.right = v + 'px'; } };
+      const v = Math.round(SIDE * k * 3) / 3;
+      if (v !== inset){ inset = v; el.style.left = el.style.right = v + 'px'; const rt = (R_LARGE + (R_MID - R_LARGE) * k).toFixed(2); el.style.borderRadius = rt + 'px ' + rt + 'px 0 0'; }
+      if (k > 0){ const rt = (R_LARGE + (R_MID - R_LARGE) * k).toFixed(2), rb = (R_MID * k).toFixed(2), cut = Math.max(0, y - LARGE_TOP + v).toFixed(2);
+        el.style.clipPath = 'inset(0 0 ' + cut + 'px 0 round ' + rt + 'px ' + rt + 'px ' + rb + 'px ' + rb + 'px)'; }
+      else el.style.clipPath = ''; };
     // 决定档位时只记 cur、发 onChange；class / data-detent 等落定后再改——改 class 会触发样式重算，第一帧就掉（实测 29–49ms）
     function mark(d){ cur = d; if (opts.onChange) opts.onChange(d); }
     function landed(){ el.classList.toggle('large', cur === 'large'); el.classList.toggle('small', cur === 'small'); el.dataset.detent = cur; }
