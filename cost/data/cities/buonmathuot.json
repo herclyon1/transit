@@ -164,7 +164,7 @@
    }
   },
   {
-   "chain": "外卖/快递/仓储：kho",
+   "chain": "外卖/快递/仓储：仓库工（kho）",
    "tags": [],
    "headline": true,
    "store": "CÔNG TY TNHH CONTAINER TÂY NGUYÊN（Việc Làm Tốt，Việc Làm Tốt）",
@@ -193,7 +193,7 @@
    }
   },
   {
-   "chain": "保洁：dọn dẹp",
+   "chain": "保洁：清洁工（dọn dẹp）",
    "tags": [],
    "headline": true,
    "store": "tạ quang huy（Việc Làm Tốt，Việc Làm Tốt）",
@@ -209,7 +209,7 @@
     "confidence": "listing",
     "contact": "站内投递",
     "note": "帖子原文：“tuyển dụng nhân viên dọn dẹp và sắp xếp đồ đạc / tạ quang huy / Đường Ngô Quyền, Phường Thắng Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tuyển dụng nhân viên dọn dẹp phòng, sắp xếp đồ đạc /  / Khách Sạn The Maison Hotel 24 Ngô Quyền, ”",
-    "wage_posted": "6.5e+06 越南盾/月",
+    "wage_posted": "6,500,000 越南盾/月",
     "hours": {
      "posted": "7h sáng - 17h chiều / tháng nghỉ 2 ngày",
      "per_day": 10.0,
@@ -222,7 +222,7 @@
    }
   },
   {
-   "chain": "家政/钟点（私人家庭）：giúp việc",
+   "chain": "家政/钟点（私人家庭）：家政（giúp việc）",
    "tags": [
     "home"
    ],
@@ -240,7 +240,7 @@
     "confidence": "listing",
     "contact": "站内投递",
     "note": "帖子原文：“Tìm người giúp việc / LÝ TỨ / Phường Tân Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tìm giúp việc nhà Buổi sáng - Phường Tân Lợi, BMT /  / - Thời gian: 7:00-11:00 sáng (4 tiếng) /   / - Làm từ T2- T7 (nghỉ CN hằng tuần) /   / - Nấu ăn, lau nh”",
-    "wage_posted": "5e+06 越南盾/月",
+    "wage_posted": "5,000,000 越南盾/月",
     "hours": {
      "posted": "7:00-11:00 sáng / nghỉ 1 ngày/tuần",
      "per_day": 4.0,
@@ -253,7 +253,7 @@
    }
   },
   {
-   "chain": "餐饮服务员/后厨：phục vụ",
+   "chain": "餐饮服务员/后厨：服务员（phục vụ）",
    "tags": [
     "temp"
    ],
@@ -746,17 +746,17 @@
  },
  "living_official": {
   "food": {
-   "label": "基础食材月费（按平台实价推算）",
-   "value": 1964034,
+   "label": "在岗饮食费（全外食，一周五天有班）",
+   "value": 1926534,
    "unit": "越南盾/月",
    "confidence": "estimated",
    "n": null,
-   "source_url": null,
-   "source_name": "本页各项食材的平台实价 × 项目统一用量（单身）",
-   "source_short": "按各项实价推算",
-   "fetched_at": "2026-09-15",
-   "how": "上面各项食材的平台现价 × 项目统一用量：大米 5 kg 119200×1、鸡蛋 10 个 27500×3、牛奶 1 L 46500×10、一顿快餐 49000×22、可乐 1 L 12667×2、啤酒 6 罐 71500×1、面包 1 kg 61250×2；面粉 1 kg、食用油 1 L、土豆 1 kg、西红柿 1 kg、白菜 1 kg、鸡腿 1 kg、羊肉 1 kg、苹果 1 kg、馕 1 个 还没有价，没算进去。",
-   "note": "= 大米 5 kg 119200×1 + 鸡蛋 10 个 27500×3 + 牛奶 1 L 46500×10 + 一顿快餐 49000×22 + 可乐 1 L 12667×2 + 啤酒 6 罐 71500×1 + 面包 1 kg 61250×2 = 1,964,034。用量是项目统一假定（见 cost/data/README.md），价是篮子里当地人实际在用的平台现价；不是统计均值。 缺 面粉 1 kg, 食用油 1 L, 土豆 1 kg, 西红柿 1 kg, 白菜 1 kg, 鸡腿 1 kg, 羊肉 1 kg, 苹果 1 kg, 馕 1 个，没算进去。"
+   "source_url": "https://kfcvietnam.com.vn/vi/thuc-don",
+   "source_name": "一顿正餐 = 一顿饭（肯德基炸鸡饭，本地外食平替）（KFC 越南官网点餐）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）",
+   "source_short": "5 天班表",
+   "fetched_at": "2026-09-16",
+   "how": "食材 0、全外食。一周五天有班、周末休：工作日 1 顿外食 + 1 顿员工餐，周末 2 顿外食 → 外食 38.8 顿 × 49000 + 员工餐 22 顿 × 0 + 可乐 2 L × 12667。茶 0、啤酒 0。",
+   "note": "用户 09-16：法律只限工时不限班次，一律按一周五天有班；周末有班那天两顿员工餐（本表按周末休）。"
   },
   "total": {
    "value": null,
@@ -768,6 +768,19 @@
    "n": null,
    "note": "未采集。",
    "label": "消费支出合计（统计平均，未采集）"
+  },
+  "food_transition": {
+   "label": "过渡期饮食费（脱产自炊，不进公式）",
+   "value": 395448,
+   "unit": "越南盾/月",
+   "confidence": "estimated",
+   "n": null,
+   "source_url": "https://www.e-stat.go.jp/stat-search/files?layout=dataset&toukei=00450171&tstat=000001041744&tclass1=000001228532",
+   "source_name": "厚生労働省 令和5年 国民健康・栄養調査 第5表 食品群別摂取量（男性 20–29 歳）× 本页篮子平台现价",
+   "source_short": "NHNS 用量 × 平台现价",
+   "fetched_at": "2026-09-16",
+   "how": "全自炊、不外食：厚労省 令和5年 国民健康・栄養調査 男性 20–29 岁每天吃进去的克数折成每月购买量，乘本页篮子的平台现价：大米 5 kg 119200×1.02、面包 1 kg 61250×0.77、鸡蛋 10 个 27500×2.24、牛奶 1 L 46500×2.45、可乐 1 L 12667×4。替换：猪肉 1 kg→猪肉 1 kg（）；味噌 1 kg→鱼露 1 L（味噌换鱼露）；蛋黄酱 1 kg→料酒 1 L（蛋黄酱换料酒）——同热量同蛋白的替换，不是当地人真这么吃。缺 面粉/面条 1 kg、土豆 1 kg、白菜 1 kg、洋葱 1 kg、西红柿 1 kg、苹果 1 kg、鸡肉 1 kg、猪肉 1 kg、牛肉 1 kg、鱼 1 kg、豆腐 1 kg、食用油 1 L、酱油 1 L、鱼露 1 L、盐 1 kg、糖 1 kg、料酒 1 L、茶，没算进去。啤酒 0。",
+   "note": "用量：米 370 g/日÷2.2、パン 25、めん 78×0.4、いも 55、野菜 231（白菜类 50%/洋葱根菜 35%/番茄 15%）、生果 24、鶏 55、豚+加工 76、牛 19、魚 44、豆腐類 45、卵 44、乳 83、油 13、しょうゆ 12.4、味噌 8.8、塩 1.6、砂糖 5、マヨ 3.3 g/日；茶 45 L、可乐 4 L 是用户习惯。"
   }
  },
  "jobs_ingest": {

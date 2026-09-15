@@ -197,7 +197,7 @@ function compareHtml(c,d,cur){
     return {cur:ccur, wage:RW.n?money(RW.wage,(dd.jobs||[]).find(j=>j.wage&&j.wage.unit)?.wage.unit||ccur+'/小时',ccur):null, n:RW.n, rent:t.rent_1k?money(V(t.rent_1k),t.rent_1k.unit||ccur+'/月',ccur):null,
       pass:(t.pass_commuter||t.pass_student)?money(V(t.pass_commuter||t.pass_student),(t.pass_commuter||t.pass_student).unit||ccur+'/月',ccur):null, util:money(util+comm,ccur+'/月',ccur),
       food:dd.living_official&&dd.living_official.food?money(V(dd.living_official.food),dd.living_official.food.unit||ccur+'/月',ccur):null, hrs:hf?hf.hrs+' 小时/月':null, cap:hf&&hf.cap?hf.cap+' 小时/月':'无上限'}; };
-  const A=pick(pd,pc), B=pick(d,c); const rows=[['时薪中位数','wage'],['15 分档单间月租','rent'],['通勤','pass'],['水电网络','util'],['食费','food'],['每月要打的工时','hrs'],['签证上限','cap']];
+  const A=pick(pd,pc), B=pick(d,c); const rows=[['时薪中位数','wage'],['15 分档单间月租','rent'],['通勤','pass'],['水电网络','util'],['饮食费（在岗）','food'],['每月要打的工时','hrs'],['签证上限','cap']];
   // Kit 行：标题 = 项目，副题 = 钉住的城市（左）的值，trailing Detail = 这座城的值（一行放不下两个数，280 面板会裁）
   const cell=v=>v==null?'暂无':v;
   return `<section class="raw"><h2 class="mh">对比：${pc.name.zh} vs ${c.name.zh}</h2><div class="mcard">`
@@ -303,7 +303,9 @@ function jobTitle(jb){ const ch=jb.chain||'';
 function jobEmployer(jb){ const st=(jb.store||'').replace(/（.*$/,'').replace(/\(.*$/,'').trim(); return st||'—'; }
 function cleanSrc(t){ return (t||'').replace(/\s*(?:同文\s*)?\/[\w\-~.\/]+\.html?\b/g,'').replace(/[（(][^（()）]*\.docx[）)]?/g,'').replace(/_\d{4}-\d{2}-\d{2}(?:_\d{2})?\.docx/g,'').replace(/[（(][^（()）]*(?:cost\/data|\.jsonl?\b|原始|无障碍树|见 .*README)[^（()）]*[）)]/g,'').replace(/[;；]?\s*原始[^;；。）)]*/g,'').replace(/[，,]?\s*\bn=\d+\s*[，,]?/g,'，').replace(/，\s*，/g,'，').replace(/^，|，$/g,'').replace(/\s*·\s*$/,'').replace(/\s{2,}/g,' ').trim(); }
 function jobMeta(jb){ const w=jb.wage||{}, hh=w.hours||{}; const parts=[];
-  if(w.wage_posted) parts.push(w.wage_posted);
+  if(w.wage_posted){ let ps=w.wage_posted;   // 帖子原话保留；换币后括号里附换算值，免得一页里两种币（用户 09-16 可用性）
+    if(CUR!=='local'){ const m=ps.match(/^([\d,]+(?:\.\d+)?)\s*(日元|元|越南盾)(\/[^\s（(]+)?/); if(m){ const code={日元:'JPY',元:'CNY',越南盾:'VND'}[m[2]]; const conv=money(+m[1].replace(/,/g,''),code+(m[3]||''),code); if(conv) ps+=`（≈ ${conv}）`; } }
+    parts.push(ps); }
   if(hh.basis==='default_24h') parts.push('24 小时在岗（默认）'); else if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
   const shift=(hh.posted||'').match(/上[一二三]休[一二三]|白夜班倒|两班倒|週休二日/); if(shift) parts.push(shift[0]);
   else if(hh.days_per_month) parts.push(hh.days_per_month>=30?'全月无休':`月休 ${30-hh.days_per_month} 天`);
@@ -344,7 +346,7 @@ function fitActions(){ document.querySelectorAll('#card .actions').forEach(a=>{ 
 new MutationObserver(()=>requestAnimationFrame(fitActions)).observe(document.getElementById('cBody'),{childList:true}); window.addEventListener('resize',fitActions);
 document.addEventListener('click',e=>{ const b=e.target.closest('#card .job .jr:not(.static)'); if(!b) return; const det=b.parentElement.querySelector('.det'); det.hidden=!det.hidden; b.setAttribute('aria-expanded',String(!det.hidden)); });
 function render(c,d){
-  if(!d) return '<section class="empty">这个城市还没有数据文件。</section>';
+  if(!d) return '<section class="empty">还没调查这座城市。已有数据的是大阪、乌鲁木齐、邦美蜀——在城市列表里点它们看。</section>';   // 空态说人话（用户 09-16 可用性）
   const cur=d.currency||c.currency; let h='';
   const V=x=>x&&x.value!=null?x.value:null;
   // 置信度 · 来源 · 日期 —— KIT-MAP：置信度胶囊删掉，写进行的副题 / 段脚（Kit 行只有标题、副题、trailing Detail）
@@ -377,7 +379,7 @@ function render(c,d){
   h+=`<div class="r"><span class="k">时薪<div class="hint">${RWc.n?`${RWc.kind} ${RWc.n} 条的中位数 · ${RWc.nHour&&RWc.kind==='月薪岗'?`时薪岗 ${RWc.nHour} 条 中位 ${money(RWc.hourMid,wUnit0,cur,true)}`:`最低 ${money(RWc.min,wUnit0,cur,true)} · 最高 ${money(RWc.max,wUnit0,cur,true)}`}`:'没有一条帖子同时写工资和班次'}</div></span><span class="v${RWc.n?'':' none'}">${RWc.n?money(RWc.wage,wUnit0,cur):'暂无'}</span></div>`;
   h+=vrow('房租',rent,cur+'/月',rent?meta(rent,(t15?t15.label:'到枢纽 15 分')+' · 单间'):'待调查');
   h+=vrow('通勤',pass,cur+'/月',pass?meta(pass,(t15?t15.label:'到枢纽 15 分')+' · '+passLabel(d,passKind)):'待调查');
-  h+=vrow('食费',foodM,cur+'/月',foodM?meta(foodM,/实价推算/.test(foodM.label||'')?'基础食材':'统计平均 · 月'):'待调查');
+  h+=vrow('饮食费',foodM,cur+'/月',foodM?meta(foodM,/在岗/.test(foodM.label||'')?'在岗 · 全外食':/实价推算/.test(foodM.label||'')?'基础食材':'统计平均 · 月'):'待调查');   // 09-16 两态：公式读在岗，副题说清
   h+='</div><p class="mfoot">到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数；各档见下面「各档要打的工时」。右端带箭头的行点开来源。</p></section>';
   h+=compareHtml(c,d,cur);   // 钉住对比：独立一组
   // ---- 能干什么活
@@ -431,7 +433,7 @@ function render(c,d){
   h+='<section class="raw"><h2 class="mh" id="hours">各档要打的工时</h2>';
   if(refWage&&food&&tiers.length){
     const mUnit=cur+'/月';
-    h+=`<p class="mfoot">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 食费 ${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</p>`;
+    h+=`<p class="mfoot">按 ${refName} 时薪 ${money(refWage,wUnit,cur)} 算：房租 + 水电燃气 ${money(util,mUnit,cur)} + 手机宽带 ${money(comm,mUnit,cur)} + 饮食费（在岗）${money(food,mUnit,cur)} + ${passLabel(d,'student')}${cap?`。签证打工上限约 ${cap} 小时/月`:''}</p>`;
     for(const t of tiers){ const r=V(t.rent_1k), ps=V(t.pass_student);
       if(r==null){ h+=`<h2 class="mh">${t.label}</h2><div class="mcard"><div class="r"><span class="k">月开销</span><span class="v none">房租暂无</span></div></div>`; continue; }
       const total=r+util+comm+food+(ps||0); const hrs=total/refWage; const over=capRaw&&Math.round(hrs)>Math.round(capRaw);
@@ -439,7 +441,7 @@ function render(c,d){
       h+=`<h2 class="mh">${t.label}</h2><div class="mcard"><div class="r"><span class="k">月开销</span><span class="v">${money(Math.round(total),mUnit,cur)}</span></div>`
         +`<div class="r"><span class="k">要打的工时${note}</span><span class="v${over?' stale':''}">${Math.round(hrs)} 小时</span></div>`
         +`<div class="r"><span class="k">其中房租</span><span class="v">${Math.round(r/refWage)} 小时</span></div></div>`; }
-  } else h+='<div class="mcard"><div class="empty">岗位时薪、统计食费和至少一档房租都有了才算。</div></div>';
+  } else h+='<div class="mcard"><div class="empty">岗位时薪、饮食费和至少一档房租都有了才算。</div></div>';
   h+='</section>';
   { // 来源列：Kit Rows › Large 68（.mrow）：标题 = 帖子/条目标题，副题 = 平台 · 日期，trailing 􀰑（maa 09-15 验收后定的口径：source_name 是内部记录不上页）
     const srcs=new Map(); const seen=new Set();

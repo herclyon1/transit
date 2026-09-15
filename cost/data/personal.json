@@ -1,0 +1,26 @@
+{
+ "_readme": "用户个人参数（2026-09-16）：在岗饮食费里的员工餐、券后一顿价、茶/可乐用量。页面公式默认在岗态；脱产态只展示。_ref 由脚本回写（日本瓶装茶折最低时薪的小时数，作各城「瓶装太贵」阈值的基准）。",
+ "default": {
+  "tea_l_per_month": 45,
+  "cola_l_transition": 4,
+  "cola_l_work": 2,
+  "staff_meal": 0
+ },
+ "osaka": {
+  "staff_meal": 170,
+  "meal_price_override": 630,
+  "meal_price_note": "松のや ロースかつ定食 官网 690，用户券后 630",
+  "staff_meal_note": "用户所在职场员工餐 170 円/次"
+ },
+ "urumqi": {
+  "staff_meal": 0,
+  "staff_meal_note": "岗位帖写「包吃」的按 0；没写的那天按 2 顿外食（此表按包吃）"
+ },
+ "buonmathuot": {
+  "staff_meal": 0,
+  "staff_meal_note": "待核：帖子有「bao ăn」的按 0"
+ },
+ "_ref": {
+  "japan_bottled_tea_hours": 3.48
+ }
+}

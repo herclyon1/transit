@@ -52,6 +52,11 @@
 | 标记 / 图例色块 / Claw'd | 12 | 内容，不计入（kit-audit「内容」） | — |
 | `select`（quiz 范围/题型） | 2 | iOS：`.r .pop`（Pop-up 配件，点开 Kit Menu）；Mac：Pop-up Button 24 r6 | quiz |
 
+## 通则（2026-09-16 定，两个会话核过 HIG 原文与原生 App）
+1. **多选项过滤先用 scope 或点选，逐项开关只作二级页。** 苹果自己的 App 里没有在地图/图例上放 20+ 个逐项开关的：地图 App「地図の設定」= 3 种地图 + 2 个 overlay 开关，天气图层用分段，Health「比較」最多两条，照片/文件/邮件的筛选是菜单打勾，日历「日历」列表是订阅设置页（sheet/侧栏）不是图例。要「只看某一项」用点选（地点卡片上的主钮）；要「只看某几项」用列表多选（Kit Lists › Rows › Editing 圆勾，或每行 Toggle），放二级「编辑」页；分段控件用于范围（HIG Segmented controls：iPhone 以约五段为目标、宽界面五到七——是建议不是上限）。
+2. **HIG 里没有「chips/胶囊筛选」组件**（那是 Material Design 的）。UIKit 的搜索令牌（UISearchToken）是苹果自己的形，但 iOS 27 Kit 没有 Token 画板——按「尺寸只从 Kit 取」，Kit 没画板的组件不做，先用有画板的等价物。
+3. HIG 页面各自有修订日期（Toggles 2024-03-29、Lists and tables / Segmented controls 2023-06-21、Buttons/Toolbars 2025-12-16），没改的页是规则没变；引用时写页面名 + 原文句子，尺寸仍以 Kit（iOS 27 Sketch 2026-09-09 meta 196、macOS 27 2026-06-23 meta 190）为准，并用当前系统实机截图对照（macOS 27 日历侧栏复选框、Finder 設定 › サイドバー 混合态、iOS 27 日历「日历」sheet）。
+
 ## 代理规矩
 1. 只改自己那页的 html（cost / osaka / japan / quiz+index）。hig.css 由本会话改好在前，缺类先问，不许页内自造控件样式。
 2. 改完跑 `ACCEPT_BASE=http://127.0.0.1:8790 python3 pipeline/ui/kit-audit.py --mac <页>`，⚠/✗ 清零；再 `python3 pipeline/ui/accept.py` 那页不许退步。
