@@ -1,4 +1,4 @@
-/* KIT_VERSION=1 (hig-kit ~/Claude/hig-kit；数字表 NUMBERS.md) */
+/* KIT_VERSION=3 (hig-kit ~/Claude/hig-kit；数字表 NUMBERS.md) */
 /* transit 全站共用的界面层：照 Apple Human Interface Guidelines（iOS 26/27 Liquid Glass 版）和
    Apple 官方 iOS/iPadOS 27 UI Kit 的数字做，以 iOS 27 模拟器（iPhone 18 Pro Max，简体中文）
    上的地图 App / 设置 App 实测为准。每个数字的出处见 DESIGN-HIG.md；改动前先看那份表。
@@ -83,7 +83,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
            color:var(--ink);font:inherit;font-weight:500;cursor:pointer;text-decoration:none;user-select:none;-webkit-user-select:none}
 .btn-glass.text{padding:0 14px}                                      /* kit: Text 36 高，左右 8 + 组内 2/4 */
 .btn-glass.tint{color:#fff;background:var(--tint);box-shadow:var(--glass-shadow)}
-.btn-glass:active{transform:scale(.96)}
+/* 玻璃圆钮按下由 ui/press.js 做（地图 App 实测是放大 ×1.135 + Spring(0.24,0.4) + 亮度 1.3，不是缩小）；这里不写 :active，免得桌面鼠标按下缩一下 */
 .btn-group{display:inline-flex;border-radius:999px;padding:0 4px;gap:20px;height:44px;align-items:center}
 .btn-group .btn-glass{background:none;box-shadow:none;height:36px;min-width:36px;padding:0 8px}
 /* 胶囊文字按钮（UI Kit › Button - Liquid Glass - Text）：小 28 / 中 34 / 大 50 */
@@ -96,7 +96,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-size:1em;line-height:1.
 .btn.plain{background:none;color:var(--tint)}
 .btn.red{color:var(--red)}
 .btn:disabled{color:var(--disabled)}
-.btn:active{opacity:.7}
+.btn:active{opacity:.7}   /* 没量过：填充色按钮的按下态待 maa 逐帧量（NUMBERS.md Press states）；先留，别当依据 */
 
 /* ---------- 6. 搜索胶囊（UI Kit › _Search - Top 5720:33677；地图 App 实测 44 高、距 sheet 内边 16）---------- */
 .search{display:flex;align-items:center;gap:4px;height:44px;padding:0 10px 0 11px;border-radius:999px;background:var(--fill-2);color:var(--ink)}
