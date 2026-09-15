@@ -77,6 +77,7 @@
 <script src="../ui/press.js"></script>
 <script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
+<script src="../ui/shell.js"></script>
 <script src="../vendor/pmtiles.js"></script>
 <script>
 const REGIONS=["北海道","東北","関東","中部","近畿","中国","四国","九州・沖縄"];
@@ -149,8 +150,8 @@ const TB=new URL("../tiles/",document.baseURI).href;
 const V="?v=20260810u";
 const prefColor=["match",["get","reg"]]; REGIONS.forEach((_,i)=>prefColor.push(i,RC[i])); prefColor.push("#CCC");
 
-const map=new maplibregl.Map({
-  container:"map",attributionControl:false,maxZoom:15,dragRotate:false,pitchWithRotate:false,touchZoomRotate:true,
+// 壳（ui/shell.js）：地图 + Sheet 由壳建；这页的点击要跨图层命中测试，所以走 click(e) 而不是 layers() 的按图层表；详情卡片是 Sheet 里的内联卡（地图 App 的「这是哪」提示），不叠放
+const APP=HIGShell.create({initial:"small", click:e=>onMapClick(e), map:{attributionControl:false,maxZoom:15,
   style:{version:8,
     // CJK 字形：只生成了标注实际用到的 86 个码位区段（1159 个字符），
     // 不是整套中日文字库——整套要上百 MB，这样只有 10MB。
@@ -687,9 +688,8 @@ const map=new maplibregl.Map({
           "text-font":["NotoSansJP Regular"],"text-size":11,"text-max-width":11},
         paint:{"text-color":"#8a3f3f","text-halo-color":"#fff","text-halo-width":1.6}}
     ]},
-  center:[137.5,37.5],zoom:4.3
-});
-window.map=map;  // 供自动截图验收脚本使用
+  center:[137.5,37.5],zoom:4.3}});
+const map=APP.map; window.map=map;  // 供自动截图验收脚本使用
 map.touchZoomRotate.disableRotation();
 window.__map=map;
 
@@ -848,7 +848,6 @@ document.getElementById("b-leg").onclick=()=>setLegend(!legOpen);
 
 // 底部那条（提示 or 详情）高度会变，图例的底边跟着它顶上去，别写死像素
 function fitLegend(){}
-window.SHEET=HIG.sheet(document.getElementById("sheet"),{initial:"small"});
 document.getElementById("cClose").addEventListener("click",()=>closeCard());
 function closeCard(){ const c=document.getElementById("card"); c.style.display="none"; c.classList.remove("on"); document.getElementById("cardSect").hidden=true;
   document.getElementById("hint").style.display=""; document.getElementById("cClose").hidden=true; if(SHEET.get()!=="large") SHEET.set("small"); }
@@ -859,7 +858,7 @@ document.getElementById("b-ea").onclick=()=>setRegion("ea");
 
 map.on("load",()=>{setRegion("jp"); setLegend(true);});
 
-map.on("click",e=>{
+function onMapClick(e){
   const c=document.getElementById("card");
   const fillId=region==="jp"?"jp-fill":"ea-fill";
   const selId =region==="jp"?"jp-sel" :"ea-sel";
@@ -969,5 +968,5 @@ map.on("click",e=>{
   document.body.classList.add("carded");
   document.getElementById("hint").style.display="none"; document.getElementById("cClose").hidden=false;
   if(SHEET.get()==="small") SHEET.set("medium");
-});
+}
 </script></body></html>

@@ -13,7 +13,8 @@ window.HIGShell = (function(){
       dragRotate: false, pitchWithRotate: false, touchZoomRotate: true }, o.map || {}));
     if (o.wideNav !== false && wide()) map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
     // ---- Sheet（主抽屉）+ 叠放的地点卡片（地图 App：点搜索结果 = 第二张 Sheet 从底边弹到中档，后面那张退到中档）
-    const sheetEl = o.sheetEl || $('sheet'), cardEl = o.cardEl || $('card'), listEl = o.listEl || $('list');
+    const sheetEl = o.sheetEl || $('sheet'), listEl = o.listEl || $('list');
+    const cardEl = o.cardEl !== undefined ? o.cardEl : (($('card') && $('card').querySelector('.grab')) ? $('card') : null);   // 只有带抓手的 #card 才是叠放的第二张 Sheet（学習的 #card 是内联卡）
     const sheet = HIG.sheet(sheetEl, { initial: o.initial || 'medium', onChange: o.onDetent });
     const card = (cardEl && window.HIGSheet && HIGSheet.stack) ? HIGSheet.stack(sheet, cardEl) : null;
     window.SHEET = sheet; window.CARD = card;                                    // accept.js 的物理探针和叠卡探针从这两个全局取
@@ -43,6 +44,7 @@ window.HIGShell = (function(){
         map.on('mouseenter', id, () => map.getCanvas().style.cursor = 'pointer');
         map.on('mouseleave', id, () => map.getCanvas().style.cursor = ''); } };
     if (o.layersOnLoad === false) wire(); else map.on('load', wire);
+    if (o.click) map.on('click', e => o.click(e, map));      // 要跨多个图层命中测试的页（学習：都道府県/市区町村/東亜）自己 queryRenderedFeatures
     return { map, sheet, card, present, dismiss, get open(){ return open; }, wide, wideSplit };
   }
   return { create };
