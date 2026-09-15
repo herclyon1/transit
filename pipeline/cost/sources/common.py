@@ -11,7 +11,8 @@
 """
 import re, os, json, datetime, collections
 
-BASKET_KW={'security':['保安','门卫','安保','消防','消控','特勤','保卫'],'food':['服务员','服务生','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
+# 用户 09-15：保安队长/班长/主管/领班、消防监控/消控/监控员 这类持证或管理岗不进「保安」，单独篮子 security_cert（也算有效、进中位数）；特勤队员留在保安
+BASKET_KW={'security_cert':['保安队长','队长','班长','主管','领班','消防监控','消控','监控员','消防'],'security':['保安','门卫','安保','特勤','保卫'],'food':['服务员','服务生','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
            'retail':['理货','超市','便利店','收银','导购','店员','营业员'],'delivery':['快递','分拣','骑手','外卖','配送','仓储','仓库','打包'],
            'factory':['普工','操作工','包装工','车间','厂','生产'],'cleaning':['保洁','清洁'],'home':['家政','钟点','育儿','护理','月嫂','阿姨'],   # home = 私人家庭钟点/家政：记但不进篮子最低值
            'chain':['麦当劳','肯德基','KFC','星巴克','瑞幸','必胜客','汉堡王','7-Eleven','全家','罗森']}
@@ -96,7 +97,9 @@ def extract_common(r, city_hint):
     if m:
         on=CN.get(m.group(1)) or int(m.group(1)); off=CN.get(m.group(2)) or int(m.group(2))
         dpm=dpm or round(30*on/(on+off)); hours_text.append(m.group(0))
-        if on==24: hpd=hpd or 24; dpm=15; flag+='24h班 '                                  # 「上24休24」= 24 小时一班、月 15 班
+        if on==24:
+            if hpd and hpd<20: dpm=None; flag+='上24休24与班次矛盾 '                       # 同一气泡里别的岗位的「上24休24」串过来了（保洁 10–19:30 配不上 24h 班）→ 天数不认
+            else: hpd=hpd or 24; dpm=15; flag+='24h班 '                                  # 「上24休24」= 24 小时一班、月 15 班
         elif on==1 and off>=1 and not hpd and not re.search(r'\d{1,2}\s*小时',t):
             # 用户 09-15 18:45 定：「上一休一」没写每班几小时的，默认 24 小时在岗（进有效集）；帖子写了「12小时」之类的走下面 N小时班 的分支
             hpd=24; flag+='24h岗(默认) '
@@ -170,7 +173,9 @@ def judge(r, days=180):
         if age>days: reasons.append('stale')
     except Exception: reasons.append('no_date')
     if not r.get('contact') and not (r.get('site_apply') and r.get('source_url')): reasons.append('no_contact')   # 微信文章链接不算联系方式
-    if not r.get('source_url'): reasons.append('no_url')
+    if not r.get('source_url') and not r.get('contact'): reasons.append('no_url')   # 群帖没有 URL，有电话就行
+    # 串行防线：月薪 ≥5000 却只有 <100 h/月（「钟点 18:30–21:00」配上了隔壁岗位的 6500）→ 配不上，记 ambiguous
+    if (r.get('wage_unit') or '').endswith('/月') and r.get('hours_month') and r['hours_month']<100 and (r.get('wage_value') or 0)>=5000: r['ambiguous']=True; reasons.append('ambiguous')
     if not r.get('in_city'): reasons.append('off_city')
     if not r.get('basket'): reasons.append('off_basket')
     return reasons

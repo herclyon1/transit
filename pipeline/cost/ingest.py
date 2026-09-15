@@ -15,8 +15,8 @@ CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
 CITY_FILE={'buon_ma_thuot':'buonmathuot'}.get(CITY,CITY)          # raw 目录名 → cities/<file>.json
 CUR_ZH={'CNY':'元','VND':'越南盾','JPY':'日元','TWD':'新台币','KRW':'韩元','USD':'美元','EUR':'欧元','AUD':'澳元','MMK':'缅元'}
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
-BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁','home':'家政/钟点（私人家庭）','chain':'连锁锚点'}
-SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','wechat_group':'微信群招工帖（用户截图）','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
+BASKET_ZH={'security':'保安','security_cert':'保安 · 持证/管理岗','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁','home':'家政/钟点（私人家庭）','chain':'连锁锚点'}
+SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wechat_group':'微信群招工帖（群记录导出）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','wechat_group':'微信群招工帖（用户截图）','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
 
 rows=[]
 for f in sorted(glob.glob(os.path.join(ROOT,'raw',CITY,'*','jobs_raw.jsonl'))):
@@ -34,7 +34,7 @@ for r in rows:
 uniq=list(best.values())
 cf=os.path.join(ROOT,'cities',f'{CITY_FILE}.json'); d=json.load(open(cf,encoding='utf-8')); CUR=CUR_ZH.get(d.get('currency','CNY'),d.get('currency',''))
 manual=[j for j in d.get('jobs',[]) if not j.get('ingest_key')]
-manual_urls={j['wage'].get('source_url') for j in manual}
+manual_urls={j['wage'].get('source_url') for j in manual if j['wage'].get('source_url')}   # 群帖没有 URL，别和手写占位条（也没 URL）撞成「重复」
 by=collections.defaultdict(list); side=[]; n_dup_manual=0
 def tags(r):
     t=[]
@@ -64,7 +64,7 @@ def entry(r):
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
     return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
-            "store": f"{r.get('employer') or ('地点 '+(r.get('location_phrase') or '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
+            "store": f"{r.get('employer') or ('地点 '+r['location_phrase'] if r.get('location_phrase') else ('群帖 · '+(r.get('account') or '') if r['source']=='wechat_group' else '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
             "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url') or r.get('article_title','')}|{r.get('wage_value')}",   # 群帖没有 URL，用「截图 文件名」
             "wage": {"value": r['hourly'], "unit": f"{CUR}/小时", "source_url": r.get('source_url'),
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",

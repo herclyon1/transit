@@ -134,6 +134,33 @@
    "chain": "保安：保安",
    "tags": [],
    "headline": true,
+   "store": "酒店酒店（微信群招工帖（用户截图），金平）",
+   "basket": "security",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3500.0",
+   "wage": {
+    "value": 9.7,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜金平｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "158****5338",
+    "note": "帖子原文：“天山区人民电影院附近酒店酒店需要保安一名，男，女都行必须要有保安证，工资待遇3500上24休24三餐免费想干的联系158****5338”。帖子写明 24 小时在岗：月工时 24 h × 15 班 = 360 h，含夜间值守。",
+    "wage_posted": "3500 元/月",
+    "hours": {
+     "posted": "上24休24",
+     "per_day": 24,
+     "days_per_month": 15,
+     "monthly": 360,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：保安",
+   "tags": [],
+   "headline": true,
    "store": "乌市78小（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "security",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efJbUJ40556FxOf1CnoN4mdJuhsm0QOznungZ8KAS0wS8scd0lWP-egdTl4RUzPXA3qWWy*oiZ3u2VrF-yduBXi&new=1|3700.0",
@@ -161,22 +188,103 @@
    "chain": "保安：保安员",
    "tags": [],
    "headline": true,
-   "store": "地点 海虹国际物流园附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "store": "群帖 · 吴晓军johnny（微信群招工帖（用户截图），吴晓军johnny）",
    "basket": "security",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-edFtxwY9g8WTEYZJ*uF*KrYSvyhAU*6Nyhc7GfClNcStcDR-QbiO9*NOBf8rPtmMrsyBq4E1jwdAIEPLe19HXyc&new=1|3800.0",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3800.0",
    "wage": {
-    "value": 11.3,
+    "value": 10.6,
     "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-edFtxwY9g8WTEYZJ*uF*KrYSvyhAU*6Nyhc7GfClNcStcDR-QbiO9*NOBf8rPtmMrsyBq4E1jwdAIEPLe19HXyc&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月10日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜吴晓军johnny｜机场保安招聘群_2026-09-14_15.docx",
     "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-09",
+    "posted_at": "2026-09-14",
     "confidence": "listing",
-    "contact": "189****8929",
-    "note": "帖子原文：“海虹国际物流园附近酒店招聘保安员1名 / 要求:男57岁以下，汉族， / 身体健康，必须有保安证。 / 12小时班，每月🉑休息两天， / 工资3800元准时发放， / 室内岗工作环境好，包住。 / 联系电话：189****8929”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "contact": "189****8222",
+    "note": "帖子原文：“招聘保安员 / 新市区金风科技园招聘男保安员 / 要求，58岁以下，有保安证、退伍军人优先，身 / 体健康、相貌端正、政审合格、服从安排、上一休一 / 工资3800元，每月25号发放，决不拖欠； / 联系电话：189****8222”。上一休一没写每班几小时：按 24 小时在岗默认（用户 2026-09-15 定），月工时 24 h × 15 班 = 360 h；若按 12 小时在岗算则 21.1 元/时。",
     "wage_posted": "3800 元/月",
     "hours": {
-     "posted": "12小时 / 每月🉑休息两天",
+     "posted": "上一休一",
+     "per_day": 24,
+     "days_per_month": 15,
+     "monthly": 360,
+     "basis": "default_24h"
+    }
+   }
+  },
+  {
+   "chain": "保安：保安员",
+   "tags": [],
+   "headline": true,
+   "store": "地点 新联市场（微信群招工帖（用户截图），春暖大地）",
+   "basket": "security",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3800.0",
+   "wage": {
+    "value": 10.6,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜春暖大地｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "189****8108",
+    "note": "帖子原文：“招聘： / 新联市场，现招聘保安员1名，必须有保安证，汉族（民族已满）。男58以内，上24休24，政审合格，体检报告，工资3800元，7号门岗。 / 可乘坐：6501，551，3025，506，113路，新联市场下车即到。 / 也可乘坐地铁1号线，宣仁墩下车，B站口出门右转50米即到。 / 电话：189****8108 / 戴队长”。帖子写明 24 小时在岗：月工时 24 h × 15 班 = 360 h，含夜间值守。。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "3800 元/月",
+    "hours": {
+     "posted": "上24休24",
+     "per_day": 24,
+     "days_per_month": 15,
+     "monthly": 360,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安：保安",
+   "tags": [],
+   "headline": true,
+   "store": "小绿谷德泽园小区（微信群招工帖（用户截图），，）",
+   "basket": "security",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3900.0",
+   "wage": {
+    "value": 10.8,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜，｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "152****5165",
+    "note": "帖子原文：“薪资：3900元/月 / 福利：免费住宿、有食堂 / ✅ 小绿谷德泽园小区｜保安 / 要求：男58岁以内，持有保安证 / 班次：上一休一 / 联系：152****5165”。上一休一没写每班几小时：按 24 小时在岗默认（用户 2026-09-15 定），月工时 24 h × 15 班 = 360 h；若按 12 小时在岗算则 21.7 元/时。",
+    "wage_posted": "3900 元/月",
+    "hours": {
+     "posted": "上一休一",
+     "per_day": 24,
+     "days_per_month": 15,
+     "monthly": 360,
+     "basis": "default_24h"
+    }
+   }
+  },
+  {
+   "chain": "保洁：保洁岗",
+   "tags": [],
+   "headline": true,
+   "store": "群帖 · 闫克敬 135****7133（微信群招工帖（用户截图），闫克敬 135****7133）",
+   "basket": "cleaning",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|4000.0",
+   "wage": {
+    "value": 11.9,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜闫克敬 135****7133｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "135****7133",
+    "note": "帖子原文：“5.无证者可以先安排上岗，薪资4000元，培训三天半次月持证后月薪4500元。 / 二.普通保洁岗需男女队员各20名，要求男58岁以内，女年龄53岁以内，（以身份证为准）缴纳社保，有宿舍，职工食堂，月薪4000元，月休二天，12小时制，白夜两班替换，节假日有福利。缴纳社保者优先。 / 机场招聘信息 / 一.招聘十名男性高空保洁员： / 联系电话：135****7133”",
+    "wage_posted": "4000 元/月",
+    "hours": {
+     "posted": "12小时 / 月休二天",
      "per_day": 12.0,
      "days_per_month": 28,
      "monthly": 336,
@@ -185,29 +293,56 @@
    }
   },
   {
-   "chain": "保安：消防",
+   "chain": "保洁：保洁",
    "tags": [],
    "headline": true,
-   "store": "地点 乌市红光山附近（微信公众号招工帖（搜狗微信搜索），牧间日常）",
-   "basket": "security",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448636&ver=6967&signature=iwlAE4lGBYfZ21b0SBAtpIMWZJbaEIC9exm8WwKnvtP5docvxBOMyYwgCYP9P5G4lwg9Arpie3RJTyeWF1*FSKm*wWrD7*3bhDGgTEM5ZYf3i9lTUCYPcxUb94ArYA3E&new=1|4600.0",
+   "store": "米东区轮胎东路公务员小区（微信群招工帖（用户截图），自由如风）",
+   "basket": "cleaning",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3200.0",
    "wage": {
-    "value": 12.8,
+    "value": 13.0,
     "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448636&ver=6967&signature=iwlAE4lGBYfZ21b0SBAtpIMWZJbaEIC9exm8WwKnvtP5docvxBOMyYwgCYP9P5G4lwg9Arpie3RJTyeWF1*FSKm*wWrD7*3bhDGgTEM5ZYf3i9lTUCYPcxUb94ArYA3E&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜牧间日常｜乌鲁木齐招聘信息ئۇرۇمچى  خىزمەت ئۇچۇرى",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜自由如风｜机场保安招聘群_2026-09-14_15.docx",
     "fetched_at": "2026-09-15",
     "posted_at": "2026-09-14",
     "confidence": "listing",
-    "contact": "185****1880",
-    "note": "帖子原文：“[庆祝][庆祝]招消防 / 乌市红光山附近招聘消防国证一名，综合到手工资4600元，上一休一，张队185****1880”。上一休一没写每班几小时：按 24 小时在岗默认（用户 2026-09-15 定），月工时 24 h × 15 班 = 360 h；若按 12 小时在岗算则 25.6 元/时。。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "4600 元/月",
+    "contact": "139****0067",
+    "note": "帖子原文：“（2）米东区轮胎东路公务员小区对面文体公园招男保洁两名，60岁以内，早10点到晚19.30.一周休一天，月休4天，工资3200。另招消防监控两名（国证）男女不限，上24休24.工资4200 / 联系：139****0067”",
+    "wage_posted": "3200 元/月",
     "hours": {
-     "posted": "上一休一",
-     "per_day": 24,
-     "days_per_month": 15,
-     "monthly": 360,
-     "basis": "default_24h"
+     "posted": "早10点到晚19.30 / 月休4天 / 上24休24",
+     "per_day": 9.5,
+     "days_per_month": 26,
+     "monthly": 247,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保洁：保洁",
+   "tags": [],
+   "headline": true,
+   "store": "兄弟连保安公司（微信群招工帖（用户截图），天桥风云）",
+   "basket": "cleaning",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|3200.0",
+   "wage": {
+    "value": 13.0,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜天桥风云｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "136****9682",
+    "note": "帖子原文：“兄弟连保安公司 / （1）米东区轮胎东路公务员小区对面文体公园招男保洁两名，60岁以内，早10点到晚19.30.一周休一天，月休4天，工资3200 / 联系：136****9682”",
+    "wage_posted": "3200 元/月",
+    "hours": {
+     "posted": "早10点到晚19.30 / 月休4天",
+     "per_day": 9.5,
+     "days_per_month": 26,
+     "monthly": 247,
+     "basis": "posted"
     }
    }
   },
@@ -234,6 +369,114 @@
      "per_day": 8.0,
      "days_per_month": 26,
      "monthly": 208,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安 · 持证/管理岗：消防",
+   "tags": [],
+   "headline": true,
+   "store": "地点 乌市红光山附近（微信公众号招工帖（搜狗微信搜索），牧间日常）",
+   "basket": "security_cert",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448636&ver=6967&signature=iwlAE4lGBYfZ21b0SBAtpIMWZJbaEIC9exm8WwKnvtP5docvxBOMyYwgCYP9P5G4lwg9Arpie3RJTyeWF1*FSKm*wWrD7*3bhDGgTEM5ZYf3i9lTUCYPcxUb94ArYA3E&new=1|4600.0",
+   "wage": {
+    "value": 12.8,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448636&ver=6967&signature=iwlAE4lGBYfZ21b0SBAtpIMWZJbaEIC9exm8WwKnvtP5docvxBOMyYwgCYP9P5G4lwg9Arpie3RJTyeWF1*FSKm*wWrD7*3bhDGgTEM5ZYf3i9lTUCYPcxUb94ArYA3E&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜牧间日常｜乌鲁木齐招聘信息ئۇرۇمچى  خىزمەت ئۇچۇرى",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "185****1880",
+    "note": "帖子原文：“[庆祝][庆祝]招消防 / 乌市红光山附近招聘消防国证一名，综合到手工资4600元，上一休一，张队185****1880”。上一休一没写每班几小时：按 24 小时在岗默认（用户 2026-09-15 定），月工时 24 h × 15 班 = 360 h；若按 12 小时在岗算则 25.6 元/时。。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "4600 元/月",
+    "hours": {
+     "posted": "上一休一",
+     "per_day": 24,
+     "days_per_month": 15,
+     "monthly": 360,
+     "basis": "default_24h"
+    }
+   }
+  },
+  {
+   "chain": "保安 · 持证/管理岗：消防监控",
+   "tags": [],
+   "headline": true,
+   "store": "地点 天山区东泉路附近（微信群招工帖（用户截图），中国梦不是梦，轻舟已过万重山）",
+   "basket": "security_cert",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|4800.0",
+   "wage": {
+    "value": 15.6,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜中国梦不是梦，轻舟已过万重山｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "192****4918",
+    "note": "帖子原文：“2.招聘消防监控值班员2名：男57岁以下/女55岁以下，国证工资4800，月休2天，民族勿扰！ / [Fight][Fight][Fight] / 工作地点：天山区东泉路附近 / 招录条件：有责任心，无违法行为，身体健康，持证上岗！免费午餐！25号发工资！两班倒。可住宿！ / 工作时间：白班9：00-20：00，夜班20：00-次日9：00。 / ☎️联系：192****4918微信同号 / 192****6185本广好长期有效”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "4800 元/月",
+    "hours": {
+     "posted": "9：00-20：00 / 月休2天 / 倒班",
+     "per_day": 11.0,
+     "days_per_month": 28,
+     "monthly": 308,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安 · 持证/管理岗：保安队长",
+   "tags": [],
+   "headline": true,
+   "store": "地点 天山区东泉路附近（微信群招工帖（用户截图），中国梦不是梦，轻舟已过万重山）",
+   "basket": "security_cert",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|4500.0",
+   "wage": {
+    "value": 15.7,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜中国梦不是梦，轻舟已过万重山｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "192****4918",
+    "note": "帖子原文：“3.招聘保安队长1名，1年以上管理工作经验，56以下，4500/月，月休4天。 / [Fight][Fight][Fight] / 工作地点：天山区东泉路附近 / 招录条件：有责任心，无违法行为，身体健康，持证上岗！免费午餐！25号发工资！两班倒。可住宿！ / 工作时间：白班9：00-20：00，夜班20：00-次日9：00。 / ☎️联系：192****4918微信同号 / 192****6185本广好长期有效”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "4500 元/月",
+    "hours": {
+     "posted": "9：00-20：00 / 月休4天 / 倒班",
+     "per_day": 11.0,
+     "days_per_month": 26,
+     "monthly": 286,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "保安 · 持证/管理岗：主管",
+   "tags": [],
+   "headline": true,
+   "store": "新疆金盟能源科技发展有限公司乌鲁木齐分公司（中国新疆人才网，新疆人才网）",
+   "basket": "security_cert",
+   "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8387770.html|30.0",
+   "wage": {
+    "value": 30.0,
+    "unit": "元/小时",
+    "source_url": "https://www.xjhr.com/zhaopin/job_8387770.html",
+    "source_name": "中国新疆人才网｜新疆人才网｜搬运工",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": null,
+    "note": "帖子原文：“搬运工 / 新疆金盟能源科技发展有限公司乌鲁木齐分公司 / 乌鲁木齐市高新区（新市区）(乌鲁木齐市新市区十色街和深圳街西二巷交叉口) / 天山国际机场行李装卸岗位须知 / 工 作 地: 新疆乌鲁木齐天山国际机场工作区域： 机场机坪工作区 / 招聘岗位： 行李装卸 / 复试时间： 2026年 / 2月25日 早上10：00分 / 复试地点： 机场南区（以群里的位置为准） / 招聘人数： 66人（名额有限，必须提前报名才可参加面试） / 上班时间： 上一休一（早5.30至凌晨3点”",
+    "wage_posted": "30 元/小时",
+    "hours": {
+     "posted": "早5.30至凌晨3点 / 上一休一",
+     "per_day": 9.5,
+     "days_per_month": 15,
+     "monthly": 142,
      "basis": "posted"
     }
    }
@@ -315,6 +558,93 @@
      "per_day": 10.0,
      "days_per_month": null,
      "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "家政/钟点（私人家庭）：阿姨",
+   "tags": [
+    "home"
+   ],
+   "headline": false,
+   "store": "群帖 · 燕子（微信群招工帖（用户截图），燕子）",
+   "basket": "home",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|4500.0",
+   "wage": {
+    "value": 21.6,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜燕子｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-14",
+    "confidence": "listing",
+    "contact": "131****0761",
+    "note": "帖子原文：“🌹白班：13:00-21:00 / 工作内容：做1顿晚饭 / 工资：4500元  单休 / 地址：西山中豪润园 / 🌹住家  经开区  单休 / ❗阿姨会开车 / 内容:做饭卫生 / 联系：131****0761”",
+    "wage_posted": "4500 元/月",
+    "hours": {
+     "posted": "13:00-21:00 / 单休",
+     "per_day": 8.0,
+     "days_per_month": 26,
+     "monthly": 208,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "家政/钟点（私人家庭）：钟点",
+   "tags": [
+    "home"
+   ],
+   "headline": false,
+   "store": "群帖 · 君姐（微信群招工帖（用户截图），君姐）",
+   "basket": "home",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|2800.0",
+   "wage": {
+    "value": 30.8,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜君姐｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "189****6172",
+    "note": "帖子原文：“🌹晚钟点  经开万达 / 时间:17点半-21点 / 内容:做2个人饭卫生 / 工资:2800  单休 / 地址:万达华府2期 / ☎189****6172”",
+    "wage_posted": "2800 元/月",
+    "hours": {
+     "posted": "17点半-21点 / 单休",
+     "per_day": 3.5,
+     "days_per_month": 26,
+     "monthly": 91,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "家政/钟点（私人家庭）：钟点",
+   "tags": [
+    "home"
+   ],
+   "headline": false,
+   "store": "群帖 · 燕子（微信群招工帖（用户截图），燕子）",
+   "basket": "home",
+   "ingest_key": "wechat_group|机场保安招聘群_2026-09-14_15.docx|2800.0",
+   "wage": {
+    "value": 30.8,
+    "unit": "元/小时",
+    "source_url": null,
+    "source_name": "微信群招工帖（用户截图）｜燕子｜机场保安招聘群_2026-09-14_15.docx",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-15",
+    "confidence": "listing",
+    "contact": "131****0761",
+    "note": "帖子原文：“🌹晚钟点  经开万达 / 时间:17点半-21点 / 内容:做2个人饭卫生 / 工资:2800  单休 / 地址:万达华府2期 / ☎131****0761”",
+    "wage_posted": "2800 元/月",
+    "hours": {
+     "posted": "17点半-21点 / 单休",
+     "per_day": 3.5,
+     "days_per_month": 26,
+     "monthly": 91,
      "basis": "posted"
     }
    }
@@ -786,11 +1116,11 @@
  },
  "jobs_ingest": {
   "updated": "2026-09-15",
-  "raw_rows": 13,
-  "unique": 10,
+  "raw_rows": 38,
+  "unique": 35,
   "dup_manual": 2,
-  "side": 1,
-  "picked": 8,
+  "side": 4,
+  "picked": 20,
   "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
  }
 }
