@@ -327,7 +327,7 @@
     "label": null,
     "raw": "cost/data/raw/buon_ma_thuot/20260915/chotot_phongtro_incl_expired.json",
     "source_short": "Chợ Tốt",
-    "how": "1 km 圈 2026-09-15 没有一条在挂的单间/一室，取 Chợ Tốt 刚下架的 2 条中位（Nguyễn Công Trứ 一带 30 ㎡ 2,000,000、25 ㎡ 2,600,000）——是近期挂牌价不是现价。邦美蜀租房主要在 Facebook 群和门口贴纸，平台样本天然薄。"
+    "how": "1 km 圈 2026-09-15 没有一条在挂的单间/一室，取 Chợ Tốt 刚下架的 2 条中位（Nguyễn Công Trứ 一带 30 ㎡ 2,000,000、25 ㎡ 2,600,000）——是近期挂牌价不是现价。邦美蜀租房主要在 Facebook 群和门口贴纸，平台样本天然薄。2026-09-16 复核：Chợ Tốt 邦美蜀 phòng trọ 类在挂只有 2 条（20 ㎡ 沿街铺面 2,500,000、44 ㎡ 两房整栋 3,500,000，都不是单间），muaban 22 条里单间只有 4 条（同上）；mogi/alonhadat 无邦美蜀房源，batdongsan/nhatot 403——线上样本就这么薄，值未变。"
    },
    "pass_student": {
     "value": null,
@@ -388,7 +388,7 @@
     },
     "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
     "source_short": "Chợ Tốt / muaban / phongtro123",
-    "how": "1–3.5 km 圈在挂的只有 1 条：Chợ Tốt Ama Khê 50/1 40 ㎡ 一卧整租 2,500,000 đ（押一付一）。n=1 远低于要求的 20 条，只能当参考；近 3 个月下架的 6 条单间中位 1,200,000。"
+    "how": "1–3.5 km 圈在挂的只有 1 条：Chợ Tốt Ama Khê 50/1 40 ㎡ 一卧整租 2,500,000 đ（押一付一）。n=1 远低于要求的 20 条，只能当参考；近 3 个月下架的 6 条单间中位 1,200,000。2026-09-16 复核：Chợ Tốt 邦美蜀 phòng trọ 类在挂只有 2 条（20 ㎡ 沿街铺面 2,500,000、44 ㎡ 两房整栋 3,500,000，都不是单间），muaban 22 条里单间只有 4 条（同上）；mogi/alonhadat 无邦美蜀房源，batdongsan/nhatot 403——线上样本就这么薄，值未变。"
    },
    "pass_student": {
     "value": null,
@@ -449,7 +449,7 @@
     },
     "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
     "source_short": "muaban / phongtro123",
-    "how": "3.5–7 km 圈在挂 2 条取中位：muaban Thành Nhất 带阁楼单间 40 ㎡ 1,500,000；phongtro123 Nguyễn Văn Cừ 30 ㎡ 2,000,000。"
+    "how": "3.5–7 km 圈在挂 2 条取中位：muaban Thành Nhất 带阁楼单间 40 ㎡ 1,500,000；phongtro123 Nguyễn Văn Cừ 30 ㎡ 2,000,000。2026-09-16 复核：Chợ Tốt 邦美蜀 phòng trọ 类在挂只有 2 条（20 ㎡ 沿街铺面 2,500,000、44 ㎡ 两房整栋 3,500,000，都不是单间），muaban 22 条里单间只有 4 条（同上）；mogi/alonhadat 无邦美蜀房源，batdongsan/nhatot 403——线上样本就这么薄，值未变。"
    },
    "pass_student": {
     "value": null,
@@ -505,7 +505,7 @@
     "compare": null,
     "raw": "cost/data/raw/buon_ma_thuot/20260915/rent.jsonl",
     "source_short": "muaban / Chợ Tốt",
-    "how": "7–12 km 圈在挂 2 条取中位：muaban Ea Kao 市场后带家具单间 14 ㎡ 2,000,000；Chợ Tốt Hòa Xuân 旧平房 70 ㎡ 600,000。两条性质差异大，只能当参考。"
+    "how": "7–12 km 圈在挂 2 条取中位：muaban Ea Kao 市场后带家具单间 14 ㎡ 2,000,000；Chợ Tốt Hòa Xuân 旧平房 70 ㎡ 600,000。两条性质差异大，只能当参考。2026-09-16 复核：Chợ Tốt 邦美蜀 phòng trọ 类在挂只有 2 条（20 ㎡ 沿街铺面 2,500,000、44 ㎡ 两房整栋 3,500,000，都不是单间），muaban 22 条里单间只有 4 条（同上）；mogi/alonhadat 无邦美蜀房源，batdongsan/nhatot 403——线上样本就这么薄，值未变。"
    },
    "pass_student": {
     "value": null,
@@ -655,7 +655,7 @@
    "confidence": "listing",
    "n": null,
    "note": "平替，不是本地 bún/cơm/phở：GrabFood（food.grab.com，邦美蜀有 4,167 家商户在 sitemap 里）菜单接口返回 502、ShopeeFood 接口返回 403、Loship 超时，本地小店一份 bún/cơm/phở 的挂牌价没拿到。这里填 KFC 邦美蜀门店“1 Cơm Gà Rán”（译：一份炸鸡饭，含番茄/辣椒酱包）49,000 đ 作连锁一顿饭的价；Combo Cơm Gà Rán Solo（+ 标准杯百事）56,000、Cơm Gà Viên Nanban 40,000。用户如能开外卖 App 定位邦美蜀再补本地价。",
-   "label": "一顿饭（肯德基炸鸡饭，本地外食平替）",
+   "label": "一顿快餐（KFC 炸鸡饭，对照）",
    "source_short": "KFC 越南官网点餐",
    "how": "本地 bún/cơm/phở 小店挂牌价没拿到（GrabFood 502、ShopeeFood 403、Loship 超时），先用 KFC 邦美蜀门店 Cơm Gà Rán（炸鸡饭）49,000 đ 顶；用户能开外卖 App 定位邦美蜀再换本地价。"
   },
@@ -742,20 +742,949 @@
    "raw": "cost/data/raw/buon_ma_thuot/20260915/basket.jsonl",
    "source_short": "Co.op Online",
    "how": "Co.op Online 同店搜「bia lốc 6 lon」第 2 条 Bia Saigon Export 6×330 ml 71,500 đ（第 1 条 Saigon Chill 是 250 ml 小罐不取）；本地最常喝的 Bia 333 74,200。"
+  },
+  "set_meal": {
+   "value": 24000,
+   "unit": "越南盾",
+   "source_url": "https://www.foody.vn/dak-lak/dia-diem?q=c%C6%A1m%20b%C3%ACnh%20d%C3%A2n",
+   "source_name": "Foody.vn（ShopeeFood 旗下点评站）Đắk Lắk 搜索「cơm bình dân」商家页标的价格区间（khoảng giá），邦美蜀市内 7 家",
+   "source_short": "Foody 商家页价格区间",
+   "fetched_at": "2026-09-16",
+   "confidence": "crowd",
+   "n": 7,
+   "label": "一顿正餐（cơm bình dân 平价盒饭）",
+   "how": "本地打工人的一顿正餐 = cơm bình dân（米饭 + 一荤一素 + 汤）。ShopeeFood/GrabFood 的外卖菜单境外读不到（403/502），用同集团点评站 Foody 上邦美蜀 7 家 cơm bình dân 商家页标的价格区间（15,000–45,000 đ），取区间中点的中位数 24,000 đ。是商家/用户填的区间不是菜单价、页面无日期，只能算众包价；用户有 ShopeeFood App 的话定位邦美蜀搜「cơm bình dân」跑一次就能换成外卖现价。",
+   "items": [
+    {
+     "name": "Cơm Bình Dân - Lê Duẩn",
+     "price": 15000,
+     "unit": "越南盾",
+     "note": "区间 15,000–33,000 đ"
+    },
+    {
+     "name": "Cơm Bình Dân Bé - Nguyễn Thị Minh Khai",
+     "price": 16000,
+     "unit": "越南盾",
+     "note": "区间 16,000–22,000 đ"
+    },
+    {
+     "name": "Cơm Bình Dân Bảo Khanh - Ama Khê",
+     "price": 18000,
+     "unit": "越南盾",
+     "note": "区间 18,000–28,000 đ"
+    },
+    {
+     "name": "Cơm Bình Dân Loan - Ama Khê",
+     "price": 18000,
+     "unit": "越南盾",
+     "note": "区间 18,000–28,000 đ"
+    },
+    {
+     "name": "Cô Chiêu - Bún Bò & Cơm Bình Dân",
+     "price": 25000,
+     "unit": "越南盾",
+     "note": "区间 25,000–45,000 đ"
+    },
+    {
+     "name": "Cơm Tấm - Cơm Bình Dân CÔ VÂN - Hồ Tùng Mậu",
+     "price": 30000,
+     "unit": "越南盾",
+     "note": "区间 30,000–40,000 đ"
+    },
+    {
+     "name": "Phương - Quán Cơm Bình Dân",
+     "price": 20000,
+     "unit": "越南盾",
+     "note": "区间 20,000–30,000 đ"
+    }
+   ],
+   "items_label": "看 7 家",
+   "compare": {
+    "label": "对照：KFC 邦美蜀门店 Cơm Gà Rán（连锁官方价）",
+    "value": 49000,
+    "unit": "越南盾",
+    "n": null,
+    "source_url": "https://kfcvietnam.com.vn/vi/thuc-don",
+    "source_name": "KFC 越南官方点餐网站（api.kfcvietnam.com.vn，门店菜单 KFCVN0059-olo-pickup-menu）KFC Co.opmart Buôn Ma Thuột，71 Nguyễn Tất Thành（自取）"
+   }
+  },
+  "oil1l": {
+   "value": 44950,
+   "unit": "越南盾",
+   "label": "食用油 1L",
+   "source_url": "https://cooponline.vn/products/251200314",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“dầu ăn”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 5,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「dầu ăn」默认排序前 10 条，剔掉不是同一种东西的 3 条（Dầu ăn Neptune olive l、Dầu ăn Neptune olive l、Dầu ăn Simply hướng dư），其余按商品名里的规格折到 越南盾/L（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=5）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Dầu ăn Happi Koki 1L",
+     "price": 42500.0,
+     "unit": "越南盾",
+     "note": "1L → 42,500 越南盾/L"
+    },
+    {
+     "name": "Dầu ăn Happi Koki 5L",
+     "price": 211500.0,
+     "unit": "越南盾",
+     "note": "5L → 42,300 越南盾/L"
+    },
+    {
+     "name": "Dầu ăn Happi Koki 2L",
+     "price": 89900.0,
+     "unit": "越南盾",
+     "note": "2L → 44,950 越南盾/L"
+    },
+    {
+     "name": "Dầu ăn Tường An 5L",
+     "price": 242900.0,
+     "unit": "越南盾",
+     "note": "5L → 48,580 越南盾/L"
+    },
+    {
+     "name": "Dầu ăn Simply hạt cải 1L",
+     "price": 69900.0,
+     "unit": "越南盾",
+     "note": "1L → 69,900 越南盾/L"
+    }
+   ],
+   "items_label": "看 5 款",
+   "note": "3.Dầu ăn Happi Koki 1L 42,500 đ 1L → 42,500 越南盾/L；4.Dầu ăn Happi Koki 5L 211,500 đ 5L → 42,300 越南盾/L；5.Dầu ăn Happi Koki 2L 89,900 đ 2L → 44,950 越南盾/L；7.Dầu ăn Tường An 5L 242,900 đ 5L → 48,580 越南盾/L；10.Dầu ăn Simply hạt cải 1L 69,900 đ 1L → 69,900 越南盾/L"
+  },
+  "potato1kg": {
+   "value": 39700,
+   "unit": "越南盾",
+   "label": "土豆 1kg",
+   "source_url": "https://cooponline.vn/products/250103640",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“khoai tây”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 2,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「khoai tây」默认排序前 10 条，剔掉不是同一种东西的 8 条（Khoai tây Pringles ori、Khoai tây Pringles sou、Khoai tây đông lạnh Lu、Khoai tây đông lạnh Co、Khoai tây đông lạnh ră、Khoai tây đông lạnh Co、Khoai tây đông lạnh Lu、Khoai tây đông lạnh Lu），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=2）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Khoai tây Đà Lạt kg",
+     "price": 36500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 36,500 越南盾/kg"
+    },
+    {
+     "name": "Khoai tây vàng Co.op Select kg – VietFarm",
+     "price": 42900.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 42,900 越南盾/kg"
+    }
+   ],
+   "items_label": "看 2 款",
+   "note": "3.Khoai tây Đà Lạt kg 36,500 đ 按 kg 卖 → 36,500 越南盾/kg；4.Khoai tây vàng Co.op Select kg 42,900 đ 按 kg 卖 → 42,900 越南盾/kg"
+  },
+  "cabbage1kg": {
+   "value": 23950,
+   "unit": "越南盾",
+   "label": "白菜 1kg（cải thảo）",
+   "source_url": "https://cooponline.vn/products/250102425",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“cải thảo”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 4,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「cải thảo」默认排序前 10 条，剔掉不是同一种东西的 6 条（Cải thảo hỏa tiễn Co.o、Kim chi cải thảo cây B、Kim chi cải thảo TH Tr、Kim chi cải thảo cắt l、Kim Chi Cải Thảo Cắt L、Kim chi cải thảo – ngò），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=4）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Cải thảo Co.op Select kg",
+     "price": 22500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 22,500 越南盾/kg"
+    },
+    {
+     "name": "Bắp cải thảo kg",
+     "price": 25000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 25,000 越南盾/kg"
+    },
+    {
+     "name": "Bắp cải thảo giống Đài Loan kg",
+     "price": 37500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 37,500 越南盾/kg"
+    },
+    {
+     "name": "Cải thảo Đà Lạt Co.op Select – kg",
+     "price": 22900.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 22,900 越南盾/kg"
+    }
+   ],
+   "items_label": "看 4 款",
+   "note": "1.Cải thảo Co.op Select kg 22,500 đ 按 kg 卖 → 22,500 越南盾/kg；3.Bắp cải thảo kg 25,000 đ 按 kg 卖 → 25,000 越南盾/kg；4.Bắp cải thảo giống Đài Loan kg 37,500 đ 按 kg 卖 → 37,500 越南盾/kg；9.Cải thảo Đà Lạt Co.op Select – 22,900 đ 按 kg 卖 → 22,900 越南盾/kg"
+  },
+  "onion1kg": {
+   "value": 35000,
+   "unit": "越南盾",
+   "label": "洋葱 1kg",
+   "source_url": "https://cooponline.vn/products/250108411",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“hành tây”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 4,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「hành tây」默认排序前 10 条，剔掉不是同一种东西的 5 条（Bánh lát khoai tây Sli、Bánh lát khoai tây Sli、Bánh snack khoai tây L、Snack Lay’s vị kem chu、Snack Lay’s Max vị kem），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=4）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Hành tây Đà Lạt kg",
+     "price": 35000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 35,000 越南盾/kg"
+    },
+    {
+     "name": "Củ hành tây Hà Lan kg",
+     "price": 35000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 35,000 越南盾/kg"
+    },
+    {
+     "name": "Củ hành tây Co.op Select kg – TNX",
+     "price": 28900.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 28,900 越南盾/kg"
+    },
+    {
+     "name": "Hành tây miền bắc kg",
+     "price": 12500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 12,500 越南盾/kg"
+    },
+    {
+     "name": "Hành tây baby 300g – F",
+     "price": 19000.0,
+     "unit": "越南盾",
+     "note": "300g → 63,333 越南盾/kg"
+    }
+   ],
+   "items_label": "看 5 款",
+   "note": "1.Hành tây Đà Lạt kg 35,000 đ 按 kg 卖 → 35,000 越南盾/kg；4.Củ hành tây Hà Lan kg 35,000 đ 按 kg 卖 → 35,000 越南盾/kg；5.Củ hành tây Co.op Select kg –  28,900 đ 按 kg 卖 → 28,900 越南盾/kg；10.Hành tây baby 300g – F 19,000 đ 300g → 63,333 越南盾/kg"
+  },
+  "tomato1kg": {
+   "value": 39450,
+   "unit": "越南盾",
+   "label": "西红柿 1kg",
+   "source_url": "https://cooponline.vn/products/250106411",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“cà chua”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 2,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「cà chua」默认排序前 10 条，剔掉不是同一种东西的 8 条（Cà chua bi kg、Cà chua Beef kg、Cà chua cherry socola 、Cà chua trái cây Ngọc 、Cà chua trái cây 3 màu、Sữa chua sấy khô Aya-u、Pizza cà chua phô mai 、Sốt Spaghetti rose – k），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=2）。价是网店现价（含促销）。Beef/cherry 是另一档番茄，只收普通 cà chua。",
+   "items": [
+    {
+     "name": "Cà chua kg",
+     "price": 45000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 45,000 越南盾/kg"
+    },
+    {
+     "name": "Cà chua trứng Co.op Select kg-TNX",
+     "price": 33900.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 33,900 越南盾/kg"
+    }
+   ],
+   "items_label": "看 2 款",
+   "note": "1.Cà chua kg 45,000 đ 按 kg 卖 → 45,000 越南盾/kg；5.Cà chua trứng Co.op Select kg- 33,900 đ 按 kg 卖 → 33,900 越南盾/kg"
+  },
+  "apple1kg": {
+   "value": 99500,
+   "unit": "越南盾",
+   "label": "苹果 1kg",
+   "source_url": "https://cooponline.vn/products/250108068",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“táo”默认排序前 9",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 6,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「táo」默认排序前 9 条，剔掉不是同一种东西的 2 条（Táo xanh Mỹ kg、Táo Organic Juliet 1kg），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=6）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Táo Dazzle NewZealand kg",
+     "price": 118700.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 118,700 越南盾/kg"
+    },
+    {
+     "name": "Táo Breeze Newzealand 1kg",
+     "price": 100000.0,
+     "unit": "越南盾",
+     "note": "1kg → 100,000 越南盾/kg"
+    },
+    {
+     "name": "Táo xanh NewZealand kg",
+     "price": 106500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 106,500 越南盾/kg"
+    },
+    {
+     "name": "Táo Braeburn Newzealand kg",
+     "price": 75000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 75,000 越南盾/kg"
+    },
+    {
+     "name": "Táo Fuji Nam Phi kg",
+     "price": 69000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 69,000 越南盾/kg"
+    },
+    {
+     "name": "Táo Jazz New Zealand kg",
+     "price": 99000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 99,000 越南盾/kg"
+    },
+    {
+     "name": "Táo hồng Phan Rang kg",
+     "price": 49000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 49,000 越南盾/kg"
+    }
+   ],
+   "items_label": "看 7 款",
+   "note": "1.Táo Dazzle NewZealand kg 118,700 đ 按 kg 卖 → 118,700 越南盾/kg；4.Táo Breeze Newzealand 1kg 100,000 đ 1kg → 100,000 越南盾/kg；5.Táo xanh NewZealand kg 106,500 đ 按 kg 卖 → 106,500 越南盾/kg；6.Táo Braeburn Newzealand kg 75,000 đ 按 kg 卖 → 75,000 越南盾/kg；7.Táo Fuji Nam Phi kg 69,000 đ 按 kg 卖 → 69,000 越南盾/kg；8.Táo Jazz New Zealand kg 99,000 đ 按 kg 卖 → 99,000 越南盾/kg"
+  },
+  "chicken1kg": {
+   "value": 81900,
+   "unit": "越南盾",
+   "label": "鸡肉 1kg（腿/胸/翅都算）",
+   "source_url": "https://cooponline.vn/products/250101134",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“thịt gà”“đùi gà”“ức gà”默认排序前 25",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 8,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「thịt gà」「đùi gà」「ức gà」默认排序前 25 条，剔掉不是同一种东西的 15 条（Mề gà CP 500g、Tim gà CP 500g、Chân gà vĩ 500g – CP、Sụn ức gà CP 500g – F、Vịt nguyên con đông lạ、Bánh C’est Bon Orion s、Bánh Orion C’est Bon s、Đùi gà chay quấn sả PG、Đùi gà chiên giòn、Nấm đùi gà VN gói 200g、Nấm đùi gà Hàn Quốc 20、Ức gà không da Ba Huân、Ức vịt 500g – Ngọc Hà、Ức vịt đông lạnh kg、Ức vịt con xương lưng ），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=8）。价是网店现价（含促销）。只剔内脏/鸡爪/零食/熟食。",
+   "items": [
+    {
+     "name": "Cánh gà vĩ 500g – CP",
+     "price": 53000.0,
+     "unit": "越南盾",
+     "note": "500g → 106,000 越南盾/kg"
+    },
+    {
+     "name": "Đùi cánh gà (cánh tỏi) 500g – CP",
+     "price": 53000.0,
+     "unit": "越南盾",
+     "note": "500g → 106,000 越南盾/kg"
+    },
+    {
+     "name": "Đùi gà góc tư 500g - JAPFA",
+     "price": 34500.0,
+     "unit": "越南盾",
+     "note": "500g → 69,000 越南盾/kg"
+    },
+    {
+     "name": "Đùi gà công nghiệp rút xương 500g – Leboucher",
+     "price": 58000.0,
+     "unit": "越南盾",
+     "note": "500g → 116,000 越南盾/kg"
+    },
+    {
+     "name": "Đùi Gà Góc Tư  CN Co.op Select 500g-BH",
+     "price": 36900.0,
+     "unit": "越南盾",
+     "note": "500g → 73,800 越南盾/kg"
+    },
+    {
+     "name": "File ức gà vĩ 500g – CP",
+     "price": 45000.0,
+     "unit": "越南盾",
+     "note": "500g → 90,000 越南盾/kg"
+    },
+    {
+     "name": "Ức gà có xương BH 500g",
+     "price": 20500.0,
+     "unit": "越南盾",
+     "note": "500g → 41,000 越南盾/kg"
+    },
+    {
+     "name": "Ức gà công nghiệp 500g – Ngọc Hà",
+     "price": 27000.0,
+     "unit": "越南盾",
+     "note": "500g → 54,000 越南盾/kg"
+    }
+   ],
+   "items_label": "看 8 款",
+   "note": "4.Cánh gà vĩ 500g – CP 53,000 đ 500g → 106,000 越南盾/kg；7.Đùi cánh gà (cánh tỏi) 500g –  53,000 đ 500g → 106,000 越南盾/kg；8.Đùi gà góc tư 500g - JAPFA 34,500 đ 500g → 69,000 越南盾/kg；9.Đùi gà công nghiệp rút xương 5 58,000 đ 500g → 116,000 越南盾/kg；10.Đùi Gà Góc Tư  CN Co.op Select 36,900 đ 500g → 73,800 越南盾/kg；3.File ức gà vĩ 500g – CP 45,000 đ 500g → 90,000 越南盾/kg；4.Ức gà có xương BH 500g 20,500 đ 500g → 41,000 越南盾/kg；5.Ức gà công nghiệp 500g – Ngọc  27,000 đ 500g → 54,000 越南盾/kg"
+  },
+  "pork1kg": {
+   "value": 155000,
+   "unit": "越南盾",
+   "label": "猪肉 1kg（ba rọi/nạc）",
+   "source_url": "https://cooponline.vn/products/250517188",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“ba rọi heo”“nạc heo”默认排序前 20",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 17,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「ba rọi heo」「nạc heo」默认排序前 20 条，剔掉不是同一种东西的 2 条（Giò nạc heo 500g-AHT99、Ham nạc heo chay đông ），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=17）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Ba rọi heo kg-AHT990",
+     "price": 179000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 179,000 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo kg-TD",
+     "price": 156000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 156,000 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo chuẩn ngon (S) kg",
+     "price": 199900.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 199,900 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo kg – HM",
+     "price": 134000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 134,000 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo quay kg",
+     "price": 363000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 363,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt Ba rọi heo kg - TD",
+     "price": 127800.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 127,800 越南盾/kg"
+    },
+    {
+     "name": "Thịt ba rọi heo kg – NP990",
+     "price": 212000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 212,000 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi rút sườn heo kg-NP990",
+     "price": 282000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 282,000 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo 300g-TD",
+     "price": 50900.0,
+     "unit": "越南盾",
+     "note": "300g → 169,667 越南盾/kg"
+    },
+    {
+     "name": "Ba rọi heo 300g – CP",
+     "price": 52000.0,
+     "unit": "越南盾",
+     "note": "300g → 173,333 越南盾/kg"
+    },
+    {
+     "name": "Nạc dăm heo kg-AHT990",
+     "price": 161000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 161,000 越南盾/kg"
+    },
+    {
+     "name": "Nạc đùi heo kg-AHT990",
+     "price": 139000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 139,000 越南盾/kg"
+    },
+    {
+     "name": "Nạc đùi heo Vissan kg - VS990",
+     "price": 155000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 155,000 越南盾/kg"
+    },
+    {
+     "name": "Nạc rọi heo xay – Vissan kg - VS990",
+     "price": 136000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 136,000 越南盾/kg"
+    },
+    {
+     "name": "Nạc dăm heo kg - TD",
+     "price": 108000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 108,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt nạc đùi heo kg - HM",
+     "price": 91800.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 91,800 越南盾/kg"
+    },
+    {
+     "name": "Nạc đùi heo kg",
+     "price": 81000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 81,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt nạc đùi heo kg – NP990",
+     "price": 91800.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 91,800 越南盾/kg"
+    }
+   ],
+   "items_label": "看 18 款",
+   "note": "1.Ba rọi heo kg-AHT990 179,000 đ 按 kg 卖 → 179,000 越南盾/kg；2.Ba rọi heo kg-TD 156,000 đ 按 kg 卖 → 156,000 越南盾/kg；3.Ba rọi heo chuẩn ngon (S) kg 199,900 đ 按 kg 卖 → 199,900 越南盾/kg；4.Ba rọi heo kg – HM 134,000 đ 按 kg 卖 → 134,000 越南盾/kg；6.Thịt Ba rọi heo kg - TD 127,800 đ 按 kg 卖 → 127,800 越南盾/kg；7.Thịt ba rọi heo kg – NP990 212,000 đ 按 kg 卖 → 212,000 越南盾/kg；8.Ba rọi rút sườn heo kg-NP990 282,000 đ 按 kg 卖 → 282,000 越南盾/kg；9.Ba rọi heo 300g-TD 50,900 đ 300g → 169,667 越南盾/kg；10.Ba rọi heo 300g – CP 52,000 đ 300g → 173,333 越南盾/kg；3.Nạc dăm heo kg-AHT990 161,000 đ 按 kg 卖 → 161,000 越南盾/kg；4.Nạc đùi heo kg-AHT990 139,000 đ 按 kg 卖 → 139,000 越南盾/kg；5.Nạc đùi heo Vissan kg - VS990 155,000 đ 按 kg 卖 → 155,000 越南盾/kg；6.Nạc rọi heo xay – Vissan kg -  136,000 đ 按 kg 卖 → 136,000 越南盾/kg；7.Nạc dăm heo kg - TD 108,000 đ 按 kg 卖 → 108,000 越南盾/kg；8.Thịt nạc đùi heo kg - HM 91,800 đ 按 kg 卖 → 91,800 越南盾/kg；9.Nạc đùi heo kg 81,000 đ 按 kg 卖 → 81,000 越南盾/kg；10.Thịt nạc đùi heo kg – NP990 91,800 đ 按 kg 卖 → 91,800 越南盾/kg"
+  },
+  "beef1kg": {
+   "value": 280000,
+   "unit": "越南盾",
+   "label": "牛肉 1kg（bắp/thăn/xay）",
+   "source_url": "https://cooponline.vn/products/250515179",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“thịt bò kg”“bò xay”默认排序前 16",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 9,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「thịt bò kg」「bò xay」默认排序前 16 条，剔掉不是同一种东西的 4 条（Cá ngừ bò Kg、Cá basa nguyên con bỏ 、Bò Úc xay đông lạnh Mr、Bò Úc xay Mr.T 250g - ），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=9）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Bắp bò kg-TD",
+     "price": 287500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 287,500 越南盾/kg"
+    },
+    {
+     "name": "Thăn ngoại bò kg-TD",
+     "price": 325000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 325,000 越南盾/kg"
+    },
+    {
+     "name": "Thit bò xay kg",
+     "price": 230000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 230,000 越南盾/kg"
+    },
+    {
+     "name": "Bắp bò kg",
+     "price": 256000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 256,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt bò Úc xay kg",
+     "price": 285000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 285,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt đùi bò kg-TD",
+     "price": 280000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 280,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt file bò kg-TD",
+     "price": 280000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 280,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt nạm bò kg-TD",
+     "price": 235000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 235,000 越南盾/kg"
+    },
+    {
+     "name": "Thịt bò xay 200g – HDT990 – F",
+     "price": 48000.0,
+     "unit": "越南盾",
+     "note": "200g → 240,000 越南盾/kg"
+    }
+   ],
+   "items_label": "看 9 款",
+   "note": "1.Bắp bò kg-TD 287,500 đ 按 kg 卖 → 287,500 越南盾/kg；3.Thăn ngoại bò kg-TD 325,000 đ 按 kg 卖 → 325,000 越南盾/kg；5.Thit bò xay kg 230,000 đ 按 kg 卖 → 230,000 越南盾/kg；6.Bắp bò kg 256,000 đ 按 kg 卖 → 256,000 越南盾/kg；7.Thịt bò Úc xay kg 285,000 đ 按 kg 卖 → 285,000 越南盾/kg；8.Thịt đùi bò kg-TD 280,000 đ 按 kg 卖 → 280,000 越南盾/kg；9.Thịt file bò kg-TD 280,000 đ 按 kg 卖 → 280,000 越南盾/kg；10.Thịt nạm bò kg-TD 235,000 đ 按 kg 卖 → 235,000 越南盾/kg；5.Thịt bò xay 200g – HDT990 – F 48,000 đ 200g → 240,000 越南盾/kg"
+  },
+  "fish1kg": {
+   "value": 114000,
+   "unit": "越南盾",
+   "label": "鱼 1kg（cá basa/cá ngừ 整条或片）",
+   "source_url": "https://cooponline.vn/products/250106285",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“cá basa”“cá ngừ”默认排序前 20",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 3,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「cá basa」「cá ngừ」默认排序前 20 条，剔掉不是同一种东西的 17 条（Cá basa tẩm ướp kg、Cá Basa kho kg - PKD99、Chả cá basa chiên Co.o、Chả cá basa tươi Co.op、Bao tử cá Basa Hoa Doa、Chả cá basa chiên kg、Bao tử Basa tươi Kg-NC、Cá viên basa hấp Co.op、Cá ngừ trắng Co.op Sel、Cá ngừ xốt cay、Mắt cá ngừ đại dương k、Bánh gạo Want Want ron、Thức ăn mèo Whiskas số、Thức ăn mèo con Whiska、Nước mắm cá ngừ bào ng、File ca ngừ đạu dương 、Cá ngừ ngâm dầu Centur），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=3）。价是网店现价（含促销）。内陆城市，超市冷冻鱼。",
+   "items": [
+    {
+     "name": "Cá basa nguyên con bỏ đầu kg",
+     "price": 62500.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 62,500 越南盾/kg"
+    },
+    {
+     "name": "Cá Basa Phi lê đông Lạnh An Vĩnh gói 200g",
+     "price": 30600.0,
+     "unit": "越南盾",
+     "note": "200g → 153,000 越南盾/kg"
+    },
+    {
+     "name": "Cá ngừ bò Kg",
+     "price": 114000.0,
+     "unit": "越南盾",
+     "note": "按 kg 卖 → 114,000 越南盾/kg"
+    }
+   ],
+   "items_label": "看 3 款",
+   "note": "1.Cá basa nguyên con bỏ đầu kg 62,500 đ 按 kg 卖 → 62,500 越南盾/kg；4.Cá Basa Phi lê đông Lạnh An Vĩ 30,600 đ 200g → 153,000 越南盾/kg；1.Cá ngừ bò Kg 114,000 đ 按 kg 卖 → 114,000 越南盾/kg"
+  },
+  "tofu1kg": {
+   "value": 34298,
+   "unit": "越南盾",
+   "label": "豆腐 1kg",
+   "source_url": "https://cooponline.vn/products/250100784",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“đậu hũ”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 4,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「đậu hũ」默认排序前 10 条，剔掉不是同一种东西的 6 条（Đậu hũ nấm bào ngư Nhậ、Bột sắn dây Ngọc Ninh 、Bơ đậu phộng mịn、Đậu phộng sả ớt Tài Tà、Đậu Hà Lan Wasabi Tân 、Đậu phộng da cá tỏi ớt），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=4）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Đậu hũ non Co.op Select 280g",
+     "price": 9900.0,
+     "unit": "越南盾",
+     "note": "280g → 35,357 越南盾/kg"
+    },
+    {
+     "name": "Đậu hũ trắng Co.op Select 280g",
+     "price": 9500.0,
+     "unit": "越南盾",
+     "note": "280g → 33,929 越南盾/kg"
+    },
+    {
+     "name": "Đậu Hũ Lụa Cao Cấp Vina Tofu 220g",
+     "price": 6700.0,
+     "unit": "越南盾",
+     "note": "220g → 30,455 越南盾/kg"
+    },
+    {
+     "name": "Đậu Hũ Non Cao Cấp Vina ToFu 300g",
+     "price": 10400.0,
+     "unit": "越南盾",
+     "note": "300g → 34,667 越南盾/kg"
+    }
+   ],
+   "items_label": "看 4 款",
+   "note": "1.Đậu hũ non Co.op Select 280g 9,900 đ 280g → 35,357 越南盾/kg；2.Đậu hũ trắng Co.op Select 280g 9,500 đ 280g → 33,929 越南盾/kg；3.Đậu Hũ Lụa Cao Cấp Vina Tofu 2 6,700 đ 220g → 30,455 越南盾/kg；4.Đậu Hũ Non Cao Cấp Vina ToFu 3 10,400 đ 300g → 34,667 越南盾/kg"
+  },
+  "soy1l": {
+   "value": 40500,
+   "unit": "越南盾",
+   "label": "酱油 1L",
+   "source_url": "https://cooponline.vn/products/250108908",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“nước tương”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 6,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「nước tương」默认排序前 10 条，剔掉不是同一种东西的 3 条（Nước tương Nam Dương đ、Nước tương Nam Dương đ、Nước tương Chinsu tỏi ），其余按商品名里的规格折到 越南盾/L（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=6）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Nước tương Hảo Vị Hương Việt chai 500ml",
+     "price": 19500.0,
+     "unit": "越南盾",
+     "note": "500ml → 39,000 越南盾/L"
+    },
+    {
+     "name": "Nước tương Nam Dương thượng hạng chai 210ml",
+     "price": 10000.0,
+     "unit": "越南盾",
+     "note": "210ml → 47,619 越南盾/L"
+    },
+    {
+     "name": "Nước tương Nam Dương đậu nành lên men tự nhiên 500ml",
+     "price": 14500.0,
+     "unit": "越南盾",
+     "note": "500ml → 29,000 越南盾/L"
+    },
+    {
+     "name": "Nước tương Nam Dương đậu nành len men tự nhiên 710ml",
+     "price": 19900.0,
+     "unit": "越南盾",
+     "note": "710ml → 28,028 越南盾/L"
+    },
+    {
+     "name": "Nước tương Nam Dương thượng hạng pet 500ml",
+     "price": 21000.0,
+     "unit": "越南盾",
+     "note": "500ml → 42,000 越南盾/L"
+    },
+    {
+     "name": "Nước tương đậu nành Maggi chai 450ml",
+     "price": 19900.0,
+     "unit": "越南盾",
+     "note": "450ml → 44,222 越南盾/L"
+    }
+   ],
+   "items_label": "看 6 款",
+   "note": "1.Nước tương Hảo Vị Hương Việt c 19,500 đ 500ml → 39,000 越南盾/L；2.Nước tương Nam Dương thượng hạ 10,000 đ 210ml → 47,619 越南盾/L；4.Nước tương Nam Dương đậu nành  14,500 đ 500ml → 29,000 越南盾/L；6.Nước tương Nam Dương đậu nành  19,900 đ 710ml → 28,028 越南盾/L；7.Nước tương Nam Dương thượng hạ 21,000 đ 500ml → 42,000 越南盾/L；10.Nước tương đậu nành Maggi chai 19,900 đ 450ml → 44,222 越南盾/L"
+  },
+  "fish_sauce1l": {
+   "value": 60000,
+   "unit": "越南盾",
+   "label": "鱼露 1L（味噌的替换）",
+   "source_url": "https://cooponline.vn/products/250100717",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“nước mắm”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 5,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「nước mắm」默认排序前 10 条，剔掉不是同一种东西的 1 条（Nước mắm Chay Co.op Se），其余按商品名里的规格折到 越南盾/L（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=5）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Nước mắm Barona vị xưa 20N 500ml",
+     "price": 52500.0,
+     "unit": "越南盾",
+     "note": "500ml → 105,000 越南盾/L"
+    },
+    {
+     "name": "Nước mắm Co.op Select 1.8L",
+     "price": 76000.0,
+     "unit": "越南盾",
+     "note": "1.8L → 42,222 越南盾/L"
+    },
+    {
+     "name": "Nước mắm Nam Ngư 3in1 900ml",
+     "price": 54000.0,
+     "unit": "越南盾",
+     "note": "900ml → 60,000 越南盾/L"
+    },
+    {
+     "name": "Nước mắm Knorr chai 500ml",
+     "price": 39200.0,
+     "unit": "越南盾",
+     "note": "500ml → 78,400 越南盾/L"
+    },
+    {
+     "name": "Nước mắm Thanh Hà 35N chai 520ml",
+     "price": 109000.0,
+     "unit": "越南盾",
+     "note": "520ml → 209,615 越南盾/L"
+    },
+    {
+     "name": "Nước mắm Liên Thành 120g/l 1.8L",
+     "price": 83900.0,
+     "unit": "越南盾",
+     "note": "1.8L → 46,611 越南盾/L"
+    }
+   ],
+   "items_label": "看 6 款",
+   "note": "2.Nước mắm Barona vị xưa 20N 500 52,500 đ 500ml → 105,000 越南盾/L；3.Nước mắm Co.op Select 1.8L 76,000 đ 1.8L → 42,222 越南盾/L；4.Nước mắm Nam Ngư 3in1 900ml 54,000 đ 900ml → 60,000 越南盾/L；6.Nước mắm Knorr chai 500ml 39,200 đ 500ml → 78,400 越南盾/L；8.Nước mắm Liên Thành 120g/l 1.8 83,900 đ 1.8L → 46,611 越南盾/L"
+  },
+  "salt1kg": {
+   "value": 7200,
+   "unit": "越南盾",
+   "label": "盐 1kg",
+   "source_url": "https://cooponline.vn/products/250100888",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“muối i-ốt”默认排序前 3",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 1,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「muối i-ốt」默认排序前 3 条，剔掉不是同一种东西的 0 条，其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=1）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Muối biển tinh sấy i – ốt Co.op Select 500g",
+     "price": 3600.0,
+     "unit": "越南盾",
+     "note": "500g → 7,200 越南盾/kg"
+    }
+   ],
+   "items_label": "看 1 款",
+   "note": "1.Muối biển tinh sấy i – ốt Co.o 3,600 đ 500g → 7,200 越南盾/kg"
+  },
+  "sugar1kg": {
+   "value": 25750,
+   "unit": "越南盾",
+   "label": "糖 1kg",
+   "source_url": "https://cooponline.vn/products/250513933",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“đường trắng”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 5,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「đường trắng」默认排序前 10 条，剔掉不是同一种东西的 5 条（Đường phèn trắng Nasu 、Sữa tươi Dutch Lady - 、sữa tươi green farm、Sữa tươi kun、Sữa tươi Green Farm），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=5）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Đường trắng đồn điền TH 1kg",
+     "price": 24000.0,
+     "unit": "越南盾",
+     "note": "1kg → 24,000 越南盾/kg"
+    },
+    {
+     "name": "Đường trắng đồn điền Co.op Happy 500g",
+     "price": 11900.0,
+     "unit": "越南盾",
+     "note": "500g → 23,800 越南盾/kg"
+    },
+    {
+     "name": "Đường kính trắng RS Co.op Happy 500g",
+     "price": 12900.0,
+     "unit": "越南盾",
+     "note": "500g → 25,800 越南盾/kg"
+    },
+    {
+     "name": "Đường kính trắng RS Co.op Happy 1kg",
+     "price": 28300.0,
+     "unit": "越南盾",
+     "note": "1kg → 28,300 越南盾/kg"
+    },
+    {
+     "name": "Đường kính trắng RS Co.op Happy 2kg – BH",
+     "price": 51500.0,
+     "unit": "越南盾",
+     "note": "2kg → 25,750 越南盾/kg"
+    }
+   ],
+   "items_label": "看 5 款",
+   "note": "1.Đường trắng đồn điền TH 1kg 24,000 đ 1kg → 24,000 越南盾/kg；2.Đường trắng đồn điền Co.op Hap 11,900 đ 500g → 23,800 越南盾/kg；4.Đường kính trắng RS Co.op Happ 12,900 đ 500g → 25,800 越南盾/kg；5.Đường kính trắng RS Co.op Happ 28,300 đ 1kg → 28,300 越南盾/kg；6.Đường kính trắng RS Co.op Happ 51,500 đ 2kg → 25,750 越南盾/kg"
+  },
+  "tea_bottle1l": {
+   "value": 19229,
+   "unit": "越南盾",
+   "label": "瓶装茶 1L（trà xanh 瓶装）",
+   "source_url": "https://cooponline.vn/products/250101874",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“trà xanh không độ”“trà xanh 0 độ”“trà”默认排序前 23",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 4,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「trà xanh không độ」「trà xanh 0 độ」「trà」默认排序前 23 条，剔掉不是同一种东西的 18 条（Trà xanh túi lọc Co.op、Trà xanh Thái Nguyên P、Trà Xanh Phúc Long Túi、Trà xanh hương nhài v.、Trà xanh Thái Nguyên v、Trà xanh Thái Nguyên C、Trà xanh thái nguyên C、Trà xanh hoa sen Phúc 、Bánh trung thu Kinh Đô、Trà Xanh No.1 không độ、Trà XanhKIRI.Itđường t、Trà chanh sả Fuzetea 2、Trà bí đaoWonder 24 x2、Trà việt quất TVT 450m、Trà Matcha sữa Blendy 、Trà Ô long Co.op Selec、Trà Ô long Co.op Selec、Trà Olong Co.op Select），其余按商品名里的规格折到 越南盾/L（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=4）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Trà xanh Bupnon 365 mật ong 500ml",
+     "price": 7800.0,
+     "unit": "越南盾",
+     "note": "500ml → 15,600 越南盾/L"
+    },
+    {
+     "name": "Trà xanh Number One 0 độ chanh 455ml",
+     "price": 10400.0,
+     "unit": "越南盾",
+     "note": "455ml → 22,857 越南盾/L"
+    },
+    {
+     "name": "Trà Fuzetea chanh sả 1L",
+     "price": 13200.0,
+     "unit": "越南盾",
+     "note": "1L → 13,200 越南盾/L"
+    },
+    {
+     "name": "Trà Olong TH chai 350ml",
+     "price": 10500.0,
+     "unit": "越南盾",
+     "note": "350ml → 30,000 越南盾/L"
+    }
+   ],
+   "items_label": "看 4 款",
+   "note": "1.Trà xanh Bupnon 365 mật ong 50 7,800 đ 500ml → 15,600 越南盾/L；1.Trà xanh Number One 0 độ chanh 10,400 đ 455ml → 22,857 越南盾/L；2.Trà Fuzetea chanh sả 1L 13,200 đ 1L → 13,200 越南盾/L；5.Trà Olong TH chai 350ml 10,500 đ 350ml → 30,000 越南盾/L"
+  },
+  "tea_leaf1kg": {
+   "value": 512000,
+   "unit": "越南盾",
+   "label": "茶叶 1kg（trà xanh 袋泡/散茶）",
+   "source_url": "https://cooponline.vn/products/250101074",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“trà túi lọc”“trà xanh không độ”默认排序前 18",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 5,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「trà túi lọc」「trà xanh không độ」默认排序前 18 条，剔掉不是同一种东西的 12 条（Trà túi lọc Cozy đào h、Hồng trà túi lọc Co.op、Trà đào túi lọc Co.op 、Trà Atiso túi lọc Tâm 、Trà việt quất túi lọc 、Trà hương dâu túi lọc 、Trà xanh hoa lài túi l、Trà hương Bạc hà túi l、Trà xanh Bupnon 365 mậ、Trà xanh hương lài Co.、Trà xanh hương nhài v.、Trà xanh hoa sen Phúc ），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=5）。价是网店现价（含促销）。自泡：1 g 泡 100 ml。",
+   "items": [
+    {
+     "name": "Trà xanh túi lọc Co.op Select 25x2g",
+     "price": 25600.0,
+     "unit": "越南盾",
+     "note": "25x2g → 512,000 越南盾/kg"
+    },
+    {
+     "name": "Trà Xanh Phúc Long Túi Lọc 25x2g",
+     "price": 34900.0,
+     "unit": "越南盾",
+     "note": "25x2g → 698,000 越南盾/kg"
+    },
+    {
+     "name": "Trà xanh Thái Nguyên Phúc Long 200g",
+     "price": 59900.0,
+     "unit": "越南盾",
+     "note": "200g → 299,500 越南盾/kg"
+    },
+    {
+     "name": "Trà xanh Thái Nguyên vinatea hộp 25x2g",
+     "price": 40500.0,
+     "unit": "越南盾",
+     "note": "25x2g → 810,000 越南盾/kg"
+    },
+    {
+     "name": "Trà xanh Thái Nguyên Co.op Select gói 100g",
+     "price": 17900.0,
+     "unit": "越南盾",
+     "note": "100g → 179,000 越南盾/kg"
+    },
+    {
+     "name": "Trà xanh thái nguyên Co.op Select lon 150g",
+     "price": 39000.0,
+     "unit": "越南盾",
+     "note": "150g → 260,000 越南盾/kg"
+    }
+   ],
+   "items_label": "看 6 款",
+   "note": "4.Trà xanh túi lọc Co.op Select  25,600 đ 25x2g → 512,000 越南盾/kg；5.Trà Xanh Phúc Long Túi Lọc 25x 34,900 đ 25x2g → 698,000 越南盾/kg；3.Trà xanh Thái Nguyên Phúc Long 59,900 đ 200g → 299,500 越南盾/kg；7.Trà xanh Thái Nguyên vinatea h 40,500 đ 25x2g → 810,000 越南盾/kg；9.Trà xanh thái nguyên Co.op Sel 39,000 đ 150g → 260,000 越南盾/kg"
+  },
+  "flour1kg": {
+   "value": 29500,
+   "unit": "越南盾",
+   "label": "面粉 1kg",
+   "source_url": "https://cooponline.vn/products/250108888",
+   "source_name": "Co.op Online（cooponline.vn，Teko discovery 接口）定位 Co.opmart Buôn Ma Thuột（71 Nguyễn Tất Thành，terminal 138_sgc）搜索“bột mì”“bột mì 1kg”默认排序前 10",
+   "source_short": "Co.op Online",
+   "fetched_at": "2026-09-16",
+   "confidence": "listing",
+   "n": 1,
+   "how": "Co.op Online 定位邦美蜀 Co.opmart 搜「bột mì」「bột mì 1kg」默认排序前 10 条，剔掉不是同一种东西的 7 条（Nước tẩy quần áo trắng、Nho Xanh không hạt Mỹ 、Nếp cái hoa vang PH 1 、Táo Envy Mỹ – 1 kg、Nho xanh không hạt Mỹ 、Cam Mỹ loại 1 kg、Nếp cái hoa vàng PMT 1），其余按商品名里的规格折到 越南盾/kg（按 kg 卖的直接是每 kg 价），去掉离中位 2 倍以外的，取中位（n=1）。价是网店现价（含促销）。",
+   "items": [
+    {
+     "name": "Bột bánh mì Meizan 1kg",
+     "price": 29500.0,
+     "unit": "越南盾",
+     "note": "1kg → 29,500 越南盾/kg"
+    }
+   ],
+   "items_label": "看 1 款",
+   "note": "2.Bột bánh mì Meizan 1kg 29,500 đ 1kg → 29,500 越南盾/kg"
   }
  },
  "living_official": {
   "food": {
    "label": "在岗饮食费（全外食，一周五天有班）",
-   "value": 1926534,
+   "value": 956534,
    "unit": "越南盾/月",
    "confidence": "estimated",
    "n": null,
-   "source_url": "https://kfcvietnam.com.vn/vi/thuc-don",
-   "source_name": "一顿正餐 = 一顿饭（肯德基炸鸡饭，本地外食平替）（KFC 越南官网点餐）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）",
+   "source_url": "https://www.foody.vn/dak-lak/dia-diem?q=c%C6%A1m%20b%C3%ACnh%20d%C3%A2n",
+   "source_name": "一顿正餐 = 一顿正餐（cơm bình dân 平价盒饭）（Foody 商家页价格区间）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）",
    "source_short": "5 天班表",
    "fetched_at": "2026-09-16",
-   "how": "食材 0、全外食。一周五天有班、周末休：工作日 1 顿外食 + 1 顿员工餐，周末 2 顿外食 → 外食 38.8 顿 × 49000 + 员工餐 22 顿 × 0 + 可乐 2 L × 12667。茶 0、啤酒 0。",
+   "how": "食材 0、全外食。一周五天有班、周末休：工作日 1 顿外食 + 1 顿员工餐，周末 2 顿外食 → 外食 38.8 顿 × 24000 + 员工餐 22 顿 × 0 + 可乐 2 L × 12667。茶 0、啤酒 0。",
    "note": "用户 09-16：法律只限工时不限班次，一律按一周五天有班；周末有班那天两顿员工餐（本表按周末休）。"
   },
   "total": {
@@ -771,7 +1700,7 @@
   },
   "food_transition": {
    "label": "过渡期饮食费（脱产自炊，不进公式）",
-   "value": 395448,
+   "value": 1914026,
    "unit": "越南盾/月",
    "confidence": "estimated",
    "n": null,
@@ -779,7 +1708,7 @@
    "source_name": "厚生労働省 令和5年 国民健康・栄養調査 第5表 食品群別摂取量（男性 20–29 歳）× 本页篮子平台现价",
    "source_short": "NHNS 用量 × 平台现价",
    "fetched_at": "2026-09-16",
-   "how": "全自炊、不外食：厚労省 令和5年 国民健康・栄養調査 男性 20–29 岁每天吃进去的克数折成每月购买量，乘本页篮子的平台现价：大米 5 kg 119200×1.02、面包 1 kg 61250×0.77、鸡蛋 10 个 27500×2.24、牛奶 1 L 46500×2.45、可乐 1 L 12667×4。替换：猪肉 1 kg→猪肉 1 kg（）；味噌 1 kg→鱼露 1 L（味噌换鱼露）；蛋黄酱 1 kg→料酒 1 L（蛋黄酱换料酒）——同热量同蛋白的替换，不是当地人真这么吃。缺 面粉/面条 1 kg、土豆 1 kg、白菜 1 kg、洋葱 1 kg、西红柿 1 kg、苹果 1 kg、鸡肉 1 kg、猪肉 1 kg、牛肉 1 kg、鱼 1 kg、豆腐 1 kg、食用油 1 L、酱油 1 L、鱼露 1 L、盐 1 kg、糖 1 kg、料酒 1 L、茶，没算进去。啤酒 0。",
+   "how": "全自炊、不外食：厚労省 令和5年 国民健康・栄養調査 男性 20–29 岁每天吃进去的克数折成每月购买量，乘本页篮子的平台现价：大米 5 kg 119200×1.02、面包 1 kg 61250×0.77、面粉/面条 1 kg 29500×0.95、土豆 1 kg 39700×1.67、白菜 1 kg 23950×3.51、洋葱 1 kg 35000×2.46、西红柿 1 kg 39450×1.05、苹果 1 kg 99500×0.72、鸡肉 1 kg 81900×1.68、猪肉 1 kg 155000×2.30、牛肉 1 kg 280000×0.58、鱼 1 kg 114000×1.33、豆腐 1 kg 34298×1.37、鸡蛋 10 个 27500×2.24、牛奶 1 L 46500×2.45、食用油 1 L 44950×0.43、酱油 1 L 40500×0.33、鱼露 1 L 60000×0.27、盐 1 kg 7200×0.05、糖 1 kg 25750×0.15、茶 45 L 230,400、可乐 1 L 12667×4。瓶装茶折最低时薪 43.3 h 超阈值 → 退回茶叶（1 g 泡 100 ml，450 g）。替换：味噌 1 kg→鱼露 1 L（味噌换鱼露）；蛋黄酱 1 kg→料酒 1 L（蛋黄酱换料酒）——同热量同蛋白的替换，不是当地人真这么吃。缺 料酒 1 L，没算进去。啤酒 0。",
    "note": "用量：米 370 g/日÷2.2、パン 25、めん 78×0.4、いも 55、野菜 231（白菜类 50%/洋葱根菜 35%/番茄 15%）、生果 24、鶏 55、豚+加工 76、牛 19、魚 44、豆腐類 45、卵 44、乳 83、油 13、しょうゆ 12.4、味噌 8.8、塩 1.6、砂糖 5、マヨ 3.3 g/日；茶 45 L、可乐 4 L 是用户习惯。"
   }
  },
