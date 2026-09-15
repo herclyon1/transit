@@ -91,7 +91,7 @@ W=22; F=DAYS-W   # 工作日有班 22 天：1 外食 + 1 员工餐；周末 8.4 
 out=W*1+F*2; staff_n=W
 work_total=(out*mv if mv else 0)+staff_n*staff+(b.get('cola1l',{}).get('value') or 0)*cola_w
 d['living_official']['food']={"label":"在岗饮食费（全外食，一周五天有班）","value":round(work_total),"unit":unit,"confidence":"estimated","n":None,
-  "source_url":meal.get('source_url'),"source_name":f"一顿正餐 = {meal.get('label','')}（{meal.get('source_short','')}）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）","source_short":"外食 × 班表","fetched_at":today,
+  "source_url":meal.get('source_url'),"source_name":f"一顿正餐 = {meal.get('label','')}（{meal.get('source_short','')}）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）","source_short":"5 天班表","fetched_at":today,
   "how":f"食材 0、全外食。一周五天有班、周末休：工作日 1 顿外食 + 1 顿员工餐，周末 2 顿外食 → 外食 {out:.1f} 顿 × {mv:g}"+(f"（{PC.get('meal_price_note','')}）" if PC.get('meal_price_note') else '')
         +f" + 员工餐 {staff_n} 顿 × {staff:g} + 可乐 {cola_w} L × {b.get('cola1l',{}).get('value',0):g}。茶 0、啤酒 0。",
   "note":"用户 09-16：法律只限工时不限班次，一律按一周五天有班；周末有班那天两顿员工餐（本表按周末休）。"}

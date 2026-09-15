@@ -164,7 +164,7 @@
    }
   },
   {
-   "chain": "外卖/快递/仓储：kho",
+   "chain": "外卖/快递/仓储：仓库工（kho）",
    "tags": [],
    "headline": true,
    "store": "CÔNG TY TNHH CONTAINER TÂY NGUYÊN（Việc Làm Tốt，Việc Làm Tốt）",
@@ -193,7 +193,7 @@
    }
   },
   {
-   "chain": "保洁：dọn dẹp",
+   "chain": "保洁：清洁工（dọn dẹp）",
    "tags": [],
    "headline": true,
    "store": "tạ quang huy（Việc Làm Tốt，Việc Làm Tốt）",
@@ -209,7 +209,7 @@
     "confidence": "listing",
     "contact": "站内投递",
     "note": "帖子原文：“tuyển dụng nhân viên dọn dẹp và sắp xếp đồ đạc / tạ quang huy / Đường Ngô Quyền, Phường Thắng Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tuyển dụng nhân viên dọn dẹp phòng, sắp xếp đồ đạc /  / Khách Sạn The Maison Hotel 24 Ngô Quyền, ”",
-    "wage_posted": "6.5e+06 越南盾/月",
+    "wage_posted": "6,500,000 越南盾/月",
     "hours": {
      "posted": "7h sáng - 17h chiều / tháng nghỉ 2 ngày",
      "per_day": 10.0,
@@ -222,7 +222,7 @@
    }
   },
   {
-   "chain": "家政/钟点（私人家庭）：giúp việc",
+   "chain": "家政/钟点（私人家庭）：家政（giúp việc）",
    "tags": [
     "home"
    ],
@@ -240,7 +240,7 @@
     "confidence": "listing",
     "contact": "站内投递",
     "note": "帖子原文：“Tìm người giúp việc / LÝ TỨ / Phường Tân Lợi, TP. Buôn Ma Thuột (cũ), Đắk Lắk / Tìm giúp việc nhà Buổi sáng - Phường Tân Lợi, BMT /  / - Thời gian: 7:00-11:00 sáng (4 tiếng) /   / - Làm từ T2- T7 (nghỉ CN hằng tuần) /   / - Nấu ăn, lau nh”",
-    "wage_posted": "5e+06 越南盾/月",
+    "wage_posted": "5,000,000 越南盾/月",
     "hours": {
      "posted": "7:00-11:00 sáng / nghỉ 1 ngày/tuần",
      "per_day": 4.0,
@@ -253,7 +253,7 @@
    }
   },
   {
-   "chain": "餐饮服务员/后厨：phục vụ",
+   "chain": "餐饮服务员/后厨：服务员（phục vụ）",
    "tags": [
     "temp"
    ],
@@ -753,7 +753,7 @@
    "n": null,
    "source_url": "https://kfcvietnam.com.vn/vi/thuc-don",
    "source_name": "一顿正餐 = 一顿饭（肯德基炸鸡饭，本地外食平替）（KFC 越南官网点餐）× 班表；员工餐、券后价是个人参数（cost/data/personal.json）",
-   "source_short": "外食 × 班表",
+   "source_short": "5 天班表",
    "fetched_at": "2026-09-16",
    "how": "食材 0、全外食。一周五天有班、周末休：工作日 1 顿外食 + 1 顿员工餐，周末 2 顿外食 → 外食 38.8 顿 × 49000 + 员工餐 22 顿 × 0 + 可乐 2 L × 12667。茶 0、啤酒 0。",
    "note": "用户 09-16：法律只限工时不限班次，一律按一周五天有班；周末有班那天两顿员工餐（本表按周末休）。"
