@@ -36,6 +36,7 @@
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
 .mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mrow .val{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:0;line-height:1.2941em}
+.mrow .hint .en-hint{display:none}   /* 英文名平时在第一行；Mac 侧栏行（Kit 单行 13）挪到副题开头，见 hig.css 11b */
 .val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
 .dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
 .mbtn{padding:16px var(--inset) 0}
@@ -164,10 +165,10 @@ function cityRows(){
   const capLine=hh=>{ if(!hh.visa) return ''; const v=hh.visa.replace(/签证$/,'签'); return /公民/.test(hh.visa)?'本国公民 · 无上限':`${v} · ${hh.capWeek?`周 ${hh.capWeek}h 上限`:'无上限'}`; };
   const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
     const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="nrow ${over?'over':'dim'}">${over?'超出上限 · ':''}${hh.n} 条</small></span>`; };
-  const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
+  const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name">${c.name.zh} <span class="en dim" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
   const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
   $('cityRows').innerHTML=ready.map(row).join('');
-  $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
+  $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span class="en" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
   $('draftHead').hidden=$('draftRows').hidden=!draft.length;
   HIG.sf();
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));

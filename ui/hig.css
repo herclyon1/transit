@@ -241,6 +241,8 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .mrow .name{font-weight:400;line-height:1.2308em}
   .sheet .mrow .hint{font-size:.8462em;line-height:1.2727em}
   .sheet .mrow .chev{display:none}
+  /* Kit 侧栏行第一行是单行 13：只放中文名，英文名挪到副题开头（副题 11 可截断）——maa 会话 09-15「邦美蜀 Buôn Ma Thuột」被截断后定 */
+  .sheet .mrow .name .en{display:none} .sheet .mrow .hint .en-hint{display:inline}
   .sheet .mrow:hover{background:rgba(0,0,0,.05)}
   .sheet .mrow:active,.sheet .mrow[aria-current="true"]{background:rgba(0,0,0,.11)}
   /* 控件（Regular 尺寸） */
