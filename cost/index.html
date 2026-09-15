@@ -138,6 +138,9 @@ function addCities(map){
     // 底图自己会写城市名的层级（place 层里 class=city 的 symbol 图层的最小 minzoom，OpenFreeMap 苹果配色样式里是 3）一律不画我们的标签，只留点，免得「乌鲁木齐市」「乌鲁木齐」叠在一起（maa 会话 09-15）；不写死数字，从样式里读
     const cityLabZ=Math.min(...map.getStyle().layers.filter(l=>l.type==='symbol'&&l['source-layer']==='place'&&/"city"/.test(JSON.stringify(l.filter||''))).map(l=>l.minzoom==null?0:l.minzoom).concat([6]));
     map.addLayer({id:'city-lab',type:'symbol',source:'cities',maxzoom:cityLabZ,layout:{'text-field':['get','label'],'text-font':['Noto Sans Bold'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':ink,'text-halo-color':paper,'text-halo-width':1.5}});
+    // 底图城市名默认居中压在城市点上，我们的圆点正好盖住中间那个字（手机 z5 看到「东京●都」）：把底图城市名改成点下方（地图 App 的城市标注也是点旁/点下），和我们 z<4 的标签一个写法（用户 09-16 可用性）
+    const cityName=['let','n',['coalesce',['get','name:zh'],['get','name:ja'],['get','name']],['case',['>=',['index-of','/',['var','n']],0],['slice',['var','n'],0,['index-of','/',['var','n']]],['var','n']]];   // OSM 里「东京都/東京都」这种双写只留斜杠前
+    for(const l of map.getStyle().layers){ if(l.type==='symbol'&&l['source-layer']==='place'&&/^label-city/.test(l.id)){ map.setLayoutProperty(l.id,'text-anchor','top'); map.setLayoutProperty(l.id,'text-offset',[0,0.55]); map.setLayoutProperty(l.id,'text-field',cityName); } }
 }
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
