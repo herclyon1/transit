@@ -12,16 +12,16 @@ ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','d
 # 关键词（含同义）→ (篮子键, 篮子单位, 折算方式)：kg = 按重量折到 1 kg；l = 按容量折到 1 L；n10 = 按个数折到 10 个；n1 = 按个数折到 1 个
 KEYS={'鸡蛋':('eggs10','n10'),'牛奶':('milk1l','l'),'纯牛奶':('milk1l','l'),'大米':('rice5kg','kg5'),'面粉':('flour1kg','kg'),'挂面':('noodles1kg','kg'),
       '食用油':('oil1l','l'),'菜籽油':('oil1l','l'),'葵花籽油':('oil1l','l'),'土豆':('potato1kg','kg'),'马铃薯':('potato1kg','kg'),'西红柿':('tomato1kg','kg'),'番茄':('tomato1kg','kg'),
-      '白菜':('cabbage1kg','kg'),'大白菜':('cabbage1kg','kg'),'鸡腿':('chicken1kg','kg'),'琵琶腿':('chicken1kg','kg'),'鸡全腿':('chicken1kg','kg'),'鸡大腿':('chicken1kg','kg'),'羊肉':('mutton1kg','kg'),'苹果':('apple1kg','kg'),'馕':('naan1','n1'),
+      '白菜':('cabbage1kg','kg'),'大白菜':('cabbage1kg','kg'),'鸡腿':('chicken1kg','kg'),'琵琶腿':('chicken1kg','kg'),'鸡全腿':('chicken1kg','kg'),'鸡大腿':('chicken1kg','kg'),'鸡肉':('chicken1kg','kg'),'鸡翅根':('chicken1kg','kg'),'牛肉':('beef1kg','kg'),'牛腩':('beef1kg','kg'),'牛腱':('beef1kg','kg'),'羊肉':('mutton1kg','kg'),'苹果':('apple1kg','kg'),'馕':('naan1','n1'),
       '面包':('bread1kg','kg'),'可乐':('cola1l','l'),'啤酒':('beer6','n6')}
-PROXY={'chicken1kg':(re.compile(r'鸡腿肉'),'多多买菜没有整只鸡腿（搜 鸡腿/琵琶腿/鸡全腿 全是翅根/鸭腿/整鸡/零食），用去骨带皮鸡腿肉顶')}   # 剔完为空时的替身：只认这个词，来源写明
+PROXY={}   # 剔完为空时的替身：只认这个词，来源写明
 LABEL={'eggs10':'鸡蛋 10 个','milk1l':'牛奶 1L','rice5kg':'大米 5kg','flour1kg':'面粉 1kg','noodles1kg':'挂面 1kg','oil1l':'食用油 1L','potato1kg':'土豆 1kg','tomato1kg':'西红柿 1kg',
-       'cabbage1kg':'白菜 1kg','chicken1kg':'鸡腿 1kg','mutton1kg':'羊肉 1kg','apple1kg':'苹果 1kg','naan1':'馕 1 个','bread1kg':'面包 1kg','cola1l':'可乐 1L','beer6':'啤酒 6 罐'}
+       'cabbage1kg':'白菜 1kg','chicken1kg':'鸡肉 1kg（腿/翅根/块）','mutton1kg':'羊肉 1kg','beef1kg':'牛肉 1kg','apple1kg':'苹果 1kg','naan1':'馕 1 个','bread1kg':'面包 1kg','cola1l':'可乐 1L','beer6':'啤酒 6 罐'}
 # 同类才比价：搜索结果里混进来的别的品类（乌鸡蛋/卤蛋/鹌鹑蛋、酸奶/奶粉/淡奶油、米粉/糯米、洗菜篮…）按键剔除，再取中位——不然「鸡蛋」的中位会被乌鸡蛋和卤蛋抬到 10 元
 EXCL={'eggs10':r'乌鸡|卤蛋|鹌鹑|鸽|咸蛋|皮蛋|茶叶蛋|溏心|篮|蛋糕|蛋挞','milk1l':r'酸奶|奶粉|奶茶|乳饮|蛋白饮|淡奶油|奶油|奶酪|炼乳|豆奶|椰|燕麦奶','rice5kg':r'糯米|米粉|米线|米饼|粥|黑米|紫米|小米',
       'bread1kg':r'蛋糕|饼干|面包机|月饼','cola1l':r'无糖|零度|气泡水|雪碧|美年达|芬达|汉斯|果汁','beer6':r'精酿|白啤|果啤|无醇|啤酒杯|开瓶器','flour1kg':r'面包粉|蛋糕粉|饺子皮|面条|挂面|饼',
       'noodles1kg':r'方便面|拉面|粉丝|米线','oil1l':r'香油|芝麻油|橄榄油|亚麻|茶油|猪油|黄油','potato1kg':r'红薯|紫薯|蜜薯|山药|薯片|薯条|粉条|洋葱|皮芽子','tomato1kg':r'番茄酱|圣女果|小番茄|樱桃番茄|沙司|莴笋|西兰花|黄瓜|辣椒',
-      'cabbage1kg':r'娃娃菜|包包菜|包菜|甘蓝|泡菜|酸菜|西兰花|莴笋|菜花|油菜|菠菜|生菜|芹菜|韭菜','chicken1kg':r'鸡翅|鸡胸|鸡爪|鸡脖|鸡架|整鸡|鸡块|炸鸡|卤|鸭|盐焗|土鸡|走地鸡|三黄|公鸡|母鸡|屠宰|碎肉|kg/件','mutton1kg':r'羊蝎子|羊排|羊杂|羊蹄|羊头|烤串|肉串|羊肉串|羊肉卷|羊肉片|脊骨|羊骨|水饺|饺子|抓饭','apple1kg':r'苹果醋|苹果干|苹果汁|果酱|干|火龙果|香梨|梨|桃|橙|柑|葡萄|哈密瓜','naan1':r'馕坑|馕饼机|馕包肉'}
+      'cabbage1kg':r'娃娃菜|包包菜|包菜|甘蓝|泡菜|酸菜|西兰花|莴笋|菜花|油菜|菠菜|生菜|芹菜|韭菜','chicken1kg':r'鸡爪|鸡脖|鸡架|炸鸡|卤|鸭|盐焗|零食|即食','mutton1kg':r'羊蝎子|羊排|羊杂|羊蹄|羊头|烤串|肉串|羊肉串|羊肉卷|羊肉片|脊骨|羊骨|水饺|饺子|抓饭','apple1kg':r'苹果醋|苹果干|苹果汁|果酱|干|火龙果|香梨|梨|桃|橙|柑|葡萄|哈密瓜','naan1':r'馕坑|馕饼机|馕包肉'}
 NUM=r'(\d+(?:\.\d+)?)'
 def spec(name):
     """商品名里的规格 → (总重 kg, 总容量 L, 个数)。「200mL*20袋」「净重1.65kg±50g」「5斤」「30枚/板」「500g*2袋」。"""
@@ -72,6 +72,7 @@ def main():
     for key_how,rs in groups.items():
         key,how=key_how; kw='/'.join(sorted({(r.get('keyword') or '').strip() for r in rs}))
         rs=[r for r in sorted(rs,key=lambda r:r.get('rank',99)) if (r.get('rank') or 99)<=10]   # rank 每页从 1 起，多页（美团馕跑了 3 页）都留，只去每页 10 名以外的
+        seen_names=set(); rs=[r for r in rs if not (r['name'] in seen_names or seen_names.add(r['name']))]   # 几个关键词搜到同一件商品只算一次
         allrows=list(rs)
         dropped=[r['name'][:16] for r in rs if EXCL.get(key) and re.search(EXCL[key],r['name'])]
         rs=[r for r in rs if not (EXCL.get(key) and re.search(EXCL[key],r['name']))]

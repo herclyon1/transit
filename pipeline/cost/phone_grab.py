@@ -57,6 +57,15 @@ if APP == 'ddmc':
     if 'talkback' not in tb:
         sys.exit('多多买菜搜索结果页只有读屏开着才读得到。先开 TalkBack 再跑。')
 
+SHOTS=[]
+def screenshot(tag):
+    """每读一屏顺手截一张图存到 raw/<city>/<日期>/shots/（用户 09-16：光看商品名分不清是不是鸡腿，要能看图）。不进网页，只给人核对。"""
+    if a.out: return
+    d = os.path.join(ROOT, 'cost', 'data', 'raw', a.city, time.strftime('%Y%m%d'), 'shots'); os.makedirs(d, exist_ok=True)
+    fn = os.path.join(d, f"{time.strftime('%H%M%S')}_{APP}_{tag}.png")
+    png = adb('exec-out', 'screencap', '-p').stdout
+    if len(png) > 1000: open(fn, 'wb').write(png); SHOTS.append(fn)
+
 def to_nodes(xml):
     return [(t.replace('&amp;', '&').replace('\u2006', ' ').replace('\u2009', ' '), int(x1), int(y1)) for t, x1, y1, x2, y2 in
          re.findall(r'<node[^>]*text="([^"]*)"[^>]*bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', xml) if t.strip()]
@@ -175,12 +184,12 @@ def parse_beike():
         for o in page(ns):
             k = (o['name'], o['spec'], o['distance'], o['price'])
             if k not in seen: seen.add(k); items.append(o)
-    take(nodes)
+    take(nodes); screenshot('p1')
     stale = 0
     for _ in range(a.scroll):
         if a.max_price is not None and items and items[-1]['price'] > a.max_price: break   # 按价格升序时超上限就不再滑
         adb('shell', 'input', 'swipe', str(W // 2), str(int(H * 0.83)), str(W // 2), str(int(H * 0.29)), '500'); time.sleep(2.5)
-        before = len(items); take(to_nodes(dump()))
+        before = len(items); take(to_nodes(dump())); screenshot(f'p{_ + 2}')
         stale = stale + 1 if len(items) == before else 0
         if stale >= 2: break
     if a.max_price is not None: items[:] = [o for o in items if o['price'] <= a.max_price]
@@ -194,6 +203,7 @@ def parse_beike():
     return kw, sort, {'platform': '安居客' if APP == 'anjuke' else '贝壳', 'filter': filt, 'type': '/'.join(types)}, items
 
 kw, sort, meta, items = {'ddmc': parse_ddmc, 'meituan': parse_meituan, 'beike': parse_beike, 'anjuke': parse_beike}[APP]()
+if APP in ('ddmc', 'meituan'): screenshot(re.sub(r'[^\w\u4e00-\u9fff]+', '_', kw or 'page')[:20])
 if not items:
     sys.exit(f'这一页没解析出条目。页面头部：{texts[:8]}\n含|的节点：{[(t,x,y) for t,x,y in nodes if "|" in t][:5]}')
 items = items[:a.n]
@@ -205,6 +215,7 @@ with open(out, 'a', encoding='utf-8') as f:
         f.write(json.dumps({'city': a.city, **meta, 'keyword': kw, 'sort': sort, 'rank': i + 1, **it,
                             'unit': 'CNY', 'fetched_at': today}, ensure_ascii=False) + '\n')
 print(f'{meta["platform"]} {meta.get("location") or meta.get("pickup") or meta.get("filter")}  关键词「{kw}」 {len(items)} 条 → {os.path.relpath(out, ROOT)}')
+if SHOTS: print(f'截图 {len(SHOTS)} 张 → {os.path.relpath(os.path.dirname(SHOTS[0]), ROOT)}/（核对商品用，不进网页）')
 # 一条命令做完（用户 2026-09-16：「不能弄成一个方便我吗」）：取完就入库、重算，再告诉你还缺什么
 def after_grab():
     here = os.path.dirname(os.path.abspath(__file__)); py = sys.executable

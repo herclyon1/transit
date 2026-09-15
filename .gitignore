@@ -10,3 +10,6 @@ truth_cache/
 cost/data/raw/**/articles/
 cost/data/raw/**/.sogou.cookies
 pipeline/cost/tools/.build/
+
+# 手机取数时顺手截的核对图（每张几百 KB，不进仓库）
+cost/data/raw/*/*/shots/
