@@ -84,17 +84,21 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim" id="osakaSub">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
-    <!-- 主抽屉只放「结果」：阈值组（KIT-MAP：Lists › Grouped Table View / Mac Forms：标题行 trailing 显示阈值 + 滑块行 + 分段行）、图例。开关类选项在右上「图层」小 Sheet 里 -->
-    <div class="mcard" id="bar" style="margin-top:2px">
+    <!-- 主抽屉只放「结果」：阈值组（KIT-MAP：Lists › Grouped Table View / Mac Forms：目的地行 + 标题行 trailing 显示阈值 + 滑块行 + 分段行）、图例。开关类选项在右上「图层」小 Sheet 里 -->
+    <!-- 这页是干什么的（用户 09-16：「陌生人进来看到那么多点，这是干什么的？他要怎么用？」）：先说用法，再给控件 -->
+    <p class="mfoot" style="padding-top:2px">找住处用：选你要去的枢纽和能接受的通勤时间，地图只画满足条件的车站；点车站看到各枢纽的时间和那一档的房租。</p>
+    <div class="mcard" id="bar">
+      <div class="r"><span class="k">目的地</span><button class="pop" type="button" id="destVal" aria-label="目的地">四枢纽都看</button>
+        <select id="dest" aria-label="目的地" hidden><option value="all">四枢纽都看</option><option value="0">梅田</option><option value="1">難波</option><option value="2">天王寺</option><option value="3">京橋</option></select></div>
       <div class="r"><span class="k">到枢纽的时间</span><span class="v ink num" id="thv">25 分</span></div>
       <div class="r slider"><input type="range" id="th" min="15" max="40" step="1" value="25" aria-label="阈值"></div>
-      <div class="r"><span class="k">可达枢纽数</span><div class="seg" id="minhub" role="group" aria-label="可达枢纽数"><button type="button" data-n="1" aria-pressed="true">≥1</button><button type="button" data-n="2" aria-pressed="false">≥2</button><button type="button" data-n="3" aria-pressed="false">≥3</button><button type="button" data-n="4" aria-pressed="false">全4</button></div></div>
+      <div class="r" id="minhubRow"><span class="k">可达枢纽数</span><div class="seg" id="minhub" role="group" aria-label="可达枢纽数"><button type="button" data-n="1" aria-pressed="true">≥1</button><button type="button" data-n="2" aria-pressed="false">≥2</button><button type="button" data-n="3" aria-pressed="false">≥3</button><button type="button" data-n="4" aria-pressed="false">全4</button></div></div>
     </div>
-    <p class="mfoot"><span id="stat">载入中…</span><br>只画阈值内可达 ≥N 个枢纽的车站</p>
+    <p class="mfoot"><span id="stat">载入中…</span><span id="statNote"><br>只画阈值内可达 ≥N 个枢纽的车站</span></p>
     <p class="mfoot" id="areastat" hidden></p>
     <h2 class="mh">可达枢纽</h2>
     <div class="mlist" id="lg"></div>
-    <p class="mfoot">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
+    <p class="mfoot" id="lgFoot">色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数</p>
     <div id="tiersLg" hidden>
       <h2 class="mh">居住等级</h2>
       <div class="mlist">
@@ -116,6 +120,8 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
     <div class="body" id="cBody"></div>
   </div>
 </aside>
+<!-- 目的地的 Kit Menu（hig.css .menu；项由 <select> 的 option 生成，勾在当前值上） -->
+<div class="menu" id="destMenu" hidden role="menu" aria-label="目的地"></div>
 <!-- 「图层」小 Sheet：地图 App「地图模式」那张的形——标题居中 + 关闭 44，一张卡片放开关行 -->
 <aside class="sheet glass opt" id="optSheet" hidden aria-label="图层">
   <div class="grab" aria-hidden="true"><i></i></div>
@@ -222,11 +228,11 @@ const APP = HIGShell.create({initial:'medium', attribution:'',   // 样式自带
       return {title:s.name, sub:cardSub(s,t), html:stationCard(s,t,low,th)}; }
     showWalkOne(null);
     if(item.kind==='tier'){ const p=item.p; const sub=(p.kind==='zone'?p.parent+' · 细分块':'整市')+' · 等级 '+p.tier; return {title:p.name, sub,
-      html:`${APP.wideSplit()?'<h2 class="mh">'+sub+'</h2>':''}<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v ink"><i class="tsw" style="background:${tcol(p.tier)}"></i>${p.tier}</span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mfoot">治安×便利×环境，2026 粗略版</p>`}; }
+      html:`<div class="mcard"><div class="r"><span class="k">居住等级</span><span class="v ink"><i class="tsw" style="background:${tcol(p.tier)}"></i>${p.tier}</span></div>${p.note?`<div class="txt">${p.note}</div>`:''}</div><p class="mfoot">治安×便利×环境，2026 粗略版</p>`}; }
     return null; }});
 const map = APP.map; window.map = map;
 // 卡片开着时地图可见区：窄屏卡片占下 44%，宽屏侧栏+面板在左；flyTo 用 padding 把目标放进可见区（#36）
-function cardPad(){ return APP.wide() ? {left:(APP.wideSplit()?552:464)+40, top:40, right:40, bottom:40} : {top:40, left:20, right:20, bottom:Math.round(innerHeight*0.44)+20}; }
+function cardPad(){ return APP.wide() ? {left:(APP.wideSplit()?528:464)+40, top:40, right:40, bottom:40} : {top:40, left:20, right:20, bottom:Math.round(innerHeight*0.44)+20}; }
 const zL = () => map.getZoom()+1;              // Leaflet 口径的 zoom
 const css = c => 'rgb('+c[0]+','+c[1]+','+c[2]+')';
 const EMPTY = {type:'FeatureCollection',features:[]};
@@ -447,6 +453,15 @@ const area = {
 // 原来 BASE 11 = 初始视图（zoom 10，1 px ≈ 126 m）就画满尺寸 14 px 的点，市中心站距 400–800 m 全叠成一团；现在初始视图点是 8 px，且 zL ≤ 12 时同格只画一站
 const BASE_ZOOM = 12.5;
 function zoomScale(){ return Math.max(0.22, Math.min(1.0, Math.pow(0.72, BASE_ZOOM - zL()))); }
+// 目的地：'all' = 四枢纽同看（色 = 最快枢纽、点大小 = 可达枢纽数）；0–3 = 只看到那个枢纽的时间，色 = 时间档（≤15 / ≤25 / ≤40 分，和 cost 页的房租档同口径）
+let DEST = 'all';
+const BANDS = [[15,'#34c759','≤15 分'],[25,'#ffcc00','≤25 分'],[40,'#ff9500','≤40 分']];   // iOS 系统色 green / yellow / orange（Kit Colors）
+const bandOf = v => BANDS.find(b=>v<=b[0]) || null;
+function destHub(){ return DEST==='all' ? -1 : +DEST; }
+{ const sel=$('dest'), btn=$('destVal'), menu=$('destMenu');
+  for(const o of sel.options){ const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.dataset.value=o.value; b.setAttribute('aria-checked', o.value===sel.value?'true':'false'); b.innerHTML='<i class="sf" data-sf="checkmark"></i>'; b.appendChild(document.createTextNode(o.text)); menu.appendChild(b); }
+  HIG.menu(btn, menu, v=>{ sel.value=v; DEST=v; btn.firstChild.nodeValue=sel.options[sel.selectedIndex].text; $('minhubRow').hidden=(v!=='all');   // 单枢纽时「可达枢纽数」没意义
+    if(DATA){ buildLegend(); render(); } refreshPin(); }); }
 let MINHUBS = 1;   // 閾値内で届く枢纽数がN以上の駅だけ表示する
 document.querySelectorAll('#minhub button').forEach(b=>{ b.addEventListener('click',()=>{ MINHUBS = +b.dataset.n;
   document.querySelectorAll('#minhub button').forEach(x=>{ x.classList.toggle('on', x===b); x.setAttribute('aria-pressed', x===b?'true':'false'); });
@@ -461,10 +476,18 @@ function render(){
   const fullW = Math.max(1.1, 2.2*zs), normW = Math.max(0.5, 1.0*zs);   // 縮小時は枠線も細く
   let reach=0, all4=0, onlyLow=0, shown=0;
   const draws = [];   // {s,cls,rank,r,props}
+  const dh = destHub(); const bandCnt=[0,0,0];
   for(const s of DATA.stations){
     const t = low ? s.t_low : s.t_default;
-    const set = HUBS.filter((h,i)=> t[i]!==null && t[i]<=th);
     const inOsaka = s.in_osaka;
+    if(dh>=0){   // 单枢纽：只看 t[dh]，色 = 时间档
+      const v = t[dh]; const bd = (v!==null && v<=th) ? bandOf(v) : null;
+      if(!bd){ if(!inOsaka) continue; const rr = Math.max(1.4, 2.2*zs); draws.push({s,cls:'dim',rank:0,r:rr,props:{r:rr,fill:dim,fo:0.85,ring:dimbd,w:Math.max(0.4,0.8*zs),so:1}}); continue; }
+      reach++; shown++; bandCnt[BANDS.indexOf(bd)]++;
+      const r = Math.max(2.0, 4.6*zs), tiersOn=$('tiersOn').checked;
+      draws.push({s,cls:'reach',rank:10000-v,r,props: tiersOn ? {r, fill:'#fff', fo:inOsaka?0.95:0.6, ring:bd[1], w:Math.max(1.2,2.2*zs), so:inOsaka?1:0.7} : {r, fill:bd[1], fo:inOsaka?1:0.6, ring, w:normW, so:1}});
+      continue; }
+    const set = HUBS.filter((h,i)=> t[i]!==null && t[i]<=th);
     if(set.length===0){
       if(!inOsaka || MINHUBS>1) continue;
       const noService = s.t_default.every(x=>x===null), lowOk = s.t_low.some(x=>x!==null);
@@ -499,7 +522,9 @@ function render(){
   BYID = {}; for(const s of DATA.stations) BYID[s.station_id]=s;
   const src = map.getSource('stations');
   if(src) src.setData({type:'FeatureCollection',features:out.map(d=>({type:'Feature',properties:Object.assign({id:d.s.station_id, hr:Math.max(9, d.r+5)},d.props),geometry:{type:'Point',coordinates:[d.s.lon,d.s.lat]}}))});
-  $('stat').innerHTML = `阈值内可达 <b>${reach}</b> 站 · 四枢纽全覆盖 <b>${all4}</b> 站` + (MINHUBS>1 ? `<br>筛选 ≥${MINHUBS} 枢纽: 显示 ${shown} 站` : '') + (onlyLow ? `<br>仅低频线可达 ${onlyLow} 站` : '');
+  $('statNote').hidden = dh>=0;
+  $('stat').innerHTML = dh>=0 ? `到${HUBS[dh]} ${th} 分内可达 <b>${reach}</b> 站：` + BANDS.map((b,i)=>`${b[2]} ${bandCnt[i]}`).filter((x,i)=>BANDS[i][0]<=th||bandCnt[i]).join(' · ')
+    : `阈值内可达 <b>${reach}</b> 站 · 四枢纽全覆盖 <b>${all4}</b> 站` + (MINHUBS>1 ? `<br>筛选 ≥${MINHUBS} 枢纽: 显示 ${shown} 站` : '') + (onlyLow ? `<br>仅低频线可达 ${onlyLow} 站` : '');
 }
 
 // ---- popup（HIG popover 的样子，样式在 .maplibregl-popup-content）；空白タップで閉じる（長押し直後の合成 click は無視）
@@ -514,13 +539,20 @@ map.on('click', e=>{ if(Date.now() - lastLongPress > 700 && POP && !map.queryRen
 function cardSub(s,t){ const mn=Math.min(...t.filter(v=>v!==null).concat([Infinity])); return [(s.ops||[]).join('/'), s.in_osaka?'':'府外', isFinite(mn)?'最短 '+mn.toFixed(1)+' 分':'四枢纽都不可达'].filter(Boolean).join(' · '); }
 function stationCard(s,t,low,th){
   let h='<div class="mcard">';
-  if(APP.wideSplit()) h='<h2 class="mh">'+cardSub(s,t)+'</h2>'+h;   // Mac：Kit 面板标题栏只放站名（hig.css 11b），线路/最短挪到正文段头
   h+=(WALK&&WALK[s.station_id]) ? '<div class="r"><span class="k">步行范围<div class="hint">蓝色圈 = 步行 5/10/15/20 分，按真实路网</div></span></div>'
     : '<div class="r"><span class="k">步行范围</span><span class="v none">'+(walkFailed?'路网没载入':'载入中…')+'</span></div>';
   HUBS.forEach((hub,i)=>{ const v=t[i], inTh=v!==null && v<=th; let mark='';
     if(low && s.via[i] && (s.t_default[i]===null || s.t_low[i] < s.t_default[i]-0.01)) mark=' ⚡'+(s.fare[i]?'💴':'')+' 経由 '+s.via[i];
     h+=`<div class="r"><span class="k"><i class="tsw" style="background:${css(HUE[hub])}"></i>${hub}<div class="hint">${s.prov[i]?PROV_LABEL[s.prov[i]]:'—'}${mark}</div></span><span class="v ${inTh?'':'dimv'}">${v===null?'不可达':v.toFixed(1)+' 分'}</span></div>`; });
   h+='</div>';
+  // 房租档（用户 09-16「他要怎么用」）：这站到目的地（单枢纽）或最快枢纽的时间落在哪一档，就给那一档的单间月租（cost/data/cities/osaka.json tiers，Suumo 样本），点开去「薪资 · 购买力」
+  { const dh=destHub(); const v = dh>=0 ? t[dh] : Math.min(...t.filter(x=>x!==null).concat([Infinity])); const bd = (v!==null && isFinite(v)) ? bandOf(v) : null; const tier = bd && COST && (COST.tiers||[]).find(x=>x.label.startsWith(String(bd[0])));
+    h+='<h2 class="mh">房租档</h2><div class="mcard">';
+    if(COST===undefined) h+='<div class="r"><span class="k">单间月租</span><span class="v none">载入中…</span></div>';
+    else if(!bd) h+='<div class="r"><span class="k">单间月租<div class="hint">到'+(dh>=0?HUBS[dh]:'最近枢纽')+'超过 40 分，没有对应档</div></span><span class="v none">—</span></div>';
+    else if(!tier||!tier.rent_1k) h+='<div class="r"><span class="k">单间月租<div class="hint">'+bd[2]+'档还没查</div></span><span class="v none">待调查</span></div>';
+    else h+='<a class="r" href="../cost/index.html" title="打开薪资 · 购买力"><span class="k">单间月租<div class="hint">到'+(dh>=0?HUBS[dh]:'最近枢纽')+' '+v.toFixed(0)+' 分 → '+tier.label+' · '+(tier.rent_1k.n?tier.rent_1k.n+' 套样本':'')+'</div></span><span class="v">'+tier.rent_1k.value.toLocaleString('ja-JP')+' 円/月</span><i class="sf" data-sf="chevron.right" style="width:.7em;height:.7em;color:var(--ink-3)"></i></a>';
+    h+='</div>'; }
   if(s.t_default.every(x=>x===null) && s.t_low.some(x=>x!==null)) h+='<p class="mfoot">这站白天没有每小时 3 班以上的线路：默认视图里算不可达，打开「⚡ 低频线」才算得到。</p>';
   h+='<p class="mfoot">实测 = 官方时刻表逐区间时分；锚定 = 该线该等级有实测反解速度；借用 = 该线没有实测，速度按同等级线路的中位数借用，误差比实测和锚定大</p>';
   return h;
@@ -530,12 +562,19 @@ function buildLegend(){
   const lg=$('lg'); lg.innerHTML='';
   const add=(sw,txt,muted)=>{ const r=document.createElement('div'); r.className='mrow no-press';   // 图例不是按钮（#38）
     r.innerHTML='<span class="ico" style="'+sw+'"></span><span class="lab"><div class="name"'+(muted?' style="color:'+cssvar('--sub')+'"':'')+'>'+txt+'</div></span>'; lg.appendChild(r); };
-  HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
-  add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '白圈粗 = 四枢纽全覆盖');   // 「点越大 = 可达枢纽越多」段脚已写，不再占一行（Mac 侧栏 180 宽放不下长句）
+  const dh=destHub();
+  if(dh>=0){ const th=+$('th').value; /* 只列阈值以内的档，最后一档标到阈值 */ BANDS.filter((b,i)=>i===0||BANDS[i-1][0]<th).forEach(b=>add('background:'+b[1], '到'+HUBS[dh]+' '+(b[0]<=th?b[2]:'≤'+th+' 分')));
+    $('lgFoot').textContent='色 = 到'+HUBS[dh]+'的时间档，和「薪资 · 购买力」的房租档同口径'; }
+  else { HUBS.forEach(h=>add('background:'+css(HUE[h]), h+' 最快'));
+    add('background:'+css(HUE['難波'])+';border:2.5px solid '+cssvar('--ring'), '白圈粗 = 四枢纽全覆盖');   // 「点越大 = 可达枢纽越多」段脚已写，不再占一行（Mac 侧栏 180 宽放不下长句）
+    $('lgFoot').textContent='色 = 最快到达的枢纽 · 点大小 = 阈值内可达的枢纽数'; }
   add('background:'+cssvar('--dim')+';border-color:'+cssvar('--dimbd'), '阈值内不可达', 1);
   add('background:'+cssvar('--dim')+';opacity:.6;border:2px solid '+cssvar('--acc'), '仅低频线可达 ⚡', 1);   // 和地图上的画法一致：GL 画不了虚线圆（#33）
 }
 
+// 房租档数据 = 薪资 · 购买力 的大阪文件（同一份 Suumo 样本）；取到后如果卡片开着就刷一次
+let COST;
+fetch('../cost/data/cities/osaka.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{ COST=d; if(APP.open&&APP.open.kind==='station') APP.present(APP.open); }).catch(e=>{ console.warn('cost osaka.json',e); COST=null; if(APP.open&&APP.open.kind==='station') APP.present(APP.open); });
 const loadFail=(what,e)=>{ console.warn(what,e); $('note').innerHTML='<b>'+what+'没加载出来</b>（'+(e&&e.message||e)+'）。检查网络后下拉刷新。'; $('stat').textContent='数据没加载出来'; };
 fetch('data/reach.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{
   DATA=d; if(WALK && !WALK_K) prepWalkK(); buildLegend();
@@ -620,7 +659,7 @@ function applyTheme(){
 applyTheme();
 if(matchMedia('(pointer: fine)').matches) $('osakaSub').textContent='点车站看时间 · 右键查地点';   // Mac 侧栏 200 宽：副题 11 号一行放 ~14 字（按住 0.6 秒也行，标题栏里写不下）
 function redrawAll(){ if(!DATA) return; render(); if(area.on) area.draw(); if(APP.open) APP.present(APP.open); refreshPin(); }
-$('th').addEventListener('input',()=>{ $('thv').textContent = $('th').value+' 分'; redrawAll(); });
+$('th').addEventListener('input',()=>{ $('thv').textContent = $('th').value+' 分'; if(destHub()>=0&&DATA) buildLegend(); redrawAll(); });   // 单枢纽时图例的档随阈值
 $('wk').addEventListener('input',()=>{ $('wkv').textContent = $('wk').value+' 分'; if(area.on) area.draw(); });
 $('lowfreq').addEventListener('change',redrawAll);
 $('areaOn').addEventListener('change',e=>{

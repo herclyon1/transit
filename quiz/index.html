@@ -133,6 +133,7 @@ SVGSVGElement width/height.baseVal与window.fetch，压缩setTimeout）通过后
   #info .n{font-size:1em;font-weight:600}
   #info .c{color:var(--tint);margin-top:2px;font-size:.8824em}
   #info .r{color:var(--ink-2);margin-top:2px;font-size:.8824em}
+  #info .btn{margin-top:8px;display:inline-flex}   /* 特写钮 = Kit Buttons › Small 28（Mac Regular 24，hig.css） */
   #info .x{position:absolute;top:8px;right:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink-2);cursor:pointer;border-radius:50%;background:var(--fill)}
   /* 图例 = 第二张 Sheet（KIT-MAP：iOS 第二张 .sheet.opt 小档，抓手 + 头 + 关闭；Mac = hig.css 11b 的 Popover r20，从工具条「图例」钮下弹出）。
      控件样式全在 hig.css（.sheet.opt / .r / .sw / .r.disc / .mfoot / .btn.s）；这里只有布局：跳转钮一排、国家勾选网格。 */
@@ -1280,10 +1281,18 @@ function showHistInfo(f, kind){
     $("info").innerHTML = `<div class="n">${p.n}</div><div class="c">${DAI_CATS[p.cat]}</div>`
       + (p.now ? `<div class="r">今：${p.now}</div>` : "");
   }else{
-    $("info").innerHTML = `<div class="n">${p.n}</div><div class="r">${p.grp === "JPN" ? "日本" : (ADM0_ZH[p.grp] || p.grp)}</div>`;
+    // 特写（用户 09-16：「只显示某一个国家，或者只显示某几个国家」）：地点卡上一颗 Kit 按钮，只看这一国 / 恢复全部；几国用图例里的开关列表（二级页）
+    const code = p.grp, isolated = code && code !== "JPN" && kyoIsolated() === code;
+    $("info").innerHTML = `<div class="n">${p.n}</div><div class="r">${code === "JPN" ? "日本" : (ADM0_ZH[code] || code)}</div>`
+      + (code && code !== "JPN" ? `<button type="button" class="btn s ${isolated ? "plain" : "tint"}" id="isoBtn" data-code="${code}">${isolated ? "恢复全部" : "只看此国"}</button>` : "");
+    const ib = $("isoBtn"); if(ib) ib.onclick = () => { if(kyoIsolated() === ib.dataset.code) kyoIsolate(null); else { kyoIsolate(ib.dataset.code); zoomToCountry(ib.dataset.code); } showHistInfo(f, kind); };
   }
   $("info").style.display = "block";
 }
+// 特写状态：只剩一个国家可见就返回它的代码，否则 null；kyoIsolate(code) 把别国全藏起来（日本锁定），null = 全部恢复；面板重建让开关跟上
+function kyoCodes(){ return [...new Set(((kyoFeats && kyoFeats.units) || []).map(f => f.properties.grp).filter(g => g && g !== "JPN"))]; }
+function kyoIsolated(){ const cs = kyoCodes(); const on = cs.filter(c => !kyoHidden[c]); return on.length === 1 && cs.length > 1 ? on[0] : null; }
+function kyoIsolate(code){ for(const c of kyoCodes()) kyoHidden[c] = code ? c !== code : false; const r = drawHist("kyoeiken"); histMarkers("kyoeiken", r.shown); histLblFeats = r.shown; updateLabels(); buildHistPanel("kyoeiken", r.feats); }
 function drawHist(kind){
   const isDai = kind === "dainippon";
   if(isDai){
@@ -1309,6 +1318,19 @@ function drawHist(kind){
   eaSetup();
   eaDraw();
   return {feats: kyoFeats.units, shown};
+}
+// 特写一国：把这一国所有单元的边框并起来再缩放（zoomToHistFeat 只对一个单元）
+function zoomToCountry(code){
+  const us = ((kyoFeats && kyoFeats.units) || []).filter(u => u.properties.grp === code); if(!us.length) return;
+  us.forEach(eaUnitGeom); const bs = us.map(u => path.bounds(u)).filter(b => isFinite(b[0][0]));
+  const b = [[Math.min(...bs.map(x=>x[0][0])), Math.min(...bs.map(x=>x[0][1]))], [Math.max(...bs.map(x=>x[1][0])), Math.max(...bs.map(x=>x[1][1]))]];
+  zoomToBounds(b);
+}
+function zoomToBounds(b){
+  const w = $("stage").clientWidth, h = $("stage").clientHeight;
+  const k = Math.min(60, Math.max(1, .35/Math.max((b[1][0]-b[0][0])/w, (b[1][1]-b[0][1])/h)));
+  const t = d3.zoomIdentity.translate(w/2 - k*(b[0][0]+b[1][0])/2, h/2 - k*(b[0][1]+b[1][1])/2).scale(k);
+  svg.transition().duration(600).call(zoom.transform, t);
 }
 function zoomToHistFeat(f){
   if(mode==="kyoeiken") eaUnitGeom(f);
