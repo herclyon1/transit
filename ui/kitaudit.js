@@ -23,6 +23,7 @@
   // ---------- 规则表：先匹配的先算；sel 命中 → check 给出问题列表（空 = ✅）。ref = Kit 出处（NUMBERS.md 的行）。 ----------
   // want 写成人话，报告里直接给用户看。
   const RULES=[];
+  const clipped=el=>{ const inner=[...el.querySelectorAll('span,div')].concat([el]); return inner.some(x=>x.scrollWidth>x.clientWidth+1)?['文字被裁（'+(el.innerText||'').trim().slice(0,8)+'…）']:[]; };   // 等宽段里长标签被 overflow 切掉也算没做完
   const rule=(o)=>RULES.push(o);
   // — Sheet / 侧栏 —
   rule({name:'Sheet（中/大档）', ref:'iOS 27 Kit › Sheets › iPhone：左右内缩 8、四角 34；大档满宽上角 38', plat:'ios', sel:'.sheet:not(.opt)', leaf:false,
@@ -59,7 +60,7 @@
     check:el=>{ const r=rect(el); const b=el.querySelector('button'); const p=[]; if(!near(r.height,36)) p.push(`高 ${num(r.height)}≠36`); if(b&&!near(rect(b).height,28)) p.push(`段 ${num(rect(b).height)}≠28`); return p; }});
   rule({name:'行内分段 Small 32（段 28）', ref:'iOS 27 Kit › Segmented Controls › Small', plat:'ios', sel:'.seg', leaf:false, check:el=>{ const r=rect(el); return near(r.height,32)?[]:[`高 ${num(r.height)}≠32`]; }});
   rule({name:'行内分段 Regular 24 r6', ref:'macOS 27 Kit › Segmented Controls › Regular', plat:'mac', sel:'.seg', leaf:false, check:el=>{ const r=rect(el); return near(r.height,24)&&near(R(el),6)?[]:[`${num(r.height)} r${num(R(el))}≠24 r6`]; }});
-  rule({name:'分段里的段', ref:'随分段控件', plat:'both', sel:'.seg button', check:()=>[]});
+  rule({name:'分段里的段', ref:'随分段控件', plat:'both', sel:'.seg button', check:el=>clipped(el)});
   rule({name:'列表行里的图标 / 右侧值（随行：Kit 行图标 24 / iOS 34 圆）', ref:'随列表行（清单 A9/B1）', plat:'both', sel:'.mrow .ico, .mrow .val, .mrow .flag, .ico', check:()=>[]});
   rule({name:'菜单（Menus：r12、行 24、Medium 13）', ref:'macOS 27 Kit › Menus', plat:'mac', sel:'.menu, [role=menu]', leaf:false, check:el=>{ const p=[]; if(!near(R(el),12)) p.push(`圆角 ${num(R(el))}≠12`); const it=el.querySelector('button,[role^=menuitem]'); if(it&&!near(rect(it).height,24)) p.push(`行 ${num(rect(it).height)}≠24`); return p; }});
   rule({name:'菜单（UIMenu：248 宽、r26、行 42）', ref:'NUMBERS：Safari 长按菜单实测（Kit 无 iPhone 菜单尺寸）', plat:'ios', sel:'.menu, [role=menu]', leaf:false, declared:'A3', check:el=>{ const it=el.querySelector('button,[role^=menuitem]'); return it&&!near(rect(it).height,42)?[`行 ${num(rect(it).height)}≠42`]:[]; }});
@@ -79,7 +80,7 @@
   rule({name:'次级折叠 details/summary（HIG Disclosure；Mac Disclosure 24 r6）', ref:'清单 A15', plat:'both', sel:'details, summary', declared:'A15', check:()=>[]});
   rule({name:'四档表（Kit 无表格 → HIG Tables，字号 13）', ref:'清单 A16', plat:'both', sel:'table', leaf:false, declared:'A16', check:el=>{ const f=font(el); return near(f.size,13,.6)||near(f.size,MAC?13:13,.6)?[]:[`字号 ${num(f.size)}≠13`]; }});
   // — 按钮 —
-  rule({name:'动作行按钮（清单 A12：等宽 50 高 / Mac 分段 24）', ref:'清单 A12', plat:'both', sel:'.actions .btn', declared:'A12', check:el=>{ const h=rect(el).height; return MAC?(near(h,24)?[]:[`高 ${num(h)}≠24`]):(near(h,50)?[]:[`高 ${num(h)}≠50`]); }});
+  rule({name:'动作行按钮（清单 A12：等宽 50 高 / Mac 分段 24）', ref:'清单 A12', plat:'both', sel:'.actions .btn', declared:'A12', check:el=>{ const h=rect(el).height; const p=MAC?(near(h,24)?[]:[`高 ${num(h)}≠24`]):(near(h,50)?[]:[`高 ${num(h)}≠50`]); return p.concat(clipped(el)); }});
   rule({name:'文字按钮 Small 28 / Medium 34 / Large 50（提示框里 48）', ref:'iOS 27 Kit › Buttons', plat:'ios', sel:'.btn', check:el=>{ const r=rect(el); return anyOf(r.height,[28,34,48,50])&&isCapsule(el,r)?[]:[`高 ${num(r.height)}∉{28,34,50} 或不是胶囊`]; }});
   rule({name:'按钮 Regular 24 r6 / Large 28 胶囊 / XL 36 胶囊', ref:'macOS 27 Kit › Push buttons', plat:'mac', sel:'.btn', check:el=>{ const r=rect(el); if(near(r.height,24)) return near(R(el),6)?[]:[`24 高但圆角 ${num(R(el))}≠6`]; return anyOf(r.height,[28,36])&&isCapsule(el,r)?[]:[`高 ${num(r.height)}∉{24,28,36}`]; }});
   rule({name:'筛选胶囊 .chips（Kit Button S 28；现按地图 App 实测 32）', ref:'清单 A20', plat:'both', sel:'.chips button', declared:'A20', check:el=>{ const h=rect(el).height; return MAC?(near(h,28)?[]:[`高 ${num(h)}≠28`]):(anyOf(h,[28,32])?[]:[`高 ${num(h)}∉{28,32}`]); }});
