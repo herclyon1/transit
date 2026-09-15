@@ -288,15 +288,18 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet.split #card .head .tt .t-sub{display:none}
   /* 关闭钮 = Kit Utility Panel › Stoplights 44×10：三个 10 圆 @0/17/34，关 #ff5c60、最小化 #fac800、缩放 #35c759；网页只有「关」可用，另外两个按 Kit 不可用态灰 15%；悬停红点显示 ×（Kit 悬停带符号）。
      所有面板/侧栏头的关闭钮（.btn-glass.fill：cost 地点面板、大阪图层弹出窗、学習/クイズ 详情卡）同一套；点击区 44×24 */
-  .sheet .head:has(.btn-glass.fill){flex-direction:row-reverse}
-  .sheet .head .slot:has(.btn-glass.fill){width:52px;height:24px;justify-content:flex-start}
-  .sheet .head .btn-glass.fill{width:44px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
-  .sheet .head .btn-glass.fill .sf{display:none}
-  .sheet .head .btn-glass.fill::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
+  .sheet.split #card .head:has(.btn-glass.fill){flex-direction:row-reverse}
+  .sheet.split #card .head .slot:has(.btn-glass.fill){width:52px;height:24px;justify-content:flex-start}
+  .sheet.split #card .head .btn-glass.fill{width:44px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
+  .sheet.split #card .head .btn-glass.fill .sf{display:none}
+  /* 红绿灯只属于窗口和 Utility Panel（Kit Titlebars › Window Controls / Utility Panel › Stoplights）；侧栏内的「关闭详情」和 Popover 的关闭不是窗口控件，用 Kit 工具条玻璃钮 Medium 24（内符号 20） */
+  .sheet:not(.split) .head .btn-glass.fill,.sheet.opt .head .btn-glass.fill{width:24px;height:24px;min-width:0;padding:0;border-radius:12px;background:rgba(0,0,0,.06);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .sheet:not(.split) .head .btn-glass.fill .sf,.sheet.opt .head .btn-glass.fill .sf{width:12px;height:12px;display:block}
+  .sheet.split #card .head .btn-glass.fill::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
      font:700 9px/10px -apple-system,sans-serif;color:rgba(0,0,0,.6);text-align:center}
-  .sheet .head .btn-glass.fill::after{content:"";position:absolute;left:17px;top:7px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:17px 0 0 rgba(0,0,0,.15)}
-  .sheet .head .btn-glass.fill:hover::before{content:"×"}
-  .sheet .head .btn-glass.fill:active::before{background:#e0443e}
+  .sheet.split #card .head .btn-glass.fill::after{content:"";position:absolute;left:17px;top:7px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:17px 0 0 rgba(0,0,0,.15)}
+  .sheet.split #card .head .btn-glass.fill:hover::before{content:"×"}
+  .sheet.split #card .head .btn-glass.fill:active::before{background:#e0443e}
   .sheet.split #card .body{padding-top:0}
   /* 动作行：iOS 的胶囊按钮在 Mac 换成 Kit Segmented Controls › Regular 24 r6（轨道黑 8%，段 Medium 13，无内边），只放做了的功能 */
   .sheet.split #card .actions{gap:0;margin:8px 14px 0;padding:0;border-radius:6px;background:rgba(0,0,0,.08)}
@@ -522,7 +525,9 @@ html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;ma
 .mcard .r{position:relative;display:flex;align-items:center;gap:12px;min-height:52px;padding:15px 16px;color:inherit;text-decoration:none;background:none;border:0;width:100%;font:inherit;text-align:left}
 .mcard .r + .r::before,.mcard .src + .r::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
 .mcard .r .k{flex:1 1 auto;min-width:0}
-.mcard .r .k .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);font-weight:400}   /* Large 68：Subtitle Regular 15/18 @36 */
+.mcard .r .k .hint{font-size:.8824em;line-height:1.2em;color:var(--ink-2);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* Large 68：Subtitle Regular 15/18 @36，一行，放不下省略（多行就不是 Kit 行了） */
+.mcard .r .k{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* 标题一行省略；.hint 自己是块，各自省略 */
+.mcard .r > .sf{flex:none;width:.75em;height:.75em;color:var(--ink-3)}   /* trailing Symbol 配件（􀰑 等）独立一格，不跟在文字后面 */
 .mcard .r:has(.hint){min-height:68px;padding:14px 16px}
 .mcard .r:has(.sw){padding-top:12px;padding-bottom:12px}   /* Accessories - Trailing › Toggle：28 高在 52 行里上下 12 */
 .mcard .r:has(.seg){padding-top:10px;padding-bottom:10px}   /* Small 分段 32 在 52 行里上下 10 */

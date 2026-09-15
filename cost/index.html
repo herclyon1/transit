@@ -9,6 +9,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f2f2f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
 <title>薪资 · 购买力</title>
+<meta name="description" content="时薪、房租、通勤、生活费，换算成每月要打的工时。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%2334c759'/><text x='32' y='44' font-size='36' font-weight='700' text-anchor='middle' fill='%23fff' font-family='-apple-system,sans-serif'>¥</text></svg>">
 <link href="../vendor/maplibre-gl.css" rel="stylesheet">
 <link rel="stylesheet" href="../ui/hig.css">
@@ -69,15 +70,12 @@
 <aside class="sheet glass split" id="sheet" aria-label="城市">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div id="list">
+    <!-- 页头 = Kit Top - Sheet 两行标题（iOS Semibold 15 + Medium 12）/ Mac 窗口标题 Bold 15 + Medium 11；说明句只留在 <title>/<meta>，「数据规范 ›」进段脚（用户 09-16 问题一，和 money 会话商定） -->
+    <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">薪资 · 购买力</div><div class="t-sub dim" id="listSub">城市</div></div><span class="slot"></span></div>
     <div class="body">
-      <!-- 页头 = Kit Lists › Header（标题 + trailing Action「数据规范」）+ Footer（一句说明）；KIT-MAP：建议卡 .sugg 改成这个。
-           KIT-MAP 写的是 .mh.prominent；ui/kitaudit.js 的 .mh 规则和 ui/accept.js「侧栏段头 Bold 11」（取 sheet 里第一个 .mh）都还不认 Prominent（Mac Bold 13 / iOS Semibold 20），
-           两处规则补上后把这里的 class 改回 "mh prominent" 即可（2026-09-16 验证：除这一条外全绿）。 -->
-      <h2 class="mh prominent" id="intro">薪资 · 购买力<button class="act" type="button" id="introMore">数据规范</button></h2>
-      <p class="mfoot">时薪、房租、通勤、生活费，换算成每月要打的工时。</p>
       <h2 class="mh">城市</h2>
       <div class="mlist" id="cityRows"></div>
-      <p class="mfoot">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span></p>
+      <p class="mfoot">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪的中位数（有月薪岗用月薪岗，没有用时薪岗）　<span id="curDate"></span>　<a href="https://github.com/herclyon1/transit/blob/main/cost/data/README.md" target="_blank" rel="noopener">数据规范 ›</a></p>
       <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
       <h2 class="mh" id="draftHead" hidden>待调查</h2>
       <div class="mlist dimlist" id="draftRows" hidden></div>
@@ -145,7 +143,7 @@ function addCities(map){
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
 const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'🇻🇳',MMR:'🇲🇲',DEU:'🇩🇪',USA:'🇺🇸',AUS:'🇦🇺'};
 // 页头的 trailing Action「数据规范」（Header › Prominent 只有这一个动作位；原建议卡的 × 随卡片一起去掉）
-$('introMore').addEventListener('click',()=>{ window.open('https://github.com/herclyon1/transit/blob/main/cost/data/README.md','_blank','noopener'); });   // Pages 不渲染 .md，去 GitHub 看渲染过的（#16）
+/* 「数据规范」现在是段脚里的链接（Kit Footer），不再有单独按钮 */   // Pages 不渲染 .md，去 GitHub 看渲染过的（#16）
 // 国旗 = emoji 圆标（用户 09-15 定，和最初一样）。🇹🇼 在模拟器上画成方框是「地区 = 中国大陆」的系统行为，不是 emoji 的锅（maa 实测：地区改日本、语言仍简中，六面旗都正常）
 const flagIco=c=>`<span class="ico">${FLAG[c.country]||'🏙'}</span>`;
 function cityRows(){
@@ -161,6 +159,7 @@ function cityRows(){
   $('cityRows').innerHTML=(LOADERR?`<div class="empty">${LOADERR}</div>`:'')+ready.map(row).join('');
   $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}">${flagIco(c)}<span class="lab"><div class="name dim">${c.name.zh} <span class="en" style="font-weight:400">${c.name.en}</span></div><div class="hint"><span class="en-hint">${c.name.en} · </span>${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
   $('draftHead').hidden=$('draftRows').hidden=!draft.length;
+  const ls=$('listSub'); if(ls) ls.textContent=`${ready.length} 座城市有数据`+(draft.length?` · ${draft.length} 座待调查`:'');   // Sheet 头第二行放状态，不放说明句
   HIG.sf();
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
 }
