@@ -129,6 +129,8 @@
   },
   {
    "chain": "保安：保安员",
+   "tags": [],
+   "headline": true,
    "store": "地点 海虹国际物流园附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "security",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-edFtxwY9g8WTEYZJ*uF*KrYSvyhAU*6Nyhc7GfClNcStcDR-QbiO9*NOBf8rPtmMrsyBq4E1jwdAIEPLe19HXyc&new=1|3800.0",
@@ -154,6 +156,10 @@
   },
   {
    "chain": "保安：消防",
+   "tags": [
+    "24h"
+   ],
+   "headline": false,
    "store": "地点 乌市红光山附近（微信公众号招工帖（搜狗微信搜索），牧间日常）",
    "basket": "security",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448636&ver=6967&signature=iwlAE4lGBYfZ21b0SBAtpIMWZJbaEIC9exm8WwKnvtP5docvxBOMyYwgCYP9P5G4lwg9Arpie3RJTyeWF1*FSKm*wWrD7*3bhDGgTEM5ZYf3i9lTUCYPcxUb94ArYA3E&new=1|4600.0",
@@ -179,6 +185,8 @@
   },
   {
    "chain": "保安：保安",
+   "tags": [],
+   "headline": true,
    "store": "乌市78小（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "security",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efJbUJ40556FxOf1CnoN4mdJuhsm0QOznungZ8KAS0wS8scd0lWP-egdTl4RUzPXA3qWWy*oiZ3u2VrF-yduBXi&new=1|3700.0",
@@ -203,7 +211,9 @@
    }
   },
   {
-   "chain": "保洁/家政：保洁员",
+   "chain": "保洁：保洁员",
+   "tags": [],
+   "headline": true,
    "store": "圆通总部（微信公众号招工帖（搜狗微信搜索），东苑零距离）",
    "basket": "cleaning",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448723&ver=6967&signature=vedsFMEEj312FzGKL6c*1SQuFF0WfOo4OpWpV3Cux8eRXiWmGzahL-8oAniWC2a74D5*iUv8eZ3j0ZUBZB4zfrHYm8-nIEEnitAvSdDio4s9Lqmsa3x7bvxltASmqmg1&new=1|3200.0",
@@ -228,32 +238,9 @@
    }
   },
   {
-   "chain": "便利店/超市理货收银：理货",
-   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
-   "basket": "retail",
-   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
-   "wage": {
-    "value": 18.0,
-    "unit": "元/小时",
-    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
-    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
-    "fetched_at": "2026-09-15",
-    "posted_at": "2026-09-07",
-    "confidence": "listing",
-    "contact": "157****7073",
-    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  157****7073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
-    "wage_posted": "180 元/天",
-    "hours": {
-     "posted": "10:00-20:00",
-     "per_day": 10.0,
-     "days_per_month": null,
-     "monthly": null,
-     "basis": "posted"
-    }
-   }
-  },
-  {
    "chain": "外卖/快递/仓储：分拣",
+   "tags": [],
+   "headline": true,
    "store": "地点 头屯河区规划二路附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
    "basket": "delivery",
    "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448785&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-effwz2Md-tQOz-ruipsxp1qgys95uouI2qWGtdb8nuh2pplMFdyrhzweNc95snvKbLZYRZY4fAG8XOpTzPvKTKe&new=1|160.0",
@@ -279,6 +266,8 @@
   },
   {
    "chain": "外卖/快递/仓储：兼职快递",
+   "tags": [],
+   "headline": true,
    "store": "新疆寇伯爱神国际贸易有限公司（中国新疆人才网，新疆人才网）",
    "basket": "delivery",
    "ingest_key": "xjhr|https://www.xjhr.com/zhaopin/job_8413081.html|100.0",
@@ -296,6 +285,62 @@
     "hours": {
      "posted": "下午3点30—9点30",
      "per_day": 6.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "外卖/快递/仓储：理货",
+   "tags": [],
+   "headline": true,
+   "store": "地点 头区建材市场（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "delivery",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1|180.0",
+   "wage": {
+    "value": 18.0,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448815&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-efkD83hY7fm6kjXHWm0OmZ0BLSRYSz5Dy55OLnTT7uAbRqP7HMByM0QAe6OSIReX7AJwxTn57q4aWRNGjMqN2zU&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月08日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-07",
+    "confidence": "listing",
+    "contact": "157****7073",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 建材库房理货兼职 / 时间：10:00-20:00 / 薪资：180元/天，日结优先 / 工作内容：建材点数、货品归类、库房整理盘点 / 地点：头区建材市场 / 要求：做事认真，能吃苦耐劳 / 长期短期都接收，入职快，明天即可到岗！ / 报名加微信  157****7073（加微信电话拒接）”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "180 元/天",
+    "hours": {
+     "posted": "10:00-20:00",
+     "per_day": 10.0,
+     "days_per_month": null,
+     "monthly": null,
+     "basis": "posted"
+    }
+   }
+  },
+  {
+   "chain": "餐饮服务员/后厨：服务生",
+   "tags": [
+    "temp"
+   ],
+   "headline": false,
+   "store": "地点 新市区小西沟附近（微信公众号招工帖（搜狗微信搜索），乌鲁木齐优汇）",
+   "basket": "food",
+   "ingest_key": "weixin_sogou|https://mp.weixin.qq.com/s?src=11&timestamp=1789448736&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-ecDfCN1Jy-ceaeZE18Trbv0qLIS2I4-Dhuu7zBLZMnvlAfI*cyvM7gHI56vr8LIhrMgBnG*xTH2dr09NtDHwNAU&new=1|15.0",
+   "wage": {
+    "value": 15.0,
+    "unit": "元/小时",
+    "source_url": "https://mp.weixin.qq.com/s?src=11&timestamp=1789448736&ver=6967&signature=QN9vcQO5RPDa4DORMoN6fjFWar2JFSGrK5OeiBcw-ecDfCN1Jy-ceaeZE18Trbv0qLIS2I4-Dhuu7zBLZMnvlAfI*cyvM7gHI56vr8LIhrMgBnG*xTH2dr09NtDHwNAU&new=1",
+    "source_name": "微信公众号招工帖（搜狗微信搜索）｜乌鲁木齐优汇｜乌鲁木齐兼职 |09月12日乌鲁木齐兼职乌鲁木齐招聘信息",
+    "fetched_at": "2026-09-15",
+    "posted_at": "2026-09-11",
+    "confidence": "listing",
+    "contact": "135****1037",
+    "note": "帖子原文：“乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐兼职 / 今天下午需要服务生兼职 需15女 15一小时 / 北京时间：6点到晚上1点左右结束 / 新市区小西沟附近  /   须要干过服务员  日结工资    不要穿凉鞋短裤   需要满17岁-35岁 / 黑鞋子黑裤子 能来联系加微信 报名 / 135****1037 加微信 / 乌鲁木齐优汇推荐，不备注可能不通过 / 乌鲁木齐全职”。帖子没写公司名，只写地点和直拨电话（群帖惯例）。",
+    "wage_posted": "15 元/小时",
+    "hours": {
+     "posted": "6点到晚上1点",
+     "per_day": 7.0,
      "days_per_month": null,
      "monthly": null,
      "basis": "posted"
@@ -743,8 +788,8 @@
   "raw_rows": 13,
   "unique": 10,
   "dup_manual": 2,
-  "temp_skipped": 1,
-  "picked": 7,
-  "rule": "PLAN-v2 §一：确数工资 + 帖子写明工时/班次 + 电话/微信（站内投递站可用帖子链接）+ ≤180 天；临时单不计；每篮子取时薪最低 5 条"
+  "side": 1,
+  "picked": 8,
+  "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"
  }
 }

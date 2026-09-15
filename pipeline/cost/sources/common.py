@@ -10,9 +10,9 @@
 """
 import re, os, json, datetime, collections
 
-BASKET_KW={'security':['保安','门卫','安保','消防','消控','特勤','保卫'],'food':['服务员','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
+BASKET_KW={'security':['保安','门卫','安保','消防','消控','特勤','保卫'],'food':['服务员','服务生','后厨','传菜','洗碗','厨师','收银员','餐厅','奶茶','咖啡师','店员'],
            'retail':['理货','超市','便利店','收银','导购','店员','营业员'],'delivery':['快递','分拣','骑手','外卖','配送','仓储','仓库','打包'],
-           'factory':['普工','操作工','包装工','车间','厂','生产'],'cleaning':['保洁','清洁','阿姨','家政','钟点','育儿','护理','月嫂'],
+           'factory':['普工','操作工','包装工','车间','厂','生产'],'cleaning':['保洁','清洁'],'home':['家政','钟点','育儿','护理','月嫂','阿姨'],   # home = 私人家庭钟点/家政：记但不进篮子最低值
            'chain':['麦当劳','肯德基','KFC','星巴克','瑞幸','必胜客','汉堡王','7-Eleven','全家','罗森']}
 AGENT_KW=['人力资源','劳务','中介','派遣','外包','人才','推荐工作','进群','求职群','加微信报名','报名咨询']
 SEP=r'[-–—~～至到]'
@@ -112,8 +112,8 @@ def extract_common(r, city_hint):
         r['hourly']=round(wage/r['hours_month'],1) if unit=='CNY/月' else (wage if unit=='CNY/小时' else (round(wage/hpd,1) if unit=='CNY/天' and hpd else None))
     else: r['hourly']=wage if unit=='CNY/小时' else (round(wage/hpd,1) if (unit=='CNY/天' and hpd) else None)
     # ---- 联系
-    ph=re.findall(r'(?<!\d)1[3-9]\d{9}(?!\d)',t); wx=re.findall(r'(?:微信|VX|vx|v信)[:：\s]*([A-Za-z0-9_\-]{5,20})',t)
-    r['contact']=(ph[0][:3]+'****'+ph[0][7:]) if ph else (('微信 '+wx[0]) if wx else None)
+    ph=re.findall(r'(?<!\d)1[3-9]\d(?:\d{4}|\*{4})\d{4}(?!\d)',t); wx=re.findall(r'(?:微信|VX|vx|v信)[:：\s]*([A-Za-z0-9_\-]{5,20})',t)   # 落盘的 raw 已打码，重跑时 192****4918 也算电话
+    r['contact']=(ph[0][:3]+'****'+ph[0][-4:]) if ph else (('微信 '+wx[0]) if wx else ('文内二维码' if re.search(r'扫码报名|扫二维码|二维码报名|长按.{0,4}二维码',t) else None))   # 三者之一才算「立刻能去应聘」
     # ---- 雇主/岗位/篮子/地点
     SUF=r'(?:公司|集团|酒店|饭店|餐厅|超市|便利店|工厂|厂|医院|学校|幼儿园|小区|物业|商场|广场|仓|驿站|门店|店|院|所|中心|基地|银行|车站|机场|总部|营业部|网点|站点|\d{1,3}(?:小学|中学|小|中)(?![学时]))'
     em=(re.search(r'(?:单位|公司|雇主|用人单位)[:：]\s*([一-龥A-Za-z0-9·（）()]{2,24})',t) or re.search(r'([一-龥A-Za-z0-9·]{2,20}'+SUF+r')',t))
@@ -131,7 +131,7 @@ def extract_common(r, city_hint):
     r['employer_from_location']=bool(r['employer'] is None and r['location_phrase'] and not self_agent)   # 群帖惯例：具体地点 + 直拨电话，没有公司名；雇主栏留空，卡片显示地点
     r['via_agent']=self_agent or bool(re.search('|'.join(AGENT_KW),t))
     # 岗位名/篮子：从篮子关键词出发取「××保安员」这种短语；关键词不在公司名里找（「君缘方舟安保公司 招手推车员」不是保安）
-    tb=t.replace(r['employer'],'█'*len(r['employer'])) if r['employer'] else t
+    tb=t.replace(r['employer'],'█'*len(r['employer'])) if (r['employer'] and re.search(r'公司|集团|有限',r['employer'])) else t   # 只遮公司名（「××安保公司」），「京东快递仓」这种地点式雇主不遮
     r['basket']=None; r['title']=None
     MOD=r'(?:兼职|全职|夜班|白班|临时|长期|京东|顺丰|圆通|中通|申通|韵达|极兔|美团|饿了么|麦当劳|肯德基|瑞幸|星巴克|机场|高铁|地铁|商场|小区|学校|医院|酒店|工厂|超市|仓库|物流|快递|川菜|中餐|火锅|烧烤|奶茶)?'
     for k,kws in BASKET_KW.items():
@@ -140,15 +140,19 @@ def extract_common(r, city_hint):
             if m and (r['basket'] is None or m.start()<r.get('_tpos',1e9)): r['basket']=k; r['title']=m.group(0); r['_tpos']=m.start()
     r.pop('_tpos',None)
     if r['basket']=='food' and re.search(r'超市|便利店|商超|卖场',tb) and re.search(r'收银|店员|理货',r['title'] or ''): r['basket']='retail'   # 超市收银员归零售，不归餐饮
+    if r['basket']=='retail' and re.search(r'库房|仓库|物流园',tb) and not re.search(r'门店|超市|便利店',tb): r['basket']='delivery'          # 库房理货是仓储，不是门店
     # 临时单：「今天下午需要」「预计干10天」「一次性」——记但不进篮子最低值
     r['temp']=bool(re.search(r'今天(?:上午|下午|晚上)?(?:需要|要|急)|明天(?:上班|需要|要)|预计干\s*\d+\s*天|只做\s*\d+\s*天|一次性|临时(?:工|用工|单)|当天结|活动兼职',t))
     # 城市：先看地址行（「地址：昌吉市榆树沟」），再看全文；文章模板头「乌鲁木齐优汇推荐」不能盖过地址行里的外地地名
     hin=city_hint['in'] if isinstance(city_hint,dict) else city_hint; hout=city_hint.get('out',[]) if isinstance(city_hint,dict) else []
+    hsub=city_hint.get('suburb',[]) if isinstance(city_hint,dict) else []
+    r['suburb']=any(h in t for h in hsub)   # 行政上属本市但离市区远（达坂城 80 km）：记 suburb，不进篮子最低值和首页
     addr=re.search(r'(?:地址|地点|位置|工作地点|上班地点|上班地址|所在地)[:：]?\s*([^\n]{2,40})',t); addr=addr.group(1) if addr else ''
-    if addr and any(h in addr for h in hout): r['location']=next(h for h in hout if h in addr); r['in_city']=False
+    _in=re.compile('|'.join(map(re.escape,sorted(hin,key=len,reverse=True)))+'|北京时间'); addr2=_in.sub('',addr)   # 「北京路」是乌市的路
+    if addr and any(h in addr2 for h in hout): r['location']=next(h for h in hout if h in addr2); r['in_city']=False
     elif addr and any(h in addr for h in hin): r['location']=next(h for h in hin if h in addr); r['in_city']=True
     else:
-        t2=re.sub('|'.join(map(re.escape,sorted(hin,key=len,reverse=True)))+'|北京时间','',t)   # 「北京路」是乌市的路、「北京时间」不是地名
+        t2=_in.sub('',t)
         r['location']=next((h for h in hin if h in t),None); r['in_city']=not any(h in t2 for h in hout)
 
 def judge(r, days=180):

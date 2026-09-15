@@ -13,7 +13,7 @@ PHONE=re.compile(r'(?<!\d)(1[3-9]\d)(\d{4})(\d{4})(?!\d)')
 mask=lambda t:PHONE.sub(lambda m:m.group(1)+'****'+m.group(3),t)   # 公开仓库：帖子原文里的手机号打码
 CITY=sys.argv[1] if len(sys.argv)>1 else 'urumqi'
 ROOT=os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','cost','data')
-BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁/家政','chain':'连锁锚点'}
+BASKET_ZH={'security':'保安','food':'餐饮服务员/后厨','retail':'便利店/超市理货收银','delivery':'外卖/快递/仓储','factory':'工厂普工','cleaning':'保洁','home':'家政/钟点（私人家庭）','chain':'连锁锚点'}
 SRC_ZH={'weixin_sogou':'微信公众号招工帖（搜狗微信搜索）','wlmqkp':'乌鲁木齐快聘网','xjhr':'中国新疆人才网','wechat_group':'微信群招工帖（用户截图）','shiliu':'石榴快聘','hellowork':'ハローワーク','vieclamtot':'Việc Làm Tốt','dvvl_daklak':'Đắk Lắk 就业服务中心'}
 
 rows=[]
@@ -32,15 +32,25 @@ uniq=list(best.values())
 cf=os.path.join(ROOT,'cities',f'{CITY}.json'); d=json.load(open(cf,encoding='utf-8'))
 manual=[j for j in d.get('jobs',[]) if not j.get('ingest_key')]
 manual_urls={j['wage'].get('source_url') for j in manual}
-by=collections.defaultdict(list); n_temp=0; n_dup_manual=0
+by=collections.defaultdict(list); side=[]; n_dup_manual=0
+def tags(r):
+    t=[]
+    if '24h岗' in (r.get('hours_flag') or ''): t.append('24h')     # 24 小时在岗口径：进篮子，不进首页中位数
+    if r.get('temp'): t.append('temp')                               # 临时单/日结：不进篮子最低值、不进首页
+    if r.get('suburb'): t.append('suburb')                           # 达坂城等郊区：留列表，不进篮子和首页
+    if r.get('basket')=='home': t.append('home')                     # 私人家庭钟点/家政：留列表，不进篮子和首页
+    return t
 for r in uniq:
     if r.get('source_url') in manual_urls: n_dup_manual+=1; continue      # 手写条目已经是这帖
-    if r.get('temp'): n_temp+=1; continue                                  # 「今天下午需要」「预计干10天」：不是常设岗
-    if r.get('hourly'): by[r['basket']].append(r)
+    if not r.get('hourly'): continue
+    r['_tags']=tags(r)
+    if set(r['_tags'])&{'temp','suburb','home'}: side.append(r)
+    else: by[r['basket']].append(r)
 picked=[]
 for b,lst in by.items():
     lst.sort(key=lambda r:(r['hourly'], r.get('posted_at','')))
     picked+=lst[:5]
+side.sort(key=lambda r:(r['_tags'][0], r['hourly'])); picked+=side[:6]
 
 def entry(r):
     h=r.get('hours_month'); hpd=r.get('hours_per_day'); dpm=r.get('days_per_month'); flag=r.get('hours_flag','')
@@ -50,7 +60,7 @@ def entry(r):
     if r.get('probation'): note+="。帖子写的是试用期工资。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
-    return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}",
+    return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
             "store": f"{r.get('employer') or ('地点 '+(r.get('location_phrase') or '—'))}（{SRC_ZH.get(r['source'],r['source'])}，{r.get('account','')}）",
             "basket": r['basket'], "ingest_key": f"{r['source']}|{r.get('source_url') or r.get('article_title','')}|{r.get('wage_value')}",   # 群帖没有 URL，用「截图 文件名」
             "wage": {"value": r['hourly'], "unit": "元/小时", "source_url": r.get('source_url'),
@@ -63,7 +73,7 @@ def entry(r):
 
 new=[entry(r) for r in picked]
 d['jobs']=manual+new; d['updated']=datetime.date.today().isoformat()
-d['jobs_ingest']={"updated": datetime.date.today().isoformat(), "raw_rows": len(rows), "unique": len(uniq), "dup_manual": n_dup_manual, "temp_skipped": n_temp, "picked": len(new),
-                  "rule": "PLAN-v2 §一：确数工资 + 帖子写明工时/班次 + 电话/微信（站内投递站可用帖子链接）+ ≤180 天；临时单不计；每篮子取时薪最低 5 条"}
+d['jobs_ingest']={"updated": datetime.date.today().isoformat(), "raw_rows": len(rows), "unique": len(uniq), "dup_manual": n_dup_manual, "side": len(side), "picked": len(new),
+                  "rule": "PLAN-v2 §一（2026-09-15 maa 定稿）：确数工资 + 帖子写明工时/班次 + 电话/微信/文内二维码 + ≤180 天；每篮子取时薪最低 5 条；临时单/郊区/家政另列不进篮子；首页用 headline 条目的时薪中位数"}
 json.dump(d,open(cf,'w',encoding='utf-8'),ensure_ascii=False,indent=1)
-print(f'{CITY}: raw {len(rows)} → 去重 {len(uniq)} → 与手写重复 {n_dup_manual}、临时单 {n_temp} 不计 → 入库 {len(new)}（手写保留 {len(manual)}）；篮子：' + '、'.join(f'{BASKET_ZH.get(b,b)} {len(v)}' for b,v in by.items()))
+print(f'{CITY}: raw {len(rows)} → 去重 {len(uniq)} → 与手写重复 {n_dup_manual} → 入库 {len(new)}（其中另列 {len(side[:6])}：临时/郊区/家政；手写保留 {len(manual)}）；篮子：' + '、'.join(f'{BASKET_ZH.get(b,b)} {len(v)}' for b,v in by.items()))
