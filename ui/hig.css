@@ -281,25 +281,18 @@ a.row:active,button.row:active{background:var(--fill)}
     background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px);box-shadow:0 0 1px rgba(0,0,0,.3),0 20px 100px rgba(0,0,0,.2)}
   /* 地点面板头 = Kit Windows › Utility Panel › Titlebar（Titlebars and Toolbars › Light › Panel › Titlebar 280×24）：
      24 高；关闭 = 面板红灯 10⌀ #ff5c60 在 (8,8)，点击区 24×24；标题 SFPro-Medium 11 居中 y6；副标题不进面板头 */
-  .sheet.split #card .head{padding:0;height:24px;min-height:24px;align-items:center;flex-direction:row-reverse}
+  .sheet.split #card .head{padding:0;height:24px;min-height:24px;align-items:center}
   .sheet.split #card .head .slot{width:24px;height:24px}
   .sheet.split #card .head .tt{padding:0}
   .sheet.split #card .head .tt .t-title2{font-size:.8462em;line-height:1.1818em;font-weight:500}
   .sheet.split #card .head .tt .t-sub{display:none}
-  /* 关闭钮 = Kit Utility Panel › Stoplights 44×10：三个 10 圆 @0/17/34，关 #ff5c60、最小化 #fac800、缩放 #35c759；网页只有「关」可用，另外两个按 Kit 不可用态灰 15%；悬停红点显示 ×（Kit 悬停带符号）。
-     所有面板/侧栏头的关闭钮（.btn-glass.fill：cost 地点面板、大阪图层弹出窗、学習/クイズ 详情卡）同一套；点击区 44×24 */
-  .sheet.split #card .head:has(.btn-glass.fill){flex-direction:row-reverse}
-  .sheet.split #card .head .slot:has(.btn-glass.fill){width:52px;height:24px;justify-content:flex-start}
-  .sheet.split #card .head .btn-glass.fill{width:44px;height:24px;min-width:0;padding:0;background:none;box-shadow:none;position:relative;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
-  .sheet.split #card .head .btn-glass.fill .sf{display:none}
-  /* 红绿灯只属于窗口和 Utility Panel（Kit Titlebars › Window Controls / Utility Panel › Stoplights）；侧栏内的「关闭详情」和 Popover 的关闭不是窗口控件，用 Kit 工具条玻璃钮 Medium 24（内符号 20） */
-  .sheet:not(.split) .head .btn-glass.fill,.sheet.opt .head .btn-glass.fill{width:24px;height:24px;min-width:0;padding:0;border-radius:12px;background:rgba(0,0,0,.06);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-  .sheet:not(.split) .head .btn-glass.fill .sf,.sheet.opt .head .btn-glass.fill .sf{width:12px;height:12px;display:block}
-  .sheet.split #card .head .btn-glass.fill::before{content:"";position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#ff5c60;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12);
-     font:700 9px/10px -apple-system,sans-serif;color:rgba(0,0,0,.6);text-align:center}
-  .sheet.split #card .head .btn-glass.fill::after{content:"";position:absolute;left:17px;top:7px;width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,.15);box-shadow:17px 0 0 rgba(0,0,0,.15)}
-  .sheet.split #card .head .btn-glass.fill:hover::before{content:"×"}
-  .sheet.split #card .head .btn-glass.fill:active::before{background:#e0443e}
+  /* 关闭钮：网页本身开在浏览器窗口里，红绿灯（Kit Window Controls / Utility Panel Stoplights）属于窗口，浏览器已经有一套；
+     窗口里的卡片/面板/弹出窗（cost·osaka 地点面板、大阪图层、学習/クイズ 详情与图例）一律 = Kit Titlebars and Toolbars › Buttons › Medium 24（内符号 20）玻璃圆钮放 ×，
+     和 macOS 地图 App 地点卡片的关闭钮同形（用户 09-16：「一个标签页也无脑加三个红绿灯吗」，09-15 那版红绿灯作废） */
+  .sheet .head .btn-glass.fill{width:24px;height:24px;min-width:0;padding:0;border-radius:12px;background:rgba(0,0,0,.06);box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .sheet .head .btn-glass.fill .sf{width:12px;height:12px;display:block}
+  .sheet .head .btn-glass.fill:hover{background:rgba(0,0,0,.1)} .sheet .head .btn-glass.fill:active{background:rgba(0,0,0,.16)}
+  .sheet.split #card .head .slot:has(.btn-glass.fill){width:24px;height:24px}
   .sheet.split #card .body{padding-top:0}
   /* 动作行：iOS 的胶囊按钮在 Mac 换成 Kit Segmented Controls › Regular 24 r6（轨道黑 8%，段 Medium 13，无内边），只放做了的功能 */
   .sheet.split #card .actions{gap:0;margin:8px 14px 0;padding:0;border-radius:6px;background:rgba(0,0,0,.08)}
@@ -406,7 +399,7 @@ a.row:active,button.row:active{background:var(--fill)}
   html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
      -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
   .sheet.opt::before{content:"";position:absolute;top:-10px;right:13px;width:46px;height:10px;background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
-  .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center;flex-direction:row-reverse}
+  .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center}
   .sheet.opt .head .slot{width:52px;height:24px} .sheet.opt .head .tt{padding:0} html .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}   /* html 前缀：第 14 节的 iOS 规则在后面，同权重会盖掉 */
   /* 表格（四档/分区/工时；Kit 无表格 → HIG Tables）：字号 Body 13，单元格内边 4 */
   html .sheet table{font-size:1em;line-height:1.2308em} html .sheet table th,html .sheet table td{padding:4px 6px 4px 0}   /* html 前缀：页内 table.tiers{.7647em} 同权重在后面 */
