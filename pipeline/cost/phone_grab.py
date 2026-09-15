@@ -131,15 +131,30 @@ STATION = re.compile(r'(号线|地铁|站)')
 SORTS = ('价格从低到高', '价格从高到低', '默认排序', '最新发布', '距离最近', '面积从小到大', '面积从大到小', '综合排序')
 POPUP = ('我知道了', '以后再说', '立即升级', '暂不', '允许', '去开启', '领取', '关闭')
 
+def known_stations(city):
+    """城市 JSON 里四档的代表车站名（去掉括号说明），头部里出现的就是选中的站。"""
+    try:
+        d = json.load(open(os.path.join(ROOT, 'cost', 'data', 'cities', f'{city}.json'), encoding='utf-8'))
+        names = set()
+        for t in d.get('tiers', []):
+            for st in t.get('stations', []): names.add(re.sub(r'[（(].*$', '', st).strip())
+        return {n for n in names if 1 < len(n) <= 8}
+    except Exception:
+        return set()
+
 def beike_header(ns):
-    """筛选条不按写死的 y 找（那是一台手机的值）：先找第一张房源卡的 y，卡上方所有节点就是头部；
-       站名 = 头部里含「号线/地铁/站」的节点；排序 = 头部里能认出的排序词；租法 = 顶部「整租/合租」标签里带选中态的（树里没选中态就靠条目 type 反推）。"""
+    """筛选条不按写死的 y 找（那是一台手机的值）：先找第一张房源卡的 y，卡上方所有节点就是头部。
+       站名三条路：① 头部里出现两次的短词（贝壳：选中的站在筛选条上一次、站名 tab 里一次）；② 头部里出现城市 JSON 的代表车站名；③ 含「站/号线」的短节点。
+       排序 = 头部里能认出的排序词（贝壳/安居客的排序钮是图标，树里多半没有字 → 读不到就按「默认」，按价排过必须 --sort 写明）。"""
     rows = sorted(ns, key=lambda r: (r[2], r[1]))
     first = next((y for t, x, y in rows if re.match(r'^(整租|合租)(\d居)?[·\s|]', t)), None)   # 第一张房源卡的标题
-    head = [(t, x, y) for t, x, y in rows if first is None or y < first]
-    station = next((t for t, x, y in head if re.search(r'站|号线', t) and len(t) <= 12), None)
-    sort = next((w for t, *_ in head for w in SORTS if w in t), None)
-    return station, sort, ' '.join(t for t, *_ in head if len(t) <= 14)
+    head = [t for t, x, y in rows if first is None or y < first]
+    short = [t for t in head if 1 < len(t) <= 6 and re.fullmatch(r'[\u4e00-\u9fff]+', t)]
+    dup = [t for t in short if short.count(t) >= 2 and t not in ('整租', '合租', '租金', '户型', '更多', '筛选', '排序')]   # 选中的站：筛选条一次 + 站名 tab 一次
+    ks = known_stations(a.city)
+    station = dup[0] if dup else next((t for t in head if t in ks), None) or next((t for t in head if re.search(r'站|号线', t) and len(t) <= 12), None)
+    sort = next((w for t in head for w in SORTS if w in t), None)
+    return station, sort, ' '.join(t for t in head if len(t) <= 14)
 
 def parse_beike():
     page = parse_anjuke_page if APP == 'anjuke' else parse_beike_page
@@ -163,7 +178,7 @@ def parse_beike():
     if a.max_price is not None: items[:] = [o for o in items if o['price'] <= a.max_price]
     sort = a.sort or sort_seen
     if not sort:
-        sys.exit(f'排序方式树里读不到（头部：{filt[:80]}），用 --sort 写明（如 --sort 价格从低到高），不然入库分不清是默认排序还是按价。')
+        sort = '默认'; print(f'提示：排序方式树里读不到（排序钮是图标），按「默认」记；如果你按价格排过序，重跑加 --sort 价格从低到高。', file=sys.stderr)
     kw = a.kw or station
     if not kw:
         sys.exit(f'站名读不到（头部：{filt[:80]}），用 --kw 写站名。')
