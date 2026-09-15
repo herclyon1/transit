@@ -29,7 +29,13 @@ window.HIG = (function(){
     }
     return { set: apply, get: ()=>cur, el };
   }
-  document.addEventListener('DOMContentLoaded', sf);
+  // 开关：Apple 平台的 Safari（17.4+）把 <input type=checkbox switch> 画成系统原生开关，动画是系统的（iPadOS 27 实测 2026-09-15 11:16）；
+  // 其他浏览器没有这个属性，退回 hig.css 里模仿的 .sw。
+  function nativeSwitch(){
+    const probe=document.createElement('input'); probe.type='checkbox';
+    if('switch' in probe && /Apple/.test(navigator.vendor||'')){ document.querySelectorAll('.sw input[type=checkbox]').forEach(i=>i.setAttribute('switch','')); document.documentElement.classList.add('native-switch'); }
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{ nativeSwitch(); sf(); });
   // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
   if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js?v='+Date.now(); document.head.appendChild(a); }
   // 下拉菜单（UIMenu）：点 anchor 开合，菜单贴在 anchor 下方 6，靠右对齐；点项 → onPick(value)；Esc/点外面关。
@@ -46,5 +52,5 @@ window.HIG = (function(){
       if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); const bs=[...el.querySelectorAll('button')]; const i=bs.indexOf(document.activeElement); bs[(i+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length].focus(); } });
     return { open, close };
   }
-  return { sf, sheet, menu, ROOT };
+  return { sf, sheet, menu, nativeSwitch, ROOT };
 })();

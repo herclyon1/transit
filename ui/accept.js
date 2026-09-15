@@ -50,7 +50,7 @@
       const hb=qa('.sheet .head .btn-glass')[0]; if(hb){ ok('卡片头圆钮 28 距边 12 距顶 12', Math.abs(rect(hb).width-28)<0.5&&Math.abs(rect(hb.closest('.head')).top-rect(hb).top+12)<0.6, true, 0, num(rect(hb).width)+' top+'+num(rect(hb).top-rect(hb.closest('.head')).top)); }
       const tt=qa('.sheet .head .tt .t-title2')[0]; if(tt){ ok('卡片头标题 17 粗居中', px(cs(tt).fontSize)===17&&cs(tt).textAlign==='center', true, 0, px(cs(tt).fontSize)); const st=qa('.sheet .head .tt .t-sub')[0]; if(st) ok('卡片头副标题 11', px(cs(st).fontSize), 11, 0.1); }
       const tl2=qa('.tiles button')[0]; if(tl2){ ok('地图模式磁贴 70（macOS 面板）', rect(tl2.querySelector('.img')).width, 70, 0.5); }
-      const sw=qa('.sw')[0]; if(sw){ const r=rect(sw); ok('开关 38×22（NSSwitch）', r.width===38&&r.height===22, true, 0, num(r.width)+'×'+num(r.height)); }
+      const sw=qa('.sw')[0]; if(sw&&!document.documentElement.classList.contains('native-switch')){ const r=rect(sw); ok('开关 38×22（NSSwitch）', r.width===38&&r.height===22, true, 0, num(r.width)+'×'+num(r.height)); }
       const seg=qa('.seg').find(x=>!x.closest('.bar')); if(seg){ ok('分段控件 24（macOS）', rect(seg).height, 24, 0.5); }
       const bseg=qa('.bar .seg')[0]; if(bseg) ok('工具条分段控件 36', rect(bseg).height, 36, 0.5);
     }
@@ -69,7 +69,8 @@
     const seg=qa('.seg').find(x=>!x.closest('.bar')); if(seg){ const c=cs(seg); ok('分段控件高 '+(seg.classList.contains('l')?50:32), rect(seg).height, seg.classList.contains('l')?50:32, 0.5); ok('分段内边 2 段间 4', px(c.paddingTop)===2&&px(c.columnGap||c.gap)===4, true, 0, c.padding+' gap '+(c.columnGap||c.gap)); const on=seg.querySelector('[aria-pressed="true"]'); if(on) ok('选中段白底', cs(on).backgroundColor!=='rgba(0, 0, 0, 0)', true, 0, cs(on).backgroundColor); }
     const bs={s:28,m:34,l:50}; for(const k in bs){ const b=qa('.btn.'+k)[0]; if(b) ok('按钮 '+k.toUpperCase()+' 高 '+bs[k], rect(b).height, bs[k], 0.5); }
     const bseg=qa('.bar .seg')[0]; if(bseg) ok('工具条分段控件 44（与圆钮同高；Kit 待核）', rect(bseg).height, 44, 0.5);
-    const sw=qa('.sw')[0]; if(sw){ const r=rect(sw); ok('开关 63×28', r.width===63&&r.height===28, true, 0, num(r.width)+'×'+num(r.height)); const k=cs(sw.querySelector('i'),'::after'); ok('开关圆钮 38×24', px(k.width)===38&&px(k.height)===24, true, 0, k.width+'×'+k.height); }
+    const sw=qa('.sw')[0]; if(sw&&document.documentElement.classList.contains('native-switch')){ const r=rect(sw.querySelector('input')); ok('开关 = Safari 原生 switch（尺寸随系统）', r.width>20&&r.height>14, true, 0, num(r.width)+'×'+num(r.height)); }
+    else if(sw){ const r=rect(sw); ok('开关 63×28', r.width===63&&r.height===28, true, 0, num(r.width)+'×'+num(r.height)); const k=cs(sw.querySelector('i'),'::after'); ok('开关圆钮 38×24', px(k.width)===38&&px(k.height)===24, true, 0, k.width+'×'+k.height); }
     const sl=qa('.row.slider input[type=range]')[0]; if(sl) ok('滑块热区 28', rect(sl).height, 28, 0.5);
     }
     const mn=q('.menu'); if(mn){ const was=mn.hidden; mn.hidden=false; const mb=mn.querySelector('button'); ok('下拉菜单 248 宽 圆角 26（UIMenu）', Math.abs(rect(mn).width-248)<0.5&&px(cs(mn).borderTopLeftRadius)===26, true, 0, num(rect(mn).width)+' r'+cs(mn).borderTopLeftRadius); if(mb) ok('菜单行 42 标签距左 50', Math.abs(rect(mb).height-42)<0.5&&px(cs(mb).paddingLeft)===50, true, 0, num(rect(mb).height)+' pl'+cs(mb).paddingLeft); ok('菜单上下内边 5', px(cs(mn).paddingTop)===5&&px(cs(mn).paddingBottom)===5, true, 0, cs(mn).padding); mn.hidden=was; }

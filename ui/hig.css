@@ -274,6 +274,10 @@ a.row:active,button.row:active{background:var(--fill)}
 .sw input:checked + i::after{transform:translateX(21px)}
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .sw i{background:rgba(120,120,128,.32)} }
 :root[data-theme="dark"] .sw i{background:rgba(120,120,128,.32)}
+/* 原生优先（hig.js nativeSwitch()）：Safari 里 .sw 直接显示系统开关，模仿层隐藏；尺寸随系统，不写死 */
+html.native-switch .sw{width:auto;height:auto;display:inline-flex;align-items:center}
+html.native-switch .sw i{display:none}
+html.native-switch .sw input{position:static;opacity:1;width:auto;height:auto;margin:0;accent-color:var(--green)}
 /* ---------- 14. 滑块（UI Kit › Sliders 7:53847）：轨道 4 高圆角，填充色 tint，圆钮 28 白色带阴影；整行左右内缩 20 ---------- */
 .row.slider{padding:8px 20px 10px}
 .row.slider input[type=range],.r.slider input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:none;cursor:pointer}
