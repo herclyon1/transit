@@ -3,7 +3,7 @@
 2026-09-15 用户令（经 maa 会话）：「按 Kit 重做」= 页面上每一个可见控件都对上 Kit 组件，不是挑几个数字换。先出清单再动手；
 改完的行标「已按 Kit + commit」；全部改完才许说「按 Kit 重做完成」。推送前 Mac 1440 / 手机 375 每个标签、每个可展开项点开截图自己看，探针只是底线。
 
-状态：**✅ 已按 Kit（commit）** · **⛔ 未按 Kit → 计划** · **◇ Kit 没有此组件 → 按 HIG/系统 App 实测，写明规则**。
+状态：**✅ 已按 Kit（commit）** · **⛔ 未按 Kit → 计划** · ~~◇ Kit 没有此组件~~（2026-09-15 晚用户拍板取消：两套 Kit 够拼出所有控件；原 ◇ 行一律按末尾「◇ 取消表」换成 Kit 组件，kit-audit 里老样式 = ✗）。施工图 = `KIT-MAP.md`，00:50 起 maa 派四个代理各改一页（cost / osaka / japan / quiz+index），hig.css/shell.js/accept.js/kitaudit.js 期间冻结。
 
 **闸门（用户 2026-09-15 晚）**：`python3 pipeline/ui/kit-audit.py`（ui/kitaudit.js）把每页每个看得见的控件逐个对上 Kit 组件，两端（Mac 1440 无头 Chrome + iPhone 模拟器）都 KIT-OK 才许说「按 Kit 重做完成」；本清单的 ✅ 以它的输出为准，报告里 ⚠/✗ 一条就是一条没做完。
 数字出处：iOS = Figma 「Apple iOS and iPadOS 27 UI Kit」节点 id（NUMBERS.md 上半），macOS = Sketch 「Apple macOS 27 UI Kit」页›artboard（NUMBERS.md「macOS 27 UI Kit」）。
@@ -90,6 +90,30 @@
 | F3 | 段头 `.sect h2` / 段尾 `.foot` | 设置 App 实测（Kit List Header 未核，同 A8） | Sidebars › Header 18 / Bold 11 | NUMBERS | 手机 ✅（同 A8：Kit Nested header；段尾 = Kit Footer Regular 13 @y8）；Mac ✅（1277f1e） |
 | F4 | 分组卡 `.group` | 设置 App 卡 r26 内缩 20 | Group Boxes r12 黑 3% | NUMBERS | 手机 ✅；Mac ✅（本批） |
 | F5 | Claw'd 插图 | 非 HIG 组件（用户保留素材） | 同 | DESIGN-HIG | ◇ |
+
+## ◇ 取消表（原「Kit 无此组件」行 → 用哪个 Kit 组件，谁改；数字见 KIT-MAP.md / NUMBERS.md）
+
+| 原行 | 原来的做法 | 改成（iPhone / Mac） | 谁 · 状态 |
+|---|---|---|---|
+| A3 货币菜单（手机） | UIMenu 实测 248/r26/42 | Menus › iPhone 250 宽、项 42、字 Regular 17 @68、勾 Semibold 15 @10 / Menus › Regular r12 项 24 | hig.css ✅（cb55282） |
+| A7 地点卡片头（手机） | 地图 App 实测 | Toolbars › Top - Sheet › Title 2 Line | ✅（6f64f5d） |
+| A8/F3 段头（手机） | 设置 App 实测 | Lists › Header › Nested 42 / Prominent 45 | hig.css ✅（cb55282：上距 30） |
+| A9 列表行（手机） | 地图 App 搜索结果行 69 | Lists › Rows › Large 68 / Default 52 | ✅（6f64f5d） |
+| A10 建议卡 `.sugg` | 地图 App 建议卡 | `.mh.prominent`（标题 + trailing Action「数据规范」）+ `.mfoot` | cost 页 · 待 00:50 重构 |
+| A11 统计卡 `.stat` | 健身 App 实测 | 一组 `.mcard`「换算成工时」四行 `.r.large`（trailing Detail = 数字）/ Mac Group Box + Forms 行 | cost 页 · 待 00:50 重构 |
+| A12 动作行（手机） | 地图 App 动作行 | 一排 Buttons › Medium 34（第一个 Prominent）/ Mac 分段 24 | hig.css ✅（cb55282） |
+| A13 卡片分组 `.mcard` + 行 `.r` | 地图 App 地点卡片 | Lists › Grouped Table View r26 白底、行 Default 52 / Group Boxes r12 + Forms 40 | hig.css ✅（cb55282） |
+| A14/A15 可展开行、`details.sublist`、`.tiers-how` | 点行展开 / `<details>` | Rows › Accessories › Disclosure Collapsed/Expanded 􀆊􀆈（Semibold 17）/ Disclosure Controls › Regular 24 | cost 页 · 待 00:50 重构（Mac Small 20 已换 Regular 24） |
+| A16 四档表 `table.tiers` | HTML 表 | 每档一个 `.mcard`：段头 Prominent（trailing 代表站数）+ 四行 单间月租/通学/通勤/单程；分区表、工时表同法 | cost 页 · 待 00:50 重构 |
+| A17 置信度胶囊 `.tag` / `.chip` | 自造 | **删掉**，置信度进副题「平台现价 · SUUMO · 9 月 14 日」，表里进 footer | cost 页 · 待 00:50 重构 |
+| A20 筛选胶囊（手机） | 地图 App 实测 32 | Buttons › Small 28 Bordered（选中 Prominent）| hig.css ✅（cb55282） |
+| A21 缩略图块 `.tiles` | 地图 App 地图模式块 | `.seg`（Small 32 / Mac 24） | japan 页 · 待 00:50 重构 |
+| A25 署名 ⓘ（手机） | MapLibre 折叠钮 | Toolbars › Buttons 44 玻璃圆钮 | 各页 · 待 00:50 重构 |
+| A26 玻璃材质（手机） | 白 55% + 模糊 22 近似 | iOS Kit › Materials（Regular）——同样是近似，出处写 Kit Materials 页 | hig.css ✅（记录出处即可） |
+| C2 车站弹出 / E1 题目条 / E4 信息层（手机） | 自造浮层 | Kit 无 iPhone Popover → Sheets 材质 r34（KIT-MAP「弹出信息」） | ✅（f7fcc18） |
+| E2 图例浮层 `#legend` | 自造 | iOS 第二张 `.sheet.opt` 小档 / Mac Popover | quiz 页 · 待 00:50 重构 |
+| E5 `select`（范围/题型） | 原生 select | Rows › Accessories › Pop-up Button（点开 Kit Menu）/ Pop-up Buttons › Regular 24 r6 | quiz 页 · 待 00:50 重构 |
+| B4 城市点/标签、C3 枢纽标记、D2 图例色块、F5 Claw'd | — | **内容**，不是控件，kit-audit 不计 | — |
 
 ## Kit 页解析状态（macOS 27，全部走 Sketch）
 Disclosure Controls / Sliders / Alerts 已解（hig-kit 58365ea，NUMBERS KIT_VERSION 5）· Popovers / Menus / Materials 已解。
