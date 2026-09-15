@@ -8,7 +8,7 @@ let names = ["magnifyingglass","xmark","chevron.right","chevron.left","chevron.u
              "questionmark.circle","info.circle","slider.horizontal.3","yensign","banknote","clock","bolt.fill","cart","building.2",
              "plus","minus","arrow.counterclockwise","checkmark","xmark.circle.fill","square.stack.3d.up","mappin","mappin.and.ellipse",
              "figure.walk","person.fill","doc.text","link","ellipsis.circle","sidebar.leading","square.grid.2x2","star.fill","flag.fill",
-             "chart.bar","circle.fill","circle","gauge.with.dots.needle.67percent","arrow.left","arrow.right","eye","eye.slash"]
+             "chart.bar","circle.fill","circle","gauge.with.dots.needle.67percent","arrow.left","arrow.right","eye","eye.slash","phone.fill","arrow.up.right","qrcode"]
 for n in names {
     guard let img = NSImage(systemSymbolName: n, accessibilityDescription: nil) else { print("MISSING", n); continue }
     let cfg = NSImage.SymbolConfiguration(pointSize: 22, weight: .regular, scale: .medium)

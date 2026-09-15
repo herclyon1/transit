@@ -288,13 +288,14 @@
     "fetched_at": "2026-09-15",
     "confidence": "estimated",
     "n": 2,
-    "note": "2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室（n=0），本值是 Chợ Tốt 近期已下架的两条单间取中位：Nguyễn Công Trứ 一带（距 Ngã Sáu 0.63 km）“phòng nguyên căn trung tâm BMT” 30 ㎡ 2,000,000 đ/月（08-06 挂）、“Phòng Trọ Cao Cấp Trung Tâm TP. Buôn Ma Thuột” 25 ㎡ 2,600,000 đ/月（08-30 挂），两条 09-15 前已下架——是刚过去的平台价，不是现价，所以记 estimated。全城 Chợ Tốt 的 phòng trọ 含已下架总共只有 13 条，邦美蜀的租房撮合主要在 Facebook 群和门口贴纸，平台样本天然薄。原注：2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室（只有 Lê Hồng Phong 105 巷 3 卧整栋 5,000,000、Trần Hưng Đạo 巷 4 卧 7,500,000 等整栋）。对照：Chợ Tốt 近 1 个月已下架的 phòng trọ 两条都在 Nguyễn Công Trứ（0.6 km）：“Phòng Trọ Cao Cấp Trung Tâm” 25 ㎡ 2,600,000（2 周前）、“phòng nguyên căn trung tâm BMT” 30 ㎡ 2,000,000（1 个月前）→ 中位 2,300,000，可视为市中心单间的近",
+    "note": "近期挂牌价（已下架），非现价：2026-09-15 各平台 1 km 圈内没有一条在挂的单间/一室，取 Chợ Tốt 刚下架的两条中位——Nguyễn Công Trứ 一带（距 Ngã Sáu 0.63 km）30 ㎡ 2,000,000 đ/月（8 月 6 日挂）、25 ㎡ 2,600,000 đ/月（8 月 30 日挂）。邦美蜀全城 Chợ Tốt 单间含已下架只有 13 条，租房撮合主要在 Facebook 群和门口贴纸，平台样本天然薄。",
     "compare": {
      "value": 2300000,
      "source_name": "Chợ Tốt 近 1 个月已下架 phòng trọ（Nguyễn Công Trứ，0.6 km）中位，n=2，非在挂价",
      "n": 2,
      "source_url": "https://gateway.chotot.com/v1/public/ad-listing?cg=1050&region_v2=9053&area_v2=905301&st=u,h&include_expired_ads=true"
-    }
+    },
+    "label": null
    },
    "pass_student": {
     "value": null,
@@ -675,7 +676,7 @@
    "fetched_at": "2026-09-15",
    "confidence": "official",
    "n": null,
-   "note": "未采集：越南统计总局 Khảo sát mức sống dân cư（VHLSS）分区「chi ăn uống bình quân 1 nhân khẩu 1 tháng」在全文报告表里，新闻稿不带；nso.gov.vn / gso.gov.vn / cucthongkedaklak.gso.gov.vn 2026-09-15 从日本 TCP 超时（curl 与浏览器都连不上，和中国官方站一样是境外 IP 问题），要境内路由或用户手机开一次。第三方镜像 niengiamthongke.net 能开但不是官方原文，不用。",
+   "note": "未采集：分区食费（chi ăn uống bình quân 1 nhân khẩu 1 tháng, vùng Tây Nguyên）只在 VHLSS 全文报告表里，新闻稿不带。nso.gov.vn / gso.gov.vn / 达乐统计局 2026-09-15 从日本连不上（用户手机也在东京，一样）。镜像站 niengiamthongke.net 只卖转录版（excel/word/pdf，150,000 đ/省，「Giá bán: Liên hệ」），不是原版 PDF，不用。",
    "label": "食费（统计平均，未采集）"
   },
   "total": {

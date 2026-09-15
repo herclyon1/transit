@@ -59,6 +59,18 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 #card .links a{display:flex;align-items:center;justify-content:space-between;min-height:47px;padding:12.5px 16px;color:var(--ink);text-decoration:none;position:relative}
 #card .links a + a::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
 #card .links a::after{content:"›";color:var(--ink-3);margin-left:8px}
+/* 岗位行（地图 App 地点卡片列表行的形）：名字 17 半粗 / 灰副题 15 / 元数据 13；右侧时薪 17 半粗；点开详情 */
+.job{position:relative} .job + .job::before{content:"";position:absolute;left:16px;right:16px;top:0;height:1px;background:var(--line)}
+.job .jr{display:flex;align-items:center;gap:11px;width:100%;min-height:69px;padding:13.5px 16px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.job .jr.static{cursor:default}
+.job .lab{flex:1 1 auto;min-width:0} .job .name{font-weight:600;line-height:1.2941em} .job .hint{color:var(--ink-2);font-size:.8824em;line-height:1.3333em;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.job .meta{color:var(--ink-3);font-size:.7647em;line-height:1.3846em;margin-top:2px}
+.job .val{flex:none;text-align:right;font-variant-numeric:tabular-nums} .job .val b{font-weight:600;white-space:nowrap} .job .val .dim{font-size:.8824em}
+.job .det{padding:0 16px 14px;color:var(--ink-2);font-size:.8824em;line-height:1.3333em}
+.job .det .q{padding:10px 12px;border-radius:12px;background:var(--fill);color:var(--ink);white-space:pre-wrap;margin-bottom:8px}
+.job .det .src{margin-top:4px} .job .det .cta{margin-top:10px}
+.job .btn.s.dis{opacity:.55;pointer-events:none}
+.mcard .sub{padding:12px 16px 4px;color:var(--ink-2);font-size:.7647em;line-height:1.3846em;font-weight:600}
 </style>
 </head>
 <body>
@@ -223,6 +235,47 @@ function num(k,m,cur){
   const meta=[src, m.fetched_at?(stale(m.fetched_at)?`<span class="stale">${m.fetched_at} 旧</span>`:m.fetched_at):'', m.n?`n=${m.n}`:'', m.note||''].filter(Boolean).join(' · ');
   return `<div class="r"><span class="k">${k}</span><span class="v ${val==null?'none':''}">${val==null?'暂无':val}${chip}</span></div>${meta?`<div class="src">${meta}</div>`:''}`;
 }
+// 岗位行：入库条目 chain=「篮子：岗位名」store=「雇主（来源，账号）」；手写条目 chain 带「平替/挂牌」黑话——都在这里整成人话，页面上不出现文件路径、n=、json
+function jobTitle(jb){ const ch=jb.chain||'';
+  if(jb.ingest_key&&/[:：]/.test(ch)) return (ch.split(/[:：]/)[1]||ch).trim();                       // 入库条目：「保安：保安员」→ 保安员
+  if(jb.basket==='chain'&&/[（(]/.test(ch)) return ch.replace(/^.*?[（(]/,'').replace(/[）)].*$/,'');   // 连锁占位：「连锁锚点（麦当劳/肯德基）」→ 麦当劳/肯德基
+  const inner=(ch.match(/[（(]([^，,）)]*)/)||[])[1];                                                    // 手写条目：括号里第一段是岗位名就用它（「仓库 / 快递（顺丰运作员，…）」→ 顺丰运作员）
+  if(inner&&/员|师|工|保安|服务|店员|收银/.test(inner)&&!/平替|挂牌/.test(inner)) return inner.trim();
+  return ch.replace(/\s*[（(].*$/,'').replace(/平替|挂牌/g,'').trim()||'岗位'; }
+function jobEmployer(jb){ const st=(jb.store||'').replace(/（.*$/,'').replace(/\(.*$/,'').trim(); return st||'—'; }
+function cleanSrc(t){ return (t||'').replace(/[（(][^（()）]*(?:cost\/data|\.json|原始|无障碍树)[^（()）]*[）)]/g,'').replace(/[;；]?\s*原始[^;；。）)]*/g,'').replace(/\bn=\d+/g,'').replace(/\s*·\s*$/,'').replace(/\s{2,}/g,' ').trim(); }
+function jobMeta(jb){ const w=jb.wage||{}, hh=w.hours||{}; const parts=[];
+  if(w.wage_posted) parts.push(w.wage_posted);
+  if(hh.per_day) parts.push(`${hh.per_day} 小时班`); else if(hh.posted) parts.push(hh.posted.length>18?hh.posted.slice(0,18)+'…':hh.posted);
+  const shift=(hh.posted||'').match(/上[一二三]休[一二三]|白夜班倒|两班倒|週休二日/); if(shift) parts.push(shift[0]);
+  else if(hh.days_per_month) parts.push(hh.days_per_month>=30?'全月无休':`月休 ${30-hh.days_per_month} 天`);
+  if(w.posted_at){ const m=w.posted_at.match(/(\d{4})-(\d{2})-(\d{2})/); if(m) parts.push(`${+m[2]} 月 ${+m[3]} 日`); }
+  return parts.join(' · '); }
+function jobContact(jb){ const w=jb.wage||{}, c=w.contact||'';
+  if(/^1[3-9]\d[\d*]{4}\d{4}$/.test(c.replace(/\s/g,''))) return `<span class="btn s dis" aria-disabled="true"><i class="sf" data-sf="phone.fill"></i>${c}</span>`;   // 打了码的号：显示、不可拨
+  if(/^\+?[\d\-() ]{7,}$/.test(c)) return `<a class="btn s tint" href="tel:${c.replace(/[^\d+]/g,'')}"><i class="sf" data-sf="phone.fill"></i>打电话</a>`;
+  if(/微信/.test(c)) return `<span class="btn s dis">${c}</span>`;
+  if(w.source_url) return `<a class="btn s" href="${w.source_url}" target="_blank" rel="noopener"><i class="sf" data-sf="arrow.up.right"></i>${/二维码/.test(c)?'看帖扫码':'去应聘'}</a>`;
+  return ''; }
+function jobsHtml(d,cur){
+  const V=x=>x&&x.value!=null?x.value:null; const TAGZH={temp:'临时单 / 日结',suburb:'郊区（离市区远）',home:'私人家庭家政'};
+  const row=jb=>{ const w=jb.wage||{}; const val=V(w); const note=w.note||''; const quote=(note.match(/[“"]([\s\S]*?)[”"]/)||[])[1]; const rest=note.replace(/帖子原文[:：]?[“"][\s\S]*?[”"][。]?/,'').replace(/^正文原文[:：]?[“"][\s\S]*?[”"][;；。]?/,'').trim();
+    const src=[w.source_url?`<a href="${w.source_url}" target="_blank" rel="noopener">${cleanSrc(w.source_name)||'来源'}</a>`:cleanSrc(w.source_name), w.fetched_at?`抓取 ${w.fetched_at}`:''].filter(Boolean).join(' · ');
+    const hl=(w.wage_posted&&w.hours&&(w.hours.monthly||w.hours.per_day))?`${w.wage_posted} ÷ ${w.hours.monthly?`${w.hours.monthly} 小时/月（${w.hours.per_day} 小时 × ${w.hours.days_per_month} 天）`:`${w.hours.per_day} 小时`} = ${val} ${w.unit||''}`:'';
+    return `<div class="job" data-x="0"><button class="jr" type="button" aria-expanded="false"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${jobMeta(jb)}</div></span><span class="val">${val==null?'<span class="dim">官方不公示</span>':`<b>${money(val,w.unit||cur+'/小时',cur)}</b>`}</span></button>`
+      +`<div class="det" hidden>${quote?`<div class="q">“${quote}”</div>`:''}${hl?`<div class="src">算式：${hl}</div>`:''}${rest?`<div class="src">${cleanSrc(rest)}</div>`:''}${src?`<div class="src">${src}</div>`:''}<div class="cta">${jobContact(jb)}</div></div></div>`; };
+  const all=(d.jobs||[]); const main=all.filter(jb=>jb.headline!==false&&V(jb.wage)!=null), side=all.filter(jb=>(jb.tags||[]).length&&V(jb.wage)!=null), chain=all.filter(jb=>jb.basket==='chain'&&V(jb.wage)==null);
+  let h='';
+  if(!main.length) h+='<div class="empty">还没有一条帖子同时写工资和班次</div>';
+  for(const jb of main) h+=row(jb);
+  for(const jb of chain) h+=`<div class="job"><div class="jr static"><span class="lab"><div class="name">${jobTitle(jb)}</div><div class="hint">${jobEmployer(jb)}</div><div class="meta">${cleanSrc(jb.wage.source_name||'')}</div></span><span class="val"><span class="dim">官方不公示<br><small>（小程序面议）</small></span></span></div></div>`;
+  const groups={};
+  for(const jb of side) for(const t of jb.tags) (groups[t]=groups[t]||[]).push(jb);
+  for(const t of Object.keys(groups)){ h+=`<div class="sub">${TAGZH[t]||t} · 不进中位数</div>`; for(const jb of groups[t]) h+=row(jb); }
+  if(d.wage_ref&&d.wage_ref.min_official&&d.wage_ref.min_official.value!=null){ const x=d.wage_ref.min_official; h+=`<div class="src" style="margin-top:6px">法定最低 <a href="${x.source_url}" target="_blank" rel="noopener">${x.value.toLocaleString()} ${x.unit}</a>（只当参考线）</div>`; }
+  return h;
+}
+document.addEventListener('click',e=>{ const b=e.target.closest('#card .job .jr:not(.static)'); if(!b) return; const det=b.parentElement.querySelector('.det'); det.hidden=!det.hidden; b.setAttribute('aria-expanded',String(!det.hidden)); });
 function render(c,d){
   if(!d) return '<section class="empty">这个城市还没有数据文件。数据规范见 data/README.md。</section>';
   const cur=d.currency||c.currency; let h='';
@@ -245,7 +298,7 @@ function render(c,d){
     +'<button class="btn" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'<button class="btn" type="button" disabled><i class="sf" data-sf="map"></i><span>可达性图</span></button>')
     +'</div><div class="stats" style="margin-top:16px">'
-    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.n} 条有效岗位 · 中位数`:'门店直发挂牌'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?`最低 ${RWc.min}（${wj.chain}）· 最高 ${RWc.max}`:'没有一条帖子同时写工资和班次'}</div></div>`
+    +`<div class="stat"><div class="t">时薪${wj?tag(wj.wage):''}</div><div class="s">${RWc.n?`${RWc.n} 条 · 中位数`:'门店直发'}</div><div class="n">${RWc.n?big(RWc.wage,(wj.wage.unit||cur+'/小时')):'<span class="dim">暂无</span>'}</div><div class="f">${RWc.n?`最低 ${RWc.min} · 最高 ${RWc.max}`:'没有一条帖子同时写工资和班次'}</div></div>`
     +`<div class="stat"><div class="t">房租${rent?tag(rent):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 单间</div><div class="n">${rent?big(V(rent),rent.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${rent?foot(rent):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">通勤${pass?tag(pass):''}</div><div class="s">${t15?t15.label:'到枢纽 15 分'} · 月票</div><div class="n">${pass?big(V(pass),pass.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${pass?foot(pass):'待调查'}</div></div>`
     +`<div class="stat"><div class="t">食费${foodM?tag(foodM):''}</div><div class="s">统计平均 · 月</div><div class="n">${foodM?big(V(foodM),foodM.unit||cur+'/月'):'<span class="dim">暂无</span>'}</div><div class="f">${foodM?foot(foodM):'待调查'}</div></div>`
@@ -257,16 +310,8 @@ function render(c,d){
       if(w.platforms&&w.platforms.length) h+='<div class="src">平台：'+w.platforms.map(p=>p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name).join('、')+'</div>'; } }
   else h+='<div class="empty">待调查</div>';
   h+='</section>';
-  // ---- 岗位：连锁 × 门店 × 时薪
-  h+='<section><h3>具体岗位（门店直发 / 招工帖，能直接去应聘）</h3>';
-  const TAGZH={temp:'临时单/日结',suburb:'郊区（离市区远）',home:'私人家庭家政'};
-  const jobRow=jb=>{ const hl=hoursLine(jb.wage); const tg=(jb.tags||[]).map(t=>TAGZH[t]||t).join('，'); return num(`${jb.chain}`,Object.assign({},jb.wage,{note:`${jb.store}${tg?' · '+tg:''}${hl?' · '+hl:''}${jb.wage.note?' · '+jb.wage.note:''}`}),cur); };
-  const mainJobs=(d.jobs||[]).filter(jb=>jb.headline!==false), sideJobs=(d.jobs||[]).filter(jb=>!mainJobs.includes(jb));
-  if(mainJobs.length){ for(const jb of mainJobs) h+=jobRow(jb); }
-  else h+='<div class="empty">待调查</div>';
-  if(sideJobs.length){ h+='<div class="src" style="margin-top:10px"><b>另列（不进篮子最低值、不进首页）：临时/日结 · 郊区 · 私人家政</b></div>'; for(const jb of sideJobs) h+=jobRow(jb); }
-  if(d.wage_ref){ h+='<div class="src" style="margin-top:6px">法定最低：'+[d.wage_ref.min_official,d.wage_ref.min_official_next].filter(x=>x&&x.value!=null).map(x=>`<a href="${x.source_url}" target="_blank" rel="noopener">${x.value.toLocaleString()} ${x.unit}</a>（${x.note||''}）`).join('　')+'</div>'; }
-  h+='</section>';
+  // ---- 岗位：一行一条（地图 App 地点卡片里的列表行）：岗位名 / 雇主或地点 / 右侧时薪大字；小字「工资 · 班次 · 月休 · 发帖日」；「打电话」胶囊；点开才展开原文/算式/来源
+  h+='<section><h3>具体岗位</h3>'+jobsHtml(d,cur)+'</section>';
   // ---- 住哪里：四档
   const tiers=d.tiers||[];
   h+='<section><h3>住哪里 · 按到枢纽的分钟数分档</h3>';
