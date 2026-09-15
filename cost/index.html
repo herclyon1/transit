@@ -37,12 +37,7 @@
 .mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mrow .val{flex:0 0 auto;flex-direction:column;align-items:flex-end;gap:0;line-height:1.2941em}
 .val .nrow{font-size:.6471em;line-height:1.3636em;white-space:nowrap} .val .nrow.over{color:var(--orange);font-weight:600}
-/* 国旗：34 圆里 cover 填满，0.5px 内描边免得白旗（日本）贴边看不出圆；暗色下不反色 */
-.mrow .ico.flag{background:none;overflow:hidden;position:relative;box-shadow:inset 0 0 0 .5px var(--line)}
-.mrow .ico.flag img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
-.mrow .ico.txt{font-size:.7647em;font-weight:600;letter-spacing:.02em;color:var(--ink-2);background:var(--fill)}
 .dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
-.dimlist .mrow .ico.flag{opacity:.9}   /* 待调查也用原色旗（去饱和后日本那面发褐，难看） */
 .mbtn{padding:16px var(--inset) 0}
 .chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
 .chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
@@ -158,9 +153,8 @@ const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'�
 try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
 $('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
 $('introMore').addEventListener('click',()=>{ location.href='data/README.md'; });
-// 国旗用自带的 SVG（vendor/flags，flag-icons MIT，4x3），不用 emoji——🇹🇼 在 iOS 上画成方框是 emoji 的锅；用户 09-15：要国旗、要好看
-const FLAGSVG={JPN:'jp',CHN:'cn',TWN:'tw',KOR:'kr',VNM:'vn',MMR:'mm',DEU:'de',USA:'us',AUS:'au'};
-const flagIco=c=>FLAGSVG[c.country]?`<span class="ico flag"><img src="../vendor/flags/${FLAGSVG[c.country]}.svg" alt="${COUNTRY[c.country]||c.country}"></span>`:`<span class="ico txt">—</span>`;
+// 国旗 = emoji 圆标（用户 09-15 定，和最初一样）。🇹🇼 在模拟器上画成方框是「地区 = 中国大陆」的系统行为，不是 emoji 的锅（maa 实测：地区改日本、语言仍简中，六面旗都正常）
+const flagIco=c=>`<span class="ico">${FLAG[c.country]||'🏙'}</span>`;
 function cityRows(){
   // 地图 App 搜索结果行：34 圆图标 + 标题 17 半粗 + 副标题 15 + ›；右侧 = 到枢纽 15 分那档每月要打的工时 + 样本数（股市行的形）
   // 375 宽的行：名字栏只有 ~133px，副题只放得下「留学签 · 周 28h 上限」/「本国公民 · 无上限」；样本数和超上限放右侧第二行 11pt（22+15=37 ≤ 内容高 42，行高仍 69；maa 真机 09-15）
