@@ -8,6 +8,7 @@ window.HIG = (function(){
   }
   // Sheet：三档 small / medium（默认）/ large。返回 {set(detent), get()}
   function sheet(el, opts={}){
+    if(window.HIGSheet) return window.HIGSheet(el, opts);   // ui/sheet.js 在时：投影落档 + 弹簧 + 橡皮筋 + 滚动交接（地图 App 实测）
     const detents = opts.detents || ['small','medium','large'];
     let cur = opts.initial || 'medium';
     const apply = d => { cur=d; el.classList.toggle('large', d==='large'); el.classList.toggle('small', d==='small'); el.dataset.detent=d; if(opts.onChange) opts.onChange(d); };
