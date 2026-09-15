@@ -60,7 +60,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
   <span class="btn-glass glass text cur" id="curBtn"><span id="curLabel">当地</span><i class="sf" data-sf="chevron.down" style="width:.8em;height:.8em"></i>
     <select id="cur" aria-label="货币"><option value="local">当地</option></select></span>
 </div>
-<aside class="sheet glass" id="sheet" aria-label="城市">
+<aside class="sheet glass split" id="sheet" aria-label="城市">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div id="list">
     <div class="head"><label class="search" style="flex:1 1 auto"><i class="sf" data-sf="magnifyingglass"></i><input id="q" type="search" placeholder="搜索城市" autocomplete="off"><button class="clear" type="button" aria-label="清除"><i class="sf" data-sf="xmark.circle.fill"></i></button></label></div>
@@ -158,7 +158,7 @@ $('cClose').addEventListener('click',()=>{$('card').hidden=true;$('list').hidden
 
 var OPEN=null; const cache={};
 async function show(c){
-  OPEN=c; $('card').hidden=false; $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
+  OPEN=c; $('card').hidden=false; if(!matchMedia('(min-width: 900px) and (pointer: fine)').matches) $('list').hidden=true; if(window.SHEET&&SHEET.get()==='small') SHEET.set('medium');
   $('cName').textContent=`${c.name.zh}（${c.name.en}）`;
   $('cMeta').textContent=`${({JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'})[c.country]||c.country} · 货币 ${c.currency}`;
   $('cBody').innerHTML='<div class="mcard"><div class="empty">载入…</div></div>';

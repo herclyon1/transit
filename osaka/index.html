@@ -41,6 +41,7 @@ html[data-theme=dark]{--acc:#ffd54f;--accTxt:#ffd54f;--accfg:#1b1500;--track:#ff
 html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.72) contrast(.92) saturate(.45)}
 /* 图例（可达枢纽）= 地图 App 搜索结果行：34 圆图标就是色样 */
 #lg .mrow{min-height:52px;padding:9px 16px}
+@media (min-width:900px) and (pointer:fine){#lg .mrow{min-height:44px;padding:11px 16px}}
 #lg .mrow .ico{border:1px solid #0003}
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
 #tiersLg{margin-top:0;padding-top:0}
@@ -54,7 +55,7 @@ html[data-theme=dark] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) bri
   <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
   <span class="spacer"></span>
 </div>
-<aside class="sheet glass" id="sheet" aria-label="控制项">
+<aside class="sheet glass panel-wide" id="sheet" aria-label="控制项">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div class="head"><span class="slot"></span><div class="tt"><div class="t-title2">大阪 · 居住</div><div class="t-sub dim">点车站看时间 · 长按查地点</div></div><span class="slot"></span></div>
   <div class="body">
