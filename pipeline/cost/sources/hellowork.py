@@ -4,7 +4,7 @@
 来源①（大阪）：ハローワークインターネットサービス 求人情報検索（hellowork.mhlw.go.jp/kensaku/GECA110010.do）。
   python3 pipeline/cost/sources/hellowork.py osaka [--pages 3] [--query コンビニ]
 官方公共就业服务，用人单位提交、法律要求写工资工时：列表页每条就带 賃金（時給 min〜max）、就業時間（1）(2)(3)、休日、事業所名、就業場所、求人番号、受付年月日。
-只搜 大阪府 × パート（ippanCKBox=2）× 篮子关键词；就業場所 含「大阪市」才收。確数 = 時給 min == max；班次取（1），多段是可选班次标 多班可选。
+只搜 大阪府 × パート（ippanCKBox=2）× 篮子关键词；就業場所 含「大阪市」才收。確数 = 時給 min == max；区间取下限记 wage_floor（用户 09-15 裁定：求人票的幅度是结构性的，下限就是起薪）；班次取（1），多段是可选班次标 多班可选。
 联系方式：ハローワーク窓口/オンライン自主応募（site_apply），链接用 求人票（action=kyujinhyoBtn&kJNo=…）。请求间隔 1.5–3 秒，一轮 ≤ --pages 页/词。
 """
 import re, os, sys, json, time, html, random, argparse, datetime, subprocess
@@ -51,8 +51,9 @@ def to_rec(d, city, basket_hint, today):
           site_apply=True, employer=d['company'] or None, location=d['place'], in_city=CITY_STR[city] in d['place'], employer_from_location=False, suburb=False, kjno=d['kjno'], kind=d['kind'])
     m=re.search(r'([\d,]+)円〜([\d,]+)円',d['wage']); lo=int(m.group(1).replace(',','')) if m else None; hi=int(m.group(2).replace(',','')) if m else None
     hourly_unit=True                            # 本适配器只搜 パート（ippanCKBox=2）= 時給；フル は月給，以后再开
-    if lo and hi and lo==hi: r['wage_value']=float(lo); r['wage_unit']='JPY/小时' if hourly_unit else 'JPY/月'; r['wage_range']=False
-    else: r['wage_value']=None; r['wage_unit']=None; r['wage_range']=bool(lo)
+    # 用户 09-15 裁定：ハローワーク的区间是结构性的（同一岗位按经验/班次给幅度，下限 = 新人该班次的保底价），取下限入库标「起薪（求人票下限）」；只对 hellowork 生效，中国来源的区间照旧拒
+    if lo and hi: r['wage_value']=float(lo); r['wage_unit']='JPY/小时' if hourly_unit else 'JPY/月'; r['wage_range']=False; r['wage_floor']=(lo!=hi); r['wage_hi']=float(hi)
+    else: r['wage_value']=None; r['wage_unit']=None; r['wage_range']=False
     segs=re.findall(r'（(\d)）(\d{1,2})時(\d{2})分〜(\d{1,2})時(\d{2})分',d['hours'])
     hpd=None; hours=[]
     if segs:

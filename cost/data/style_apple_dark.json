@@ -1822,6 +1822,9 @@ false
 "symbol-placement": "line",
 "symbol-spacing": 350,
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -1834,6 +1837,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -1868,6 +1907,9 @@ false
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -1880,6 +1922,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -1928,6 +2006,9 @@ false
 "symbol-placement": "line",
 "symbol-spacing": 350,
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -1940,6 +2021,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -1972,6 +2089,9 @@ false
 "layout": {
 "symbol-placement": "line",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -1984,6 +2104,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2048,6 +2204,9 @@ false
 "layout": {
 "symbol-placement": "line",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2060,6 +2219,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2111,6 +2306,9 @@ false
 "layout": {
 "symbol-placement": "line",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2123,6 +2321,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2215,6 +2449,9 @@ true
 ],
 "symbol-spacing": 200,
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2227,6 +2464,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2306,6 +2579,9 @@ false
 ],
 "symbol-spacing": 200,
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2318,6 +2594,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2396,6 +2708,9 @@ false
 ],
 "symbol-spacing": 200,
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2408,6 +2723,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2436,6 +2787,9 @@ false
 "icon-size": 1,
 "text-anchor": "top",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2448,6 +2802,42 @@ false
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2494,6 +2884,9 @@ true
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2506,6 +2899,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2564,6 +2993,9 @@ true
 "icon-size": 0.2,
 "text-anchor": "bottom",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2576,6 +3008,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2633,6 +3101,9 @@ true
 "icon-size": 0.2,
 "text-anchor": "bottom",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2645,6 +3116,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2690,6 +3197,9 @@ true
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2702,6 +3212,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2771,6 +3317,9 @@ true
 "icon-size": 0.4,
 "text-anchor": "bottom",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2783,6 +3332,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2857,6 +3442,9 @@ true
 "icon-size": 0.5,
 "text-anchor": "bottom",
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2869,6 +3457,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2931,6 +3555,9 @@ true
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -2943,6 +3570,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -2997,6 +3660,9 @@ true
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -3009,6 +3675,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [
@@ -3063,6 +3765,9 @@ true
 ],
 "layout": {
 "text-field": [
+"let",
+"n",
+[
 "coalesce",
 [
 "get",
@@ -3075,6 +3780,42 @@ true
 [
 "get",
 "name"
+]
+],
+[
+"case",
+[
+">=",
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+],
+0
+],
+[
+"slice",
+[
+"var",
+"n"
+],
+0,
+[
+"index-of",
+" / ",
+[
+"var",
+"n"
+]
+]
+],
+[
+"var",
+"n"
+]
 ]
 ],
 "text-font": [

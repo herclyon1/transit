@@ -59,6 +59,7 @@ def entry(r):
     note=mask(f"帖子原文：“{r['raw'][:220].replace(chr(10),' / ')}”")
     if '24h' in flag and h: note+=f"。帖子写明 24 小时在岗：月工时 24 h × {dpm} 班 = {h} h，含夜间值守。"
     if r.get('probation'): note+="。帖子写的是试用期工资。"
+    if r.get('wage_floor'): note+=f"。起薪（求人票下限）：求人票写 {r['wage_value']:g}〜{r['wage_hi']:g}，按经验/班次给幅度，下限是新人该班次的保底价（用户 2026-09-15 裁定，只对ハローワーク）。"
     if r.get('via_agent'): note+="。发帖方是中介/劳务，帖子写明了用人单位。"
     if r.get('employer_from_location'): note+="。帖子没写公司名，只写地点和直拨电话（群帖惯例）。"
     return {"chain": f"{BASKET_ZH.get(r['basket'],r['basket'])}：{(r.get('title') or '')[:16]}", "tags": r.get('_tags',[]), "headline": not r.get('_tags'),   # headline=False 的不参与首页中位数
@@ -68,7 +69,7 @@ def entry(r):
                      "source_name": f"{SRC_ZH.get(r['source'],r['source'])}｜{r.get('account','')}｜{r.get('article_title','')[:30]}",
                      "fetched_at": r.get('fetched_at'), "posted_at": r.get('posted_at'), "confidence": "listing",
                      "contact": r.get('contact'), "note": note,
-                     "wage_posted": f"{r['wage_value']:g} {r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')}",
+                     "wage_posted": (f"{r['wage_value']:g}〜{r['wage_hi']:g} " if r.get('wage_floor') else f"{r['wage_value']:g} ")+r['wage_unit'].replace('CNY','元').replace('VND','越南盾').replace('JPY','日元')+('（取下限）' if r.get('wage_floor') else ''),
                      "hours": {"posted": r.get('hours_text'), "per_day": hpd, "days_per_month": dpm, "monthly": h,
                                "basis": "posted"}}}   # 只认帖子写明的工时（2026-09-15 起不再有 rule_24h/rule_12h）
 

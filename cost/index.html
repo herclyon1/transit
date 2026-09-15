@@ -34,7 +34,13 @@
 #card .mcard .src + .r::before{content:none}
 #card .mcard > .src:first-child{margin-top:0;padding-top:12px}
 .mnote{margin:0;padding:10px var(--inset) 0;color:var(--ink-2);font-size:.7647em;line-height:1.3846em}
-.val .nrow{display:block;font-size:.7059em;line-height:1.3333em;text-align:right}
+.mrow .val{flex:0 0 auto;width:min-content;flex-wrap:wrap;justify-content:flex-end;row-gap:2px}   /* min-content：两行各自不换行，宽度 = 较宽那行，名字那栏才有地方 */
+.mrow .lab{flex:1 1 auto;min-width:0} .mrow .lab .name,.mrow .lab .hint{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.val .nrow{flex-basis:100%;font-size:.7059em;line-height:1.3333em;text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px;white-space:nowrap}
+.val .nrow .tag{font-size:1em}
+.mrow .ico.txt{font-size:.7647em;font-weight:600;letter-spacing:.02em;color:var(--ink-2);background:var(--fill)}
+.dimlist .mrow .name,.dimlist .mrow .hint{color:var(--ink-3)}
+.dimlist .mrow .ico.txt{color:var(--ink-3)}
 .mbtn{padding:16px var(--inset) 0}
 .chip{display:inline-block;font-size:.6471em;line-height:1.1818em;padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle;color:#fff;background:var(--ink-3);font-weight:600}
 .chip.official{background:var(--green)} .chip.listing{background:var(--tint)} .chip.measured{background:var(--ink)}
@@ -67,13 +73,15 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 <aside class="sheet glass split" id="sheet" aria-label="城市">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div id="list">
-    <div class="head"><label class="search" style="flex:1 1 auto"><i class="sf" data-sf="magnifyingglass"></i><input id="q" type="search" placeholder="搜索城市" autocomplete="off"><button class="clear" type="button" aria-label="清除"><i class="sf" data-sf="xmark.circle.fill"></i></button></label></div>
     <div class="body">
       <!-- 地图 App 首页的「建议卡」：说明这张图是什么，× 掉就记住 -->
       <div class="sugg" id="intro"><span class="ico"><i class="sf" data-sf="yensign"></i></span><div><div class="t">薪资 · 购买力</div><div class="s">时薪、房租、通勤、生活费，换算成每月要打的工时。</div></div><button class="x" type="button" aria-label="关闭" id="introX"><i class="sf" data-sf="xmark"></i></button><button class="a" type="button" id="introMore">数据规范</button></div>
-      <h2 class="mh">城市 <i class="sf" data-sf="chevron.right"></i></h2>
+      <h2 class="mh">城市</h2>
       <div class="mlist" id="cityRows"></div>
       <p class="mnote">工时 = 到枢纽 15 分那档的月开销 ÷ 有效岗位时薪中位数　<span id="curDate"></span></p>
+      <!-- 还没数据的城市折到最后一组：灰字、无数值（用户 09-15 裁定） -->
+      <h2 class="mh" id="draftHead" hidden>待调查</h2>
+      <div class="mlist dimlist" id="draftRows" hidden></div>
     </div>
   </div>
   <div id="card" hidden>
@@ -102,7 +110,7 @@ APP=HIGShell.create({
   // 底图：OpenFreeMap（免费、无密钥、OpenStreetMap 数据）的矢量瓦片，样式 data/style_apple_light.json 照地图 App 浅色配色改的 positron；
   // 有路网和地名，进城不再是一片空白。城市点/标注在 load 后加在最上面。Natural Earth 国界那套只剩离线兜底（fallbackStyle）。
   map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:17, style:styleUrl()},
-  layers(map){ addCities(map); return {'city-dot': f=>show(CITIES.find(c=>c.id===f.properties.id))}; },
+  layers(map){ addCities(map); return {'city-dot': f=>{ const c=CITIES.find(x=>x.id===f.properties.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); }}; },   // 点圆点也飞过去（和列表一致）
   // 要素 → 卡片：标题/副标题立刻给，正文取到城市 JSON 再给
   async card(c){
     let d=cache[c.id];
@@ -126,7 +134,8 @@ function addCities(map){
         'circle-radius':['interpolate',['linear'],['zoom'],1,4.5,6,8],
         'circle-color':['case',['==',['get','status'],'ready'],ink,paper],
         'circle-stroke-color':['case',['==',['get','status'],'ready'],ink,dim],'circle-stroke-width':2}});
-    map.addLayer({id:'city-lab',type:'symbol',source:'cities',maxzoom:10,layout:{'text-field':['get','label'],'text-font':['Noto Sans Bold'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':ink,'text-halo-color':paper,'text-halo-width':1.5}});
+    // z≥6 底图自己有「乌鲁木齐市」，我们的标签藏掉只留点，免得双写
+    map.addLayer({id:'city-lab',type:'symbol',source:'cities',maxzoom:6,layout:{'text-field':['get','label'],'text-font':['Noto Sans Bold'],'text-size':12,'text-offset':[0,1.1],'text-anchor':'top'},paint:{'text-color':ink,'text-halo-color':paper,'text-halo-width':1.5}});
 }
 // 城市列表（sheet 的列表态）
 const COUNTRY={JPN:'日本',CHN:'中国',TWN:'台湾',KOR:'韩国',VNM:'越南',MMR:'缅甸',DEU:'德国',USA:'美国',AUS:'澳大利亚'};
@@ -135,21 +144,21 @@ const FLAG={JPN:'🇯🇵',CHN:'🇨🇳',TWN:'🇹🇼',KOR:'🇰🇷',VNM:'�
 try{ if(localStorage.getItem('cost.intro')==='x') $('intro').hidden=true; }catch(e){}
 $('introX').addEventListener('click',()=>{ $('intro').hidden=true; try{ localStorage.setItem('cost.intro','x'); }catch(e){} });
 $('introMore').addEventListener('click',()=>{ location.href='data/README.md'; });
-function cityRows(filter){
-  const q=(filter||'').trim().toLowerCase();
-  const rows=CITIES.filter(c=>!q||[c.name.zh,c.name.en,c.name.local||'',COUNTRY[c.country]||''].join(' ').toLowerCase().includes(q))
-    .sort((a,b)=>(b.status==='ready')-(a.status==='ready'));
-  // 地图 App 搜索结果行：34 圆图标（国旗）+ 标题 17 半粗 + 副标题 15 + ›
-  // 右侧 = 这座城市「到枢纽 15 分那档每月要打的工时」+ 彩色胶囊（签证上限内 / 超上限 / 待调查）——股市行的形：名字 + 灰副标题，右侧数值 + 胶囊
-  const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">${c.status==='ready'?'缺项':'待调查'}</span></span>`;
-    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><span class="tag ${over?'orange':(hh.cap?'green':'gray')}">${over?'超上限':(hh.cap?'上限内':'无上限')}</span><small class="dim nrow">${hh.n} 条岗位</small></span>`; };   // n 条 = 中位数背后的样本数（maa 09-15：样本薄要看得见）
-  $('cityRows').innerHTML=rows.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico">${FLAG[c.country]||'🏙'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · ${c.currency}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`).join('')||'<div class="mrow"><span class="lab dim">没有匹配的城市</span></div>';
+const CODE={JPN:'JP',CHN:'CN',TWN:'TW',KOR:'KR',VNM:'VN',MMR:'MM',DEU:'DE',USA:'US',AUS:'AU'};   // 不用 emoji 旗（台北的旗在 iOS 上是方框），用地区代码
+function cityRows(){
+  // 地图 App 搜索结果行：34 圆图标 + 标题 17 半粗 + 副标题 15 + ›；右侧 = 到枢纽 15 分那档每月要打的工时 + 样本数（股市行的形）
+  const capLine=hh=>!hh.visa?'':(/公民/.test(hh.visa)?'本国公民 · 无上限':`${hh.visa} · ${hh.capWeek?`每周 ${hh.capWeek} 小时上限`:'无上限'}`);   // 人话：「留学签证 · 每周 28 小时上限」/「本国公民 · 无上限」
+  const right=c=>{ const hh=HEAD[c.id]; if(!hh) return `<span class="val"><span class="tag gray">缺项</span></span>`;
+    const over=hh.cap&&hh.hrs>hh.cap; return `<span class="val"><b>${hh.hrs} 小时<small>/月</small></b><small class="dim nrow">${hh.cap?`<span class="tag ${over?'orange':'green'}">${over?'超出上限':'上限内'}</span>`:''}${hh.n} 条岗位</small></span>`; };   // 第二行：签证胶囊 + 样本数，名字那栏才有地方
+  const row=c=>{ const hh=HEAD[c.id]||{}; return `<button class="mrow" data-id="${c.id}"><span class="ico txt">${CODE[c.country]||'—'}</span><span class="lab"><div class="name">${c.name.zh} <span class="dim" style="font-weight:400">${c.name.en}</span></div><div class="hint">${capLine(hh)||COUNTRY[c.country]||c.country}</div></span>${right(c)}<i class="sf chev" data-sf="chevron.right"></i></button>`; };
+  const ready=CITIES.filter(c=>c.status==='ready'), draft=CITIES.filter(c=>c.status!=='ready');
+  $('cityRows').innerHTML=ready.map(row).join('');
+  $('draftRows').innerHTML=draft.map(c=>`<button class="mrow" data-id="${c.id}"><span class="ico txt">${CODE[c.country]||'—'}</span><span class="lab"><div class="name dim">${c.name.zh} <span style="font-weight:400">${c.name.en}</span></div><div class="hint">${COUNTRY[c.country]||c.country} · 还没查</div></span><i class="sf chev" data-sf="chevron.right"></i></button>`).join('');
+  $('draftHead').hidden=$('draftRows').hidden=!draft.length;
   HIG.sf();
-  $('cityRows').querySelectorAll('button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
+  document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
 }
-cityRows(''); loadHeads().then(()=>cityRows($('q').value));
-$('q').addEventListener('input',e=>{cityRows(e.target.value); e.target.closest('.search').classList.toggle('has',!!e.target.value);});
-$('q').closest('.search').querySelector('.clear').addEventListener('click',()=>{$('q').value='';cityRows('');$('q').closest('.search').classList.remove('has');});
+cityRows(); loadHeads().then(()=>cityRows());
 
 // 汇率：先读仓库里每日自动更新的 rates.json（兜底），再拉一次实时汇率覆盖 fx；下拉里标出汇率日期
 fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_at, '仓库');
@@ -183,7 +192,8 @@ function hoursFor(d){
   const food=d.living_official&&V(d.living_official.food); const tiers=d.tiers||[]; const t=tiers.find(x=>/15/.test(x.label||''))||tiers[1]||tiers[0];
   const rent=t&&V(t.rent_1k); if(!refWage||!food||rent==null) return null;
   const total=rent+util+comm+food+(t&&V(t.pass_student)||0); const cap=d.work&&d.work[0]&&V(d.work[0].rule)?d.work[0].rule.value*52/12:null;
-  return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label, n:refWageOf(d).n};
+  const w0=d.work&&d.work[0];
+  return {hrs:Math.round(total/refWage), cap:cap&&Math.round(cap), tier:t&&t.label, n:refWageOf(d).n, visa:w0&&w0.visa, capWeek:w0&&V(w0.rule)};
 }
 const HEAD={};   // id → hoursFor 结果；有数据的城市开页就取
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>r.json()).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(()=>{}))); }
