@@ -50,7 +50,7 @@ window.HIGSheet = (function(){
     const grab = el.querySelector('.grab'), body = el.querySelector('.body');
     const now = opts.now || (() => performance.now());
     const raf = opts.raf || (f => requestAnimationFrame(f));
-    let cur = opts.initial || 'medium', tops = {}, H = 0, safeB = 0, top = 0, anim = null, elapsed = 0;   // elapsed：弹簧最近一帧算到的时刻（秒，探针对模型用）
+    let cur = opts.initial || 'medium', tops = {}, H = 0, safeB = 0, top = 0, anim = null, elapsed = 0, parked = false;   // parked：停在屏幕底下（叠放卡片没打开时）   // elapsed：弹簧最近一帧算到的时刻（秒，探针对模型用）
     const wide = () => window.matchMedia('(min-width: 900px)').matches;   // 宽屏是侧栏，没有档位（hig.css）
 
     function layout(){
@@ -61,7 +61,7 @@ window.HIGSheet = (function(){
       if (detents.includes('medium')) tops.medium = H - Math.round(H * MEDIUM_FRAC * 3) / 3;
       if (detents.includes('small')) tops.small = H - (SMALL_H + safeB);
       if (wide()){ el.style.transform = el.style.height = el.style.transition = el.style.left = el.style.right = ''; return; }
-      el.style.height = (H - LARGE_TOP) + 'px'; el.style.transition = 'none';
+      el.style.height = (H - LARGE_TOP) + 'px'; el.style.transition = 'none'; inset = -1;
     }
     const SIDE = 8; let inset = -1;
     const place = y => { top = y; el.style.transform = 'translate3d(0,' + (y - LARGE_TOP).toFixed(2) + 'px,0)';
@@ -73,13 +73,22 @@ window.HIGSheet = (function(){
     function stop(){ anim = null; }
     // 弹簧落档：从当前位置带初速 v0 去 tops[d]
     function settle(d, v0 = 0){
-      mark(d); if (wide()){ landed(); return; }
+      parked = false; mark(d); if (wide()){ landed(); return; }
       const from = top, target = tops[d]; let t0 = null; const token = anim = {};
       // 第一帧画在 t=0（起点不动），和 Core Animation 一样——地图 App 的曲线比「第一帧就动」晚一帧，见 evidence/sheet-settle-maps-vs-sheetjs.png
       const prm = settleFor(v0);
       const step = () => { if (anim !== token) return; if (t0 == null) t0 = now(); elapsed = (now() - t0) / 1000; const [x, v] = spring(from - target, v0, elapsed, prm);
         if (Math.abs(x) < 0.05 && Math.abs(v) < 2){ place(target); anim = null; landed(); return; }
         place(target + x); raf(step); };
+      raf(step);
+    }
+    // 飞到任意位置（叠放卡片进出屏幕用）：同一根弹簧，落地回调
+    function fly(targetY, done){
+      if (wide()){ place(targetY); done && done(); return; }
+      const from = top; let t0 = null; const token = anim = {};
+      const step = () => { if (anim !== token) return; if (t0 == null) t0 = now(); elapsed = (now() - t0) / 1000; const [x, v] = spring(from - targetY, 0, elapsed);
+        if (Math.abs(x) < 0.05 && Math.abs(v) < 2){ place(targetY); anim = null; done && done(); return; }
+        place(targetY + x); raf(step); };
       raf(step);
     }
     // 松手：投影 → 最近的档 → 弹簧
@@ -141,13 +150,47 @@ window.HIGSheet = (function(){
       grab.addEventListener('click', e => { if (e.detail === 0 || !('ontouchstart' in window)) cycle(); });   // 键盘 / 桌面鼠标（触摸的轻点走 touchend）
       grab.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); cycle(); } });
     }
-    const relayout = () => { layout(); if (!wide()) place(tops[cur] ?? tops.medium ?? Object.values(tops)[0]); };
+    const relayout = () => { layout(); if (!wide()) place(parked ? H : (tops[cur] ?? tops.medium ?? Object.values(tops)[0])); };
+    const park = () => { parked = true; stop(); if (!wide()) place(H); };
     window.addEventListener('resize', relayout); if (window.visualViewport) window.visualViewport.addEventListener('resize', relayout);
     layout(); mark(cur); landed(); if (!wide()) place(tops[cur] ?? Object.values(tops)[0]);
 
     return { el, get: () => cur, set: d => { if (detents.includes(d)) settle(d); }, tops: () => ({ ...tops }), top: () => top, elapsed: () => elapsed,
-             sim: { begin, move, end, place, layout: relayout }, physics: { project, rubber, spring, settleFor, nearest, RATE, PROJECT_S, VEL_WINDOW, RUBBER_C, SETTLE, FLICK_BOUNCE } };
+             sim: { begin, move, end, place, fly, park, layout: relayout, H: () => H, parked: () => parked }, physics: { project, rubber, spring, settleFor, nearest, RATE, PROJECT_S, VEL_WINDOW, RUBBER_C, SETTLE, FLICK_BOUNCE } };
   }
+  // 叠放卡片（地图 App 点搜索结果）：卡片是第二张 Sheet，从屏幕底下弹到中档，后面那张退到中档；关掉时卡片弹回屏幕底下、后面那张回原档。
+  // 实测（09-15 14:34，60fps）：两张用同一根 0.34s 临界阻尼弹簧同时动；进：卡片 956→533、搜索页 62→533；出：卡片 533→956、搜索页 533→62。
+  // 窄屏时把 cardEl 挪到 body 下当独立 Sheet（fixed 元素在 transform 的祖先里会跟着祖先动），关掉后放回原处；宽屏只切 hidden。
+  create.stack = function(base, cardEl, opts = {}){
+    let ctl = null, home = null, prev = null, shown = false, mounted = false;
+    const wide = () => window.matchMedia('(min-width: 900px)').matches;
+    // 窄屏一开始就把卡片挂到 body 下、放到屏幕底下等着：present 时只剩弹簧要跑，不在第一帧做挪 DOM + 排版（实测那样会掉一帧）
+    function mount(){
+      if (mounted || wide()) return; mounted = true;
+      home = { parent: cardEl.parentNode, next: cardEl.nextSibling };
+      document.body.appendChild(cardEl); cardEl.classList.add('sheet', 'glass', 'stacked'); cardEl.hidden = false; cardEl.style.visibility = 'hidden';
+      ctl = create(cardEl, { initial: 'medium', detents: opts.detents || ['small', 'medium', 'large'] }); ctl.sim.park();
+    }
+    function unmount(){
+      if (!mounted) return; mounted = false; cardEl.hidden = true; cardEl.classList.remove('sheet', 'glass', 'stacked'); cardEl.style.cssText = ''; home.parent.insertBefore(cardEl, home.next); ctl = null;
+    }
+    function present(){
+      if (shown) return; shown = true;
+      if (wide()){ unmount(); cardEl.hidden = false; return; }
+      mount(); prev = base.get();
+      // 页面通常在同一个任务里同步拼卡片内容（薪资页 show()）；弹簧推迟到下一帧起跑，别让拼 DOM 的那一帧吃掉动画开头
+      requestAnimationFrame(() => { if (!shown) return; cardEl.style.visibility = ''; ctl.set('medium'); if (base.get() === 'large') base.set('medium'); });
+    }
+    function dismiss(){
+      if (!shown) return; shown = false;
+      if (!mounted){ cardEl.hidden = true; return; }
+      ctl.sim.fly(ctl.sim.H(), () => { cardEl.style.visibility = 'hidden'; ctl.sim.park(); });
+      if (prev && prev !== base.get()) base.set(prev);
+    }
+    mount();
+    window.addEventListener('resize', () => { if (wide() && mounted){ const was = shown; unmount(); cardEl.hidden = !was; } else if (!wide() && !mounted){ const was = shown; cardEl.hidden = true; mount(); if (was){ cardEl.style.visibility = ''; ctl.sim.place(ctl.tops().medium); } } });
+    return { present, dismiss, get shown(){ return shown; }, get ctl(){ return ctl; } };
+  };
   create.physics = { project, rubber, spring, settleFor, nearest, RATE, PROJECT_S, VEL_WINDOW, RUBBER_C, SETTLE, FLICK_BOUNCE };
   return create;
 })();
