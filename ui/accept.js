@@ -76,6 +76,7 @@
     // Sheet 的 .body 必须是滚动容器：大档时 .body 底边不超出 Sheet，内容长于视口就能滚（09-15 薪资页 #list 套一层把它撑没了，列表滚不动）
     if(window.SHEET&&SHEET.sim&&!wide){ const se=SHEET.el, sb=se.querySelector('.body'); if(sb){ const was=SHEET.get(), T=SHEET.tops(); const cls=se.className; se.classList.remove('small'); se.classList.add('large'); SHEET.sim.place(T.large);   // 按大档的 class 量（小档时页面可以 overflow:hidden）
       const sr=rect(se), br=rect(sb); ok('Sheet 大档：.body 底边不超出 Sheet', Math.round(br.bottom-sr.bottom), 0, 1, num(br.bottom)+' vs '+num(sr.bottom));
+      ok('Sheet .body 允许原生竖向滚动（touch-action pan-y/auto，不能继承 .sheet 的 none）', ['pan-y','auto','manipulation'].includes(cs(sb).touchAction), true, 0, cs(sb).touchAction);
       ok('Sheet .body 是滚动容器（overflow auto，内容长就能滚）', cs(sb).overflowY==='auto'&&(sb.scrollHeight<=sb.clientHeight+1||sb.clientHeight<sb.scrollHeight), true, 0, 'clientH '+num(sb.clientHeight)+' scrollH '+num(sb.scrollHeight));
       se.className=cls; SHEET.sim.place(T[was]??T.medium); } }
     // 叠放卡片（HIGSheet.stack：地图 App 地点卡片 = 第二张 Sheet 从底下弹上来，后面那张退到中档）
