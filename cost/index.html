@@ -21,9 +21,6 @@
 .maplibregl-ctrl-attrib{font-size:.6471em}
 .maplibregl-ctrl-bottom-right{bottom:calc(44dvh + 8px)}
 @media (min-width:900px){.maplibregl-ctrl-bottom-right{bottom:0}}
-/* 货币：pop-up button（HIG）——玻璃胶囊里套原生 select，点开是系统菜单 */
-.cur{position:relative}
-.cur select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font:inherit}
 /* 卡片态：render() 输出的 section/h3/.r/.src/table 映射成地图 App 地点卡片（groups()） */
 #card .mcard .r{align-items:baseline}
 #card .mcard .r .k{color:var(--ink)}
@@ -57,8 +54,7 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
 <div class="bar">
   <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i></a>
   <span class="spacer"></span>
-  <span class="btn-glass glass text cur" id="curBtn"><span id="curLabel">当地</span><i class="sf" data-sf="chevron.down" style="width:.8em;height:.8em"></i>
-    <select id="cur" aria-label="货币"><option value="local">当地</option></select></span>
+  <button class="btn-glass glass text cur" id="curBtn" type="button" aria-label="货币"><span id="curLabel">当地</span><i class="sf" data-sf="chevron.down" style="width:.8em;height:.8em"></i></button>
 </div>
 <aside class="sheet glass split" id="sheet" aria-label="城市">
   <div class="grab" aria-hidden="true"><i></i></div>
@@ -77,6 +73,8 @@ table.tiers .chip.crowd,table.tiers .chip.estimated{width:6px;height:6px;box-sha
     <div class="body" id="cBody"></div>
   </div>
 </aside>
+<!-- 货币：UIMenu 式下拉菜单（hig-kit NUMBERS.md），不用 <select> -->
+<div class="menu" id="curMenu" hidden role="menu" aria-label="货币"><button role="menuitemradio" aria-checked="true" data-value="local"><i class="sf" data-sf="checkmark"></i>当地</button></div>
 
 <script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
@@ -144,11 +142,11 @@ fetch('data/rates.json').then(r=>r.json()).then(r=>{RATES=r; fillCur(r.fetched_a
   }).catch(()=>{});
 }).catch(()=>{});
 function fillCur(date, kind){
-  const sel=$('cur'); sel.querySelectorAll('option:not([value=local])').forEach(o=>o.remove());
-  for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const o=document.createElement('option');o.value=k;o.textContent=k;sel.appendChild(o); }
-  sel.title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
+  const m=$('curMenu'); m.querySelectorAll('button:not([data-value=local])').forEach(o=>o.remove());
+  for(const k of Object.keys(RATES.fx||{})){ if(RATES.fx[k]==null) continue; const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitemradio'); b.setAttribute('aria-checked', k===CUR?'true':'false'); b.dataset.value=k; b.innerHTML='<i class="sf" data-sf="checkmark"></i>'+k; m.appendChild(b); }
+  HIG.sf(); $('curBtn').title=`汇率 ${date}（${kind}）`; const tag=$('curDate'); if(tag) tag.textContent=`汇率 ${date}`;
 }
-$('cur').addEventListener('change',e=>{CUR=e.target.value; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(OPEN) show(OPEN);});
+HIG.menu($('curBtn'), $('curMenu'), v=>{CUR=v; $('curLabel').textContent=CUR==='local'?'当地':CUR; if(OPEN) show(OPEN);});
 
 map.on('click','city-dot',e=>{ const id=e.features[0].properties.id; show(CITIES.find(c=>c.id===id)); });
 map.on('mouseenter','city-dot',()=>map.getCanvas().style.cursor='pointer');

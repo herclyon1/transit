@@ -32,5 +32,19 @@ window.HIG = (function(){
   document.addEventListener('DOMContentLoaded', sf);
   // ?accept → 加载验收脚本（DESIGN-HIG.md 验收程序第 2 关）
   if(/[?&]accept/.test(location.search)){ const a=document.createElement('script'); a.src=ROOT+'ui/accept.js?v='+Date.now(); document.head.appendChild(a); }
-  return { sf, sheet, ROOT };
+  // 下拉菜单（UIMenu）：点 anchor 开合，菜单贴在 anchor 下方 6，靠右对齐；点项 → onPick(value)；Esc/点外面关。
+  function menu(anchor, el, onPick){
+    const close=()=>{ el.hidden=true; anchor.setAttribute('aria-expanded','false'); };
+    const open=()=>{ el.hidden=false; anchor.setAttribute('aria-expanded','true');
+      const a=anchor.getBoundingClientRect(); el.style.top=(a.bottom+6+window.scrollY)+'px'; el.style.left=Math.max(8, Math.min(a.right-el.offsetWidth, window.innerWidth-el.offsetWidth-8))+'px';
+      const first=el.querySelector('[aria-checked="true"]')||el.querySelector('button'); first&&first.focus(); };
+    anchor.setAttribute('aria-haspopup','menu'); anchor.setAttribute('aria-expanded','false');
+    anchor.addEventListener('click', e=>{ e.stopPropagation(); el.hidden?open():close(); });
+    el.addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-checked', x===b?'true':'false')); close(); onPick&&onPick(b.dataset.value, b); });
+    document.addEventListener('click', e=>{ if(!el.hidden && !el.contains(e.target)) close(); });
+    document.addEventListener('keydown', e=>{ if(el.hidden) return; if(e.key==='Escape'){ close(); anchor.focus(); }
+      if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); const bs=[...el.querySelectorAll('button')]; const i=bs.indexOf(document.activeElement); bs[(i+(e.key==='ArrowDown'?1:-1)+bs.length)%bs.length].focus(); } });
+    return { open, close };
+  }
+  return { sf, sheet, menu, ROOT };
 })();

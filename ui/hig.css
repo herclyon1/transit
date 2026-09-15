@@ -1,3 +1,4 @@
+/* KIT_VERSION=1 (hig-kit ~/Claude/hig-kit；数字表 NUMBERS.md) */
 /* transit 全站共用的界面层：照 Apple Human Interface Guidelines（iOS 26/27 Liquid Glass 版）和
    Apple 官方 iOS/iPadOS 27 UI Kit 的数字做，以 iOS 27 模拟器（iPhone 18 Pro Max，简体中文）
    上的地图 App / 设置 App 实测为准。每个数字的出处见 DESIGN-HIG.md；改动前先看那份表。
@@ -363,3 +364,16 @@ a.row:active,button.row:active{background:var(--fill)}
 .btn.l.stack span{font-size:.7647em;font-weight:600}
 .mbtn{padding:0 var(--inset)}
 .mbtn .btn{width:100%}
+
+/* ---------- 15. 下拉菜单（UIMenu；hig-kit NUMBERS.md：248 宽、行 42、17 regular、上下 5、圆角 26、玻璃、选中行 ✓ 在前 22 符号位、标签距左 50）----------
+   用法：<div class="menu" hidden role="menu"><button role="menuitemradio" aria-checked="true"><i class="sf" data-sf="checkmark"></i>当地</button>…</div>
+   HIG.menu(anchorEl, menuEl, onPick) 负责开合与键盘。用它做「货币」那类选择，不用 <select>。 */
+.menu{position:absolute;z-index:30;width:248px;padding:5px 0;border-radius:26px;overflow:hidden;
+      background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
+      box-shadow:var(--glass-shadow),inset 0 0 0 .5px var(--glass-edge)}
+.menu button{display:flex;align-items:center;width:100%;height:42px;padding:0 16px 0 50px;position:relative;border:0;background:none;color:var(--ink);
+             font:inherit;font-size:1em;line-height:1.2941em;text-align:left;cursor:pointer}
+.menu button + button::before{content:"";position:absolute;left:50px;right:0;top:0;height:1px;background:var(--line)}
+.menu button .sf{position:absolute;left:16px;width:22px;height:22px;top:10px;display:none}
+.menu button[aria-checked="true"] .sf{display:block}
+.menu button:active,.menu button:focus-visible{background:var(--fill)}

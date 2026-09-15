@@ -72,6 +72,7 @@
     const sw=qa('.sw')[0]; if(sw){ const r=rect(sw); ok('开关 63×28', r.width===63&&r.height===28, true, 0, num(r.width)+'×'+num(r.height)); const k=cs(sw.querySelector('i'),'::after'); ok('开关圆钮 38×24', px(k.width)===38&&px(k.height)===24, true, 0, k.width+'×'+k.height); }
     const sl=qa('.row.slider input[type=range]')[0]; if(sl) ok('滑块热区 28', rect(sl).height, 28, 0.5);
     }
+    const mn=q('.menu'); if(mn){ const was=mn.hidden; mn.hidden=false; const mb=mn.querySelector('button'); ok('下拉菜单 248 宽 圆角 26（UIMenu）', Math.abs(rect(mn).width-248)<0.5&&px(cs(mn).borderTopLeftRadius)===26, true, 0, num(rect(mn).width)+' r'+cs(mn).borderTopLeftRadius); if(mb) ok('菜单行 42 标签距左 50', Math.abs(rect(mb).height-42)<0.5&&px(cs(mb).paddingLeft)===50, true, 0, num(rect(mb).height)+' pl'+cs(mb).paddingLeft); ok('菜单上下内边 5', px(cs(mn).paddingTop)===5&&px(cs(mn).paddingBottom)===5, true, 0, cs(mn).padding); mn.hidden=was; }
     const tl=qa('.t-large')[0]; if(tl){ const c=cs(tl); ok('大标题 34/41 700', Math.abs(px(c.fontSize)-root*2)<0.2&&+c.fontWeight>=700, true, 0, num(px(c.fontSize))+'/'+num(px(c.lineHeight))+' w'+c.fontWeight); }
     const sfx=qa('.sf')[0]; if(sfx){ const m=cs(sfx).maskImage||cs(sfx).webkitMaskImage; ok('SF Symbols 蒙版已装', /ui\/sf\/.+\.png/.test(m), true, 0, (m||'').slice(0,60)); }
     const mv=cs(document.documentElement).getPropertyValue('--ease').trim(); if(matchMedia('(prefers-reduced-motion: reduce)').matches) ok('减弱动态：过渡关闭', cs(sh||document.body).transitionDuration, '0s', 0);
