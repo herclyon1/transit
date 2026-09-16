@@ -30,8 +30,9 @@
     uniform float u_lc;               // lightColor (grey, linear)
     uniform float u_amb;              // ambientLightColor (grey, linear)
     uniform float u_lightC;           // light(0,0,1) with the same cube sample -> factor 1 at the disc centre
-    uniform vec3 u_mid;               // rim mid colour, linear
-    uniform float u_rimPx;            // 75 km at limb scale, device px
+    uniform vec3 u_mid;               // corona mid colour (Sky-Standard fillColor = captured skyTopColor), linear
+    uniform vec3 u_horizon;           // corona horizon colour (Sky-Standard prop 202 = captured skyBottomColor), linear
+    uniform float u_rimPx;            // half the corona: 75 km at limb scale, device px (inner half over the disc, outer half outside)
     uniform float u_rimLight;         // AtmosphereConstants.lightingEnabled (1 = far camera)
     uniform float u_alpha;            // fade (morph to flat)
     uniform sampler2D u_height;       // Apple mesh heights, world Web-Mercator, terrarium (height-globe.png)
@@ -40,6 +41,9 @@
     uniform mat3 u_frame;             // columns: east, north, up unit vectors of the view centre in ECEF (view -> ECEF)
     uniform float u_scale;            // groundElevationScale(Apple z)
     uniform float u_terrain;          // 0..1: how much of the terrain tilt to apply (fades out over PAL)
+    uniform vec3 u_sky;               // GroundAtmosphere.skyBottomColor, linear (light / dark)
+    uniform vec2 u_hg;                // GroundAtmosphere.horizonGlowParameters (2.0, 0.5) [cap]
+    uniform float u_atmosW;           // fogParameters.w for globe tiles (not captured; fitted on the App's limb profile, map/README.md)
     const float PI = 3.14159265358979;
     const float EARTH_W = 40075016.686;                                    // Web-Mercator world width, metres
     const float EA_LNG0 = 90.0, EA_LNG1 = 180.0, EA_LAT1 = 66.51326;       // ground-globe.json east_asia
@@ -90,19 +94,29 @@
         vec3 lin = toLin(base);
         float light = u_amb * textureCube(u_cube, n).r + u_lc * max(dot(n, u_L), 0.0);
         vec3 col = lin * light / u_lightC;
-        // MapLibre's own antialiased edge: where its disc has faded, show the rim start instead of black
+        // ground atmosphere term (SHADER-NUMBERS 3.1): the sky-coloured glow that brightens the ground toward the limb —
+        // atmos = clamp((1 - hg.x) + hg.x * clamp((1 - n.V) / w, 0, 1), 0, 1) * hg.y * ambientLightColor * skyBottomColor
+        vec3 P = vec3(dx * t, dy * t, u_D - t);
+        vec3 V = normalize(vec3(0.0, 0.0, u_D) - P);
+        float atm = clamp((1.0 - u_hg.x) + u_hg.x * clamp((1.0 - dot(n, V)) / u_atmosW, 0.0, 1.0), 0.0, 1.0) * u_hg.y;
+        col += atm * u_amb * u_sky;
+        // corona, inner half (GlobeAtmosphere fragment, RENDER-PIPELINE 2.2): mix(horizonColor, midColor, t1) x light, opaque
+        // over the disc's last 75 km (colorMidPoint 0.5 of the 150 km corona falls on the silhouette; App measured, map/README.md)
         vec2 dir = normalize(vec2(d.x, -d.y));
         float I = 0.25 * pow(dot(u_L, vec3(dir, 0.0)) + 1.0, 2.0);
         float rimL = mix(1.0, u_lc * I + u_amb, u_rimLight);
-        vec3 rim = u_mid * rimL;
-        col = mix(rim, col, m.a);
+        float t1 = clamp((rho - (u_r - u_rimPx)) / u_rimPx, 0.0, 1.0);
+        vec3 rim = mix(u_horizon, u_mid, t1) * rimL;
+        col = mix(rim, col, m.a);                                         // MapLibre's antialiased disc edge: rim, not black
+        col = mix(col, rim, smoothstep(-1.0, 0.0, rho - (u_r - u_rimPx)));  // 1 device px edge at the corona's inner radius
         gl_FragColor = vec4(toSrgb(col) * u_alpha, u_alpha);
       } else if (rho - u_r < u_rimPx) {
+        // corona, outer half: mix(midColor, endColor = black, t2) x light over 75 km outside the silhouette
         float t2 = clamp((rho - u_r) / u_rimPx, 0.0, 1.0);
         vec2 dir = normalize(vec2(d.x, -d.y));
         float I = 0.25 * pow(dot(u_L, vec3(dir, 0.0)) + 1.0, 2.0);
         float rimL = mix(1.0, u_lc * I + u_amb, u_rimLight);
-        vec3 col = u_mid * (1.0 - t2) * rimL;                            // mix(midColor, endColor = black, t2)
+        vec3 col = u_mid * (1.0 - t2) * rimL;
         gl_FragColor = vec4(toSrgb(col) * u_alpha, u_alpha);
       } else {
         discard;
@@ -124,8 +138,8 @@
     const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const aPos = gl.getAttribLocation(prog, 'a_pos'); gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-    const U = {}; for (const name of ['u_map', 'u_cube', 'u_size', 'u_c', 'u_r', 'u_D', 'u_f', 'u_L', 'u_lc', 'u_amb', 'u_lightC', 'u_mid', 'u_rimPx', 'u_rimLight', 'u_alpha',
-                                      'u_height', 'u_heightEa', 'u_hsize', 'u_frame', 'u_scale', 'u_terrain']) U[name] = gl.getUniformLocation(prog, name);
+    const U = {}; for (const name of ['u_map', 'u_cube', 'u_size', 'u_c', 'u_r', 'u_D', 'u_f', 'u_L', 'u_lc', 'u_amb', 'u_lightC', 'u_mid', 'u_horizon', 'u_rimPx', 'u_rimLight', 'u_alpha',
+                                      'u_height', 'u_heightEa', 'u_hsize', 'u_frame', 'u_scale', 'u_terrain', 'u_sky', 'u_hg', 'u_atmosW']) U[name] = gl.getUniformLocation(prog, name);
     // height textures (units 2, 3): Apple's mesh heights as terrarium PNGs (RENDER-PIPELINE 2.4b); 1x1 zero until loaded
     const hsize = [1, 1];
     const mkTex = (unit) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
@@ -169,9 +183,9 @@
     return {
       lightC, centreZ,
       set onHeightLoaded(fn) { onHeight = fn; },
-      /** geom: {cx, cy, r, capDeg} in CSS px (y down); mid: [r,g,b] linear; rimPx CSS px; alpha 0..1;
+      /** geom: {cx, cy, r, capDeg} in CSS px (y down); rim: {mid, horizon: [r,g,b] linear, px: half thickness, CSS px}; alpha 0..1;
        *  terrain: {lat, lng (deg, view centre), scale (groundElevationScale), amount 0..1} or null */
-      draw(mapCanvas, geom, dpr, mid, rimPx, rimLight, alpha, terrain) {
+      draw(mapCanvas, geom, dpr, rim, rimLight, alpha, terrain, atmos) {
         const W = mapCanvas.width, H = mapCanvas.height;      // device px
         if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
         gl.viewport(0, 0, W, H);
@@ -183,7 +197,10 @@
         const f = geom.r * dpr * Math.sqrt(D * D - 1);
         gl.uniform2f(U.u_size, W, H); gl.uniform2f(U.u_c, geom.cx * dpr, geom.cy * dpr); gl.uniform1f(U.u_r, geom.r * dpr);
         gl.uniform1f(U.u_D, D); gl.uniform1f(U.u_f, f);
-        gl.uniform3f(U.u_mid, mid[0], mid[1], mid[2]); gl.uniform1f(U.u_rimPx, rimPx * dpr); gl.uniform1f(U.u_rimLight, rimLight); gl.uniform1f(U.u_alpha, alpha);
+        gl.uniform3f(U.u_mid, rim.mid[0], rim.mid[1], rim.mid[2]); gl.uniform3f(U.u_horizon, rim.horizon[0], rim.horizon[1], rim.horizon[2]);
+        gl.uniform1f(U.u_rimPx, rim.px * dpr); gl.uniform1f(U.u_rimLight, rimLight); gl.uniform1f(U.u_alpha, alpha);
+        if (atmos) { gl.uniform3f(U.u_sky, atmos.sky[0], atmos.sky[1], atmos.sky[2]); gl.uniform2f(U.u_hg, atmos.hg[0], atmos.hg[1]); gl.uniform1f(U.u_atmosW, atmos.w); }
+        else gl.uniform2f(U.u_hg, 0, 0);
         if (terrain && terrain.amount > 0) {
           const la = terrain.lat * Math.PI / 180, lo = terrain.lng * Math.PI / 180;
           // columns east, north, up (ECEF) of the view centre; view x = east, y = north, z = up (bearing 0, pitch 0)
