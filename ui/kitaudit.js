@@ -33,6 +33,19 @@
     check:el=>{ const r=rect(el); const p=[]; if(!near(r.width,200)) p.push(`宽 ${num(r.width)}≠200`); if(!near(R(el),0)) p.push(`圆角 ${num(R(el))}≠0`); if(!near(r.left,0)) p.push(`左 ${num(r.left)}≠0`); if(!near(r.top,0)||!near(r.height,innerHeight)) p.push(`不通高 ${num(r.top)}+${num(r.height)}`); return p; }});
   rule({name:'第二面板 = Popover 320 r20，Maps「Map Modes」位：右缘 1222（右列左 14）、顶 13', ref:'macOS 27 Kit › Popovers；styl-work/native-mapmodes.png（1280×744 @2x，2026-09-16）', plat:'mac', sel:'.sheet.opt', leaf:false, check:el=>{ const r=rect(el); const p=[]; if(!near(R(el),20)) p.push(`圆角 ${num(R(el))}≠20`); if(!near(r.width,320)) p.push(`宽 ${num(r.width)}≠320`); if(!near(innerWidth-r.right,58,1.5)) p.push(`右缘距窗右 ${num(innerWidth-r.right)}≠58（= 右列 8+36+14）`); if(!near(r.top,13,1.5)) p.push(`顶 ${num(r.top)}≠13`); return p; }});
   rule({name:'第二张 Sheet（大阪图层）', ref:'iOS 27 Kit › Sheets', plat:'ios', sel:'.sheet.opt', leaf:false, check:el=>near(R(el),34)||near(R(el),38)?[]:[`圆角 ${num(R(el))}∉{34,38}`]});
+  // ---- 材质 = 系统配方（MATERIALS.md §3/§4，hig.css §19；computed 值逐字比，亮色） ----
+  const BF=(el,want)=>{ const v=(cs(el).backdropFilter||cs(el).webkitBackdropFilter||'').replace(/\s+/g,' ').trim(); return v===want?[]:[`backdrop-filter「${v}」≠「${want}」`]; };
+  const BG=(el,want)=>{ const v=cs(el).backgroundColor; return v===want?[]:[`background「${v}」≠「${want}」`]; };
+  rule({name:'侧栏材质 = UIKit 玻璃侧栏（MATERIALS.md §4 sidebar：blur 10，Face 0.4+0.63·in，Sat 1.2，白填 20%，MaxLuma 0.85）', ref:'MATERIALS.md §4「sidebar」行 + §4 CSS 表；合成式见 hig.css §19', plat:'mac', sel:'#matSidebar', leaf:false,
+    check:el=>[...BF(el,'blur(10px) contrast(0.326) brightness(1.544) saturate(1.2)'),...BG(el,'rgb(224, 224, 224)'),...(cs(el).mixBlendMode==='darken'?[]:['MaxLuma 需 mix-blend-mode: darken']),...(cs(document.getElementById('sheet')).backgroundColor==='rgba(0, 0, 0, 0)'?[]:['侧栏本体应透明（材质在 #matSidebar）'])]});
+  rule({name:'地点卡材质 = NSVisualEffectMaterial popover(6)（MATERIALS.md §3：blur 30，sat 2.0，rgba(246,246,246,.6)，#f1f1f1 darken）', ref:'MATERIALS.md §3 popover 行、§6（systemMaterial 默认）', plat:'mac', sel:'#matCard', leaf:false,
+    check:el=>[...BF(el,'blur(30px) saturate(2) contrast(0.257) brightness(1.558)'),...BG(el,'rgb(241, 241, 241)'),...(cs(el).mixBlendMode==='darken'?[]:['darken 填充缺'])]});
+  rule({name:'Map Modes 弹窗材质 = NSPopover 玻璃（MATERIALS.md §4：blur 10，Face 0.2+0.75·in，白填 10%，ring 6%）', ref:'MATERIALS.md §4「NSPopover frame」行', plat:'mac', sel:'.sheet.opt', leaf:false,
+    check:el=>[...BF(el,'blur(10px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
+  rule({name:'右列玻璃钮材质 = UIGlassEffect clear（MATERIALS.md §4：blur 10，Face 0.2+0.75·in，白填 10%，顶光 0.4）', ref:'MATERIALS.md §4「clear, light」行；App 黑底实测 #282828 对 clear 近于 regular', plat:'mac', sel:'.bar button.btn-glass, .maplibregl-ctrl-group', leaf:false,
+    check:el=>[...BF(el,'blur(10px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
+  rule({name:'搜索框材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%）', ref:'MATERIALS.md §4「search field」行（BlurOpacity 0.4 / Bleed / 折射略）', plat:'mac', sel:'#list .head .search', leaf:false,
+    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'Map Modes 弹窗无关闭钮（点外部关闭）', ref:'styl-work/native-mapmodes.png（Maps.app 2026-09-16）', plat:'mac', sel:'.sheet.opt', leaf:false, check:el=>{ const x=el.querySelector('#optClose'); return !x||rect(x).width===0?[]:['弹窗上有 × 钮，Maps.app 的 Map Modes 没有']; }});
   rule({name:'抓手 60×4', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .grab i', check:el=>{ const r=rect(el); return near(r.width,60)&&near(r.height,4)?[]:[`${num(r.width)}×${num(r.height)}≠60×4`]; }});
   rule({name:'抓手（桌面不显示）', ref:'macOS 无 Sheet 抓手', plat:'mac', sel:'.sheet .grab', check:()=>[]});

@@ -51,7 +51,24 @@ No data, no functions — rows and the card are placeholder text.
   (modes, locate, ±); place card 320 at 208/8/8: 28 round buttons at 12, title 22 Bold centred 48 from the top, main button 288×45,
   section header 15 Semibold, key-value rows 48 with hairlines, bottom capsule toolbar 36 with 3×28; Map Modes popover 320 r20 at right 58 / top 13
   (`styl-work/native-mapmodes.png`), **no close button — it closes on an outside click** (Maps.app popover behaviour; the iPhone sheet keeps its ×),
-  and opening it keeps the place card (Maps.app does). Material values (white 78 % / 86 % / 70 %, blur 40) are Kit numbers pending MATERIALS.md.
+  and opening it keeps the place card (Maps.app does).
+* **Materials (MATERIALS.md, 2026-09-16 evening; `ui/hig.css` §19):** Maps is a Catalyst app, so its chrome is system material, not a flat
+  white alpha. Sidebar = UIKit glass sidebar (§4 "sidebar": blur 10, face 0.4 + 0.63·in, saturation 1.2, white fill 20 %, MaxLuma 0.85);
+  Map Modes popover = NSPopover glass (§4 "NSPopover frame": blur 10, face 0.2 + 0.75·in, white fill 10 %, ring shadow 6 %); right-column
+  buttons = UIGlassEffect *clear* (§4: blur 10, face 0.2 + 0.75·in, white 10 %, top highlight 0.4, shadow 0 8 24 10 % — regular would give
+  52 % white on black where the App reads #2b2b2b; the buttons' `tintColor` is not decoded); search field = glass with the search-field set
+  (§4: regular face, blur 5; BlurOpacity 0.4 / bleed / refraction not expressible); place card = `MUBlurView systemMaterial` → AppKit
+  `NSVisualEffectMaterial` popover(6) (§3: blur 30, saturate 2.0, rgba(246,246,246,.6), #f1f1f1 darken; §6: menu(5) if
+  `EnableThickCardMaterial` is on — default state unknown, popover chosen). The face matrix `out = Black + (White − Black)·in` and the white
+  fill are folded into one `contrast(c) brightness(b)` (b·c = slope, b(1−c)/2 = intercept). **The luminance clamp / darken fill only
+  composes as `mix-blend-mode` on the element that carries the `backdrop-filter`** — a blended child or pseudo-element is isolated by the
+  panel's stacking context and comes out flat grey (Chrome test `raw/score/mattest.html`) — so the sidebar and the card paint their material
+  on body-level fixed layers `#matSidebar` / `#matCard` (index.html; `shell.js` mirrors the card's `hidden`) and are themselves transparent.
+  Verification (same coordinates, 1280×744, App vs ours): popover over black (1200,150) `#505253` / `#494949`, (1150,150) `#84a2ba` / `#82a3ba`;
+  popover over sea (1100,290) `#66a2cb` / `#8cb4ce` — the App leaves the sea almost unchanged where the face matrix lifts it (+38 R): the
+  affine reading of FaceColorMatrixWhite/Black holds on black, not on mid-tones — for the data session; sidebar over the dark limb (100,600)
+  `#98a2aa` / `#93999e`, over land (100,200) `#cfd3d9` / `#e0e0e0`; search field (140,65) `#d3d5d6` / `#c9cacb`; button interior (1254,26)
+  `#2b2b2b` / `#313131`. kit-audit rules check the computed `backdrop-filter` / `background` strings of all five (KIT-OK Mac 47).
 * iPhone: Kit Sheet three detents (small 96 / medium 44 % / large) with the search capsule 44 in the head, right-top 44 round buttons, stacked card sheet,
   Map Modes as a sheet; `.cb` becomes the 22 multi-select circle (iOS has no square checkbox).
 * Hash: `#z/lat/lng&m=<mode>&sel=<id>` (globe.js keeps the extras; `m` and `sel` restore on load).
@@ -180,4 +197,5 @@ python3 pipeline/basemap/palette.py / labels.py / globefit.py / shading.py / haz
   (sampled: rgb(239,240,228) = Ground × light), not lines; shinkansen drawn at z 5 where the App shows none; labels in name:ja vs the App's English.
 * No country borders below z 4.6 (the flat `boundary-*` layers start at PAL); the App draws `Border-Country` from Apple z2.
 * Undersea names along lines (Japan Trench, basins), physical range labels (Taebaek Mountains) — data exists (`undersea.geojson`, `physical.geojson`), not drawn.
-* Material values of the shell (sidebar / card / popover / glass buttons) — MATERIALS.md, next unit.
+* Materials: popover face over mid-tones (see Shell), glass-button tint, `EnableThickCardMaterial` default, dark search-field MaxLuma 0.6, the
+  BlurFill / bleed / refraction / chameleon parts of the glass recipes.

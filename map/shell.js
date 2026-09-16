@@ -26,6 +26,10 @@
       const c = nav._container; if (c) { const [zi, zo] = c.querySelectorAll('button'); if (zi) zi.dataset.role = 'rail-zoom-in'; if (zo) zo.dataset.role = 'rail-zoom-out'; }
     }
 
+    // Mac: the card's material layer (#matCard, hig.css §19) follows the card's hidden attribute
+    const matCard = $('matCard');
+    if (matCard) { const sync = () => { matCard.hidden = $('card').hidden; }; new MutationObserver(sync).observe($('card'), { attributes: true, attributeFilter: ['hidden'] }); sync(); }
+
     // ---- rows -> card (placeholder), sel= in the hash
     function select(id, push = true) {
       const p = PLACES[id]; if (!p) return;
