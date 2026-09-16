@@ -48,6 +48,8 @@ GIBS_TIME = "2024-01-01"
 GIBS_URL = f"https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/{GIBS_LAYER}/default/{GIBS_TIME}/GoogleMapsCompatible_Level8/{{z}}/{{y}}/{{x}}.png"
 GIBS_COLORMAP = "https://gibs.earthdata.nasa.gov/colormaps/v1.3/MODIS_IGBP_Land_Cover_Type.xml"
 GIBS_Z = 7
+EA_DOWNSAMPLE = 2         # output raster at GIBS z6 resolution (3200x3456): a 6400x6912 image source decodes to 177 MB
+                          # and stalled the acceptance's software-GL render; z6 is 2 raster px per screen px at MapLibre z7
 BOX = {"lat": (0.0, 60.0), "lng": (90.0, 160.0)}        # acceptance 2026-09-16: East Asia + Japan only
 APPLE_ZOOM = 6.0          # sheet band for the overlay rasters: Apple z6 = MapLibre z5 (the Japan acceptance view)
 N_GLOBAL = 4096
@@ -250,7 +252,11 @@ def gibs_tiles():
             code = vals[d.argmin(-1)]
             code[rgba[..., 3] < 128] = 255
             cls[(ty - ty0) * 256:(ty - ty0 + 1) * 256, (tx - tx0) * 256:(tx - tx0 + 1) * 256] = code
-    log(f"GIBS: {(tx1 - tx0) * (ty1 - ty0)} tiles ({fetched} fetched), raster {W}x{H}")
+    if EA_DOWNSAMPLE > 1:
+        # majority of each block would be better for a categorical raster; nearest (top-left) keeps thin coasts as they are
+        cls = cls[::EA_DOWNSAMPLE, ::EA_DOWNSAMPLE]
+        H, W = cls.shape
+    log(f"GIBS: {(tx1 - tx0) * (ty1 - ty0)} tiles ({fetched} fetched), raster {W}x{H} (downsample {EA_DOWNSAMPLE})")
     bounds = [[tx0 / n * 360 - 180, lat_of(ty0 / n)], [tx1 / n * 360 - 180, lat_of(ty0 / n)],
               [tx1 / n * 360 - 180, lat_of(ty1 / n)], [tx0 / n * 360 - 180, lat_of(ty1 / n)]]
     return cls, (tx0 / n, tx1 / n, ty0 / n, ty1 / n), bounds
