@@ -338,26 +338,39 @@ def main():
     climate = build_climate(tints)
     v_labels = build_labels()
     build_graticule()
-    meta = {
+    # Two files (2026-09-16, acceptance session): map/data/meta.json = data sources only, shared with the
+    # data session (physical/undersea/cities land there too) -> update only our own keys, keep the rest;
+    # map/meta-ui.json = palettes / camera / haze / shading / label styles, owned by the UI session.
+    meta_path = os.path.join(OUT, "meta.json")
+    meta = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
+    for k in ("ocean_bands", "land_tints", "globe_palette", "shelf", "haze", "shading", "labels_app", "climate_image",
+              "hillshade", "labels", "ocean_sizes_pt", "background"):
+        meta.pop(k, None)     # moved to meta-ui.json
+    meta["generated_by"] = meta.get("generated_by", "pipeline/basemap/globe-data.py (sources.bathymetry/land/labels/climate/hillshade/colours, simplification) + data session scripts (other sources)")
+    meta.setdefault("sources", {})
+    meta["sources"].update({
+        "bathymetry": {"name": f"Natural Earth 10m Bathymetry v{v_bathy}", "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_bathymetry_all.zip", "license": "public domain"},
+        "land": {"name": f"Natural Earth 10m Land v{v_land}", "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip", "license": "public domain"},
+        "labels": {"name": f"Natural Earth 10m admin_0_countries v{v_labels['countries']} (LABEL_X/Y, LABELRANK, MIN/MAX_LABEL), "
+                           f"geography_marine_polys v{v_labels['marine']}, geography_regions_polys v{v_labels['regions']}",
+                   "urls": ["https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
+                            "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_marine_polys.zip",
+                            "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_regions_polys.zip"],
+                   "license": "public domain",
+                   "note": "marine and continent label points are spherical interior points of the largest ring; deep names come from undersea.geojson"},
+        "climate": {"name": "Beck et al. 2023, High-resolution (1 km) Koppen-Geiger maps for 1901-2099, 1991-2020 present-day map, 0.1 deg",
+                    "url": "https://figshare.com/articles/dataset/21789074 (koppen_geiger_tif.zip, 1991_2020/koppen_geiger_0p1.tif)",
+                    "license": "CC BY 4.0", "koppen_to_tint": {str(k): v for k, v in KOPPEN_TINT.items()}, "default_tint": DEFAULT_TINT,
+                    "mapping_basis": "majority vote of palette.py's 705 land samples per Koppen class (see globe-data.py header)"},
+        "hillshade": {"name": "AWS Terrain Tiles, terrarium encoding", "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"},
+        "colours": "map/meta-ui.json (ui/basemap/palette-*.json, labels-globe.json, haze/shading-globe.json)",
+        "graticule": {"name": "tropics 23.4366 deg and equator, label anchors from the App screenshots", "file": "graticule.geojson", "generator": "pipeline/basemap/globe-data.py"},
+    })
+    meta["simplification"] = {"douglas_peucker_deg": TOL, "min_ring_area_deg2": MIN_AREA, "decimals": DECIMALS}
+    json.dump(meta, open(meta_path, "w"), indent=1, ensure_ascii=False)
+    ui_meta = {
         "generated_by": "pipeline/basemap/globe-data.py",
-        "sources": {
-            "bathymetry": {"name": f"Natural Earth 10m Bathymetry v{v_bathy}", "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_bathymetry_all.zip", "license": "public domain"},
-            "land": {"name": f"Natural Earth 10m Land v{v_land}", "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip", "license": "public domain"},
-            "labels": {"name": f"Natural Earth 10m admin_0_countries v{v_labels['countries']} (LABEL_X/Y, LABELRANK, MIN/MAX_LABEL), "
-                               f"geography_marine_polys v{v_labels['marine']}, geography_regions_polys v{v_labels['regions']}",
-                       "urls": ["https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_countries.zip",
-                                "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_marine_polys.zip",
-                                "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_regions_polys.zip"],
-                       "license": "public domain",
-                       "note": "marine and continent label points are the area centroid of the largest polygon ring; NE has no deep/trench points, so deep names are not drawn"},
-            "climate": {"name": "Beck et al. 2023, High-resolution (1 km) Koppen-Geiger maps for 1901-2099, 1991-2020 present-day map, 0.1 deg",
-                        "url": "https://figshare.com/articles/dataset/21789074 (koppen_geiger_tif.zip, 1991_2020/koppen_geiger_0p1.tif)",
-                        "license": "CC BY 4.0", "koppen_to_tint": {str(k): v for k, v in KOPPEN_TINT.items()}, "default_tint": DEFAULT_TINT,
-                        "mapping_basis": "majority vote of palette.py's 705 land samples per Koppen class (see globe-data.py header)"},
-            "hillshade": {"name": "AWS Terrain Tiles, terrarium encoding", "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"},
-            "colours": "ui/basemap/palette-ocean.json, palette-land.json, labels-globe.json (Apple renderer sampled 2026-09-16)",
-        },
-        "simplification": {"douglas_peucker_deg": TOL, "min_ring_area_deg2": MIN_AREA, "decimals": DECIMALS},
+        "what": "UI-side numbers for map/globe.js: palettes, camera, haze, shading, label styles; every value traces to ui/basemap/*.json",
         "ocean_bands": [{"depth_min_m": b["depth_min_m"], "light": b["light"]["hex"], "dark": b["dark"]["hex"], "n": b["light"]["n"]} for b in ocean["bands"]],
         "land_tints": tints,
         # the App's GLOBE style, sampled from its screenshot through the fitted camera (palette-globe.json);
@@ -374,6 +387,7 @@ def main():
             "ground_elevation_scale_by_zoom": land["ground_settings"]["day"]["groundElevationScale_by_zoom"],
             "alps_probe_luma_amplitude": 14.3,
             "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
+            "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
         },
         "labels": {k: {"weight": v["weight_consensus"], "size_pt": v["size_pt_median"], "tracking_pt": v["tracking_pt_median"],
                        "italic": v["italic"], "case": v["case"], "light": v["glyph_hex_median"],
@@ -391,7 +405,14 @@ def main():
                        "limb_inner_haze_every_2px_2x": labels["background"]["limb_glow"]["profiles"][1]["inner_haze_rgb_every_2px_2x"],
                        "limb_source": "native.png row 800 (2x), Maps App globe screenshot"},
     }
-    json.dump(meta, open(os.path.join(OUT, "meta.json"), "w"), indent=1, ensure_ascii=False)
+    # the exaggeration calibration (calibrate.py) lives in the old meta or the previous ui meta: keep it
+    ui_path = os.path.join(ROOT, "map", "meta-ui.json")
+    prev = json.load(open(ui_path)) if os.path.exists(ui_path) else {}
+    old_h = (prev.get("hillshade") or {}) or (json.load(open(meta_path + ".bak")) if os.path.exists(meta_path + ".bak") else {}).get("hillshade", {})
+    for k in ("exaggeration_by_zoom", "calibration"):
+        if k in old_h:
+            ui_meta["hillshade"][k] = old_h[k]
+    json.dump(ui_meta, open(ui_path, "w"), indent=1, ensure_ascii=False)
     for f in sorted(os.listdir(OUT)):
         log(f"{f:20s} {os.path.getsize(os.path.join(OUT, f)) / 1e6:6.2f} MB")
 

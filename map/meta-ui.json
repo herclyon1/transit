@@ -1,0 +1,1165 @@
+{
+ "generated_by": "pipeline/basemap/globe-data.py",
+ "what": "UI-side numbers for map/globe.js: palettes, camera, haze, shading, label styles; every value traces to ui/basemap/*.json",
+ "ocean_bands": [
+  {
+   "depth_min_m": 0,
+   "light": "#6cc9fa",
+   "dark": "#172b68",
+   "n": 23
+  },
+  {
+   "depth_min_m": 200,
+   "light": "#4abdfa",
+   "dark": "#0d2255",
+   "n": 23
+  },
+  {
+   "depth_min_m": 1000,
+   "light": "#33b7f9",
+   "dark": "#0d1d4f",
+   "n": 23
+  },
+  {
+   "depth_min_m": 2000,
+   "light": "#1daef7",
+   "dark": "#0d1d44",
+   "n": 23
+  },
+  {
+   "depth_min_m": 3000,
+   "light": "#0da3f0",
+   "dark": "#0d1738",
+   "n": 23
+  },
+  {
+   "depth_min_m": 4000,
+   "light": "#0d99ec",
+   "dark": "#000d2f",
+   "n": 23
+  },
+  {
+   "depth_min_m": 5000,
+   "light": "#0a95e9",
+   "dark": "#000d2a",
+   "n": 24
+  },
+  {
+   "depth_min_m": 6000,
+   "light": "#0d92e7",
+   "dark": "#000d27",
+   "n": 23
+  },
+  {
+   "depth_min_m": 7000,
+   "light": "#0d8de6",
+   "dark": "#000d22",
+   "n": 9
+  },
+  {
+   "depth_min_m": 8000,
+   "light": "#0d8de6",
+   "dark": "#000d22",
+   "n": 5
+  },
+  {
+   "depth_min_m": 9000,
+   "light": "#0d8de6",
+   "dark": "#000d22",
+   "n": 1
+  }
+ ],
+ "land_tints": {
+  "humid": {
+   "light": [
+    191,
+    233,
+    139
+   ],
+   "dark": [
+    55,
+    123,
+    100
+   ],
+   "light_hex": "#bfe98b",
+   "dark_hex": "#377b64",
+   "n": 148
+  },
+  "semi_humid": {
+   "light": [
+    225,
+    237,
+    167
+   ],
+   "dark": [
+    57,
+    115,
+    97
+   ],
+   "light_hex": "#e1eda7",
+   "dark_hex": "#397361",
+   "n": 54
+  },
+  "dry": {
+   "light": [
+    236,
+    232,
+    171
+   ],
+   "dark": [
+    64,
+    118,
+    98
+   ],
+   "light_hex": "#ece8ab",
+   "dark_hex": "#407662",
+   "n": 6
+  },
+  "very_dry": {
+   "light": [
+    255,
+    233,
+    225
+   ],
+   "dark": [
+    126,
+    127,
+    110
+   ],
+   "light_hex": "#ffe9e1",
+   "dark_hex": "#7e7f6e",
+   "n": 55
+  },
+  "high_grey": {
+   "light": [
+    243,
+    241,
+    230
+   ],
+   "dark": [
+    119,
+    121,
+    102
+   ],
+   "light_hex": "#f3f1e6",
+   "dark_hex": "#777966",
+   "n": 17
+  }
+ },
+ "globe_palette": {
+  "source": "ui/basemap/palette-globe.json (pipeline/basemap/globefit.py on the Maps App globe screenshot)",
+  "camera": {
+   "lat0": 30.1769,
+   "lng0": 116.153,
+   "D_earth_radii": 2.8765,
+   "limb_radius_px": 1156.3,
+   "rms_px": 4.86,
+   "camera_altitude_km": 11955.0
+  },
+  "ocean_bands": [
+   {
+    "depth_min_m": 0,
+    "light": "#bfe4f7",
+    "n": 2515
+   },
+   {
+    "depth_min_m": 200,
+    "light": "#b0dbf3",
+    "n": 952
+   },
+   {
+    "depth_min_m": 1000,
+    "light": "#a9d6f1",
+    "n": 1038
+   },
+   {
+    "depth_min_m": 2000,
+    "light": "#9cceee",
+    "n": 1053
+   },
+   {
+    "depth_min_m": 3000,
+    "light": "#8dc8ed",
+    "n": 1162
+   },
+   {
+    "depth_min_m": 4000,
+    "light": "#80bee8",
+    "n": 1536
+   },
+   {
+    "depth_min_m": 5000,
+    "light": "#77bce9",
+    "n": 1758
+   },
+   {
+    "depth_min_m": 6000,
+    "light": "#75b9e9",
+    "n": 107
+   },
+   {
+    "depth_min_m": 7000,
+    "light": "#73b7ea",
+    "n": 9
+   },
+   {
+    "depth_min_m": 8000,
+    "light": "#6caddd",
+    "n": 63
+   },
+   {
+    "depth_min_m": 9000,
+    "light": "#6daede",
+    "n": 19
+   }
+  ],
+  "land_tints": {
+   "humid": "#e9f6d8",
+   "semi_humid": "#ebf2d9",
+   "high_grey": "#f6f8ed",
+   "very_dry": "#f8f4e3"
+  },
+  "haze_by_r_over_limb_deep_ocean": {
+   "0.2": {
+    "rgb": [
+     120,
+     190,
+     236
+    ],
+    "n": 229
+   },
+   "0.3": {
+    "rgb": [
+     123,
+     190,
+     233
+    ],
+    "n": 1349
+   },
+   "0.4": {
+    "rgb": [
+     121,
+     187,
+     231
+    ],
+    "n": 1809
+   },
+   "0.5": {
+    "rgb": [
+     119,
+     185,
+     227
+    ],
+    "n": 2355
+   },
+   "0.6": {
+    "rgb": [
+     112,
+     175,
+     219
+    ],
+    "n": 2951
+   },
+   "0.7": {
+    "rgb": [
+     108,
+     170,
+     212
+    ],
+    "n": 3592
+   },
+   "0.8": {
+    "rgb": [
+     105,
+     166,
+     206
+    ],
+    "n": 932
+   }
+  }
+ },
+ "shelf": {
+  "source": "ui/basemap/palette-shelf.json (pipeline/basemap/shelf.py)",
+  "bounds": [
+   [
+    -180,
+    85.0511
+   ],
+   [
+    180,
+    85.0511
+   ],
+   [
+    180,
+    -85.0511
+   ],
+   [
+    -180,
+    -85.0511
+   ]
+  ],
+  "ramp_depth_m": [
+   5.0,
+   17.5,
+   37.5,
+   62.5,
+   87.5,
+   125.0,
+   175.0
+  ],
+  "ramp_rgb": [
+   [
+    197,
+    233,
+    252
+   ],
+   [
+    197,
+    233,
+    251
+   ],
+   [
+    196,
+    232,
+    251
+   ],
+   [
+    193,
+    230,
+    251
+   ],
+   [
+    190,
+    229,
+    250
+   ],
+   [
+    188,
+    228,
+    250
+   ],
+   [
+    186,
+    225,
+    247
+   ]
+  ],
+  "bins": [
+   {
+    "depth_min_m": 0,
+    "depth_max_m": 10,
+    "hex": "#c5e9fc",
+    "n": 756
+   },
+   {
+    "depth_min_m": 10,
+    "depth_max_m": 25,
+    "hex": "#c5e9fb",
+    "n": 1414
+   },
+   {
+    "depth_min_m": 25,
+    "depth_max_m": 50,
+    "hex": "#c4e8fb",
+    "n": 2391
+   },
+   {
+    "depth_min_m": 50,
+    "depth_max_m": 75,
+    "hex": "#c1e6fb",
+    "n": 2131
+   },
+   {
+    "depth_min_m": 75,
+    "depth_max_m": 100,
+    "hex": "#bee5fa",
+    "n": 1481
+   },
+   {
+    "depth_min_m": 100,
+    "depth_max_m": 150,
+    "hex": "#bce4fa",
+    "n": 1578
+   },
+   {
+    "depth_min_m": 150,
+    "depth_max_m": 200,
+    "hex": "#bae1f7",
+    "n": 605
+   }
+  ]
+ },
+ "haze": {
+  "source": "ui/basemap/haze-globe.json (pipeline/basemap/haze.py on native-limb-land-light.png)",
+  "starts_at_r": 0.895,
+  "stops": [
+   {
+    "r": 0.925,
+    "rgb": [
+     72,
+     79,
+     132
+    ],
+    "alpha": 0.185,
+    "n": 8544
+   },
+   {
+    "r": 0.95,
+    "rgb": [
+     113,
+     122,
+     146
+    ],
+    "alpha": 0.324,
+    "n": 4766
+   },
+   {
+    "r": 0.9675,
+    "rgb": [
+     130,
+     144,
+     164
+    ],
+    "alpha": 0.485,
+    "n": 3288
+   },
+   {
+    "r": 0.98,
+    "rgb": [
+     139,
+     157,
+     178
+    ],
+    "alpha": 0.666,
+    "n": 2022
+   },
+   {
+    "r": 0.99,
+    "rgb": [
+     148,
+     163,
+     182
+    ],
+    "alpha": 0.944,
+    "n": 1771
+   },
+   {
+    "r": 0.9975,
+    "rgb": [
+     124,
+     145,
+     173
+    ],
+    "alpha": 0.923,
+    "n": 846
+   }
+  ]
+ },
+ "shading": {
+  "source": "ui/basemap/shading-globe.json (pipeline/basemap/shading.py on native-nosidebar.png)",
+  "a": 0.7526,
+  "b": 0.3167,
+  "L": [
+   -0.4361,
+   -0.251,
+   0.8642
+  ],
+  "centre_factor": 1.0263,
+  "r2": 0.854,
+  "n": 100714
+ },
+ "labels_app": {
+  "country": {
+   "weight": "black",
+   "size_pt": 10.53,
+   "tracking_pt": -0.11,
+   "italic": false,
+   "case": "upper",
+   "colour": "#c0a0b5",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 4
+  },
+  "capital": {
+   "weight": "heavy",
+   "size_pt": 11.66,
+   "tracking_pt": -0.87,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#505c73",
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47,
+   "n": 1
+  },
+  "city": {
+   "weight": "semibold",
+   "size_pt": 11.36,
+   "tracking_pt": -0.51,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#9f9c98",
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47,
+   "n": 4,
+   "halo_note": "taken from the capital (Tokyo) measurement; Busan's own halo read land-green"
+  },
+  "sea": {
+   "weight": "semibold",
+   "size_pt": 11.03,
+   "tracking_pt": 1.11,
+   "italic": true,
+   "case": "mixed",
+   "colour": "#5189bd",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 2
+  },
+  "deep": {
+   "weight": "semibold",
+   "size_pt": 10.11,
+   "tracking_pt": 0.18,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#476ba8",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 1
+  },
+  "graticule": {
+   "weight": "regular",
+   "size_pt": 11.0,
+   "tracking_pt": 0.3,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#708ca6",
+   "halo": "#a7d1ef",
+   "halo_width_px_2x": 1.05,
+   "n": 1
+  },
+  "graticule_line": {
+   "colour": "#6b8098",
+   "width_pt": 1,
+   "dash_pt": [
+    3,
+    3
+   ],
+   "source": "native-nosidebar.png darkest dash pixels rows 930-938, x 1400-1520 (2x)"
+  },
+  "city_marker": {
+   "diameter_pt": 3.5,
+   "ring_pt": 1,
+   "ring_colour": "#5c5c5c",
+   "fill": "#ffffff",
+   "gap_to_text_pt": 4,
+   "source": "native.png Tokyo marker luminance print (ring 92, core 254), 2026-09-16"
+  },
+  "country_size_curve": {
+   "zoom": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "height": [
+    9.5,
+    11.5,
+    14,
+    15,
+    16
+   ],
+   "anchor_zoom": 3.12,
+   "source": "basemap/data/styl/globe-key-numbers.tsv Country-Label-Medium-Base 172:labelInfo.height"
+  }
+ },
+ "climate_image": {
+  "size_px": 4096,
+  "bounds": [
+   [
+    -180,
+    85.0511
+   ],
+   [
+    180,
+    85.0511
+   ],
+   [
+    180,
+    -85.0511
+   ],
+   [
+    -180,
+    -85.0511
+   ]
+  ]
+ },
+ "hillshade": {
+  "illumination_direction_deg": 260,
+  "fit_r": 0.592,
+  "ground_elevation_scale_by_zoom": {
+   "1": 14,
+   "2": 9,
+   "3": 7,
+   "4": 5,
+   "5": 3.25,
+   "6": 2.5,
+   "7": 1.5,
+   "8": 1.4,
+   "9": 1.35,
+   "10": 1.3,
+   "11": 1.25,
+   "12": 1.25,
+   "13": 1.25,
+   "14": 1.25,
+   "15": 1.25,
+   "16": 1.15,
+   "17": 1,
+   "18": 1,
+   "19": 1,
+   "20": 1
+  },
+  "alps_probe_luma_amplitude": 14.3,
+  "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
+  "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+  "exaggeration_by_zoom": {
+   "9": 0.07,
+   "3": 0.047
+  },
+  "calibration": {
+   "alps_z9": {
+    "zoom": 8.72,
+    "k": 0.07,
+    "amplitude": 14.2,
+    "n": 12884,
+    "target": 14.3,
+    "method": "regress"
+   },
+   "globe_z4": {
+    "zoom": 3.12,
+    "k": 0.047,
+    "amplitude": 5.8,
+    "n": 6110,
+    "target": 6.0,
+    "method": "delta"
+   },
+   "method": "Calibrate the globe page's hill-shade exaggeration against Apple's renders.",
+   "azimuth": 260,
+   "altitude": 45
+  }
+ },
+ "labels": {
+  "continent": {
+   "weight": "heavy",
+   "size_pt": 17.38,
+   "tracking_pt": 2.64,
+   "italic": false,
+   "case": "upper",
+   "light": "#955e8d",
+   "dark": "#a496a5",
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "country": {
+   "weight": "heavy",
+   "size_pt": 11.02,
+   "tracking_pt": -0.36,
+   "italic": false,
+   "case": "upper",
+   "light": "#8c608a",
+   "dark": "#bc99ad",
+   "halo": "#f0f6e7",
+   "halo_width_px_2x": 1.16
+  },
+  "country-small": {
+   "weight": "heavy",
+   "size_pt": 11.23,
+   "tracking_pt": -0.28,
+   "italic": false,
+   "case": "upper",
+   "light": "#8c608a",
+   "dark": "#bc99ad",
+   "halo": "#e7f1e7",
+   "halo_width_px_2x": 1.06
+  },
+  "ocean": {
+   "weight": "semibold",
+   "size_pt": 12.64,
+   "tracking_pt": 0.86,
+   "italic": true,
+   "case": "mixed",
+   "light": "#206aa1",
+   "dark": "#3d73b6",
+   "halo": "#55c1fe",
+   "halo_width_px_2x": 0.29
+  },
+  "deep": {
+   "weight": "bold",
+   "size_pt": 10.76,
+   "tracking_pt": -0.23,
+   "italic": false,
+   "case": "mixed",
+   "light": "#476ba8",
+   "dark": "#3a609c",
+   "halo": "#52a1e8",
+   "halo_width_px_2x": 0.77
+  },
+  "undersea": {
+   "weight": "black",
+   "size_pt": 7.88,
+   "tracking_pt": 4.72,
+   "italic": false,
+   "case": "upper",
+   "light": "#3770a5",
+   "dark": "#38609f",
+   "halo": "#58b0f2",
+   "halo_width_px_2x": null
+  },
+  "graticule": {
+   "weight": "bold",
+   "size_pt": 8.81,
+   "tracking_pt": 0.66,
+   "italic": false,
+   "case": "mixed",
+   "light": "#4a5676",
+   "dark": "#7e94c7",
+   "halo": "#69a3e3",
+   "halo_width_px_2x": 1.75
+  },
+  "app-country": {
+   "weight": "black",
+   "size_pt": 10.53,
+   "tracking_pt": -0.11,
+   "italic": false,
+   "case": "upper",
+   "light": "#c0a0b5",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-capital": {
+   "weight": "heavy",
+   "size_pt": 11.66,
+   "tracking_pt": -0.87,
+   "italic": false,
+   "case": "mixed",
+   "light": "#505c73",
+   "dark": null,
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47
+  },
+  "app-city": {
+   "weight": "semibold",
+   "size_pt": 11.36,
+   "tracking_pt": -0.51,
+   "italic": false,
+   "case": "mixed",
+   "light": "#9f9c98",
+   "dark": null,
+   "halo": "#e1f0d5",
+   "halo_width_px_2x": 2.54
+  },
+  "app-sea": {
+   "weight": "semibold",
+   "size_pt": 11.03,
+   "tracking_pt": 1.11,
+   "italic": true,
+   "case": "mixed",
+   "light": "#5189bd",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-deep": {
+   "weight": "semibold",
+   "size_pt": 10.11,
+   "tracking_pt": 0.18,
+   "italic": false,
+   "case": "mixed",
+   "light": "#476ba8",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-graticule": {
+   "weight": "regular",
+   "size_pt": 11.0,
+   "tracking_pt": 0.3,
+   "italic": false,
+   "case": "mixed",
+   "light": "#708ca6",
+   "dark": null,
+   "halo": "#a7d1ef",
+   "halo_width_px_2x": 1.05
+  }
+ },
+ "ocean_sizes_pt": {
+  "ocean": [
+   14.03,
+   14.13,
+   15.41,
+   12.64,
+   13.94
+  ],
+  "sea": [
+   11.04,
+   11.88,
+   11.05,
+   11.11
+  ]
+ },
+ "background": {
+  "space": "#000000",
+  "stars_per_100x100_pt": 8.61,
+  "star_size_pt": 1.22,
+  "star_gray_p10_p50_p90": [
+   53,
+   137,
+   194
+  ],
+  "limb_profile_2x": [
+   [
+    118,
+    142,
+    170
+   ],
+   [
+    114,
+    137,
+    164
+   ],
+   [
+    110,
+    131,
+    158
+   ],
+   [
+    105,
+    126,
+    152
+   ],
+   [
+    100,
+    120,
+    146
+   ],
+   [
+    95,
+    114,
+    138
+   ],
+   [
+    90,
+    107,
+    130
+   ],
+   [
+    83,
+    100,
+    122
+   ],
+   [
+    76,
+    92,
+    113
+   ],
+   [
+    70,
+    84,
+    102
+   ],
+   [
+    61,
+    75,
+    90
+   ],
+   [
+    51,
+    63,
+    77
+   ],
+   [
+    38,
+    48,
+    59
+   ],
+   [
+    19,
+    25,
+    31
+   ],
+   [
+    0,
+    0,
+    0
+   ]
+  ],
+  "limb_inner_haze_every_2px_2x": [
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    103,
+    157,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    104,
+    158,
+    194
+   ],
+   [
+    105,
+    157,
+    194
+   ],
+   [
+    106,
+    158,
+    194
+   ],
+   [
+    106,
+    158,
+    194
+   ],
+   [
+    107,
+    159,
+    194
+   ],
+   [
+    107,
+    159,
+    194
+   ],
+   [
+    107,
+    158,
+    194
+   ],
+   [
+    107,
+    158,
+    194
+   ],
+   [
+    108,
+    159,
+    194
+   ],
+   [
+    109,
+    159,
+    194
+   ],
+   [
+    108,
+    159,
+    194
+   ],
+   [
+    109,
+    159,
+    194
+   ],
+   [
+    110,
+    159,
+    194
+   ],
+   [
+    111,
+    159,
+    194
+   ],
+   [
+    124,
+    166,
+    195
+   ],
+   [
+    113,
+    160,
+    193
+   ],
+   [
+    111,
+    159,
+    194
+   ],
+   [
+    111,
+    159,
+    194
+   ],
+   [
+    112,
+    159,
+    194
+   ],
+   [
+    113,
+    160,
+    194
+   ],
+   [
+    113,
+    160,
+    194
+   ],
+   [
+    115,
+    161,
+    194
+   ],
+   [
+    121,
+    163,
+    195
+   ],
+   [
+    132,
+    171,
+    195
+   ],
+   [
+    117,
+    161,
+    194
+   ],
+   [
+    131,
+    170,
+    195
+   ],
+   [
+    127,
+    167,
+    195
+   ],
+   [
+    120,
+    163,
+    194
+   ],
+   [
+    119,
+    162,
+    195
+   ],
+   [
+    119,
+    162,
+    195
+   ],
+   [
+    119,
+    162,
+    195
+   ],
+   [
+    120,
+    162,
+    196
+   ],
+   [
+    120,
+    162,
+    195
+   ],
+   [
+    121,
+    162,
+    195
+   ],
+   [
+    122,
+    162,
+    195
+   ],
+   [
+    124,
+    164,
+    196
+   ],
+   [
+    125,
+    165,
+    196
+   ],
+   [
+    127,
+    165,
+    196
+   ],
+   [
+    127,
+    164,
+    195
+   ],
+   [
+    132,
+    167,
+    196
+   ],
+   [
+    154,
+    167,
+    185
+   ],
+   [
+    149,
+    164,
+    184
+   ],
+   [
+    143,
+    161,
+    184
+   ],
+   [
+    138,
+    158,
+    184
+   ],
+   [
+    133,
+    155,
+    182
+   ],
+   [
+    127,
+    151,
+    181
+   ]
+  ],
+  "limb_source": "native.png row 800 (2x), Maps App globe screenshot"
+ }
+}

@@ -6,7 +6,10 @@
 //   #z/lat/lng                     MapLibre's own hash
 //   #ll=30,125&spn=50,60           a MapKit-style region, fitted like MKMapSnapshotter
 (async function () {
-  const meta = await (await fetch('data/meta.json')).json();
+  // data/meta.json = data sources (shared with the data session); meta-ui.json = palettes, camera,
+  // haze, shading, label styles (this page's own numbers). Merged into one object here.
+  const [metaData, metaUi] = await Promise.all([fetch('data/meta.json').then(r => r.json()), fetch('meta-ui.json').then(r => r.json())]);
+  const meta = { ...metaData, ...metaUi, sources: metaData.sources };
   const mq = matchMedia('(prefers-color-scheme: dark)');
   const mode = () => (mq.matches ? 'dark' : 'light');
 
@@ -39,7 +42,7 @@
   addEventListener('resize', drawStars);
 
   // ---- style ----------------------------------------------------------------------------
-  const TERRARIUM = meta.sources.hillshade.url;
+  const TERRARIUM = (meta.sources.hillshade && meta.sources.hillshade.url) || meta.hillshade.url;
   // Two palettes are stored (ui/basemap): 'flat' = the snapshotter's flat style (palette-ocean/land,
   // light + dark) and 'globe' = the App's globe style sampled off its screenshot through the fitted
   // camera (palette-globe, light only). Light mode defaults to 'globe' — that is what the App shows;

@@ -26,7 +26,7 @@ sys.argv = [sys.argv[0]]
 import palette as P  # noqa: E402  (elevation_and_slope, hillshade)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-META = os.path.join(ROOT, "map", "data", "meta.json")
+META = os.path.join(ROOT, "map", "meta-ui.json")
 TMP = os.path.join(ROOT, "pipeline", "basemap", "raw", "calib")
 os.makedirs(TMP, exist_ok=True)
 BASE = os.environ.get("ACCEPT_BASE", "http://127.0.0.1:8792")
