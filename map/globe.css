@@ -29,3 +29,4 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 .lbl .dot { display: inline-block; border-radius: 50%; box-sizing: content-box; flex: none; }
 .lbl .tri { font-size: 9px; margin-right: 2px; color: inherit; }
 .lbl.deep .tri { color: #476ba8; }
+.lbl > * { opacity: var(--fade, 1); }

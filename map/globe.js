@@ -8,8 +8,29 @@
 (async function () {
   // data/meta.json = data sources (shared with the data session); meta-ui.json = palettes, camera,
   // haze, shading, label styles (this page's own numbers). Merged into one object here.
-  const [metaData, metaUi] = await Promise.all([fetch('data/meta.json').then(r => r.json()), fetch('meta-ui.json').then(r => r.json())]);
+  const [metaData, metaUi, flatLight, flatDark] = await Promise.all([
+    fetch('data/meta.json').then(r => r.json()), fetch('meta-ui.json').then(r => r.json()),
+    fetch('style-flat-light.json').then(r => r.json()).catch(() => null), fetch('style-flat-dark.json').then(r => r.json()).catch(() => null)]);
   const meta = { ...metaData, ...metaUi, sources: metaData.sources };
+  // globe -> flat hand-over: the sphere flattens to Mercator between GLOBE_Z0 and GLOBE_Z1 (MapLibre
+  // projection expression) while the globe layers fade out and the data session's flat style
+  // (map/style-flat-*.json, OpenFreeMap vector tiles, pipeline/basemap/styl/to_maplibre.py) fades in
+  const GLOBE_Z0 = 5, GLOBE_Z1 = 6;
+  const fadeIn = ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 0, GLOBE_Z1, 1];
+  const fadeOut = ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 1, GLOBE_Z1, 0];
+  const OPACITY_PROP = { fill: ['fill-opacity'], line: ['line-opacity'], symbol: ['text-opacity', 'icon-opacity'],
+                         background: ['background-opacity'], raster: ['raster-opacity'], 'fill-extrusion': ['fill-extrusion-opacity'], circle: ['circle-opacity'] };
+  function withFade(layer, fade, minzoom) {
+    const l = JSON.parse(JSON.stringify(layer));
+    l.paint = l.paint || {};
+    for (const prop of OPACITY_PROP[l.type] || []) {
+      const cur = l.paint[prop];
+      // existing opacities in the flat style are plain numbers; scale the fade's end value by them
+      l.paint[prop] = (typeof cur === 'number') ? fade.map((v, i) => (i === fade.length - 1 ? v * cur : v)) : fade;
+    }
+    if (minzoom != null) l.minzoom = Math.max(l.minzoom || 0, minzoom);
+    return l;
+  }
   const mq = matchMedia('(prefers-color-scheme: dark)');
   const mode = () => (mq.matches ? 'dark' : 'light');
 
@@ -110,18 +131,36 @@
       layers.push({ id: 'graticule', type: 'line', source: 'graticule', filter: ['==', ['geometry-type'], 'LineString'],
         paint: { 'line-color': gl.colour, 'line-width': gl.width_pt, 'line-dasharray': gl.dash_pt } });
     }
+    // globe layers fade out over the hand-over (background and hill-shade stay: the flat background
+    // covers the ocean colour, the hill-shade is calibrated at country zoom as well)
+    const globeLayers = layers.map(l => (l.type === 'background' || l.type === 'hillshade') ? l : withFade(l, fadeOut));
+    const flat = m === 'dark' ? flatDark : flatLight;
+    const flatSources = {}, flatLayers = [];
+    let glyphs;
+    if (flat) {
+      Object.assign(flatSources, flat.sources);
+      glyphs = flat.glyphs;
+      for (const l of flat.layers) flatLayers.push(withFade({ ...l, id: 'flat-' + l.id }, fadeIn, GLOBE_Z0));
+    }
+    // the hill-shade goes above the flat fills but below its lines/labels: re-order it after the flat land use
+    const hs = globeLayers.splice(globeLayers.findIndex(l => l.id === 'hillshade'), 1)[0];
+    const firstLine = flatLayers.findIndex(l => l.type === 'line' || l.type === 'symbol');
+    const ordered = firstLine >= 0 ? [...globeLayers, ...flatLayers.slice(0, firstLine), hs, ...flatLayers.slice(firstLine)] : [...globeLayers, hs, ...flatLayers];
     return {
       version: 8,
-      projection: { type: 'globe' },
+      // sphere from GLOBE_Z0 down, Mercator from GLOBE_Z1 up, morph in between (MapLibre's own 'globe' preset is 11->12)
+      projection: { type: ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 'vertical-perspective', GLOBE_Z1, 'mercator'] },
       sky: { 'atmosphere-blend': ATMOSPHERE_BLEND },
+      ...(glyphs ? { glyphs } : {}),
       sources: {
         ...sources,
+        ...flatSources,
         land: { type: 'geojson', data: 'data/land.geojson' },
         ['climate-' + col.climate]: { type: 'image', url: 'data/climate-' + col.climate + '.png', coordinates: meta.climate_image.bounds },
         dem: { type: 'raster-dem', tiles: [TERRARIUM], encoding: 'terrarium', tileSize: 256, maxzoom: 15,
                attribution: 'Terrain: AWS Terrain Tiles (Mapzen terrarium)' },
       },
-      layers,
+      layers: ordered,
     };
   }
   // MapLibre's own atmosphere is a sun-lit Rayleigh shader (one bright side); Apple's limb glow is
@@ -336,7 +375,12 @@
     if (g && Math.hypot(bx - g.cx, pt.y - g.cy) + Math.hypot(it.w || 0, it.h || 0) / 2 > g.r - 2) return false;
     return true;
   }
-  function apply(it) { it.el.style.visibility = (it.front && !it.collided) ? 'visible' : 'hidden'; }
+  const globeFade = () => Math.max(0, Math.min(1, (GLOBE_Z1 - map.getZoom()) / (GLOBE_Z1 - GLOBE_Z0)));
+  function apply(it) {
+    const f = globeFade();
+    it.el.style.visibility = (f > 0 && it.front && !it.collided) ? 'visible' : 'hidden';
+    it.el.style.setProperty('--fade', f.toFixed(3));   // children fade; MapLibre owns the element's own opacity
+  }
   function updateLabels() {
     const z = map.getZoom();
     for (const it of markers) {
@@ -491,7 +535,7 @@
     }
   }
   const HAZE_ALPHA = meta.background.haze_alpha || 0.5;
-  map.on('render', drawLimb);
+  map.on('render', () => { limb.style.opacity = globeFade().toFixed(3); drawLimb(); });
   addEventListener('resize', drawLimb);
 
   // ---- light / dark follow the system -----------------------------------------------------
