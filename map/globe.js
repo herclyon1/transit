@@ -46,7 +46,7 @@
   // '#...&pal=flat' forces the flat one. Dark mode has only the flat dark palette.
   function paletteName(m) {
     const h = location.hash.replace(/^#/, '');
-    const q = new URLSearchParams(h.includes('=') ? h : '');
+    const q = new URLSearchParams(h.includes('&') ? h.slice(h.indexOf('&') + 1) : (h.includes('=') ? h : ''));
     const want = q.get('pal') || 'globe';
     return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
   }
@@ -77,6 +77,12 @@
       sources['bathy-' + b.depth_min_m] = { type: 'geojson', data: 'data/bathy-' + b.depth_min_m + '.geojson', tolerance: 0.5 };
       layers.push({ id: 'bathy-' + b.depth_min_m, type: 'fill', source: 'bathy-' + b.depth_min_m,
         paint: { 'fill-color': b.c, 'fill-antialias': false } });
+      if (b.depth_min_m === 0 && col.pal === 'globe' && meta.shelf) {
+        // shelf grading inside the 0-200 m band: depth-coloured raster (palette-shelf.json ramp, terrarium
+        // z5), drawn above the 0-200 fill and below the deeper fills, so NE's 200 m contour still wins
+        sources['shelf'] = { type: 'image', url: 'data/shelf-globe.png', coordinates: meta.shelf.bounds };
+        layers.push({ id: 'shelf', type: 'raster', source: 'shelf', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0 } });
+      }
     }
     layers.push({ id: 'land', type: 'fill', source: 'land',
       paint: { 'fill-color': col.land, 'fill-antialias': true, 'fill-outline-color': col.land } });
@@ -117,32 +123,62 @@
   const HILLSHADE_K = meta.hillshade.exaggeration_by_zoom || { 4: 0.1, 9: 0.5 };
 
   // ---- camera from hash -------------------------------------------------------------------
-  function regionFromHash() {
+  //   #z/lat/lng[&k=v...]            MapLibre-style camera, parsed here (MapLibre's own hash parser
+  //                                  cannot carry extra parameters)
+  //   #ll=30,125&spn=50,60[&k=v...]  MapKit-style region, fitted like MKMapSnapshotter
+  //   extras: pal=flat|globe, padr/padl/padt/padb=<px> (camera padding; the Maps App draws its globe
+  //   centre 7 pt left of the window centre when the sidebar is closed: 632.7 vs 640 @1x -> padr=14)
+  function parseHash() {
     const h = location.hash.replace(/^#/, '');
-    const q = new URLSearchParams(h.includes('=') ? h : '');
-    if (!q.get('ll')) return null;
-    const [lat, lng] = q.get('ll').split(',').map(Number);
-    const [dlat, dlng] = (q.get('spn') || '50,60').split(',').map(Number);
-    return [[lng - dlng / 2, lat - dlat / 2], [lng + dlng / 2, lat + dlat / 2]];
+    const [cam, ...rest] = h.split('&');
+    const q = new URLSearchParams(rest.join('&'));
+    const out = { q, region: null, camera: null };
+    if (cam.includes('ll=')) {
+      const qq = new URLSearchParams(h);
+      const [lat, lng] = qq.get('ll').split(',').map(Number);
+      const [dlat, dlng] = (qq.get('spn') || '50,60').split(',').map(Number);
+      out.region = [[lng - dlng / 2, lat - dlat / 2], [lng + dlng / 2, lat + dlat / 2]];
+    } else {
+      const parts = cam.split('/').map(Number);
+      if (parts.length >= 3 && parts.every(Number.isFinite)) out.camera = { zoom: parts[0], center: [parts[2], parts[1]] };
+    }
+    out.padding = { top: +(q.get('padt') || 0), right: +(q.get('padr') || 0), bottom: +(q.get('padb') || 0), left: +(q.get('padl') || 0) };
+    return out;
   }
-  const region = regionFromHash();
+  const hashState = parseHash();
+  const region = hashState.region;
   const map = new maplibregl.Map({
     container: 'map',
     style: style(mode()),
-    center: [125, 30], zoom: 1.5,
-    hash: !region,
+    center: hashState.camera ? hashState.camera.center : [125, 30],
+    zoom: hashState.camera ? hashState.camera.zoom : 1.5,
+    hash: false,
     attributionControl: false,
     maxPitch: 0,
     fadeDuration: 0,
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: true },
   });
+  map.setPadding(hashState.padding);
+  // Perspective like the Maps App: its globe camera (palette-globe.json, fitted on the App screenshot,
+  // 1280x744 pt) sits D = 2.894 earth radii from the centre with focal length 1569.5 pt, i.e. a
+  // vertical field of view of 2*atan(372/1569.5) = 26.7 deg (MapLibre default 36.87). With this fov the
+  // same silhouette radius also gives the same centre scale; '&fov=<deg>' overrides.
+  const cam = meta.globe_palette && meta.globe_palette.camera;
+  const FOV = +(hashState.q.get('fov') || (cam && cam.fov_deg) || 26.7);
+  map.setVerticalFieldOfView(FOV);
   if (region) {
     // MKMapSnapshotter fits the whole region into the view (the limiting axis decides the zoom);
     // refit on resize so a viewport set after load (screenshot tools) does not leave a stale camera
-    const refit = () => map.fitBounds(region, { padding: 0, animate: false });
+    const refit = () => map.fitBounds(region, { padding: hashState.padding, animate: false });
     map.once('load', refit);
     addEventListener('resize', () => setTimeout(refit, 50));
   }
+  // keep the hash in MapLibre's z/lat/lng form, preserving the extra parameters
+  map.on('moveend', () => {
+    const c = map.getCenter(), z = map.getZoom();
+    const extras = [...hashState.q.entries()].map(([k, v]) => `${k}=${v}`).join('&');
+    history.replaceState(null, '', `#${z.toFixed(2)}/${c.lat.toFixed(2)}/${c.lng.toFixed(2)}` + (extras ? '&' + extras : ''));
+  });
 
   // ---- labels: DOM markers in the system font --------------------------------------------
   const labelSpec = meta.labels;

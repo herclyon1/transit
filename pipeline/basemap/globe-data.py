@@ -240,6 +240,16 @@ def globe_palette():
     }
 
 
+def shelf_meta():
+    p = os.path.join(ROOT, "ui", "basemap", "palette-shelf.json")
+    if not os.path.exists(p):
+        return None
+    s = json.load(open(p))
+    return {"source": "ui/basemap/palette-shelf.json (pipeline/basemap/shelf.py)", "bounds": s["raster"]["bounds"],
+            "ramp_depth_m": s["raster"]["ramp_depth_m"], "ramp_rgb": s["raster"]["ramp_rgb"],
+            "bins": [{"depth_min_m": b["depth_min_m"], "depth_max_m": b["depth_max_m"], "hex": (b.get("centre") or b)["hex"], "n": b["n"]} for b in s["bins"]]}
+
+
 def main():
     ocean = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-ocean.json")))
     land = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-land.json")))
@@ -278,6 +288,7 @@ def main():
         # the App's GLOBE style, sampled from its screenshot through the fitted camera (palette-globe.json);
         # light only (the screenshot is light); 'centre' = r/limb <= 0.5, least hazed
         "globe_palette": globe_palette(),
+        "shelf": shelf_meta(),
         "climate_image": climate,
         "hillshade": {
             "illumination_direction_deg": land["hillshade"]["probe_japan_alps"]["fit"]["azimuth_deg"],

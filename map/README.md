@@ -10,7 +10,10 @@ Nothing from the old pages (`shell.js`, `hig.css`) is loaded.
 |---|---|---|
 | `#ll=30,125&spn=50,60` | MapKit-style region, fitted like `MKMapSnapshotter` (whole region visible, limiting axis decides) | center 125, 33.48 · zoom 3.12 · globe radius 536 px |
 | `#3.12/33.48/125` | the same, in MapLibre's own hash | |
-| `#2.3/20/140` | whole globe, radius 321 px | |
+| `#2.3/20/140` | whole globe | |
+| `#3.12/30.14/124.45` | **acceptance view**: the App's camera for `~/Money/styl-work/native-nosidebar.png` (globefit on 10 city markers, rms 4.9 px @2x: lat0 30.14, lng0 124.45, D 2.894). The page uses the App's perspective — vertical fov 26.7° (= 2·atan(372/1569.5) from the fitted focal length at 744 pt) — so the silhouette (r 573 vs 578 @1x) and the centre scale match at once; `&fov=36.87` restores MapLibre's default | diff>40 vs the App: 7.45 % (2026-09-16, with the shelf raster) |
+
+Hash extras (after `&`): `pal=flat|globe`, `fov=<deg>`, `padr/padl/padt/padb=<px>`. Note `native.png` (sidebar open) has its camera centre at lng 116.15 because the App keeps the *visible* centre at the URL's 125 — a view aligned to it is not aligned to the sidebar-closed screenshot.
 
 Light / dark follow `prefers-color-scheme`.
 
@@ -20,6 +23,7 @@ Light / dark follow `prefers-color-scheme`.
 |---|---|---|
 | `background` | — | shallowest ocean band (`palette-ocean.json` 0–200 m) so coast gaps between NE land and NE ocean read as shelf |
 | `bathy-<depth>` ×12 | Natural Earth 10m Bathymetry v4.1.0 (public domain), one file per level so they parse in parallel and paint progressively; DP 0.02° (<3000 m) / 0.04° (abyssal), `data/bathy-*.geojson` 10 MB total | light: **`palette-globe.json`** band colours (the App's globe style, sampled off its screenshot through the fitted camera, `centre` = r/limb ≤ 0.5); `#…&pal=flat` or dark: `palette-ocean.json` band medians |
+| `shelf` (raster image, globe palette only) | AWS terrarium z5 depths (ETOPO1 in the ocean) → `data/shelf-globe.png`, Web-Mercator 4096², pixels −200 m < depth < 0 | `palette-shelf.json`: the App's shelf graded by depth, sampled through the camera (0–10 m `#c5e9fc` … 150–200 m `#bae1f7`), piecewise-linear ramp; drawn above the 0–200 fill and below the deeper NE fills |
 | `land` | Natural Earth 10m Land v5.1.1, simplified 0.01°, `data/land.geojson` 2.5 MB | humid tint of the same palette (globe `#e9f6d8`, flat `#bfe98b` / dark `#377b64`) |
 | `climate` (raster image) | Beck et al. 2023 Köppen-Geiger 1991–2020 0.1° (CC BY 4.0) → `data/climate-{globe,light,dark}.png`, Web-Mercator 4096², masked to NE land | Köppen class → tint by majority vote of `palette.py`'s 705 samples (BWk/BWh very-dry, BSk/Dwc/Cwb semi-humid, ET/EF high-grey, rest humid); tint colours from the palette in use |
 | `hillshade` | AWS Terrain Tiles (terrarium) raster-dem | azimuth 260° (fit on Apple's Alps render, r 0.59); exaggeration **calibrated**: 0.07 @ z8.7 (luminance amplitude 14.2 vs Apple 14.3), 0.047 @ z3.1 (5–95 % shading range 5.8 vs Apple's ≈6 flat-vs-slope drop) — `pipeline/basemap/calibrate.py` |
