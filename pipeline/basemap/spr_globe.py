@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Globe ground rasters (Apple z < 4.6) from Apple's own SPR tiles, decoded by Apple's decoder — no sampling.
 
-    python3 pipeline/basemap/spr_globe.py [--dump tiles.db]      # run from the repo root
+    python3 pipeline/basemap/spr_globe.py [--dump tiles.db] [--dvmt-style 0|1|2] [--zoom 4] [--out DIR]
+    (the rasters are Apple map data: write them with --out to a directory outside the repo, e.g. ~/Money/styl-work/apple-data/map-data)
 
 Inputs (pipeline/basemap/raw/spr/, written by pipeline/basemap/spr_dump.m from a copy of the geod tile cache):
     <z>-<x>-<y>.json          material-raster record: per-pixel value -> stack of DaVinci material ids (chapter 155)
@@ -84,6 +85,30 @@ def class_raster(t, table, classes):
     return lut[t["mat"]]
 
 
+DVMT = os.path.join(ROOT, "ui", "basemap", "dvmt-materials.json")
+DVMT_STYLE = None           # --dvmt-style N: paint with the DaVinci material tables for client:69 = N (0 = the Mac globe's pastels)
+
+
+def dvmt_colour(cls, mode, z):
+    """Base colour of a class from the DvMt material tables (ui/basemap/dvmt-materials.json) for TimePeriod mode and
+    map style DVMT_STYLE at Apple zoom z; None when the material has no such variant."""
+    t = json.load(open(DVMT)) if not hasattr(dvmt_colour, "t") else dvmt_colour.t
+    dvmt_colour.t = t
+    mid = {v["class"]: k for k, v in t["materials"].items() if v.get("class")}.get(cls)
+    if mid is None:
+        return None
+    want = {"1": 0 if mode == "light" else 1, "69": DVMT_STYLE}
+    for v in t["materials"][mid]["variants"]:
+        if v["conditions"] == want and "8" in v["values"]:
+            val = v["values"]["8"]
+            if isinstance(val, str):
+                return val
+            for lo, hi, c in val:
+                if lo <= z < hi:
+                    return c
+    return None
+
+
 def paint(cls_idx, temp, arid, sheet, adj, mode, light, classes, extra_lin):
     """cls_idx H x W class indices; temp / arid H x W codes (0..6 / 0..5, 255 = none)."""
     H, W = cls_idx.shape
@@ -95,7 +120,10 @@ def paint(cls_idx, temp, arid, sheet, adj, mode, light, classes, extra_lin):
         m = cls_idx == i
         if not m.any():
             continue
-        if cls in extra_lin:                      # no sheet style: the captured palette row (linear) — spr-materials.json
+        dv = dvmt_colour(cls, mode, APPLE_ZOOM) if DVMT_STYLE is not None else None
+        if dv:                                    # DaVinci material table (client:69 = DVMT_STYLE), Apple zoom band
+            base = ground.srgb_to_lin([int(dv[i:i + 2], 16) for i in (1, 3, 5)])
+        elif cls in extra_lin:                    # no sheet style: the captured palette row (linear) — spr-materials.json
             base = np.array(extra_lin[cls])
         else:
             b = ground.band_at(sheet[cls][mode], APPLE_ZOOM)
@@ -129,6 +157,13 @@ def terrarium(h):
 
 
 def main():
+    global DVMT_STYLE, OUT, APPLE_ZOOM
+    if "--dvmt-style" in sys.argv:
+        DVMT_STYLE = int(sys.argv[sys.argv.index("--dvmt-style") + 1])
+    if "--out" in sys.argv:
+        OUT = sys.argv[sys.argv.index("--out") + 1]; os.makedirs(OUT, exist_ok=True)
+    if "--zoom" in sys.argv:
+        APPLE_ZOOM = float(sys.argv[sys.argv.index("--zoom") + 1])
     if "--dump" in sys.argv:
         db = sys.argv[sys.argv.index("--dump") + 1]
         exe = os.path.join(HERE, "raw", "spr_dump")
@@ -221,7 +256,8 @@ def main():
                    "exaggeration_by_apple_zoom": sh["climate_tinting"]["groundSettings.json"],
                    "note": "z1-4 groundElevationScale 14 / 9 / 7 / 5 is what makes the App's z3 globe look mountainous (RENDER-PIPELINE 2.5)"},
     }
-    json.dump(meta, open(os.path.join(ROOT, "ui", "basemap", "ground-globe.json"), "w"), indent=1, ensure_ascii=False)
+    meta["colour_source"] = f"DvMt material tables, client:69 = {DVMT_STYLE} (ui/basemap/dvmt-materials.json)" if DVMT_STYLE is not None else "sheet Landcover-*-Elevated colours"
+    json.dump(meta, open(os.path.join(OUT, "ground-globe.json"), "w"), indent=1, ensure_ascii=False)
     log("done")
 
 
