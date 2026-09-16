@@ -48,7 +48,7 @@ TILES = 'https://tiles.openfreemap.org/planet'
 ZOFF = -1.0     # Apple zoom -> MapLibre zoom
 ELEVATED = True  # prefer the "-Elevated" leaf variants: Maps on the Mac / MKMapSnapshotter(.realistic) draw those
 GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
-NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name:zh'], ['get', 'name']]
+NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local name (acceptance 2026-09-16: no zh fallback)
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 
