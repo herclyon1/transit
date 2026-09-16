@@ -4,12 +4,30 @@
 // The window is ours (not the Maps App); screencapture -l grabs only that window.
 //
 //   swiftc -O pipeline/basemap/labelshot.swift -o /tmp/labelshot
-//   /tmp/labelshot <lat> <lng> <dlat> <dlng> <w> <h> <out.png> <out.json> [dark] [-AppleLanguages '(en)']
+//   caffeinate -d -u -i /tmp/labelshot <lat> <lng> <dlat> <dlng> <w> <h> <out.png> <out.json> [dark]
+//
+// Run the whole capture pipeline under `caffeinate -d -u -i`: this Mac's display
+// sleeps every few minutes (pmset log 2026-09-16 12:27:59 off / 12:29:01 on /
+// 12:36:42 off) and a window on a sleeping display renders nothing. A *locked*
+// screen (CGSSessionScreenIsLocked) is a different condition: screencapture gets
+// no window content at all — the tool refuses to run instead of producing a blank
+// PNG, and the operator has to unlock.
 //
 // out.json records the render args, time, window scale and the pixel position
 // of the region centre/corners (MKMapView.convert) for coordinate registration.
 import AppKit
+import CoreGraphics
 import MapKit
+
+if let session = CGSessionCopyCurrentDictionary() as? [String: Any],
+   let locked = session["CGSSessionScreenIsLocked"] as? Int, locked != 0 {
+  FileHandle.standardError.write("screen is locked (CGSSessionScreenIsLocked=1): screencapture cannot read window contents; unlock the Mac and retry\n".data(using: .utf8)!)
+  exit(3)
+}
+if CGDisplayIsAsleep(CGMainDisplayID()) != 0 {
+  FileHandle.standardError.write("display is asleep: run under `caffeinate -d -u -i` so it stays awake for the capture\n".data(using: .utf8)!)
+  exit(4)
+}
 
 let args = CommandLine.arguments
 guard args.count >= 9 else {
@@ -34,8 +52,6 @@ map.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, l
                                  span: MKCoordinateSpan(latitudeDelta: dlat, longitudeDelta: dlng)), animated: false)
 win.contentView!.addSubview(map)
 win.orderFrontRegardless()
-// screencapture returns nothing while the display is asleep; -u asserts user activity
-let caf = Process(); caf.executableURL = URL(fileURLWithPath: "/usr/bin/caffeinate"); caf.arguments = ["-u", "-t", "25"]; try! caf.run()
 let iso = ISO8601DateFormatter()
 let t0 = iso.string(from: Date())
 let wait = Double(ProcessInfo.processInfo.environment["LABELSHOT_WAIT"] ?? "14") ?? 14
@@ -43,8 +59,21 @@ DispatchQueue.main.asyncAfter(deadline: .now() + wait) {
   let p = Process(); p.executableURL = URL(fileURLWithPath: "/usr/sbin/screencapture")
   p.arguments = ["-x", "-o", "-l", String(win.windowNumber), outPNG]; try! p.run(); p.waitUntilExit()
   if !FileManager.default.fileExists(atPath: outPNG) {
-    FileHandle.standardError.write("screencapture produced no file (display asleep?)\n".data(using: .utf8)!)
+    FileHandle.standardError.write("screencapture produced no file\n".data(using: .utf8)!)
     exit(1)
+  }
+  // a blank (unrendered) map comes out as one flat colour: refuse it rather than measuring it
+  if let img = NSImage(contentsOfFile: outPNG), let rep = img.representations.first as? NSBitmapImageRep {
+    var seen = Set<UInt32>()
+    for _ in 0..<400 {
+      let x = Int.random(in: 0..<rep.pixelsWide), y = Int.random(in: 0..<rep.pixelsHigh)
+      if let c = rep.colorAt(x: x, y: y) { seen.insert(UInt32(c.redComponent * 255) << 16 | UInt32(c.greenComponent * 255) << 8 | UInt32(c.blueComponent * 255)) }
+    }
+    if seen.count < 8 {
+      FileHandle.standardError.write("capture is blank (\(seen.count) colours in 400 samples): map did not render — display asleep or locked during the wait\n".data(using: .utf8)!)
+      try? FileManager.default.removeItem(atPath: outPNG)
+      exit(5)
+    }
   }
   let scale = win.backingScaleFactor
   var grid: [[String: Any]] = []

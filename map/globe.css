@@ -1,0 +1,25 @@
+/* Globe-only page. Every colour and size comes from map/data/meta.json (Apple renderer
+   sampled 2026-09-16, ui/basemap/*.json); this file only carries layout and the label
+   font stack. Space is #000000 (labels-globe.json -> background.space_hex). */
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
+#map { position: fixed; inset: 0; z-index: 1; background: transparent; }
+#limb { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.maplibregl-marker { z-index: 3; }
+.maplibregl-canvas-container, .maplibregl-canvas { background: transparent; }
+.maplibregl-ctrl-attrib, .maplibregl-ctrl-logo { display: none; }
+
+/* labels: SF via the system font stack; sizes/colours/tracking are set inline from meta.json */
+.lbl {
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", sans-serif;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;               /* Apple: 13 pt pitch on 11 pt sea names, 14 on 14 pt ocean names */
+  pointer-events: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  transform: translate(-50%, -50%);
+}
+.lbl.upper { text-transform: uppercase; }
+.lbl.italic { font-style: italic; }
+.lbl.halo { paint-order: stroke fill; }
