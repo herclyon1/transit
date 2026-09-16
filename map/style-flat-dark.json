@@ -2290,7 +2290,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2399,7 +2407,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2511,7 +2527,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2622,7 +2646,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2732,7 +2764,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2808,7 +2848,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -2879,14 +2927,131 @@
    "type": "symbol",
    "layout": {
     "text-field": [
-     "coalesce",
+     "let",
+     "n",
      [
-      "get",
-      "name:ja"
+      "coalesce",
+      [
+       "get",
+       "name:en"
+      ],
+      [
+       "get",
+       "name_en"
+      ],
+      [
+       "get",
+       "name:latin"
+      ],
+      [
+       "get",
+       "name"
+      ]
      ],
      [
-      "get",
-      "name"
+      "case",
+      [
+       "==",
+       [
+        "slice",
+        [
+         "var",
+         "n"
+        ],
+        [
+         "max",
+         0,
+         [
+          "-",
+          [
+           "length",
+           [
+            "var",
+            "n"
+           ]
+          ],
+          5
+         ]
+        ]
+       ],
+       " Ward"
+      ],
+      [
+       "slice",
+       [
+        "var",
+        "n"
+       ],
+       0,
+       [
+        "max",
+        0,
+        [
+         "-",
+         [
+          "length",
+          [
+           "var",
+           "n"
+          ]
+         ],
+         5
+        ]
+       ]
+      ],
+      [
+       "==",
+       [
+        "slice",
+        [
+         "var",
+         "n"
+        ],
+        [
+         "max",
+         0,
+         [
+          "-",
+          [
+           "length",
+           [
+            "var",
+            "n"
+           ]
+          ],
+          3
+         ]
+        ]
+       ],
+       "-ku"
+      ],
+      [
+       "slice",
+       [
+        "var",
+        "n"
+       ],
+       0,
+       [
+        "max",
+        0,
+        [
+         "-",
+         [
+          "length",
+          [
+           "var",
+           "n"
+          ]
+         ],
+         3
+        ]
+       ]
+      ],
+      [
+       "var",
+       "n"
+      ]
      ]
     ],
     "text-font": [
@@ -2960,7 +3125,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -3019,7 +3192,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -3094,7 +3275,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -3188,7 +3377,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -3269,7 +3466,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
@@ -3322,7 +3527,15 @@
      "coalesce",
      [
       "get",
-      "name:ja"
+      "name:en"
+     ],
+     [
+      "get",
+      "name_en"
+     ],
+     [
+      "get",
+      "name:latin"
      ],
      [
       "get",
