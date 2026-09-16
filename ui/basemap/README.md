@@ -26,6 +26,7 @@ python3 pipeline/basemap/labels.py --debug              # writes labels-globe.js
 
 ## View and sources
 
+* 2x live captures (`labelshot.swift`) must run under `caffeinate -d -u -i`: the display sleeps every few minutes (pmset log 2026-09-16 12:27:59 off / 12:29:01 on / 12:36:42 off) and a sleeping display renders nothing; a *locked* screen (CGSSessionScreenIsLocked) blocks screencapture entirely — the tool exits 3/4/5 instead of writing a blank PNG. Check: `/private/tmp/…/disp` or `pmset -g log | grep "Display is turned"`.
 * View: `ll=30,125 spn=50,60 @1280x744` (same as the Maps App window the
   acceptance session screenshots); labels also use `ll=20,150 spn=120,170`
   for continent and ocean names that only appear further out.
