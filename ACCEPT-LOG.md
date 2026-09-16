@@ -526,3 +526,10 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 ③ 指标：3.64%（前 3.91%），t20 9.04%。星星 36 vs ≈300 未动。
 **结论**：放行合并。界面停工中，树里街区名改动未提交。
 
+## 2026-09-17 08:19　同状态并排图（亚洲/欧洲/北美）+ 参照图不一致的发现　验收人：transit 验收（Fable）
+
+- 并排图：~/Money/styl-work/side-2026-09-17/side-{asia,europe,namerica}.png（左 App 窗口 4961 `maps://?ll=…&spn=50,60`，View→Explore；右我们 `#3.12/30.14/124.45`、`#2.75/48/12`、`#2.954/40/-100`，按 App 球轮廓半径 577–589 px 配的缩放，ui=0）。App 截图用 `caffeinate -u -t 3 screencapture -x -o -l 4961`。
+- **发现**：App 今晚同状态（Explore、同 URL、同窗口）拍出来是**饱和绿陆地 + 鲜蓝海**，与 14:00 拍的参照 native-nosidebar.png（粉彩）不同——对照 app-asia-1400-vs-0100.png，青藏 (233,241,216)→现在见文件。我们一直按粉彩做。原因未查：可能是 App 首次开窗时球只有 DaVinci 地面（DvMt style 0 粉彩）、瓦片齐后换 standard 样式；或 Transit 模式切换后残留。**目标到底是哪张，待查清再动**，不下结论。
+- 期间 App 曾被切到 Transit 模式（谁切的未知），我经菜单 View→Explore 切回。
+- 显示器断言检查：pmset PreventUserIdleDisplaySleep 0 / UserIsActive 0；computer-use 锁已释放，浏览器面板未开。
+
