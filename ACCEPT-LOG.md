@@ -236,3 +236,16 @@ shotm 真实时间等 15 s，cmp-accept.py：
 同视野 cmp-accept.py：大阪亮 **6.86%**（v5 6.98）、暗 **7.79%**（v5 7.86）。我在页面截图上数铁路蓝横向连续像素：1 px 1082 段、2 px 370、3 px 94、≥4 px 112——主体回到 1–2 px，与苹果一致；剩的 ≥4 是站场/并行线路本身。做法：不合并几何，改用仓库已有 tiles/transit.pmtiles 的 rail 层（N02-24 一线路一中心线，21 932 区间），新干线走 Bullet 蓝白虚线，地铁/单轨/缆车不画（苹果标准图也不画）。样式多一个 pmtiles 源，界面集成时要 addProtocol。来源在 README 铁路条。
 **结论**：放行合并。数据会话的样式线到此收口。
 
+## 2026-09-16 19:5x　验收 ui 8608b1f（唯一地图的壳骨架）　验收人：transit 验收（Fable）
+
+Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osaka-station`（styl-work/shell-mac.png），对 native.png（有侧栏那张）与 PLAN-MAC-LOOK 一致清单。
+| 项 | 结果 |
+|---|---|
+| 侧栏 | 200 通高，computed 白 78% / blur 40 / saturate 1.8；搜索 170×36 @(15,47)；段头、两行行、底部「目录 ›」 | 对上 |
+| 地点卡 | `sel=osaka-station` 进页没有打开卡（#card 存在但未显示） | 打回 |
+| 球标注 | 带壳的 hash 下一条国名海名都没有（不带壳同视野 24 条） | 打回 |
+| 右列 | 只有模式、定位两颗，± 没出现 | 打回 |
+| Map Modes 弹窗 | 探针没找到钮，未验 | 待 data-role |
+| iPhone | 模拟器已批给界面会话跑 kit-audit --phone，结果未到 | 待 |
+**结论**：打回（卡未开、标注消失、± 缺）。`git merge --abort`。
+
