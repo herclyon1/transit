@@ -92,3 +92,10 @@ swiftc -O pipeline/basemap/snap.swift -o /tmp/snap
 ## 属性编号命名的突破口（2026-09-16 12:5x 验收会话做）
 
 反编译伪代码里读样式值的调用形如 `valueForKeyAtZ<BOOL>(obj, 91, …)` / `sampledValueForKeyAtZ<Color>(&out, obj, 93, …)`，第一个 0–700 的整数实参就是属性编号，所在函数名（如 `md::BuildingRenderLayer::layout3DBuildings`、`md::MuninSceneLogic::runBeforeLayout`，Munin = 球场景）就是用途。扫 147 个文件：867 处调用、234 个编号有调用方，覆盖 decoder_table 497 个键中的 226 个。表在 `~/Money/styl-work/prop_callers.{txt,json}`（不进仓库，含苹果反编译内容）。配合 kDefault* 常量名、样式名（324 个）、选择器属性名，可把大部分编号命名。
+
+## rgba8 字节序 = A,B,G,R（2026-09-16 13:2x 验收会话用渲染像素互证）
+
+- Ocean-Label-Color-Dark-Base 属性 24 = ff ac 70 3e → #3e70ac，量具实测暗色海洋标注 #3d73b6。
+- Coastline-Glow-Light-Base 属性 57 = ff fb dd 87 → #87ddfb，渲染图近岸浅水带 #88d4f5。
+- 属性 24 = 标注文字色，25 = 标注描边色（Line-* 样式里 24 是深灰、25 是白 α0.7，与 LabelCoreStyleGroup 调用方一致）。
+- 改真缓存做「改值看效果」：权限系统判定为绕过 GeoServices 的 SHA1/ETAG 扩展属性校验，不做；改用「解出的值 vs 渲染像素」互证，已足够定名。
