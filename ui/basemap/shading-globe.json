@@ -1,0 +1,73 @@
+{
+ "what": "Apple Maps globe: directional brightness over the disc (lit sphere), fitted on deep ocean of the App screenshot",
+ "generated_utc": "2026-09-16T05:32:35Z",
+ "generator": "pipeline/basemap/shading.py",
+ "source_image": {
+  "file": "/Users/herclyon/Money/styl-work/native-nosidebar.png",
+  "view": "maps://?ll=30,125&spn=50,60, sidebar closed, 1280x744 pt @2x"
+ },
+ "camera": {
+  "lat0": 30.136,
+  "lng0": 124.454,
+  "D_earth_radii": 2.8939,
+  "rms_px": 4.94
+ },
+ "model": "factor(n) = (a + b * n.L) / (a + b * Lz); n = surface normal in camera space (x right, y up, z toward camera); the page multiplies the globe by factor(n) (black overlay with alpha 1 - factor)",
+ "a": 0.7526,
+ "b": 0.3167,
+ "L": [
+  -0.4361,
+  -0.251,
+  0.8642
+ ],
+ "L_screen": {
+  "azimuth_deg_from_top_clockwise": -119.9,
+  "elevation_deg": 59.8
+ },
+ "centre_factor": 1.0263,
+ "n_samples": 100714,
+ "r2": 0.854,
+ "residual_by_r_over_limb": {
+  "0.1": {
+   "n": 1835,
+   "mean": -0.0013,
+   "rms": 0.0199
+  },
+  "0.2": {
+   "n": 6997,
+   "mean": 0.0003,
+   "rms": 0.0163
+  },
+  "0.3": {
+   "n": 9962,
+   "mean": -0.0017,
+   "rms": 0.0184
+  },
+  "0.4": {
+   "n": 13409,
+   "mean": 0.0004,
+   "rms": 0.0159
+  },
+  "0.5": {
+   "n": 15090,
+   "mean": -0.0003,
+   "rms": 0.0175
+  },
+  "0.6": {
+   "n": 16793,
+   "mean": 0.0019,
+   "rms": 0.0169
+  },
+  "0.7": {
+   "n": 18216,
+   "mean": 0.0001,
+   "rms": 0.0138
+  },
+  "0.8": {
+   "n": 18412,
+   "mean": -0.001,
+   "rms": 0.0484
+  }
+ },
+ "bands_used": "NE >= 3000 m, G channel relative to palette-globe centre colour of the band"
+}

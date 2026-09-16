@@ -23,3 +23,9 @@ html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 .lbl.upper { text-transform: uppercase; }
 .lbl.italic { font-style: italic; }
 .lbl.halo { paint-order: stroke fill; }
+
+/* point labels: marker + text side by side, anchored at the point (MapLibre anchor 'left') */
+.lbl.point { display: flex; align-items: center; text-align: left; }
+.lbl .dot { display: inline-block; border-radius: 50%; box-sizing: content-box; flex: none; }
+.lbl .tri { font-size: 9px; margin-right: 2px; color: inherit; }
+.lbl.deep .tri { color: #476ba8; }

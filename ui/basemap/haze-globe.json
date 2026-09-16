@@ -1,0 +1,314 @@
+{
+ "what": "Apple Maps globe: inner limb haze as overlay colour H and opacity a per r/limb bin, solved from land and sea pixels on the same limb",
+ "generated_utc": "2026-09-16T05:27:58Z",
+ "generator": "pipeline/basemap/haze.py",
+ "source_image": {
+  "file": "/Users/herclyon/Money/styl-work/native-limb-land-light.png",
+  "size_px": [
+   2560,
+   1488
+  ],
+  "scale": 2,
+  "view": "maps://?ll=30,60&spn=50,60, sidebar closed, 1280x744 pt"
+ },
+ "camera": {
+  "lat0": 30.256,
+  "lng0": 50.999,
+  "D_earth_radii": 2.8997,
+  "limb_radius_px": 1155.7,
+  "anchors": 32,
+  "rms_px": 6.25
+ },
+ "base_colours": "palette-globe.json centre colours per NE depth band / Koppen tint; 0-200 m via palette-shelf ramp",
+ "model": "P = (1-a) B + a H per bin, least squares in (aH, a) over all pixels (3 channels each)",
+ "bins": [
+  {
+   "r_min": 0.5,
+   "r_max": 0.6,
+   "n": 37308,
+   "n_land": 31646,
+   "n_ocean": 5662,
+   "alpha": 0.046,
+   "haze_rgb": [
+    143,
+    120,
+    194
+   ],
+   "rms_residual": 25.2,
+   "observed_mean_land": [
+    234,
+    239,
+    219
+   ],
+   "observed_mean_ocean": [
+    141,
+    197,
+    232
+   ]
+  },
+  {
+   "r_min": 0.6,
+   "r_max": 0.7,
+   "n": 42085,
+   "n_land": 36036,
+   "n_ocean": 6049,
+   "alpha": 0.029,
+   "haze_rgb": [
+    65,
+    -13,
+    131
+   ],
+   "rms_residual": 24.7,
+   "observed_mean_land": [
+    233,
+    237,
+    218
+   ],
+   "observed_mean_ocean": [
+    142,
+    196,
+    230
+   ]
+  },
+  {
+   "r_min": 0.7,
+   "r_max": 0.78,
+   "n": 28323,
+   "n_land": 21726,
+   "n_ocean": 6597,
+   "alpha": 0.051,
+   "haze_rgb": [
+    51,
+    9,
+    101
+   ],
+   "rms_residual": 29.9,
+   "observed_mean_land": [
+    230,
+    234,
+    218
+   ],
+   "observed_mean_ocean": [
+    145,
+    192,
+    222
+   ]
+  },
+  {
+   "r_min": 0.78,
+   "r_max": 0.84,
+   "n": 21664,
+   "n_land": 16098,
+   "n_ocean": 5566,
+   "alpha": 0.058,
+   "haze_rgb": [
+    -17,
+    -36,
+    23
+   ],
+   "rms_residual": 28.6,
+   "observed_mean_land": [
+    225,
+    229,
+    213
+   ],
+   "observed_mean_ocean": [
+    130,
+    181,
+    214
+   ]
+  },
+  {
+   "r_min": 0.84,
+   "r_max": 0.88,
+   "n": 14117,
+   "n_land": 10838,
+   "n_ocean": 3279,
+   "alpha": 0.066,
+   "haze_rgb": [
+    -51,
+    -60,
+    23
+   ],
+   "rms_residual": 30.9,
+   "observed_mean_land": [
+    220,
+    225,
+    210
+   ],
+   "observed_mean_ocean": [
+    128,
+    178,
+    210
+   ]
+  },
+  {
+   "r_min": 0.88,
+   "r_max": 0.91,
+   "n": 10080,
+   "n_land": 7956,
+   "n_ocean": 2124,
+   "alpha": 0.082,
+   "haze_rgb": [
+    -53,
+    -56,
+    54
+   ],
+   "rms_residual": 35.9,
+   "observed_mean_land": [
+    214,
+    221,
+    209
+   ],
+   "observed_mean_ocean": [
+    127,
+    176,
+    206
+   ]
+  },
+  {
+   "r_min": 0.91,
+   "r_max": 0.94,
+   "n": 8544,
+   "n_land": 6457,
+   "n_ocean": 2087,
+   "alpha": 0.185,
+   "haze_rgb": [
+    72,
+    79,
+    132
+   ],
+   "rms_residual": 35.3,
+   "observed_mean_land": [
+    206,
+    215,
+    206
+   ],
+   "observed_mean_ocean": [
+    134,
+    178,
+    206
+   ]
+  },
+  {
+   "r_min": 0.94,
+   "r_max": 0.96,
+   "n": 4766,
+   "n_land": 3384,
+   "n_ocean": 1382,
+   "alpha": 0.324,
+   "haze_rgb": [
+    113,
+    122,
+    146
+   ],
+   "rms_residual": 29.4,
+   "observed_mean_land": [
+    197,
+    205,
+    197
+   ],
+   "observed_mean_ocean": [
+    140,
+    180,
+    205
+   ]
+  },
+  {
+   "r_min": 0.96,
+   "r_max": 0.975,
+   "n": 3288,
+   "n_land": 1918,
+   "n_ocean": 1370,
+   "alpha": 0.485,
+   "haze_rgb": [
+    130,
+    144,
+    164
+   ],
+   "rms_residual": 27.3,
+   "observed_mean_land": [
+    186,
+    195,
+    192
+   ],
+   "observed_mean_ocean": [
+    145,
+    180,
+    203
+   ]
+  },
+  {
+   "r_min": 0.975,
+   "r_max": 0.985,
+   "n": 2022,
+   "n_land": 894,
+   "n_ocean": 1128,
+   "alpha": 0.666,
+   "haze_rgb": [
+    139,
+    157,
+    178
+   ],
+   "rms_residual": 30.2,
+   "observed_mean_land": [
+    172,
+    182,
+    186
+   ],
+   "observed_mean_ocean": [
+    145,
+    178,
+    202
+   ]
+  },
+  {
+   "r_min": 0.985,
+   "r_max": 0.995,
+   "n": 1771,
+   "n_land": 573,
+   "n_ocean": 1198,
+   "alpha": 0.944,
+   "haze_rgb": [
+    148,
+    163,
+    182
+   ],
+   "rms_residual": 34.4,
+   "observed_mean_land": [
+    152,
+    165,
+    177
+   ],
+   "observed_mean_ocean": [
+    148,
+    167,
+    187
+   ]
+  },
+  {
+   "r_min": 0.995,
+   "r_max": 1.0,
+   "n": 846,
+   "n_land": 210,
+   "n_ocean": 636,
+   "alpha": 0.923,
+   "haze_rgb": [
+    124,
+    145,
+    173
+   ],
+   "rms_residual": 30.6,
+   "observed_mean_land": [
+    132,
+    153,
+    179
+   ],
+   "observed_mean_ocean": [
+    126,
+    149,
+    176
+   ]
+  }
+ ]
+}

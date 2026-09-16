@@ -1,6 +1,6 @@
 {
  "what": "Globe-scale label typography of Apple Maps (macOS 27, VectorKit native style), measured off the renderer",
- "generated_utc": "2026-09-16T03:47:56Z",
+ "generated_utc": "2026-09-16T05:38:41Z",
  "generator": "pipeline/basemap/labels.py + textmetrics.swift",
  "method": {
   "segmentation": "search box -> background = median of the 2 px border ring -> pixels >22 RGB units from it -> 2-means into glyph (darker) and halo; glyph core = median of the 25% most saturated glyph pixels",
@@ -307,6 +307,220 @@
     148,
     199
    ]
+  },
+  "app-country": {
+   "weight_consensus": "black",
+   "n": 4,
+   "labels": [
+    "app-country-china",
+    "app-country-mongolia",
+    "app-country-kyrgyzstan",
+    "app-country-north"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "upper",
+   "weight_fits": [
+    "black",
+    "bold"
+   ],
+   "size_pt_median": 10.53,
+   "size_pt_range": [
+    5.16,
+    11.43
+   ],
+   "tracking_pt_median": -0.11,
+   "tracking_pt_range": [
+    -0.32,
+    4.2
+   ],
+   "glyph_rgb_median": [
+    192,
+    160,
+    181
+   ],
+   "glyph_hex_median": "#c0a0b5",
+   "halo_rgb_median": null,
+   "halo_width_px_median": null,
+   "dark_glyph_rgb_median": null
+  },
+  "app-capital": {
+   "weight_consensus": "heavy",
+   "n": 1,
+   "labels": [
+    "app-capital-tokyo"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "heavy"
+   ],
+   "size_pt_median": 11.66,
+   "size_pt_range": [
+    11.66,
+    11.66
+   ],
+   "tracking_pt_median": -0.87,
+   "tracking_pt_range": [
+    -0.87,
+    -0.87
+   ],
+   "glyph_rgb_median": [
+    80,
+    92,
+    115
+   ],
+   "glyph_hex_median": "#505c73",
+   "halo_rgb_median": [
+    255,
+    255,
+    255
+   ],
+   "halo_width_px_median": 1.47,
+   "dark_glyph_rgb_median": null
+  },
+  "app-city": {
+   "weight_consensus": "semibold",
+   "n": 4,
+   "labels": [
+    "app-city-seoul",
+    "app-city-busan",
+    "app-city-fukuoka",
+    "app-city-qingdao"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "bold",
+    "heavy",
+    "regular"
+   ],
+   "size_pt_median": 11.36,
+   "size_pt_range": [
+    10.55,
+    13.39
+   ],
+   "tracking_pt_median": -0.51,
+   "tracking_pt_range": [
+    -2.18,
+    -0.0
+   ],
+   "glyph_rgb_median": [
+    159,
+    156,
+    152
+   ],
+   "glyph_hex_median": "#9f9c98",
+   "halo_rgb_median": [
+    225,
+    240,
+    213
+   ],
+   "halo_width_px_median": 2.54,
+   "dark_glyph_rgb_median": null
+  },
+  "app-sea": {
+   "weight_consensus": "semibold",
+   "n": 2,
+   "labels": [
+    "app-sea-philippine-l1",
+    "app-sea-philippine-l2"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": true,
+   "case": "mixed",
+   "weight_fits": [
+    "semibold"
+   ],
+   "size_pt_median": 11.03,
+   "size_pt_range": [
+    10.97,
+    11.09
+   ],
+   "tracking_pt_median": 1.11,
+   "tracking_pt_range": [
+    1.08,
+    1.14
+   ],
+   "glyph_rgb_median": [
+    81,
+    137,
+    189
+   ],
+   "glyph_hex_median": "#5189bd",
+   "halo_rgb_median": null,
+   "halo_width_px_median": null,
+   "dark_glyph_rgb_median": null
+  },
+  "app-deep": {
+   "weight_consensus": "semibold",
+   "n": 1,
+   "labels": [
+    "app-deep-ramapo"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "semibold"
+   ],
+   "size_pt_median": 10.11,
+   "size_pt_range": [
+    10.11,
+    10.11
+   ],
+   "tracking_pt_median": 0.18,
+   "tracking_pt_range": [
+    0.18,
+    0.18
+   ],
+   "glyph_rgb_median": [
+    71,
+    107,
+    168
+   ],
+   "glyph_hex_median": "#476ba8",
+   "halo_rgb_median": null,
+   "halo_width_px_median": null,
+   "dark_glyph_rgb_median": null
+  },
+  "app-graticule": {
+   "weight_consensus": "regular",
+   "n": 1,
+   "labels": [
+    "app-graticule-tropic"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "regular"
+   ],
+   "size_pt_median": 11.0,
+   "size_pt_range": [
+    11.0,
+    11.0
+   ],
+   "tracking_pt_median": 0.3,
+   "tracking_pt_range": [
+    0.3,
+    0.3
+   ],
+   "glyph_rgb_median": [
+    112,
+    140,
+    166
+   ],
+   "glyph_hex_median": "#708ca6",
+   "halo_rgb_median": [
+    167,
+    209,
+    239
+   ],
+   "halo_width_px_median": 1.05,
+   "dark_glyph_rgb_median": null
   }
  },
  "labels": [
@@ -3052,6 +3266,1231 @@
      "image": "pipeline/basemap/raw/renders/ea-dark.png",
      "rendered_at_utc": "2026-09-16T03:00:16Z"
     }
+   }
+  },
+  {
+   "id": "app-country-china",
+   "kind": "app-country",
+   "text": "CHINA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     758,
+     528,
+     862,
+     556
+    ],
+    "ink_px": {
+     "left": 773.28,
+     "top": 535.02,
+     "w": 72.34,
+     "h": 16.69
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     192,
+     160,
+     181
+    ],
+    "glyph_hex": "#c0a0b5",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     237,
+     245,
+     222
+    ],
+    "ink_area_px2": 674.8,
+    "glyph_px_n": 626,
+    "curved_letters": null,
+    "stem": {
+     "px": 6.43,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 11.43,
+    "tracking_pt": -0.2,
+    "ink_density_ratio": 0.911,
+    "stem_ratio": 1.358,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.43,
+      "tracking_pt": -0.2,
+      "ink_density_ratio": 0.911,
+      "stem_ratio": 1.358
+     },
+     "bold": {
+      "size_pt": 11.45,
+      "tracking_pt": 0.28,
+      "ink_density_ratio": 1.217,
+      "stem_ratio": 1.905
+     },
+     "heavy": {
+      "size_pt": 11.43,
+      "tracking_pt": 0.03,
+      "ink_density_ratio": 1.03,
+      "stem_ratio": 1.565
+     },
+     "medium": {
+      "size_pt": 11.45,
+      "tracking_pt": 0.59,
+      "ink_density_ratio": 1.578,
+      "stem_ratio": 2.545
+     },
+     "regular": {
+      "size_pt": 11.46,
+      "tracking_pt": 0.76,
+      "ink_density_ratio": 1.914,
+      "stem_ratio": 3.191
+     },
+     "semibold": {
+      "size_pt": 11.45,
+      "tracking_pt": 0.45,
+      "ink_density_ratio": 1.401,
+      "stem_ratio": 2.229
+     }
+    },
+    "cap_height_pt": 8.05
+   }
+  },
+  {
+   "id": "app-country-mongolia",
+   "kind": "app-country",
+   "text": "MONGOLIA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     806,
+     237,
+     942,
+     263
+    ],
+    "ink_px": {
+     "left": 816.0,
+     "top": 244.04,
+     "w": 109.78,
+     "h": 14.69
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     192,
+     160,
+     181
+    ],
+    "glyph_hex": "#c0a0b5",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     238,
+     241,
+     223
+    ],
+    "ink_area_px2": 890.5,
+    "glyph_px_n": 785,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.74,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 10.06,
+    "tracking_pt": -0.02,
+    "ink_density_ratio": 0.92,
+    "stem_ratio": 1.138,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.06,
+      "tracking_pt": -0.02,
+      "ink_density_ratio": 0.92,
+      "stem_ratio": 1.138
+     },
+     "bold": {
+      "size_pt": 10.08,
+      "tracking_pt": 0.31,
+      "ink_density_ratio": 1.202,
+      "stem_ratio": 1.595
+     },
+     "heavy": {
+      "size_pt": 10.06,
+      "tracking_pt": 0.14,
+      "ink_density_ratio": 1.03,
+      "stem_ratio": 1.311
+     },
+     "medium": {
+      "size_pt": 10.08,
+      "tracking_pt": 0.52,
+      "ink_density_ratio": 1.534,
+      "stem_ratio": 2.132
+     },
+     "regular": {
+      "size_pt": 10.09,
+      "tracking_pt": 0.63,
+      "ink_density_ratio": 1.84,
+      "stem_ratio": 2.673
+     },
+     "semibold": {
+      "size_pt": 10.08,
+      "tracking_pt": 0.43,
+      "ink_density_ratio": 1.371,
+      "stem_ratio": 1.867
+     }
+    },
+    "cap_height_pt": 7.09
+   }
+  },
+  {
+   "id": "app-country-kyrgyzstan",
+   "kind": "app-country",
+   "text": "KYRGYZSTAN",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     362,
+     251,
+     518,
+     277
+    ],
+    "ink_px": {
+     "left": 370.0,
+     "top": 256.55,
+     "w": 137.16,
+     "h": 16.03
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     192,
+     160,
+     181
+    ],
+    "glyph_hex": "#c0a0b5",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     234,
+     237,
+     222
+    ],
+    "ink_area_px2": 1103.8,
+    "glyph_px_n": 934,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "bold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBold",
+    "size_pt": 10.99,
+    "tracking_pt": -0.32,
+    "ink_density_ratio": 1.071,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.98,
+      "tracking_pt": -0.78,
+      "ink_density_ratio": 0.809
+     },
+     "bold": {
+      "size_pt": 10.99,
+      "tracking_pt": -0.32,
+      "ink_density_ratio": 1.071
+     },
+     "heavy": {
+      "size_pt": 10.98,
+      "tracking_pt": -0.56,
+      "ink_density_ratio": 0.912
+     },
+     "medium": {
+      "size_pt": 10.99,
+      "tracking_pt": -0.03,
+      "ink_density_ratio": 1.375
+     },
+     "regular": {
+      "size_pt": 11.01,
+      "tracking_pt": 0.13,
+      "ink_density_ratio": 1.654
+     },
+     "semibold": {
+      "size_pt": 10.99,
+      "tracking_pt": -0.15,
+      "ink_density_ratio": 1.226
+     }
+    },
+    "cap_height_pt": 7.74
+   }
+  },
+  {
+   "id": "app-country-north",
+   "kind": "app-country",
+   "text": "NORTH",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1274,
+     433,
+     1354,
+     455
+    ],
+    "ink_px": {
+     "left": 1279.3,
+     "top": 446.96,
+     "w": 69.43,
+     "h": 7.54
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     192,
+     160,
+     181
+    ],
+    "glyph_hex": "#c0a0b5",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     219,
+     233,
+     206
+    ],
+    "ink_area_px2": 312.4,
+    "glyph_px_n": 279,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 5.16,
+    "tracking_pt": 4.2,
+    "ink_density_ratio": 1.884,
+    "all_weights": {
+     "black": {
+      "size_pt": 5.16,
+      "tracking_pt": 4.2,
+      "ink_density_ratio": 1.884
+     },
+     "bold": {
+      "size_pt": 5.17,
+      "tracking_pt": 4.39,
+      "ink_density_ratio": 2.472
+     },
+     "heavy": {
+      "size_pt": 5.16,
+      "tracking_pt": 4.29,
+      "ink_density_ratio": 2.113
+     },
+     "medium": {
+      "size_pt": 5.17,
+      "tracking_pt": 4.51,
+      "ink_density_ratio": 3.169
+     },
+     "regular": {
+      "size_pt": 5.18,
+      "tracking_pt": 4.57,
+      "ink_density_ratio": 3.812
+     },
+     "semibold": {
+      "size_pt": 5.17,
+      "tracking_pt": 4.46,
+      "ink_density_ratio": 2.826
+     }
+    },
+    "cap_height_pt": 3.64
+   }
+  },
+  {
+   "id": "app-capital-tokyo",
+   "kind": "app-capital",
+   "text": "Tokyo",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1634,
+     555,
+     1718,
+     581
+    ],
+    "ink_px": {
+     "left": 1634.5,
+     "top": 558.19,
+     "w": 60.43,
+     "h": 20.48
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     80,
+     92,
+     115
+    ],
+    "glyph_hex": "#505c73",
+    "halo_rgb": [
+     255,
+     255,
+     255
+    ],
+    "halo_hex": "#ffffff",
+    "halo_width_px": 1.47,
+    "bg_rgb": [
+     124,
+     187,
+     228
+    ],
+    "ink_area_px2": 512.4,
+    "glyph_px_n": 403,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "heavy",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontHeavy",
+    "size_pt": 11.66,
+    "tracking_pt": -0.87,
+    "ink_density_ratio": 0.925,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.66,
+      "tracking_pt": -1.15,
+      "ink_density_ratio": 0.811
+     },
+     "bold": {
+      "size_pt": 11.68,
+      "tracking_pt": -0.54,
+      "ink_density_ratio": 1.104
+     },
+     "heavy": {
+      "size_pt": 11.66,
+      "tracking_pt": -0.87,
+      "ink_density_ratio": 0.925
+     },
+     "medium": {
+      "size_pt": 11.68,
+      "tracking_pt": -0.15,
+      "ink_density_ratio": 1.45
+     },
+     "regular": {
+      "size_pt": 11.7,
+      "tracking_pt": 0.07,
+      "ink_density_ratio": 1.776
+     },
+     "semibold": {
+      "size_pt": 11.68,
+      "tracking_pt": -0.32,
+      "ink_density_ratio": 1.28
+     }
+    },
+    "cap_height_pt": 8.22
+   }
+  },
+  {
+   "id": "app-city-seoul",
+   "kind": "app-city",
+   "text": "Seoul",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1344,
+     531,
+     1404,
+     557
+    ],
+    "ink_px": {
+     "left": 1344.5,
+     "top": 535.76,
+     "w": 52.57,
+     "h": 19.55
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     159,
+     156,
+     152
+    ],
+    "glyph_hex": "#9f9c98",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     221,
+     236,
+     211
+    ],
+    "ink_area_px2": 426.6,
+    "glyph_px_n": 360,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.43,
+     "letter": "l"
+    }
+   },
+   "fit": {
+    "weight": "heavy",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontHeavy",
+    "size_pt": 13.39,
+    "tracking_pt": -2.18,
+    "ink_density_ratio": 0.603,
+    "stem_ratio": 0.952,
+    "all_weights": {
+     "black": {
+      "size_pt": 13.39,
+      "tracking_pt": -2.53,
+      "ink_density_ratio": 0.533,
+      "stem_ratio": 0.826
+     },
+     "bold": {
+      "size_pt": 13.41,
+      "tracking_pt": -1.79,
+      "ink_density_ratio": 0.711,
+      "stem_ratio": 1.159
+     },
+     "heavy": {
+      "size_pt": 13.39,
+      "tracking_pt": -2.18,
+      "ink_density_ratio": 0.603,
+      "stem_ratio": 0.952
+     },
+     "medium": {
+      "size_pt": 13.41,
+      "tracking_pt": -1.32,
+      "ink_density_ratio": 0.914,
+      "stem_ratio": 1.552
+     },
+     "regular": {
+      "size_pt": 13.43,
+      "tracking_pt": -1.06,
+      "ink_density_ratio": 1.098,
+      "stem_ratio": 1.942
+     },
+     "semibold": {
+      "size_pt": 13.41,
+      "tracking_pt": -1.52,
+      "ink_density_ratio": 0.815,
+      "stem_ratio": 1.353
+     }
+    },
+    "cap_height_pt": 9.43
+   }
+  },
+  {
+   "id": "app-city-busan",
+   "kind": "app-city",
+   "text": "Busan",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1394,
+     596,
+     1454,
+     620
+    ],
+    "ink_px": {
+     "left": 1394.5,
+     "top": 602.23,
+     "w": 51.13,
+     "h": 15.57
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     159,
+     156,
+     152
+    ],
+    "glyph_hex": "#9f9c98",
+    "halo_rgb": [
+     225,
+     240,
+     213
+    ],
+    "halo_hex": "#e1f0d5",
+    "halo_width_px": 2.54,
+    "bg_rgb": [
+     187,
+     225,
+     246
+    ],
+    "ink_area_px2": 308.2,
+    "glyph_px_n": 278,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "regular",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFont",
+    "size_pt": 10.9,
+    "tracking_pt": -0.43,
+    "ink_density_ratio": 1.076,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.87,
+      "tracking_pt": -1.75,
+      "ink_density_ratio": 0.525
+     },
+     "bold": {
+      "size_pt": 10.88,
+      "tracking_pt": -1.09,
+      "ink_density_ratio": 0.7
+     },
+     "heavy": {
+      "size_pt": 10.87,
+      "tracking_pt": -1.44,
+      "ink_density_ratio": 0.594
+     },
+     "medium": {
+      "size_pt": 10.89,
+      "tracking_pt": -0.67,
+      "ink_density_ratio": 0.897
+     },
+     "regular": {
+      "size_pt": 10.9,
+      "tracking_pt": -0.43,
+      "ink_density_ratio": 1.076
+     },
+     "semibold": {
+      "size_pt": 10.88,
+      "tracking_pt": -0.85,
+      "ink_density_ratio": 0.802
+     }
+    },
+    "cap_height_pt": 7.68
+   }
+  },
+  {
+   "id": "app-city-fukuoka",
+   "kind": "app-city",
+   "text": "Fukuoka",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1322,
+     632,
+     1402,
+     656
+    ],
+    "ink_px": {
+     "left": 1322.5,
+     "top": 637.82,
+     "w": 79.94,
+     "h": 15.09
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     80,
+     92,
+     115
+    ],
+    "glyph_hex": "#505c73",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     250,
+     251,
+     252
+    ],
+    "ink_area_px2": 532.5,
+    "glyph_px_n": 429,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "bold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBold",
+    "size_pt": 10.55,
+    "tracking_pt": -0.0,
+    "ink_density_ratio": 0.975,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.53,
+      "tracking_pt": -0.57,
+      "ink_density_ratio": 0.719
+     },
+     "bold": {
+      "size_pt": 10.55,
+      "tracking_pt": -0.0,
+      "ink_density_ratio": 0.975
+     },
+     "heavy": {
+      "size_pt": 10.53,
+      "tracking_pt": -0.3,
+      "ink_density_ratio": 0.819
+     },
+     "medium": {
+      "size_pt": 10.55,
+      "tracking_pt": 0.36,
+      "ink_density_ratio": 1.27
+     },
+     "regular": {
+      "size_pt": 10.56,
+      "tracking_pt": 0.56,
+      "ink_density_ratio": 1.548
+     },
+     "semibold": {
+      "size_pt": 10.55,
+      "tracking_pt": 0.21,
+      "ink_density_ratio": 1.126
+     }
+    },
+    "cap_height_pt": 7.43
+   }
+  },
+  {
+   "id": "app-city-qingdao",
+   "kind": "app-city",
+   "text": "Qingdao",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1186,
+     572,
+     1266,
+     596
+    ],
+    "ink_px": {
+     "left": 1186.5,
+     "top": 575.09,
+     "w": 76.2,
+     "h": 21.18
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     159,
+     156,
+     152
+    ],
+    "glyph_hex": "#9f9c98",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     202,
+     232,
+     248
+    ],
+    "ink_area_px2": 505.5,
+    "glyph_px_n": 431,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "regular",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFont",
+    "size_pt": 11.81,
+    "tracking_pt": -0.59,
+    "ink_density_ratio": 1.041,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.03,
+      "tracking_pt": -1.18,
+      "ink_density_ratio": 0.581
+     },
+     "bold": {
+      "size_pt": 11.5,
+      "tracking_pt": -0.96,
+      "ink_density_ratio": 0.711
+     },
+     "heavy": {
+      "size_pt": 11.24,
+      "tracking_pt": -1.08,
+      "ink_density_ratio": 0.632
+     },
+     "medium": {
+      "size_pt": 11.79,
+      "tracking_pt": -0.79,
+      "ink_density_ratio": 0.867
+     },
+     "regular": {
+      "size_pt": 11.81,
+      "tracking_pt": -0.59,
+      "ink_density_ratio": 1.041
+     },
+     "semibold": {
+      "size_pt": 11.68,
+      "tracking_pt": -0.87,
+      "ink_density_ratio": 0.789
+     }
+    },
+    "cap_height_pt": 8.32
+   }
+  },
+  {
+   "id": "app-sea-philippine-l1",
+   "kind": "app-sea",
+   "text": "Philippine",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1494,
+     964,
+     1638,
+     992
+    ],
+    "ink_px": {
+     "left": 1506.81,
+     "top": 970.01,
+     "w": 118.23,
+     "h": 19.99
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     82,
+     137,
+     189
+    ],
+    "glyph_hex": "#5289bd",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     122,
+     189,
+     234
+    ],
+    "ink_area_px2": 658.5,
+    "glyph_px_n": 589,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 11.09,
+    "tracking_pt": 1.14,
+    "ink_density_ratio": 1.009,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.52,
+      "tracking_pt": 0.62,
+      "ink_density_ratio": 0.721
+     },
+     "bold": {
+      "size_pt": 10.91,
+      "tracking_pt": 1.01,
+      "ink_density_ratio": 0.905
+     },
+     "heavy": {
+      "size_pt": 10.72,
+      "tracking_pt": 0.79,
+      "ink_density_ratio": 0.793
+     },
+     "medium": {
+      "size_pt": 11.19,
+      "tracking_pt": 1.26,
+      "ink_density_ratio": 1.113
+     },
+     "regular": {
+      "size_pt": 11.43,
+      "tracking_pt": 1.38,
+      "ink_density_ratio": 1.302
+     },
+     "semibold": {
+      "size_pt": 11.09,
+      "tracking_pt": 1.14,
+      "ink_density_ratio": 1.009
+     }
+    },
+    "cap_height_pt": 7.81
+   }
+  },
+  {
+   "id": "app-sea-philippine-l2",
+   "kind": "app-sea",
+   "text": "Sea",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1536,
+     991,
+     1596,
+     1017
+    ],
+    "ink_px": {
+     "left": 1545.3,
+     "top": 996.02,
+     "w": 40.36,
+     "h": 15.98
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     81,
+     137,
+     189
+    ],
+    "glyph_hex": "#5189bd",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     122,
+     189,
+     234
+    ],
+    "ink_area_px2": 237.7,
+    "glyph_px_n": 211,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 10.97,
+    "tracking_pt": 1.08,
+    "ink_density_ratio": 0.992,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.95,
+      "tracking_pt": 0.12,
+      "ink_density_ratio": 0.692
+     },
+     "bold": {
+      "size_pt": 10.96,
+      "tracking_pt": 0.83,
+      "ink_density_ratio": 0.882
+     },
+     "heavy": {
+      "size_pt": 10.95,
+      "tracking_pt": 0.45,
+      "ink_density_ratio": 0.772
+     },
+     "medium": {
+      "size_pt": 10.97,
+      "tracking_pt": 1.28,
+      "ink_density_ratio": 1.088
+     },
+     "regular": {
+      "size_pt": 10.99,
+      "tracking_pt": 1.53,
+      "ink_density_ratio": 1.29
+     },
+     "semibold": {
+      "size_pt": 10.97,
+      "tracking_pt": 1.08,
+      "ink_density_ratio": 0.992
+     }
+    },
+    "cap_height_pt": 7.73
+   }
+  },
+  {
+   "id": "app-deep-ramapo",
+   "kind": "app-deep",
+   "text": "Ramapo Deep",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1706,
+     680,
+     1842,
+     704
+    ],
+    "ink_px": {
+     "left": 1707.73,
+     "top": 685.16,
+     "w": 127.32,
+     "h": 17.7
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     71,
+     107,
+     168
+    ],
+    "glyph_hex": "#476ba8",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     113,
+     180,
+     226
+    ],
+    "ink_area_px2": 773.7,
+    "glyph_px_n": 634,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontDemi",
+    "size_pt": 10.11,
+    "tracking_pt": 0.18,
+    "ink_density_ratio": 1.052,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.11,
+      "tracking_pt": -0.42,
+      "ink_density_ratio": 0.697
+     },
+     "bold": {
+      "size_pt": 10.11,
+      "tracking_pt": 0.02,
+      "ink_density_ratio": 0.922
+     },
+     "heavy": {
+      "size_pt": 10.11,
+      "tracking_pt": -0.21,
+      "ink_density_ratio": 0.784
+     },
+     "medium": {
+      "size_pt": 10.11,
+      "tracking_pt": 0.3,
+      "ink_density_ratio": 1.176
+     },
+     "regular": {
+      "size_pt": 10.11,
+      "tracking_pt": 0.46,
+      "ink_density_ratio": 1.408
+     },
+     "semibold": {
+      "size_pt": 10.11,
+      "tracking_pt": 0.18,
+      "ink_density_ratio": 1.052
+     }
+    },
+    "cap_height_pt": 7.12
+   }
+  },
+  {
+   "id": "app-graticule-tropic",
+   "kind": "app-graticule",
+   "text": "Tropic of Cancer",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/native-nosidebar.png",
+    "scale": 2,
+    "center": [
+     30.14,
+     124.45
+    ],
+    "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+    "rendered_at_utc": "2026-09-16T04:55:51Z",
+    "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"
+   },
+   "measured": {
+    "box_px": [
+     1454,
+     912,
+     1638,
+     936
+    ],
+    "ink_px": {
+     "left": 1470.06,
+     "top": 915.98,
+     "w": 161.08,
+     "h": 19.52
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     112,
+     140,
+     166
+    ],
+    "glyph_hex": "#708ca6",
+    "halo_rgb": [
+     167,
+     209,
+     239
+    ],
+    "halo_hex": "#a7d1ef",
+    "halo_width_px": 1.05,
+    "bg_rgb": [
+     128,
+     192,
+     234
+    ],
+    "ink_area_px2": 646.4,
+    "glyph_px_n": 469,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "regular",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFont",
+    "size_pt": 11.0,
+    "tracking_pt": 0.3,
+    "ink_density_ratio": 0.987,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.29,
+      "tracking_pt": -0.18,
+      "ink_density_ratio": 0.527
+     },
+     "bold": {
+      "size_pt": 10.72,
+      "tracking_pt": 0.0,
+      "ink_density_ratio": 0.658
+     },
+     "heavy": {
+      "size_pt": 10.49,
+      "tracking_pt": -0.1,
+      "ink_density_ratio": 0.577
+     },
+     "medium": {
+      "size_pt": 10.99,
+      "tracking_pt": 0.14,
+      "ink_density_ratio": 0.814
+     },
+     "regular": {
+      "size_pt": 11.0,
+      "tracking_pt": 0.3,
+      "ink_density_ratio": 0.987
+     },
+     "semibold": {
+      "size_pt": 10.89,
+      "tracking_pt": 0.08,
+      "ink_density_ratio": 0.736
+     }
+    },
+    "cap_height_pt": 7.75
    }
   }
  ],

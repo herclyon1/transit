@@ -90,31 +90,40 @@ def limb_circle(img, glow_px=14):
     H, W = lum.shape
     pts = []
     for y in range(40, H - 40, 8):
-        row = lum[y, :2452]
-        nz = np.nonzero(row > 6)[0]
-        if len(nz) == 0:
+        row = lum[y]
+        lit = np.nonzero(row > 6)[0]
+        if len(lit) == 0:
             continue
-        x = nz[-1]
-        # reject stars: need 3 consecutive lit pixels at the boundary
-        if x < 3 or not (row[x - 1] > 6 and row[x - 2] > 6):
+        # right limb only: the left one hides behind the sidebar / window buttons in these screenshots.
+        # The App's toolbar (x > 2450, y < 520 @2x) is skipped; stars need 3 consecutive lit pixels.
+        x = lit[-1]
+        if x > 2450 and y < 520:
             continue
-        pts.append((x - glow_px, y))
+        if x >= 3 and row[x - 1] > 6 and row[x - 2] > 6:
+            pts.append((x - glow_px, y))
     P_ = np.array(pts, float)
-    # algebraic circle fit: x^2 + y^2 + a x + b y + c = 0
-    A = np.column_stack([P_[:, 0], P_[:, 1], np.ones(len(P_))])
-    b = -(P_[:, 0] ** 2 + P_[:, 1] ** 2)
-    a, bb, c = np.linalg.lstsq(A, b, rcond=None)[0]
-    cx, cy = -a / 2, -bb / 2
-    r = math.sqrt(cx * cx + cy * cy - c)
-    res = np.hypot(P_[:, 0] - cx, P_[:, 1] - cy) - r
-    # one robust pass: drop points > 3 px off (toolbar edge, labels touching the limb)
-    keep = np.abs(res) < 3
-    if keep.sum() >= 10:
-        A, b = A[keep], b[keep]
+
+    def circle(Q):
+        A = np.column_stack([Q[:, 0], Q[:, 1], np.ones(len(Q))])
+        b = -(Q[:, 0] ** 2 + Q[:, 1] ** 2)
         a, bb, c = np.linalg.lstsq(A, b, rcond=None)[0]
         cx, cy = -a / 2, -bb / 2
-        r = math.sqrt(cx * cx + cy * cy - c)
-        res = np.hypot(P_[keep, 0] - cx, P_[keep, 1] - cy) - r
+        return cx, cy, math.sqrt(max(cx * cx + cy * cy - c, 0))
+    # RANSAC: stars, the sidebar edge and the toolbar produce outliers; the limb itself is a clean arc
+    rng = np.random.default_rng(1)
+    best = None
+    for _ in range(400):
+        idx = rng.choice(len(P_), 3, replace=False)
+        cx, cy, r = circle(P_[idx])
+        if not (300 < r < 4000):
+            continue
+        res = np.abs(np.hypot(P_[:, 0] - cx, P_[:, 1] - cy) - r)
+        n = int((res < 2.5).sum())
+        if best is None or n > best[0]:
+            best = (n, res < 2.5)
+    keep = best[1]
+    cx, cy, r = circle(P_[keep])
+    res = np.hypot(P_[keep, 0] - cx, P_[keep, 1] - cy) - r
     return cx, cy, r, int(keep.sum()), float(np.sqrt((res ** 2).mean()))
 
 
@@ -195,40 +204,51 @@ def detect_markers(img):
     return out
 
 
-def main():
-    png = os.path.expanduser(_argv[1]) if len(_argv) > 1 else os.path.expanduser("~/Money/styl-work/native.png")
-    out_path = _argv[2] if len(_argv) > 2 else os.path.join(ROOT, "ui", "basemap", "palette-globe.json")
-    img = np.asarray(Image.open(png).convert("RGB"))
+def fit_camera(img, ll_hint=(30.0, 125.0), seeds=None, log_fn=None):
+    """Camera for one App globe screenshot: silhouette circle + city markers <-> NE populated places.
+    Without seeds a coarse grid search over (lat0, lng0, D) around ll_hint starts the fit."""
+    lg = log_fn or log
     H, W = img.shape[:2]
-    st = os.stat(png)
     markers = detect_markers(img)
-    log("marker candidates", len(markers))
+    lg("marker candidates", len(markers))
     mx = np.array([m[0] for m in markers]); my = np.array([m[1] for m in markers])
-
-    # Natural Earth populated places, the only public list with the same city set
     places = nelib.read_layer(os.path.join(RAW, "ne_places", "ne_10m_populated_places_simple"))
     cities = [(r["name"], float(pt[1]), float(pt[0]), r["scalerank"]) for k, pt, r in places if k == "point" and r["scalerank"] <= 3]
     clat = np.array([c[1] for c in cities]); clng = np.array([c[2] for c in cities])
-
-    # initial camera: the App was opened on ll=30,125 in a window whose map centre is the image centre;
-    # the right limb sits at x~2435 on row 800 (labels.py) -> f / sqrt(D^2-1) ~ 1155 px; D=3 to start
     lcx, lcy, lr, ln, lrms = limb_circle(img)
-    log(f"limb circle: cx {lcx:.1f} cy {lcy:.1f} r {lr:.1f} from {ln} rows, rms {lrms:.2f} px")
+    lg(f"limb circle: cx {lcx:.1f} cy {lcy:.1f} r {lr:.1f} from {ln} rows, rms {lrms:.2f} px")
     limb = (lcx, lcy, lr)
-    params = np.array([30.0, 125.0, lcx, lcy, lr * math.sqrt(8), 3.0])
-    # seed correspondences: six markers identified by eye on the detection overlay (2026-09-16,
-    # raw/labels-debug/dots.png); they only start the fit — every anchor below is re-detected and
-    # re-matched within a few px, and the seeds are replaced by whatever the fit then finds.
-    SEEDS = {"Tokyo": (1794, 536), "Taipei": (1406, 890), "Hong Kong": (1210, 972), "Bangkok": (858, 1164),
-             "Sapporo": (1766, 336)}
-    si, sx, sy = [], [], []
-    for name, (px_, py_) in SEEDS.items():
-        i = next(k for k, c in enumerate(cities) if c[0] == name)
-        d = np.hypot(mx - px_, my - py_); j = int(d.argmin())
-        if d[j] < 12:
-            si.append(i); sx.append(mx[j]); sy.append(my[j])
-    params, res = fit(params, clat[si], clng[si], np.array(sx), np.array(sy), limb=limb)
-    log(f"seed fit: {len(si)} cities, rms {math.sqrt((res ** 2).mean()):.2f} px; lat0 {params[0]:.3f} lng0 {params[1]:.3f} D {params[5]:.3f}")
+
+    def count_matches(pr, radius):
+        x, y, front = project(pr, clat, clng)
+        n = 0
+        for i in range(len(cities)):
+            if front[i] and 0 <= x[i] < W and 0 <= y[i] < H and len(mx) and np.hypot(mx - x[i], my - y[i]).min() < radius:
+                n += 1
+        return n
+
+    params = None
+    if seeds:
+        params = np.array([ll_hint[0], ll_hint[1], lcx, lcy, lr * math.sqrt(8), 3.0])
+        si, sx, sy = [], [], []
+        for name, (px_, py_) in seeds.items():
+            i = next(k for k, c in enumerate(cities) if c[0] == name)
+            d = np.hypot(mx - px_, my - py_); j = int(d.argmin())
+            if d[j] < 12:
+                si.append(i); sx.append(mx[j]); sy.append(my[j])
+        params, res = fit(params, clat[si], clng[si], np.array(sx), np.array(sy), limb=limb)
+        lg(f"seed fit: {len(si)} cities, rms {math.sqrt((res ** 2).mean()):.2f} px; lat0 {params[0]:.3f} lng0 {params[1]:.3f} D {params[5]:.3f}")
+    else:
+        best = None
+        for D in (2.5, 2.9, 3.3):
+            for dlat in np.arange(-8, 8.1, 2):
+                for dlng in np.arange(-16, 16.1, 2):
+                    pr = np.array([ll_hint[0] + dlat, ll_hint[1] + dlng, lcx, lcy, lr * math.sqrt(D * D - 1), D])
+                    n = count_matches(pr, 12)
+                    if best is None or n > best[0]:
+                        best = (n, pr)
+        params = best[1]
+        lg(f"grid start: {best[0]} markers within 12 px at lat0 {params[0]:.1f} lng0 {params[1]:.1f} D {params[5]}")
     matches = None
     for radius in (30, 15, 12, 12):   # 12 px keeps the NE anchors (Tokyo, Sapporo sit ~10 px off: a residual model error, see README)
         x, y, front = project(params, clat, clng)
@@ -240,23 +260,36 @@ def main():
             j = int(d.argmin())
             if d[j] < radius:
                 pairs.append((i, j, float(d[j])))
-        # one marker per city and vice versa: keep the closest
         best = {}
         for i, j, d in pairs:
             if j not in best or d < best[j][1]:
                 best[j] = (i, d)
         matches = [(i, j) for j, (i, d) in best.items()]
         if len(matches) < 6:
-            log("too few matches at radius", radius, len(matches)); break
+            lg("too few matches at radius", radius, len(matches)); break
         ci = np.array([m[0] for m in matches]); mj = np.array([m[1] for m in matches])
         params, res = fit(params, clat[ci], clng[ci], mx[mj], my[mj], limb=limb)
-        log(f"radius {radius}: {len(matches)} matches, rms {math.sqrt((res ** 2).mean()):.2f} px, max {res.max():.2f}; "
-            f"lat0 {params[0]:.3f} lng0 {params[1]:.3f} cx {params[2]:.1f} cy {params[3]:.1f} f {params[4]:.1f} D {params[5]:.3f}")
+        lg(f"radius {radius}: {len(matches)} matches, rms {math.sqrt((res ** 2).mean()):.2f} px, max {res.max():.2f}; "
+           f"lat0 {params[0]:.3f} lng0 {params[1]:.3f} cx {params[2]:.1f} cy {params[3]:.1f} f {params[4]:.1f} D {params[5]:.3f}")
     ci = np.array([m[0] for m in matches]); mj = np.array([m[1] for m in matches])
     x, y, _ = project(params, clat[ci], clng[ci])
     res = np.hypot(x - mx[mj], y - my[mj])
     anchors = [{"city": cities[i][0], "lat": cities[i][1], "lng": cities[i][2], "marker_px": [round(float(mx[j]), 1), round(float(my[j]), 1)],
                 "residual_px": round(float(r), 2)} for (i, j), r in zip(matches, res)]
+    return params, anchors, res, (lcx, lcy, lr, ln, lrms)
+
+
+def main():
+    png = os.path.expanduser(_argv[1]) if len(_argv) > 1 else os.path.expanduser("~/Money/styl-work/native.png")
+    out_path = _argv[2] if len(_argv) > 2 else os.path.join(ROOT, "ui", "basemap", "palette-globe.json")
+    img = np.asarray(Image.open(png).convert("RGB"))
+    H, W = img.shape[:2]
+    st = os.stat(png)
+    # seed correspondences for native.png only: six markers identified by eye on the detection overlay
+    # (2026-09-16, raw/labels-debug/dots.png); they only start the fit, every anchor is re-matched
+    SEEDS = {"Tokyo": (1794, 536), "Taipei": (1406, 890), "Hong Kong": (1210, 972), "Bangkok": (858, 1164),
+             "Sapporo": (1766, 336)} if png.endswith("/native.png") else None
+    params, anchors, res, (lcx, lcy, lr, ln, lrms) = fit_camera(img, seeds=SEEDS)
     lat0, lng0, cx, cy, f, D = params
     limb_r = f / math.sqrt(D * D - 1)
 
