@@ -232,14 +232,16 @@ a.row:active,button.row:active{background:var(--fill)}
   .t-sub{font-size:.8462em;line-height:1.2727em}                    /* Subheadline 11/14 */
   .t-foot,.t-cap1,.t-cap2{font-size:.7692em;line-height:1.3em}      /* Footnote / Caption 10/13 */
   /* 侧栏 = Kit Windows › Left Pane（材质 #fafafa 80% + 模糊 100），宽 200 贴左通高（Maps）；上面 52 = Kit Titlebar（标题 Bold 15 + 副题 Medium 11，左起 14 = Kit 侧栏文字内缩） */
+  /* 材质 = 地图 App 实机采样（2026-09-16 09:xx，同状态截图 PLAN-MAC-LOOK 第 0 节 #8/#11）：侧栏和卡片都透出底图的颜色（侧栏压在海上 (232,238,217)、卡片 (246,254,233)），
+     Kit 的 #fafafa 80% + 模糊 100 几乎不透色，作废；改成 白 78% + 模糊 40 + 饱和 1.8 */
   .sheet{left:0;top:0;bottom:0;width:200px;border-radius:0;box-shadow:none;
-         background:rgba(250,250,250,.8);-webkit-backdrop-filter:blur(100px);backdrop-filter:blur(100px)}
+         background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8)}
   .sheet .head{height:52px;min-height:52px;padding:0 8px 0 14px;gap:8px;align-items:center}
   .sheet .head .slot{width:auto;height:auto;min-width:0} .sheet .head .slot:empty{display:none}
   .sheet .head .tt{text-align:left;padding:0;min-width:0}
   .sheet .head .tt .t-title2{font-size:1.1538em;line-height:1.3333em;font-weight:700}          /* Kit Window Title (with sidebar) Bold 15 */
   .sheet .head .tt .t-sub{font-size:.8462em;line-height:1.2727em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* 副标题 Medium 11 */
-  .sheet::after{content:"";flex:none;height:40px}   /* 侧栏底 40 = 「返回目录」钮（24 + 8×2）的位子，正文在它上面滚，不压到它 */
+  .sheet::after{content:"";flex:none;height:32px}   /* 侧栏底 32 = 「目录 ›」灰字（14 @底 13）的位子，正文在它上面滚，不压到它 */
   .sheet.opt::after,.sheet.split #card::after{content:none}
   /* 段头 = Kit Sidebars › Header：18 高 Bold 11 @y2，段间距 14（Kit Medium 例子）→ 32 的盒 = Maps 的 AXHeading 32 */
   .sheet .mh{height:32px;padding:16px 14px 0;font-size:.8462em;line-height:1.2727em;font-weight:700;color:var(--ink-2);box-sizing:border-box}
@@ -251,8 +253,9 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .mrow{min-height:32px;height:32px;padding:0 6px 0 4px;gap:4px;border-radius:8px}
   .sheet .mrow + .mrow::before{content:none}
   .sheet .mrow .ico{width:20px;height:20px;font-size:1em;background:none}
+  /* 两行塞进 32：标题 13/16 + 副题 11/14 = 30（地图 App 侧栏「Recents」行就是这样：Tokyo Station / Chiyoda，用户 09-16 截图） */
   .sheet .mrow .name{font-weight:400;line-height:1.2308em}
-  .sheet .mrow .hint{display:none}
+  .sheet .mrow .hint{display:block;font-size:.8462em;line-height:1.2727em;margin-top:0}
   .sheet .mrow .val{font-size:1em;line-height:1.2308em;font-weight:500;color:var(--ink-2)} .sheet .mrow .val b{font-weight:500} .sheet .mrow .val > small{display:none}
   .sheet .mrow .chev{display:none}
   .sheet .mrow .name .en{display:none}
@@ -286,17 +289,17 @@ a.row:active,button.row:active{background:var(--fill)}
   .map-ctl{right:8px}
   .map-ctl .btn-glass{height:36px;min-width:36px}
   /* 返回目录（.bar 里第一颗 chevron.left）= Kit Push buttons › Regular 24 无边框（tint 文字 Medium 13），放侧栏底 (16, 底 8) = Maps「Clear Recents」/「Terms & Conditions」位；标签 .lb 只在这里显示 */
-  html .bar > a.btn-glass:first-child{position:fixed;left:16px;bottom:8px;top:auto;right:auto;z-index:16;height:24px;min-width:0;padding:0 6px 0 2px;border-radius:6px;gap:2px;
-     background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--tint);font-size:1em;font-weight:500}
-  html .bar > a.btn-glass:first-child .sf{width:12px;height:12px}
+  html .bar > a.btn-glass:first-child{position:fixed;left:16px;bottom:13px;top:auto;right:auto;z-index:16;height:14px;min-width:0;padding:0;border-radius:0;gap:2px;flex-direction:row-reverse;
+     background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--ink-3);font-size:.8462em;line-height:1.2727em;font-weight:400}   /* 实机「Terms & Conditions ›」：灰 11，14 高 @(16, 底 13)，箭头在右 */
+  html .bar > a.btn-glass:first-child .sf{width:9px;height:9px;-webkit-mask-image:url(sf/chevron.right.png);mask-image:url(sf/chevron.right.png)}
   html .bar > a.btn-glass:first-child .lb{display:inline}
-  html .bar > a.btn-glass:first-child:hover{background:rgba(0,0,0,.05)} html .bar > a.btn-glass:first-child:active{background:rgba(0,0,0,.1)}
+  html .bar > a.btn-glass:first-child:hover{color:var(--ink-2)}
   /* 地点卡片 = Maps 浮在地图上的 320 卡：左距侧栏 8、上下 8，材质 Kit Popovers（r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%）；内容 288 @16 */
   .sheet.panel-wide{width:200px}
   .sheet.split{overflow:visible}
   .sheet.split #card{position:absolute;left:208px;top:8px;bottom:8px;width:320px;display:flex;flex-direction:column;border-radius:20px;
-    background:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));-webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);
-    box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+    background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8);
+    box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}   /* 白 86% + 饱和：实机卡片 (246,254,233) 带底图色 */
   /* 卡片头 = Maps：28 圆钮 @(12,12)（Kit XL 工具条钮的内钮 28）；标题 Title 1 22 Bold 居中、距卡顶 48；副题 Subheadline 11 居中；正文距标题 20 */
   .sheet.split #card .head{height:auto;min-height:0;padding:12px 12px 0;gap:0;flex-wrap:wrap;align-items:flex-start;justify-content:space-between}
   .sheet.split #card .head .slot{display:flex;width:28px;height:28px;flex:none}
@@ -324,7 +327,16 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet.split #card .actions a.btn .sf{width:16px;height:16px}
   .sheet.split #card .actions .btn:hover{background:rgba(0,0,0,.12)} .sheet.split #card .actions a.btn:hover{background:var(--tint);filter:brightness(1.08)}
   .sheet.split #card .actions .btn:active{background:rgba(0,0,0,.16)}
-  .sheet.split #card .actions .btn.jump{display:none}
+  .sheet.split #card .actions .btn.jump,.sheet.split #card .actions button.btn{display:none}   /* 跳转和钉住进底部工具条 */
+  .sheet.split #card .actions:not(:has(a.btn)){display:none}
+  /* 卡片底部工具条 = Maps 地点卡「Added / Favorite / More」：288×36 @底 8，三颗 28 圆钮居中间 8（Kit XL 工具条钮的内钮 28）；正文底部留 60 */
+  .sheet.split #card .cardbar{display:flex;position:absolute;left:50%;bottom:8px;transform:translateX(-50%);height:36px;padding:4px;gap:8px;align-items:center;border-radius:999px;z-index:2;
+    background:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(6px) saturate(2);backdrop-filter:blur(6px) saturate(2);box-shadow:0 8px 15px rgba(0,0,0,.02),inset 0 0 0 .5px rgba(219,219,219,.95)}
+  .sheet.split #card .cardbar button{width:28px;height:28px;border-radius:14px;border:0;padding:0;background:none;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .sheet.split #card .cardbar button .sf{width:14px;height:14px}
+  .sheet.split #card .cardbar button:hover{background:rgba(0,0,0,.06)} .sheet.split #card .cardbar button:active{background:rgba(0,0,0,.16)}
+  .sheet.split #card .cardbar button[aria-pressed="true"]{color:var(--tint)}
+  .sheet.split #card:has(.cardbar) .body{padding-bottom:60px}
   .sheet.split #card .actions.small .btn{font-size:1em;padding:0 16px}
   .sheet.split #card .stats{margin-top:12px !important}
   .sheet.split #list{display:flex;flex-direction:column;min-height:0;height:100%}
@@ -334,6 +346,14 @@ a.row:active,button.row:active{background:var(--fill)}
   .sheet .stat .s{font-size:.8462em;line-height:1.2727em}
   .sheet .stat .n{font-size:1.6923em;line-height:1.1818em}
   .sheet .mcard{margin:0 10px;border-radius:12px;background:rgba(0,0,0,.03)}   /* 侧栏里和行底对齐（10）；卡片里 16 = Maps 内容 288 */
+  /* 地点卡里的分组（实机 2026-09-16）：键值组「Details」没有盒，行 48、发丝线通宽、标签和值都在内容边上；列表组（岗位/来源，Pinned 面板的 Home/Work 那种）是白盒 */
+  .sheet.split #card .mcard{background:none;border-radius:0}
+  .sheet.split #card .mcard .r{padding-left:0;padding-right:0}
+  .sheet.split #card .mcard .r + .r::before,.sheet.split #card .mcard .src + .r::before{left:0;right:0;background:rgba(0,0,0,.08)}
+  .sheet.split #card .mcard .txt,.sheet.split #card .mcard .empty,.sheet.split #card .mcard .src,.sheet.split #card .mcard .sub{padding-left:0;padding-right:0}
+  .sheet.split #card .mcard:has(.job),.sheet.split #card .mlist{background:rgba(255,255,255,.55);border-radius:12px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08)}
+  .sheet.split #card .mcard:has(.job) .r{padding-left:12px;padding-right:12px}
+  .sheet.split #card .mfoot{padding-left:0;padding-right:0}   /* 段脚和无框行同一左边 */
   .sheet.split #card .mcard,.sheet.split #card .mfoot,.sheet.split #card .mlist{margin-left:16px;margin-right:16px}
   .sheet.split #card .mh{padding-left:16px;padding-right:16px}
   .sheet .mcard + .mcard{margin-top:8px}
@@ -426,11 +446,27 @@ a.row:active,button.row:active{background:var(--fill)}
   html .maplibregl-ctrl-attrib.maplibregl-compact{min-height:24px;border-radius:12px;margin:0} html .maplibregl-ctrl-attrib-button{width:24px;height:24px}
   html .maplibregl-ctrl-attrib{font-size:.7692em;line-height:1.3em}
   /* C1 第二张 Sheet（大阪「图层」）= Kit Popovers：从工具条钮下弹出，r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%、箭头 46×10；头同面板头（24，红灯关闭） */
-  html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:280px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
-     -webkit-backdrop-filter:blur(30px);backdrop-filter:blur(30px);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}
+  html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:320px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
+     -webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}   /* 宽 320 = 实机 Map Modes 弹窗 */
+  /* 图层弹窗 = 地图 App「Map Modes」（隔壁实机截图 2026-09-16）：标题 17 Bold 居中；模式 = 65 方块 tile r14、间 10、选中 3px tint 环、标签 13；开关 = 白盒 r13 里 44 高的行，左侧 16 复选框 + 13 标签，发丝线内缩 32；底部灰 13 出处 */
+  html .sheet.opt .head{height:auto;min-height:0;padding:14px 12px 0} html .sheet.opt .head .slot{width:24px;height:24px} html .sheet.opt .head .tt{padding:0;text-align:center}   /* html 前缀：第 14 节的 iOS 规则在后面；标题居中 = 实机 Map Modes */
+  html .sheet.opt .head .tt .t-head{font-size:1.3077em;line-height:1.2941em;font-weight:700;padding-top:0}
+  .sheet.opt .modes{display:flex;gap:10px;justify-content:center;padding:14px 16px 4px}
+  .sheet.opt .mode{width:65px;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;color:var(--ink);font:inherit}
+  .sheet.opt .mode .thumb{width:65px;height:65px;border-radius:14px;background:#e8e6df center/cover no-repeat;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12)}
+  .sheet.opt .mode[aria-checked="true"] .thumb{box-shadow:0 0 0 3px var(--tint),inset 0 0 0 .5px rgba(0,0,0,.12)}
+  .sheet.opt .mode span{font-size:1em;line-height:1.2308em}
+  .sheet.opt .modeopts{margin:12px 16px 0;background:rgba(255,255,255,.9);border-radius:13px;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.06)}
+  .sheet.opt .modeopts .r{min-height:44px;padding:10px 16px;gap:8px}
+  .sheet.opt .modeopts .r:has(.sw){flex-direction:row-reverse;justify-content:flex-end}
+  .sheet.opt .modeopts .r + .r::before,.sheet.opt .modeopts div + .r::before{left:40px;right:0;background:rgba(0,0,0,.08)}
+  html .sheet.opt .sw{width:16px;height:16px} html .sheet.opt .sw i{border-radius:5.5px;background:rgba(0,0,0,.1)} html .sheet.opt .sw i::after{display:none}
+  html .sheet.opt .sw input:checked + i{background:#0088ff}
+  html .sheet.opt .sw input:checked + i::after{display:block;content:"";position:absolute;inset:0;background:#fff;-webkit-mask:url(sf/checkmark.png) center/9px no-repeat;mask:url(sf/checkmark.png) center/9px no-repeat;transform:none;width:auto;height:auto;border-radius:0;box-shadow:none;top:0;left:0}
+  html .sheet.opt .sw input:active + i{background:rgba(0,0,0,.19)}
+  .sheet.opt .mfoot{margin:10px 16px 14px;padding:0;text-align:center;font-size:1em;line-height:1.2308em;color:var(--ink-3)}
+  .sheet.opt .mfoot.note{text-align:left;font-size:.8462em;line-height:1.2727em;margin-top:8px}
   .sheet.opt::before{content:"";position:absolute;top:-10px;right:3px;width:46px;height:10px;   /* 箭头中心对准右列 36 钮的中心（右 8 + 18 = 26；46/2 = 23 → right 3） */background:rgba(255,255,255,.7);clip-path:polygon(0 100%,50% 0,100% 100%)}
-  .sheet.opt .head{padding:0;height:24px;min-height:24px;align-items:center}
-  .sheet.opt .head .slot{width:52px;height:24px} .sheet.opt .head .tt{padding:0} html .sheet.opt .head .tt .t-head{font-size:.8462em;line-height:1.1818em;font-weight:500;padding-top:0}   /* html 前缀：第 14 节的 iOS 规则在后面，同权重会盖掉 */
   /* 表格（四档/分区/工时；Kit 无表格 → HIG Tables）：字号 Body 13，单元格内边 4 */
   html .sheet table{font-size:1em;line-height:1.2308em} html .sheet table th,html .sheet table td{padding:4px 6px 4px 0}   /* html 前缀：页内 table.tiers{.7647em} 同权重在后面 */
   html .hpop .maplibregl-popup-content{font-size:1em;line-height:1.2308em}   /* 大阪车站弹出窗（Kit Popover）里的表：Body 13，不随手机的 .7647em */
@@ -657,6 +693,12 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 /* ---------- 17. 地点卡片动作行 .actions = iOS 27 Kit › Buttons › Medium 34（Bordered：#767680 12% 底 + tint 字 Regular 17；首枚 Bordered Prominent：tint 底白字；符号 + 文字，内边 12），
    一排、间 8、距 Sheet 边 16。（历史：地图 App 实测的 50 高图标在上那种，Kit 里没有，KIT-MAP 改成 Kit 按钮。） ---------- */
 .gap{height:16px}   /* 卡片头下的第一段间距（cost groups()） */
+.cardbar{display:none}   /* Mac 地点卡底部工具条（11b）；iOS 用 .actions 胶囊 */
+/* 模式 tile（大阪「地图模式」弹窗，照地图 App「Map Modes」：iOS 版也是一排带缩略图的方块 + 标签；Mac 尺寸在 11b） */
+.modes{display:flex;gap:12px;justify-content:center;padding:6px var(--inset) 10px}
+.mode{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;color:var(--ink);font:inherit;font-size:.7647em;line-height:1.3846em}
+.mode .thumb{width:84px;height:84px;border-radius:18px;background:#e8e6df center/cover no-repeat;box-shadow:inset 0 0 0 .5px rgba(0,0,0,.12)}
+.mode[aria-checked="true"] .thumb{box-shadow:0 0 0 3px var(--tint),inset 0 0 0 .5px rgba(0,0,0,.12)}
 .actions{display:flex;gap:8px;padding:0 var(--inset);overflow-x:auto;scrollbar-width:none}
 .actions::-webkit-scrollbar{display:none}
 .actions .btn{flex:1 1 auto;min-width:0;height:34px;padding:8px 12px;border-radius:999px;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:4px;
@@ -665,7 +707,7 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 .actions .btn.tint{background:var(--tint);color:#fff}
 .actions .btn:disabled{color:var(--ink-3);opacity:.7}
 /* 地图 App「地图模式」那类按需打开的小 Sheet：标题 17 半粗居中 + 关闭 44，内容按需高 */
-.sheet.opt{height:auto !important;max-height:60dvh}
+/* 手机上第二张 Sheet 的高度由 sheet.js 定（元素高 H−62，靠 translate 露出中档）；之前这里 height:auto !important 把元素压成内容高，未变换时顶不在 62，中档就被推到屏幕底下只露个头（09-16 模拟器实测） */
 .sheet.opt .head{padding:0 15px 10px}
 .sheet.opt .head .tt .t-head{font-size:1em;font-weight:600;line-height:1.2941em;padding-top:12px}
 /* A25 底图署名 ⓘ（手机）= Kit Toolbars › Buttons 44 玻璃圆钮；Mac 在 11b 里是 24 */

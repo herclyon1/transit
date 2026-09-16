@@ -109,6 +109,7 @@ APP=HIGShell.create({
   map:{center:[120,25],zoom:2.2,minZoom:1,maxZoom:17, style:styleUrl()},
   layers(map){ addCities(map); return {'city-dot': f=>{ const c=CITIES.find(x=>x.id===f.properties.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)}); }}; },   // 点圆点也飞过去（和列表一致）
   // 要素 → 卡片：标题/副标题立刻给，正文取到城市 JSON 再给
+  onDismiss(){ markCurrent(null); },
   async card(c){
     let d=cache[c.id];
     if(!d){ try{ d=await (await fetch(`data/cities/${c.id}.json`)).json(); }catch(e){ d=null; } cache[c.id]=d; }
@@ -165,6 +166,7 @@ function cityRows(){
   const ls=$('listSub'); if(ls) ls.textContent=`${ready.length} 座城市有数据`+(draft.length?` · ${draft.length} 座待调查`:'');   // Sheet 头第二行放状态，不放说明句
   HIG.sf();
   document.querySelectorAll('#cityRows button.mrow, #draftRows button.mrow').forEach(b=>b.addEventListener('click',()=>{const c=CITIES.find(x=>x.id===b.dataset.id); show(c,{center:[c.lon,c.lat],zoom:Math.max(map.getZoom(),4)});}));
+  if(APP&&APP.open) markCurrent(APP.open.id);   // 重画行后把高亮放回去
 }
 cityRows(); loadHeads().then(()=>cityRows());
 // Mac 侧栏「待调查」段默认折叠（hig.css 11b .mh[data-fold]，Maps 侧栏段头的展开箭头）；手机上段头不可点，属性不起作用
@@ -247,8 +249,9 @@ function hoursFor(d){
 }
 const HEAD={}, HEADERR={}; let HEADS_DONE=false;   // id → hoursFor 结果；有数据的城市开页就取；取不到记原因（#15）
 function loadHeads(){ return Promise.all(CITIES.filter(c=>c.status==='ready').map(c=>fetch(`data/cities/${c.id}.json`).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(d=>{cache[c.id]=d; HEAD[c.id]=hoursFor(d);}).catch(e=>{ HEADERR[c.id]=String(e&&e.message||e); }))).then(()=>{ HEADS_DONE=true; }); }
-function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:{left:760,top:0,right:0,bottom:0}},flyTo);   // 桌面：侧栏 360 + 面板 380 盖着左边，点要飞到露出来的那块
-  return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
+function show(c,flyTo){ if(flyTo&&APP.wideSplit()) flyTo=Object.assign({padding:{left:568,top:0,right:0,bottom:0}},flyTo);   // 桌面：侧栏 200 + 8 + 卡片 320 盖着左边（+40 余量），点要飞到露出来的那块
+  markCurrent(c.id); return APP.present(c, flyTo?{flyTo}:{}); }   // 卡片的打开/叠放/关闭都在壳里；这页只管内容
+function markCurrent(id){ document.querySelectorAll('#cityRows .mrow, #draftRows .mrow').forEach(b=>b.setAttribute('aria-current', id&&b.dataset.id===id?'true':'false')); }   // 选中的城市行保持高亮（地图 App 侧栏「Pinned」那样，hig.css [aria-current]）
 // render() 的 <section><h3>…</h3>REST</section> → Kit 分组列表：<h2 class="mh">…</h2><div class="mcard">REST</div>；<section class="raw"> 原样输出（自己写 .mh/.mcard/.mfoot）；
 // <section class="links"> → .mlist 的 .mrow 来源行；<section class="src"> → .mfoot
 function groups(h){
@@ -372,6 +375,12 @@ function render(c,d){
     +'<button class="btn jump" type="button" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>'
     +(c.links&&c.links.reach?`<a class="btn" href="${c.links.reach}"><i class="sf" data-sf="map"></i><span>可达性图</span></a>`:'')
     +`<button class="btn${PIN===c.id?' tint':''}" type="button" onclick="togglePin('${c.id}')"><i class="sf" data-sf="pin"></i><span>${PIN===c.id?'已钉住':(PIN?'和'+(CITIES.find(x=>x.id===PIN)||{name:{zh:''}}).name.zh+'比':'钉住对比')}</span></button>`
+    +'</div>'
+    // Mac 卡片底部工具条（Maps 地点卡 288×36 @底：28 圆钮 3 颗居中）：段落跳转 + 钉住；iOS 不显示（hig.css .cardbar）
+    +'<div class="cardbar" role="toolbar" aria-label="卡片工具条">'
+    +'<button type="button" title="换算成工时" aria-label="换算成工时" onclick="document.getElementById(\'hours\')&&document.getElementById(\'hours\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="clock"></i></button>'
+    +'<button type="button" title="来源" aria-label="来源" onclick="document.getElementById(\'srcs\')&&document.getElementById(\'srcs\').scrollIntoView({behavior:\'smooth\',block:\'start\'})"><i class="sf" data-sf="doc.text"></i></button>'
+    +`<button type="button" title="${PIN===c.id?'已钉住':'钉住对比'}" aria-label="钉住对比" aria-pressed="${PIN===c.id}" onclick="togglePin('${c.id}')"><i class="sf" data-sf="pin"></i></button>`
     +'</div>';
   // ---- 「换算成工时」一组（KIT-MAP：四张统计卡改成分组列表的行，Kit Rows › Large 68：标题 + 副题 = 样本 · 来源 · 日期，trailing Detail = 数字，不再放大）
   h+='<h2 class="mh">换算成工时</h2><div class="mcard">';

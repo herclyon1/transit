@@ -56,6 +56,10 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
   :root:not([data-theme="light"]) .hpop .maplibregl-popup-content{background:rgba(40,40,40,.7);background-image:none}
   :root:not([data-theme="light"]) .hpop .maplibregl-popup-tip{border-top-color:rgba(40,40,40,.7);border-bottom-color:rgba(40,40,40,.7)}
 }
+/* 地图模式 tile 的缩略图：三张小 SVG（车站点 / 面覆盖像素格 / 势力范围色块），颜色取页面四枢纽色 */
+#optSheet .mode .thumb.pt{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%23f2efe8'/%3E%3Cpath d='M0 40h84M42 0v84M10 70L74 14' stroke='%23d6d2c8' stroke-width='3'/%3E%3Cg stroke='%23fff' stroke-width='2'%3E%3Ccircle cx='24' cy='26' r='6' fill='%23ff2929'/%3E%3Ccircle cx='58' cy='30' r='6' fill='%23de0aff'/%3E%3Ccircle cx='40' cy='52' r='6' fill='%230a80ff'/%3E%3Ccircle cx='62' cy='62' r='6' fill='%23349539'/%3E%3Ccircle cx='20' cy='60' r='4' fill='%230a80ff'/%3E%3C/g%3E%3C/svg%3E")}
+#optSheet .mode .thumb.area{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%23f2efe8'/%3E%3Cg opacity='.75'%3E%3Crect x='6' y='6' width='36' height='30' fill='%23ff2929'/%3E%3Crect x='42' y='6' width='36' height='24' fill='%23de0aff'/%3E%3Crect x='6' y='36' width='30' height='42' fill='%230a80ff'/%3E%3Crect x='36' y='30' width='42' height='22' fill='%23de0aff'/%3E%3Crect x='36' y='52' width='42' height='26' fill='%23349539'/%3E%3C/g%3E%3Cpath d='M0 28h84M0 56h84M28 0v84M56 0v84' stroke='%23fff' stroke-width='1' opacity='.6'/%3E%3C/svg%3E")}
+#optSheet .mode .thumb.terr{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 84'%3E%3Crect width='84' height='84' fill='%23f2efe8'/%3E%3Cpath d='M0 0h44v40H0z' fill='%23ff2929' opacity='.8'/%3E%3Cpath d='M44 0h40v34H44z' fill='%23de0aff' opacity='.8'/%3E%3Cpath d='M0 40h40v44H0z' fill='%230a80ff' opacity='.8'/%3E%3Cpath d='M40 34h44v50H40z' fill='%23349539' opacity='.8'/%3E%3C/svg%3E")}
 .warn{color:var(--red)}
 .tsw{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 2px 0 6px;vertical-align:-1px}
 .tsw:first-child{margin-left:0}
@@ -123,24 +127,29 @@ html[data-theme=dark] .hublbl{color:#ebebf5;text-shadow:0 0 2px #000,0 0 2px #00
 <!-- 目的地的 Kit Menu（hig.css .menu；项由 <select> 的 option 生成，勾在当前值上） -->
 <div class="menu" id="destMenu" hidden role="menu" aria-label="目的地"></div>
 <!-- 「图层」小 Sheet：地图 App「地图模式」那张的形——标题居中 + 关闭 44，一张卡片放开关行 -->
-<aside class="sheet glass opt" id="optSheet" hidden aria-label="图层">
+<aside class="sheet glass opt" id="optSheet" hidden aria-label="地图模式">
   <div class="grab" aria-hidden="true"><i></i></div>
-  <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">图层</div></div><span class="slot"><button class="btn-glass fill" id="optClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">地图模式</div></div><span class="slot"><button class="btn-glass fill" id="optClose" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
   <div class="body">
-    <div class="mcard">
-      <label class="r"><span class="k">⚡ 低频线</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+    <!-- 照地图 App「Map Modes」弹窗（实机 2026-09-16）：模式 = 带缩略图的方块 tile 单选；叠加开关 = 白盒里左侧复选框（Mac）/ 开关（iOS）；底部一行出处。
+         三个模式写回原来的两个隐藏复选框（#areaOn 面覆盖、#terr 势力范围），页内逻辑照旧 -->
+    <div class="modes" role="radiogroup" aria-label="模式">
+      <button type="button" class="mode" role="radio" data-mode="pt" aria-checked="true"><i class="thumb pt"></i><span>车站</span></button>
+      <button type="button" class="mode" role="radio" data-mode="area" aria-checked="false"><i class="thumb area"></i><span>面覆盖</span></button>
+      <button type="button" class="mode" role="radio" data-mode="terr" aria-checked="false"><i class="thumb terr"></i><span>势力范围</span></button>
     </div>
-    <p class="mfoot">低频线 = 每小时不到 3 班的线和优等列车；打开后它们也算进到达时间，含等车时间</p>
-    <div class="mcard">
-      <label class="r"><span class="k">枢纽标记</span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
-      <label class="r"><span class="k">面覆盖（＋步行）</span><span class="sw"><input type="checkbox" id="areaOn"><i></i></span></label>
+    <input type="checkbox" id="areaOn" hidden><input type="checkbox" id="terr" hidden>
+    <div class="mcard modeopts">
       <div id="walkWrap" hidden>
         <div class="r"><span class="k">步行</span><span class="v num" id="wkv">10 分</span></div>
         <div class="r slider"><input type="range" id="wk" min="0" max="20" step="1" value="10" aria-label="步行"></div>
-        <label class="r"><span class="k">势力范围模式</span><span class="sw"><input type="checkbox" id="terr"><i></i></span></label>
       </div>
+      <label class="r"><span class="k">⚡ 低频线</span><span class="sw"><input type="checkbox" id="lowfreq"><i></i></span></label>
+      <label class="r"><span class="k">枢纽标记</span><span class="sw"><input type="checkbox" id="hubsOn" checked><i></i></span></label>
       <label class="r"><span class="k">居住等级（作者标注）</span><span class="sw"><input type="checkbox" id="tiersOn"><i></i></span></label>
     </div>
+    <p class="mfoot note">低频线 = 每小时不到 3 班的线和优等列车；打开后它们也算进到达时间，含等车时间。面覆盖 = 每个像素按「最近车站 + 步行」算到枢纽的时间；势力范围 = 只画最快枢纽的色块，不画点</p>
+    <p class="mfoot">OpenFreeMap · OpenStreetMap · Osaka Metro 時刻表</p>
   </div>
 </aside>
 <script src="../ui/sheet.js"></script>
@@ -451,7 +460,7 @@ const area = {
 // 縮小すると点が相対的に大きくなって団子になるので、zoom に応じて縮める（基準 Leaflet zoom 11、1段縮小ごとに 0.72 倍、拡大側は 1.0 で頭打ち）
 // 点的半径随缩放：zL 12.5 及以上是满尺寸（半径 2.9 + 0.65×枢纽数），每低一级 ×0.72。用户 2026-09-16 04:00：「车站可达性那个点全都挤在一起了」——
 // 原来 BASE 11 = 初始视图（zoom 10，1 px ≈ 126 m）就画满尺寸 14 px 的点，市中心站距 400–800 m 全叠成一团；现在初始视图点是 8 px，且 zL ≤ 12 时同格只画一站
-const BASE_ZOOM = 12.5;
+const BASE_ZOOM = 13;   // 09-16 隔壁实机比对：Apple 交通模式站点 2–3 px，我们 8–12 px 大三倍；再压一级 + 半径系数调小
 function zoomScale(){ return Math.max(0.22, Math.min(1.0, Math.pow(0.72, BASE_ZOOM - zL()))); }
 // 目的地：'all' = 四枢纽同看（色 = 最快枢纽、点大小 = 可达枢纽数）；0–3 = 只看到那个枢纽的时间，色 = 时间档（≤15 / ≤25 / ≤40 分，和 cost 页的房租档同口径）
 let DEST = 'all';
@@ -484,7 +493,7 @@ function render(){
       const v = t[dh]; const bd = (v!==null && v<=th) ? bandOf(v) : null;
       if(!bd){ if(!inOsaka) continue; const rr = Math.max(1.4, 2.2*zs); draws.push({s,cls:'dim',rank:0,r:rr,props:{r:rr,fill:dim,fo:0.85,ring:dimbd,w:Math.max(0.4,0.8*zs),so:1}}); continue; }
       reach++; shown++; bandCnt[BANDS.indexOf(bd)]++;
-      const r = Math.max(2.0, 4.6*zs), tiersOn=$('tiersOn').checked;
+      const r = Math.max(1.8, 3.8*zs), tiersOn=$('tiersOn').checked;
       draws.push({s,cls:'reach',rank:10000-v,r,props: tiersOn ? {r, fill:'#fff', fo:inOsaka?0.95:0.6, ring:bd[1], w:Math.max(1.2,2.2*zs), so:inOsaka?1:0.7} : {r, fill:bd[1], fo:inOsaka?1:0.6, ring, w:normW, so:1}});
       continue; }
     const set = HUBS.filter((h,i)=> t[i]!==null && t[i]<=th);
@@ -501,7 +510,7 @@ function render(){
     if(set.length < MINHUBS) continue;
     shown++;
     const full = set.length===4, fh = fastestHub(t);
-    const r = Math.max(2.0, (inOsaka ? (2.9 + set.length*0.65) : (2.2 + set.length*0.45)) * zs);
+    const r = Math.max(1.8, (inOsaka ? (2.3 + set.length*0.55) : (1.8 + set.length*0.4)) * zs);   // 满尺寸最大 4.5（四枢纽），比 09-15 的 5.5 小
     const mn = Math.min(...t.filter(v=>v!==null));
     // 等级面层开着时点改成白底 + 枢纽色圈（细）：面层的色是等级、圈的色是最快枢纽，两套颜色不打架（用户 09-16：「居住等级，它好用吗」）
     const tiersOn = $('tiersOn').checked;
@@ -514,7 +523,7 @@ function render(){
   let out = terrHide ? [] : draws;
   if(out.length && zL() <= 12){
     // 格子 = 最大点直径 + 2：同格里只留枢纽数最多/最快的那一站（缩放进去会再出现）
-    const cell = Math.ceil(2*(2.9+4*0.65)*zs + 2*Math.max(1.1, 2.2*zs) + 2); const cellPick = new Map();
+    const cell = Math.ceil(2*(2.3+4*0.55)*zs + 2*Math.max(1.1, 2.2*zs) + 2); const cellPick = new Map();
     for(const d of draws){ const p = map.project([d.s.lon, d.s.lat]); const key = d.cls+':'+Math.floor(p.x/cell)+':'+Math.floor(p.y/cell);
       const cur = cellPick.get(key); if(!cur || d.rank > cur.rank) cellPick.set(key, d); }
     out = [...cellPick.values()];
@@ -684,6 +693,12 @@ function ensureTiers(){
 let TIERS=null, hoverId=null;
 map.on('mousemove','tiers-fill',e=>{ const id=e.features[0].id; if(hoverId!==null && hoverId!==id) map.setFeatureState({source:'tiers',id:hoverId},{hover:false}); hoverId=id; map.setFeatureState({source:'tiers',id},{hover:true}); });
 map.on('mouseleave','tiers-fill',()=>{ if(hoverId!==null) map.setFeatureState({source:'tiers',id:hoverId},{hover:false}); hoverId=null; });
+// 模式 tile（车站 / 面覆盖 / 势力范围）→ 写回 #areaOn / #terr 并发 change，原有逻辑不动；#terr 只有在面覆盖开着时才有意义
+function setMode(m){ const area=m!=='pt', terr=m==='terr'; const a=$('areaOn'), t=$('terr');
+  if(t.checked!==terr){ t.checked=terr; if(area) t.dispatchEvent(new Event('change')); }
+  if(a.checked!==area){ a.checked=area; a.dispatchEvent(new Event('change')); } else if(area && t.checked===terr){ /* 面覆盖已开，只换了 terr */ }
+  document.querySelectorAll('#optSheet .mode').forEach(b=>b.setAttribute('aria-checked', b.dataset.mode===m?'true':'false')); }
+document.querySelectorAll('#optSheet .mode').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('tiersOn').addEventListener('change',e=>{
   $('tiersLg').hidden=!e.target.checked;
   const vis=v=>{ for(const id of ['tiers-fill','tiers-line']) if(map.getLayer(id)) map.setLayoutProperty(id,'visibility',v); };
