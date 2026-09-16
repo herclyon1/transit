@@ -412,3 +412,11 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 **转数据会话**：a) 玻璃实际模糊远大于 BlurRadius 5（backdrop 采样缩放未记）；b) iOS Maps 标准球海色 = ramp 饱和色，Mac App 球的粉彩是 Mac 特有或大气项——对 z<4.6 待替换项有帮助。
 **结论**：放行合并。模拟器已释放。它提到「系统外观切成 light」——需确认是模拟器的外观不是 Mac 的。
 
+
+## 2026-09-16 21:01　验收 data df00cd4（MATERIALS §3 Chrome 混合模式 + §4 玻璃 Face 合成顺序）　验收人：transit 验收（Fable）
+
+先看：native-mapmodes.png（2560×1488，按 1280 框折算）自采：弹窗压海面 (1000–1100,190–216) 均值 (134,185,219)，其下裸海 (1000–1100,250–300) 均值 (109,169,210)，点 (1100,290)=(102,162,203)——数据会话纠正成立：我之前给的 (1100,290) 是弹窗下方的裸海，不是弹窗面。
+再量：跑 pipeline/materials/glass_face.py：clear/popover 亮压海 (104,161,198) → YCbCr 模型 (131,182,216)，App (135,181,211)，每通道 ≤5；旧的每通道仿射 (142,180,205) 红通道抬 +25 的问题消失。黑底 Y=0 两读法同值，侧栏 52% 不受影响。
+来源：QuartzCore default.metallib（fat 21 片，第 0 片 AIR，fat_metallib.py 拆）glass_background_*_lpf + 共享缓存 CA::OGL::GlassBackgroundFilter::render / CA::ColorMatrix::set_ycc_composite，MATERIALS.md §5 已记路径。§3 各材质 CSS 折算数与 CA 树差 ≤1/255（headless Chrome 实测）。
+未闭合：MaxLuma（regular 暗 0.35 / sidebar 亮 0.85 / search 暗 0.6）无 CSS 形式，用 brightness(1−(1−L)·Ȳ) 近似，只在 Ȳ 处精确——文档已标明，属近似不属采样。
+**结论**：放行合并。
