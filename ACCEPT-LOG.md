@@ -443,3 +443,15 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 逐元素仍开：街区名一级（NAGASU/KANDA）瓦片 z12 无 quarter/neighbourhood；铁路线名英文需 rail 层 name_en；城市点标注 App 字大带圆点、我们偏小且过密（Sinuiju/Kimchaek/Hachinohe 一堆小字 App 没有）；地形/海沟归数据会话单。
 生成器 to_maplibre.py 由界面会话改了 NAME/WARD_NAME 两处，数据会话改前先 merge main。
 **结论**：放行合并。
+
+## 2026-09-16 21:46　验收 ui 1bb5f32（单元 2 暗色道路 + 模糊半径 + 叠加层/城市标注）　验收人：transit 验收（Fable）
+
+合并放行（无回退），但**单元 2 不闭合**。同坐标核对（snap-osaka12-dark vs 我们 1280×744 原尺寸，按我们的填色像素取 App 同位值）：
+| 类 | 我们填色 | App 同位中位 | 
+| minor | (77,91,109) 77k px | (61,74,92)，众数 (60,72,88) | 
+| tertiary | (83,96,114) 62k px | (69,82,100) | 
+| primary | (120,132,153) | 众数 (120,136,160) 相符 | 
+| motorway 芯 | (137,159,196) | 上四分位 (137,159,195) 相符 |
+即高速/主干颜色对，**minor/tertiary 比 App 亮 +14～+17**，不只是密度问题；界面会话「颜色宽度 ✓」的结论被推翻——它只核了高速和主干。亮度带 78–100 像素 App 190k vs 我们 344k，密度也差。
+日本视野 ui=0 三次拍有一次侧栏出现（scratchpad/acc1bb/cmp-japan-side.png，11.44%），两次正常——间歇性，待查。侧栏骨架文字是中文，App 侧栏是英文（用户系统英文），待用户定。
+城市标注：日本 31 城 vs App≈24，字大带圆点，圆点为采样顶替已标；日本亮 8.38%。模糊半径改 12.5px，limb 25/30 pt vs App 34/36 pt，差在球缘本身。
