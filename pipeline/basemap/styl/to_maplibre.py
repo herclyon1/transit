@@ -2,7 +2,11 @@
 """Generate MapLibre style JSON from Apple's flat style sheet (default-*.styl) — numbers straight from the decode,
 nothing hand-tuned.
 
-  to_maplibre.py ~/Money/styl-work/default-iosmac-11358.styl map/style-flat-light.json map/style-flat-dark.json [--lum] [--zoom-offset -1]
+  to_maplibre.py ~/Money/styl-work/default-iosmac-11358.styl map/style-flat-light.json map/style-flat-dark.json [--lum] [--flat] [--zoom-offset -1]
+
+Variants: by default the "-Elevated" leaf styles are used (Maps on the Mac and MKMapSnapshotter with
+elevationStyle .realistic draw those: elevated expressways purple (185,174,209), ground Landcover-Ground (247,246,242));
+--flat picks the plain Explore/Light variants (elevationStyle .flat).
 
 Which .styl: `default-iosmac-*.styl` is what Maps on the Mac (and MKMapSnapshotter) renders — same colours and zoom bands
 as the iOS `default-*.styl`, all sizes (widths, text) x1.2987 (= 100/77).  Use the iOS file for phone-sized numbers.
@@ -40,8 +44,11 @@ from resolve import Resolver
 
 TILES = 'https://tiles.openfreemap.org/planet'
 ZOFF = -1.0     # Apple zoom -> MapLibre zoom
+ELEVATED = True  # prefer the "-Elevated" leaf variants: Maps on the Mac / MKMapSnapshotter(.realistic) draw those
 GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
 NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name:zh'], ['get', 'name']]
+ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
+ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 
 # (id, kind, source-layer, filter, apple style template ({m} = Light/Dark, {e} = Explore-Light/Explore-Dark), note)
 # kind: bg | fill | road | rail | line | boundary | place | roadname | watername
@@ -205,6 +212,7 @@ class Gen:
         lo, hi = self.zoom_range(style)
         # labelTextVisibility(33) is NOT used as a gate: freeways carry 33=0 at every zoom yet Maps labels them
         # (HANSHIN EXPRESSWAY ... in the acceptance render), so 0 does not mean hidden.
+        lo = max(lo or 0, ROAD_LABEL_MINZOOM.get(lid, 0)) or None
         if lo:
             base['minzoom'] = lo
         if hi is not None and hi < 24:
@@ -257,21 +265,41 @@ class Gen:
             tc, hc = self.color_expr(style, 24, 463), self.color_expr(style, 25, 464)
             layout = {'text-field': NAME, 'text-font': self.font(style), 'text-size': self.text_size_expr(style)}
             if kind == 'roadname':
-                layout.update({'symbol-placement': 'line', 'text-rotation-alignment': 'map', 'symbol-spacing': 400})
+                layout.update({'symbol-placement': 'line', 'text-rotation-alignment': 'map', 'symbol-spacing': 400,
+                               'symbol-sort-key': ROAD_RANK.get(lid, 9)})     # lower = placed first (freeway > trunk > ... )
             else:
                 layout['text-max-width'] = 8
+            if lid == 'label-ward':
+                layout.update({'text-transform': 'uppercase', 'text-letter-spacing': 0.1})   # Maps sets Latin ward names in caps with tracking
             paint = {'text-color': tc or '#000'}
             if hc:
                 paint.update({'text-halo-color': hc, 'text-halo-width': 1.5})
             return [{**base, 'type': 'symbol', 'layout': layout, 'paint': paint}]
         return []
 
+    def elevated_name(self, name):
+        """The -Elevated variant of a leaf style when the sheet has one (Line-X.Light-JPN-Elevated, ParkPolygon.Elevated-Light,
+        Landcover-X.Light-Elevated); LandPolygon has none: in elevated mode the ground is Landcover-Ground.{m}-Elevated."""
+        if not ELEVATED:
+            return name
+        if name.startswith('LandPolygon.'):
+            return 'Landcover-Ground.' + ('Light' if 'Light' in name else 'Dark') + '-Elevated'
+        if '.' not in name:                 # non-leaf (e.g. Rivers-Light-Flat-Base): try the Elevated-Base sibling
+            cand = name.replace('-Flat-Base', '-Elevated-Base')
+            return cand if cand in self.r.by_name else name
+        fam, var = name.split('.', 1)
+        for cand in (f'{fam}.{var}-Elevated', f'{fam}.Elevated-{var}', f'{fam}.{var.replace("Explore-", "Elevated-")}',
+                     f'{fam}.{var.replace("-Explore", "-Elevated")}'):
+            if cand in self.r.by_name:
+                return cand
+        return name
+
     def style(self, mode):
         m, e = ('Light', 'Explore-Light') if mode == 'light' else ('Dark', 'Explore-Dark')
         layers = []
         roads_casing, roads_fill = [], []
         for lid, kind, src, flt, tpl, note in MAPPING:
-            name = tpl.format(m=m, e=e)
+            name = self.elevated_name(tpl.format(m=m, e=e))
             ls = self.layer(lid, kind, src, flt, name, mode)
             self.note(lid, kind, name, note)
             if kind == 'road':
@@ -288,7 +316,7 @@ class Gen:
         labels = [l for l in layers if l['type'] == 'symbol']
         return {'version': 8, 'name': f'Apple flat {mode} (generated from {Path(self.src).name})',
                 'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': Path(self.src).name,
-                             'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum,
+                             'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum, 'elevated_variants': ELEVATED,
                              'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
                 'sources': {'openmaptiles': {'type': 'vector', 'url': TILES}},
                 'glyphs': GLYPHS, 'layers': pre + roads_casing + roads_fill + bounds + labels}
@@ -297,6 +325,9 @@ class Gen:
 def main(argv):
     global ZOFF
     lum = '--lum' in argv
+    global ELEVATED
+    if '--flat' in argv:
+        ELEVATED = False; argv = [a for a in argv if a != '--flat']
     if '--zoom-offset' in argv:
         i = argv.index('--zoom-offset'); ZOFF = float(argv[i + 1]); del argv[i:i + 2]
     argv = [a for a in argv if a != '--lum']
