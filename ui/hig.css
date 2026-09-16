@@ -751,7 +751,7 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
   /* 侧栏：§4 sidebar light — BlurRadius 10；Face White 1.03 Black 0.4（0.4 + 0.63·in）Saturation 1.2；FillColor 白 20% → 合成 0.52 + 0.504·in =
      contrast(.326) brightness(1.544)；MaxLuma 0.85（填后 0.88 = #e0e0e0）→ darken；KeyFillHighlightHeight 0（无边光）；Shadow 0 */
   #matSidebar{left:0;top:0;bottom:0;width:200px;background:#e0e0e0;mix-blend-mode:darken;
-     -webkit-backdrop-filter:blur(10px) contrast(.326) brightness(1.544) saturate(1.2);backdrop-filter:blur(10px) contrast(.326) brightness(1.544) saturate(1.2)}
+     -webkit-backdrop-filter:blur(12.5px) contrast(.326) brightness(1.544) saturate(1.2);backdrop-filter:blur(12.5px) contrast(.326) brightness(1.544) saturate(1.2)}
   html .sheet.glass,html .sheet{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
   /* 地点卡：§3 NSVisualEffectMaterial popover(6) light — gaussianBlur 30 → colorSaturate 2.0 → 填 rgba(246,246,246,.60)（合成 0.579 + 0.4·in =
      contrast(.257) brightness(1.558)）→ #f1f1f1 darken；变色层 5% 略。几何同 #card（208/8/8，320，r20） */
@@ -761,40 +761,40 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
   /* Map Modes 弹窗：§4 NSPopover frame light — BlurRadius 10；Face White 0.95 Black 0.2（→ contrast(.65) brightness(1.15)）Saturation 1；
      FillColor rgba(255,255,255,.1)；MaxLumaSDR 1（无上限，可直接画在元素上）；RingShadowOpacity 0.06 → 0 0 0 1px 黑 6%；外阴影仍是 Kit Popover 的
      0 18 46 25%（窗口阴影不在配方里）；箭头（::before）同材质 */
-  html .sheet.opt{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(10px) contrast(.65) brightness(1.15);backdrop-filter:blur(10px) contrast(.65) brightness(1.15);box-shadow:0 18px 46px rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.06)}
-  html .sheet.opt::before{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(10px) contrast(.65) brightness(1.15);backdrop-filter:blur(10px) contrast(.65) brightness(1.15)}
+  html .sheet.opt{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12.5px) contrast(.65) brightness(1.15);backdrop-filter:blur(12.5px) contrast(.65) brightness(1.15);box-shadow:0 18px 46px rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.06)}
+  html .sheet.opt::before{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12.5px) contrast(.65) brightness(1.15);backdrop-filter:blur(12.5px) contrast(.65) brightness(1.15)}
   /* 右列玻璃钮 / ± 组：§4 clear light — BlurRadius 10；Face White 0.95 Black 0.2 Sat 1（→ contrast(.65) brightness(1.15)）；FillColor rgba(255,255,255,.1)；
      KeyFillHighlight amount 0.4 自上 → inset 0 1px 白 40%；ShadowAmount 75 / Height 80 / rgba(0,0,0,.1) → 0 8px 24px 黑 10%；无 ring shadow */
   html .bar .glass,html .bar .btn-glass,html .map-ctl .btn-glass,html .maplibregl-ctrl-group,html .maplibregl-ctrl-attrib{background:rgba(255,255,255,.1);
-     -webkit-backdrop-filter:blur(10px) contrast(.65) brightness(1.15);backdrop-filter:blur(10px) contrast(.65) brightness(1.15);
+     -webkit-backdrop-filter:blur(6px) contrast(.65) brightness(1.15);backdrop-filter:blur(6px) contrast(.65) brightness(1.15);
      box-shadow:0 8px 24px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.4)}
   html .maplibregl-ctrl-group:not(:empty){box-shadow:0 8px 24px rgba(0,0,0,.1),inset 0 1px 0 rgba(255,255,255,.4)}
   /* 搜索框：§4 search field light = regular 基线（BlurRadius 5；Face 0.4 + 0.56·in = contrast(.41) brightness(1.36) saturate(1.2)；FillColor 白 20%）
      + BlurOpacity 0.4 / Bleed 12.6 / InnerRefraction −18（CSS 做不了，略）；外边 1px 黑 5% 是 Kit XL Search Field 的 */
-  .sheet #list .head .search{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);box-shadow:0 0 0 1px rgba(0,0,0,.05)}
+  .sheet #list .head .search{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(1.3px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(1.3px) contrast(.41) brightness(1.36) saturate(1.2);box-shadow:0 0 0 1px rgba(0,0,0,.05)}
 }
 @media (min-width: 900px) and (pointer: fine) and (prefers-color-scheme: dark){
   /* §4 sidebar dark：BlurRadius 10；Face White 0.5 Black 0.1 Sat 0.6（→ contrast(.67) brightness(.6) saturate(.6)）；FillColor 0；MaxLumaSDR 1（无上限） */
-  :root:not([data-theme="light"]) #matSidebar{background:transparent;mix-blend-mode:normal;-webkit-backdrop-filter:blur(10px) contrast(.67) brightness(.6) saturate(.6);backdrop-filter:blur(10px) contrast(.67) brightness(.6) saturate(.6)}
+  :root:not([data-theme="light"]) #matSidebar{background:transparent;mix-blend-mode:normal;-webkit-backdrop-filter:blur(12.5px) contrast(.67) brightness(.6) saturate(.6);backdrop-filter:blur(12.5px) contrast(.67) brightness(.6) saturate(.6)}
   :root:not([data-theme="light"]) .sheet{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
   /* §3 popover(6) dark：saturate 2.0 → 填 rgba(40,40,40,.60)（合成 0.094 + 0.4·in = contrast(.68) brightness(.588)）→ #1c1c1c lighten */
   :root:not([data-theme="light"]) #matCard{background:#1c1c1c;mix-blend-mode:lighten;-webkit-backdrop-filter:blur(30px) saturate(2) contrast(.68) brightness(.588);backdrop-filter:blur(30px) saturate(2) contrast(.68) brightness(.588)}
   :root:not([data-theme="light"]) .sheet.split #card{background:transparent;background-image:none;-webkit-backdrop-filter:none;backdrop-filter:none}
   /* §4 NSPopover frame dark：Face White 0.8 Black 0.05（→ contrast(.88) brightness(.85)）；FillColor rgba(255,255,255,.05) */
-  :root:not([data-theme="light"]) .sheet.opt,:root:not([data-theme="light"]) .sheet.opt::before{content:"";background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(10px) contrast(.88) brightness(.85);backdrop-filter:blur(10px) contrast(.88) brightness(.85)}
+  :root:not([data-theme="light"]) .sheet.opt,:root:not([data-theme="light"]) .sheet.opt::before{content:"";background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(12.5px) contrast(.88) brightness(.85);backdrop-filter:blur(12.5px) contrast(.88) brightness(.85)}
   /* §4 clear dark：同上脸色；FillColor rgba(255,255,255,.05) */
-  :root:not([data-theme="light"]) .bar .glass,:root:not([data-theme="light"]) .bar .btn-glass,:root:not([data-theme="light"]) .map-ctl .btn-glass,:root:not([data-theme="light"]) .maplibregl-ctrl-group{background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(10px) contrast(.88) brightness(.85);backdrop-filter:blur(10px) contrast(.88) brightness(.85)}
+  :root:not([data-theme="light"]) .bar .glass,:root:not([data-theme="light"]) .bar .btn-glass,:root:not([data-theme="light"]) .map-ctl .btn-glass,:root:not([data-theme="light"]) .maplibregl-ctrl-group{background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(6px) contrast(.88) brightness(.85);backdrop-filter:blur(6px) contrast(.88) brightness(.85)}
   /* §4 search field dark = regular dark（Face 0.08 + 1.045·in = contrast(.87) brightness(1.2) saturate(1.3)；FillColor 0）；MaxLuma 0.6 做不了（见上），略 */
-  :root:not([data-theme="light"]) .sheet #list .head .search{background:transparent;-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
+  :root:not([data-theme="light"]) .sheet #list .head .search{background:transparent;-webkit-backdrop-filter:blur(1.3px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(1.3px) contrast(.87) brightness(1.2) saturate(1.3)}
 }
 @media (min-width: 900px) and (pointer: fine){
-  :root[data-theme="dark"] #matSidebar{background:transparent;mix-blend-mode:normal;-webkit-backdrop-filter:blur(10px) contrast(.67) brightness(.6) saturate(.6);backdrop-filter:blur(10px) contrast(.67) brightness(.6) saturate(.6)}
+  :root[data-theme="dark"] #matSidebar{background:transparent;mix-blend-mode:normal;-webkit-backdrop-filter:blur(12.5px) contrast(.67) brightness(.6) saturate(.6);backdrop-filter:blur(12.5px) contrast(.67) brightness(.6) saturate(.6)}
   :root[data-theme="dark"] .sheet{background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
   :root[data-theme="dark"] #matCard{background:#1c1c1c;mix-blend-mode:lighten;-webkit-backdrop-filter:blur(30px) saturate(2) contrast(.68) brightness(.588);backdrop-filter:blur(30px) saturate(2) contrast(.68) brightness(.588)}
   :root[data-theme="dark"] .sheet.split #card{background:transparent;background-image:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-  :root[data-theme="dark"] .sheet.opt,:root[data-theme="dark"] .sheet.opt::before{content:"";background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(10px) contrast(.88) brightness(.85);backdrop-filter:blur(10px) contrast(.88) brightness(.85)}
-  :root[data-theme="dark"] .bar .glass,:root[data-theme="dark"] .bar .btn-glass,:root[data-theme="dark"] .map-ctl .btn-glass,:root[data-theme="dark"] .maplibregl-ctrl-group{background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(10px) contrast(.88) brightness(.85);backdrop-filter:blur(10px) contrast(.88) brightness(.85)}
-  :root[data-theme="dark"] .sheet #list .head .search{background:transparent;-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
+  :root[data-theme="dark"] .sheet.opt,:root[data-theme="dark"] .sheet.opt::before{content:"";background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(12.5px) contrast(.88) brightness(.85);backdrop-filter:blur(12.5px) contrast(.88) brightness(.85)}
+  :root[data-theme="dark"] .bar .glass,:root[data-theme="dark"] .bar .btn-glass,:root[data-theme="dark"] .map-ctl .btn-glass,:root[data-theme="dark"] .maplibregl-ctrl-group{background:rgba(255,255,255,.05);-webkit-backdrop-filter:blur(6px) contrast(.88) brightness(.85);backdrop-filter:blur(6px) contrast(.88) brightness(.85)}
+  :root[data-theme="dark"] .sheet #list .head .search{background:transparent;-webkit-backdrop-filter:blur(1.3px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(1.3px) contrast(.87) brightness(1.2) saturate(1.3)}
 }
 
 /* ---------- 20. iPhone 材质（MATERIALS.md，2026-09-16 晚）----------
@@ -813,7 +813,7 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
   .bar .btn-glass,.map-ctl .btn-glass,.bar .glass{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);
      box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
   /* 搜索胶囊：§4 search field light = regular 脸 + blur 5 + 白填 20%（BlurOpacity 0.4 / Bleed 12.6 / 折射略） */
-  .sheet .head .search{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2)}
+  .sheet .head .search{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(1.3px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(1.3px) contrast(.41) brightness(1.36) saturate(1.2)}
 }
 @media (max-width: 899.98px) and (prefers-color-scheme: dark), (pointer: coarse) and (prefers-color-scheme: dark){  /* 暗色：Sheet / 圆钮 / 搜索 = §4 regular dark（Face 0.08 + 1.045·in = contrast(.87) brightness(1.2) saturate(1.3)，FillColor 0；MaxLuma 0.35 / 0.6 未做） */
   :root:not([data-theme="light"]) .sheet.glass,:root:not([data-theme="light"]) .sheet{background-color:rgba(0,0,0,0);background-image:none;-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}

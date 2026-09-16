@@ -199,7 +199,7 @@
         // tropics / equator / polar circles (style-flat v6 geoline-*, Geolines-* rows, RENDER-PIPELINE 7.13/7.16):
         // drawn at every zoom — the App has them on the globe — above the ocean ramp, no fade
         if (l0.id.startsWith('geoline-')) { flatAlways.push(l); continue; }
-        if (l.type === 'symbol') flatSymbols.push(withFade(l, fadeIn, PAL_Z0));   // .styl label styles take over at PAL
+        if (l.type === "symbol" || l.type === "circle") flatSymbols.push(withFade(l, fadeIn, PAL_Z0));   // .styl label styles (+ city dots) take over at PAL
         else if (l.type === 'line') flatLines.push(withFade(l, fadeIn, PAL_Z0));
         else if (l0.id === 'water') flatWater.push(withFade(l, fadeIn, PAL_Z0));
         else flatFills.push(withFade(l, fadeIn, PAL_Z0));            // background, landcover, landuse, park, building

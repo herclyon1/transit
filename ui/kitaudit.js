@@ -36,23 +36,23 @@
   // ---- 材质 = 系统配方（MATERIALS.md §3/§4，hig.css §19；computed 值逐字比，亮色） ----
   const BF=(el,want)=>{ const v=(cs(el).backdropFilter||cs(el).webkitBackdropFilter||'').replace(/\s+/g,' ').trim(); return v===want?[]:[`backdrop-filter「${v}」≠「${want}」`]; };
   const BG=(el,want)=>{ const v=cs(el).backgroundColor; return v===want?[]:[`background「${v}」≠「${want}」`]; };
-  rule({name:'侧栏材质 = UIKit 玻璃侧栏（MATERIALS.md §4 sidebar：blur 10，Face 0.4+0.63·in，Sat 1.2，白填 20%，MaxLuma 0.85）', ref:'MATERIALS.md §4「sidebar」行 + §4 CSS 表；合成式见 hig.css §19', plat:'mac', sel:'#matSidebar', leaf:false,
-    check:el=>[...BF(el,'blur(10px) contrast(0.326) brightness(1.544) saturate(1.2)'),...BG(el,'rgb(224, 224, 224)'),...(cs(el).mixBlendMode==='darken'?[]:['MaxLuma 需 mix-blend-mode: darken']),...(cs(document.getElementById('sheet')).backgroundColor==='rgba(0, 0, 0, 0)'?[]:['侧栏本体应透明（材质在 #matSidebar）'])]});
+  rule({name:'侧栏材质 = UIKit 玻璃侧栏（MATERIALS.md §4 sidebar：blur 12.5（盒 40 pt）、Face 0.4+0.63·in，Sat 1.2，白填 20%，MaxLuma 0.85）', ref:'MATERIALS.md §4「sidebar」行 + §4 CSS 表；合成式见 hig.css §19', plat:'mac', sel:'#matSidebar', leaf:false,
+    check:el=>[...BF(el,'blur(12.5px) contrast(0.326) brightness(1.544) saturate(1.2)'),...BG(el,'rgb(224, 224, 224)'),...(cs(el).mixBlendMode==='darken'?[]:['MaxLuma 需 mix-blend-mode: darken']),...(cs(document.getElementById('sheet')).backgroundColor==='rgba(0, 0, 0, 0)'?[]:['侧栏本体应透明（材质在 #matSidebar）'])]});
   rule({name:'地点卡材质 = NSVisualEffectMaterial popover(6)（MATERIALS.md §3：blur 30，sat 2.0，rgba(246,246,246,.6)，#f1f1f1 darken）', ref:'MATERIALS.md §3 popover 行、§6（systemMaterial 默认）', plat:'mac', sel:'#matCard', leaf:false,
     check:el=>[...BF(el,'blur(30px) saturate(2) contrast(0.257) brightness(1.558)'),...BG(el,'rgb(241, 241, 241)'),...(cs(el).mixBlendMode==='darken'?[]:['darken 填充缺'])]});
-  rule({name:'Map Modes 弹窗材质 = NSPopover 玻璃（MATERIALS.md §4：blur 10，Face 0.2+0.75·in，白填 10%，ring 6%）', ref:'MATERIALS.md §4「NSPopover frame」行', plat:'mac', sel:'.sheet.opt', leaf:false,
-    check:el=>[...BF(el,'blur(10px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
-  rule({name:'右列玻璃钮材质 = UIGlassEffect clear（MATERIALS.md §4：blur 10，Face 0.2+0.75·in，白填 10%，顶光 0.4）', ref:'MATERIALS.md §4「clear, light」行；App 黑底实测 #282828 对 clear 近于 regular', plat:'mac', sel:'.bar button.btn-glass, .maplibregl-ctrl-group', leaf:false,
-    check:el=>[...BF(el,'blur(10px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
-  rule({name:'搜索框材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%）', ref:'MATERIALS.md §4「search field」行（BlurOpacity 0.4 / Bleed / 折射略）', plat:'mac', sel:'#list .head .search', leaf:false,
-    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
+  rule({name:'Map Modes 弹窗材质 = NSPopover 玻璃（MATERIALS.md §4：blur 12.5（盒 40 pt）、Face 0.2+0.75·in，白填 10%，ring 6%）', ref:'MATERIALS.md §4「NSPopover frame」行', plat:'mac', sel:'.sheet.opt', leaf:false,
+    check:el=>[...BF(el,'blur(12.5px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
+  rule({name:'右列玻璃钮材质 = UIGlassEffect clear（MATERIALS.md §4：blur 6（盒 20 pt）、Face 0.2+0.75·in，白填 10%，顶光 0.4）', ref:'MATERIALS.md §4「clear, light」行；App 黑底实测 #282828 对 clear 近于 regular', plat:'mac', sel:'.bar button.btn-glass, .maplibregl-ctrl-group', leaf:false,
+    check:el=>[...BF(el,'blur(6px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
+  rule({name:'搜索框材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：blur 1.3（盒 4 pt）、Face 0.4+0.56·in，Sat 1.2，白填 20%）', ref:'MATERIALS.md §4「search field」行（BlurOpacity 0.4 / Bleed / 折射略）', plat:'mac', sel:'#list .head .search', leaf:false,
+    check:el=>[...BF(el,'blur(1.3px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   // ---- iPhone 材质（MATERIALS.md §2 / §4，hig.css §20） ----
   rule({name:'Sheet 材质 = UIGlassEffect regular（MATERIALS.md §4 基线：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%；模拟器 Maps 黑底 #858585 = 0.52 对上）', ref:'MATERIALS.md §4「Baseline — regular glass, light」；raw/renders/ios-maps-globe-sheet.png', plat:'ios', sel:'.sheet', leaf:false,
     check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'44 圆钮材质 = UIGlassEffect regular（MATERIALS.md §4 基线：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%，顶光 .5）', ref:'MATERIALS.md §4「Baseline — regular glass, light」', plat:'ios', sel:'.bar button.btn-glass, .map-ctl .btn-glass', leaf:false,
     check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
-  rule({name:'搜索胶囊材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：regular 脸 + blur 5 + 白填 20%）', ref:'MATERIALS.md §4「search field」行', plat:'ios', sel:'.sheet .head .search', leaf:false,
-    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
+  rule({name:'搜索胶囊材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：regular 脸 + blur 1.3（盒 4 pt）+ 白填 20%）', ref:'MATERIALS.md §4「search field」行', plat:'ios', sel:'.sheet .head .search', leaf:false,
+    check:el=>[...BF(el,'blur(1.3px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'Map Modes 弹窗无关闭钮（点外部关闭）', ref:'styl-work/native-mapmodes.png（Maps.app 2026-09-16）', plat:'mac', sel:'.sheet.opt', leaf:false, check:el=>{ const x=el.querySelector('#optClose'); return !x||rect(x).width===0?[]:['弹窗上有 × 钮，Maps.app 的 Map Modes 没有']; }});
   rule({name:'抓手 60×4', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .grab i', check:el=>{ const r=rect(el); return near(r.width,60)&&near(r.height,4)?[]:[`${num(r.width)}×${num(r.height)}≠60×4`]; }});
   rule({name:'抓手（桌面不显示）', ref:'macOS 无 Sheet 抓手', plat:'mac', sel:'.sheet .grab', check:()=>[]});

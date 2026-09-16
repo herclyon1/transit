@@ -510,6 +510,60 @@
    }
   },
   {
+   "id": "dot-city",
+   "source": "openmaptiles",
+   "source-layer": "place",
+   "filter": [
+    "all",
+    [
+     "==",
+     "class",
+     "city"
+    ],
+    [
+     ">",
+     "rank",
+     6
+    ]
+   ],
+   "minzoom": 6.0,
+   "type": "circle",
+   "maxzoom": 8.0,
+   "paint": {
+    "circle-radius": 1.75,
+    "circle-color": "#ffffff",
+    "circle-stroke-width": 1,
+    "circle-stroke-color": "#5c5c5c"
+   }
+  },
+  {
+   "id": "dot-city-large",
+   "source": "openmaptiles",
+   "source-layer": "place",
+   "filter": [
+    "all",
+    [
+     "==",
+     "class",
+     "city"
+    ],
+    [
+     "<=",
+     "rank",
+     6
+    ]
+   ],
+   "minzoom": 4.0,
+   "type": "circle",
+   "maxzoom": 8.0,
+   "paint": {
+    "circle-radius": 1.75,
+    "circle-color": "#ffffff",
+    "circle-stroke-width": 1,
+    "circle-stroke-color": "#5c5c5c"
+   }
+  },
+  {
    "id": "road-path-casing",
    "source": "openmaptiles",
    "source-layer": "transportation",
@@ -3118,7 +3172,7 @@
     "village",
     "hamlet"
    ],
-   "minzoom": 1.0,
+   "minzoom": 11.0,
    "type": "symbol",
    "layout": {
     "text-field": [
@@ -3185,7 +3239,7 @@
     "class",
     "town"
    ],
-   "minzoom": 1.0,
+   "minzoom": 8.0,
    "type": "symbol",
    "layout": {
     "text-field": [
@@ -3265,10 +3319,10 @@
     [
      ">",
      "rank",
-     3
+     6
     ]
    ],
-   "minzoom": 1.0,
+   "minzoom": 6.0,
    "type": "symbol",
    "layout": {
     "text-field": [
@@ -3345,7 +3399,13 @@
      13.0,
      27.0
     ],
-    "text-max-width": 8
+    "text-max-width": 8,
+    "text-anchor": "left",
+    "text-offset": [
+     0.55,
+     0
+    ],
+    "text-justify": "left"
    },
    "paint": {
     "text-color": "rgba(218,228,238,1)",
@@ -3367,10 +3427,10 @@
     [
      "<=",
      "rank",
-     3
+     6
     ]
    ],
-   "minzoom": 1.0,
+   "minzoom": 4.0,
    "type": "symbol",
    "layout": {
     "text-field": [
@@ -3440,7 +3500,13 @@
      12.0,
      28.0
     ],
-    "text-max-width": 8
+    "text-max-width": 8,
+    "text-anchor": "left",
+    "text-offset": [
+     0.55,
+     0
+    ],
+    "text-justify": "left"
    },
    "paint": {
     "text-color": "rgba(218,228,238,1)",

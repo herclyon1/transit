@@ -36,6 +36,10 @@ Light / dark follow `prefers-color-scheme`.
 | Osaka light z 12.2 | 7.09 % | 7.08 % | **7.30 %** |
 | Osaka dark z 12.2 | 7.90 % | 7.89 % | **8.11 %** (t = 20: 18.03 %) |
 
+2026-09-16 late (English labels, LMZ city gating + dots, blur radii): globe 3.74 %, Japan 8.38 % / 7.91 % (t20 14.21 %), Osaka 7.17 % / 8.08 %
+(t20 18.08 %) — the Japan light figure rose from 7.79 % because the city labels are now the large LMZ-05 class with dots (31 of them vs
+the App's ~24; label pixels that do not coincide count as difference).
+
 The dark numbers at threshold 20 come from `pipeline/basemap/cmpdiff.py --t 20` (same recipe as cmp-accept: luminance of |Δ| after
 LANCZOS to 1280×744, toolbar column masked, denominator all pixels). Osaka moved with the flat style (v5 → v6: coast glow, rail ticks,
 label fonts), not with this page.
@@ -69,6 +73,12 @@ No data, no functions — rows and the card are placeholder text.
   affine reading of FaceColorMatrixWhite/Black holds on black, not on mid-tones — for the data session; sidebar over the dark limb (100,600)
   `#98a2aa` / `#93999e`, over land (100,200) `#cfd3d9` / `#e0e0e0`; search field (140,65) `#d3d5d6` / `#c9cacb`; button interior (1254,26)
   `#2b2b2b` / `#313131`. kit-audit rules check the computed `backdrop-filter` / `background` strings of all five (KIT-OK Mac 47).
+  **Blur radii (MATERIALS.md §4 "BlurRadius / backdrop scale" row):** the glass BlurRadius is in backdrop texels, box ≈ BlurOpacity0 ·
+  BlurRadius / scale pt — regular 16, clear 20, popover / sidebar 40, search field 4 pt — and the Gaussian with the same 10–90 % rise is
+  σ = 0.31 · box: regular `blur(5px)`, clear `blur(6px)`, popover / sidebar `blur(12.5px)`, search field `blur(1.3px)`. Check with
+  `pipeline/materials/limb_blur.py` (the globe's left limb under the sidebar, `native.png` vs our 2× render of `#3.12/30.18/116.15`):
+  App 10–90 % rise 34 / 36 pt (rows 700 / 900), ours 25 / 30 pt (was ~20 at blur 10); the remaining 4–6 pt is the App's softer limb itself
+  (its rim gradient adds width; the unglazed right limb reads 158→102 over the same 9 samples in both).
 * **iPhone materials (`ui/hig.css` §20):** MATERIALS.md §1 records the iOS sheet as `MUBlurView systemMaterial` → CoreMaterial
   `platformContentLight` (§2: blur 30, saturation 1.5, brightness +0.1, luminance remap 0.75 / [0.9, 0.83, 0.925, 0.815] ×
   `luminanceColorMap.png` — the LUT reads 89 → 204 /255, i.e. 0.35 → 0.80, a luminance compression; how the four values and the amount
@@ -115,7 +125,7 @@ shows on water (RENDER-PIPELINE §3: the ground shader has no relief on the wate
 | post-pass `#light` (`globe-light.js`, WebGL) | MapLibre's canvas read back per frame | **lighting**: pixel_lin × light(n)/light(0,0,1), `light(n) = 0.49683·cube(n) + 0.7085·max(n·L,0)`, L = (−0.366, −0.211, 0.906) view-fixed, cube = the 8×8×6 irradiance texture (SHADER-NUMBERS 3.1/4.1); **rim**: `mix(midColor, black, t2) × (0.7085·0.25·(L·pos+1)² + 0.49683)` over 75 km outside the silhouette, midColor = Sky-Standard-Day rgb(155,196,237) / Night rgb(35,76,122) linearised (SHADER-NUMBERS 3.3, RENDER-PIPELINE 2.2). See "rim geometry" below |
 | `flat-geoline-{tropics,equator}` (lines, every zoom, no fade) | `data/graticule.geojson` (globe-data.py: 23.4366°, 0°, 66.5634°) | the flat style's own layers (v6 `to_maplibre.py` from `Geolines-{Tropics,Equator}.Explore-*`, RENDER-PIPELINE 7.13/7.16: rgb(73,88,122) α by zoom, width 1.15 / equator 1 → 1.9, dashes at 0.2 pt per unit); the polar circles take the tropics row (filter lat ≠ 0). This page's own `graticule-*` layers (¼-pt dashes, lum −15) were dropped for them; `ui/basemap/geolines.json` stays as the decoded reference and feeds the DOM label |
 | labels (DOM markers, z < 5) | NE 10m admin_0 `LABEL_X/Y`, marine + continent polys → spherical interior point; cities `data/cities.geojson` (`globe_rank` ≤ 4); deeps `data/undersea.geojson` (cls 1 Deep); graticule labels at the App's anchors | **pending**: typography measured on the App globe (`labels-globe.json`, `meta-ui.json labels_app`); the globe sheet rows (`basemap/data/styl/globe-key-numbers.tsv`) are decoded but not wired yet. Graticule label = Geolines textColor rgb(73,88,122), medium, labelInfo.height 7.5→9 (Apple z2–4), 9→10 (4–8), halo rgb(194,219,234) α 0.15 → not drawn (α < 0.2). Continents hidden from Apple z3 (`Continent-PointLabel-Base visible=False`) |
-| labels (flat, z ≥ 4.6) | the flat style's symbol layers (`to_maplibre.py` ← `.styl` City-Label-LMZ / Country-Label / State-Label / Ocean-Points) | the sheet's, unchanged here |
+| labels (flat, z ≥ 4.6) | the flat style's symbol layers (`to_maplibre.py` ← `.styl` City-Label-LMZ / Country-Label / State-Label / Ocean-Points); **English** (`name:en` → `name_en` → `name:latin` → `name`; ward names lose " Ward" / "-ku" before the uppercase transform) | the sheet's. City classes: `City-Label-LMZ-NN` is not hidden by zoom in the sheet — LMZ is the feature's label-min-zoom (Apple z NN), so the layers start at NN − 1 (LMZ-05 → 4, 07 → 6, 09 → 8, 12 → 11); OSM `rank` ≤ 6 stands in for Apple's LMZ-05 class (Maps labels Kobe / Niigata / Kanazawa / Akita / Aomori / Kagoshima — OSM rank 6 — at the Japan view; it also skips Kimchaek / Morioka / Sinuiju, which OSM ranks 5–6: Apple's per-city LMZ is its own data). City dot = `City-Base 22:iconName SettlementDot-Ring-City` up to Apple z9 — the glyph is in the icon pack (not decoded); a `circle` layer with the dot measured on the App globe (3.5 pt white, 1 pt ring #5c5c5c, sampled) stands in, text anchored right of it |
 | stars (canvas) | `basemap/data/globe/stars.bin` (VectorKit embedded zip, 10 000 × float32[3]) | positions: angle 0 / angle 1 taken as right ascension / declination in the earth-fixed frame, projected through the page camera; alpha = (brightness − 10)/4.1; **pending**: frame (stars-format.md), the GlobeStars point-size/alpha formula (size 1.2 pt is the App measurement) |
 
 ### light(0,0,1) — why every painted colour carries a 1.0455 factor
@@ -210,6 +220,17 @@ python3 pipeline/basemap/palette.py / labels.py / globefit.py / shading.py / haz
 * Flat style items for the data session: the expressway width below Apple z8 is resolved in v6 (RENDER-PIPELINE 7.15); prefecture borders
   magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6 — the App's "thin grey lines" there are Ground-class valley floors
   (sampled: rgb(239,240,228) = Ground × light), not lines; shinkansen drawn at z 5 where the App shows none; labels in name:ja vs the App's English.
+* Dark Osaka roads (acceptance 2026-09-16 late, "lighter and thicker"): the colours and widths are the `Line-*.Dark-JPN-Elevated` rows at
+  Apple z13.2 exactly — at our motorway pixels the App's brightest quartile is `#899fc4`, our fill; primary `#7689a3` vs `#788499`; ground
+  `#37485d` in both. What differs is data: OSM dual-carriageway expressways are two ways, drawn as two 3.75 px lines (a row profile shows
+  8 px of fill where the App has one 5 px line), and OSM `minor` (residential) is far denser than Apple's local-road class at Apple z13 —
+  our render has 337 k road-ish pixels against the App's 148 k (2.3×) with the same run-length distribution (median 2 px). Parks: App
+  `#316858` vs ours `#246259` (+13 R): the sheet fill `ParkPolygon.Elevated-Dark` rgb(0,100,96) is what we draw; the App's park carries a
+  texture on top. Nothing to change in the style; the fixes are data-side (merge dual carriageways, thin the residential set).
+* Load order the user sees: the ocean ramp and hill-shade wait for the terrarium DEM tiles (network); until they arrive the flat water colour
+  shows (within 6/255 of the ramp's coast colour). On the GPU headless everything is up ~5 s after the page's own JS (ground rasters 0.2 s,
+  land 1 s, DEM 5 s); the acceptance's software-GL (swiftshader) run needed ~30 s because the 3200×3456 raster and every tile upload are
+  CPU work there.
 * No country borders below z 4.6 (the flat `boundary-*` layers start at PAL); the App draws `Border-Country` from Apple z2.
 * Undersea names along lines (Japan Trench, basins), physical range labels (Taebaek Mountains) — data exists (`undersea.geojson`, `physical.geojson`), not drawn.
 * Materials: popover face over mid-tones (see Shell), glass-button tint, `EnableThickCardMaterial` default, dark search-field MaxLuma 0.6, the
