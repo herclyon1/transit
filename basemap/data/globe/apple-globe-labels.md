@@ -44,12 +44,11 @@ regions and undersea features are English in the tile.
 - **Deeps** (Ramapo Deep, Vityaz Depth) are *not* in these tiles at z2–6 — they come with another tile set (the
   elevation-point class `PhysicalFeature-Undersea-Points-Globe-Base`, blue rgb(29,104,241) semibold width=100 in the
   globe sheet); our `map/data/undersea.geojson` (GEBCO gazetteer, cls 1 Deep) already has them.
-- `apple_labels.py` stamps `apple_minzoom` / `apple_type` / `apple_rank` / `apple_name` on the features of
-  `map/data/physical.geojson` (41 matched), `undersea.geojson` (38) and `cities.geojson` (191) whose name matches
-  (normalised, generic words stripped, position within 25°): the UI can select **exactly Apple's set** by
-  `apple_minzoom ≤ zoom`. 58 Apple physical names have no counterpart in our public layers
-  (`apple-globe-labels-unmatched.json`: seas that live in the marine layer, native-language names, island groups,
-  a few basins / fans / fracture zones) — they can be taken from the tsv, which is Apple's own label data.
+- `apple_labels.py` joins the Apple label rows to `map/data/physical.geojson` (41 by name), `undersea.geojson` (38)
+  and `cities.geojson` (191) and writes the pairs to `~/Money/styl-work/apple-data/apple-globe-labels-calibration.json`
+  — **outside the repo**. Per-feature min-zoom / rank / name lists are tile content, not a rule (user 2026-09-17), so no
+  `apple_*` field is shipped; the shipped layers carry only fields our own rules compute (population / scalerank /
+  area), and the calibration file is what those rules are scored against (hit rates in map/README.md).
 - Styles (`globe-label-styles.tsv`, Mac globe sheet resolved, heights in Mac pt = iOS × 1.2987): physical
   `PhysicalFeature-Rank-1-2-Globe` / `-3-5-Globe`: `%$default,bold-G3,width=140`, colour rgb(221,208,188), halo
   rgb(28,38,50) α0.78, height 9.09 (z2–3) → 11.69 (z3–4) → 16.88 (z4–5) → 22.08 (z5–6), textSizeScale 1.2, spread along

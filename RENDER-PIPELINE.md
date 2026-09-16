@@ -113,12 +113,22 @@ of each draw is byte-identical to the decoded 154 raster of a cache tile (diff 0
 stack k's colour, and the row colour matches the sheet's `Landcover-<Class>` fillColor at z2 (`basemap/data/globe/spr-materials.json`:
 223 Ground (base of every land stack), 274 Forest, 235 Wetlands, 271 Cultivated, 226 Herbaceous, 228 Shrubland, 272
 Barren, 275 IceSnow, 330 Vegetation, 801 Sand, 318 Water, 30813 dry lake / salt flat (captured colour), 264 / 310
-overlays that change no colour). `pipeline/basemap/spr_globe.py` turns this into `map/data/ground-globe-{light,dark}.png`
-(world 4096², z2 tiles with z3 on top), `ground-globe-ea-*.png` (lon 90–180 / lat 0–66.5 at the z3 tiles' own
-resolution), `spr-class-globe.png`, `climate-{temp,arid}-globe.png` and the mesh heights as terrarium
-`height-globe.png` / `height-globe-ea.png` (`ui/basemap/ground-globe.json` has bounds and tables). Coverage = what the
-cache holds (36 of the 16 + 64 tiles: the whole northern hemisphere at z2, the eastern hemisphere at z3, no
-Antarctica, no southern South America) — the rest stays alpha 0.
+overlays that change no colour). `pipeline/basemap/spr_globe.py` turns this into class / climate / height rasters
+**kept outside the repo** (`~/Money/styl-work/apple-data/map-data/`, `--out`): they are Apple's tile content, and the
+user's rule of 2026-09-17 is that only the *logic* is copied — class list, material table, climate codes and cells,
+DvMt colours — never the tiles (the map is unbounded; tiles cannot be copied to completion). What the site ships
+(`map/data/spr-class-globe.png`, `spr-class-globe-ea.png`, `climate-{temp,arid}-globe(-ea).png`, `height-globe(-ea).png`
+and the painted stand-ins `ground-globe-*.png`) is built by `pipeline/basemap/globe_rasters.py` from **third-party
+data**: MODIS IGBP land cover (NASA GIBS WMTS, 500 m; z4 = the 4096² world canvas, z5 = the 2048² East-Asia box),
+Beck 2023 Köppen-Geiger 0.1°, AWS terrarium DEM (z3 / z4, sea clamped to 0 like the App's mesh), mapped to Apple's
+classes and codes by two tables **calibrated once** against the outside rasters (majority Apple class per IGBP code,
+plus nine (IGBP, Köppen-group) refinements; majority temperature / precipitation code per Köppen class). Hit rates on
+the calibration pixels (Apple-covered, `ui/basemap/ground-globe.json` "calibration"): land-cover class **64.7 % of
+3.10 M land pixels** (88.8 % incl. water; the App's own raster mixes Shrubland / Herbaceous / Forest inside one IGBP
+class — Grassland is 38 % Shrubland, 33 % Herbaceous, 10 % Barren there), climate **temperature 66.8 % exact / 98.3 %
+within one code, precipitation 60.1 % / 93.9 %** of 212 k pixels, height RMSE 525 m (mean +230 m: the App's mesh is
+smoother/lower than the DEM). Coverage is now global (the App's cache copy held 36 of 80 tiles; GIBS 404s only on a
+few all-ice / all-ocean tiles, filled from Köppen).
 
 ### 2.5 Lighting (the "lit sphere") and 2.5b climate tint
 
@@ -154,7 +164,7 @@ Antarctica, no southern South America) — the rest stays alpha 0.
 | Apple data | `VECTOR_SPR_STANDARD` chapters 10/11/13 (labels), 20 (strings), 141 (placement) [vmp4]. |
 | look | globe sheet [styl `globe-default-20207.styl` → `basemap/data/styl/globe-key-numbers.tsv`]: continent `Continent-PointLabel-*` 9→14 pt, `%$default,semibold,width=80`, rgb(237,232,235) α0.98, halo rgb(22,0,8) α0.85, hidden from z3; country `Country-Label-*` bold-G3 width=80, 9–20 pt by zoom, halo rgb(248,248,246) α0.8, hidden z0–3; ocean `Ocean-Label-Base` bold italic 12 pt, globe colour rgb(170,224,235); undersea `PhysicalFeature-Undersea-*`; `labelColorLumAdjustment` (463/464/470/471) applied after. |
 | our rebuild | DOM markers with **`labels-globe.json` (sampled typography)** [ui]. |
-| gap / fix | typography and colours are decoded (the tsv); the sampled file remains only as a check. Placement (which labels win) is the App's collision solver, not a sheet number — an accepted difference. **Which features** the App names at z2–6 is now read from its own tiles (`basemap/data/globe/apple-globe-labels.{tsv,md}`, `pipeline/basemap/spr_labels.m` + `apple_labels.py`): per feature the class, subtype, rank (= min zoom, attribute 85), position or label path; stamped as `apple_minzoom` / `apple_type` / `apple_rank` on `map/data/{physical,undersea,cities}.geojson` (41 / 38 / 191 matched), and the resolved globe-sheet styles per class in `basemap/data/globe/globe-label-styles.tsv` (`styl/globe_label_styles.py`). |
+| gap / fix | typography and colours are decoded (the tsv); the sampled file remains only as a check. Placement (which labels win) is the App's collision solver, not a sheet number — an accepted difference. **Which features** the App names at z2–6 was read from its own tiles (`pipeline/basemap/spr_labels.m` + `apple_labels.py`: class, subtype, rank = min zoom (attribute 85), position or label path; structure in `basemap/data/globe/apple-globe-labels.md`) — that per-feature set is tile content, so it lives outside the repo as a calibration file (`~/Money/styl-work/apple-data/apple-globe-labels-calibration.json`, 41 / 38 / 191 of our physical / undersea / city features joined by name) and no `apple_*` field is shipped (user's rule 2026-09-17); the shipped layers carry rule-computed fields (population / scalerank / area — the rule and its hit rate against the calibration file are the label-logic unit's deliverable). The resolved globe-sheet styles per class are in `basemap/data/globe/globe-label-styles.tsv` (`styl/globe_label_styles.py`). |
 
 ### 2.9 Dark mode of the globe
 

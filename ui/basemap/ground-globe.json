@@ -1,6 +1,11 @@
 {
- "what": "globe ground rasters from Apple's SPR tiles (VECTOR_SPR_MERCATOR z2-3) decoded with GeoServices' GEOVectorTile; see RENDER-PIPELINE 2.4-2.5",
- "generator": "pipeline/basemap/spr_globe.py <- pipeline/basemap/spr_dump.m <- ~/Library/.../com.apple.geod/.../MapTiles.sqlitedb (copy)",
+ "what": "globe ground rasters from third-party data mapped to Apple's decoded classes / codes (RENDER-PIPELINE 2.4b); no Apple tile content",
+ "generator": "pipeline/basemap/globe_rasters.py",
+ "sources": {
+  "land_cover": "NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual 2024-01-01 (MODIS MCD12 IGBP, 500 m; z4 world / z5 East Asia tiles)",
+  "climate": "Beck et al. 2023 Koppen-Geiger 1991-2020 0.1 deg (figshare 21789074, CC BY 4.0)",
+  "height": "AWS terrarium DEM (z3 world / z4 East Asia), sea clamped to 0"
+ },
  "world": {
   "crs": "EPSG:3857 whole world",
   "size": 4096,
@@ -23,12 +28,11 @@
    ]
   ],
   "files": [
-   "ground-globe-light.png",
-   "ground-globe-dark.png",
-   "spr-class-globe.png",
+   "spr-class-globe.png (4096, class index, 255 = no data)",
    "climate-temp-globe.png (1024)",
    "climate-arid-globe.png (1024)",
-   "height-globe.png (2048, terrarium)"
+   "height-globe.png (2048, terrarium)",
+   "ground-globe-light.png / ground-globe-dark.png (class raster painted with the DvMt globe colours, the UI's stand-in)"
   ]
  },
  "east_asia": {
@@ -60,17 +64,13 @@
    ]
   ],
   "files": [
-   "ground-globe-ea-light.png",
-   "ground-globe-ea-dark.png",
-   "spr-class-globe-ea.png (2048, class index, 255 = no tile)",
+   "spr-class-globe-ea.png (2048, class index)",
    "climate-temp-globe-ea.png (256)",
    "climate-arid-globe-ea.png (256)",
-   "height-globe-ea.png (1024, terrarium)"
-  ],
-  "class_raster": "pipeline/basemap/spr_class_ea.py (same box, same class list, same decode as spr-class-globe.png)"
+   "height-globe-ea.png (1024, terrarium)",
+   "ground-globe-ea-light.png / ground-globe-ea-dark.png (painted, as the world set)"
+  ]
  },
- "apple_zoom_of_sheet_colours": 3.0,
- "light_flat": 1.045404719,
  "classes": [
   "Ground",
   "Forest",
@@ -85,45 +85,162 @@
   "DryLake",
   "Water"
  ],
- "class_index_255": "no Apple tile in the cache copy (alpha 0 in the albedo rasters)",
- "coverage_tiles": [
-  "2/0/0",
-  "2/0/1",
-  "2/0/2",
-  "2/1/0",
-  "2/1/1",
-  "2/2/0",
-  "2/2/1",
-  "2/2/2",
-  "2/3/0",
-  "2/3/1",
-  "2/3/2",
-  "3/0/2",
-  "3/0/3",
-  "3/0/4",
-  "3/0/5",
-  "3/1/3",
-  "3/2/3",
-  "3/3/2",
-  "3/3/3",
-  "3/3/4",
-  "3/4/2",
-  "3/4/3",
-  "3/4/4",
-  "3/4/5",
-  "3/5/2",
-  "3/5/3",
-  "3/5/4",
-  "3/5/5",
-  "3/6/2",
-  "3/6/3",
-  "3/6/4",
-  "3/6/5",
-  "3/7/2",
-  "3/7/3",
-  "3/7/4",
-  "3/7/5"
- ],
+ "class_index_255": "no data",
+ "mapping": {
+  "igbp_to_class": {
+   "0 ": "Water",
+   "1 Evergreen needleleaf": "Forest",
+   "2 Evergreen broadleaf": "Forest",
+   "3 Deciduous needleleaf": "Forest",
+   "4 Deciduous broadleaf": "Forest",
+   "5 Mixed forest": "Forest",
+   "6 Closed shrubland": "Shrubland",
+   "7 Open shrubland": "Shrubland",
+   "8 Woody savanna": "Forest",
+   "9 Savanna": "Shrubland",
+   "10 Grassland": "Shrubland",
+   "11 Wetland": "Shrubland",
+   "12 Cropland": "Cultivated",
+   "13 Urban": "Cultivated",
+   "14 Crop/natural mosaic": "Cultivated",
+   "15 Snow and ice": "IceSnow",
+   "16 Barren": "Barren",
+   "17 Water": "Water"
+  },
+  "igbp_koppen_group_to_class": {
+   "4|A": "Shrubland",
+   "5|A": "Shrubland",
+   "9|C": "Forest",
+   "9|D": "Forest",
+   "10|E": "Herbaceous",
+   "11|A": "Water",
+   "11|E": "Water",
+   "14|A": "Shrubland",
+   "16|E": "Herbaceous"
+  },
+  "koppen_to_codes": {
+   "1 Af": {
+    "temp": 6,
+    "precip": 0
+   },
+   "2 Am": {
+    "temp": 6,
+    "precip": 0
+   },
+   "3 Aw": {
+    "temp": 6,
+    "precip": 1
+   },
+   "4 BWh": {
+    "temp": 6,
+    "precip": 4
+   },
+   "5 BWk": {
+    "temp": 3,
+    "precip": 4
+   },
+   "6 BSh": {
+    "temp": 6,
+    "precip": 3
+   },
+   "7 BSk": {
+    "temp": 3,
+    "precip": 3
+   },
+   "8 Csa": {
+    "temp": 4,
+    "precip": 3
+   },
+   "9 Csb": {
+    "temp": 4,
+    "precip": 1
+   },
+   "10 Csc": {
+    "temp": 4,
+    "precip": 1
+   },
+   "11 Cwa": {
+    "temp": 5,
+    "precip": 1
+   },
+   "12 Cwb": {
+    "temp": 4,
+    "precip": 1
+   },
+   "13 Cwc": {
+    "temp": 4,
+    "precip": 1
+   },
+   "14 Cfa": {
+    "temp": 4,
+    "precip": 1
+   },
+   "15 Cfb": {
+    "temp": 3,
+    "precip": 1
+   },
+   "16 Cfc": {
+    "temp": 2,
+    "precip": 0
+   },
+   "17 Dsa": {
+    "temp": 3,
+    "precip": 3
+   },
+   "18 Dsb": {
+    "temp": 3,
+    "precip": 3
+   },
+   "19 Dsc": {
+    "temp": 1,
+    "precip": 1
+   },
+   "20 Dsd": {
+    "temp": 1,
+    "precip": 2
+   },
+   "21 Dwa": {
+    "temp": 3,
+    "precip": 1
+   },
+   "22 Dwb": {
+    "temp": 3,
+    "precip": 1
+   },
+   "23 Dwc": {
+    "temp": 2,
+    "precip": 1
+   },
+   "24 Dwd": {
+    "temp": 1,
+    "precip": 1
+   },
+   "25 Dfa": {
+    "temp": 3,
+    "precip": 1
+   },
+   "26 Dfb": {
+    "temp": 2,
+    "precip": 1
+   },
+   "27 Dfc": {
+    "temp": 1,
+    "precip": 1
+   },
+   "28 Dfd": {
+    "temp": 1,
+    "precip": 2
+   },
+   "29 ET": {
+    "temp": 1,
+    "precip": 1
+   },
+   "30 EF": {
+    "temp": 1,
+    "precip": 0
+   }
+  }
+ },
  "climate": {
   "temp_codes": "0 Arctic 1 VeryCold 2 Cold 3 Cool 4 Warm 5 Hot 6 VeryHot (VectorKit gss enum strings); cell = 1 + (T-3)/3",
   "arid_codes": "0 VeryWet 1 Wet 2 Moist 3 SemiDry 4 Dry 5 VeryDry; cell = 1 + (A-3)/3 for A<3, 1 + (A-3)/2 for A>=3 (SHADER-NUMBERS 3.2)",
@@ -175,7 +292,7 @@
   }
  },
  "height": {
-  "source": "DaVinci terrain mesh (chapter 100) vertex z x tileSizeInMeters x cos(lat); vertex spacing ~25 km at z3, ~50 km at z2",
+  "source": "terrarium (see sources); the App's z1-4 groundElevationScale 14 / 9 / 7 / 5 applies as before (RENDER-PIPELINE 2.5)",
   "exaggeration_by_apple_zoom": {
    "1-6": {
     "veryHotHSVAdjustment": [
@@ -345,7 +462,705 @@
     "groundElevationScale": 1,
     "normalsSharpnessBias": 0.73
    }
+  }
+ },
+ "colour_source": "DvMt material tables, client:69 = 0 (ui/basemap/dvmt-materials.json); the UI paints classes in the browser",
+ "light_flat": 1.045404719,
+ "calibration": {
+  "against": "Apple's z2-3 globe rasters decoded from its tile cache, kept outside the repo (~/Money/styl-work/apple-data/map-data)",
+  "class": {
+   "pixels_compared": 11664951,
+   "hit_rate_igbp_only": 0.8883,
+   "hit_rate_igbp_koppen": 0.8957,
+   "land_pixels_compared": 3100906,
+   "hit_rate_land_only": 0.6469,
+   "refinements": {
+    "4|A": "Shrubland",
+    "5|A": "Shrubland",
+    "9|C": "Forest",
+    "9|D": "Forest",
+    "10|E": "Herbaceous",
+    "11|A": "Water",
+    "11|E": "Water",
+    "14|A": "Shrubland",
+    "16|E": "Herbaceous"
+   }
   },
-  "note": "z1-4 groundElevationScale 14 / 9 / 7 / 5 is what makes the App's z3 globe look mountainous (RENDER-PIPELINE 2.5)"
+  "class_per_igbp": {
+   "1 Evergreen needleleaf": {
+    "apple_majority": "Forest",
+    "hit": 0.816,
+    "n": 82137,
+    "apple_distribution": {
+     "Forest": 67017,
+     "Shrubland": 10196,
+     "Water": 2893,
+     "Herbaceous": 844
+    }
+   },
+   "2 Evergreen broadleaf": {
+    "apple_majority": "Forest",
+    "hit": 0.884,
+    "n": 86790,
+    "apple_distribution": {
+     "Forest": 76741,
+     "Shrubland": 5999,
+     "Water": 2343,
+     "Cultivated": 734
+    }
+   },
+   "3 Deciduous needleleaf": {
+    "apple_majority": "Forest",
+    "hit": 0.548,
+    "n": 12927,
+    "apple_distribution": {
+     "Forest": 7081,
+     "Shrubland": 5598,
+     "Water": 123,
+     "Herbaceous": 76
+    }
+   },
+   "4 Deciduous broadleaf": {
+    "apple_majority": "Forest",
+    "hit": 0.725,
+    "n": 48464,
+    "apple_distribution": {
+     "Forest": 35147,
+     "Shrubland": 7986,
+     "Cultivated": 4039,
+     "Water": 591
+    }
+   },
+   "5 Mixed forest": {
+    "apple_majority": "Forest",
+    "hit": 0.78,
+    "n": 141762,
+    "apple_distribution": {
+     "Forest": 110616,
+     "Shrubland": 20921,
+     "Cultivated": 6427,
+     "Water": 1987
+    }
+   },
+   "6 Closed shrubland": {
+    "apple_majority": "Shrubland",
+    "hit": 0.573,
+    "n": 6971,
+    "apple_distribution": {
+     "Shrubland": 3991,
+     "Forest": 2046,
+     "Herbaceous": 732,
+     "Water": 75
+    }
+   },
+   "7 Open shrubland": {
+    "apple_majority": "Shrubland",
+    "hit": 0.609,
+    "n": 422447,
+    "apple_distribution": {
+     "Shrubland": 257279,
+     "Herbaceous": 97090,
+     "Forest": 37727,
+     "Barren": 17488
+    }
+   },
+   "8 Woody savanna": {
+    "apple_majority": "Forest",
+    "hit": 0.668,
+    "n": 287574,
+    "apple_distribution": {
+     "Forest": 192184,
+     "Shrubland": 73331,
+     "Herbaceous": 7808,
+     "Cultivated": 6784
+    }
+   },
+   "9 Savanna": {
+    "apple_majority": "Shrubland",
+    "hit": 0.449,
+    "n": 321858,
+    "apple_distribution": {
+     "Shrubland": 144370,
+     "Forest": 125460,
+     "Herbaceous": 23524,
+     "Cultivated": 15852
+    }
+   },
+   "10 Grassland": {
+    "apple_majority": "Shrubland",
+    "hit": 0.382,
+    "n": 680641,
+    "apple_distribution": {
+     "Shrubland": 260101,
+     "Herbaceous": 227966,
+     "Barren": 68177,
+     "Forest": 48407
+    }
+   },
+   "11 Wetland": {
+    "apple_majority": "Shrubland",
+    "hit": 0.317,
+    "n": 50942,
+    "apple_distribution": {
+     "Shrubland": 16135,
+     "Forest": 11548,
+     "Water": 10424,
+     "Herbaceous": 8519
+    }
+   },
+   "12 Cropland": {
+    "apple_majority": "Cultivated",
+    "hit": 0.711,
+    "n": 198218,
+    "apple_distribution": {
+     "Cultivated": 140994,
+     "Shrubland": 28298,
+     "Herbaceous": 10717,
+     "Forest": 9527
+    }
+   },
+   "13 Urban": {
+    "apple_majority": "Cultivated",
+    "hit": 0.366,
+    "n": 14188,
+    "apple_distribution": {
+     "Cultivated": 5191,
+     "Ground": 3068,
+     "Forest": 2260,
+     "Shrubland": 1535
+    }
+   },
+   "14 Crop/natural mosaic": {
+    "apple_majority": "Cultivated",
+    "hit": 0.469,
+    "n": 21342,
+    "apple_distribution": {
+     "Cultivated": 10004,
+     "Shrubland": 5749,
+     "Forest": 3364,
+     "Herbaceous": 871
+    }
+   },
+   "15 Snow and ice": {
+    "apple_majority": "IceSnow",
+    "hit": 0.832,
+    "n": 409003,
+    "apple_distribution": {
+     "IceSnow": 340179,
+     "Barren": 34331,
+     "Herbaceous": 21967,
+     "Water": 6828
+    }
+   },
+   "16 Barren": {
+    "apple_majority": "Barren",
+    "hit": 0.66,
+    "n": 390579,
+    "apple_distribution": {
+     "Barren": 257735,
+     "Herbaceous": 62614,
+     "Shrubland": 25719,
+     "Water": 14506
+    }
+   },
+   "17 Water": {
+    "apple_majority": "Water",
+    "hit": 0.994,
+    "n": 8489108,
+    "apple_distribution": {
+     "Water": 8437709,
+     "Herbaceous": 13614,
+     "Shrubland": 9964,
+     "Forest": 9786
+    }
+   }
+  },
+  "climate": {
+   "pixels_compared": 212133,
+   "hit_rate_temp": 0.6679,
+   "hit_rate_precip": 0.6005,
+   "within_one_temp": 0.9829,
+   "within_one_precip": 0.9389
+  },
+  "climate_per_koppen": {
+   "1 Af": {
+    "temp": 6,
+    "precip": 0,
+    "n": 3764,
+    "hit_temp": 0.763,
+    "hit_precip": 0.746,
+    "temp_distribution": {
+     "6": 2871,
+     "5": 742,
+     "4": 85
+    },
+    "precip_distribution": {
+     "0": 2807,
+     "1": 890,
+     "3": 58
+    }
+   },
+   "2 Am": {
+    "temp": 6,
+    "precip": 0,
+    "n": 2347,
+    "hit_temp": 0.804,
+    "hit_precip": 0.578,
+    "temp_distribution": {
+     "6": 1886,
+     "5": 433,
+     "4": 23
+    },
+    "precip_distribution": {
+     "0": 1357,
+     "1": 971,
+     "2": 10
+    }
+   },
+   "3 Aw": {
+    "temp": 6,
+    "precip": 1,
+    "n": 10166,
+    "hit_temp": 0.736,
+    "hit_precip": 0.556,
+    "temp_distribution": {
+     "6": 7483,
+     "5": 2607,
+     "4": 67
+    },
+    "precip_distribution": {
+     "1": 5653,
+     "2": 2497,
+     "3": 1818
+    }
+   },
+   "4 BWh": {
+    "temp": 6,
+    "precip": 4,
+    "n": 17224,
+    "hit_temp": 0.483,
+    "hit_precip": 0.529,
+    "temp_distribution": {
+     "6": 8312,
+     "5": 7660,
+     "4": 1249
+    },
+    "precip_distribution": {
+     "4": 9105,
+     "5": 6191,
+     "3": 1926
+    }
+   },
+   "5 BWk": {
+    "temp": 3,
+    "precip": 4,
+    "n": 5218,
+    "hit_temp": 0.741,
+    "hit_precip": 0.67,
+    "temp_distribution": {
+     "3": 3864,
+     "4": 1021,
+     "2": 170
+    },
+    "precip_distribution": {
+     "4": 3498,
+     "3": 1174,
+     "5": 545
+    }
+   },
+   "6 BSh": {
+    "temp": 6,
+    "precip": 3,
+    "n": 6230,
+    "hit_temp": 0.489,
+    "hit_precip": 0.95,
+    "temp_distribution": {
+     "6": 3045,
+     "5": 2412,
+     "4": 768
+    },
+    "precip_distribution": {
+     "3": 5920,
+     "4": 204,
+     "2": 84
+    }
+   },
+   "7 BSk": {
+    "temp": 3,
+    "precip": 3,
+    "n": 7754,
+    "hit_temp": 0.627,
+    "hit_precip": 0.933,
+    "temp_distribution": {
+     "3": 4865,
+     "4": 2244,
+     "2": 399
+    },
+    "precip_distribution": {
+     "3": 7238,
+     "4": 320,
+     "2": 160
+    }
+   },
+   "8 Csa": {
+    "temp": 4,
+    "precip": 3,
+    "n": 1927,
+    "hit_temp": 0.749,
+    "hit_precip": 0.485,
+    "temp_distribution": {
+     "4": 1443,
+     "3": 269,
+     "5": 192
+    },
+    "precip_distribution": {
+     "3": 934,
+     "1": 548,
+     "2": 413
+    }
+   },
+   "9 Csb": {
+    "temp": 4,
+    "precip": 1,
+    "n": 877,
+    "hit_temp": 0.472,
+    "hit_precip": 0.39,
+    "temp_distribution": {
+     "4": 414,
+     "3": 315,
+     "5": 81
+    },
+    "precip_distribution": {
+     "1": 342,
+     "0": 198,
+     "3": 197
+    }
+   },
+   "11 Cwa": {
+    "temp": 5,
+    "precip": 1,
+    "n": 2991,
+    "hit_temp": 0.591,
+    "hit_precip": 0.508,
+    "temp_distribution": {
+     "5": 1769,
+     "6": 642,
+     "4": 550
+    },
+    "precip_distribution": {
+     "1": 1518,
+     "2": 634,
+     "0": 460
+    }
+   },
+   "12 Cwb": {
+    "temp": 4,
+    "precip": 1,
+    "n": 1022,
+    "hit_temp": 0.533,
+    "hit_precip": 0.542,
+    "temp_distribution": {
+     "4": 545,
+     "5": 383,
+     "3": 45
+    },
+    "precip_distribution": {
+     "1": 554,
+     "2": 189,
+     "3": 152
+    }
+   },
+   "14 Cfa": {
+    "temp": 4,
+    "precip": 1,
+    "n": 4794,
+    "hit_temp": 0.496,
+    "hit_precip": 0.643,
+    "temp_distribution": {
+     "4": 2376,
+     "5": 1777,
+     "3": 616
+    },
+    "precip_distribution": {
+     "1": 3083,
+     "0": 815,
+     "2": 500
+    }
+   },
+   "15 Cfb": {
+    "temp": 3,
+    "precip": 1,
+    "n": 3941,
+    "hit_temp": 0.535,
+    "hit_precip": 0.548,
+    "temp_distribution": {
+     "3": 2107,
+     "2": 844,
+     "4": 757
+    },
+    "precip_distribution": {
+     "1": 2161,
+     "0": 1580,
+     "2": 134
+    }
+   },
+   "16 Cfc": {
+    "temp": 2,
+    "precip": 0,
+    "n": 126,
+    "hit_temp": 0.817,
+    "hit_precip": 0.976,
+    "temp_distribution": {
+     "2": 103,
+     "1": 21,
+     "3": 2
+    },
+    "precip_distribution": {
+     "0": 123,
+     "1": 3
+    }
+   },
+   "17 Dsa": {
+    "temp": 3,
+    "precip": 3,
+    "n": 364,
+    "hit_temp": 0.772,
+    "hit_precip": 0.739,
+    "temp_distribution": {
+     "3": 281,
+     "4": 71,
+     "2": 10
+    },
+    "precip_distribution": {
+     "3": 269,
+     "1": 42,
+     "2": 40
+    }
+   },
+   "18 Dsb": {
+    "temp": 3,
+    "precip": 3,
+    "n": 955,
+    "hit_temp": 0.652,
+    "hit_precip": 0.472,
+    "temp_distribution": {
+     "3": 623,
+     "2": 219,
+     "1": 68
+    },
+    "precip_distribution": {
+     "3": 451,
+     "1": 250,
+     "2": 207
+    }
+   },
+   "19 Dsc": {
+    "temp": 1,
+    "precip": 1,
+    "n": 5326,
+    "hit_temp": 0.814,
+    "hit_precip": 0.441,
+    "temp_distribution": {
+     "1": 4334,
+     "2": 943,
+     "3": 44
+    },
+    "precip_distribution": {
+     "1": 2350,
+     "2": 1664,
+     "3": 768
+    }
+   },
+   "20 Dsd": {
+    "temp": 1,
+    "precip": 2,
+    "n": 36,
+    "hit_temp": 0.778,
+    "hit_precip": 0.528,
+    "temp_distribution": {
+     "1": 28,
+     "2": 8
+    },
+    "precip_distribution": {
+     "2": 19,
+     "3": 10,
+     "1": 7
+    }
+   },
+   "21 Dwa": {
+    "temp": 3,
+    "precip": 1,
+    "n": 1265,
+    "hit_temp": 0.806,
+    "hit_precip": 0.5,
+    "temp_distribution": {
+     "3": 1019,
+     "4": 228,
+     "2": 18
+    },
+    "precip_distribution": {
+     "1": 632,
+     "2": 398,
+     "3": 191
+    }
+   },
+   "22 Dwb": {
+    "temp": 3,
+    "precip": 1,
+    "n": 2360,
+    "hit_temp": 0.504,
+    "hit_precip": 0.565,
+    "temp_distribution": {
+     "3": 1189,
+     "2": 1074,
+     "1": 47
+    },
+    "precip_distribution": {
+     "1": 1334,
+     "2": 502,
+     "3": 398
+    }
+   },
+   "23 Dwc": {
+    "temp": 2,
+    "precip": 1,
+    "n": 5377,
+    "hit_temp": 0.52,
+    "hit_precip": 0.605,
+    "temp_distribution": {
+     "2": 2794,
+     "1": 2485,
+     "3": 92
+    },
+    "precip_distribution": {
+     "1": 3251,
+     "2": 1067,
+     "3": 565
+    }
+   },
+   "24 Dwd": {
+    "temp": 1,
+    "precip": 1,
+    "n": 886,
+    "hit_temp": 0.74,
+    "hit_precip": 0.555,
+    "temp_distribution": {
+     "1": 656,
+     "2": 230
+    },
+    "precip_distribution": {
+     "1": 492,
+     "2": 281,
+     "3": 109
+    }
+   },
+   "25 Dfa": {
+    "temp": 3,
+    "precip": 1,
+    "n": 3053,
+    "hit_temp": 0.901,
+    "hit_precip": 0.427,
+    "temp_distribution": {
+     "3": 2752,
+     "4": 263,
+     "2": 36
+    },
+    "precip_distribution": {
+     "1": 1304,
+     "3": 843,
+     "2": 840
+    }
+   },
+   "26 Dfb": {
+    "temp": 2,
+    "precip": 1,
+    "n": 18114,
+    "hit_temp": 0.55,
+    "hit_precip": 0.654,
+    "temp_distribution": {
+     "2": 9961,
+     "3": 7791,
+     "1": 313
+    },
+    "precip_distribution": {
+     "1": 11842,
+     "3": 2251,
+     "2": 2059
+    }
+   },
+   "27 Dfc": {
+    "temp": 1,
+    "precip": 1,
+    "n": 48506,
+    "hit_temp": 0.611,
+    "hit_precip": 0.662,
+    "temp_distribution": {
+     "1": 29629,
+     "2": 18719,
+     "3": 151
+    },
+    "precip_distribution": {
+     "1": 32129,
+     "0": 9282,
+     "2": 6267
+    }
+   },
+   "28 Dfd": {
+    "temp": 1,
+    "precip": 2,
+    "n": 451,
+    "hit_temp": 0.548,
+    "hit_precip": 0.483,
+    "temp_distribution": {
+     "1": 247,
+     "2": 204
+    },
+    "precip_distribution": {
+     "2": 218,
+     "3": 201,
+     "1": 32
+    }
+   },
+   "29 ET": {
+    "temp": 1,
+    "precip": 1,
+    "n": 37696,
+    "hit_temp": 0.963,
+    "hit_precip": 0.5,
+    "temp_distribution": {
+     "1": 36308,
+     "2": 1172,
+     "3": 107
+    },
+    "precip_distribution": {
+     "1": 18860,
+     "0": 12393,
+     "2": 3809
+    }
+   },
+   "30 EF": {
+    "temp": 1,
+    "precip": 0,
+    "n": 19363,
+    "hit_temp": 0.557,
+    "hit_precip": 0.514,
+    "temp_distribution": {
+     "1": 10786,
+     "0": 8566,
+     "2": 11
+    },
+    "precip_distribution": {
+     "0": 9946,
+     "1": 9116,
+     "5": 273
+    }
+   }
+  },
+  "height": {
+   "land_pixels_compared": 774864,
+   "mean_diff_m": 229.8,
+   "rmse_m": 525.3,
+   "note": "Apple's mesh is ~25 km vertex spacing; terrarium z3 is 20 km/px at the equator — same order"
+  }
  }
 }
