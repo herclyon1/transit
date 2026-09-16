@@ -1,0 +1,50 @@
+name	kind	inherits	fill	stroke	blurRadius	blurAtEnd	backdropScale	saturation	brightness	luminanceAmount	luminanceValues	colorMatrix	other
+ambientCompact	materialrecipe				40	True	0.25						{"curvesValues": {"inputRedValues": [0, 0.7, 0.88, 0.88], "inputGreenValues": [0, 0.7, 0.88, 0.88], "inputBlueValues": [0, 0.7, 0.88, 0.88]}}
+carPlayPlatters	materialrecipe				15								
+carPlayPlattersDark	materialrecipe				15								
+dockDark	materialrecipe				30	True	0.25	1.6		0.5	[0.29, -0.2, 0.375, 0.65]		
+dockLight	materialrecipe				30	True	0.25	1.8	0.08	0.5	[0.3, 0.5, 1.0, 0.77]		
+knowledgeBackground	materialrecipe		platterFillLight	platterStrokeLight	29.5	True	0.45	1.35		0.47	[0, 0.13, 0.13, 0]		
+knowledgeBackgroundDark	materialrecipe				29.5	True	0.45	1.45		0.57	[-0.1, 0.03, 0.03, -0.1]		
+knowledgePlatters	materialrecipe		platterFillLight	platterStrokeLight	15.0	True	0.25					[[0.920517, -0.451026, -0.0869913, 0, 0.65875], [-0.229326, 0.699512, -0.0876859, 0, 0.65875], [-0.230021, -0.449984, 1.06251, 0, 0.65875], [0, 0, 0, 1.0, 0]]	
+knowledgePlattersDark	materialrecipe		platterFillDark	platterStrokeDark	15.0	True	0.25					[[1.04989, -0.084126, -0.0157665, 0, 0.095], [-0.0424589, 1.00889, -0.0164264, 0, 0.095], [-0.0431188, -0.0831362, 1.07625, 0, 0.095], [0, 0, 0, 1.0, 0]]	
+knowledgePlattersSheer	materialrecipe		platterFillLight	platterStrokeLight	30	True	0.25	2.4		0.6	[0.775, 0.85, 1.05, 0.94]		
+knowledgePlattersSheerDark	materialrecipe		platterFillDark	platterStrokeDark	30	True	0.25	1.4	-0.03	0.4	[0.41, -0.4, 0.3, 0]		
+modules	materialrecipe		moduleFill	moduleStroke								[[0.924, -0.175, -0.018, 0, -0.061], [-0.052, 0.801, -0.018, 0, -0.061], [-0.052, -0.175, 0.958, 0, -0.061], [0, 0, 0, 1.0, 0]]	
+modulesBackground	materialrecipe		moduleFill	moduleStroke	25			1.6		0.4	[0.38, 0, 1, 0.76]		{"zoom": 0.04}
+modulesBackgroundSheer	descendantrecipe	modulesBackground	moduleFill	moduleStroke	10.0		0.25	1.45		0.4	[0.38, 0, 1, 0.76]		{"zoom": 0.01, "blurInputQuality": "medium"}
+modulesSheer	descendantrecipe	modules	moduleFill	moduleStroke	15.0		0.05					[[0.924, -0.175, -0.018, 0, -0.061], [-0.052, 0.801, -0.018, 0, -0.061], [-0.052, -0.175, 0.958, 0, -0.061], [0, 0, 0, 1.0, 0]]	{"blurInputQuality": "low"}
+platformChromeDark	materialrecipe		platformChromeFillDark	platformStrokeDark	22.5	True	0.25	2.0	-0.1	0.75	[0.23, 0.52, 0.27, 0.255]		
+platformChromeDarkReduceTransparency	materialrecipe		platformChromeFillDark	platformStrokeDark			0.25		-0.1	0.85	[0.225, 0.31, 0.25, 0.2]		{"averageColorEnabled": true}
+platformChromeDarkReduceTransparencyLayer1	descendantrecipe	platformChromeDarkReduceTransparency	platformChromeFillDark	platformStrokeDark			0.25		-0.04	0.85	[0.225, 0.31, 0.25, 0.2]		{"averageColorEnabled": true}
+platformChromeLight	materialrecipe		platformChromeFillLight	platformStrokeLight	22.5	True	0.25	1.1	0.1	0.75	[0.8, 0.9, 1.1, 0.825]		
+platformChromeLightReduceTransparency	materialrecipe		platformChromeFillLight	platformStrokeLight			0.25	0.8	0.1	0.75	[0.95, 0.9, 1.1, 0.825]		{"averageColorEnabled": true}
+platformContentDark	materialrecipe		platformFillDark	platformStrokeDark	30	True	0.25	1.5	0	0.75	[0.16, 0.26, 0.1, 0.1]		
+platformContentDark~appletv	materialrecipe		platformFillDark	platformStrokeDark	50		0.625	1.6					
+platformContentGlass	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformContentGlassDarker	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformContentGlassLighter	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformContentGlassUltraDarker	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformContentLight	materialrecipe		platformFillLight	platformStrokeLight	30	True	0.25	1.5	0.1	0.75	[0.9, 0.83, 0.925, 0.815]		
+platformContentLight~appletv	materialrecipe		platformFillLight	platformStrokeLight	50		0.625	1.6					
+platformContentThickDark	materialrecipe		platformFillDark	platformStrokeDark	45	True	0.25	1.5	0	0.88	[0.14, 0.16, 0.1, 0.03]		
+platformContentThickDark~appletv	materialrecipe		platformFillDark	platformStrokeDark	50		0.625	1					
+platformContentThickLight	materialrecipe		platformFillLight	platformStrokeLight	45	True	0.25	1.5	0.045	0.88	[0.99, 0.95, 0.98, 0.905]		
+platformContentThickLightShadowed	descendantrecipe	platformContentThickLight	platformFillLight	platformStrokeLight	45	True	0.25	1.5	0.045	0.88	[0.99, 0.95, 0.98, 0.955]		
+platformContentThickLight~appletv	materialrecipe		platformFillLight	platformStrokeLight	50		0.625	1					
+platformContentThinDark	materialrecipe		platformFillDark	platformStrokeThinDark	30	True	0.25	1.35	0	0.6	[0.2, 0.21, 0.1, 0.15]		
+platformContentThinDark~appletv	materialrecipe		platformFillDark	platformStrokeThinDark	50		0.625	1.4					
+platformContentThinLight	materialrecipe		platformFillLight	platformStrokeThinLight	30	True	0.25	1.35	0.12	0.6	[0.725, 0.825, 0.76, 0.73]		
+platformContentThinLight~appletv	materialrecipe		platformFillLight	platformStrokeThinLight	50		0.625	1.8					
+platformContentUltraThinDark	materialrecipe		platformFillDark	platformStrokeThinDark	22.5	True	0.25	1.1	0	0.5	[0.24, 0.24, 0.3, 0.39]		
+platformContentUltraThinDark~appletv	materialrecipe		platformFillDark	platformStrokeThinDark	50		0.625	1.3					
+platformContentUltraThinLight	materialrecipe		platformFillLight	platformStrokeThinLight	22.5	True	0.25	1.1	0.12	0.5	[0.45, 0.55, 0.65, 0.68]		
+platformContentUltraThinLight~appletv	materialrecipe		platformFillLight	platformStrokeThinLight	50		0.625	1.3					
+platformDisabled	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformPinched	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platformSelected	materialrecipe				45							[[0.921, -0.265, -0.027, 0, 0.235], [-0.079, 0.735, -0.027, 0, 0.235], [-0.079, -0.265, 0.973, 0, 0.235], [0, 0, 0, 1.0, 0]]	
+platters	materialrecipe		platterFillLight	platterStrokeLight	30	True	0.25	2.4		0.6	[0.775, 0.85, 1.05, 0.94]		
+plattersDark	materialrecipe		platterFillDark	platterStrokeDark	30	True	0.25	1.4	-0.03	0.4	[0.41, -0.4, 0.3, 0]		
+previewBackground	materialrecipe				11.2								{"zoom": 0.024}
+tintablePlatters	materialrecipe		platterFillLight	platterStrokeLight	30	True	0.25	1.8					
+toolbarButtonBackground	materialrecipe				15	True	0.25	1.1		0.5	[0.24, 0.24, 0.3, 0.39]		
