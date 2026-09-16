@@ -74,6 +74,42 @@
    "count": 1148,
    "globe_rank": "1 SCALERANK<=1 (68) / 2 SCALERANK 2 & POP>=3M or capital (174) / 3 (331) / 4 (575); East Asia box rank 1+2 = 32 names",
    "generator": "pipeline/basemap/cities.py"
+  },
+  "physical": {
+   "name": "Natural Earth 10m geography_regions_polys v5.0.0, geography_regions_elevation_points v5.0.0; equator/tropics generated at 23.4367 deg (obliquity 2026)",
+   "urls": [
+    "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_regions_polys.zip",
+    "https://naciscdn.org/naturalearth/10m/physical/ne_10m_geography_regions_elevation_points.zip"
+   ],
+   "license": "public domain",
+   "file": "physical.geojson",
+   "count": 1299,
+   "by_kind": {
+    "Peak": 701,
+    "Range/mtn": 222,
+    "Plateau": 72,
+    "Desert": 58,
+    "Pen/cape": 57,
+    "Geoarea": 43,
+    "Coast": 37,
+    "Plain": 30,
+    "Depression": 12,
+    "Delta": 12,
+    "Peninsula": 11,
+    "Basin": 9,
+    "Valley": 6,
+    "Lowland": 5,
+    "Tundra": 4,
+    "Isthmus": 4,
+    "Wetlands": 3,
+    "Gorge": 3,
+    "Foothills": 3,
+    "Lake": 3,
+    "Graticule": 3,
+    "Dragons-be-here": 1
+   },
+   "generator": "pipeline/basemap/physical.py",
+   "note": "polygons -> largest-ring centroid point; islands/island groups/continents dropped; NE writes major feature names in capitals (NAME as delivered)"
   }
  },
  "simplification": {
