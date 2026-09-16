@@ -335,3 +335,8 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 
 我 17:41 给数据会话的第一条信写了「把 ~/Library/Logs/DiagnosticReports/probe* 的崩溃报告清掉」，随后一条才改口「别删，留着」；它按第一条执行，六份已 rm。前面「有一处和我说的不一致」那句撤回，责任在我前后矛盾。删前它读过内容：三次 probe 是 UIKit 26 对未接 UIScene 生命周期的 trap，三次 probe_settings 是 VKDebugSettings 选择器名试错。
 
+## 2026-09-16 18:20　验收 data 846522c（三条收尾：低缩放高速宽度 / 虚线单位 / 地点卡材质）　验收人：transit 验收（Fable）
+
+① z6–7 高速 1 px：解出——继承链末尾的 Line-LowZoom-Connection-Base 在 z6–7 给 0.5 宽（日本条件行 1.0→1.85，填 (136,152,184) 亮度 −25），2.25 px 紫线 z8 起；我们出 2.25 是 resolve.py 丢条件行 + 菱形继承只访问一次。这直接解释了 §7.14 的最大 open 项，并给 v6 生成器指明修法（§7.15）。② 虚线单位：三次实测 0.19 / 0.203 / 0.215 → 屏幕 ≈0.2 pt/单位（¼ 表 pt × 0.77），铁路刻度 z12 = 0.8 实 / 3.2 空。③ 地点卡材质：从 dyld 缓存的 objc_msgSend 桩解出 MapsUI 各材质用法；卡片默认 systemMaterial(8)、开关 EnableThickCardMaterial 开则 Thick(9)，Mac 上即 popover(6)/menu(5) 材质；开关本机默认值未解。
+**结论**：放行合并。数据会话下一单为平面样式 v6（已发，含 resolve.py 修法）。
+
