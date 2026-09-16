@@ -218,7 +218,7 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 | Apple data | sea: class Water in chapter 154 + depth in chapter 155 → ramp (§2.3), the same at z12 (Osaka Bay shows the ramp's 0–100 m colours `#91daf3…#6dc7f4`); inland water polygons: `VECTOR_SPR_STANDARD` chapter 31/145 lines and polygons (`WaterPolygon-*`, `Rivers-*` styles) [vmp4, styl]. |
 | look | ramp × light for the sea; polygons `WaterPolygon-Day-Base` / `Landcover-Water.Light-Elevated` fill `#8ddcf7` (all zooms) [styl]; rivers `Rivers-Light-Elevated-Base` width 1.5 (≤ z10) → 2.1 (z12) → 2.5 (z14) → 2.75 (z16), colour `#8ddcf7`, hidden from z16 as lines (polygons take over) [styl]; coastline glow `Coastline-Glow-Light-Base`: width 0 at z ≤ 8, 5 px z8–10, 7 z10–12, 8 z12–14, 9 z14+, colour `#87ddfb` → `#82daf7` (z8) → `#8adaf4` (z10+) [styl] — a glow drawn along the coast on the water side (`CoastlineRenderLayer`). |
 | our rebuild | `water` fill = `Landcover-Water.Light-Explore` `#8ddcf7`; `waterway` = `Rivers-Light-Elevated-Base` widths [`to_maplibre.py` ← styl]; the sea is one flat colour (OpenMapTiles has no depth). `palette-ocean.json` (sampled, 0–200 m `#6cc9fa` … ≥ 7 km `#0d8de6`) is what the UI used for the sea bands. |
-| gap | sea: use the ramp (§2.3) with a depth source (terrarium/NE) instead of `palette-ocean.json` — the sampled bands are the ramp seen through the snapshotter, decoded now; coastline glow not drawn (8 px `#8adaf4` inner glow at z12 is visible in the acceptance side-by-side as the lighter rim along the coast) → a `line` layer on the coastline with blur; rivers at z12 use the sheet width (done). |
+| gap | sea: use the ramp (§2.3) with a depth source (terrarium/NE) instead of `palette-ocean.json` — the sampled bands are the ramp seen through the snapshotter, decoded now; coastline glow: v6 draws it as a blurred line on the ocean polygon outline, offset to the water side (width prop 55, colour prop 57, from Apple z8); rivers at z12 use the sheet width (done). |
 
 ### 7.3 Vegetation and land-use fills
 
@@ -253,8 +253,8 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD`/`ROADS` lines with rail class; Japan → `Railway-Japan*` [vmp4, styl]. |
 | look [styl] | `Railway-Japan.Light`: colour `#71a7ff`, width 1.0 at every zoom, stroke 0.25 (≤ z8) → 0.375 (z10–13) → 0.5 (z14+); **tick pattern (prop 280, inherited `Railway-Base`) by zoom: [4,8] ≤ z10, [4,12] z10–12, [4,16] z12–14, [4,20] z14–16, [4,24] z16–17, [4,32] z17+** (the base row's [4,48] is only the fallback); `Railway-Japan.Bullet-Light` (新幹線): white core 1.0–1.25 px with `#006fff` stroke 0.5, dash (prop 279, `Japan-Railway-Bullet-Base`) [28,28] z6–8, [36,36] z8–13, [48,48] z13–15, [84,84] z15–16, [108,108] z16–17, [128,128] z17+. Dash unit: **≈ 0.2 pt per unit on screen** (three measurements, §7.16; = ¼ sheet-pt × the Mac's 0.77), so z12 rail ticks ≈ 0.8 pt on, 3.2 pt off. |
-| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); `rail-casing` dash `[2.29, 9.14]` = base [4,48] ÷ width [`to_maplibre.py`]; shinkansen dash `[48,48]` in MapLibre line-width units. |
-| gap | dashes use the base row and the wrong unit: at z12 the sheet says ticks ≈ 0.8 pt / gap 3.2 pt (`[4,16]` × 0.2 pt), shinkansen 7.2 / 7.2 pt; `to_maplibre.py` should take the zoom rows of 279/280 and convert value × 0.2 pt → px ÷ line-width for `line-dasharray`. Colours and widths are already the sheet's. |
+| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width), shinkansen dash from the 279 rows [`to_maplibre.py`]. |
+| gap | closed in v6 (`to_maplibre.py`): dashes per zoom band from the 279/280 rows, value × 0.2 pt ÷ line-width, as `step` expressions; z12 ticks 0.8 pt / 3.2 pt. |
 
 ### 7.7 Buildings
 
@@ -271,8 +271,8 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD` lines with admin level [vmp4]. |
 | look [styl] | country `Border-Country.Non-Disputed-Light`: fill `#b3009e` α0.8 (≤ z7) → α0.7 (z8+), stroke `#b3009e` α0.2–0.3, width 1.45 (z5) → 1.55 (z6–7) → 1.75 (z8–9) → 1.95 (z10–11) → 2.1 (z12–13) → 2.25 (z14+), stroke width 0.25 → 1.35 → 1.95 → 2.1 → 2.75 → 3.25, dash [48,12,48,12,12,12] z6–12 → [64,16,64,16,16,16] z12+; **prefecture** `Border-State.Explore-Light`: fill `#b3009e` α0.7 (z5) / α0.8 (z6–7) / α0.65 (z8–9) / α0.7 (z10+), stroke α0.2 → 0.35, width **0.9 (z5) → 1.05 (z6–7) → 1.25 (z8–11) → 1.75 (z12+)**, stroke width 0.25 → 0.5 → 1.1 → 2.25, dash [18,4,10,4,4,4] z6–12 → [24,6,12,6,6,6] z12–16; prop 12 (opacity, inferred 0.25). Tropics/equator (also on the flat map): `Geolines-*`, §7.13. |
-| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, `line-opacity` 0.25 (inferred prop 12), dash from the *base* row [`to_maplibre.py`]. |
-| gap | dash rows by zoom + the 0.2 pt unit (same fix as rail); the meaning of prop 12 (0.25) is still inferred. |
+| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, dash rows by zoom (v6) [`to_maplibre.py`]. |
+| gap | closed in v6: dash rows by zoom + 0.2 pt unit; prop 12 is **not** an opacity — with the v5 `line-opacity 0.25` the prefecture borders were far fainter than the App's at the Japan view, without it they match (fillColor alpha 0.7–0.8 is the whole story); v6 drops it. |
 
 ### 7.9 Labels
 
@@ -367,8 +367,10 @@ So at the Japan view (Apple z6.1) the expressway is the low-zoom connection line
 stroke, grey-blue rgb(136,152,184) darkened 25 % (≈ rgb(102,114,138)) — the "≈ 1 px faint purple-grey" of the
 side-by-side — and the 2.25 px purple table only takes over from z8. Our generator (`resolve.py`) ignores
 conditional rows and visits each parent once (depth-first, first occurrence), which left the JPN width table last
-and produced 2.25 px; fix: below Apple z8 emit motorway as the LowZoom-Connection rows (width 0.5 → 1.85, stroke
-≤ 0.5, fill rgb(136,152,184) with the −25 lum step, hidden below z4), and let the purple table start at z8.
+and produced 2.25 px. v6 (`LOWZOOM_EXPRESSWAY` in `to_maplibre.py`) draws OSM motorways below Apple z8 with the
+unconditional rows — nothing below z6, 0.5 px rgb(136,152,184) at z6–7, 1 px rgb(209,209,209) at z7–8 — because
+OpenMapTiles has no equivalent of Apple's curated low-zoom connection classes (with the 1.85 px Japan rows every OSM
+expressway became a heavy web); the purple table starts at z8.
 
 ### 7.16 Closing item ② — the dash unit, three measurements
 
