@@ -1,0 +1,6180 @@
+{
+ "what": "Apple Maps (macOS, VectorKit native style) ocean colour by depth band, East Asia view, light and dark",
+ "generated_utc": "2026-09-16T03:07:31Z",
+ "generator": "pipeline/basemap/palette.py",
+ "sources": {
+  "renderer": {
+   "light": {
+    "appearance": "aqua",
+    "center": [
+     30,
+     125
+    ],
+    "config": "MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)",
+    "image": "pipeline/basemap/raw/renders/ea-light.png",
+    "macos": "Version 27.0 (Build 26A428)",
+    "rendered_at_utc": "2026-09-16T03:00:16Z",
+    "scale": 1,
+    "sha256": "1aef6d48256c768648b2936f7ca101bfe53d7d8dd2cb5aec5fa99cc88e333bbe",
+    "size_pt": [
+     1280,
+     744
+    ],
+    "size_px": [
+     1280,
+     744
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "dark": {
+    "appearance": "darkAqua",
+    "center": [
+     30,
+     125
+    ],
+    "config": "MKStandardMapConfiguration(elevationStyle: .realistic, emphasisStyle: .default)",
+    "image": "pipeline/basemap/raw/renders/ea-dark.png",
+    "macos": "Version 27.0 (Build 26A428)",
+    "rendered_at_utc": "2026-09-16T03:00:16Z",
+    "scale": 1,
+    "sha256": "cb8f8670d5c3f0400f5d450ad0ef43e2d4822be33fa2e1f8b2c5e1d7a06baf2b",
+    "size_pt": [
+     1280,
+     744
+    ],
+    "size_px": [
+     1280,
+     744
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "note": "Apple's own renderer (MKMapSnapshotter) run locally as an instrument. The PNGs are Apple imagery and are not committed; re-render with sample.swift and the recorded args to reproduce."
+  },
+  "projection": {
+   "method": "Web Mercator solved from MKMapSnapshot.point(for:) at the region centre and corners (grid:* points in the render json), corners reproduce to <0.01 px",
+   "visible_bbox": {
+    "lat": [
+     1.946,
+     51.946
+    ],
+    "lng": [
+     74.202,
+     175.798
+    ]
+   },
+   "px_per_deg_lng": 12.5989
+  },
+  "sampling": {
+   "window_px": 5,
+   "statistic": "per-channel median",
+   "reject_if_channel_range_gt": 24,
+   "candidate_grid_px": 12,
+   "jitter_px": 4,
+   "seed": 20260916,
+   "cross_check": "Natural Earth class must agree in sign with the terrarium elevation, else the point is dropped"
+  },
+  "bathymetry_class": {
+   "name": "Natural Earth 10m Bathymetry v4.1.0",
+   "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_bathymetry_all.zip",
+   "page": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/10m-bathymetry/",
+   "license": "public domain",
+   "levels_m": [
+    0,
+    200,
+    1000,
+    2000,
+    3000,
+    4000,
+    5000,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000
+   ],
+   "lookup": "even-odd rasterisation at 0.05 deg, deepest containing layer wins"
+  },
+  "depth_continuous": {
+   "name": "AWS Terrain Tiles (terrarium) z5; ocean values come from ETOPO1 per the Tilezen source list",
+   "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+   "doc": "https://github.com/tilezen/joerd/blob/master/docs/data-sources.md",
+   "decode": "(R*256 + G + B/256) - 32768 metres",
+   "role": "sanity check and per-band median depth only; the bands themselves are Natural Earth"
+  }
+ },
+ "bands": [
+  {
+   "depth_min_m": 0,
+   "depth_max_m": 200,
+   "natural_earth_layer": "ne_10m_bathymetry_L_0",
+   "terrarium_depth_m_median": 49.0,
+   "light": {
+    "rgb": [
+     108,
+     201,
+     250
+    ],
+    "hex": "#6cc9fa",
+    "n": 23,
+    "mad_rgb": [
+     8.0,
+     3.0,
+     0.0
+    ],
+    "rms_residual": 9.6,
+    "max_residual": 15.8
+   },
+   "dark": {
+    "rgb": [
+     23,
+     43,
+     104
+    ],
+    "hex": "#172b68",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     3.0,
+     6.0
+    ],
+    "rms_residual": 6.2,
+    "max_residual": 9.8
+   },
+   "sample_ids": [
+    "o000",
+    "o001",
+    "o002",
+    "o003",
+    "o004",
+    "o005",
+    "o006",
+    "o007",
+    "o008",
+    "o009",
+    "o010",
+    "o011",
+    "o012",
+    "o013",
+    "o014",
+    "o015",
+    "o016",
+    "o017",
+    "o018",
+    "o019",
+    "o020",
+    "o021",
+    "o022"
+   ]
+  },
+  {
+   "depth_min_m": 200,
+   "depth_max_m": 1000,
+   "natural_earth_layer": "ne_10m_bathymetry_K_200",
+   "terrarium_depth_m_median": 649.0,
+   "light": {
+    "rgb": [
+     74,
+     189,
+     250
+    ],
+    "hex": "#4abdfa",
+    "n": 23,
+    "mad_rgb": [
+     14.0,
+     3.0,
+     0.0
+    ],
+    "rms_residual": 13.9,
+    "max_residual": 23.8
+   },
+   "dark": {
+    "rgb": [
+     13,
+     34,
+     85
+    ],
+    "hex": "#0d2255",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     2.0
+    ],
+    "rms_residual": 5.9,
+    "max_residual": 13.2
+   },
+   "sample_ids": [
+    "o023",
+    "o024",
+    "o025",
+    "o026",
+    "o027",
+    "o028",
+    "o029",
+    "o030",
+    "o031",
+    "o032",
+    "o033",
+    "o034",
+    "o035",
+    "o036",
+    "o037",
+    "o038",
+    "o039",
+    "o040",
+    "o041",
+    "o042",
+    "o043",
+    "o044",
+    "o045"
+   ]
+  },
+  {
+   "depth_min_m": 1000,
+   "depth_max_m": 2000,
+   "natural_earth_layer": "ne_10m_bathymetry_J_1000",
+   "terrarium_depth_m_median": 1308.0,
+   "light": {
+    "rgb": [
+     51,
+     183,
+     249
+    ],
+    "hex": "#33b7f9",
+    "n": 23,
+    "mad_rgb": [
+     4.0,
+     2.0,
+     1.0
+    ],
+    "rms_residual": 10.2,
+    "max_residual": 23.9
+   },
+   "dark": {
+    "rgb": [
+     13,
+     29,
+     79
+    ],
+    "hex": "#0d1d4f",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     2.0
+    ],
+    "rms_residual": 4.9,
+    "max_residual": 11.0
+   },
+   "sample_ids": [
+    "o046",
+    "o047",
+    "o048",
+    "o049",
+    "o050",
+    "o051",
+    "o052",
+    "o053",
+    "o054",
+    "o055",
+    "o056",
+    "o057",
+    "o058",
+    "o059",
+    "o060",
+    "o061",
+    "o062",
+    "o063",
+    "o064",
+    "o065",
+    "o066",
+    "o067",
+    "o068"
+   ]
+  },
+  {
+   "depth_min_m": 2000,
+   "depth_max_m": 3000,
+   "natural_earth_layer": "ne_10m_bathymetry_I_2000",
+   "terrarium_depth_m_median": 2507.0,
+   "light": {
+    "rgb": [
+     29,
+     174,
+     247
+    ],
+    "hex": "#1daef7",
+    "n": 23,
+    "mad_rgb": [
+     6.0,
+     1.0,
+     1.0
+    ],
+    "rms_residual": 8.3,
+    "max_residual": 26.8
+   },
+   "dark": {
+    "rgb": [
+     13,
+     29,
+     68
+    ],
+    "hex": "#0d1d44",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     3.0
+    ],
+    "rms_residual": 6.5,
+    "max_residual": 26.0
+   },
+   "sample_ids": [
+    "o069",
+    "o070",
+    "o071",
+    "o072",
+    "o073",
+    "o074",
+    "o075",
+    "o076",
+    "o077",
+    "o078",
+    "o079",
+    "o080",
+    "o081",
+    "o082",
+    "o083",
+    "o084",
+    "o085",
+    "o086",
+    "o087",
+    "o088",
+    "o089",
+    "o090",
+    "o091"
+   ]
+  },
+  {
+   "depth_min_m": 3000,
+   "depth_max_m": 4000,
+   "natural_earth_layer": "ne_10m_bathymetry_H_3000",
+   "terrarium_depth_m_median": 3805.0,
+   "light": {
+    "rgb": [
+     13,
+     163,
+     240
+    ],
+    "hex": "#0da3f0",
+    "n": 23,
+    "mad_rgb": [
+     3.0,
+     3.0,
+     1.0
+    ],
+    "rms_residual": 8.6,
+    "max_residual": 15.9
+   },
+   "dark": {
+    "rgb": [
+     13,
+     23,
+     56
+    ],
+    "hex": "#0d1738",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     2.0
+    ],
+    "rms_residual": 6.3,
+    "max_residual": 20.9
+   },
+   "sample_ids": [
+    "o092",
+    "o093",
+    "o094",
+    "o095",
+    "o096",
+    "o097",
+    "o098",
+    "o099",
+    "o100",
+    "o101",
+    "o102",
+    "o103",
+    "o104",
+    "o105",
+    "o106",
+    "o107",
+    "o108",
+    "o109",
+    "o110",
+    "o111",
+    "o112",
+    "o113",
+    "o114"
+   ]
+  },
+  {
+   "depth_min_m": 4000,
+   "depth_max_m": 5000,
+   "natural_earth_layer": "ne_10m_bathymetry_G_4000",
+   "terrarium_depth_m_median": 4808.0,
+   "light": {
+    "rgb": [
+     13,
+     153,
+     236
+    ],
+    "hex": "#0d99ec",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     2.0,
+     1.0
+    ],
+    "rms_residual": 4.8,
+    "max_residual": 11.7
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     47
+    ],
+    "hex": "#000d2f",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "rms_residual": 8.1,
+    "max_residual": 17.8
+   },
+   "sample_ids": [
+    "o115",
+    "o116",
+    "o117",
+    "o118",
+    "o119",
+    "o120",
+    "o121",
+    "o122",
+    "o123",
+    "o124",
+    "o125",
+    "o126",
+    "o127",
+    "o128",
+    "o129",
+    "o130",
+    "o131",
+    "o132",
+    "o133",
+    "o134",
+    "o135",
+    "o136",
+    "o137"
+   ]
+  },
+  {
+   "depth_min_m": 5000,
+   "depth_max_m": 6000,
+   "natural_earth_layer": "ne_10m_bathymetry_F_5000",
+   "terrarium_depth_m_median": 5636.0,
+   "light": {
+    "rgb": [
+     10,
+     149,
+     233
+    ],
+    "hex": "#0a95e9",
+    "n": 24,
+    "mad_rgb": [
+     2.5,
+     1.0,
+     1.0
+    ],
+    "rms_residual": 4.8,
+    "max_residual": 8.8
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     42
+    ],
+    "hex": "#000d2a",
+    "n": 24,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "rms_residual": 2.4,
+    "max_residual": 3.5
+   },
+   "sample_ids": [
+    "o138",
+    "o139",
+    "o140",
+    "o141",
+    "o142",
+    "o143",
+    "o144",
+    "o145",
+    "o146",
+    "o147",
+    "o148",
+    "o149",
+    "o150",
+    "o151",
+    "o152",
+    "o153",
+    "o154",
+    "o155",
+    "o156",
+    "o157",
+    "o158",
+    "o159",
+    "o160",
+    "o161"
+   ]
+  },
+  {
+   "depth_min_m": 6000,
+   "depth_max_m": 7000,
+   "natural_earth_layer": "ne_10m_bathymetry_E_6000",
+   "terrarium_depth_m_median": 6101.0,
+   "light": {
+    "rgb": [
+     13,
+     146,
+     231
+    ],
+    "hex": "#0d92e7",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "rms_residual": 4.3,
+    "max_residual": 9.1
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     39
+    ],
+    "hex": "#000d27",
+    "n": 23,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 1.6,
+    "max_residual": 5.0
+   },
+   "sample_ids": [
+    "o162",
+    "o163",
+    "o164",
+    "o165",
+    "o166",
+    "o167",
+    "o168",
+    "o169",
+    "o170",
+    "o171",
+    "o172",
+    "o173",
+    "o174",
+    "o175",
+    "o176",
+    "o177",
+    "o178",
+    "o179",
+    "o180",
+    "o181",
+    "o182",
+    "o183",
+    "o184"
+   ]
+  },
+  {
+   "depth_min_m": 7000,
+   "depth_max_m": 8000,
+   "natural_earth_layer": "ne_10m_bathymetry_D_7000",
+   "terrarium_depth_m_median": 7380.0,
+   "light": {
+    "rgb": [
+     13,
+     141,
+     230
+    ],
+    "hex": "#0d8de6",
+    "n": 9,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     34
+    ],
+    "hex": "#000d22",
+    "n": 9,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "sample_ids": [
+    "o185",
+    "o186",
+    "o187",
+    "o188",
+    "o189",
+    "o190",
+    "o191",
+    "o192",
+    "o193"
+   ]
+  },
+  {
+   "depth_min_m": 8000,
+   "depth_max_m": 9000,
+   "natural_earth_layer": "ne_10m_bathymetry_C_8000",
+   "terrarium_depth_m_median": 8273.0,
+   "light": {
+    "rgb": [
+     13,
+     141,
+     230
+    ],
+    "hex": "#0d8de6",
+    "n": 5,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     34
+    ],
+    "hex": "#000d22",
+    "n": 5,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "sample_ids": [
+    "o194",
+    "o195",
+    "o196",
+    "o197",
+    "o198"
+   ]
+  },
+  {
+   "depth_min_m": 9000,
+   "depth_max_m": 10000,
+   "natural_earth_layer": "ne_10m_bathymetry_B_9000",
+   "terrarium_depth_m_median": 9576.0,
+   "light": {
+    "rgb": [
+     13,
+     141,
+     230
+    ],
+    "hex": "#0d8de6",
+    "n": 1,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "dark": {
+    "rgb": [
+     0,
+     13,
+     34
+    ],
+    "hex": "#000d22",
+    "n": 1,
+    "mad_rgb": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rms_residual": 0.0,
+    "max_residual": 0.0
+   },
+   "sample_ids": [
+    "o199"
+   ]
+  }
+ ],
+ "seafloor_shading": {
+  "light_azimuth_fit": {
+   "azimuth_deg": 0,
+   "pearson_r": 0.169,
+   "n": 181,
+   "r_by_azimuth": {
+    "0": 0.17,
+    "30": 0.14,
+    "60": 0.05,
+    "90": -0.04,
+    "120": -0.1,
+    "150": -0.13,
+    "180": -0.15,
+    "210": -0.12,
+    "240": -0.02,
+    "270": 0.06,
+    "300": 0.12,
+    "330": 0.15
+   },
+   "note": "argmax over 5-deg steps of corr(hillshade(slope, aspect, az, alt=45), luminance demeaned per tint class (land) / depth class (ocean)); r < 0.3 means the fit is not usable"
+  },
+  "note": "the renderer also hill-shades the seafloor; residuals inside a band are mostly this relief"
+ },
+ "samples": [
+  {
+   "lat": 50.673,
+   "lng": 141.0602,
+   "px": 842,
+   "py": 25,
+   "light_rgb": [
+    102,
+    200,
+    249
+   ],
+   "light_hex": "#66c8f9",
+   "dark_rgb": [
+    23,
+    43,
+    100
+   ],
+   "dark_hex": "#172b64",
+   "window_range_light": 5,
+   "window_range_dark": 4,
+   "terrarium_m": -77.0,
+   "slope_deg": 0.05,
+   "aspect_deg": 142.6,
+   "terrarium_tile": "5/28/10 px 137,194",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o000"
+  },
+  {
+   "lat": 45.5776,
+   "lng": 142.1876,
+   "px": 856,
+   "py": 121,
+   "light_rgb": [
+    108,
+    201,
+    249
+   ],
+   "light_hex": "#6cc9f9",
+   "dark_rgb": [
+    23,
+    43,
+    104
+   ],
+   "dark_hex": "#172b68",
+   "window_range_light": 15,
+   "window_range_dark": 10,
+   "terrarium_m": -49.0,
+   "slope_deg": 0.12,
+   "aspect_deg": 16.5,
+   "terrarium_tile": "5/28/11 px 163,112",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o001"
+  },
+  {
+   "lat": 44.6933,
+   "lng": 143.2393,
+   "px": 869,
+   "py": 137,
+   "light_rgb": [
+    97,
+    198,
+    250
+   ],
+   "light_hex": "#61c6fa",
+   "dark_rgb": [
+    23,
+    39,
+    97
+   ],
+   "dark_hex": "#172761",
+   "window_range_light": 16,
+   "window_range_dark": 11,
+   "terrarium_m": -113.0,
+   "slope_deg": 0.18,
+   "aspect_deg": 34.9,
+   "terrarium_tile": "5/28/11 px 187,140",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o002"
+  },
+  {
+   "lat": 38.6327,
+   "lng": 123.8518,
+   "px": 625,
+   "py": 240,
+   "light_rgb": [
+    108,
+    201,
+    249
+   ],
+   "light_hex": "#6cc9f9",
+   "dark_rgb": [
+    23,
+    43,
+    104
+   ],
+   "dark_hex": "#172b68",
+   "window_range_light": 5,
+   "window_range_dark": 3,
+   "terrarium_m": -54.0,
+   "slope_deg": 0.03,
+   "aspect_deg": 190.0,
+   "terrarium_tile": "5/27/12 px 2,69",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o003"
+  },
+  {
+   "lat": 37.7904,
+   "lng": 122.2817,
+   "px": 605,
+   "py": 253,
+   "light_rgb": [
+    117,
+    207,
+    250
+   ],
+   "light_hex": "#75cffa",
+   "dark_rgb": [
+    23,
+    47,
+    110
+   ],
+   "dark_hex": "#172f6e",
+   "window_range_light": 9,
+   "window_range_dark": 7,
+   "terrarium_m": -40.0,
+   "slope_deg": 0.04,
+   "aspect_deg": 21.8,
+   "terrarium_tile": "5/26/12 px 222,93",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o004"
+  },
+  {
+   "lat": 37.586,
+   "lng": 136.5102,
+   "px": 785,
+   "py": 256,
+   "light_rgb": [
+    95,
+    196,
+    250
+   ],
+   "light_hex": "#5fc4fa",
+   "dark_rgb": [
+    23,
+    39,
+    95
+   ],
+   "dark_hex": "#17275f",
+   "window_range_light": 5,
+   "window_range_dark": 5,
+   "terrarium_m": -178.0,
+   "slope_deg": 0.17,
+   "aspect_deg": 303.2,
+   "terrarium_tile": "5/28/12 px 34,99",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o005"
+  },
+  {
+   "lat": 34.5518,
+   "lng": 122.034,
+   "px": 602,
+   "py": 304,
+   "light_rgb": [
+    110,
+    202,
+    249
+   ],
+   "light_hex": "#6ecaf9",
+   "dark_rgb": [
+    23,
+    43,
+    104
+   ],
+   "dark_hex": "#172b68",
+   "window_range_light": 4,
+   "window_range_dark": 3,
+   "terrarium_m": -45.0,
+   "slope_deg": 0.04,
+   "aspect_deg": 57.1,
+   "terrarium_tile": "5/26/12 px 216,185",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o006"
+  },
+  {
+   "lat": 34.3041,
+   "lng": 127.5498,
+   "px": 672,
+   "py": 307,
+   "light_rgb": [
+    118,
+    209,
+    249
+   ],
+   "light_hex": "#76d1f9",
+   "dark_rgb": [
+    23,
+    47,
+    110
+   ],
+   "dark_hex": "#172f6e",
+   "window_range_light": 23,
+   "window_range_dark": 17,
+   "terrarium_m": -19.0,
+   "slope_deg": 0.03,
+   "aspect_deg": 10.0,
+   "terrarium_tile": "5/27/12 px 86,192",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o007"
+  },
+  {
+   "lat": 33.14,
+   "lng": 122.4109,
+   "px": 607,
+   "py": 325,
+   "light_rgb": [
+    116,
+    207,
+    250
+   ],
+   "light_hex": "#74cffa",
+   "dark_rgb": [
+    23,
+    46,
+    110
+   ],
+   "dark_hex": "#172e6e",
+   "window_range_light": 5,
+   "window_range_dark": 4,
+   "terrarium_m": -26.0,
+   "slope_deg": 0.02,
+   "aspect_deg": 83.7,
+   "terrarium_tile": "5/26/12 px 225,223",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o008"
+  },
+  {
+   "lat": 20.9317,
+   "lng": 112.881,
+   "px": 487,
+   "py": 498,
+   "light_rgb": [
+    106,
+    201,
+    249
+   ],
+   "light_hex": "#6ac9f9",
+   "dark_rgb": [
+    23,
+    43,
+    102
+   ],
+   "dark_hex": "#172b66",
+   "window_range_light": 7,
+   "window_range_dark": 4,
+   "terrarium_m": -65.0,
+   "slope_deg": 0.03,
+   "aspect_deg": 153.4,
+   "terrarium_tile": "5/26/14 px 8,24",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o009"
+  },
+  {
+   "lat": 20.4524,
+   "lng": 111.7272,
+   "px": 472,
+   "py": 505,
+   "light_rgb": [
+    103,
+    200,
+    249
+   ],
+   "light_hex": "#67c8f9",
+   "dark_rgb": [
+    23,
+    43,
+    100
+   ],
+   "dark_hex": "#172b64",
+   "window_range_light": 6,
+   "window_range_dark": 3,
+   "terrarium_m": -67.0,
+   "slope_deg": 0.03,
+   "aspect_deg": 97.1,
+   "terrarium_tile": "5/25/14 px 238,36",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o010"
+  },
+  {
+   "lat": 18.7387,
+   "lng": 106.8443,
+   "px": 411,
+   "py": 528,
+   "light_rgb": [
+    106,
+    201,
+    249
+   ],
+   "light_hex": "#6ac9f9",
+   "dark_rgb": [
+    23,
+    43,
+    103
+   ],
+   "dark_hex": "#172b67",
+   "window_range_light": 5,
+   "window_range_dark": 3,
+   "terrarium_m": -49.0,
+   "slope_deg": 0.04,
+   "aspect_deg": 114.4,
+   "terrarium_tile": "5/25/14 px 127,77",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o011"
+  },
+  {
+   "lat": 15.7636,
+   "lng": 97.1447,
+   "px": 289,
+   "py": 567,
+   "light_rgb": [
+    121,
+    210,
+    250
+   ],
+   "light_hex": "#79d2fa",
+   "dark_rgb": [
+    23,
+    47,
+    113
+   ],
+   "dark_hex": "#172f71",
+   "window_range_light": 7,
+   "window_range_dark": 7,
+   "terrarium_m": -17.0,
+   "slope_deg": 0.0,
+   "aspect_deg": 225.0,
+   "terrarium_tile": "5/24/14 px 162,148",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o012"
+  },
+  {
+   "lat": 9.1599,
+   "lng": 100.4359,
+   "px": 330,
+   "py": 652,
+   "light_rgb": [
+    118,
+    209,
+    250
+   ],
+   "light_hex": "#76d1fa",
+   "dark_rgb": [
+    23,
+    47,
+    110
+   ],
+   "dark_hex": "#172f6e",
+   "window_range_light": 4,
+   "window_range_dark": 4,
+   "terrarium_m": -26.0,
+   "slope_deg": 0.02,
+   "aspect_deg": 76.0,
+   "terrarium_tile": "5/24/15 px 237,46",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o013"
+  },
+  {
+   "lat": 9.3545,
+   "lng": 103.8986,
+   "px": 374,
+   "py": 650,
+   "light_rgb": [
+    117,
+    208,
+    250
+   ],
+   "light_hex": "#75d0fa",
+   "dark_rgb": [
+    23,
+    47,
+    110
+   ],
+   "dark_hex": "#172f6e",
+   "window_range_light": 9,
+   "window_range_dark": 7,
+   "terrarium_m": -7.0,
+   "slope_deg": 0.01,
+   "aspect_deg": 180.0,
+   "terrarium_tile": "5/25/15 px 60,42",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o014"
+  },
+  {
+   "lat": 8.4895,
+   "lng": 104.2739,
+   "px": 378,
+   "py": 661,
+   "light_rgb": [
+    118,
+    209,
+    250
+   ],
+   "light_hex": "#76d1fa",
+   "dark_rgb": [
+    23,
+    47,
+    111
+   ],
+   "dark_hex": "#172f6f",
+   "window_range_light": 5,
+   "window_range_dark": 3,
+   "terrarium_m": -18.0,
+   "slope_deg": 0.02,
+   "aspect_deg": 225.0,
+   "terrarium_tile": "5/25/15 px 68,62",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o015"
+  },
+  {
+   "lat": 8.1076,
+   "lng": 105.8003,
+   "px": 398,
+   "py": 666,
+   "light_rgb": [
+    118,
+    209,
+    250
+   ],
+   "light_hex": "#76d1fa",
+   "dark_rgb": [
+    23,
+    47,
+    111
+   ],
+   "dark_hex": "#172f6f",
+   "window_range_light": 5,
+   "window_range_dark": 4,
+   "terrarium_m": -18.0,
+   "slope_deg": 0.02,
+   "aspect_deg": 174.8,
+   "terrarium_tile": "5/25/15 px 103,70",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o016"
+  },
+  {
+   "lat": 7.029,
+   "lng": 98.9669,
+   "px": 312,
+   "py": 679,
+   "light_rgb": [
+    108,
+    201,
+    249
+   ],
+   "light_hex": "#6cc9f9",
+   "dark_rgb": [
+    23,
+    43,
+    104
+   ],
+   "dark_hex": "#172b68",
+   "window_range_light": 11,
+   "window_range_dark": 8,
+   "terrarium_m": -38.0,
+   "slope_deg": 0.14,
+   "aspect_deg": 237.8,
+   "terrarium_tile": "5/24/15 px 204,95",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o017"
+  },
+  {
+   "lat": 6.2032,
+   "lng": 107.8902,
+   "px": 424,
+   "py": 690,
+   "light_rgb": [
+    99,
+    199,
+    250
+   ],
+   "light_hex": "#63c7fa",
+   "dark_rgb": [
+    23,
+    39,
+    98
+   ],
+   "dark_hex": "#172762",
+   "window_range_light": 9,
+   "window_range_dark": 6,
+   "terrarium_m": -73.0,
+   "slope_deg": 0.02,
+   "aspect_deg": 150.9,
+   "terrarium_tile": "5/25/15 px 151,114",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o018"
+  },
+  {
+   "lat": 6.3269,
+   "lng": 108.8704,
+   "px": 436,
+   "py": 688,
+   "light_rgb": [
+    95,
+    196,
+    250
+   ],
+   "light_hex": "#5fc4fa",
+   "dark_rgb": [
+    23,
+    39,
+    95
+   ],
+   "dark_hex": "#17275f",
+   "window_range_light": 2,
+   "window_range_dark": 2,
+   "terrarium_m": -131.0,
+   "slope_deg": 0.01,
+   "aspect_deg": 53.1,
+   "terrarium_tile": "5/25/15 px 173,111",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o019"
+  },
+  {
+   "lat": 5.2501,
+   "lng": 105.8875,
+   "px": 399,
+   "py": 702,
+   "light_rgb": [
+    102,
+    200,
+    249
+   ],
+   "light_hex": "#66c8f9",
+   "dark_rgb": [
+    23,
+    43,
+    100
+   ],
+   "dark_hex": "#172b64",
+   "window_range_light": 6,
+   "window_range_dark": 4,
+   "terrarium_m": -53.0,
+   "slope_deg": 0.06,
+   "aspect_deg": 28.5,
+   "terrarium_tile": "5/25/15 px 105,136",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o020"
+  },
+  {
+   "lat": 3.7565,
+   "lng": 106.2214,
+   "px": 403,
+   "py": 721,
+   "light_rgb": [
+    101,
+    199,
+    250
+   ],
+   "light_hex": "#65c7fa",
+   "dark_rgb": [
+    23,
+    43,
+    100
+   ],
+   "dark_hex": "#172b64",
+   "window_range_light": 4,
+   "window_range_dark": 2,
+   "terrarium_m": -85.0,
+   "slope_deg": 0.1,
+   "aspect_deg": 113.4,
+   "terrarium_tile": "5/25/15 px 113,170",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o021"
+  },
+  {
+   "lat": 3.3987,
+   "lng": 111.5456,
+   "px": 470,
+   "py": 725,
+   "light_rgb": [
+    115,
+    206,
+    249
+   ],
+   "light_hex": "#73cef9",
+   "dark_rgb": [
+    23,
+    43,
+    109
+   ],
+   "dark_hex": "#172b6d",
+   "window_range_light": 10,
+   "window_range_dark": 7,
+   "terrarium_m": -42.0,
+   "slope_deg": 0.03,
+   "aspect_deg": 333.4,
+   "terrarium_tile": "5/25/15 px 234,178",
+   "ne_depth_class_m": 0,
+   "band": 0,
+   "id": "o022"
+  },
+  {
+   "lat": 51.7724,
+   "lng": 150.8188,
+   "px": 965,
+   "py": 3,
+   "light_rgb": [
+    58,
+    186,
+    250
+   ],
+   "light_hex": "#3abafa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 3,
+   "window_range_dark": 2,
+   "terrarium_m": -1012.0,
+   "slope_deg": 0.23,
+   "aspect_deg": 311.7,
+   "terrarium_tile": "5/29/10 px 103,154",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o023"
+  },
+  {
+   "lat": 51.7912,
+   "lng": 153.8277,
+   "px": 1003,
+   "py": 3,
+   "light_rgb": [
+    77,
+    191,
+    250
+   ],
+   "light_hex": "#4dbffa",
+   "dark_rgb": [
+    13,
+    34,
+    85
+   ],
+   "dark_hex": "#0d2255",
+   "window_range_light": 3,
+   "window_range_dark": 0,
+   "terrarium_m": -649.0,
+   "slope_deg": 0.61,
+   "aspect_deg": 167.5,
+   "terrarium_tile": "5/29/10 px 172,153",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o024"
+  },
+  {
+   "lat": 51.6822,
+   "lng": 154.3944,
+   "px": 1010,
+   "py": 5,
+   "light_rgb": [
+    82,
+    191,
+    250
+   ],
+   "light_hex": "#52bffa",
+   "dark_rgb": [
+    13,
+    34,
+    87
+   ],
+   "dark_hex": "#0d2257",
+   "window_range_light": 4,
+   "window_range_dark": 2,
+   "terrarium_m": -444.0,
+   "slope_deg": 0.62,
+   "aspect_deg": 264.5,
+   "terrarium_tile": "5/29/10 px 185,157",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o025"
+  },
+  {
+   "lat": 51.2436,
+   "lng": 153.3455,
+   "px": 997,
+   "py": 14,
+   "light_rgb": [
+    71,
+    189,
+    250
+   ],
+   "light_hex": "#47bdfa",
+   "dark_rgb": [
+    13,
+    34,
+    84
+   ],
+   "dark_hex": "#0d2254",
+   "window_range_light": 7,
+   "window_range_dark": 2,
+   "terrarium_m": -791.0,
+   "slope_deg": 0.95,
+   "aspect_deg": 303.1,
+   "terrarium_tile": "5/29/10 px 161,173",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o026"
+  },
+  {
+   "lat": 51.0932,
+   "lng": 154.3791,
+   "px": 1010,
+   "py": 17,
+   "light_rgb": [
+    74,
+    189,
+    250
+   ],
+   "light_hex": "#4abdfa",
+   "dark_rgb": [
+    13,
+    34,
+    85
+   ],
+   "dark_hex": "#0d2255",
+   "window_range_light": 12,
+   "window_range_dark": 2,
+   "terrarium_m": -670.0,
+   "slope_deg": 0.64,
+   "aspect_deg": 224.1,
+   "terrarium_tile": "5/29/10 px 184,179",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o027"
+  },
+  {
+   "lat": 51.1954,
+   "lng": 155.3999,
+   "px": 1023,
+   "py": 15,
+   "light_rgb": [
+    68,
+    189,
+    250
+   ],
+   "light_hex": "#44bdfa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 8,
+   "window_range_dark": 1,
+   "terrarium_m": -754.0,
+   "slope_deg": 0.73,
+   "aspect_deg": 203.1,
+   "terrarium_tile": "5/29/10 px 208,175",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o028"
+  },
+  {
+   "lat": 49.8843,
+   "lng": 145.1053,
+   "px": 893,
+   "py": 41,
+   "light_rgb": [
+    92,
+    193,
+    250
+   ],
+   "light_hex": "#5cc1fa",
+   "dark_rgb": [
+    23,
+    39,
+    92
+   ],
+   "dark_hex": "#17275c",
+   "window_range_light": 8,
+   "window_range_dark": 10,
+   "terrarium_m": -262.0,
+   "slope_deg": 0.41,
+   "aspect_deg": 254.8,
+   "terrarium_tile": "5/28/10 px 229,222",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o029"
+  },
+  {
+   "lat": 49.8557,
+   "lng": 150.8488,
+   "px": 965,
+   "py": 41,
+   "light_rgb": [
+    51,
+    183,
+    249
+   ],
+   "light_hex": "#33b7f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 3,
+   "window_range_dark": 1,
+   "terrarium_m": -978.0,
+   "slope_deg": 0.85,
+   "aspect_deg": 359.4,
+   "terrarium_tile": "5/29/10 px 104,223",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o030"
+  },
+  {
+   "lat": 49.4968,
+   "lng": 149.6845,
+   "px": 950,
+   "py": 48,
+   "light_rgb": [
+    59,
+    186,
+    250
+   ],
+   "light_hex": "#3bbafa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 9,
+   "window_range_dark": 2,
+   "terrarium_m": -975.0,
+   "slope_deg": 0.46,
+   "aspect_deg": 234.1,
+   "terrarium_tile": "5/29/10 px 78,235",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o031"
+  },
+  {
+   "lat": 44.7635,
+   "lng": 147.9046,
+   "px": 928,
+   "py": 136,
+   "light_rgb": [
+    90,
+    193,
+    250
+   ],
+   "light_hex": "#5ac1fa",
+   "dark_rgb": [
+    13,
+    39,
+    92
+   ],
+   "dark_hex": "#0d275c",
+   "window_range_light": 6,
+   "window_range_dark": 10,
+   "terrarium_m": -181.0,
+   "slope_deg": 0.22,
+   "aspect_deg": 167.0,
+   "terrarium_tile": "5/29/11 px 37,138",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o032"
+  },
+  {
+   "lat": 42.0858,
+   "lng": 141.2902,
+   "px": 845,
+   "py": 182,
+   "light_rgb": [
+    87,
+    192,
+    250
+   ],
+   "light_hex": "#57c0fa",
+   "dark_rgb": [
+    13,
+    34,
+    89
+   ],
+   "dark_hex": "#0d2259",
+   "window_range_light": 18,
+   "window_range_dark": 10,
+   "terrarium_m": -302.0,
+   "slope_deg": 0.88,
+   "aspect_deg": 81.9,
+   "terrarium_tile": "5/28/11 px 143,222",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o033"
+  },
+  {
+   "lat": 38.1455,
+   "lng": 129.5729,
+   "px": 697,
+   "py": 247,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    29,
+    81
+   ],
+   "dark_hex": "#0d1d51",
+   "window_range_light": 6,
+   "window_range_dark": 5,
+   "terrarium_m": -1208.0,
+   "slope_deg": 0.96,
+   "aspect_deg": 166.3,
+   "terrarium_tile": "5/27/12 px 132,83",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o034"
+  },
+  {
+   "lat": 32.1853,
+   "lng": 128.6105,
+   "px": 685,
+   "py": 339,
+   "light_rgb": [
+    90,
+    193,
+    250
+   ],
+   "light_hex": "#5ac1fa",
+   "dark_rgb": [
+    13,
+    39,
+    92
+   ],
+   "dark_hex": "#0d275c",
+   "window_range_light": 11,
+   "window_range_dark": 10,
+   "terrarium_m": -192.0,
+   "slope_deg": 0.67,
+   "aspect_deg": 53.6,
+   "terrarium_tile": "5/27/12 px 110,249",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o035"
+  },
+  {
+   "lat": 31.5424,
+   "lng": 128.9902,
+   "px": 690,
+   "py": 349,
+   "light_rgb": [
+    65,
+    188,
+    250
+   ],
+   "light_hex": "#41bcfa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 5,
+   "window_range_dark": 0,
+   "terrarium_m": -716.0,
+   "slope_deg": 0.22,
+   "aspect_deg": 327.2,
+   "terrarium_tile": "5/27/13 px 119,10",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o036"
+  },
+  {
+   "lat": 30.434,
+   "lng": 127.8565,
+   "px": 675,
+   "py": 365,
+   "light_rgb": [
+    92,
+    193,
+    250
+   ],
+   "light_hex": "#5cc1fa",
+   "dark_rgb": [
+    23,
+    39,
+    92
+   ],
+   "dark_hex": "#17275c",
+   "window_range_light": 10,
+   "window_range_dark": 10,
+   "terrarium_m": -323.0,
+   "slope_deg": 0.77,
+   "aspect_deg": 92.7,
+   "terrarium_tile": "5/27/13 px 93,40",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o037"
+  },
+  {
+   "lat": 30.8003,
+   "lng": 128.816,
+   "px": 688,
+   "py": 360,
+   "light_rgb": [
+    69,
+    189,
+    250
+   ],
+   "light_hex": "#45bdfa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 5,
+   "window_range_dark": 2,
+   "terrarium_m": -709.0,
+   "slope_deg": 0.12,
+   "aspect_deg": 101.3,
+   "terrarium_tile": "5/27/13 px 115,30",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o038"
+  },
+  {
+   "lat": 29.8495,
+   "lng": 128.8747,
+   "px": 688,
+   "py": 374,
+   "light_rgb": [
+    60,
+    187,
+    250
+   ],
+   "light_hex": "#3cbbfa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 6,
+   "window_range_dark": 1,
+   "terrarium_m": -288.0,
+   "slope_deg": 2.14,
+   "aspect_deg": 202.3,
+   "terrarium_tile": "5/27/13 px 116,55",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o039"
+  },
+  {
+   "lat": 20.8837,
+   "lng": 115.7277,
+   "px": 523,
+   "py": 499,
+   "light_rgb": [
+    89,
+    193,
+    250
+   ],
+   "light_hex": "#59c1fa",
+   "dark_rgb": [
+    13,
+    39,
+    91
+   ],
+   "dark_hex": "#0d275b",
+   "window_range_light": 13,
+   "window_range_dark": 10,
+   "terrarium_m": -282.0,
+   "slope_deg": 0.31,
+   "aspect_deg": 139.6,
+   "terrarium_tile": "5/26/14 px 73,25",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o040"
+  },
+  {
+   "lat": 15.781,
+   "lng": 109.7471,
+   "px": 447,
+   "py": 567,
+   "light_rgb": [
+    81,
+    191,
+    250
+   ],
+   "light_hex": "#51bffa",
+   "dark_rgb": [
+    13,
+    34,
+    87
+   ],
+   "dark_hex": "#0d2257",
+   "window_range_light": 14,
+   "window_range_dark": 4,
+   "terrarium_m": -547.0,
+   "slope_deg": 0.62,
+   "aspect_deg": 102.3,
+   "terrarium_tile": "5/25/14 px 193,148",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o041"
+  },
+  {
+   "lat": 14.9521,
+   "lng": 110.8078,
+   "px": 461,
+   "py": 577,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    32,
+    81
+   ],
+   "dark_hex": "#0d2051",
+   "window_range_light": 13,
+   "window_range_dark": 5,
+   "terrarium_m": -1089.0,
+   "slope_deg": 1.4,
+   "aspect_deg": 101.4,
+   "terrarium_tile": "5/25/14 px 217,167",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o042"
+  },
+  {
+   "lat": 8.9299,
+   "lng": 96.4291,
+   "px": 280,
+   "py": 655,
+   "light_rgb": [
+    83,
+    191,
+    250
+   ],
+   "light_hex": "#53bffa",
+   "dark_rgb": [
+    13,
+    34,
+    87
+   ],
+   "dark_hex": "#0d2257",
+   "window_range_light": 8,
+   "window_range_dark": 4,
+   "terrarium_m": -469.0,
+   "slope_deg": 0.16,
+   "aspect_deg": 154.6,
+   "terrarium_tile": "5/24/15 px 146,51",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o043"
+  },
+  {
+   "lat": 9.223,
+   "lng": 97.1345,
+   "px": 288,
+   "py": 651,
+   "light_rgb": [
+    90,
+    193,
+    250
+   ],
+   "light_hex": "#5ac1fa",
+   "dark_rgb": [
+    13,
+    39,
+    92
+   ],
+   "dark_hex": "#0d275c",
+   "window_range_light": 5,
+   "window_range_dark": 10,
+   "terrarium_m": -277.0,
+   "slope_deg": 0.16,
+   "aspect_deg": 243.9,
+   "terrarium_tile": "5/24/15 px 162,45",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o044"
+  },
+  {
+   "lat": 3.6079,
+   "lng": 95.5435,
+   "px": 268,
+   "py": 723,
+   "light_rgb": [
+    68,
+    188,
+    250
+   ],
+   "light_hex": "#44bcfa",
+   "dark_rgb": [
+    13,
+    34,
+    83
+   ],
+   "dark_hex": "#0d2253",
+   "window_range_light": 15,
+   "window_range_dark": 2,
+   "terrarium_m": -1205.0,
+   "slope_deg": 2.41,
+   "aspect_deg": 74.7,
+   "terrarium_tile": "5/24/15 px 126,173",
+   "ne_depth_class_m": 200,
+   "band": 200,
+   "id": "o045"
+  },
+  {
+   "lat": 51.1454,
+   "lng": 146.8331,
+   "px": 915,
+   "py": 16,
+   "light_rgb": [
+    51,
+    183,
+    249
+   ],
+   "light_hex": "#33b7f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 3,
+   "window_range_dark": 1,
+   "terrarium_m": -1251.0,
+   "slope_deg": 0.08,
+   "aspect_deg": 299.7,
+   "terrarium_tile": "5/29/10 px 13,177",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o046"
+  },
+  {
+   "lat": 51.085,
+   "lng": 149.0112,
+   "px": 942,
+   "py": 17,
+   "light_rgb": [
+    51,
+    183,
+    249
+   ],
+   "light_hex": "#33b7f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -1308.0,
+   "slope_deg": 0.1,
+   "aspect_deg": 355.8,
+   "terrarium_tile": "5/29/10 px 62,179",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o047"
+  },
+  {
+   "lat": 51.1051,
+   "lng": 150.6934,
+   "px": 963,
+   "py": 17,
+   "light_rgb": [
+    51,
+    183,
+    249
+   ],
+   "light_hex": "#33b7f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 2,
+   "window_range_dark": 1,
+   "terrarium_m": -1269.0,
+   "slope_deg": 0.39,
+   "aspect_deg": 38.7,
+   "terrarium_tile": "5/29/10 px 101,178",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o048"
+  },
+  {
+   "lat": 50.4476,
+   "lng": 147.1363,
+   "px": 918,
+   "py": 30,
+   "light_rgb": [
+    54,
+    184,
+    249
+   ],
+   "light_hex": "#36b8f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 1,
+   "window_range_dark": 3,
+   "terrarium_m": -1138.0,
+   "slope_deg": 0.26,
+   "aspect_deg": 259.7,
+   "terrarium_tile": "5/29/10 px 20,202",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o049"
+  },
+  {
+   "lat": 50.5494,
+   "lng": 152.5765,
+   "px": 987,
+   "py": 28,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    34,
+    81
+   ],
+   "dark_hex": "#0d2251",
+   "window_range_light": 3,
+   "window_range_dark": 5,
+   "terrarium_m": -1205.0,
+   "slope_deg": 1.28,
+   "aspect_deg": 290.3,
+   "terrarium_tile": "5/29/10 px 143,198",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o050"
+  },
+  {
+   "lat": 50.0788,
+   "lng": 151.6854,
+   "px": 976,
+   "py": 37,
+   "light_rgb": [
+    54,
+    184,
+    249
+   ],
+   "light_hex": "#36b8f9",
+   "dark_rgb": [
+    13,
+    29,
+    80
+   ],
+   "dark_hex": "#0d1d50",
+   "window_range_light": 5,
+   "window_range_dark": 5,
+   "terrarium_m": -1441.0,
+   "slope_deg": 2.08,
+   "aspect_deg": 338.6,
+   "terrarium_tile": "5/29/10 px 123,215",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o051"
+  },
+  {
+   "lat": 48.1225,
+   "lng": 145.8559,
+   "px": 902,
+   "py": 75,
+   "light_rgb": [
+    47,
+    182,
+    249
+   ],
+   "light_hex": "#2fb6f9",
+   "dark_rgb": [
+    13,
+    29,
+    77
+   ],
+   "dark_hex": "#0d1d4d",
+   "window_range_light": 12,
+   "window_range_dark": 4,
+   "terrarium_m": -1395.0,
+   "slope_deg": 0.92,
+   "aspect_deg": 170.8,
+   "terrarium_tile": "5/28/11 px 247,27",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o052"
+  },
+  {
+   "lat": 48.1858,
+   "lng": 147.9487,
+   "px": 929,
+   "py": 73,
+   "light_rgb": [
+    37,
+    178,
+    248
+   ],
+   "light_hex": "#25b2f8",
+   "dark_rgb": [
+    13,
+    29,
+    72
+   ],
+   "dark_hex": "#0d1d48",
+   "window_range_light": 18,
+   "window_range_dark": 9,
+   "terrarium_m": -1814.0,
+   "slope_deg": 1.08,
+   "aspect_deg": 137.1,
+   "terrarium_tile": "5/29/11 px 38,25",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o053"
+  },
+  {
+   "lat": 41.8771,
+   "lng": 142.17,
+   "px": 856,
+   "py": 186,
+   "light_rgb": [
+    57,
+    186,
+    250
+   ],
+   "light_hex": "#39bafa",
+   "dark_rgb": [
+    13,
+    34,
+    82
+   ],
+   "dark_hex": "#0d2252",
+   "window_range_light": 5,
+   "window_range_dark": 2,
+   "terrarium_m": -1022.0,
+   "slope_deg": 0.23,
+   "aspect_deg": 172.7,
+   "terrarium_tile": "5/28/11 px 163,228",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o054"
+  },
+  {
+   "lat": 42.032,
+   "lng": 144.0103,
+   "px": 879,
+   "py": 183,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    32,
+    81
+   ],
+   "dark_hex": "#0d2051",
+   "window_range_light": 23,
+   "window_range_dark": 6,
+   "terrarium_m": -1073.0,
+   "slope_deg": 1.11,
+   "aspect_deg": 197.3,
+   "terrarium_tile": "5/28/11 px 205,224",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o055"
+  },
+  {
+   "lat": 41.2089,
+   "lng": 142.1025,
+   "px": 855,
+   "py": 197,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    30,
+    81
+   ],
+   "dark_hex": "#0d1e51",
+   "window_range_light": 7,
+   "window_range_dark": 5,
+   "terrarium_m": -1091.0,
+   "slope_deg": 0.54,
+   "aspect_deg": 83.6,
+   "terrarium_tile": "5/28/11 px 161,249",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o056"
+  },
+  {
+   "lat": 39.8377,
+   "lng": 142.8405,
+   "px": 864,
+   "py": 220,
+   "light_rgb": [
+    54,
+    184,
+    249
+   ],
+   "light_hex": "#36b8f9",
+   "dark_rgb": [
+    13,
+    29,
+    79
+   ],
+   "dark_hex": "#0d1d4f",
+   "window_range_light": 12,
+   "window_range_dark": 5,
+   "terrarium_m": -1187.0,
+   "slope_deg": 1.05,
+   "aspect_deg": 86.3,
+   "terrarium_tile": "5/28/12 px 178,34",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o057"
+  },
+  {
+   "lat": 37.8536,
+   "lng": 129.4961,
+   "px": 696,
+   "py": 252,
+   "light_rgb": [
+    54,
+    184,
+    249
+   ],
+   "light_hex": "#36b8f9",
+   "dark_rgb": [
+    13,
+    29,
+    80
+   ],
+   "dark_hex": "#0d1d50",
+   "window_range_light": 11,
+   "window_range_dark": 5,
+   "terrarium_m": -1173.0,
+   "slope_deg": 0.97,
+   "aspect_deg": 108.6,
+   "terrarium_tile": "5/27/12 px 130,92",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o058"
+  },
+  {
+   "lat": 36.6766,
+   "lng": 131.5757,
+   "px": 722,
+   "py": 271,
+   "light_rgb": [
+    35,
+    178,
+    248
+   ],
+   "light_hex": "#23b2f8",
+   "dark_rgb": [
+    13,
+    29,
+    72
+   ],
+   "dark_hex": "#0d1d48",
+   "window_range_light": 5,
+   "window_range_dark": 3,
+   "terrarium_m": -1915.0,
+   "slope_deg": 0.3,
+   "aspect_deg": 317.5,
+   "terrarium_tile": "5/27/12 px 178,125",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o059"
+  },
+  {
+   "lat": 34.0127,
+   "lng": 137.2089,
+   "px": 793,
+   "py": 312,
+   "light_rgb": [
+    42,
+    179,
+    248
+   ],
+   "light_hex": "#2ab3f8",
+   "dark_rgb": [
+    13,
+    29,
+    75
+   ],
+   "dark_hex": "#0d1d4b",
+   "window_range_light": 21,
+   "window_range_dark": 10,
+   "terrarium_m": -1768.0,
+   "slope_deg": 1.35,
+   "aspect_deg": 290.5,
+   "terrarium_tile": "5/28/12 px 50,200",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o060"
+  },
+  {
+   "lat": 20.0435,
+   "lng": 115.7197,
+   "px": 523,
+   "py": 510,
+   "light_rgb": [
+    55,
+    185,
+    250
+   ],
+   "light_hex": "#37b9fa",
+   "dark_rgb": [
+    13,
+    34,
+    81
+   ],
+   "dark_hex": "#0d2251",
+   "window_range_light": 23,
+   "window_range_dark": 6,
+   "terrarium_m": -1315.0,
+   "slope_deg": 1.72,
+   "aspect_deg": 176.5,
+   "terrarium_tile": "5/26/14 px 73,46",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o061"
+  },
+  {
+   "lat": 20.0575,
+   "lng": 116.2274,
+   "px": 529,
+   "py": 510,
+   "light_rgb": [
+    54,
+    185,
+    250
+   ],
+   "light_hex": "#36b9fa",
+   "dark_rgb": [
+    13,
+    33,
+    81
+   ],
+   "dark_hex": "#0d2151",
+   "window_range_light": 17,
+   "window_range_dark": 6,
+   "terrarium_m": -1086.0,
+   "slope_deg": 0.4,
+   "aspect_deg": 224.4,
+   "terrarium_tile": "5/26/14 px 84,45",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o062"
+  },
+  {
+   "lat": 14.0118,
+   "lng": 112.3014,
+   "px": 480,
+   "py": 590,
+   "light_rgb": [
+    29,
+    174,
+    247
+   ],
+   "light_hex": "#1daef7",
+   "dark_rgb": [
+    13,
+    29,
+    68
+   ],
+   "dark_hex": "#0d1d44",
+   "window_range_light": 21,
+   "window_range_dark": 10,
+   "terrarium_m": -2054.0,
+   "slope_deg": 3.04,
+   "aspect_deg": 260.2,
+   "terrarium_tile": "5/25/14 px 251,189",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o063"
+  },
+  {
+   "lat": 11.7637,
+   "lng": 94.4152,
+   "px": 254,
+   "py": 619,
+   "light_rgb": [
+    39,
+    179,
+    248
+   ],
+   "light_hex": "#27b3f8",
+   "dark_rgb": [
+    13,
+    29,
+    74
+   ],
+   "dark_hex": "#0d1d4a",
+   "window_range_light": 24,
+   "window_range_dark": 12,
+   "terrarium_m": -1242.0,
+   "slope_deg": 4.56,
+   "aspect_deg": 168.0,
+   "terrarium_tile": "5/24/14 px 100,242",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o064"
+  },
+  {
+   "lat": 9.9787,
+   "lng": 116.675,
+   "px": 535,
+   "py": 642,
+   "light_rgb": [
+    39,
+    178,
+    248
+   ],
+   "light_hex": "#27b2f8",
+   "dark_rgb": [
+    13,
+    29,
+    72
+   ],
+   "dark_hex": "#0d1d48",
+   "window_range_light": 9,
+   "window_range_dark": 5,
+   "terrarium_m": -1803.0,
+   "slope_deg": 0.85,
+   "aspect_deg": 137.6,
+   "terrarium_tile": "5/26/15 px 95,27",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o065"
+  },
+  {
+   "lat": 6.6101,
+   "lng": 76.5197,
+   "px": 29,
+   "py": 685,
+   "light_rgb": [
+    34,
+    177,
+    248
+   ],
+   "light_hex": "#22b1f8",
+   "dark_rgb": [
+    13,
+    29,
+    72
+   ],
+   "dark_hex": "#0d1d48",
+   "window_range_light": 3,
+   "window_range_dark": 2,
+   "terrarium_m": -1984.0,
+   "slope_deg": 0.35,
+   "aspect_deg": 165.3,
+   "terrarium_tile": "5/22/15 px 205,105",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o066"
+  },
+  {
+   "lat": 6.3455,
+   "lng": 94.3755,
+   "px": 254,
+   "py": 688,
+   "light_rgb": [
+    34,
+    177,
+    248
+   ],
+   "light_hex": "#22b1f8",
+   "dark_rgb": [
+    13,
+    29,
+    72
+   ],
+   "dark_hex": "#0d1d48",
+   "window_range_light": 14,
+   "window_range_dark": 7,
+   "terrarium_m": -1627.0,
+   "slope_deg": 0.7,
+   "aspect_deg": 228.9,
+   "terrarium_tile": "5/24/15 px 99,111",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o067"
+  },
+  {
+   "lat": 6.649,
+   "lng": 110.6311,
+   "px": 458,
+   "py": 684,
+   "light_rgb": [
+    44,
+    181,
+    249
+   ],
+   "light_hex": "#2cb5f9",
+   "dark_rgb": [
+    13,
+    29,
+    77
+   ],
+   "dark_hex": "#0d1d4d",
+   "window_range_light": 4,
+   "window_range_dark": 2,
+   "terrarium_m": -1502.0,
+   "slope_deg": 0.46,
+   "aspect_deg": 27.8,
+   "terrarium_tile": "5/25/15 px 213,104",
+   "ne_depth_class_m": 1000,
+   "band": 1000,
+   "id": "o068"
+  },
+  {
+   "lat": 44.2003,
+   "lng": 137.6616,
+   "px": 799,
+   "py": 146,
+   "light_rgb": [
+    20,
+    172,
+    246
+   ],
+   "light_hex": "#14acf6",
+   "dark_rgb": [
+    13,
+    23,
+    64
+   ],
+   "dark_hex": "#0d1740",
+   "window_range_light": 16,
+   "window_range_dark": 6,
+   "terrarium_m": -2507.0,
+   "slope_deg": 0.18,
+   "aspect_deg": 38.6,
+   "terrarium_tile": "5/28/11 px 60,156",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o069"
+  },
+  {
+   "lat": 39.8799,
+   "lng": 132.8613,
+   "px": 739,
+   "py": 219,
+   "light_rgb": [
+    13,
+    171,
+    245
+   ],
+   "light_hex": "#0dabf5",
+   "dark_rgb": [
+    13,
+    23,
+    63
+   ],
+   "dark_hex": "#0d173f",
+   "window_range_light": 10,
+   "window_range_dark": 2,
+   "terrarium_m": -2958.0,
+   "slope_deg": 1.18,
+   "aspect_deg": 37.8,
+   "terrarium_tile": "5/27/12 px 207,32",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o070"
+  },
+  {
+   "lat": 38.4769,
+   "lng": 130.6415,
+   "px": 711,
+   "py": 242,
+   "light_rgb": [
+    29,
+    174,
+    247
+   ],
+   "light_hex": "#1daef7",
+   "dark_rgb": [
+    13,
+    29,
+    68
+   ],
+   "dark_hex": "#0d1d44",
+   "window_range_light": 16,
+   "window_range_dark": 7,
+   "terrarium_m": -2812.0,
+   "slope_deg": 1.45,
+   "aspect_deg": 14.0,
+   "terrarium_tile": "5/27/12 px 156,74",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o071"
+  },
+  {
+   "lat": 32.2591,
+   "lng": 140.5515,
+   "px": 835,
+   "py": 338,
+   "light_rgb": [
+    31,
+    176,
+    247
+   ],
+   "light_hex": "#1fb0f7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 16,
+   "window_range_dark": 8,
+   "terrarium_m": -2145.0,
+   "slope_deg": 1.51,
+   "aspect_deg": 62.3,
+   "terrarium_tile": "5/28/12 px 126,247",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o072"
+  },
+  {
+   "lat": 31.6119,
+   "lng": 132.5695,
+   "px": 735,
+   "py": 348,
+   "light_rgb": [
+    29,
+    175,
+    247
+   ],
+   "light_hex": "#1daff7",
+   "dark_rgb": [
+    13,
+    29,
+    68
+   ],
+   "dark_hex": "#0d1d44",
+   "window_range_light": 15,
+   "window_range_dark": 7,
+   "terrarium_m": -2262.0,
+   "slope_deg": 0.93,
+   "aspect_deg": 198.4,
+   "terrarium_tile": "5/27/13 px 200,9",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o073"
+  },
+  {
+   "lat": 21.8142,
+   "lng": 118.9879,
+   "px": 564,
+   "py": 486,
+   "light_rgb": [
+    32,
+    176,
+    247
+   ],
+   "light_hex": "#20b0f7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 22,
+   "window_range_dark": 11,
+   "terrarium_m": -2230.0,
+   "slope_deg": 0.44,
+   "aspect_deg": 202.1,
+   "terrarium_tile": "5/26/14 px 147,3",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o074"
+  },
+  {
+   "lat": 21.8146,
+   "lng": 163.2903,
+   "px": 1122,
+   "py": 486,
+   "light_rgb": [
+    13,
+    155,
+    237
+   ],
+   "light_hex": "#0d9bed",
+   "dark_rgb": [
+    0,
+    17,
+    49
+   ],
+   "dark_hex": "#001131",
+   "window_range_light": 23,
+   "window_range_dark": 22,
+   "terrarium_m": -2286.0,
+   "slope_deg": 2.18,
+   "aspect_deg": 237.4,
+   "terrarium_tile": "5/30/14 px 131,3",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o075"
+  },
+  {
+   "lat": 20.459,
+   "lng": 145.678,
+   "px": 900,
+   "py": 505,
+   "light_rgb": [
+    29,
+    174,
+    247
+   ],
+   "light_hex": "#1daef7",
+   "dark_rgb": [
+    13,
+    29,
+    68
+   ],
+   "dark_hex": "#0d1d44",
+   "window_range_light": 21,
+   "window_range_dark": 11,
+   "terrarium_m": -2433.0,
+   "slope_deg": 0.38,
+   "aspect_deg": 286.3,
+   "terrarium_tile": "5/28/14 px 242,36",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o076"
+  },
+  {
+   "lat": 19.2585,
+   "lng": 115.4345,
+   "px": 519,
+   "py": 521,
+   "light_rgb": [
+    23,
+    174,
+    246
+   ],
+   "light_hex": "#17aef6",
+   "dark_rgb": [
+    13,
+    29,
+    65
+   ],
+   "dark_hex": "#0d1d41",
+   "window_range_light": 20,
+   "window_range_dark": 7,
+   "terrarium_m": -2498.0,
+   "slope_deg": 1.91,
+   "aspect_deg": 70.2,
+   "terrarium_tile": "5/26/14 px 66,65",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o077"
+  },
+  {
+   "lat": 19.0525,
+   "lng": 146.0247,
+   "px": 904,
+   "py": 523,
+   "light_rgb": [
+    23,
+    172,
+    246
+   ],
+   "light_hex": "#17acf6",
+   "dark_rgb": [
+    13,
+    24,
+    65
+   ],
+   "dark_hex": "#0d1841",
+   "window_range_light": 13,
+   "window_range_dark": 9,
+   "terrarium_m": -2977.0,
+   "slope_deg": 2.34,
+   "aspect_deg": 115.9,
+   "terrarium_tile": "5/28/14 px 250,70",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o078"
+  },
+  {
+   "lat": 18.6853,
+   "lng": 92.4557,
+   "px": 229,
+   "py": 528,
+   "light_rgb": [
+    34,
+    176,
+    247
+   ],
+   "light_hex": "#22b0f7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 3,
+   "window_range_dark": 0,
+   "terrarium_m": -2213.0,
+   "slope_deg": 0.69,
+   "aspect_deg": 218.4,
+   "terrarium_tile": "5/24/14 px 55,79",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o079"
+  },
+  {
+   "lat": 17.3327,
+   "lng": 85.0112,
+   "px": 136,
+   "py": 546,
+   "light_rgb": [
+    23,
+    174,
+    246
+   ],
+   "light_hex": "#17aef6",
+   "dark_rgb": [
+    13,
+    29,
+    65
+   ],
+   "dark_hex": "#0d1d41",
+   "window_range_light": 2,
+   "window_range_dark": 1,
+   "terrarium_m": -2638.0,
+   "slope_deg": 0.6,
+   "aspect_deg": 241.2,
+   "terrarium_tile": "5/23/14 px 142,111",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o080"
+  },
+  {
+   "lat": 17.8377,
+   "lng": 93.3056,
+   "px": 240,
+   "py": 540,
+   "light_rgb": [
+    30,
+    175,
+    247
+   ],
+   "light_hex": "#1eaff7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 5,
+   "window_range_dark": 3,
+   "terrarium_m": -2145.0,
+   "slope_deg": 0.63,
+   "aspect_deg": 162.5,
+   "terrarium_tile": "5/24/14 px 75,99",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o081"
+  },
+  {
+   "lat": 14.5313,
+   "lng": 80.9879,
+   "px": 85,
+   "py": 583,
+   "light_rgb": [
+    23,
+    174,
+    246
+   ],
+   "light_hex": "#17aef6",
+   "dark_rgb": [
+    13,
+    29,
+    65
+   ],
+   "dark_hex": "#0d1d41",
+   "window_range_light": 14,
+   "window_range_dark": 6,
+   "terrarium_m": -2773.0,
+   "slope_deg": 0.13,
+   "aspect_deg": 42.2,
+   "terrarium_tile": "5/23/14 px 50,177",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o082"
+  },
+  {
+   "lat": 10.0191,
+   "lng": 113.4986,
+   "px": 495,
+   "py": 641,
+   "light_rgb": [
+    39,
+    178,
+    248
+   ],
+   "light_hex": "#27b2f8",
+   "dark_rgb": [
+    13,
+    29,
+    73
+   ],
+   "dark_hex": "#0d1d49",
+   "window_range_light": 23,
+   "window_range_dark": 11,
+   "terrarium_m": -3335.0,
+   "slope_deg": 4.97,
+   "aspect_deg": 248.2,
+   "terrarium_tile": "5/26/15 px 22,26",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o083"
+  },
+  {
+   "lat": 8.9131,
+   "lng": 142.2074,
+   "px": 856,
+   "py": 655,
+   "light_rgb": [
+    29,
+    175,
+    247
+   ],
+   "light_hex": "#1daff7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 20,
+   "window_range_dark": 10,
+   "terrarium_m": -2653.0,
+   "slope_deg": 0.77,
+   "aspect_deg": 146.8,
+   "terrarium_tile": "5/28/15 px 164,52",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o084"
+  },
+  {
+   "lat": 6.6433,
+   "lng": 75.662,
+   "px": 18,
+   "py": 684,
+   "light_rgb": [
+    34,
+    177,
+    248
+   ],
+   "light_hex": "#22b1f8",
+   "dark_rgb": [
+    13,
+    29,
+    71
+   ],
+   "dark_hex": "#0d1d47",
+   "window_range_light": 7,
+   "window_range_dark": 2,
+   "terrarium_m": -2079.0,
+   "slope_deg": 0.67,
+   "aspect_deg": 213.7,
+   "terrarium_tile": "5/22/15 px 185,104",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o085"
+  },
+  {
+   "lat": 6.1044,
+   "lng": 142.0169,
+   "px": 854,
+   "py": 691,
+   "light_rgb": [
+    23,
+    173,
+    246
+   ],
+   "light_hex": "#17adf6",
+   "dark_rgb": [
+    13,
+    25,
+    65
+   ],
+   "dark_hex": "#0d1941",
+   "window_range_light": 17,
+   "window_range_dark": 10,
+   "terrarium_m": -2576.0,
+   "slope_deg": 2.42,
+   "aspect_deg": 314.4,
+   "terrarium_tile": "5/28/15 px 159,116",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o086"
+  },
+  {
+   "lat": 5.5732,
+   "lng": 76.7162,
+   "px": 31,
+   "py": 698,
+   "light_rgb": [
+    29,
+    174,
+    247
+   ],
+   "light_hex": "#1daef7",
+   "dark_rgb": [
+    13,
+    29,
+    68
+   ],
+   "dark_hex": "#0d1d44",
+   "window_range_light": 6,
+   "window_range_dark": 3,
+   "terrarium_m": -2485.0,
+   "slope_deg": 0.32,
+   "aspect_deg": 171.4,
+   "terrarium_tile": "5/22/15 px 209,128",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o087"
+  },
+  {
+   "lat": 4.4502,
+   "lng": 74.6726,
+   "px": 5,
+   "py": 712,
+   "light_rgb": [
+    23,
+    174,
+    246
+   ],
+   "light_hex": "#17aef6",
+   "dark_rgb": [
+    13,
+    29,
+    65
+   ],
+   "dark_hex": "#0d1d41",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -2627.0,
+   "slope_deg": 0.44,
+   "aspect_deg": 7.6,
+   "terrarium_tile": "5/22/15 px 163,154",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o088"
+  },
+  {
+   "lat": 4.4827,
+   "lng": 142.0207,
+   "px": 854,
+   "py": 711,
+   "light_rgb": [
+    29,
+    175,
+    247
+   ],
+   "light_hex": "#1daff7",
+   "dark_rgb": [
+    13,
+    29,
+    70
+   ],
+   "dark_hex": "#0d1d46",
+   "window_range_light": 8,
+   "window_range_dark": 4,
+   "terrarium_m": -2246.0,
+   "slope_deg": 2.37,
+   "aspect_deg": 50.9,
+   "terrarium_tile": "5/28/15 px 159,153",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o089"
+  },
+  {
+   "lat": 2.5222,
+   "lng": 157.332,
+   "px": 1047,
+   "py": 736,
+   "light_rgb": [
+    23,
+    173,
+    246
+   ],
+   "light_hex": "#17adf6",
+   "dark_rgb": [
+    13,
+    26,
+    65
+   ],
+   "dark_hex": "#0d1a41",
+   "window_range_light": 2,
+   "window_range_dark": 6,
+   "terrarium_m": -2840.0,
+   "slope_deg": 0.38,
+   "aspect_deg": 2.9,
+   "terrarium_tile": "5/29/15 px 252,198",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o090"
+  },
+  {
+   "lat": 2.5732,
+   "lng": 158.0267,
+   "px": 1056,
+   "py": 736,
+   "light_rgb": [
+    23,
+    173,
+    246
+   ],
+   "light_hex": "#17adf6",
+   "dark_rgb": [
+    13,
+    29,
+    65
+   ],
+   "dark_hex": "#0d1d41",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -2787.0,
+   "slope_deg": 0.25,
+   "aspect_deg": 267.3,
+   "terrarium_tile": "5/30/15 px 11,197",
+   "ne_depth_class_m": 2000,
+   "band": 2000,
+   "id": "o091"
+  },
+  {
+   "lat": 51.6265,
+   "lng": 168.6508,
+   "px": 1189,
+   "py": 6,
+   "light_rgb": [
+    3,
+    164,
+    240
+   ],
+   "light_hex": "#03a4f0",
+   "dark_rgb": [
+    13,
+    23,
+    57
+   ],
+   "dark_hex": "#0d1739",
+   "window_range_light": 13,
+   "window_range_dark": 3,
+   "terrarium_m": -3879.0,
+   "slope_deg": 1.45,
+   "aspect_deg": 4.6,
+   "terrarium_tile": "5/30/10 px 253,159",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o092"
+  },
+  {
+   "lat": 42.9428,
+   "lng": 139.5605,
+   "px": 823,
+   "py": 168,
+   "light_rgb": [
+    16,
+    171,
+    245
+   ],
+   "light_hex": "#10abf5",
+   "dark_rgb": [
+    13,
+    23,
+    64
+   ],
+   "dark_hex": "#0d1740",
+   "window_range_light": 16,
+   "window_range_dark": 10,
+   "terrarium_m": -3348.0,
+   "slope_deg": 0.1,
+   "aspect_deg": 252.3,
+   "terrarium_tile": "5/28/11 px 103,195",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o093"
+  },
+  {
+   "lat": 40.6068,
+   "lng": 134.535,
+   "px": 760,
+   "py": 207,
+   "light_rgb": [
+    15,
+    171,
+    245
+   ],
+   "light_hex": "#0fabf5",
+   "dark_rgb": [
+    13,
+    23,
+    63
+   ],
+   "dark_hex": "#0d173f",
+   "window_range_light": 10,
+   "window_range_dark": 6,
+   "terrarium_m": -3090.0,
+   "slope_deg": 1.54,
+   "aspect_deg": 317.7,
+   "terrarium_tile": "5/27/12 px 245,11",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o094"
+  },
+  {
+   "lat": 37.425,
+   "lng": 162.8499,
+   "px": 1116,
+   "py": 259,
+   "light_rgb": [
+    2,
+    163,
+    240
+   ],
+   "light_hex": "#02a3f0",
+   "dark_rgb": [
+    13,
+    23,
+    56
+   ],
+   "dark_hex": "#0d1738",
+   "window_range_light": 13,
+   "window_range_dark": 6,
+   "terrarium_m": -3983.0,
+   "slope_deg": 1.87,
+   "aspect_deg": 277.7,
+   "terrarium_tile": "5/30/12 px 121,104",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o095"
+  },
+  {
+   "lat": 29.9495,
+   "lng": 141.4846,
+   "px": 847,
+   "py": 372,
+   "light_rgb": [
+    2,
+    162,
+    240
+   ],
+   "light_hex": "#02a2f0",
+   "dark_rgb": [
+    13,
+    23,
+    55
+   ],
+   "dark_hex": "#0d1737",
+   "window_range_light": 13,
+   "window_range_dark": 7,
+   "terrarium_m": -4025.0,
+   "slope_deg": 0.76,
+   "aspect_deg": 109.3,
+   "terrarium_tile": "5/28/13 px 147,53",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o096"
+  },
+  {
+   "lat": 23.7272,
+   "lng": 132.4956,
+   "px": 734,
+   "py": 460,
+   "light_rgb": [
+    13,
+    160,
+    239
+   ],
+   "light_hex": "#0da0ef",
+   "dark_rgb": [
+    11,
+    23,
+    54
+   ],
+   "dark_hex": "#0b1736",
+   "window_range_light": 24,
+   "window_range_dark": 19,
+   "terrarium_m": -3702.0,
+   "slope_deg": 6.08,
+   "aspect_deg": 35.9,
+   "terrarium_tile": "5/27/13 px 199,211",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o097"
+  },
+  {
+   "lat": 17.7419,
+   "lng": 116.1664,
+   "px": 528,
+   "py": 541,
+   "light_rgb": [
+    0,
+    163,
+    240
+   ],
+   "light_hex": "#00a3f0",
+   "dark_rgb": [
+    13,
+    23,
+    55
+   ],
+   "dark_hex": "#0d1737",
+   "window_range_light": 1,
+   "window_range_dark": 2,
+   "terrarium_m": -3917.0,
+   "slope_deg": 0.35,
+   "aspect_deg": 110.2,
+   "terrarium_tile": "5/26/14 px 83,101",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o098"
+  },
+  {
+   "lat": 17.7957,
+   "lng": 122.7997,
+   "px": 612,
+   "py": 540,
+   "light_rgb": [
+    13,
+    166,
+    242
+   ],
+   "light_hex": "#0da6f2",
+   "dark_rgb": [
+    13,
+    23,
+    58
+   ],
+   "dark_hex": "#0d173a",
+   "window_range_light": 11,
+   "window_range_dark": 6,
+   "terrarium_m": -3638.0,
+   "slope_deg": 0.68,
+   "aspect_deg": 109.7,
+   "terrarium_tile": "5/26/14 px 234,100",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o099"
+  },
+  {
+   "lat": 17.3795,
+   "lng": 124.2648,
+   "px": 630,
+   "py": 546,
+   "light_rgb": [
+    13,
+    166,
+    242
+   ],
+   "light_hex": "#0da6f2",
+   "dark_rgb": [
+    13,
+    23,
+    58
+   ],
+   "dark_hex": "#0d173a",
+   "window_range_light": 18,
+   "window_range_dark": 10,
+   "terrarium_m": -3178.0,
+   "slope_deg": 1.46,
+   "aspect_deg": 25.6,
+   "terrarium_tile": "5/27/14 px 11,110",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o100"
+  },
+  {
+   "lat": 14.8187,
+   "lng": 148.5061,
+   "px": 936,
+   "py": 579,
+   "light_rgb": [
+    10,
+    149,
+    233
+   ],
+   "light_hex": "#0a95e9",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 24,
+   "window_range_dark": 24,
+   "terrarium_m": -4933.0,
+   "slope_deg": 10.69,
+   "aspect_deg": 147.0,
+   "terrarium_tile": "5/29/14 px 51,170",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o101"
+  },
+  {
+   "lat": 14.0278,
+   "lng": 82.0246,
+   "px": 98,
+   "py": 589,
+   "light_rgb": [
+    13,
+    168,
+    243
+   ],
+   "light_hex": "#0da8f3",
+   "dark_rgb": [
+    13,
+    23,
+    62
+   ],
+   "dark_hex": "#0d173e",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -3257.0,
+   "slope_deg": 0.46,
+   "aspect_deg": 48.0,
+   "terrarium_tile": "5/23/14 px 74,189",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o102"
+  },
+  {
+   "lat": 13.9264,
+   "lng": 82.8372,
+   "px": 108,
+   "py": 591,
+   "light_rgb": [
+    13,
+    169,
+    244
+   ],
+   "light_hex": "#0da9f4",
+   "dark_rgb": [
+    13,
+    23,
+    62
+   ],
+   "dark_hex": "#0d173e",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -3279.0,
+   "slope_deg": 0.21,
+   "aspect_deg": 61.4,
+   "terrarium_tile": "5/23/14 px 93,191",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o103"
+  },
+  {
+   "lat": 13.7572,
+   "lng": 115.7374,
+   "px": 523,
+   "py": 593,
+   "light_rgb": [
+    13,
+    159,
+    238
+   ],
+   "light_hex": "#0d9fee",
+   "dark_rgb": [
+    11,
+    23,
+    53
+   ],
+   "dark_hex": "#0b1735",
+   "window_range_light": 1,
+   "window_range_dark": 6,
+   "terrarium_m": -3987.0,
+   "slope_deg": 4.32,
+   "aspect_deg": 266.5,
+   "terrarium_tile": "5/26/14 px 73,195",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o104"
+  },
+  {
+   "lat": 7.6249,
+   "lng": 87.6914,
+   "px": 169,
+   "py": 672,
+   "light_rgb": [
+    9,
+    164,
+    241
+   ],
+   "light_hex": "#09a4f1",
+   "dark_rgb": [
+    13,
+    23,
+    57
+   ],
+   "dark_hex": "#0d1739",
+   "window_range_light": 4,
+   "window_range_dark": 0,
+   "terrarium_m": -3708.0,
+   "slope_deg": 0.19,
+   "aspect_deg": 178.7,
+   "terrarium_tile": "5/23/15 px 203,81",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o105"
+  },
+  {
+   "lat": 7.3209,
+   "lng": 119.9248,
+   "px": 576,
+   "py": 676,
+   "light_rgb": [
+    4,
+    161,
+    239
+   ],
+   "light_hex": "#04a1ef",
+   "dark_rgb": [
+    13,
+    23,
+    54
+   ],
+   "dark_hex": "#0d1736",
+   "window_range_light": 13,
+   "window_range_dark": 4,
+   "terrarium_m": -3888.0,
+   "slope_deg": 0.09,
+   "aspect_deg": 297.0,
+   "terrarium_tile": "5/26/15 px 168,88",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o106"
+  },
+  {
+   "lat": 6.6519,
+   "lng": 82.312,
+   "px": 102,
+   "py": 684,
+   "light_rgb": [
+    0,
+    163,
+    240
+   ],
+   "light_hex": "#00a3f0",
+   "dark_rgb": [
+    13,
+    23,
+    56
+   ],
+   "dark_hex": "#0d1738",
+   "window_range_light": 13,
+   "window_range_dark": 8,
+   "terrarium_m": -3851.0,
+   "slope_deg": 1.11,
+   "aspect_deg": 156.7,
+   "terrarium_tile": "5/23/15 px 81,104",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o107"
+  },
+  {
+   "lat": 6.5121,
+   "lng": 132.4762,
+   "px": 734,
+   "py": 686,
+   "light_rgb": [
+    9,
+    163,
+    240
+   ],
+   "light_hex": "#09a3f0",
+   "dark_rgb": [
+    13,
+    23,
+    56
+   ],
+   "dark_hex": "#0d1738",
+   "window_range_light": 13,
+   "window_range_dark": 10,
+   "terrarium_m": -3870.0,
+   "slope_deg": 1.67,
+   "aspect_deg": 304.7,
+   "terrarium_tile": "5/27/15 px 198,107",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o108"
+  },
+  {
+   "lat": 6.2927,
+   "lng": 140.4554,
+   "px": 834,
+   "py": 689,
+   "light_rgb": [
+    1,
+    162,
+    240
+   ],
+   "light_hex": "#01a2f0",
+   "dark_rgb": [
+    13,
+    23,
+    55
+   ],
+   "dark_hex": "#0d1737",
+   "window_range_light": 13,
+   "window_range_dark": 4,
+   "terrarium_m": -3853.0,
+   "slope_deg": 1.2,
+   "aspect_deg": 273.3,
+   "terrarium_tile": "5/28/15 px 124,112",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o109"
+  },
+  {
+   "lat": 6.5434,
+   "lng": 153.5232,
+   "px": 999,
+   "py": 685,
+   "light_rgb": [
+    7,
+    162,
+    240
+   ],
+   "light_hex": "#07a2f0",
+   "dark_rgb": [
+    13,
+    23,
+    55
+   ],
+   "dark_hex": "#0d1737",
+   "window_range_light": 13,
+   "window_range_dark": 13,
+   "terrarium_m": -3805.0,
+   "slope_deg": 1.26,
+   "aspect_deg": 41.7,
+   "terrarium_tile": "5/29/15 px 165,106",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o110"
+  },
+  {
+   "lat": 5.2538,
+   "lng": 156.6804,
+   "px": 1039,
+   "py": 702,
+   "light_rgb": [
+    13,
+    165,
+    241
+   ],
+   "light_hex": "#0da5f1",
+   "dark_rgb": [
+    13,
+    23,
+    57
+   ],
+   "dark_hex": "#0d1739",
+   "window_range_light": 0,
+   "window_range_dark": 1,
+   "terrarium_m": -3539.0,
+   "slope_deg": 0.98,
+   "aspect_deg": 350.7,
+   "terrarium_tile": "5/29/15 px 237,136",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o111"
+  },
+  {
+   "lat": 4.6949,
+   "lng": 150.4318,
+   "px": 960,
+   "py": 709,
+   "light_rgb": [
+    13,
+    156,
+    238
+   ],
+   "light_hex": "#0d9cee",
+   "dark_rgb": [
+    0,
+    21,
+    50
+   ],
+   "dark_hex": "#001532",
+   "window_range_light": 8,
+   "window_range_dark": 13,
+   "terrarium_m": -3911.0,
+   "slope_deg": 3.51,
+   "aspect_deg": 58.2,
+   "terrarium_tile": "5/29/15 px 95,149",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o112"
+  },
+  {
+   "lat": 2.792,
+   "lng": 78.4574,
+   "px": 53,
+   "py": 733,
+   "light_rgb": [
+    13,
+    168,
+    243
+   ],
+   "light_hex": "#0da8f3",
+   "dark_rgb": [
+    13,
+    23,
+    61
+   ],
+   "dark_hex": "#0d173d",
+   "window_range_light": 2,
+   "window_range_dark": 3,
+   "terrarium_m": -3466.0,
+   "slope_deg": 0.66,
+   "aspect_deg": 87.6,
+   "terrarium_tile": "5/22/15 px 249,192",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o113"
+  },
+  {
+   "lat": 2.8408,
+   "lng": 160.4005,
+   "px": 1086,
+   "py": 732,
+   "light_rgb": [
+    13,
+    167,
+    242
+   ],
+   "light_hex": "#0da7f2",
+   "dark_rgb": [
+    13,
+    23,
+    59
+   ],
+   "dark_hex": "#0d173b",
+   "window_range_light": 2,
+   "window_range_dark": 2,
+   "terrarium_m": -3548.0,
+   "slope_deg": 0.26,
+   "aspect_deg": 355.8,
+   "terrarium_tile": "5/30/15 px 66,191",
+   "ne_depth_class_m": 3000,
+   "band": 3000,
+   "id": "o114"
+  },
+  {
+   "lat": 49.1705,
+   "lng": 170.6632,
+   "px": 1215,
+   "py": 55,
+   "light_rgb": [
+    13,
+    151,
+    235
+   ],
+   "light_hex": "#0d97eb",
+   "dark_rgb": [
+    0,
+    13,
+    44
+   ],
+   "dark_hex": "#000d2c",
+   "window_range_light": 8,
+   "window_range_dark": 10,
+   "terrarium_m": -5106.0,
+   "slope_deg": 4.04,
+   "aspect_deg": 143.8,
+   "terrarium_tile": "5/31/10 px 43,247",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o115"
+  },
+  {
+   "lat": 45.377,
+   "lng": 158.5564,
+   "px": 1062,
+   "py": 125,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -4945.0,
+   "slope_deg": 0.31,
+   "aspect_deg": 228.3,
+   "terrarium_tile": "5/30/11 px 24,118",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o116"
+  },
+  {
+   "lat": 44.7846,
+   "lng": 157.4894,
+   "px": 1049,
+   "py": 136,
+   "light_rgb": [
+    10,
+    149,
+    233
+   ],
+   "light_hex": "#0a95e9",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 12,
+   "window_range_dark": 6,
+   "terrarium_m": -4895.0,
+   "slope_deg": 4.5,
+   "aspect_deg": 135.7,
+   "terrarium_tile": "5/29/11 px 255,137",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o117"
+  },
+  {
+   "lat": 42.5173,
+   "lng": 165.9233,
+   "px": 1155,
+   "py": 175,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 2,
+   "window_range_dark": 2,
+   "terrarium_m": -4887.0,
+   "slope_deg": 1.24,
+   "aspect_deg": 220.3,
+   "terrarium_tile": "5/30/11 px 191,209",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o118"
+  },
+  {
+   "lat": 36.1072,
+   "lng": 163.0145,
+   "px": 1118,
+   "py": 280,
+   "light_rgb": [
+    13,
+    152,
+    236
+   ],
+   "light_hex": "#0d98ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 7,
+   "window_range_dark": 9,
+   "terrarium_m": -5067.0,
+   "slope_deg": 1.69,
+   "aspect_deg": 88.8,
+   "terrarium_tile": "5/30/12 px 125,141",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o119"
+  },
+  {
+   "lat": 33.617,
+   "lng": 165.6592,
+   "px": 1152,
+   "py": 318,
+   "light_rgb": [
+    10,
+    146,
+    231
+   ],
+   "light_hex": "#0a92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 7,
+   "window_range_dark": 0,
+   "terrarium_m": -6113.0,
+   "slope_deg": 0.28,
+   "aspect_deg": 344.5,
+   "terrarium_tile": "5/30/12 px 185,210",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o120"
+  },
+  {
+   "lat": 30.7254,
+   "lng": 132.9228,
+   "px": 739,
+   "py": 361,
+   "light_rgb": [
+    13,
+    155,
+    237
+   ],
+   "light_hex": "#0d9bed",
+   "dark_rgb": [
+    0,
+    16,
+    48
+   ],
+   "dark_hex": "#001030",
+   "window_range_light": 13,
+   "window_range_dark": 13,
+   "terrarium_m": -4841.0,
+   "slope_deg": 0.64,
+   "aspect_deg": 256.4,
+   "terrarium_tile": "5/27/13 px 208,32",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o121"
+  },
+  {
+   "lat": 29.1157,
+   "lng": 137.1233,
+   "px": 792,
+   "py": 384,
+   "light_rgb": [
+    13,
+    154,
+    237
+   ],
+   "light_hex": "#0d9aed",
+   "dark_rgb": [
+    0,
+    15,
+    48
+   ],
+   "dark_hex": "#000f30",
+   "window_range_light": 5,
+   "window_range_dark": 10,
+   "terrarium_m": -4468.0,
+   "slope_deg": 1.38,
+   "aspect_deg": 351.2,
+   "terrarium_tile": "5/28/13 px 48,74",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o122"
+  },
+  {
+   "lat": 24.5976,
+   "lng": 159.9419,
+   "px": 1080,
+   "py": 448,
+   "light_rgb": [
+    13,
+    150,
+    233
+   ],
+   "light_hex": "#0d96e9",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 7,
+   "window_range_dark": 2,
+   "terrarium_m": -5156.0,
+   "slope_deg": 4.85,
+   "aspect_deg": 304.1,
+   "terrarium_tile": "5/30/13 px 55,190",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o123"
+  },
+  {
+   "lat": 19.5359,
+   "lng": 140.9357,
+   "px": 840,
+   "py": 517,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -4649.0,
+   "slope_deg": 0.39,
+   "aspect_deg": 282.6,
+   "terrarium_tile": "5/28/14 px 135,58",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o124"
+  },
+  {
+   "lat": 14.6645,
+   "lng": 142.0856,
+   "px": 855,
+   "py": 581,
+   "light_rgb": [
+    13,
+    159,
+    238
+   ],
+   "light_hex": "#0d9fee",
+   "dark_rgb": [
+    10,
+    23,
+    53
+   ],
+   "dark_hex": "#0a1735",
+   "window_range_light": 13,
+   "window_range_dark": 13,
+   "terrarium_m": -4270.0,
+   "slope_deg": 1.08,
+   "aspect_deg": 275.4,
+   "terrarium_tile": "5/28/14 px 161,174",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o125"
+  },
+  {
+   "lat": 13.7006,
+   "lng": 119.3891,
+   "px": 569,
+   "py": 594,
+   "light_rgb": [
+    13,
+    155,
+    237
+   ],
+   "light_hex": "#0d9bed",
+   "dark_rgb": [
+    0,
+    15,
+    48
+   ],
+   "dark_hex": "#000f30",
+   "window_range_light": 16,
+   "window_range_dark": 14,
+   "terrarium_m": -4808.0,
+   "slope_deg": 2.48,
+   "aspect_deg": 254.7,
+   "terrarium_tile": "5/26/14 px 156,197",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o126"
+  },
+  {
+   "lat": 12.8767,
+   "lng": 136.44,
+   "px": 784,
+   "py": 604,
+   "light_rgb": [
+    13,
+    151,
+    235
+   ],
+   "light_hex": "#0d97eb",
+   "dark_rgb": [
+    0,
+    13,
+    44
+   ],
+   "dark_hex": "#000d2c",
+   "window_range_light": 9,
+   "window_range_dark": 10,
+   "terrarium_m": -5194.0,
+   "slope_deg": 2.72,
+   "aspect_deg": 110.8,
+   "terrarium_tile": "5/28/14 px 32,216",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o127"
+  },
+  {
+   "lat": 11.01,
+   "lng": 137.4659,
+   "px": 797,
+   "py": 628,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 6,
+   "window_range_dark": 8,
+   "terrarium_m": -4692.0,
+   "slope_deg": 4.93,
+   "aspect_deg": 246.3,
+   "terrarium_tile": "5/28/15 px 56,3",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o128"
+  },
+  {
+   "lat": 9.4722,
+   "lng": 143.3428,
+   "px": 871,
+   "py": 648,
+   "light_rgb": [
+    13,
+    154,
+    237
+   ],
+   "light_hex": "#0d9aed",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 0,
+   "window_range_dark": 2,
+   "terrarium_m": -4908.0,
+   "slope_deg": 0.9,
+   "aspect_deg": 159.0,
+   "terrarium_tile": "5/28/15 px 189,39",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o129"
+  },
+  {
+   "lat": 5.471,
+   "lng": 150.7249,
+   "px": 964,
+   "py": 699,
+   "light_rgb": [
+    13,
+    154,
+    237
+   ],
+   "light_hex": "#0d9aed",
+   "dark_rgb": [
+    0,
+    14,
+    48
+   ],
+   "dark_hex": "#000e30",
+   "window_range_light": 1,
+   "window_range_dark": 4,
+   "terrarium_m": -4644.0,
+   "slope_deg": 0.45,
+   "aspect_deg": 84.9,
+   "terrarium_tile": "5/29/15 px 101,131",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o130"
+  },
+  {
+   "lat": 5.1186,
+   "lng": 163.9218,
+   "px": 1130,
+   "py": 703,
+   "light_rgb": [
+    13,
+    154,
+    237
+   ],
+   "light_hex": "#0d9aed",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 0,
+   "window_range_dark": 1,
+   "terrarium_m": -4663.0,
+   "slope_deg": 0.3,
+   "aspect_deg": 19.7,
+   "terrarium_tile": "5/30/15 px 146,139",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o131"
+  },
+  {
+   "lat": 4.7111,
+   "lng": 80.4768,
+   "px": 79,
+   "py": 709,
+   "light_rgb": [
+    13,
+    159,
+    238
+   ],
+   "light_hex": "#0d9fee",
+   "dark_rgb": [
+    12,
+    23,
+    54
+   ],
+   "dark_hex": "#0c1736",
+   "window_range_light": 2,
+   "window_range_dark": 7,
+   "terrarium_m": -4278.0,
+   "slope_deg": 0.55,
+   "aspect_deg": 61.4,
+   "terrarium_tile": "5/23/15 px 39,148",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o132"
+  },
+  {
+   "lat": 4.2319,
+   "lng": 124.0377,
+   "px": 627,
+   "py": 715,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -4978.0,
+   "slope_deg": 0.42,
+   "aspect_deg": 160.8,
+   "terrarium_tile": "5/27/15 px 6,159",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o133"
+  },
+  {
+   "lat": 4.7535,
+   "lng": 146.9415,
+   "px": 916,
+   "py": 708,
+   "light_rgb": [
+    5,
+    161,
+    239
+   ],
+   "light_hex": "#05a1ef",
+   "dark_rgb": [
+    13,
+    23,
+    54
+   ],
+   "dark_hex": "#0d1736",
+   "window_range_light": 13,
+   "window_range_dark": 3,
+   "terrarium_m": -4231.0,
+   "slope_deg": 0.19,
+   "aspect_deg": 1.3,
+   "terrarium_tile": "5/29/15 px 15,147",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o134"
+  },
+  {
+   "lat": 4.7663,
+   "lng": 167.2218,
+   "px": 1171,
+   "py": 708,
+   "light_rgb": [
+    13,
+    153,
+    236
+   ],
+   "light_hex": "#0d99ec",
+   "dark_rgb": [
+    0,
+    13,
+    47
+   ],
+   "dark_hex": "#000d2f",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -4767.0,
+   "slope_deg": 1.01,
+   "aspect_deg": 85.2,
+   "terrarium_tile": "5/30/15 px 221,147",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o135"
+  },
+  {
+   "lat": 2.749,
+   "lng": 163.0504,
+   "px": 1119,
+   "py": 733,
+   "light_rgb": [
+    13,
+    158,
+    238
+   ],
+   "light_hex": "#0d9eee",
+   "dark_rgb": [
+    9,
+    23,
+    53
+   ],
+   "dark_hex": "#091735",
+   "window_range_light": 1,
+   "window_range_dark": 6,
+   "terrarium_m": -4339.0,
+   "slope_deg": 0.07,
+   "aspect_deg": 62.9,
+   "terrarium_tile": "5/30/15 px 126,193",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o136"
+  },
+  {
+   "lat": 2.5611,
+   "lng": 169.9186,
+   "px": 1205,
+   "py": 736,
+   "light_rgb": [
+    6,
+    161,
+    239
+   ],
+   "light_hex": "#06a1ef",
+   "dark_rgb": [
+    13,
+    23,
+    54
+   ],
+   "dark_hex": "#0d1736",
+   "window_range_light": 13,
+   "window_range_dark": 3,
+   "terrarium_m": -4280.0,
+   "slope_deg": 0.19,
+   "aspect_deg": 111.2,
+   "terrarium_tile": "5/31/15 px 26,197",
+   "ne_depth_class_m": 4000,
+   "band": 4000,
+   "id": "o137"
+  },
+  {
+   "lat": 51.6636,
+   "lng": 161.8824,
+   "px": 1104,
+   "py": 5,
+   "light_rgb": [
+    13,
+    149,
+    233
+   ],
+   "light_hex": "#0d95e9",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 11,
+   "window_range_dark": 3,
+   "terrarium_m": -5453.0,
+   "slope_deg": 0.7,
+   "aspect_deg": 331.5,
+   "terrarium_tile": "5/30/10 px 99,158",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o138"
+  },
+  {
+   "lat": 49.314,
+   "lng": 157.1518,
+   "px": 1045,
+   "py": 52,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 12,
+   "window_range_dark": 12,
+   "terrarium_m": -5372.0,
+   "slope_deg": 3.66,
+   "aspect_deg": 166.7,
+   "terrarium_tile": "5/29/10 px 248,242",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o139"
+  },
+  {
+   "lat": 48.8202,
+   "lng": 158.1885,
+   "px": 1058,
+   "py": 61,
+   "light_rgb": [
+    9,
+    148,
+    232
+   ],
+   "light_hex": "#0994e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 13,
+   "window_range_dark": 7,
+   "terrarium_m": -5614.0,
+   "slope_deg": 1.18,
+   "aspect_deg": 334.5,
+   "terrarium_tile": "5/30/11 px 15,3",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o140"
+  },
+  {
+   "lat": 47.4171,
+   "lng": 171.3631,
+   "px": 1224,
+   "py": 88,
+   "light_rgb": [
+    12,
+    149,
+    233
+   ],
+   "light_hex": "#0c95e9",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 12,
+   "window_range_dark": 4,
+   "terrarium_m": -5693.0,
+   "slope_deg": 1.05,
+   "aspect_deg": 223.8,
+   "terrarium_tile": "5/31/11 px 59,51",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o141"
+  },
+  {
+   "lat": 43.3251,
+   "lng": 161.2598,
+   "px": 1096,
+   "py": 161,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -5657.0,
+   "slope_deg": 1.24,
+   "aspect_deg": 197.1,
+   "terrarium_tile": "5/30/11 px 85,184",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o142"
+  },
+  {
+   "lat": 40.0369,
+   "lng": 164.7154,
+   "px": 1140,
+   "py": 217,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -5446.0,
+   "slope_deg": 1.41,
+   "aspect_deg": 172.6,
+   "terrarium_tile": "5/30/12 px 164,28",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o143"
+  },
+  {
+   "lat": 35.2397,
+   "lng": 167.7013,
+   "px": 1177,
+   "py": 293,
+   "light_rgb": [
+    6,
+    149,
+    232
+   ],
+   "light_hex": "#0695e8",
+   "dark_rgb": [
+    0,
+    13,
+    41
+   ],
+   "dark_hex": "#000d29",
+   "window_range_light": 8,
+   "window_range_dark": 3,
+   "terrarium_m": -5581.0,
+   "slope_deg": 0.15,
+   "aspect_deg": 27.2,
+   "terrarium_tile": "5/30/12 px 232,166",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o144"
+  },
+  {
+   "lat": 31.2984,
+   "lng": 162.1421,
+   "px": 1107,
+   "py": 352,
+   "light_rgb": [
+    2,
+    147,
+    232
+   ],
+   "light_hex": "#0293e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -5869.0,
+   "slope_deg": 0.04,
+   "aspect_deg": 76.0,
+   "terrarium_tile": "5/30/13 px 105,17",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o145"
+  },
+  {
+   "lat": 29.7609,
+   "lng": 163.2628,
+   "px": 1122,
+   "py": 375,
+   "light_rgb": [
+    7,
+    147,
+    231
+   ],
+   "light_hex": "#0793e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 4,
+   "window_range_dark": 0,
+   "terrarium_m": -5965.0,
+   "slope_deg": 0.05,
+   "aspect_deg": 317.5,
+   "terrarium_tile": "5/30/13 px 131,58",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o146"
+  },
+  {
+   "lat": 29.1173,
+   "lng": 149.8444,
+   "px": 953,
+   "py": 384,
+   "light_rgb": [
+    5,
+    147,
+    232
+   ],
+   "light_hex": "#0593e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 8,
+   "window_range_dark": 0,
+   "terrarium_m": -5967.0,
+   "slope_deg": 0.06,
+   "aspect_deg": 218.2,
+   "terrarium_tile": "5/29/13 px 81,74",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o147"
+  },
+  {
+   "lat": 26.9838,
+   "lng": 167.997,
+   "px": 1181,
+   "py": 415,
+   "light_rgb": [
+    4,
+    147,
+    232
+   ],
+   "light_hex": "#0493e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 7,
+   "window_range_dark": 0,
+   "terrarium_m": -5911.0,
+   "slope_deg": 0.62,
+   "aspect_deg": 154.5,
+   "terrarium_tile": "5/30/13 px 238,129",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o148"
+  },
+  {
+   "lat": 26.433,
+   "lng": 158.3594,
+   "px": 1060,
+   "py": 423,
+   "light_rgb": [
+    7,
+    147,
+    231
+   ],
+   "light_hex": "#0793e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 8,
+   "window_range_dark": 0,
+   "terrarium_m": -5907.0,
+   "slope_deg": 0.22,
+   "aspect_deg": 57.7,
+   "terrarium_tile": "5/30/13 px 19,143",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o149"
+  },
+  {
+   "lat": 26.491,
+   "lng": 160.3571,
+   "px": 1085,
+   "py": 422,
+   "light_rgb": [
+    4,
+    147,
+    232
+   ],
+   "light_hex": "#0493e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 4,
+   "window_range_dark": 1,
+   "terrarium_m": -5980.0,
+   "slope_deg": 0.51,
+   "aspect_deg": 82.1,
+   "terrarium_tile": "5/30/13 px 65,142",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o150"
+  },
+  {
+   "lat": 24.684,
+   "lng": 162.4204,
+   "px": 1111,
+   "py": 447,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 3,
+   "window_range_dark": 5,
+   "terrarium_m": -5470.0,
+   "slope_deg": 0.71,
+   "aspect_deg": 64.4,
+   "terrarium_tile": "5/30/13 px 111,188",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o151"
+  },
+  {
+   "lat": 20.0841,
+   "lng": 161.4191,
+   "px": 1098,
+   "py": 510,
+   "light_rgb": [
+    13,
+    152,
+    235
+   ],
+   "light_hex": "#0d98eb",
+   "dark_rgb": [
+    0,
+    13,
+    46
+   ],
+   "dark_hex": "#000d2e",
+   "window_range_light": 8,
+   "window_range_dark": 10,
+   "terrarium_m": -5302.0,
+   "slope_deg": 1.28,
+   "aspect_deg": 14.4,
+   "terrarium_tile": "5/30/14 px 89,45",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o152"
+  },
+  {
+   "lat": 20.0704,
+   "lng": 165.2717,
+   "px": 1147,
+   "py": 510,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 19,
+   "window_range_dark": 20,
+   "terrarium_m": -5416.0,
+   "slope_deg": 0.39,
+   "aspect_deg": 311.4,
+   "terrarium_tile": "5/30/14 px 176,45",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o153"
+  },
+  {
+   "lat": 19.3217,
+   "lng": 124.3181,
+   "px": 631,
+   "py": 520,
+   "light_rgb": [
+    7,
+    149,
+    233
+   ],
+   "light_hex": "#0795e9",
+   "dark_rgb": [
+    0,
+    13,
+    42
+   ],
+   "dark_hex": "#000d2a",
+   "window_range_light": 9,
+   "window_range_dark": 2,
+   "terrarium_m": -5746.0,
+   "slope_deg": 0.77,
+   "aspect_deg": 305.2,
+   "terrarium_tile": "5/27/14 px 12,63",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o154"
+  },
+  {
+   "lat": 18.4827,
+   "lng": 129.6866,
+   "px": 699,
+   "py": 531,
+   "light_rgb": [
+    2,
+    148,
+    232
+   ],
+   "light_hex": "#0294e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 2,
+   "window_range_dark": 0,
+   "terrarium_m": -5445.0,
+   "slope_deg": 4.92,
+   "aspect_deg": 197.3,
+   "terrarium_tile": "5/27/14 px 135,83",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o155"
+  },
+  {
+   "lat": 17.8051,
+   "lng": 165.2404,
+   "px": 1146,
+   "py": 540,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 7,
+   "window_range_dark": 2,
+   "terrarium_m": -5533.0,
+   "slope_deg": 0.27,
+   "aspect_deg": 60.2,
+   "terrarium_tile": "5/30/14 px 176,100",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o156"
+  },
+  {
+   "lat": 16.6404,
+   "lng": 158.0337,
+   "px": 1056,
+   "py": 555,
+   "light_rgb": [
+    2,
+    148,
+    232
+   ],
+   "light_hex": "#0294e8",
+   "dark_rgb": [
+    0,
+    13,
+    40
+   ],
+   "dark_hex": "#000d28",
+   "window_range_light": 13,
+   "window_range_dark": 4,
+   "terrarium_m": -5917.0,
+   "slope_deg": 0.58,
+   "aspect_deg": 69.5,
+   "terrarium_tile": "5/30/14 px 12,127",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o157"
+  },
+  {
+   "lat": 15.4356,
+   "lng": 149.9945,
+   "px": 954,
+   "py": 571,
+   "light_rgb": [
+    9,
+    149,
+    233
+   ],
+   "light_hex": "#0995e9",
+   "dark_rgb": [
+    0,
+    13,
+    42
+   ],
+   "dark_hex": "#000d2a",
+   "window_range_light": 10,
+   "window_range_dark": 3,
+   "terrarium_m": -5700.0,
+   "slope_deg": 0.11,
+   "aspect_deg": 167.8,
+   "terrarium_tile": "5/29/14 px 85,156",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o158"
+  },
+  {
+   "lat": 14.514,
+   "lng": 164.0594,
+   "px": 1132,
+   "py": 583,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 3,
+   "window_range_dark": 1,
+   "terrarium_m": -5674.0,
+   "slope_deg": 1.09,
+   "aspect_deg": 154.0,
+   "terrarium_tile": "5/30/14 px 149,178",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o159"
+  },
+  {
+   "lat": 14.6034,
+   "lng": 164.7386,
+   "px": 1140,
+   "py": 582,
+   "light_rgb": [
+    13,
+    150,
+    234
+   ],
+   "light_hex": "#0d96ea",
+   "dark_rgb": [
+    0,
+    13,
+    43
+   ],
+   "dark_hex": "#000d2b",
+   "window_range_light": 1,
+   "window_range_dark": 0,
+   "terrarium_m": -5259.0,
+   "slope_deg": 0.15,
+   "aspect_deg": 184.6,
+   "terrarium_tile": "5/30/14 px 164,176",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o160"
+  },
+  {
+   "lat": 6.3952,
+   "lng": 165.054,
+   "px": 1144,
+   "py": 687,
+   "light_rgb": [
+    13,
+    152,
+    236
+   ],
+   "light_hex": "#0d98ec",
+   "dark_rgb": [
+    0,
+    13,
+    46
+   ],
+   "dark_hex": "#000d2e",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -5079.0,
+   "slope_deg": 0.09,
+   "aspect_deg": 14.7,
+   "terrarium_tile": "5/30/15 px 171,110",
+   "ne_depth_class_m": 5000,
+   "band": 5000,
+   "id": "o161"
+  },
+  {
+   "lat": 51.0265,
+   "lng": 160.0248,
+   "px": 1081,
+   "py": 18,
+   "light_rgb": [
+    13,
+    142,
+    230
+   ],
+   "light_hex": "#0d8ee6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 10,
+   "window_range_dark": 5,
+   "terrarium_m": -6732.0,
+   "slope_deg": 4.72,
+   "aspect_deg": 125.1,
+   "terrarium_tile": "5/30/10 px 57,181",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o162"
+  },
+  {
+   "lat": 47.4373,
+   "lng": 155.645,
+   "px": 1026,
+   "py": 87,
+   "light_rgb": [
+    13,
+    145,
+    231
+   ],
+   "light_hex": "#0d91e7",
+   "dark_rgb": [
+    0,
+    13,
+    37
+   ],
+   "dark_hex": "#000d25",
+   "window_range_light": 7,
+   "window_range_dark": 5,
+   "terrarium_m": -6959.0,
+   "slope_deg": 3.21,
+   "aspect_deg": 351.1,
+   "terrarium_tile": "5/29/11 px 213,50",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o163"
+  },
+  {
+   "lat": 46.2909,
+   "lng": 168.083,
+   "px": 1182,
+   "py": 109,
+   "light_rgb": [
+    13,
+    146,
+    231
+   ],
+   "light_hex": "#0d92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -6117.0,
+   "slope_deg": 0.35,
+   "aspect_deg": 272.4,
+   "terrarium_tile": "5/30/11 px 240,88",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o164"
+  },
+  {
+   "lat": 40.6161,
+   "lng": 171.9442,
+   "px": 1231,
+   "py": 207,
+   "light_rgb": [
+    7,
+    147,
+    232
+   ],
+   "light_hex": "#0793e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 13,
+   "window_range_dark": 4,
+   "terrarium_m": -5952.0,
+   "slope_deg": 1.29,
+   "aspect_deg": 279.9,
+   "terrarium_tile": "5/31/12 px 72,10",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o165"
+  },
+  {
+   "lat": 35.4566,
+   "lng": 148.822,
+   "px": 940,
+   "py": 290,
+   "light_rgb": [
+    10,
+    146,
+    231
+   ],
+   "light_hex": "#0a92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 6,
+   "window_range_dark": 0,
+   "terrarium_m": -6036.0,
+   "slope_deg": 0.12,
+   "aspect_deg": 46.2,
+   "terrarium_tile": "5/29/12 px 58,160",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o166"
+  },
+  {
+   "lat": 35.1695,
+   "lng": 151.8411,
+   "px": 978,
+   "py": 294,
+   "light_rgb": [
+    7,
+    147,
+    231
+   ],
+   "light_hex": "#0793e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 10,
+   "window_range_dark": 0,
+   "terrarium_m": -6177.0,
+   "slope_deg": 0.25,
+   "aspect_deg": 101.8,
+   "terrarium_tile": "5/29/12 px 127,168",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o167"
+  },
+  {
+   "lat": 32.2704,
+   "lng": 146.0295,
+   "px": 904,
+   "py": 338,
+   "light_rgb": [
+    10,
+    146,
+    231
+   ],
+   "light_hex": "#0a92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 4,
+   "window_range_dark": 0,
+   "terrarium_m": -6052.0,
+   "slope_deg": 0.15,
+   "aspect_deg": 155.6,
+   "terrarium_tile": "5/28/12 px 250,247",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o168"
+  },
+  {
+   "lat": 32.2938,
+   "lng": 166.0957,
+   "px": 1157,
+   "py": 338,
+   "light_rgb": [
+    13,
+    145,
+    231
+   ],
+   "light_hex": "#0d91e7",
+   "dark_rgb": [
+    0,
+    13,
+    38
+   ],
+   "dark_hex": "#000d26",
+   "window_range_light": 1,
+   "window_range_dark": 2,
+   "terrarium_m": -6555.0,
+   "slope_deg": 1.19,
+   "aspect_deg": 7.5,
+   "terrarium_tile": "5/30/12 px 195,246",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o169"
+  },
+  {
+   "lat": 31.2829,
+   "lng": 148.6462,
+   "px": 937,
+   "py": 353,
+   "light_rgb": [
+    13,
+    145,
+    231
+   ],
+   "light_hex": "#0d91e7",
+   "dark_rgb": [
+    0,
+    13,
+    38
+   ],
+   "dark_hex": "#000d26",
+   "window_range_light": 12,
+   "window_range_dark": 5,
+   "terrarium_m": -6249.0,
+   "slope_deg": 0.97,
+   "aspect_deg": 301.8,
+   "terrarium_tile": "5/29/13 px 54,17",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o170"
+  },
+  {
+   "lat": 31.2793,
+   "lng": 166.2502,
+   "px": 1159,
+   "py": 353,
+   "light_rgb": [
+    13,
+    145,
+    231
+   ],
+   "light_hex": "#0d91e7",
+   "dark_rgb": [
+    0,
+    13,
+    37
+   ],
+   "dark_hex": "#000d25",
+   "window_range_light": 2,
+   "window_range_dark": 3,
+   "terrarium_m": -6066.0,
+   "slope_deg": 1.48,
+   "aspect_deg": 208.4,
+   "terrarium_tile": "5/30/13 px 199,17",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o171"
+  },
+  {
+   "lat": 30.3143,
+   "lng": 149.5162,
+   "px": 948,
+   "py": 367,
+   "light_rgb": [
+    13,
+    146,
+    231
+   ],
+   "light_hex": "#0d92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -6156.0,
+   "slope_deg": 0.57,
+   "aspect_deg": 275.8,
+   "terrarium_tile": "5/29/13 px 74,43",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o172"
+  },
+  {
+   "lat": 29.9237,
+   "lng": 149.0659,
+   "px": 943,
+   "py": 373,
+   "light_rgb": [
+    13,
+    145,
+    231
+   ],
+   "light_hex": "#0d91e7",
+   "dark_rgb": [
+    0,
+    13,
+    38
+   ],
+   "dark_hex": "#000d26",
+   "window_range_light": 1,
+   "window_range_dark": 1,
+   "terrarium_m": -6145.0,
+   "slope_deg": 0.22,
+   "aspect_deg": 8.1,
+   "terrarium_tile": "5/29/13 px 64,53",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o173"
+  },
+  {
+   "lat": 29.5778,
+   "lng": 156.3375,
+   "px": 1034,
+   "py": 378,
+   "light_rgb": [
+    6,
+    147,
+    232
+   ],
+   "light_hex": "#0693e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 7,
+   "window_range_dark": 0,
+   "terrarium_m": -5968.0,
+   "slope_deg": 0.55,
+   "aspect_deg": 265.4,
+   "terrarium_tile": "5/29/13 px 229,62",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o174"
+  },
+  {
+   "lat": 28.024,
+   "lng": 157.1556,
+   "px": 1045,
+   "py": 400,
+   "light_rgb": [
+    13,
+    146,
+    231
+   ],
+   "light_hex": "#0d92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 3,
+   "window_range_dark": 0,
+   "terrarium_m": -6104.0,
+   "slope_deg": 0.43,
+   "aspect_deg": 356.7,
+   "terrarium_tile": "5/29/13 px 248,103",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o175"
+  },
+  {
+   "lat": 26.6303,
+   "lng": 155.5199,
+   "px": 1024,
+   "py": 420,
+   "light_rgb": [
+    10,
+    146,
+    231
+   ],
+   "light_hex": "#0a92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 4,
+   "window_range_dark": 0,
+   "terrarium_m": -5989.0,
+   "slope_deg": 0.76,
+   "aspect_deg": 313.8,
+   "terrarium_tile": "5/29/13 px 210,138",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o176"
+  },
+  {
+   "lat": 25.7339,
+   "lng": 164.1571,
+   "px": 1133,
+   "py": 432,
+   "light_rgb": [
+    10,
+    146,
+    231
+   ],
+   "light_hex": "#0a92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 10,
+   "window_range_dark": 1,
+   "terrarium_m": -6001.0,
+   "slope_deg": 2.55,
+   "aspect_deg": 202.2,
+   "terrarium_tile": "5/30/13 px 151,161",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o177"
+  },
+  {
+   "lat": 25.2464,
+   "lng": 165.9966,
+   "px": 1156,
+   "py": 439,
+   "light_rgb": [
+    13,
+    146,
+    231
+   ],
+   "light_hex": "#0d92e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 3,
+   "window_range_dark": 0,
+   "terrarium_m": -6181.0,
+   "slope_deg": 0.43,
+   "aspect_deg": 335.1,
+   "terrarium_tile": "5/30/13 px 193,173",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o178"
+  },
+  {
+   "lat": 25.305,
+   "lng": 169.837,
+   "px": 1204,
+   "py": 438,
+   "light_rgb": [
+    6,
+    147,
+    232
+   ],
+   "light_hex": "#0693e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 8,
+   "window_range_dark": 1,
+   "terrarium_m": -6101.0,
+   "slope_deg": 0.18,
+   "aspect_deg": 239.7,
+   "terrarium_tile": "5/31/13 px 24,172",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o179"
+  },
+  {
+   "lat": 22.9412,
+   "lng": 145.8362,
+   "px": 902,
+   "py": 471,
+   "light_rgb": [
+    13,
+    142,
+    230
+   ],
+   "light_hex": "#0d8ee6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 4,
+   "window_range_dark": 5,
+   "terrarium_m": -6455.0,
+   "slope_deg": 2.09,
+   "aspect_deg": 230.0,
+   "terrarium_tile": "5/28/13 px 246,231",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o180"
+  },
+  {
+   "lat": 15.4373,
+   "lng": 156.6296,
+   "px": 1038,
+   "py": 571,
+   "light_rgb": [
+    6,
+    147,
+    231
+   ],
+   "light_hex": "#0693e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 5,
+   "window_range_dark": 0,
+   "terrarium_m": -6045.0,
+   "slope_deg": 0.07,
+   "aspect_deg": 2.5,
+   "terrarium_tile": "5/29/14 px 236,156",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o181"
+  },
+  {
+   "lat": 13.6524,
+   "lng": 130.7962,
+   "px": 713,
+   "py": 594,
+   "light_rgb": [
+    4,
+    147,
+    232
+   ],
+   "light_hex": "#0493e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 9,
+   "window_range_dark": 1,
+   "terrarium_m": -5923.0,
+   "slope_deg": 1.36,
+   "aspect_deg": 256.5,
+   "terrarium_tile": "5/27/14 px 160,198",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o182"
+  },
+  {
+   "lat": 14.0723,
+   "lng": 147.5692,
+   "px": 924,
+   "py": 589,
+   "light_rgb": [
+    13,
+    147,
+    231
+   ],
+   "light_hex": "#0d93e7",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 24,
+   "window_range_dark": 23,
+   "terrarium_m": -5430.0,
+   "slope_deg": 3.88,
+   "aspect_deg": 235.3,
+   "terrarium_tile": "5/29/14 px 30,188",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o183"
+  },
+  {
+   "lat": 11.902,
+   "lng": 155.7263,
+   "px": 1027,
+   "py": 617,
+   "light_rgb": [
+    7,
+    147,
+    232
+   ],
+   "light_hex": "#0793e8",
+   "dark_rgb": [
+    0,
+    13,
+    39
+   ],
+   "dark_hex": "#000d27",
+   "window_range_light": 13,
+   "window_range_dark": 4,
+   "terrarium_m": -6018.0,
+   "slope_deg": 0.34,
+   "aspect_deg": 185.3,
+   "terrarium_tile": "5/29/14 px 215,239",
+   "ne_depth_class_m": 6000,
+   "band": 6000,
+   "id": "o184"
+  },
+  {
+   "lat": 51.8198,
+   "lng": 161.046,
+   "px": 1094,
+   "py": 2,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 4,
+   "window_range_dark": 4,
+   "terrarium_m": -7380.0,
+   "slope_deg": 4.18,
+   "aspect_deg": 150.4,
+   "terrarium_tile": "5/30/10 px 80,152",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o185"
+  },
+  {
+   "lat": 45.6115,
+   "lng": 152.9071,
+   "px": 991,
+   "py": 121,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 6,
+   "window_range_dark": 5,
+   "terrarium_m": -7544.0,
+   "slope_deg": 0.42,
+   "aspect_deg": 144.3,
+   "terrarium_tile": "5/29/11 px 151,111",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o186"
+  },
+  {
+   "lat": 45.5949,
+   "lng": 173.7889,
+   "px": 1254,
+   "py": 121,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 4,
+   "window_range_dark": 3,
+   "terrarium_m": -6932.0,
+   "slope_deg": 5.12,
+   "aspect_deg": 217.4,
+   "terrarium_tile": "5/31/11 px 114,111",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o187"
+  },
+  {
+   "lat": 44.8154,
+   "lng": 151.6207,
+   "px": 975,
+   "py": 135,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -7897.0,
+   "slope_deg": 4.53,
+   "aspect_deg": 147.7,
+   "terrarium_tile": "5/29/11 px 122,136",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o188"
+  },
+  {
+   "lat": 43.6245,
+   "lng": 149.0482,
+   "px": 942,
+   "py": 156,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 11,
+   "window_range_dark": 5,
+   "terrarium_m": -7366.0,
+   "slope_deg": 8.16,
+   "aspect_deg": 152.1,
+   "terrarium_tile": "5/29/11 px 63,174",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o189"
+  },
+  {
+   "lat": 43.4219,
+   "lng": 149.5143,
+   "px": 948,
+   "py": 160,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 2,
+   "window_range_dark": 0,
+   "terrarium_m": -7319.0,
+   "slope_deg": 1.88,
+   "aspect_deg": 336.5,
+   "terrarium_tile": "5/29/11 px 74,180",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o190"
+  },
+  {
+   "lat": 32.8475,
+   "lng": 142.1369,
+   "px": 855,
+   "py": 329,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 6,
+   "window_range_dark": 5,
+   "terrarium_m": -7995.0,
+   "slope_deg": 7.72,
+   "aspect_deg": 315.2,
+   "terrarium_tile": "5/28/12 px 162,231",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o191"
+  },
+  {
+   "lat": 32.0811,
+   "lng": 142.3843,
+   "px": 859,
+   "py": 341,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -7460.0,
+   "slope_deg": 3.55,
+   "aspect_deg": 247.0,
+   "terrarium_tile": "5/28/12 px 168,252",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o192"
+  },
+  {
+   "lat": 11.1385,
+   "lng": 141.2197,
+   "px": 844,
+   "py": 627,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 11,
+   "window_range_dark": 12,
+   "terrarium_m": -7227.0,
+   "slope_deg": 5.52,
+   "aspect_deg": 141.1,
+   "terrarium_tile": "5/28/15 px 141,0",
+   "ne_depth_class_m": 7000,
+   "band": 7000,
+   "id": "o193"
+  },
+  {
+   "lat": 48.7485,
+   "lng": 157.1416,
+   "px": 1044,
+   "py": 63,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -8273.0,
+   "slope_deg": 3.68,
+   "aspect_deg": 106.5,
+   "terrarium_tile": "5/29/11 px 247,6",
+   "ne_depth_class_m": 8000,
+   "band": 8000,
+   "id": "o194"
+  },
+  {
+   "lat": 33.9538,
+   "lng": 142.1048,
+   "px": 855,
+   "py": 313,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -7993.0,
+   "slope_deg": 10.18,
+   "aspect_deg": 276.2,
+   "terrarium_tile": "5/28/12 px 161,201",
+   "ne_depth_class_m": 8000,
+   "band": 8000,
+   "id": "o195"
+  },
+  {
+   "lat": 17.4562,
+   "lng": 147.88,
+   "px": 928,
+   "py": 545,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -8075.0,
+   "slope_deg": 2.78,
+   "aspect_deg": 279.8,
+   "terrarium_tile": "5/29/14 px 37,108",
+   "ne_depth_class_m": 8000,
+   "band": 8000,
+   "id": "o196"
+  },
+  {
+   "lat": 14.1446,
+   "lng": 147.127,
+   "px": 918,
+   "py": 588,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -8357.0,
+   "slope_deg": 6.01,
+   "aspect_deg": 114.8,
+   "terrarium_tile": "5/29/14 px 19,186",
+   "ne_depth_class_m": 8000,
+   "band": 8000,
+   "id": "o197"
+  },
+  {
+   "lat": 12.2161,
+   "lng": 145.0803,
+   "px": 892,
+   "py": 613,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -9405.0,
+   "slope_deg": 2.11,
+   "aspect_deg": 172.4,
+   "terrarium_tile": "5/28/14 px 229,231",
+   "ne_depth_class_m": 8000,
+   "band": 8000,
+   "id": "o198"
+  },
+  {
+   "lat": 29.1246,
+   "lng": 142.832,
+   "px": 864,
+   "py": 384,
+   "light_rgb": [
+    13,
+    141,
+    230
+   ],
+   "light_hex": "#0d8de6",
+   "dark_rgb": [
+    0,
+    13,
+    34
+   ],
+   "dark_hex": "#000d22",
+   "window_range_light": 0,
+   "window_range_dark": 0,
+   "terrarium_m": -9576.0,
+   "slope_deg": 2.33,
+   "aspect_deg": 257.4,
+   "terrarium_tile": "5/28/13 px 178,74",
+   "ne_depth_class_m": 9000,
+   "band": 9000,
+   "id": "o199"
+  }
+ ]
+}
