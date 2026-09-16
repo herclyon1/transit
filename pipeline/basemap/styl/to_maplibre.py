@@ -25,13 +25,16 @@ What is taken from Apple (via resolve.Resolver, cascade + zoom bands):
   fillColor(1) / strokeColor(2)      -> fill-color / line-color, casing line-color
   width(3) / strokeWidth(6)          -> line-width; casing = width + 2 * strokeWidth (casing is drawn under the fill)
   visible(0) False bands             -> layer minzoom (first zoom where the style is not hidden)
-  12 (border opacity, inferred)      -> line-opacity on boundaries
   labelInfo.height / heightCurveLimit-> text-size: linear from height at the band start to the curve limit at its end
   textColor(24) / labelHaloColor(25) -> text-color / text-halo-color
   fontSpec(23)                       -> Noto Sans Regular | Bold | Italic (OpenFreeMap serves only these three)
   buildingFlatColor(86)              -> building fill
-  dashPattern 279 / 280              -> line-dasharray on the fill / casing line (LE u16 pairs dash,gap in pt, divided by
-                                        the line width at Apple z13 because MapLibre dash units are line widths)
+  dashPattern 279 / 280              -> line-dasharray on the fill / casing line, per zoom band (step expression):
+                                        each unit is DASH_PT = 0.2 pt on the Mac's output (three measurements, RENDER-PIPELINE
+                                        §7.16), divided by the band's line width because MapLibre dash units are line widths
+v6 (2026-09-16, RENDER-PIPELINE §7.12): dashes by zoom band; coastline glow (Coastline-Glow-*, width prop 55, colour 57,
+  on the water side of the ocean polygons); fonts by zoom band; expressways below Apple z8 from the Line-LowZoom-Connection
+  rows (§7.15) instead of the JPN width table the resolver picks; Geolines-Tropics/-Equator from map/data/graticule.geojson.
 With --lum the *ColorLumAdjustment values (463/464/470/471) are applied as an HSL lightness offset of adj/100.
 Off by default and measured to be wrong for labels: the ward text sampled on the Mac render is (90,93,93) = the sheet's
 (90,94,94) although the style carries labelColorLumAdjustment -15, and dark wards went white with +10.
@@ -51,6 +54,16 @@ GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
 NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local name (acceptance 2026-09-16: no zh fallback)
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
+DASH_PT = 0.2       # pt per dashPattern unit on the Mac's output (RENDER-PIPELINE §7.16: 0.19 / 0.203 / 0.215 measured)
+# Expressways below Apple z8 are drawn by Line-LowZoom-Connection-Base / LowZoom-Connection-JPN-Base (RENDER-PIPELINE
+# §7.15), which resolve.py cannot see (conditional rows + diamond inheritance).  Apple keeps only the curated
+# "low-zoom connection" classes (feature:85 / feature:31) at z4-7, at 1.0-1.85 px for Japan's main links; OpenMapTiles
+# has no such class, so every OSM motorway would get that width.  The aggregate that matches best is the sheet's
+# unconditional row: z6-7 width 0.5, no stroke (Line-LowZoom-Connection-Base), then the feature:85 row z7-11 width 1,
+# grey (209,209,209); below Apple z6 nothing (only the curated classes are visible there).
+# (apple zmin, zmax, width, strokeWidth, fill rgb, stroke rgba, fillColorLumAdjustment)
+LOWZOOM_EXPRESSWAY = [(6.0, 7.0, 0.5, 0.0, (136, 152, 184), None, 0),
+                      (7.0, 8.0, 1.0, 0.0, (209, 209, 209), None, 0)]
 
 # (id, kind, source-layer, filter, apple style template ({m} = Light/Dark, {e} = Explore-Light/Explore-Dark), note)
 # kind: bg | fill | road | rail | line | boundary | place | roadname | watername
@@ -68,6 +81,7 @@ MAPPING = [
     ('landuse-park', 'fill', 'landuse', ['in', 'class', 'park', 'recreation_ground', 'garden'], 'ParkPolygon.{e}', ''),
     ('aeroway', 'fill', 'aeroway', ['in', 'class', 'aerodrome', 'apron'], 'AirportPolygon.{e}', ''),
     ('water', 'fill', 'water', None, 'Landcover-Water.{m}-Explore', ''),
+    ('coast-glow', 'glow', 'water', ['==', 'class', 'ocean'], 'Coastline-Glow-{m}-Base', 'glow on the water side of the ocean polygon edge: width prop 55 (Coastline-Glow-Base), colour prop 57; OpenMapTiles has no coastline line, the ocean polygon outline stands in'),
     ('waterway', 'line', 'waterway', ['in', 'class', 'river', 'canal', 'stream'], 'Rivers-{m}-Flat-Base', 'no dotted leaf for rivers; Flat-Base variant (inferred)'),
     ('building', 'building', 'building', None, 'BuildingFootprint.{m}-Explore', 'fill = buildingFlatColor(86), outline = strokeColor'),
     ('road-path', 'road', 'transportation', ['in', 'class', 'path', 'track'], 'Line-PrivatePath.{m}', 'path/track ~ PrivatePath (inferred)'),
@@ -86,7 +100,9 @@ MAPPING = [
     # on Maps' standard map, so they are left out.
     ('rail', 'rail', 'rail', ['in', 'cls', 'jr', 'private', 'sector3', 'public', 'other', 'tram'], 'Railway-Japan.{m}', 'N02 centre lines via transit.pmtiles; surface railways'),
     ('rail-shinkansen', 'rail', 'rail', ['==', 'cls', 'shinkansen'], 'Railway-Japan.Bullet-{m}', 'N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)'),
-    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity (inferred)'),
+    ('geoline-tropics', 'geoline', 'graticule', ['!=', ['get', 'lat'], 0], 'Geolines-Tropics.{e}-Elevated', 'tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)'),
+    ('geoline-equator', 'geoline', 'graticule', ['==', ['get', 'lat'], 0], 'Geolines-Equator.{e}-Elevated', 'equator, same source'),
+    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', 'alpha from fillColor; prop 12 not used (v6)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
     ('label-road-minor', 'roadname', 'transportation_name', ['in', 'class', 'minor', 'service', 'tertiary'], 'Line-LocalRoad-MinorRoad.{m}-JPN', 'road label numbers come from the road style itself'),
     ('label-road-secondary', 'roadname', 'transportation_name', ['in', 'class', 'secondary'], 'Line-ConnectorRoad.{m}-JPN', ''),
@@ -187,20 +203,35 @@ class Gen:
         return expr
 
     def dash(self, name, pid, casing=False):
-        """dashPattern (279 fill / 280 casing): LE u16 (dash, gap) pairs in pt -> MapLibre line-dasharray (line widths)."""
-        v = self.r.value_at(name, pid, 13)
-        pairs = v.get('dash') if isinstance(v, dict) else None
-        if not pairs:
+        """dashPattern (279 fill / 280 casing) per zoom band -> line-dasharray step expression.  Each unit is DASH_PT pt on
+        screen; MapLibre wants multiples of the line width, so every band is divided by its own (casing) width."""
+        dbands = [(a, b, v['dash']) for a, b, v in self.r.bands(name, pid) if isinstance(v, dict) and v.get('dash')]
+        if not dbands:
             return None
-        w = (self.r.value_at(name, 3, 13) or 0.0) + (2 * (self.r.value_at(name, 6, 13) or 0.0) if casing else 0.0)
-        if w <= 0 or len(pairs) < 2 or all(x == 0 for x in pairs[1::2]):
-            return None                                   # (4, 0) = solid
-        return [round(x / w, 2) for x in pairs]
+        edges = sorted({e for a, b, _ in dbands for e in (a, b)} | {a for a, b, _ in self.r.bands(name, 3)} | {a for a, b, _ in self.r.bands(name, 6)})
+        bands = []
+        for a, b in zip(edges, edges[1:]):
+            v = self.r.value_at(name, pid, a)
+            pairs = v.get('dash') if isinstance(v, dict) else None
+            w = (self.r.value_at(name, 3, a) or 0.0) + (2 * (self.r.value_at(name, 6, a) or 0.0) if casing else 0.0)
+            if not pairs or w <= 0 or len(pairs) < 2 or all(x == 0 for x in pairs[1::2]):
+                arr = None                                # (4, 0) = solid
+            else:
+                arr = [round(x * DASH_PT / w, 2) for x in pairs]
+            if bands and bands[-1][2] == arr:
+                bands[-1] = (bands[-1][0], b, arr)
+            else:
+                bands.append((a, b, arr))
+        if all(arr is None for _, _, arr in bands):
+            return None
+        bands = [(a, b, arr if arr is not None else [1, 0]) for a, b, arr in bands]      # solid band = dash 1 gap 0
+        return step(bands, lambda v: ['literal', v])
 
-    def font(self, name):
+    @staticmethod
+    def font_of(spec):
         """OpenFreeMap serves Noto Sans Regular / Bold / Italic only.  semibold at width<=60 (condensed, e.g. ward names)
         reads lighter than Noto Bold, so it maps to Regular; other semibold/bold -> Bold; italic -> Italic."""
-        spec = self.r.value_at(name, 23, 12) or ''
+        spec = spec or ''
         if 'italic' in spec:
             return ['Noto Sans Italic']
         if 'semibold' in spec and 'width=60' in spec:
@@ -208,6 +239,17 @@ class Gen:
         if 'bold' in spec or 'semibold' in spec:
             return ['Noto Sans Bold']
         return ['Noto Sans Regular']
+
+    def font(self, name):
+        """fontSpec(23) per zoom band -> text-font step expression (cities: medium -> semibold -> bold -> semibold by zoom)."""
+        bands = []
+        for a, b, v in self.r.bands(name, 23):
+            f = self.font_of(v)
+            if bands and bands[-1][2] == f:
+                bands[-1] = (bands[-1][0], b, f)
+            else:
+                bands.append((a, b, f))
+        return step(bands, lambda v: ['literal', v]) if len(bands) > 1 else (bands[0][2] if bands else ['Noto Sans Regular'])
 
     def note(self, lid, kind, style, text):
         self.rows.append((lid, kind, style, text))
@@ -237,6 +279,26 @@ class Gen:
                 self.note(lid, kind, style, 'no fillColor')
                 return []
             return [{**base, 'type': 'fill', 'paint': {'fill-color': c, 'fill-antialias': False}}]
+        if kind == 'glow':
+            wb = [(a, b, v) for a, b, v in self.r.bands('Coastline-Glow-Base', 55)]
+            cb = self.color_expr(style, 57)
+            if not wb or cb is None:
+                self.note(lid, kind, style, 'no glow width/colour')
+                return []
+            first = min((a for a, b, v in wb if v), default=None)
+            l = {**base, 'type': 'line', 'layout': {'line-cap': 'round', 'line-join': 'round'},
+                 'paint': {'line-color': cb, 'line-width': step(wb, lambda v: v), 'line-blur': step(wb, lambda v: round(v * 0.75, 2)),
+                           'line-offset': step(wb, lambda v: round(-v / 2, 2)), 'line-opacity': 0.85}}
+            if first is not None:
+                l['minzoom'] = max(0.0, first + ZOFF)
+            return [l]
+        if kind == 'geoline':
+            fc = self.color_expr(style, 1, 470)
+            paint = {'line-color': fc, 'line-width': self.width_expr(style)}
+            d = self.dash(style, 279)
+            if d:
+                paint['line-dasharray'] = d
+            return [{**base, 'source': 'graticule', 'type': 'line', 'paint': paint}]
         if kind == 'building':
             fill = self.color_expr(style, 86) or self.color_expr(style, 1)
             l = {**base, 'type': 'fill', 'paint': {'fill-color': fill}}
@@ -259,6 +321,8 @@ class Gen:
                 if d:
                     paint['line-dasharray'] = d
                 out.append({**base, 'type': 'line', 'layout': layout, 'paint': paint})
+            if lid == 'road-motorway':
+                out = self.lowzoom_expressway(out, base, layout)
             if kind == 'rail' and out:
                 out[-1]['layout'] = {'line-join': 'round'}
                 if lid == 'rail':
@@ -268,9 +332,8 @@ class Gen:
         if kind == 'boundary':
             fc = self.color_expr(style, 1, 470)
             paint = {'line-color': fc, 'line-width': self.width_expr(style)}
-            op = self.r.value_at(style, 12, 12)
-            if op is not None:
-                paint['line-opacity'] = op
+            # prop 12 (0.25 on borders) was applied as line-opacity up to v5; the Japan-view side-by-side (v6) shows Apple's
+            # prefecture borders at the fillColor's own alpha (0.7-0.8), so 12 is not an opacity and is no longer used.
             d = self.dash(style, 279)
             if d:
                 paint['line-dasharray'] = d
@@ -290,6 +353,40 @@ class Gen:
                 paint.update({'text-halo-color': hc, 'text-halo-width': 1.5})
             return [{**base, 'type': 'symbol', 'layout': layout, 'paint': paint}]
         return []
+
+    def lowzoom_expressway(self, layers, base, layout):
+        """Below Apple z8 the expressway is the Line-LowZoom-Connection line (RENDER-PIPELINE §7.15): splice the
+        LOWZOOM_EXPRESSWAY bands in front of the sheet's z8+ bands of the motorway casing/fill layers."""
+        def splice(expr, low, hi_default):
+            # expr is a step expression or constant over Apple zoom (already offset); rebuild with low bands first
+            bands = []
+            for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
+                bands.append((a, b, low(w, sw, fc, sc, lum)))
+            hi = expr if isinstance(expr, list) and expr[0] == 'step' else ['step', ['zoom'], expr]
+            # values of the sheet expression from Apple z8 on: evaluate at z8 and keep later stops
+            def at(z):
+                v = hi[2]
+                for zz, vv in zip(hi[3::2], hi[4::2]):
+                    if z + ZOFF >= zz:
+                        v = vv
+                return v
+            bands.append((8.0, 8.0001, at(8.0)))
+            out = ['step', ['zoom'], bands[0][2]]
+            for a, b, v in bands[1:]:
+                out += [max(0.0, a + ZOFF), v]
+            for zz, vv in zip(hi[3::2], hi[4::2]):
+                if zz > 8.0 + ZOFF:
+                    out += [zz, vv]
+            return out
+        for l in layers:
+            casing = l['id'].endswith('-casing')
+            l['minzoom'] = max(0.0, LOWZOOM_EXPRESSWAY[0][0] + ZOFF)
+            l['paint']['line-width'] = splice(l['paint']['line-width'],
+                                              lambda w, sw, fc, sc, lum: round(w + 2 * sw, 3) if casing else w, None)
+            l['paint']['line-color'] = splice(l['paint']['line-color'],
+                                              lambda w, sw, fc, sc, lum: (rgba({'rgba': list(sc)}) if sc else 'rgba(0,0,0,0)') if casing
+                                              else rgba({'rgba': list(fc) + [255]}, lum), None)
+        return layers
 
     def elevated_name(self, name):
         """The -Elevated variant of a leaf style when the sheet has one (Line-X.Light-JPN-Elevated, ParkPolygon.Elevated-Light,
@@ -325,14 +422,15 @@ class Gen:
                 else:
                     layers += ls
         # order: background, areas, water, waterway, building, then all road casings, all road fills, rail, boundaries, labels
-        pre = [l for l in layers if l['type'] != 'symbol' and l['id'] not in ('boundary-state', 'boundary-country')]
-        bounds = [l for l in layers if l['id'] in ('boundary-state', 'boundary-country')]
+        pre = [l for l in layers if l['type'] != 'symbol' and l['id'] not in ('boundary-state', 'boundary-country', 'geoline-tropics', 'geoline-equator')]
+        bounds = [l for l in layers if l['id'] in ('geoline-tropics', 'geoline-equator', 'boundary-state', 'boundary-country')]
         labels = [l for l in layers if l['type'] == 'symbol']
         return {'version': 8, 'name': f'Apple flat {mode} (generated from {Path(self.src).name})',
                 'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': Path(self.src).name,
                              'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum, 'elevated_variants': ELEVATED,
                              'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
                 'sources': {'openmaptiles': {'type': 'vector', 'url': TILES},
+                            'graticule': {'type': 'geojson', 'data': 'data/graticule.geojson'},
                             'transit': {'type': 'vector', 'url': 'pmtiles://../tiles/transit.pmtiles', 'minzoom': 4, 'maxzoom': 14,
                                         'attribution': '鉄道: 国土数値情報 N02-24'}},
                 'glyphs': GLYPHS, 'layers': pre + roads_casing + roads_fill + bounds + labels}
