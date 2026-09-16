@@ -455,3 +455,11 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 即高速/主干颜色对，**minor/tertiary 比 App 亮 +14～+17**，不只是密度问题；界面会话「颜色宽度 ✓」的结论被推翻——它只核了高速和主干。亮度带 78–100 像素 App 190k vs 我们 344k，密度也差。
 日本视野 ui=0 三次拍有一次侧栏出现（scratchpad/acc1bb/cmp-japan-side.png，11.44%），两次正常——间歇性，待查。侧栏骨架文字是中文，App 侧栏是英文（用户系统英文），待用户定。
 城市标注：日本 31 城 vs App≈24，字大带圆点，圆点为采样顶替已标；日本亮 8.38%。模糊半径改 12.5px，limb 25/30 pt vs App 34/36 pt，差在球缘本身。
+
+## 2026-09-16 21:57　验收 ui 6615b45（单元 2 复核 + noui 时序）　验收人：transit 验收（Fable）
+
+先看：4× 放大裁片（scratchpad/acc1bb/zoom-dark-{centre,nw}.png，市中心与西淀川同框）——App 暗色小路是 ≈1 px 近地面色的暗线，市中心整片 CommercialPolygon 紫地块，街道是地块间的缝；我们小路是 1.5 px 明显偏亮的灰网格，无紫地块。
+再量：界面会话全类同位表（写进 map/README.md）——宽类（motorway/primary）App 众数 = 我们填色；minor/tertiary App 像素在任何统计里到不了填色，p75 (65,78,97)≈ 45% 覆盖。.styl 核实 MinorRoad Dark-JPN-Elevated z13 = (77,91,109) 1.5 px，无 opacity 乘子，Apple 无 ResidentialRoad 类。
+判定：样式值取对，**看起来仍不一致**，差在三处：① 光栅——MapLibre 1.5 px 线中心像素满填，Apple 读 ≈45–60% 覆盖（线 AA/宽度语义，属渲染器，派数据会话从 VectorKit 道路着色器解）；② 地块——OSM landuse commercial/retail 只有 81 片，Apple 逐块覆盖（数据，不求一致，记录）；③ 双向车道/住宅路密度（已派数据会话）。单元 2 样式部分闭合，像素一致待 ①③。
+noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=0 全部 noui=true、侧栏无。**闭合**。
+**结论**：放行合并。
