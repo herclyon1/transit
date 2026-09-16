@@ -475,3 +475,12 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 ## 2026-09-16 22:22　验收 ui-english 82a0ac3（壳文字英文）　验收人：transit 验收（Fable）
 
 先看（scratchpad/acceng/sidebar.png）：搜索框、Cities/Recents 行、骨架说明、Index › 全英文；index.html/shell.js 无汉字残留。挑到 main 之上另开分支，不含暂扣的 bf8559a。**结论**：放行合并。
+
+## 2026-09-16 22:58　验收 data d0c6c2c/b8ff84c/f93057f/d9c678b（球标注、DvMt 材质色、z6 阴影+海沟散字、街区名层）　验收人：transit 验收（Fable）
+
+- DvMt（b8ff84c）：我在 ui/basemap/dvmt-materials.json 核 client:69=0（球）白天分支：Ground z0–11 #f6f6ed、Forest z4–10 #deecd3、Herbaceous #e1eed6、Water 0 m #bce8f8——与所述一致，与采样的 Mac 球粉彩差 ≤7。**Mac 球粉彩来源闭合**，palette-globe.json 可退役。
+- 阴影（f93057f）：shade-ea-z6.png（缩看 scratchpad/shade-z6.png）山脉纹理分布合理；App 坡面比公式暗一倍，缺地面阴影图（groundShadowMap）未解，斜率 ×2 作解出前替代已标明。
+- 街区名（d9c678b）：验收视野内 district 45 / block 465 / ward 17；NAGASU/JUSO/HONJO 在框内，KANDA 在框西缘外一点。折叠规则是我们定的，文档写明。
+- 球标注（d0c6c2c）：物理/海底/城市要素打上 apple_minzoom/rank；苹果标签原表放仓库外。**注意**：cities/physical/undersea.geojson 的 apple_* 属性和 unmatched.json 的 58 个名字仍是苹果标注数据的派生（量小），随 9 张栅格一起等用户对公开仓库的处置。
+处置：四个提交合入本地 main，**不推送**，直到用户定仓库公开/私有。界面会话从本地 main ff 取数据。
+
