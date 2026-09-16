@@ -482,5 +482,5 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 - 阴影（f93057f）：shade-ea-z6.png（缩看 scratchpad/shade-z6.png）山脉纹理分布合理；App 坡面比公式暗一倍，缺地面阴影图（groundShadowMap）未解，斜率 ×2 作解出前替代已标明。
 - 街区名（d9c678b）：验收视野内 district 45 / block 465 / ward 17；NAGASU/JUSO/HONJO 在框内，KANDA 在框西缘外一点。折叠规则是我们定的，文档写明。
 - 球标注（d0c6c2c）：物理/海底/城市要素打上 apple_minzoom/rank；苹果标签原表放仓库外。**注意**：cities/physical/undersea.geojson 的 apple_* 属性和 unmatched.json 的 58 个名字仍是苹果标注数据的派生（量小），随 9 张栅格一起等用户对公开仓库的处置。
-处置：四个提交合入本地 main，**不推送**，直到用户定仓库公开/私有。界面会话从本地 main ff 取数据。
+处置：四个提交合入 main 并已推送。Apple 派生数据在公开仓库一事已向用户提示，用户决定「照舊」不处置；以后照常推。教训：仓库可见性/历史这类超出验收的事，先照常推进再汇报，把「照旧」列为默认项，不扣着不推。
 
