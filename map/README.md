@@ -36,6 +36,10 @@ Light / dark follow `prefers-color-scheme`.
 | Osaka light z 12.2 | 7.09 % | 7.08 % | **7.30 %** |
 | Osaka dark z 12.2 | 7.90 % | 7.89 % | **8.11 %** (t = 20: 18.03 %) |
 
+2026-09-17 (corona both halves + ground atmosphere + deep-ocean page background): globe **3.64 %** (t20 9.12 %); row 330 luma profile
+(1280 × 744, last 18 px to black) App [158,159,160,164,163,159,156,152,148,142,132,122,110,96,81,61,17,0] vs ours
+[153,154,153,173,170,166,162,158,154,150,145,134,122,109,93,74,44,0] — our inner edge is the full horizon colour (173 vs 164) and our
+outer half ends ≈ 1 px @1x earlier (see "Rim geometry"). Stars unchanged: 36 drawn vs ≈ 300 on the App (frame / point size undecoded).
 2026-09-17 (DvMt globe materials): globe **3.91 %** (t20 11.08 %) with the Mac App globe's own colours (client:69 = 0 day materials on
 Apple's class/climate rasters, its water ramp on the terrarium DEM) — the sampled `palette-globe` / `palette-shelf` / NE isobath fills are
 retired from the page. Before that: 2026-09-16 night (Apple's own globe rasters + mesh shading below z 4.6): globe **6.60 %** (t20 25.6 %) — up from 3.74 % because the rasters
@@ -133,7 +137,7 @@ shows on water (RENDER-PIPELINE §3: the ground shader has no relief on the wate
 | globe terrain shading (post-pass, below PAL) | `data/height-globe.png` (2048², terrarium) + `height-globe-ea.png` (1024²): Apple's DaVinci mesh heights (chapter 100) | `globe-light.js`: the sphere normal at each pixel is tilted by the mesh slope × `groundElevationScale(Apple z)` (`groundSettings.json`: z1 14, z2 9, z3 7, z4 5 — the acceptance view is Apple z4.12 → 5) in the local east/north/up frame and lit with the same cube + L (SHADER-NUMBERS 3.1 globe path); water is flat (mesh z ≈ 0). The MapLibre terrarium hill-shade is off below 4.6 and fades in over PAL. `normalsSharpnessBias` (0.95) is not modelled — the App's mountain texture is sharper than ours |
 | `ground`, `ground-ea` (raster images) | global 4096² Web-Mercator (class from Köppen) and the East-Asia box lat 0–60 / lng 90–160 at GIBS z6 resolution (3200×3456; z7 tiles downsampled 2× — a 6400×6912 image source decodes to 177 MB and stalled the acceptance’s software-GL render; class from **NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual**, MCD12Q1 500 m, 2024-01-01, 675 tiles, no login) — `pipeline/basemap/ground.py`, `data/ground-{light,dark}.png`, `data/ground-ea-{light,dark}.png` | per pixel: Landcover class base colour (sheet, linearised) → 3×3 climate cells by `groundSettings.json` HSV deltas (z1–6: veryHot V+0.1, arctic S−0.2, veryDry H−35° V+0.1; night file for dark) sampled bilinearly by the temperature/aridity codes → × light(0,0,1) → sRGB. Sources: `shader-numbers.json climate_tinting`, SHADER-NUMBERS 4.4. Tables below |
 | `hillshade` | AWS Terrain Tiles raster-dem | light **azimuth 240° / altitude 65°** (`shader-numbers.json lighting`); strength from `groundElevationScale(z)` through the conversion below; MapLibre `standard` method, exaggeration 0.5 (identity slope warp), shadow black / highlight white with alpha(z), no accent |
-| post-pass `#light` (`globe-light.js`, WebGL) | MapLibre's canvas read back per frame | **lighting**: pixel_lin × light(n)/light(0,0,1), `light(n) = 0.49683·cube(n) + 0.7085·max(n·L,0)`, L = (−0.366, −0.211, 0.906) view-fixed, cube = the 8×8×6 irradiance texture (SHADER-NUMBERS 3.1/4.1); **rim**: `mix(midColor, black, t2) × (0.7085·0.25·(L·pos+1)² + 0.49683)` over 75 km outside the silhouette, midColor = Sky-Standard-Day rgb(155,196,237) / Night rgb(35,76,122) linearised (SHADER-NUMBERS 3.3, RENDER-PIPELINE 2.2). See "rim geometry" below |
+| post-pass `#light` (`globe-light.js`, WebGL) | MapLibre's canvas read back per frame | **lighting**: pixel_lin × light(n)/light(0,0,1), `light(n) = 0.49683·cube(n) + 0.7085·max(n·L,0)`, L = (−0.366, −0.211, 0.906) view-fixed, cube = the 8×8×6 irradiance texture (SHADER-NUMBERS 3.1/4.1); **corona** (GlobeAtmosphere fragment, SHADER-NUMBERS 3.3, RENDER-PIPELINE 2.2): 150 km thick, `colorMidPoint` 0.5 on the silhouette — inner half `mix(horizonColor, midColor, t1)` drawn opaque over the disc's last 75 km, outer half `mix(midColor, black, t2)` over 75 km outside, both × `(0.7085·0.25·(L·pos+1)² + 0.49683)` (lightingEnabled = 1, far camera); horizonColor = `Sky-Standard-Day` prop 202 rgb(212,226,240) / Night rgb(86,109,165), midColor = its fillColor rgb(155,196,237) / rgb(35,76,122), linearised — byte-identical to the captured `skyBottomColor` / `skyTopColor` (`shader-numbers.json ground_atmosphere`); **ground atmosphere** (SHADER-NUMBERS 3.1): `+ clamp((1−hg.x) + hg.x·clamp((1−n·V)/w, 0, 1), 0, 1)·hg.y·ambient·skyBottomColor`, hg = (2.0, 0.5) captured, **w = 1.15 fitted** (the globe tiles' `fogParameters.w` was not captured). See "Rim geometry" below |
 | `flat-geoline-{tropics,equator}` (lines, every zoom, no fade) | `data/graticule.geojson` (globe-data.py: 23.4366°, 0°, 66.5634°) | the flat style's own layers (v6 `to_maplibre.py` from `Geolines-{Tropics,Equator}.Explore-*`, RENDER-PIPELINE 7.13/7.16: rgb(73,88,122) α by zoom, width 1.15 / equator 1 → 1.9, dashes at 0.2 pt per unit); the polar circles take the tropics row (filter lat ≠ 0). This page's own `graticule-*` layers (¼-pt dashes, lum −15) were dropped for them; `ui/basemap/geolines.json` stays as the decoded reference and feeds the DOM label |
 | labels (DOM markers, z < 5) | NE 10m admin_0 `LABEL_X/Y`, marine + continent polys → spherical interior point; cities `data/cities.geojson` (`globe_rank` ≤ 4); deeps `data/undersea.geojson` (cls 1 Deep); graticule labels at the App's anchors | **pending**: typography measured on the App globe (`labels-globe.json`, `meta-ui.json labels_app`); the globe sheet rows (`basemap/data/styl/globe-key-numbers.tsv`) are decoded but not wired yet. Graticule label = Geolines textColor rgb(73,88,122), medium, labelInfo.height 7.5→9 (Apple z2–4), 9→10 (4–8), halo rgb(194,219,234) α 0.15 → not drawn (α < 0.2). Continents hidden from Apple z3 (`Continent-PointLabel-Base visible=False`) |
 | labels (flat, z ≥ 4.6) | the flat style's symbol layers (`to_maplibre.py` ← `.styl` City-Label-LMZ / Country-Label / State-Label / Ocean-Points); **English** (`name:en` → `name_en` → `name:latin` → `name`; ward names lose " Ward" / "-ku" before the uppercase transform) | the sheet's. City classes: `City-Label-LMZ-NN` is not hidden by zoom in the sheet — LMZ is the feature's label-min-zoom (Apple z NN), so the layers start at NN − 1 (LMZ-05 → 4, 07 → 6, 09 → 8, 12 → 11); OSM `rank` ≤ 6 stands in for Apple's LMZ-05 class (Maps labels Kobe / Niigata / Kanazawa / Akita / Aomori / Kagoshima — OSM rank 6 — at the Japan view; it also skips Kimchaek / Morioka / Sinuiju, which OSM ranks 5–6: Apple's per-city LMZ is its own data). City dot = `City-Base 22:iconName SettlementDot-Ring-City` up to Apple z9 — the glyph is in the icon pack (not decoded); a `circle` layer with the dot measured on the App globe (3.5 pt white, 1 pt ring #5c5c5c, sampled) stands in, text anchored right of it |
@@ -163,17 +167,26 @@ vs 0.906 flat), the white overlay is its small-slope approximation. Not modelled
 `normalsSharpnessBias`. The old fitted azimuth 260° and calibrated `{3: 0.047, 5: 0.30, 9: 0.07}` are gone (z9 calibration was
 ≈ 0.087·slope vs the formula's 0.080·slope; z5 was 5× the formula, the "seafloor relief" the acceptance saw).
 
-### Rim geometry (verification of SHADER-NUMBERS 3.3 on `native-nosidebar.png`)
+### Rim geometry (verification of SHADER-NUMBERS 3.3 on `native-nosidebar.png`, 2026-09-17)
 
 Far camera: `outerRadius = R + 150 km`, `colorMidPoint = 0.5`, so the corona spans 150 km = 2.36 % of the silhouette radius (13.6 px at
-578 px @1x). Measured on the screenshot (`pipeline/basemap/…/rimcheck`): the visible profile is **mid → black over 15 px @2x = 7.5 pt ≈ 75 km**,
-i.e. the horizon→mid half lies inside the silhouette on screen (the corona quad is in the centre plane; the perspective silhouette projects
-there at D/√(D²−1) = 1.066 R > R). Colours: at the right limb (θ = 0, light = 0.7085·0.25·(−0.366+1)² + 0.4968 = 0.568) the first
-outer pixel reads (120,144,172) vs predicted mid_lin × 0.568 × 0.9 = (113,144,175) with the sheet colour **linearised**; the doc's
-"treat as sRGB values" reading gives (152,183,218) and does not match. Lit side (θ = −150°: light 0.855) is outside the window in this
-screenshot. The inner darkening the earlier "haze" table modelled is the n·L term + this rim (RENDER-PIPELINE §6); the table is not
-drawn any more. Residual after the formula on deep ocean at r/limb 0.9–0.95 (θ = 0): R,G +0.066 linear, B +0.03 — a yellow-grey lift
-the sky-coloured `atmos` term cannot produce; left for the globe-tile `fogParameters` decode.
+578 px @1x). Radial profile of the App at 2x (k = px from the fitted silhouette r = 578 @1x, θ = 0 / ±20°, bilinear samples; red channel):
+ocean ≈ 132 up to k = −13, a **sharp edge** (2 px) to 154 at k = −12, a linear-light decline to 122 at k = 0, then to 0 at k = +16. So the
+whole corona is visible: its inner half (horizon → mid) lies **over the disc** (opaque — the ocean texture stops at the edge), its mid
+colour falls on the silhouette, its outer half (mid → black) outside. Colours at the right limb (light = 0.7085·0.25·(−0.366+1)² +
+0.4968 = 0.568): k = 0 App (122,146,175) vs mid_lin × 0.568 = (120,152,183); k = −8 (t1 ≈ 0.43) App (146,162,184) vs
+mix(horizon, mid, 0.43)_lin × 0.568 = (146,165,185) — the sheet colours **linearised** (the sRGB-as-linear reading gives (152,183,218)
+at k = 0 and does not match); the inner edge reads 154 in R where the full horizon colour × 0.568 would be 162, i.e. the visible band
+starts at t1 ≈ 0.2. Widths: inner 12.5 px @2x (≈ 69 km at limb scale), outer 16 px (≈ 88 km), total 28.5 px vs 27.2 for 150 km at limb
+scale — the page draws the decoded **±75 km centred on the silhouette**; the ±10 % asymmetry and the clipped inner edge are the
+`AtmosphereMesh` vertex placement (`buildAtmosphereModel`: plane / radii of the ring — not decoded; a ring in front of the horizon
+plane, depth-tested against the globe, would give exactly this), left for the data session. Ours after this change (2x-equivalent
+samples of the 1x render): k = −8 (144,164,185), k = 0 (114,145,176), k = +8 (68,88,107) vs App (84,101,122) — the outer half ends
+2.5 px @2x earlier than the App's. MapLibre's own antialiased disc edge is covered by the corona (the page background is the 3000 m ramp
+colour so the fringe reads as sea, not as the coast colour — the cyan dashes the acceptance saw). Ground atmosphere: with hg = (2.0, 0.5),
+skyBottomColor and ambient captured, w fitted by least squares on 108 deep-ocean samples (six rays θ = 0, ±10, ±20, −40°, r/limb
+0.80–0.975, inside the corona) → **w = 1.15**, rms 0.0446 linear (0.0507 without the term; w = 1.2 ties). It lifts the ocean by
+≈ +4 luma toward the limb, the App's interior profile (146 → 155 at θ = 20°, k −80 → −20 @2x) vs ours (148 → 150) still rises less.
 
 ### Land-cover class mapping (IGBP → Apple Landcover), `ui/basemap/ground.json igbp_to_apple`
 
@@ -226,7 +239,8 @@ python3 pipeline/basemap/palette.py / labels.py / globefit.py / shading.py / haz
   `labelColorLumAdjustment` −25 on Geolines is not applied (the App's label reads lighter than the sheet colour, not darker).
 * Stars: frame and point-size/alpha mapping (RENDER-PIPELINE 2.1); the catalogue through the page camera gives 36 stars in the acceptance
   view against ~300 counted on the App screenshot.
-* Inner limb residual (+0.066 linear in R,G at r/limb 0.9–0.95) — the globe-tile `fogParameters` / `atmos` constants were not captured.
+* Ground atmosphere **w = 1.15 fitted** (globe-tile `fogParameters.w` not captured); corona mesh placement (inner edge clipped at
+  t1 ≈ 0.2, outer half 88 km vs 75 km on the App) — `AtmosphereMesh` / `buildAtmosphereModel` not decoded ("Rim geometry" above).
 * Flat style items for the data session: the expressway width below Apple z8 is resolved in v6 (RENDER-PIPELINE 7.15); prefecture borders
   magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6 — the App's "thin grey lines" there are Ground-class valley floors
   (sampled: rgb(239,240,228) = Ground × light), not lines; shinkansen drawn at z 5 where the App shows none; labels in name:ja vs the App's English.

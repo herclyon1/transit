@@ -171,7 +171,9 @@
     // the sphere itself (background = ocean where nothing else is drawn): globe = DvMt water ramp at 0.5 m, flat = the
     // shader ramp's coast colour (the flat sheet's Water fill (141,220,247) is within 6/255 of it)
     const globeLand = pal === 'globe' ? lit([1, 3, 5].map(k => parseInt(dvmtLand(m, 'Ground').slice(k, k + 2), 16))) : null;
-    const bgColour = pal === 'globe' ? dvmtRampColour(m, 0.5) : (SN ? rampColour(m, 0.5) : meta.ocean_bands[0][m]);
+    // background = what shows where no raster covers: the antialiased disc edge (MapLibre) and gaps -> a deep-ocean colour
+    // (3000 m) so the limb pixels read as sea, not as the bright coast colour (the cyan jagged line the acceptance saw)
+    const bgColour = pal === 'globe' ? dvmtRampColour(m, 3000) : (SN ? rampColour(m, 0.5) : meta.ocean_bands[0][m]);
     layers.push({ id: 'bg', type: 'background', paint: { 'background-color': bgColour } });
     // ocean: DvMt globe ramp below PAL, the flat renderer's ramp from PAL (both color-relief on the terrarium DEM)
     if (pal === 'globe') layers.push(...oceanLayers(m, palOut, 'ocean-globe', dvmtRampColour));
@@ -622,12 +624,19 @@
   let post = null;
   try { post = (SN && window.__globeLight) ? window.__globeLight.create(lightCanvas, SN) : null; if (post) post.onHeightLoaded = () => map.triggerRepaint(); }
   catch (e) { (window.__errs = window.__errs || []).push(String(e && e.message || e)); console.error(e); }
-  // rim: GlobeAtmosphere far-camera constants (SHADER-NUMBERS 3.3 / 4.5): R = 6356752.31 m, maxHeight 150 km,
-  // colorMidpoint 0.5 -> the visible mid->black ramp spans 75 km at the limb's scale; midColor = Sky-Standard-Day fill
-  // (155,196,237) / Night (35,76,122), linearised (the sRGB-as-linear reading in the doc does not match the
-  // screenshot; the linearised one does within 7/255 — map/README.md); lighting on (h >= 2 * maxHeight)
-  const RIM = { R: 6356752.31, maxHeight: 150000, colorMidpoint: 0.5, mid: { light: [155, 196, 237], dark: [35, 76, 122] } };
-  const rimPx = r => r * (RIM.maxHeight * (1 - RIM.colorMidpoint)) / RIM.R;
+  // rim: GlobeAtmosphere far-camera constants (SHADER-NUMBERS 3.3 / 4.5, RENDER-PIPELINE 2.2): R = 6356752.31 m, corona
+  // thickness maxHeight 150 km, colorMidpoint 0.5; on screen the corona is centred on the silhouette (App limb profile at
+  // 2x, map/README.md "Rim geometry"): horizonColor -> midColor over the disc's last 75 km, midColor -> black over 75 km
+  // outside. Colours = the sheet's Sky-Standard-Day fillColor (155,196,237) / prop 202 (212,226,240), Night (35,76,122) /
+  // (86,109,165), linearised — byte-identical to the captured skyTopColor / skyBottomColor (shader-numbers.json
+  // ground_atmosphere); lighting on (h >= 2 * maxHeight)
+  const RIM = { R: 6356752.31, maxHeight: 150000, colorMidpoint: 0.5,
+                mid: { light: [155, 196, 237], dark: [35, 76, 122] }, horizon: { light: [212, 226, 240], dark: [86, 109, 165] } };
+  // fogParameters.w of the globe tiles (the only constant of the atmos term not captured — FITTED, map/README.md "Still
+  // sampled"): least squares on 108 deep-ocean samples along six rays of native-nosidebar.png at r/limb 0.80-0.975 (inside
+  // the corona's inner edge) vs our render without the term: rms 0.0446 linear at w = 1.15 (0.0507 without the term)
+  const ATMOS_W = 1.15;
+  const rimPx = r => r * (RIM.maxHeight * RIM.colorMidpoint) / RIM.R;      // half the corona (75 km) in CSS px at the limb
   function globeRadiusPx() {
     // bisection on the great-circle distance from the view centre to the first occluded point
     const tr = map.transform;
@@ -711,11 +720,15 @@
     if (!lastGlobe || fade <= 0) { if (post) post.clear(); drawStars(); return; }
     lightCanvas.style.width = w + 'px'; lightCanvas.style.height = h + 'px';
     if (post) {
-      const mid = RIM.mid[mode()].map(toLin);
+      const rim = { mid: RIM.mid[mode()].map(toLin), horizon: RIM.horizon[mode()].map(toLin), px: rimPx(g.r) };
       const c = map.getCenter();
       // Apple's ground shader on the globe: the sphere normal tilted by its mesh heights x groundElevationScale(Apple z),
       // fading out over PAL where the terrarium hill-shade takes over (globe-light.js)
-      post.draw(map.getCanvas(), g, dpr, mid, rimPx(g.r), 1, fade, GG ? { lat: c.lat, lng: c.lng, scale: groundElevationScale(map.getZoom()), amount: palFade() } : null);
+      // ground atmosphere (SHADER-NUMBERS 3.1 / 4.2): skyBottomColor + horizonGlowParameters captured; the globe tiles'
+      // fogParameters.w was not (MKMapView never enters the globe path) -> ATMOS_W fitted on the App's limb profile
+      const ga = SN.ground_atmosphere[mode()];
+      post.draw(map.getCanvas(), g, dpr, rim, 1, fade, GG ? { lat: c.lat, lng: c.lng, scale: groundElevationScale(map.getZoom()), amount: palFade() } : null,
+                { sky: ga.skyBottomColor_linear.slice(0, 3), hg: ga.horizonGlowParameters, w: ATMOS_W });
     } else {
       // fallback without WebGL: the measured rim profile (pending)
       const outer = ctx.createRadialGradient(g.cx, g.cy, g.r, g.cx, g.cy, g.r + OUTER.length / 2);
