@@ -405,3 +405,10 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 
 合并无冲突；hig.css §20 每条注 MATERIALS/NUMBERS 行。Sheet 的亮度重映射（luminance map）算法未解，白度暂用 Kit 填充顶着并注明待替换——符合规矩（写明采样/替代）。未在模拟器跑全量 kit-audit（它按规矩先问）。**放行合并**；批准它现在用模拟器跑 `kit-audit --phone` 并做 iOS 端同坐标材质采样：参照用模拟器里的 Apple Maps（iOS 27），同状态截图后对比。
 
+## 2026-09-16 20:57　验收 ui 4dc19a7（iPhone 对账 + iOS 材质同状态核对）　验收人：transit 验收（Fable）
+
+kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Mac 47 ✅。iOS 材质参照 = 模拟器 iOS 27 Maps 同状态 3x 截图（球 + 中档 Sheet）；干净对比只有压黑太空的点：Sheet (60,940)/(380,940) App #858585 / 我们 #858585 **Δ0**；44 圆钮压太空 #858585 同值。压海/压陆的点两边球底图不同（iOS Maps 球海是 ramp 饱和色 #0d99ec，我们 z<4.6 仍是 Mac 粉彩采样）只记录。
+**纠正**：iOS 26 的 Sheet 是 Liquid Glass regular（黑底 0.52 = §4 的 0.4+0.2·0.8），不是 MATERIALS.md §1 记的 CoreMaterial platformContent（那套 + Kit 顶替出 0.73）；已改按 §4 baseline，kit-audit 规则同步。
+**转数据会话**：a) 玻璃实际模糊远大于 BlurRadius 5（backdrop 采样缩放未记）；b) iOS Maps 标准球海色 = ramp 饱和色，Mac App 球的粉彩是 Mac 特有或大气项——对 z<4.6 待替换项有帮助。
+**结论**：放行合并。模拟器已释放。它提到「系统外观切成 light」——需确认是模拟器的外观不是 Mac 的。
+
