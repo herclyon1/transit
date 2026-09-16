@@ -3,7 +3,6 @@ background	bg	Landcover-Ground.Light-Elevated	land fill = background (OpenMapTil
 landcover-wood	fill	Landcover-Forest.Light-Explore	OpenMapTiles wood ~ Apple Forest (inferred)
 landcover-grass	fill	Landcover-Herbaceous.Light-Explore	grass/farmland ~ Herbaceous (inferred)
 landcover-sand	fill	Landcover-Sand.Light-Explore	
-landuse-residential	fill	ResidentialPolygon-TintBand.Explore-Light-Elevated	tint band only in Apple; used as flat fill (inferred)
 landuse-commercial	fill	CommercialPolygon.Elevated-Light	
 landuse-hospital	fill	HospitalPolygon.Elevated-Light	
 landuse-school	fill	UniversityPolygon.Elevated-Light	school ~ University (inferred)
@@ -38,13 +37,12 @@ label-village	place	City-Label-LMZ-12.Light	LMZ = label min zoom; village ~ LMZ-
 label-town	place	City-Label-LMZ-09.Light	town ~ LMZ-09 (inferred)
 label-city	place	City-Label-LMZ-07.Light	city rank>3 ~ LMZ-07 (inferred)
 label-city-large	place	City-Label-LMZ-05.Light	city rank<=3 ~ LMZ-05 (inferred)
-label-state	place	State-Label-Medium.Light	
+label-state	place	State-Label-Small.Light	Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)
 label-country	place	Country-Label-Medium.Light	
 background	bg	Landcover-Ground.Dark-Elevated	land fill = background (OpenMapTiles has no land polygon)
 landcover-wood	fill	Landcover-Forest.Dark-Explore	OpenMapTiles wood ~ Apple Forest (inferred)
 landcover-grass	fill	Landcover-Herbaceous.Dark-Explore	grass/farmland ~ Herbaceous (inferred)
 landcover-sand	fill	Landcover-Sand.Dark-Explore	
-landuse-residential	fill	ResidentialPolygon-TintBand.Explore-Dark-Elevated	tint band only in Apple; used as flat fill (inferred)
 landuse-commercial	fill	CommercialPolygon.Elevated-Dark	
 landuse-hospital	fill	HospitalPolygon.Elevated-Dark	
 landuse-school	fill	UniversityPolygon.Elevated-Dark	school ~ University (inferred)
@@ -79,5 +77,5 @@ label-village	place	City-Label-LMZ-12.Dark	LMZ = label min zoom; village ~ LMZ-1
 label-town	place	City-Label-LMZ-09.Dark	town ~ LMZ-09 (inferred)
 label-city	place	City-Label-LMZ-07.Dark	city rank>3 ~ LMZ-07 (inferred)
 label-city-large	place	City-Label-LMZ-05.Dark	city rank<=3 ~ LMZ-05 (inferred)
-label-state	place	State-Label-Medium.Dark	
+label-state	place	State-Label-Small.Dark	Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)
 label-country	place	Country-Label-Medium.Dark	
