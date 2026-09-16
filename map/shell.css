@@ -1,0 +1,28 @@
+/* Shell layout for the one map. Control sizes live in ui/hig.css (Kit-audited); only page layout and the
+   mode thumbnails are here. Sources: hig-kit/NUMBERS.md (macOS 27 / iOS 27 UI Kit), PLAN-MAC-LOOK §0 (Maps.app 1280×744). */
+html, body { background: #000; }
+/* the map is the whole page; the shell floats on it */
+#map { z-index: 1; }
+.bar { z-index: 20; }
+.sheet { z-index: 15; }
+
+/* Map Modes thumbnails (placeholder art; the tiles themselves are hig.css .modes/.mode/.thumb) */
+.mode .thumb.cost  { background-image: linear-gradient(135deg, #bfe98b, #6cc9fa); }
+.mode .thumb.live  { background-image: linear-gradient(135deg, #ff2929cc, #0a80ffcc 60%, #349539cc); }
+.mode .thumb.learn { background-image: linear-gradient(135deg, #e1eda7, #ffe9e1); }
+.mode .thumb.quiz  { background-image: linear-gradient(135deg, #f3f1e6, #c0a0b5); }
+
+/* iPhone: search capsule 44 in the sheet head (Kit Search 44 r1000; Maps sheet head) */
+.sheet .head .search { flex: 1 1 auto; }
+
+@media (min-width: 900px) and (pointer: fine) {
+  /* Mac sidebar top = the Maps.app search field: XL Search 170×36 at (15,47) (NUMBERS.md 「macOS 27 地图 App 的组合尺寸」;
+     PLAN-MAC-LOOK §0 #2). The head grows to 47 + 36 + 12 so the list starts under it like Maps' "Places". */
+  .sheet #list .head { height: 95px; min-height: 95px; padding: 47px 15px 12px 15px; align-items: flex-start; }
+  .sheet #list .head .search { flex: none; width: 170px; height: 36px; margin: 0; padding: 0 8px; border-radius: 999px;
+    background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.05); }   /* Kit Search Fields XL: white fill, 1 px black 5% outside border, icon slot at x 8 */
+  .sheet #list .head .search .sf { width: 13px; height: 13px; }
+  .sheet #list .head .search input { font-size: 1em; font-weight: 500; }   /* Medium 13 */
+  /* rows: Kit Sidebars › Medium 32; detail Medium 13 secondary (PLAN-MAC-LOOK §0 #6) */
+  .sheet .mrow .ico .sf { width: 16px; height: 16px; color: var(--ink-2); }
+}

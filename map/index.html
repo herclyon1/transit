@@ -1,17 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>Globe</title>
+<title>唯一地图</title>
+<!-- The one map (PLAN-ONE-MAP §4): globe -> flat MapLibre map underneath (globe.js), the Apple-shaped shell on top.
+     Shell components are the Kit-audited ones in ui/hig.css (KIT-MAP.md vocabulary), motion in ui/sheet.js;
+     every size traces to hig-kit/NUMBERS.md (iOS 27 / macOS 27 UI Kit) or the PLAN-MAC-LOOK §0 checklist (Maps.app measured).
+     Skeleton only: no data, no functions; card and rows carry placeholder text. -->
 <link rel="stylesheet" href="../vendor/maplibre-gl.css">
+<link rel="stylesheet" href="../ui/hig.css">
 <link rel="stylesheet" href="globe.css">
+<link rel="stylesheet" href="shell.css">
 </head>
 <body>
 <canvas id="stars"></canvas>
 <div id="map"></div>
+
+<!-- Right column (Mac: 36 glass buttons @ right 8 / top 8 / gap 6, hig.css 11b; iPhone: 44 round buttons top-right) -->
+<div class="bar" data-role="rail">
+  <a class="btn-glass glass" href="../index.html" aria-label="返回目录"><i class="sf" data-sf="chevron.left"></i><span class="lb">目录</span></a>
+  <span class="spacer"></span>
+  <button class="btn-glass glass" id="modeBtn" type="button" aria-label="地图模式" data-role="rail-modes"><i class="sf" data-sf="map"></i></button>
+  <button class="btn-glass glass" id="locBtn" type="button" aria-label="定位" disabled data-role="rail-locate"><i class="sf" data-sf="location"></i></button>
+</div>
+
+<!-- Sidebar (Mac 200 full height, white 78% blur 40 sat 1.8) / iPhone Sheet three detents (small 96 / medium 44% / large) -->
+<aside class="sheet glass split" id="sheet" aria-label="侧栏" data-role="sidebar">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div id="list">
+    <!-- top = search field: Kit XL Search 36 at (15,47) on Mac (Maps.app), Kit Search 44 capsule on iPhone -->
+    <div class="head"><label class="search" aria-label="搜索"><i class="sf" data-sf="magnifyingglass"></i><input type="search" placeholder="搜索城市、车站、県/市町村" autocomplete="off"></label></div>
+    <div class="body">
+      <h2 class="mh">城市</h2>
+      <div class="mlist" id="cityRows">
+        <button class="mrow" type="button" data-sel="osaka" aria-current="true"><span class="ico" aria-hidden="true">🇯🇵</span><span class="lab"><div class="name">大阪</div><div class="hint">日本 · JPY</div></span><span class="val">占位</span></button>
+        <button class="mrow" type="button" data-sel="tokyo"><span class="ico" aria-hidden="true">🇯🇵</span><span class="lab"><div class="name">东京</div><div class="hint">日本 · JPY</div></span><span class="val">占位</span></button>
+        <button class="mrow" type="button" data-sel="seoul"><span class="ico" aria-hidden="true">🇰🇷</span><span class="lab"><div class="name">首尔</div><div class="hint">韩国 · KRW</div></span><span class="val">占位</span></button>
+      </div>
+      <h2 class="mh">最近</h2>
+      <div class="mlist" id="recentRows">
+        <button class="mrow" type="button" data-sel="osaka-station"><span class="ico" aria-hidden="true"><i class="sf" data-sf="tram.fill"></i></span><span class="lab"><div class="name">大阪駅</div><div class="hint">大阪市北区</div></span></button>
+        <button class="mrow" type="button" data-sel="tokyo-station"><span class="ico" aria-hidden="true"><i class="sf" data-sf="tram.fill"></i></span><span class="lab"><div class="name">東京駅</div><div class="hint">千代田区</div></span></button>
+      </div>
+      <p class="mfoot">骨架页：列表和卡片内容为占位文字，数字待接数据</p>
+    </div>
+  </div>
+  <!-- Place card: Mac 320 floating at 208/8/8 (white 86% blur 40 sat 1.8, r20); iPhone = stacked sheet -->
+  <div id="card" hidden data-role="card">
+    <div class="grab"><i></i></div>
+    <div class="head">
+      <span class="slot"><button class="btn-glass fill" id="cShare" type="button" aria-label="分享"><i class="sf" data-sf="arrow.up.right"></i></button></span>
+      <div class="tt"><div class="t-title2" id="cName">大阪駅</div><div class="t-sub dim" id="cMeta">大阪市北区 · 占位</div></div>
+      <span class="slot"><button class="btn-glass fill" id="cClose" type="button" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span>
+    </div>
+    <div class="body" id="cBody">
+      <!-- main button 288×45 (Maps place card), secondary 288×36 -->
+      <div class="actions">
+        <a class="btn" href="#" onclick="return false"><i class="sf" data-sf="figure.walk"></i><span>通勤范围</span></a>
+        <button class="btn" type="button"><i class="sf" data-sf="doc.text"></i><span>来源</span></button>
+      </div>
+      <h2 class="mh">详情</h2>
+      <div class="mcard kv">
+        <div class="r"><span class="k">到梅田</span><span class="v">— 分</span></div>
+        <div class="r"><span class="k">单间月租</span><span class="v">— 万円</span></div>
+        <div class="r"><span class="k">通勤月票</span><span class="v">— 円</span></div>
+        <div class="r"><span class="k">来源</span><span class="v dim">无出处</span></div>
+      </div>
+      <p class="mfoot">占位：段落按模式装（PLAN-ONE-MAP §4）</p>
+      <!-- card bottom toolbar: 288×36 capsule at bottom 8, three 28 round buttons -->
+      <div class="cardbar" role="toolbar" aria-label="卡片工具条">
+        <button type="button" aria-label="换算成工时"><i class="sf" data-sf="clock"></i></button>
+        <button type="button" aria-label="来源"><i class="sf" data-sf="doc.text"></i></button>
+        <button type="button" aria-label="钉住"><i class="sf" data-sf="pin"></i></button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Map Modes: Mac Popover 320 (r20) / iPhone Sheet. Mode tiles single-select; white box with left checkboxes (Mac 16 r5.5) for overlays; source line -->
+<aside class="sheet glass opt" id="optSheet" hidden aria-label="地图模式" data-role="modes-popover">
+  <div class="grab" aria-hidden="true"><i></i></div>
+  <div class="head"><span class="slot"></span><div class="tt"><div class="t-head">地图模式</div></div><span class="slot"><button class="btn-glass fill" id="optClose" type="button" aria-label="关闭"><i class="sf" data-sf="xmark"></i></button></span></div>
+  <div class="body">
+    <div class="modes" role="radiogroup" aria-label="模式">
+      <button type="button" class="mode" role="radio" data-mode="cost" aria-checked="true"><i class="thumb cost"></i><span>购买力</span></button>
+      <button type="button" class="mode" role="radio" data-mode="live" aria-checked="false"><i class="thumb live"></i><span>找住处</span></button>
+      <button type="button" class="mode" role="radio" data-mode="learn" aria-checked="false"><i class="thumb learn"></i><span>学习</span></button>
+      <button type="button" class="mode" role="radio" data-mode="quiz" aria-checked="false"><i class="thumb quiz"></i><span>考我</span></button>
+    </div>
+    <div class="mcard modeopts">
+      <label class="r"><span class="cb"><input type="checkbox" checked><i></i></span><span class="k">车站点</span></label>
+      <label class="r"><span class="cb"><input type="checkbox"><i></i></span><span class="k">面覆盖</span></label>
+      <label class="r"><span class="cb"><input type="checkbox"><i></i></span><span class="k">作者标注 <span class="dim">无出处</span></span></label>
+    </div>
+    <p class="mfoot">Natural Earth · Köppen-Geiger (Beck 2023) · AWS Terrain Tiles · OpenFreeMap · OpenStreetMap</p>
+  </div>
+</aside>
+
+<script>window.__errs=[];addEventListener("error",e=>__errs.push(String(e.message||e)));addEventListener("unhandledrejection",e=>__errs.push("promise: "+String(e.reason&&e.reason.message||e.reason)));</script>
+<script src="../ui/sheet.js"></script>
+<script src="../ui/press.js"></script>
+<script src="../ui/hig.js"></script>
 <script src="../vendor/maplibre-gl.js"></script>
+<script src="../ui/shell.js"></script>
 <script src="globe.js"></script>
+<script src="shell.js"></script>
+<script src="../ui/kitaudit.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@ import subprocess, sys, time, os, re, json, socket, base64, struct, urllib.reque
 HERE=os.path.dirname(os.path.abspath(__file__)); REPO=os.path.abspath(os.path.join(HERE,'..','..')); OUT=os.path.join(REPO,'.accept'); os.makedirs(OUT,exist_ok=True)
 BASE=os.environ.get('ACCEPT_BASE','http://127.0.0.1:8788')
 CHROME=os.environ.get('CHROME','/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-PAGES={'index':'/index.html','cost':'/cost/index.html','osaka':'/osaka/index.html','japan':'/japan/index.html','quiz':'/quiz/index.html'}
+PAGES={'index':'/index.html','cost':'/cost/index.html','osaka':'/osaka/index.html','japan':'/japan/index.html','quiz':'/quiz/index.html','map':'/map/index.html'}
 args=[a for a in sys.argv[1:] if not a.startswith('--')]; flags=[a for a in sys.argv[1:] if a.startswith('--')]
 pages={k:v for k,v in PAGES.items() if not args or k in args}
 do_mac='--phone' not in flags; do_phone='--mac' not in flags

@@ -19,6 +19,23 @@ Hash extras (after `&`): `pal=flat|globe`, `fov=<deg>`, `padr/padl/padt/padb=<px
 
 Light / dark follow `prefers-color-scheme`.
 
+## Shell (PLAN-ONE-MAP §4 skeleton, 2026-09-16)
+
+`map/index.html` now carries the Apple-shaped shell over the map, built from the Kit-audited components in
+`ui/hig.css` (KIT-MAP vocabulary) with motion from `ui/sheet.js`; `map/shell.js` wires it, `map/shell.css` only lays it out.
+No data, no functions — rows and the card are placeholder text.
+
+* Mac (1280×744, `#3.12/30.14/124.45&sel=osaka-station`): sidebar 200 full height (white 78 % blur 40 sat 1.8), XL search 170×36 at (15,47),
+  section headers 32 Bold 11 grey, rows Medium 32 two-line, `目录 ›` grey 11 at (16, bottom 13); right column 36 glass buttons at right 8 / top 8 / gap 6
+  (modes, locate, ±); place card 320 at 208/8/8 (white 86 %): 28 round buttons at 12, title 22 Bold centred 48 from the top, main button 288×45,
+  section header 15 Semibold, key-value rows 48 with hairlines, bottom capsule toolbar 36 with 3×28; Map Modes popover 320 r20 from the toolbar button:
+  tile radio + white box with left checkboxes 16 r5.5 (new `.cb` in hig.css §18) + source line.
+* iPhone: Kit Sheet three detents (small 96 / medium 44 % / large) with the search capsule 44 in the head, right-top 44 round buttons, stacked card sheet,
+  Map Modes as a sheet; `.cb` becomes the 22 multi-select circle (iOS has no square checkbox).
+* Hash: `#z/lat/lng&m=<mode>&sel=<id>` (globe.js keeps the extras; `m` and `sel` restore on load).
+* kit-audit: `ACCEPT_BASE=http://127.0.0.1:8792 CDP_PORT=9400 python3 pipeline/ui/kit-audit.py --mac map` → KIT-OK (28 ✅); the audit opens the card and
+  the modes popover first (kitaudit.js exercise). Phone run needs the simulator.
+
 ## Globe → flat hand-over (z 5–6)
 
 One MapLibre style holds both worlds. `projection.type` is the expression `['interpolate', ['linear'], ['zoom'], 5, 'vertical-perspective', 6, 'mercator']` (MapLibre's own `globe` preset does the same at 11→12), so the sphere flattens exactly while the globe layers (bathymetry, shelf, land, climate, graticule, DOM labels, limb/shading canvases) fade out with `interpolate zoom 5→1, 6→0` and the data session's flat style (`map/style-flat-{light,dark}.json`, OpenFreeMap vector tiles, `pipeline/basemap/styl/to_maplibre.py`) fades in with the mirror ramp; its layers get `minzoom ≥ 5` and ids prefixed `flat-`. The hill-shade stays through both (calibrated at z 3 and z 9) and is inserted above the flat fills, below its lines and labels. Flat labels use the style's Noto glyphs (MapLibre symbol layers cannot use the system font); the globe's DOM labels stay `-apple-system`.
