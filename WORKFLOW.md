@@ -4,7 +4,14 @@
 
 ## 一、目录与会话根（都在 ~/Money 下，只有一个 Git 仓库 = herclyon1/transit）
 
-**三个会话的根目录一律选 `~/Money/transit`**（记忆按根目录分，根相同才共用 `~/.claude/projects/-Users-herclyon-Money-transit/memory/` 那 24 条记忆）。干活会话开起来第一件事：用 EnterWorktree 切进自己的树（`path` 给下表路径），之后所有改动都落在自己的树、自己的分支。
+**三个会话的根目录一律选 `~/Money/transit`**（记忆按根目录分，根相同才共用 `~/.claude/projects/-Users-herclyon-Money-transit/memory/` 那 25 条记忆）。干活会话开起来第一件事：用 EnterWorktree 切进自己的树（`path` 给下表路径），之后所有改动都落在自己的树、自己的分支。
+
+兜底（换机器要重做）：万一会话直接以 transit-ui / transit-data 为根开了，记忆目录已做成软链指向同一份：
+```
+mkdir -p ~/.claude/projects/-Users-herclyon-Money-transit-{ui,data}
+ln -s ../-Users-herclyon-Money-transit/memory ~/.claude/projects/-Users-herclyon-Money-transit-ui/memory
+ln -s ../-Users-herclyon-Money-transit/memory ~/.claude/projects/-Users-herclyon-Money-transit-data/memory
+```
 
 | 目录 | 分支 | 谁用 | 干什么 |
 |---|---|---|---|
@@ -25,7 +32,9 @@
 | 数据 `transit-data` | 8793 | 9500 |
 | 验收 `transit` | 8791 | 9600 |
 
-起法：在自己的树里 `python3 pipeline/rangeserver.py <端口> &`。
+起法：在自己的树里 `python3 pipeline/rangeserver.py <端口> &`。`/accept` 的结果落在起服务那棵树的 `.accept/`。
+kit-audit.py / accept.py / webclips.py 的 `ACCEPT_BASE` 默认还是 8788，三棵树各自跑时**必须显式给** `ACCEPT_BASE=http://127.0.0.1:<自己的端口>`。
+pipeline 里 29 个脚本假定「从仓库根运行」，指的是所在那棵树的根，在自己的树里 `python3 pipeline/…` 照常。
 
 ## 三、共享资源：模拟器与 Maps 窗口
 
@@ -40,11 +49,13 @@
 
 1. 干活会话在自己的树、自己的分支上提交；提交信息里的数字必须是 computed style 实测值。推自己的分支：`git push origin ui`（或 data）。
 2. 做完一个可验收的单元，**直接发消息给验收会话**：「ui 分支 <提交号> 待验收：改了什么、要看哪个状态（哪页、Mac 还是手机、什么缩放）、对照 Maps 的哪个状态」。不经用户。
-3. 验收会话：`git fetch && git log main..origin/ui`。**参照图必须自己开 Maps 同状态截，不认干活方发的图**（HANDOFF-UI 第四节，用户定）。，在 `transit` 树里 `git merge --no-commit origin/ui` 看，起 8791 预览，按 PLAN-MAC-LOOK 第 0 节一致清单自己开 Maps 同状态截图、跑 kit-audit 两端 + `?accept=1`。
+3. 验收会话：三棵树共享同一个 .git，不用 fetch，直接 `git log main..ui`（origin 只是备份）。**参照图必须自己开 Maps 同状态截，不认干活方发的图**（HANDOFF-UI 第四节，用户定）。，在 `transit` 树里 `git merge --no-commit ui` 看，起 8791 预览，按 PLAN-MAC-LOOK 第 0 节一致清单自己开 Maps 同状态截图、跑 kit-audit 两端 + `?accept=1`。
 4. 结论写 ACCEPT-LOG.md，**并排图存进 `accept/<日期>-<提交号>.png`**，企业微信推给用户。放行才 `git merge` 进 main 并推；打回就 `git merge --abort`，**发消息告诉干活会话**哪几项不过、依据是什么。
 5. 干活会话每天开工先 `git merge main`（把别人已放行的拿过来），不要把 main 合进自己没验收的东西再推 main。
-6. **main 不接受直接开发提交**。只有验收会话的合并、ACCEPT-LOG、本页。方案文档（PLAN-*、IDEAS）谁写谁提交到自己分支，随下次验收一起进 main。
-7. 用户是最终验收人：只看 ACCEPT-LOG 和并排图，抽查；效果差追责验收会话。
+6. **main 不接受直接开发提交**。只有验收会话的合并、ACCEPT-LOG、本页。方案文档（PLAN-*、IDEAS）谁写谁提交到自己分支，随下次验收一起进 main。豁免两样：GitHub Action rates.yml 每天 UTC 16:20 由 rates-bot 直接推 main（只动 `cost/data/rates.json`，data 分支别自己改这个文件）；gitignore 的 `data/raw` 缓存。
+7. **数据也走验收，不豁免**（reach.json、tiers、cities/*.json、pass_student.json 直接决定用户看到的分钟数和价格）。数据验收不看截图，看四条，写进 ACCEPT-LOG：① 来源 URL 和口径写在文件或 README 里；② 验收抽 3 个值回原始页面对得上；③ `pipeline/cost/validate.py` 过；④ 关键计数和上一版比得出合理解释（如站数、25 分钟可达数）。
+8. 验收单位是「一个功能单元」（如「reach.json 重建」算一次），不是一个提交一次。
+9. 用户是最终验收人：只看 ACCEPT-LOG 和并排图，抽查；效果差追责验收会话。
 
 ## 五、备份
 
