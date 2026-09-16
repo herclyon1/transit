@@ -154,7 +154,7 @@ Antarctica, no southern South America) — the rest stays alpha 0.
 | Apple data | `VECTOR_SPR_STANDARD` chapters 10/11/13 (labels), 20 (strings), 141 (placement) [vmp4]. |
 | look | globe sheet [styl `globe-default-20207.styl` → `basemap/data/styl/globe-key-numbers.tsv`]: continent `Continent-PointLabel-*` 9→14 pt, `%$default,semibold,width=80`, rgb(237,232,235) α0.98, halo rgb(22,0,8) α0.85, hidden from z3; country `Country-Label-*` bold-G3 width=80, 9–20 pt by zoom, halo rgb(248,248,246) α0.8, hidden z0–3; ocean `Ocean-Label-Base` bold italic 12 pt, globe colour rgb(170,224,235); undersea `PhysicalFeature-Undersea-*`; `labelColorLumAdjustment` (463/464/470/471) applied after. |
 | our rebuild | DOM markers with **`labels-globe.json` (sampled typography)** [ui]. |
-| gap / fix | typography and colours are decoded (the tsv); the sampled file remains only as a check. Placement (which labels win) is the App's collision solver, not a sheet number — an accepted difference. |
+| gap / fix | typography and colours are decoded (the tsv); the sampled file remains only as a check. Placement (which labels win) is the App's collision solver, not a sheet number — an accepted difference. **Which features** the App names at z2–6 is now read from its own tiles (`basemap/data/globe/apple-globe-labels.{tsv,md}`, `pipeline/basemap/spr_labels.m` + `apple_labels.py`): per feature the class, subtype, rank (= min zoom, attribute 85), position or label path; stamped as `apple_minzoom` / `apple_type` / `apple_rank` on `map/data/{physical,undersea,cities}.geojson` (41 / 38 / 191 matched), and the resolved globe-sheet styles per class in `basemap/data/globe/globe-label-styles.tsv` (`styl/globe_label_styles.py`). |
 
 ### 2.9 Dark mode of the globe
 
