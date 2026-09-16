@@ -40,6 +40,7 @@ Off by default and measured to be wrong for labels: the ward text sampled on the
 (90,94,94) although the style carries labelColorLumAdjustment -15, and dark wards went white with +10.
 """
 import colorsys
+import re
 import json
 import sys
 from pathlib import Path
@@ -122,8 +123,8 @@ MAPPING = [
     ('label-ward', 'place', 'place', ['in', 'class', 'suburb', 'quarter', 'neighbourhood'], 'SubMuni-Ward.{m}', 'suburb/quarter ~ 区 ward (inferred)'),
     ('label-village', 'place', 'place', ['in', 'class', 'village', 'hamlet'], 'City-Label-LMZ-12.{m}', 'LMZ = label min zoom; village ~ LMZ-12 (inferred)'),
     ('label-town', 'place', 'place', ['in', 'class', 'town'], 'City-Label-LMZ-09.{m}', 'town ~ LMZ-09 (inferred)'),
-    ('label-city', 'place', 'place', ['all', ['==', 'class', 'city'], ['>', 'rank', 3]], 'City-Label-LMZ-07.{m}', 'city rank>3 ~ LMZ-07 (inferred)'),
-    ('label-city-large', 'place', 'place', ['all', ['==', 'class', 'city'], ['<=', 'rank', 3]], 'City-Label-LMZ-05.{m}', 'city rank<=3 ~ LMZ-05 (inferred)'),
+    ('label-city', 'place', 'place', ['all', ['==', 'class', 'city'], ['>', 'rank', 6]], 'City-Label-LMZ-07.{m}', 'city rank>6 ~ LMZ-07 (inferred: at the Japan view, Apple z6.1, Maps labels OSM rank 1-6 cities — Kobe, Niigata, Kanazawa, Akita, Aomori, Kagoshima are rank 6)'),
+    ('label-city-large', 'place', 'place', ['all', ['==', 'class', 'city'], ['<=', 'rank', 6]], 'City-Label-LMZ-05.{m}', 'city rank<=6 ~ LMZ-05 (inferred, see label-city)'),
     ('label-state', 'place', 'place', ['in', 'class', 'state', 'province'], 'State-Label-Small.{m}', 'Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)'),
     ('label-country', 'place', 'place', ['in', 'class', 'country'], 'Country-Label-Medium.{m}', ''),
 ]
@@ -282,6 +283,13 @@ class Gen:
         # labelTextVisibility(33) is NOT used as a gate: freeways carry 33=0 at every zoom yet Maps labels them
         # (HANSHIN EXPRESSWAY ... in the acceptance render), so 0 does not mean hidden.
         lo = max(lo or 0, ROAD_LABEL_MINZOOM.get(lid, 0)) or None
+        # City-Label-LMZ-NN: the sheet does not hide these styles by zoom — LMZ is the label-min-zoom the feature
+        # carries (Apple z NN), and the style-matching tree picks the variant by it. So the layer starts at NN + ZOFF:
+        # LMZ-05 -> 4, LMZ-07 -> 6, LMZ-09 -> 8, LMZ-12 -> 11 (acceptance 2026-09-16 evening: the Japan view at MapLibre
+        # z5.1 showed every OSM city; Maps shows only the LMZ-05 class there).
+        m_lmz = re.search(r'-LMZ-(\d+)', style)
+        if m_lmz:
+            lo = max(lo or 0, int(m_lmz.group(1)) + ZOFF)
         if lo:
             base['minzoom'] = lo
         if hi is not None and hi < 24:
@@ -374,10 +382,21 @@ class Gen:
                 layout.update({'text-transform': 'uppercase', 'text-letter-spacing': 0.1})   # Maps sets Latin ward/state/country names in caps with tracking
             if lid == 'label-ward':
                 layout['text-field'] = WARD_NAME
+            city_dot = kind == 'place' and m_lmz and lid.startswith('label-city')
+            if city_dot:
+                # City-Base 22:iconName = SettlementDot-Ring-City (Solid for capitals) up to Apple z9, then "" (no dot);
+                # the icon glyph is in the icon pack (not decoded) — a circle layer stands in with the dot measured on the
+                # App globe (map/meta-ui.json labels_app.city_marker: 3.5 pt white disc, 1 pt ring #5c5c5c, 4 pt gap),
+                # pending the icon pack. Text sits right of the dot.
+                layout.update({'text-anchor': 'left', 'text-offset': [0.55, 0], 'text-justify': 'left'})
             paint = {'text-color': tc or '#000'}
             if hc:
                 paint.update({'text-halo-color': hc, 'text-halo-width': 1.5})
-            return [{**base, 'type': 'symbol', 'layout': layout, 'paint': paint}]
+            out = [{**base, 'type': 'symbol', 'layout': layout, 'paint': paint}]
+            if city_dot:
+                out.insert(0, {**base, 'id': lid.replace('label-', 'dot-'), 'type': 'circle', 'maxzoom': max(0.0, 9 + ZOFF),
+                               'paint': {'circle-radius': 1.75, 'circle-color': '#ffffff', 'circle-stroke-width': 1, 'circle-stroke-color': '#5c5c5c'}})
+            return out
         return []
 
     def lowzoom_expressway(self, layers, base, layout):

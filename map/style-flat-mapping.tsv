@@ -39,8 +39,8 @@ label-water-ocean	watername	Ocean-Points.Large-Explore-Light-Elevated	Large size
 label-ward	place	SubMuni-Ward.Light	suburb/quarter ~ 区 ward (inferred)
 label-village	place	City-Label-LMZ-12.Light	LMZ = label min zoom; village ~ LMZ-12 (inferred)
 label-town	place	City-Label-LMZ-09.Light	town ~ LMZ-09 (inferred)
-label-city	place	City-Label-LMZ-07.Light	city rank>3 ~ LMZ-07 (inferred)
-label-city-large	place	City-Label-LMZ-05.Light	city rank<=3 ~ LMZ-05 (inferred)
+label-city	place	City-Label-LMZ-07.Light	city rank>6 ~ LMZ-07 (inferred: at the Japan view, Apple z6.1, Maps labels OSM rank 1-6 cities — Kobe, Niigata, Kanazawa, Akita, Aomori, Kagoshima are rank 6)
+label-city-large	place	City-Label-LMZ-05.Light	city rank<=6 ~ LMZ-05 (inferred, see label-city)
 label-state	place	State-Label-Small.Light	Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)
 label-country	place	Country-Label-Medium.Light	
 background	bg	Landcover-Ground.Dark-Elevated	land fill = background (OpenMapTiles has no land polygon)
@@ -83,7 +83,7 @@ label-water-ocean	watername	Ocean-Points.Large-Explore-Dark-Elevated	Large size 
 label-ward	place	SubMuni-Ward.Dark	suburb/quarter ~ 区 ward (inferred)
 label-village	place	City-Label-LMZ-12.Dark	LMZ = label min zoom; village ~ LMZ-12 (inferred)
 label-town	place	City-Label-LMZ-09.Dark	town ~ LMZ-09 (inferred)
-label-city	place	City-Label-LMZ-07.Dark	city rank>3 ~ LMZ-07 (inferred)
-label-city-large	place	City-Label-LMZ-05.Dark	city rank<=3 ~ LMZ-05 (inferred)
+label-city	place	City-Label-LMZ-07.Dark	city rank>6 ~ LMZ-07 (inferred: at the Japan view, Apple z6.1, Maps labels OSM rank 1-6 cities — Kobe, Niigata, Kanazawa, Akita, Aomori, Kagoshima are rank 6)
+label-city-large	place	City-Label-LMZ-05.Dark	city rank<=6 ~ LMZ-05 (inferred, see label-city)
 label-state	place	State-Label-Small.Dark	Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)
 label-country	place	Country-Label-Medium.Dark	
