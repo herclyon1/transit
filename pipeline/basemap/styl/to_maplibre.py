@@ -79,7 +79,13 @@ MAPPING = [
     ('road-trunk', 'road', 'transportation', ['in', 'class', 'trunk'], 'Line-MajorHighway.{m}-JPN', 'trunk ~ MajorHighway (inferred)'),
     ('road-motorway', 'road', 'transportation', ['in', 'class', 'motorway'], 'Line-FreewayControlled.{m}-JPN', 'motorway ~ FreewayControlled'),
     ('road-kokudo', 'road', 'transportation_name', ['all', ['in', ['get', 'class'], ['literal', ['trunk', 'primary', 'secondary', 'tertiary']]], ['==', ['slice', ['coalesce', ['get', 'name'], ''], 0, 2], '国道']], 'Line-Highway.{m}-JPN-ClassOne', '国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)'),
-    ('rail', 'rail', 'transportation', ['all', ['==', 'class', 'rail'], ['!=', 'brunnel', 'tunnel']], 'Railway-Japan.{m}', ''),
+    # railways come from tiles/transit.pmtiles (国土数値情報 N02-24 RailroadSection, one centre line per route section,
+    # pipeline/japan/build_transit2.py) instead of OpenMapTiles rail, which carries one line per OSM track (double
+    # track = two lines, yards/sidings too) and so drew 2-3 px where Maps draws one 1 px line.  cls = shinkansen/jr/
+    # private/sector3/subway/tram/mono/cable/public/other (N02 鉄道区分 x 事業者種別); subway/cable/mono are not drawn
+    # on Maps' standard map, so they are left out.
+    ('rail', 'rail', 'rail', ['in', 'cls', 'jr', 'private', 'sector3', 'public', 'other', 'tram'], 'Railway-Japan.{m}', 'N02 centre lines via transit.pmtiles; surface railways'),
+    ('rail-shinkansen', 'rail', 'rail', ['==', 'cls', 'shinkansen'], 'Railway-Japan.Bullet-{m}', 'N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)'),
     ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity (inferred)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
     ('label-road-minor', 'roadname', 'transportation_name', ['in', 'class', 'minor', 'service', 'tertiary'], 'Line-LocalRoad-MinorRoad.{m}-JPN', 'road label numbers come from the road style itself'),
@@ -211,7 +217,7 @@ class Gen:
         if style not in r.by_name:
             self.note(lid, kind, style, 'MISSING style')
             return []
-        base = {'id': lid, 'source': 'openmaptiles', 'source-layer': src}
+        base = {'id': lid, 'source': 'transit' if kind == 'rail' else 'openmaptiles', 'source-layer': src}
         if flt:
             base['filter'] = flt
         lo, hi = self.zoom_range(style)
@@ -255,6 +261,9 @@ class Gen:
                 out.append({**base, 'type': 'line', 'layout': layout, 'paint': paint})
             if kind == 'rail' and out:
                 out[-1]['layout'] = {'line-join': 'round'}
+                if lid == 'rail':
+                    for l in out:
+                        l.setdefault('minzoom', 6.0)      # N02 has every branch line; Maps hides surface rail below Apple z7
             return out
         if kind == 'boundary':
             fc = self.color_expr(style, 1, 470)
@@ -323,7 +332,9 @@ class Gen:
                 'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': Path(self.src).name,
                              'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum, 'elevated_variants': ELEVATED,
                              'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
-                'sources': {'openmaptiles': {'type': 'vector', 'url': TILES}},
+                'sources': {'openmaptiles': {'type': 'vector', 'url': TILES},
+                            'transit': {'type': 'vector', 'url': 'pmtiles://../tiles/transit.pmtiles', 'minzoom': 4, 'maxzoom': 14,
+                                        'attribution': '鉄道: 国土数値情報 N02-24'}},
                 'glyphs': GLYPHS, 'layers': pre + roads_casing + roads_fill + bounds + labels}
 
 

@@ -23,7 +23,8 @@ road-primary	road	Line-Highway.Light-JPN-Elevated	primary ~ Highway (inferred)
 road-trunk	road	Line-MajorHighway.Light-JPN-Elevated	trunk ~ MajorHighway (inferred)
 road-motorway	road	Line-FreewayControlled.Light-JPN-Elevated	motorway ~ FreewayControlled
 road-kokudo	road	Line-Highway.Light-JPN-ClassOne-Elevated	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
-rail	rail	Railway-Japan.Light	
+rail	rail	Railway-Japan.Light	N02 centre lines via transit.pmtiles; surface railways
+rail-shinkansen	rail	Railway-Japan.Bullet-Light	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
 boundary-state	boundary	Border-State.Explore-Light	12 = opacity (inferred)
 boundary-country	boundary	Border-Country.Non-Disputed-Light	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Light-JPN-Elevated	road label numbers come from the road style itself
@@ -63,7 +64,8 @@ road-primary	road	Line-Highway.Dark-JPN-Elevated	primary ~ Highway (inferred)
 road-trunk	road	Line-MajorHighway.Dark-JPN-Elevated	trunk ~ MajorHighway (inferred)
 road-motorway	road	Line-FreewayControlled.Dark-JPN-Elevated	motorway ~ FreewayControlled
 road-kokudo	road	Line-Highway.Dark-JPN-ClassOne	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
-rail	rail	Railway-Japan.Dark	
+rail	rail	Railway-Japan.Dark	N02 centre lines via transit.pmtiles; surface railways
+rail-shinkansen	rail	Railway-Japan.Bullet-Dark	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
 boundary-state	boundary	Border-State.Explore-Dark	12 = opacity (inferred)
 boundary-country	boundary	Border-Country.Non-Disputed-Dark	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Dark-JPN-Elevated	road label numbers come from the road style itself
