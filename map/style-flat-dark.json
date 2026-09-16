@@ -13,6 +13,13 @@
   "openmaptiles": {
    "type": "vector",
    "url": "https://tiles.openfreemap.org/planet"
+  },
+  "transit": {
+   "type": "vector",
+   "url": "pmtiles://../tiles/transit.pmtiles",
+   "minzoom": 4,
+   "maxzoom": 14,
+   "attribution": "鉄道: 国土数値情報 N02-24"
   }
  },
  "glyphs": "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf",
@@ -1493,20 +1500,17 @@
   },
   {
    "id": "rail-casing",
-   "source": "openmaptiles",
-   "source-layer": "transportation",
+   "source": "transit",
+   "source-layer": "rail",
    "filter": [
-    "all",
-    [
-     "==",
-     "class",
-     "rail"
-    ],
-    [
-     "!=",
-     "brunnel",
-     "tunnel"
-    ]
+    "in",
+    "cls",
+    "jr",
+    "private",
+    "sector3",
+    "public",
+    "other",
+    "tram"
    ],
    "type": "line",
    "layout": {
@@ -1544,24 +1548,22 @@
      2.29,
      9.14
     ]
-   }
+   },
+   "minzoom": 6.0
   },
   {
    "id": "rail",
-   "source": "openmaptiles",
-   "source-layer": "transportation",
+   "source": "transit",
+   "source-layer": "rail",
    "filter": [
-    "all",
-    [
-     "==",
-     "class",
-     "rail"
-    ],
-    [
-     "!=",
-     "brunnel",
-     "tunnel"
-    ]
+    "in",
+    "cls",
+    "jr",
+    "private",
+    "sector3",
+    "public",
+    "other",
+    "tram"
    ],
    "type": "line",
    "layout": {
@@ -1578,6 +1580,84 @@
      "rgba(16,23,33,1)"
     ],
     "line-width": 1.0
+   },
+   "minzoom": 6.0
+  },
+  {
+   "id": "rail-shinkansen-casing",
+   "source": "transit",
+   "source-layer": "rail",
+   "filter": [
+    "==",
+    "cls",
+    "shinkansen"
+   ],
+   "type": "line",
+   "layout": {
+    "line-cap": "round",
+    "line-join": "round"
+   },
+   "paint": {
+    "line-color": "rgba(28,125,250,1)",
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     1.0,
+     5.0,
+     2.0,
+     7.0,
+     2.25,
+     12.0,
+     2.0,
+     14.0,
+     2.5,
+     15.0,
+     3.0
+    ]
+   }
+  },
+  {
+   "id": "rail-shinkansen",
+   "source": "transit",
+   "source-layer": "rail",
+   "filter": [
+    "==",
+    "cls",
+    "shinkansen"
+   ],
+   "type": "line",
+   "layout": {
+    "line-join": "round"
+   },
+   "paint": {
+    "line-color": [
+     "step",
+     [
+      "zoom"
+     ],
+     "rgba(28,125,250,1)",
+     5.0,
+     "rgba(36,48,62,1)"
+    ],
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     1.0,
+     7.0,
+     1.25,
+     12.0,
+     1.0,
+     15.0,
+     1.5
+    ],
+    "line-dasharray": [
+     48.0,
+     48.0
+    ]
    }
   },
   {
