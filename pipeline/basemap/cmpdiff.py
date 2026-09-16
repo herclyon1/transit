@@ -3,7 +3,7 @@
 
     python3 pipeline/basemap/cmpdiff.py <ours.png 1280x744> <app.png 2560x1488 or 1280x744> [out-diff.png]
 
-Both images at 1280x744 (the App screenshot is box-downsampled 2x), the App toolbar column
+Both images at 1280x744 (LANCZOS resample, as the acceptance session does), the App toolbar column
 x > 1228 masked, per-pixel max(|dR|,|dG|,|dB|) > 40 counted. Same recipe as the acceptance
 session's cmp2-diff.png (2026-09-16).
 """
@@ -15,9 +15,9 @@ from PIL import Image
 ours = Image.open(sys.argv[1]).convert("RGB")
 app = Image.open(sys.argv[2]).convert("RGB")
 if ours.size != (1280, 744):
-    ours = ours.resize((1280, 744), Image.BOX)
+    ours = ours.resize((1280, 744), Image.LANCZOS)
 if app.size != (1280, 744):
-    app = app.resize((1280, 744), Image.BOX)
+    app = app.resize((1280, 744), Image.LANCZOS)
 a = np.asarray(ours).astype(int); b = np.asarray(app).astype(int)
 d = np.abs(a - b).max(2)
 mask = np.ones(d.shape, bool); mask[:, 1228:] = False

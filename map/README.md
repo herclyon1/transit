@@ -15,7 +15,13 @@ Nothing from the old pages (`shell.js`, `hig.css`) is loaded.
 
 Hash extras (after `&`): `pal=flat|globe`, `fov=<deg>`, `padr/padl/padt/padb=<px>`. Note `native.png` (sidebar open) has its camera centre at lng 116.15 because the App keeps the *visible* centre at the URL's 125 — a view aligned to it is not aligned to the sidebar-closed screenshot.
 
+| `#ll=34.69,135.50&spn=0.09,0.15` | **Osaka acceptance view** (flat, z ≈ 12.2) vs `~/Money/styl-work/snap-osaka12{,-dark}.png` | diff>40: 18.7 % light, 13.5 % dark (2026-09-16; labels are Japanese here, English in the snapshots) |
+
 Light / dark follow `prefers-color-scheme`.
+
+## Globe → flat hand-over (z 5–6)
+
+One MapLibre style holds both worlds. `projection.type` is the expression `['interpolate', ['linear'], ['zoom'], 5, 'vertical-perspective', 6, 'mercator']` (MapLibre's own `globe` preset does the same at 11→12), so the sphere flattens exactly while the globe layers (bathymetry, shelf, land, climate, graticule, DOM labels, limb/shading canvases) fade out with `interpolate zoom 5→1, 6→0` and the data session's flat style (`map/style-flat-{light,dark}.json`, OpenFreeMap vector tiles, `pipeline/basemap/styl/to_maplibre.py`) fades in with the mirror ramp; its layers get `minzoom ≥ 5` and ids prefixed `flat-`. The hill-shade stays through both (calibrated at z 3 and z 9) and is inserted above the flat fills, below its lines and labels. Flat labels use the style's Noto glyphs (MapLibre symbol layers cannot use the system font); the globe's DOM labels stay `-apple-system`.
 
 ## Layers (bottom → top) and where every number comes from
 
