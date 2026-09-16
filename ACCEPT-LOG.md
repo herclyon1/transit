@@ -435,3 +435,11 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 - §4：盒宽 ≈ BlurOpacity0·BlurRadius/scale pt。我自跑 pipeline/materials/limb_blur.py native.png：第 700/900 行 10–90% 上升 34/36 pt → 盒 42/45 pt，与弹窗/侧栏 40 pt 相符；CSS 等价 σ=0.31·盒 → 弹窗/侧栏 blur(12.5px)，原 10px 偏锐。文档标明「按实测关系」，CPU 侧因子未追到根。
 - RENDER-PIPELINE §6：iOS 球海 = ramp 第 247 项，Mac 粉彩为 Mac 专有项，嫌疑 needsAtmosphere/fog 向 skyBottomColor 混合——已并入我派的「球陆地地形」单一起解。
 **结论**：放行合并。
+
+## 2026-09-16 21:25　验收 ui f2d87bc（单元 1：标注语言）　验收人：transit 验收（Fable）
+
+先看（scratchpad/accf2/cmp-{osaka,japan2}-side.png）：大阪 z12 全英文——Osaka、NISHIYODOGAWA/YODOGAWA/KITA/JOTO/HIGASHINARI 等区名大写去 Ward 后缀、Himejima Street、Chuo-odori；日本视野 NORTH/SOUTH KOREA、JAPAN、Seoul、Tokyo、Sea of Japan 全英文。**语言项闭合**。
+再量：大阪亮 7.02%；日本亮 7.91%。注意：日本视野 settle 16 s 时拍到平面样式（65.77%，球层叠加未到），settle 30 s 才是 7.91%——叠加层加载慢，记为待查（是否只是 headless）。
+逐元素仍开：街区名一级（NAGASU/KANDA）瓦片 z12 无 quarter/neighbourhood；铁路线名英文需 rail 层 name_en；城市点标注 App 字大带圆点、我们偏小且过密（Sinuiju/Kimchaek/Hachinohe 一堆小字 App 没有）；地形/海沟归数据会话单。
+生成器 to_maplibre.py 由界面会话改了 NAME/WARD_NAME 两处，数据会话改前先 merge main。
+**结论**：放行合并。
