@@ -72,7 +72,9 @@ uint(样式位数) 样式数
 | fixedPoint12_4 / 8_8 | 16 | 大端 16 位 ÷16 / ÷256 |
 | fixedPoint5_3 / 6_2 / 0To1 / 0to2_55 / 8_0 | 8 | ÷8 / ÷4 / ÷255 / ÷100 / 原值 |
 | string | 变长 | kind 3，字节数 varint 在前，含 NUL；长度 0 = 空串 |
-| dashPattern / labelInfo / traffic / iconGradient / animationCurve / genericShieldStyle | 变长或定长 | **未解**，当 raw 跳过（球文件里 labelInfo 40 位、dashPattern 32 位、traffic 4 个） |
+| labelInfo（172） | 变长 | 7 个「1 位有无 + 值」：height(f32)、heightCurve(3 位)、heightCurveLimit(f32)、haloSize、fontExpansion、spacing、arrowHeight(各 f32)。**height 就是标注字号 pt**（Country-Label-Extra-Large 13→16→20，Continent 9→14→20），1122 处，比属性 21 常用 |
+| traffic（90–93 = Stopped/Slow/Medium/Fast） | 变长 | 12 个「1 位有无 + 值」：visibility、fillColor、secondaryColor、pillMiddleLength、pillSpacing、secondaryWidth、width、minWidth、secondaryMinWidth、maxWidth、secondaryMaxWidth、gradientMaskColor；球文件只出现 fillColor（暗红 (104,23,37)/红 (239,56,57)/黄 (255,201,23)/蓝 (17,151,255)） |
+| dashPattern / iconGradient / animationCurve / genericShieldStyle | 变长或定长 | 未解，当 raw 跳过 |
 
 实证：Route-Line-Base-Light 属性 1 = rgb(0,162,255)（苹果路线蓝）；Ocean-Label-Color-Dark-Base 属性 24 z2–4 = rgb(62,116,182)，验收会话量具实测暗色海洋标注 #3d73b6=(61,115,182)，差 1。
 
@@ -87,7 +89,7 @@ uint(样式位数) 样式数
 两套编号：**.styl 流里的编号（0–496）≠ 代码里的 `gss::PropertyID`**，中间有一张 u16 重映射表（27 版 VectorKit `0x1c354a768`，流 2→PropertyID 93）。验收会话的 `prop_callers.txt` 键是 PropertyID，已按重映射转成流编号（`callers_by_stream_id.tsv`），26.1 调用点的取值类型与 27 解码表 0 冲突。
 
 已定名 144 个（`gss::defaultValueForKey<PropertyID,T>` 在进程内逐编号调用，返回常量地址对符号名 `kDefaultXxx`）：25 haloColor、32 labelSpacing、42 arrowSpacing、45/46 arrow 色、70–74 margin、85/86 建筑色、87 trafficWidth、100–103 标签朝向/布局/图标样式、106/107 图标字形/光晕色、125 iconSize、187/188 文字位置、189–195 盾牌间距、221 curbColor、253/255/256 亮度、463–492 各 LumAdjustment、485/486 halo…
-推出来的 36 个在 `inferred_names.py`，每个带证据和把握度（high/mid/low）。high 的：**1 fillColor**（802 处，路线蓝在这）、**2 strokeColor**、**3 width**（getRoadWidths/halfWidthAtZoom 读它）、**6 strokeWidth**（描边/套边宽）、**21 fontSize**（uint，8/12/13/18/20 pt）、**22 iconName**、**23 fontSpec**（"%$default,semibold,width=90"）、**24 textColor**（LabelCoreStyleGroup 读，暗色海洋标注对上实测）、**25 textHaloColor**、**55/57 coastlineGlowWidth/Color**（只在 Coastline-Glow-*，亮色 rgb(135,221,251) 对验收渲染的近岸浅水带 #88d4f5）、**203 gridColor**（只在 Grid-GlobeHybrid，混合球的经纬网）、**172 labelInfo**（复合：标签高度/高度曲线/光晕/字距/箭头高，未拆）。mid/low 的：0 visibleFlag、13/15 渲染顺序、18 textSizeScale、9/29/127 字号参数、41 arrowSize、90–93 traffic 复合、210–212 route line scale 等。
+推出来的 36 个在 `inferred_names.py`，每个带证据和把握度（high/mid/low）。high 的：**1 fillColor**（802 处，路线蓝在这）、**2 strokeColor**、**3 width**（getRoadWidths/halfWidthAtZoom 读它）、**6 strokeWidth**（描边/套边宽）、**21 fontSize**（uint，8/12/13/18/20 pt）、**22 iconName**、**23 fontSpec**（"%$default,semibold,width=90"）、**24 textColor**（LabelCoreStyleGroup 读，暗色海洋标注对上实测）、**25 textHaloColor**、**55/57 coastlineGlowWidth/Color**（只在 Coastline-Glow-*，亮色 rgb(135,221,251) 对验收渲染的近岸浅水带 #88d4f5）、**203 gridColor**（只在 Grid-GlobeHybrid，混合球的经纬网）、**172 labelInfo**（已拆，height = 标注字号）、**0 visible**（False 即隐藏：国界 z0–2、洲名 z3+）、**90–93 trafficStopped/Slow/Medium/Fast**。mid/low 的：13/15 渲染顺序、18 textSizeScale、9/29/127 字号参数、41 arrowSize、210–212 route line scale 等。客户端属性 37 = IncreaseContrast（=1 时白天标注变纯黑+白光晕、字号 ×1.25）。
 要素属性编号 1 起对 VectorKit 的名字表（1 LineType、4 Country 8 位、5 FeatureType、6 PoiType 9 位，位数吻合）；客户端属性 0x10000+ 只前三个对得上（MapMode 3 位、TimePeriod 1 位、SelectionState 2 位），后面枚举有洞，表里保留原编号。
 
 ## 六、球的底色不在这里（要点）
@@ -100,7 +102,7 @@ uint(样式位数) 样式数
 ## 七、没做完的
 
 1. 30 章匹配树：位流字段顺序已知（端链数位数、端链长位数、属性取值数位数、节点索引位数、子节点数位数、块尺寸位数 → 端链 → 节点：是否终端、样式索引/端链索引、未定义节点、子节点[属性值→子索引]），没写解码器。不解它也能用：样式名本身就是语义。
-2. 复合类型 labelInfo/traffic/dashPattern/iconGradient 的内部布局。
+2. 复合类型 dashPattern/iconGradient 的内部布局（labelInfo、traffic 已拆）。
 3. 10 章后半（road sign height 等 float 字段宽度有一处对不上）。
 4. 属性定名剩 ~90 个无线索编号：验收会话的 `unnamed_globe_props.txt`（样式名×次数）可继续推；终审是改值渲染（验收会话在做）。
 5. 值得不值得再投：格式层面**不用再投**（已到数值）；定名再投 1–2 小时能把常用 30 个定死；球底色不要在样式表上花时间。

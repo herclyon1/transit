@@ -189,7 +189,32 @@ def _decode_value(r, dec, nbits):
             return ''
         raw = bytes(r.byte() for _ in range(nbits // 8))
         return raw.split(b'\0', 1)[0].decode('latin1')
-    if dec in ('dashPattern', 'labelInfo', 'traffic', 'iconGradient', 'animationCurve', 'genericShieldStyle') or nbits > 64:
+    if dec == 'labelInfo':
+        # gss::labelInfoDecoder: 7 presence-flagged fields (26.1 VectorKit_11.mm:8415); byte length varint precedes
+        out = {}
+        for name, kind in (('height', 'f'), ('heightCurve', 'e3'), ('heightCurveLimit', 'f'), ('haloSize', 'f'),
+                           ('fontExpansion', 'f'), ('spacing', 'f'), ('arrowHeight', 'f')):
+            if r.flag():
+                out[name] = r.float32() if kind == 'f' else r.bits(3)
+        return out
+    if dec == 'traffic':
+        # gss::trafficDecoder: presence-flagged fields in the order of its parse messages; widths beyond the
+        # colours/floats are guesses (visibility = 1 bit) — values are only kept when they fit inside nbits
+        start = r.tell(); out = {}
+        for name, kind in (('visibility', 'b'), ('fillColor', 'c'), ('secondaryColor', 'c'), ('pillMiddleLength', 'f'),
+                           ('pillSpacing', 'f'), ('secondaryWidth', 'f'), ('width', 'f'), ('minWidth', 'f'),
+                           ('secondaryMinWidth', 'f'), ('maxWidth', 'f'), ('secondaryMaxWidth', 'f'), ('gradientMaskColor', 'c')):
+            if r.tell() - start >= nbits:
+                break
+            if r.flag():
+                if kind == 'b': out[name] = r.bits(1)
+                elif kind == 'c':
+                    a, b, g, rr = (r.byte() for _ in range(4)); out[name] = {'rgba': [rr, g, b, a]}
+                else: out[name] = r.float32()
+        if r.tell() - start > nbits:
+            return {'raw_bits': nbits, 'partial': out}
+        return out
+    if dec in ('dashPattern', 'iconGradient', 'animationCurve', 'genericShieldStyle') or nbits > 64:
         return {'raw_bits': nbits}                         # composite types: layout not decoded yet
     return r.uint(nbits)                                   # uint32 and every enum-like decoder read readUIntBits(nbits)
 
@@ -281,8 +306,11 @@ def attr_name(aid):
     """
     if aid >= 0x10000:
         i = aid - 0x10000
-        return f'client:{CLIENT_ATTRS[i]}' if i < 3 else f'client:{i}'
-    return f'feature:{FEATURE_ATTRS[aid - 1]}' if 0 < aid <= len(FEATURE_ATTRS) else f'feature:{aid}'
+        if i == 37:      # =1 switches labels to pure black on white by day (Continent-PointLabel-Base) and x1.25 label heights
+            return 'client:37(~IncreaseContrast)'
+        return f'client:{i}(~{CLIENT_ATTRS[i]})' if i < 3 else f'client:{i}'
+    # '~Name' = tentative: the string-table order matches the bit widths for the first ids but is unverified beyond
+    return f'feature:{aid}(~{FEATURE_ATTRS[aid - 1]})' if 0 < aid <= 6 else f'feature:{aid}'
 
 
 def prop_label(pid):

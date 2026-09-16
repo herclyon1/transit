@@ -12,7 +12,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from inferred_names import name_of
 
-KEEP = {str(i): name_of(i) for i in (1, 2, 3, 6, 21, 23, 24, 25, 18, 29, 32, 55, 57, 203)}
+KEEP = {str(i): name_of(i) for i in (1, 2, 3, 6, 21, 23, 24, 25, 18, 29, 32, 55, 57, 203, 172, 90, 91, 92, 93)}
 GLOBE_WORDS = ('globe', 'ocean', 'continent', 'country', 'border', 'coastline', 'rivers', 'lake', 'physicalfeature', 'capitalcity', 'city-', 'state')
 
 

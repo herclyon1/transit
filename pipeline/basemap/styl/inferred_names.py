@@ -6,7 +6,7 @@ and the values seen there.  confidence: 'high' = two independent pieces of evide
 from property_names import PROPS
 
 INFERRED = {
-    0:   ('visibleFlag', 'mid', 'bool read by layoutElevatedPolygonMeshes/PolylineOverlayStyle/CoastlineRenderLayer; set#1 {0:False} is what borders use for z0-2 (hidden at globe zoom); polarity unverified'),
+    0:   ('visible', 'high', 'bool read by layoutElevatedPolygonMeshes/PolylineOverlayStyle/CoastlineRenderLayer; False hides: borders z0-2 {0:False}, Continent-PointLabel-Base z3-24 {0:False} (continent names vanish when zoomed in)'),
     1:   ('fillColor', 'high', 'main colour of 802 sets; Route-Line-Base-Light = rgb(0,162,255) Apple route blue; PropertyID 92 sits right before kDefaultStrokeColor (93)'),
     2:   ('strokeColor', 'high', 'kDefaultStrokeColor'),
     3:   ('width', 'high', 'float read by md::getRoadWidths, RouteLineSection::halfWidthAtZoom; Rivers-Line-Base 1.5..4.0 by zoom'),
@@ -31,13 +31,13 @@ INFERRED = {
     58:  ('sizeRange', 'low', 'floatPair [0,2] on PhysicalFeature-LMZ styles'),
     60:  ('patternBits', 'low', 'uint64 on Border-* / Railway-* styles; bit mask, probably dash/tick pattern'),
     61:  ('patternBits2', 'low', 'uint64 on Railway-Base'),
-    90:  ('trafficStyleA', 'mid', 'trafficDecoder composite (4 of them: 90-93) only in Traffic-* styles; layout not decoded'),
-    91:  ('trafficStyleB', 'mid', 'see 90'),
-    92:  ('trafficStyleC', 'mid', 'see 90'),
-    93:  ('trafficStyleD', 'mid', 'see 90'),
+    90:  ('trafficStopped', 'high', 'trafficDecoder composite; Traffic-on-route-Light-Base fillColor rgb(104,23,37) dark red; order Stopped/Slow/Medium/Fast = kDefaultTrafficFillColorStopped/Slow/Medium/Fast'),
+    91:  ('trafficSlow', 'high', 'fillColor rgb(239,56,57) red'),
+    92:  ('trafficMedium', 'high', 'fillColor rgb(255,201,23) yellow'),
+    93:  ('trafficFast', 'high', 'fillColor rgb(17,151,255) blue on-route / visibility flag set'),
     127: ('minFontSize', 'mid', 'float read by FontSizeInfo::update; 9/10 pt'),
     168: ('iconColor', 'mid', 'rgba8 on POI-Route-OnRouteWaypointIcon-*'),
-    172: ('labelInfo', 'high', 'labelInfoDecoder composite: presence-flagged label height / height curve / halo size / font expansion / spacing / arrow height; layout not decoded'),
+    172: ('labelInfo', 'high', 'labelInfoDecoder composite, decoded: {height (pt), heightCurve, heightCurveLimit, haloSize, fontExpansion, spacing, arrowHeight}; height is the label text size per zoom band (Country-Label-Extra-Large 13->16->20 pt)'),
     203: ('gridColor', 'high', 'rgba8 only in Grid-GlobeHybrid (graticule on the hybrid globe)'),
     210: ('routeLineScaleA', 'mid', 'Route-Line-Scale only; read by RouteLineSection::halfWidthAtZoom'),
     211: ('routeLineScaleB', 'mid', 'Route-Line-Scale only'),
