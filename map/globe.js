@@ -137,10 +137,11 @@
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: true },
   });
   if (region) {
-    map.once('load', () => {
-      // MKMapSnapshotter fits the whole region into the view (the limiting axis decides the zoom)
-      map.fitBounds(region, { padding: 0, animate: false });
-    });
+    // MKMapSnapshotter fits the whole region into the view (the limiting axis decides the zoom);
+    // refit on resize so a viewport set after load (screenshot tools) does not leave a stale camera
+    const refit = () => map.fitBounds(region, { padding: 0, animate: false });
+    map.once('load', refit);
+    addEventListener('resize', () => setTimeout(refit, 50));
   }
 
   // ---- labels: DOM markers in the system font --------------------------------------------
@@ -193,12 +194,23 @@
   // (checked every frame — MapLibre's own opacityWhenCovered lags the mercator->globe switch, which
   // put VIETNAM / INDONESIA in space on 2026-09-16), and not colliding with a more important label.
   function inRange(it, z) { return z >= (it.p.min_label ?? 0) && z <= (it.p.max_label ?? 99); }
+  // great-circle distance (deg) between two lng/lat points
+  function gcDeg(a, b) {
+    const la1 = a.lat * Math.PI / 180, la2 = b.lat * Math.PI / 180, dl = (b.lng - a.lng) * Math.PI / 180;
+    return Math.acos(Math.max(-1, Math.min(1, Math.sin(la1) * Math.sin(la2) + Math.cos(la1) * Math.cos(la2) * Math.cos(dl)))) * 180 / Math.PI;
+  }
   function visibleOnGlobe(it) {
+    const ll = it.mk.getLngLat();
+    const g = lastGlobe;   // disc geometry + visible-cap angle from drawLimb()
+    // geometry first: a label further from the view centre than the horizon is behind the globe,
+    // whatever MapLibre's occlusion/projection say for that point (they are not trusted near the limb)
+    if (g && g.capDeg && gcDeg(map.getCenter(), ll) > g.capDeg - 1) return false;
     const tr = map.transform;
-    if (tr.isLocationOccluded && tr.isLocationOccluded(it.mk.getLngLat())) return false;
-    const pt = map.project(it.mk.getLngLat());
+    if (tr.isLocationOccluded && tr.isLocationOccluded(ll)) return false;
+    const pt = map.project(ll);
+    if (!Number.isFinite(pt.x) || !Number.isFinite(pt.y)) return false;
     if (!(pt.x > -200 && pt.x < innerWidth + 200 && pt.y > -200 && pt.y < innerHeight + 200)) return false;
-    const g = lastGlobe;   // disc geometry from drawLimb(); the whole label box must sit inside the disc
+    // the whole label box must sit inside the projected disc
     if (g && Math.hypot(pt.x - g.cx, pt.y - g.cy) + Math.hypot(it.w || 0, it.h || 0) / 2 > g.r - 2) return false;
     return true;
   }
@@ -224,6 +236,9 @@
     const kept = [];
     for (const it of shown) {
       const c = map.project(it.mk.getLngLat());
+      if (!(it.w > 0 && it.w < 400 && it.h > 0)) {   // size not measured yet (or absurd): measure now
+        const r = it.el.getBoundingClientRect(); it.w = r.width; it.h = r.height;
+      }
       const box = { l: c.x - it.w / 2 - 2, t: c.y - it.h / 2 - 2, r: c.x + it.w / 2 + 2, b: c.y + it.h / 2 + 2 };
       it.collided = kept.some(k => box.l < k.r && box.r > k.l && box.t < k.b && box.b > k.t);
       if (!it.collided) kept.push(box);
@@ -233,7 +248,8 @@
   map.on('load', updateLabels);
   map.on('zoomend', updateLabels);
   map.on('moveend', () => { syncFront(); collide(); });
-  map.on('idle', () => { syncFront(); collide(); });   // after every source finished loading and rendering
+  map.on('idle', () => { syncFront(); collide(); setTimeout(() => { syncFront(); collide(); }, 800); });   // after every source finished loading and rendering
+  addEventListener('resize', () => setTimeout(() => { syncFront(); collide(); }, 300));
   map.on('render', syncFront);
 
   // ---- limb glow: the Maps App's atmosphere rim, replayed from the measured radial profile ------
@@ -262,7 +278,7 @@
       if (tr.isLocationOccluded(pt(mid))) hi = mid; else lo = mid;
     }
     const p = map.project(pt(lo)), cpx = map.project(c);
-    return { r: Math.hypot(p.x - cpx.x, p.y - cpx.y), cx: cpx.x, cy: cpx.y };
+    return { r: Math.hypot(p.x - cpx.x, p.y - cpx.y), cx: cpx.x, cy: cpx.y, capDeg: lo };
   }
   let lastGlobe = null;   // {r, cx, cy} of the projected disc, refreshed every frame by drawLimb()
   function drawLimb() {
