@@ -496,3 +496,7 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 自读 tiles/transit.pmtiles 大阪 z12 片（12/3589/1626）：rail 层键 cls/n/op/name_en/op_en，23 条线全有英文（Hankyu Kyoto Line、Osaka Metro Midosuji Line、JR Osaka Loop Line、Sanyo Shinkansen…），新干线 op_en 空如约。602 线对上 556，46 条市电/缆车无 OSM 英文名，文档写明措辞是 OSM 的不是 Apple 的。**结论**：放行合并。
 另：数据会话把 DvMt 球栅格拷回仓库的动作被它的权限分类器拦下，它请我或用户代拷——不代做（权限绕过），且已无必要：界面 5f99911 在浏览器里用类栅格 + DvMt 色重着色，不需要那四张图。
 
+## 2026-09-17 23:22　验收 data 16cbf29（东亚 z3 类索引栅格 + 气候码）　验收人：transit 验收（Fable）
+
+自读 map/data/spr-class-globe-ea.png：2048² 灰度，值 0–7、11（Ground…IceSnow、Water），255 无瓦片；伪彩看（scratchpad/class-ea.png）海陆轮廓、贝加尔湖、华北平原耕地、日本列岛城区块分布合理。climate-temp/arid-globe-ea 256² 码值 1–6 / 0–5。**结论**：放行合并**；界面接高分辨率表。
+
