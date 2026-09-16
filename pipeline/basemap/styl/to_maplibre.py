@@ -100,7 +100,7 @@ MAPPING = [
     ('rail-shinkansen', 'rail', 'rail', ['==', 'cls', 'shinkansen'], 'Railway-Japan.Bullet-{m}', 'N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)'),
     ('geoline-tropics', 'geoline', 'graticule', ['!=', ['get', 'lat'], 0], 'Geolines-Tropics.{e}-Elevated', 'tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)'),
     ('geoline-equator', 'geoline', 'graticule', ['==', ['get', 'lat'], 0], 'Geolines-Equator.{e}-Elevated', 'equator, same source'),
-    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', 'alpha from fillColor; prop 12 not used (v6)'),
+    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity 0.25 (inferred, confirmed by the z6 crop in v6.1)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
     ('label-road-minor', 'roadname', 'transportation_name', ['in', 'class', 'minor', 'service', 'tertiary'], 'Line-LocalRoad-MinorRoad.{m}-JPN', 'road label numbers come from the road style itself'),
     ('label-road-secondary', 'roadname', 'transportation_name', ['in', 'class', 'secondary'], 'Line-ConnectorRoad.{m}-JPN', ''),
@@ -316,7 +316,9 @@ class Gen:
             layout = {'line-cap': 'round', 'line-join': 'round'}
             if sc and (self.r.value_at(style, 6, 14) or 0) > 0:
                 paint = {'line-color': sc, 'line-width': self.width_expr(style, casing=True)}
-                d = self.dash(style, 280, casing=True)
+                # 280 dashes the stroke alone (rail ticks); 279 dashes the whole line, so the casing takes it too
+                # (v6.1: the shinkansen's blue 0.5 px outline is dashed with its white core, giving Apple's pale blue dashes)
+                d = self.dash(style, 280, casing=True) or self.dash(style, 279, casing=True)
                 if d:
                     paint['line-dasharray'] = d
                 out.append({**base, 'id': lid + '-casing', 'type': 'line', 'layout': layout, 'paint': paint})
@@ -337,8 +339,11 @@ class Gen:
         if kind == 'boundary':
             fc = self.color_expr(style, 1, 470)
             paint = {'line-color': fc, 'line-width': self.width_expr(style)}
-            # prop 12 (0.25 on borders) was applied as line-opacity up to v5; the Japan-view side-by-side (v6) shows Apple's
-            # prefecture borders at the fillColor's own alpha (0.7-0.8), so 12 is not an opacity and is no longer used.
+            # prop 12 (0.25 on borders) as line-opacity: v6 dropped it, v6.1 restores it — the App's z6 prefecture borders
+            # are a pale mauve (crop compared 2026-09-16 evening), i.e. rgb(179,0,158) at 0.8 x 0.25, not at 0.8.
+            op = self.r.value_at(style, 12, 12)
+            if op is not None:
+                paint['line-opacity'] = op
             d = self.dash(style, 279)
             if d:
                 paint['line-dasharray'] = d

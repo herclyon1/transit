@@ -253,7 +253,7 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD`/`ROADS` lines with rail class; Japan → `Railway-Japan*` [vmp4, styl]. |
 | look [styl] | `Railway-Japan.Light`: colour `#71a7ff`, width 1.0 at every zoom, stroke 0.25 (≤ z8) → 0.375 (z10–13) → 0.5 (z14+); **tick pattern (prop 280, inherited `Railway-Base`) by zoom: [4,8] ≤ z10, [4,12] z10–12, [4,16] z12–14, [4,20] z14–16, [4,24] z16–17, [4,32] z17+** (the base row's [4,48] is only the fallback); `Railway-Japan.Bullet-Light` (新幹線): white core 1.0–1.25 px with `#006fff` stroke 0.5, dash (prop 279, `Japan-Railway-Bullet-Base`) [28,28] z6–8, [36,36] z8–13, [48,48] z13–15, [84,84] z15–16, [108,108] z16–17, [128,128] z17+. Dash unit: **≈ 0.2 pt per unit on screen** (three measurements, §7.16; = ¼ sheet-pt × the Mac's 0.77), so z12 rail ticks ≈ 0.8 pt on, 3.2 pt off. |
-| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width), shinkansen dash from the 279 rows [`to_maplibre.py`]. |
+| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width); v6.1: the 279 dash (whole line) also dashes the casing — the shinkansen's 0.5 px blue outline is dashed together with its white core, which is the App's pale blue dashed line at z6–8 (a solid 2 px blue casing under a dashed core read as heavy blue dashes) [`to_maplibre.py`]. |
 | gap | closed in v6 (`to_maplibre.py`): dashes per zoom band from the 279/280 rows, value × 0.2 pt ÷ line-width, as `step` expressions; z12 ticks 0.8 pt / 3.2 pt. |
 
 ### 7.7 Buildings
@@ -271,8 +271,8 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD` lines with admin level [vmp4]. |
 | look [styl] | country `Border-Country.Non-Disputed-Light`: fill `#b3009e` α0.8 (≤ z7) → α0.7 (z8+), stroke `#b3009e` α0.2–0.3, width 1.45 (z5) → 1.55 (z6–7) → 1.75 (z8–9) → 1.95 (z10–11) → 2.1 (z12–13) → 2.25 (z14+), stroke width 0.25 → 1.35 → 1.95 → 2.1 → 2.75 → 3.25, dash [48,12,48,12,12,12] z6–12 → [64,16,64,16,16,16] z12+; **prefecture** `Border-State.Explore-Light`: fill `#b3009e` α0.7 (z5) / α0.8 (z6–7) / α0.65 (z8–9) / α0.7 (z10+), stroke α0.2 → 0.35, width **0.9 (z5) → 1.05 (z6–7) → 1.25 (z8–11) → 1.75 (z12+)**, stroke width 0.25 → 0.5 → 1.1 → 2.25, dash [18,4,10,4,4,4] z6–12 → [24,6,12,6,6,6] z12–16; prop 12 (opacity, inferred 0.25). Tropics/equator (also on the flat map): `Geolines-*`, §7.13. |
-| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, dash rows by zoom (v6) [`to_maplibre.py`]. |
-| gap | closed in v6: dash rows by zoom + 0.2 pt unit; prop 12 is **not** an opacity — with the v5 `line-opacity 0.25` the prefecture borders were far fainter than the App's at the Japan view, without it they match (fillColor alpha 0.7–0.8 is the whole story); v6 drops it. |
+| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, `line-opacity` = prop 12 (0.25), dash rows by zoom (v6) [`to_maplibre.py`]. |
+| gap | closed in v6/v6.1: dash rows by zoom + 0.2 pt unit; prop 12 = 0.25 **is** applied as line opacity again (v6 had dropped it; the z6 crop against the App shows the prefecture border as a pale mauve = rgb(179,0,158) at 0.8 × 0.25 — the sheet's `fillColorLumAdjustment −10` darkens instead and is wrong here, so 12 is the multiplier). |
 
 ### 7.9 Labels
 

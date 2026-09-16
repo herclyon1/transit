@@ -28,7 +28,7 @@ rail	rail	Railway-Japan.Light	N02 centre lines via transit.pmtiles; surface rail
 rail-shinkansen	rail	Railway-Japan.Bullet-Light	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
 geoline-tropics	geoline	Geolines-Tropics.Explore-Light-Elevated	tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)
 geoline-equator	geoline	Geolines-Equator.Explore-Light-Elevated	equator, same source
-boundary-state	boundary	Border-State.Explore-Light	alpha from fillColor; prop 12 not used (v6)
+boundary-state	boundary	Border-State.Explore-Light	12 = opacity 0.25 (inferred, confirmed by the z6 crop in v6.1)
 boundary-country	boundary	Border-Country.Non-Disputed-Light	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Light-JPN-Elevated	road label numbers come from the road style itself
 label-road-secondary	roadname	Line-ConnectorRoad.Light-JPN-Elevated	
@@ -72,7 +72,7 @@ rail	rail	Railway-Japan.Dark	N02 centre lines via transit.pmtiles; surface railw
 rail-shinkansen	rail	Railway-Japan.Bullet-Dark	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
 geoline-tropics	geoline	Geolines-Tropics.Explore-Dark-Elevated	tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)
 geoline-equator	geoline	Geolines-Equator.Explore-Dark-Elevated	equator, same source
-boundary-state	boundary	Border-State.Explore-Dark	alpha from fillColor; prop 12 not used (v6)
+boundary-state	boundary	Border-State.Explore-Dark	12 = opacity 0.25 (inferred, confirmed by the z6 crop in v6.1)
 boundary-country	boundary	Border-Country.Non-Disputed-Dark	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Dark-JPN-Elevated	road label numbers come from the road style itself
 label-road-secondary	roadname	Line-ConnectorRoad.Dark-JPN-Elevated	
