@@ -4,6 +4,7 @@ basemap/data/globe/apple-globe-labels.md): the cascade resolved with resolve.py 
 one row per (style, property, zoom band).
 
     python3 pipeline/basemap/styl/globe_label_styles.py ~/Money/styl-work/globe-default-iosmac-6857.styl > basemap/data/globe/globe-label-styles.tsv
+    python3 pipeline/basemap/styl/globe_label_styles.py ~/Money/styl-work/default-iosmac-11358.styl --flat > basemap/data/styl/flat-physical-label-styles.tsv
 """
 import json
 import os
@@ -31,8 +32,23 @@ PROPS = {1: 'fillColor', 18: 'textSizeScale', 23: 'fontSpec', 24: 'textColor', 2
          31: 'letterSpacing', 170: 'labelColorSource', 260: 'textElementMarginVertical', 12: 'opacity'}
 
 
+FLAT = [
+    # the flat sheet's classes for the same features (Apple z >= 5): rank = attribute 85 of the tile feature
+    'PhysicalFeature-Rank-1-2', 'PhysicalFeature-Rank-3-5', 'PhysicalFeature-Rank-6', 'PhysicalFeature-Rank-7', 'PhysicalFeature-Rank-8-9',
+    'PhysicalFeature-Rank-1-2-Explore-Light', 'PhysicalFeature-Rank-3-5-Explore-Light', 'PhysicalFeature-Rank-6-Explore-Light',
+    'PhysicalFeature-Rank-1-2-Explore-Dark', 'PhysicalFeature-Rank-3-5-Explore-Dark', 'PhysicalFeature-Rank-6-Explore-Dark',
+    'PhysicalFeature-Undersea-Points-Base', 'PhysicalFeature-Undersea-Area-Points-Base', 'PhysicalFeature-Elevation-Points-Base',
+    'PhysicalFeature-Mountain-Base', 'PhysicalFeature-Mountain-Base_LMZ5', 'PhysicalFeature-Mountain-Base_LMZ6_7', 'PhysicalFeature-Points-Base',
+    'PhysicalFeature-Region-Base', 'PhysicalFeature-Coastal-Base', 'PhysicalFeature-Band-Base', 'PhysicalFeature-Lines-Base',
+    'Ocean-Label-Base', 'Ocean-Label-Elevated-Base', 'Ocean-Label-Color-Light-Elevated-Base', 'Ocean-Label-Color-Dark-Elevated-Base',
+    'Ocean-Label-Point-Large', 'Ocean-Label-Point-Medium', 'Ocean-Label-Point-Small', 'Ocean-Label-Line-Large', 'Ocean-Label-Line-Medium', 'Ocean-Label-Line-Small',
+]
+
+
 def main():
     path = sys.argv[1]
+    if '--flat' in sys.argv:
+        STYLES[:] = FLAT
     for mode, ctx in (('light', {'client': {69: 2, 1: 0}}), ('dark', {'client': {69: 2, 1: 1}})):
         r = Resolver(path, context=ctx)
         print('mode\tstyle\tprop\tzoom\tvalue' if mode == 'light' else '', end='\n' if mode == 'light' else '')

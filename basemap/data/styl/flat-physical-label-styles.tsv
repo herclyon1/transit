@@ -1,0 +1,927 @@
+mode	style	prop	zoom	value
+light	PhysicalFeature-Rank-1-2	0:visible	14-24	False
+light	PhysicalFeature-Rank-1-2	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-1-2	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-1-2	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-1-2	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-1-2	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-1-2	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-1-2	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-1-2	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-1-2	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-1-2	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-1-2	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+light	PhysicalFeature-Rank-1-2	172:labelInfo	7-24	{"height": 32.467533111572266}
+light	PhysicalFeature-Rank-3-5	0:visible	14-24	False
+light	PhysicalFeature-Rank-3-5	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-3-5	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-3-5	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-3-5	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-3-5	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-3-5	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-3-5	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-3-5	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-3-5	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-3-5	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-3-5	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-3-5	172:labelInfo	7-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Rank-6	0:visible	14-24	False
+light	PhysicalFeature-Rank-6	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-6	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-6	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-6	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-6	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-6	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-6	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-6	29:fontSizeParam	2-4	2.5
+light	PhysicalFeature-Rank-6	29:fontSizeParam	4-5	5
+light	PhysicalFeature-Rank-6	29:fontSizeParam	5-6	15
+light	PhysicalFeature-Rank-6	29:fontSizeParam	6-7	40
+light	PhysicalFeature-Rank-6	29:fontSizeParam	7-24	80
+light	PhysicalFeature-Rank-6	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-6	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-6	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-6	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-6	172:labelInfo	2-3	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-6	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-6	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-6	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-6	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-6	172:labelInfo	7-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-7	0:visible	14-24	False
+light	PhysicalFeature-Rank-7	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-7	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-7	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-7	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-7	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-7	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-7	29:fontSizeParam	0-1	0.5
+light	PhysicalFeature-Rank-7	29:fontSizeParam	1-5	3
+light	PhysicalFeature-Rank-7	29:fontSizeParam	5-6	10
+light	PhysicalFeature-Rank-7	29:fontSizeParam	6-7	20
+light	PhysicalFeature-Rank-7	29:fontSizeParam	7-8	30
+light	PhysicalFeature-Rank-7	29:fontSizeParam	8-24	40
+light	PhysicalFeature-Rank-7	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-7	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-7	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-7	172:labelInfo	0-1	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-7	172:labelInfo	1-4	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-7	172:labelInfo	4-5	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-7	172:labelInfo	5-6	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-7	172:labelInfo	6-7	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-7	172:labelInfo	7-8	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-7	172:labelInfo	8-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-8-9	0:visible	14-24	False
+light	PhysicalFeature-Rank-8-9	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-8-9	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-8-9	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-8-9	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-8-9	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-8-9	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	0-1	0.5
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	1-6	3
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	6-7	11.5
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	7-8	20
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	8-9	37
+light	PhysicalFeature-Rank-8-9	29:fontSizeParam	9-24	54
+light	PhysicalFeature-Rank-8-9	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-8-9	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-8-9	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-8-9	172:labelInfo	0-1	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	1-5	{"height": 10.389610290527344}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	5-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	6-7	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	7-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	8-9	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-8-9	172:labelInfo	9-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-1-2-Explore-Light	0:visible	14-24	False
+light	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-1-2-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-1-2-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+light	PhysicalFeature-Rank-1-2-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+light	PhysicalFeature-Rank-1-2-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-1-2-Explore-Light	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-1-2-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-1-2-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+light	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	7-24	{"height": 32.467533111572266}
+light	PhysicalFeature-Rank-3-5-Explore-Light	0:visible	14-24	False
+light	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-3-5-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-3-5-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+light	PhysicalFeature-Rank-3-5-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+light	PhysicalFeature-Rank-3-5-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-3-5-Explore-Light	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-3-5-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-3-5-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	7-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Rank-6-Explore-Light	0:visible	14-24	False
+light	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-6-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-6-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+light	PhysicalFeature-Rank-6-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+light	PhysicalFeature-Rank-6-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	2-4	2.5
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	4-5	5
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	5-6	15
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	6-7	40
+light	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	7-24	80
+light	PhysicalFeature-Rank-6-Explore-Light	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-6-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-6-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	7-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	0:visible	14-24	False
+light	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-1-2-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-1-2-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+light	PhysicalFeature-Rank-1-2-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+light	PhysicalFeature-Rank-1-2-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-1-2-Explore-Dark	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-1-2-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-1-2-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+light	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	7-24	{"height": 32.467533111572266}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	0:visible	14-24	False
+light	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-3-5-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-3-5-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+light	PhysicalFeature-Rank-3-5-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+light	PhysicalFeature-Rank-3-5-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-3-5-Explore-Dark	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-3-5-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-3-5-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	7-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Rank-6-Explore-Dark	0:visible	14-24	False
+light	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	0-13	1
+light	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	17-24	2
+light	PhysicalFeature-Rank-6-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-6-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+light	PhysicalFeature-Rank-6-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+light	PhysicalFeature-Rank-6-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	2-4	2.5
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	4-5	5
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	5-6	15
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	6-7	40
+light	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	7-24	80
+light	PhysicalFeature-Rank-6-Explore-Dark	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-6-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-6-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	7-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Undersea-Points-Base	18:textSizeScale	0-24	0
+light	PhysicalFeature-Undersea-Points-Base	23:fontSpec	0-24	%$default,semibold,width=100
+light	PhysicalFeature-Undersea-Points-Base	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Undersea-Points-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Undersea-Points-Base	170:labelColorSource	0-24	2
+light	PhysicalFeature-Undersea-Points-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+light	PhysicalFeature-Undersea-Points-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Undersea-Points-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Undersea-Points-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Undersea-Points-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Undersea-Points-Base	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Undersea-Points-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Undersea-Area-Points-Base	18:textSizeScale	0-24	0
+light	PhysicalFeature-Undersea-Area-Points-Base	23:fontSpec	0-24	%$default,bold,width=140
+light	PhysicalFeature-Undersea-Area-Points-Base	29:fontSizeParam	0-24	3
+light	PhysicalFeature-Undersea-Area-Points-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Undersea-Area-Points-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Undersea-Area-Points-Base	172:labelInfo	0-24	{"height": 10.389610290527344}
+light	PhysicalFeature-Undersea-Area-Points-Base	187:labelDefaultTextPosition	0-24	256
+light	PhysicalFeature-Undersea-Area-Points-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	0-13	1
+light	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	17-24	2
+light	PhysicalFeature-Elevation-Points-Base	23:fontSpec	0-24	%$default,semibold,width=100
+light	PhysicalFeature-Elevation-Points-Base	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Elevation-Points-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Elevation-Points-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Elevation-Points-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+light	PhysicalFeature-Elevation-Points-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Elevation-Points-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Elevation-Points-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Elevation-Points-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Elevation-Points-Base	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Elevation-Points-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Mountain-Base	18:textSizeScale	0-13	1
+light	PhysicalFeature-Mountain-Base	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Mountain-Base	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Mountain-Base	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Mountain-Base	18:textSizeScale	17-24	2
+light	PhysicalFeature-Mountain-Base	23:fontSpec	0-24	%$default,semibold-G1,width=100
+light	PhysicalFeature-Mountain-Base	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Mountain-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Mountain-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Mountain-Base	172:labelInfo	0-24	{"height": 14.285714149475098}
+light	PhysicalFeature-Mountain-Base	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Mountain-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	0-13	1
+light	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	17-24	2
+light	PhysicalFeature-Mountain-Base_LMZ5	23:fontSpec	0-24	%$default,semibold-G1,width=100
+light	PhysicalFeature-Mountain-Base_LMZ5	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Mountain-Base_LMZ5	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Mountain-Base_LMZ5	170:labelColorSource	0-24	5
+light	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	0-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Mountain-Base_LMZ5	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Mountain-Base_LMZ5	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	0-13	1
+light	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	17-24	2
+light	PhysicalFeature-Mountain-Base_LMZ6_7	23:fontSpec	0-24	%$default,semibold-G1,width=100
+light	PhysicalFeature-Mountain-Base_LMZ6_7	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Mountain-Base_LMZ6_7	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Mountain-Base_LMZ6_7	170:labelColorSource	0-24	5
+light	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	0-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Mountain-Base_LMZ6_7	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Mountain-Base_LMZ6_7	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Points-Base	18:textSizeScale	0-13	1
+light	PhysicalFeature-Points-Base	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Points-Base	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Points-Base	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Points-Base	18:textSizeScale	17-24	2
+light	PhysicalFeature-Points-Base	23:fontSpec	0-24	%$default,medium,width=60
+light	PhysicalFeature-Points-Base	29:fontSizeParam	0-24	0.5
+light	PhysicalFeature-Points-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Points-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Points-Base	172:labelInfo	0-24	{"height": 14.285714149475098}
+light	PhysicalFeature-Points-Base	187:labelDefaultTextPosition	0-24	16
+light	PhysicalFeature-Points-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Region-Base	18:textSizeScale	0-24	0.5
+light	PhysicalFeature-Region-Base	23:fontSpec	0-24	%$default,medium,width=70
+light	PhysicalFeature-Region-Base	29:fontSizeParam	0-8	3
+light	PhysicalFeature-Region-Base	29:fontSizeParam	8-12	4
+light	PhysicalFeature-Region-Base	29:fontSizeParam	12-24	6
+light	PhysicalFeature-Region-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Region-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Region-Base	172:labelInfo	0-6	{"height": 14.285714149475098}
+light	PhysicalFeature-Region-Base	172:labelInfo	6-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Region-Base	172:labelInfo	8-12	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Region-Base	172:labelInfo	12-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Region-Base	187:labelDefaultTextPosition	0-24	256
+light	PhysicalFeature-Region-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Coastal-Base	18:textSizeScale	0-24	0.5
+light	PhysicalFeature-Coastal-Base	23:fontSpec	0-24	%$default,medium,italic
+light	PhysicalFeature-Coastal-Base	29:fontSizeParam	0-24	0.25
+light	PhysicalFeature-Coastal-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Coastal-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Coastal-Base	172:labelInfo	0-4	{"height": 14.285714149475098}
+light	PhysicalFeature-Coastal-Base	172:labelInfo	4-12	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Coastal-Base	172:labelInfo	12-24	{"height": 12.98701286315918}
+light	PhysicalFeature-Coastal-Base	187:labelDefaultTextPosition	0-24	16
+light	PhysicalFeature-Coastal-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Band-Base	0:visible	0-24	True
+light	PhysicalFeature-Band-Base	1:fillColor	0-24	rgb(0,0,0) a=71
+light	PhysicalFeature-Lines-Base	18:textSizeScale	0-13	1
+light	PhysicalFeature-Lines-Base	18:textSizeScale	13-14	1.4
+light	PhysicalFeature-Lines-Base	18:textSizeScale	14-15	1.5
+light	PhysicalFeature-Lines-Base	18:textSizeScale	15-17	1.6
+light	PhysicalFeature-Lines-Base	18:textSizeScale	17-24	2
+light	PhysicalFeature-Lines-Base	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Lines-Base	29:fontSizeParam	0-24	0.5
+light	PhysicalFeature-Lines-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Lines-Base	172:labelInfo	0-24	{"height": 12.98701286315918}
+light	Ocean-Label-Base	18:textSizeScale	0-24	0
+light	Ocean-Label-Base	23:fontSpec	0-24	%$default,bold,italic
+light	Ocean-Label-Base	24:textColor	0-24	rgb(231,252,255) a=255
+light	Ocean-Label-Base	29:fontSizeParam	0-24	0.15
+light	Ocean-Label-Base	33:labelTextVisibility	0-24	1
+light	Ocean-Label-Base	172:labelInfo	0-24	{"height": 16.88311767578125}
+light	Ocean-Label-Color-Light-Elevated-Base	24:textColor	0-5	rgb(35,35,35) a=153
+light	Ocean-Label-Color-Light-Elevated-Base	24:textColor	5-8	rgb(35,35,35) a=128
+light	Ocean-Label-Color-Light-Elevated-Base	24:textColor	8-24	rgb(35,35,35) a=115
+light	Ocean-Label-Color-Light-Elevated-Base	25:labelHaloColor	0-24	rgb(249,245,237) a=0
+light	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	0-2	0.25
+light	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	2-4	0.35
+light	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	4-6	0.45
+light	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	6-14	0.55
+light	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	14-24	0.75
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	0-2	rgb(62,112,172) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	2-4	rgb(62,116,182) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	4-6	rgb(70,124,190) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	6-12	rgb(68,126,197) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	12-14	rgb(62,121,193) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	14-24	rgb(59,116,186) a=255
+light	Ocean-Label-Color-Dark-Elevated-Base	25:labelHaloColor	0-24	rgb(19,31,73) a=255
+light	Ocean-Label-Point-Large	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Point-Large	29:fontSizeParam	0-3	0.5
+light	Ocean-Label-Point-Large	29:fontSizeParam	3-4	1
+light	Ocean-Label-Point-Large	29:fontSizeParam	4-24	2
+light	Ocean-Label-Point-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Point-Medium	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Point-Medium	29:fontSizeParam	0-4	0.5
+light	Ocean-Label-Point-Medium	29:fontSizeParam	4-5	1
+light	Ocean-Label-Point-Medium	29:fontSizeParam	5-24	2
+light	Ocean-Label-Point-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Point-Small	23:fontSpec	0-7	%$default,semibold,italic
+light	Ocean-Label-Point-Small	23:fontSpec	7-24	%$default,medium,italic
+light	Ocean-Label-Point-Small	29:fontSizeParam	0-6	0.5
+light	Ocean-Label-Point-Small	29:fontSizeParam	6-7	1
+light	Ocean-Label-Point-Small	29:fontSizeParam	7-24	0.5
+light	Ocean-Label-Point-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Small	172:labelInfo	6-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Large	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Large	29:fontSizeParam	0-3	3
+light	Ocean-Label-Line-Large	29:fontSizeParam	3-4	4
+light	Ocean-Label-Line-Large	29:fontSizeParam	4-24	5
+light	Ocean-Label-Line-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Line-Medium	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Medium	29:fontSizeParam	0-4	3
+light	Ocean-Label-Line-Medium	29:fontSizeParam	4-5	4
+light	Ocean-Label-Line-Medium	29:fontSizeParam	5-24	5
+light	Ocean-Label-Line-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Line-Small	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Small	29:fontSizeParam	0-6	3
+light	Ocean-Label-Line-Small	29:fontSizeParam	6-7	4
+light	Ocean-Label-Line-Small	29:fontSizeParam	7-24	5
+light	Ocean-Label-Line-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Small	172:labelInfo	6-7	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Small	172:labelInfo	7-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	PhysicalFeature-Rank-1-2	0:visible	14-24	False
+dark	PhysicalFeature-Rank-1-2	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-1-2	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-1-2	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-1-2	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-1-2	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-1-2	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-1-2	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-1-2	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-1-2	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-1-2	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+dark	PhysicalFeature-Rank-1-2	172:labelInfo	7-24	{"height": 32.467533111572266}
+dark	PhysicalFeature-Rank-3-5	0:visible	14-24	False
+dark	PhysicalFeature-Rank-3-5	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-3-5	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-3-5	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-3-5	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-3-5	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-3-5	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-3-5	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-3-5	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-3-5	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-3-5	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-3-5	172:labelInfo	7-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Rank-6	0:visible	14-24	False
+dark	PhysicalFeature-Rank-6	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-6	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-6	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-6	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-6	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-6	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	2-4	2.5
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	4-5	5
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	5-6	15
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	6-7	40
+dark	PhysicalFeature-Rank-6	29:fontSizeParam	7-24	80
+dark	PhysicalFeature-Rank-6	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-6	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-6	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-6	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-6	172:labelInfo	2-3	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-6	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-6	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-6	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-6	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-6	172:labelInfo	7-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-7	0:visible	14-24	False
+dark	PhysicalFeature-Rank-7	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-7	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-7	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-7	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-7	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-7	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	0-1	0.5
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	1-5	3
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	5-6	10
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	6-7	20
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	7-8	30
+dark	PhysicalFeature-Rank-7	29:fontSizeParam	8-24	40
+dark	PhysicalFeature-Rank-7	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-7	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-7	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-7	172:labelInfo	0-1	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-7	172:labelInfo	1-4	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-7	172:labelInfo	4-5	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-7	172:labelInfo	5-6	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-7	172:labelInfo	6-7	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-7	172:labelInfo	7-8	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-7	172:labelInfo	8-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-8-9	0:visible	14-24	False
+dark	PhysicalFeature-Rank-8-9	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-8-9	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-8-9	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-8-9	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-8-9	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-8-9	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	0-1	0.5
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	1-6	3
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	6-7	11.5
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	7-8	20
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	8-9	37
+dark	PhysicalFeature-Rank-8-9	29:fontSizeParam	9-24	54
+dark	PhysicalFeature-Rank-8-9	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-8-9	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-8-9	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	0-1	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	1-5	{"height": 10.389610290527344}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	5-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	6-7	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	7-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	8-9	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-8-9	172:labelInfo	9-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	0:visible	14-24	False
+dark	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-1-2-Explore-Light	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-1-2-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-1-2-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+dark	PhysicalFeature-Rank-1-2-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+dark	PhysicalFeature-Rank-1-2-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-1-2-Explore-Light	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-1-2-Explore-Light	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-1-2-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-1-2-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+dark	PhysicalFeature-Rank-1-2-Explore-Light	172:labelInfo	7-24	{"height": 32.467533111572266}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	0:visible	14-24	False
+dark	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-3-5-Explore-Light	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-3-5-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-3-5-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+dark	PhysicalFeature-Rank-3-5-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+dark	PhysicalFeature-Rank-3-5-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-3-5-Explore-Light	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-3-5-Explore-Light	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-3-5-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-3-5-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-3-5-Explore-Light	172:labelInfo	7-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Rank-6-Explore-Light	0:visible	14-24	False
+dark	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-6-Explore-Light	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-6-Explore-Light	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-6-Explore-Light	24:textColor	0-24	rgb(124,112,106) a=255
+dark	PhysicalFeature-Rank-6-Explore-Light	25:labelHaloColor	0-13	rgb(248,248,246) a=204
+dark	PhysicalFeature-Rank-6-Explore-Light	25:labelHaloColor	13-24	rgb(248,248,246) a=128
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	2-4	2.5
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	4-5	5
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	5-6	15
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	6-7	40
+dark	PhysicalFeature-Rank-6-Explore-Light	29:fontSizeParam	7-24	80
+dark	PhysicalFeature-Rank-6-Explore-Light	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-6-Explore-Light	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-6-Explore-Light	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	2-3	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-6-Explore-Light	172:labelInfo	7-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	0:visible	14-24	False
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+dark	PhysicalFeature-Rank-1-2-Explore-Dark	172:labelInfo	7-24	{"height": 32.467533111572266}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	0:visible	14-24	False
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-3-5-Explore-Dark	172:labelInfo	7-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Rank-6-Explore-Dark	0:visible	14-24	False
+dark	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Rank-6-Explore-Dark	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Rank-6-Explore-Dark	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-6-Explore-Dark	24:textColor	0-24	rgb(204,172,151) a=255
+dark	PhysicalFeature-Rank-6-Explore-Dark	25:labelHaloColor	0-13	rgb(18,48,51) a=112
+dark	PhysicalFeature-Rank-6-Explore-Dark	25:labelHaloColor	13-24	rgb(18,48,51) a=153
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	2-4	2.5
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	4-5	5
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	5-6	15
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	6-7	40
+dark	PhysicalFeature-Rank-6-Explore-Dark	29:fontSizeParam	7-24	80
+dark	PhysicalFeature-Rank-6-Explore-Dark	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-6-Explore-Dark	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-6-Explore-Dark	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	2-3	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-6-Explore-Dark	172:labelInfo	7-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Undersea-Points-Base	18:textSizeScale	0-24	0
+dark	PhysicalFeature-Undersea-Points-Base	23:fontSpec	0-24	%$default,semibold,width=100
+dark	PhysicalFeature-Undersea-Points-Base	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Undersea-Points-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Undersea-Points-Base	170:labelColorSource	0-24	2
+dark	PhysicalFeature-Undersea-Points-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+dark	PhysicalFeature-Undersea-Points-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Undersea-Points-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Undersea-Points-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Undersea-Points-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Undersea-Points-Base	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Undersea-Points-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Undersea-Area-Points-Base	18:textSizeScale	0-24	0
+dark	PhysicalFeature-Undersea-Area-Points-Base	23:fontSpec	0-24	%$default,bold,width=140
+dark	PhysicalFeature-Undersea-Area-Points-Base	29:fontSizeParam	0-24	3
+dark	PhysicalFeature-Undersea-Area-Points-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Undersea-Area-Points-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Undersea-Area-Points-Base	172:labelInfo	0-24	{"height": 10.389610290527344}
+dark	PhysicalFeature-Undersea-Area-Points-Base	187:labelDefaultTextPosition	0-24	256
+dark	PhysicalFeature-Undersea-Area-Points-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Elevation-Points-Base	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Elevation-Points-Base	23:fontSpec	0-24	%$default,semibold,width=100
+dark	PhysicalFeature-Elevation-Points-Base	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Elevation-Points-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Elevation-Points-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Elevation-Points-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+dark	PhysicalFeature-Elevation-Points-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Elevation-Points-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Elevation-Points-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Elevation-Points-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Elevation-Points-Base	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Elevation-Points-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Mountain-Base	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Mountain-Base	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Mountain-Base	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Mountain-Base	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Mountain-Base	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Mountain-Base	23:fontSpec	0-24	%$default,semibold-G1,width=100
+dark	PhysicalFeature-Mountain-Base	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Mountain-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Mountain-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Mountain-Base	172:labelInfo	0-24	{"height": 14.285714149475098}
+dark	PhysicalFeature-Mountain-Base	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Mountain-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Mountain-Base_LMZ5	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Mountain-Base_LMZ5	23:fontSpec	0-24	%$default,semibold-G1,width=100
+dark	PhysicalFeature-Mountain-Base_LMZ5	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Mountain-Base_LMZ5	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Mountain-Base_LMZ5	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	0-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Mountain-Base_LMZ5	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Mountain-Base_LMZ5	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Mountain-Base_LMZ5	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	23:fontSpec	0-24	%$default,semibold-G1,width=100
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	0-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Mountain-Base_LMZ6_7	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Points-Base	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Points-Base	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Points-Base	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Points-Base	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Points-Base	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Points-Base	23:fontSpec	0-24	%$default,medium,width=60
+dark	PhysicalFeature-Points-Base	29:fontSizeParam	0-24	0.5
+dark	PhysicalFeature-Points-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Points-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Points-Base	172:labelInfo	0-24	{"height": 14.285714149475098}
+dark	PhysicalFeature-Points-Base	187:labelDefaultTextPosition	0-24	16
+dark	PhysicalFeature-Points-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Region-Base	18:textSizeScale	0-24	0.5
+dark	PhysicalFeature-Region-Base	23:fontSpec	0-24	%$default,medium,width=70
+dark	PhysicalFeature-Region-Base	29:fontSizeParam	0-8	3
+dark	PhysicalFeature-Region-Base	29:fontSizeParam	8-12	4
+dark	PhysicalFeature-Region-Base	29:fontSizeParam	12-24	6
+dark	PhysicalFeature-Region-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Region-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Region-Base	172:labelInfo	0-6	{"height": 14.285714149475098}
+dark	PhysicalFeature-Region-Base	172:labelInfo	6-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Region-Base	172:labelInfo	8-12	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Region-Base	172:labelInfo	12-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Region-Base	187:labelDefaultTextPosition	0-24	256
+dark	PhysicalFeature-Region-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Coastal-Base	18:textSizeScale	0-24	0.5
+dark	PhysicalFeature-Coastal-Base	23:fontSpec	0-24	%$default,medium,italic
+dark	PhysicalFeature-Coastal-Base	29:fontSizeParam	0-24	0.25
+dark	PhysicalFeature-Coastal-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Coastal-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Coastal-Base	172:labelInfo	0-4	{"height": 14.285714149475098}
+dark	PhysicalFeature-Coastal-Base	172:labelInfo	4-12	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Coastal-Base	172:labelInfo	12-24	{"height": 12.98701286315918}
+dark	PhysicalFeature-Coastal-Base	187:labelDefaultTextPosition	0-24	16
+dark	PhysicalFeature-Coastal-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Band-Base	0:visible	0-24	True
+dark	PhysicalFeature-Band-Base	1:fillColor	0-24	rgb(0,0,0) a=71
+dark	PhysicalFeature-Lines-Base	18:textSizeScale	0-13	1
+dark	PhysicalFeature-Lines-Base	18:textSizeScale	13-14	1.4
+dark	PhysicalFeature-Lines-Base	18:textSizeScale	14-15	1.5
+dark	PhysicalFeature-Lines-Base	18:textSizeScale	15-17	1.6
+dark	PhysicalFeature-Lines-Base	18:textSizeScale	17-24	2
+dark	PhysicalFeature-Lines-Base	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Lines-Base	29:fontSizeParam	0-24	0.5
+dark	PhysicalFeature-Lines-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Lines-Base	172:labelInfo	0-24	{"height": 12.98701286315918}
+dark	Ocean-Label-Base	18:textSizeScale	0-24	0
+dark	Ocean-Label-Base	23:fontSpec	0-24	%$default,bold,italic
+dark	Ocean-Label-Base	24:textColor	0-24	rgb(231,252,255) a=255
+dark	Ocean-Label-Base	29:fontSizeParam	0-24	0.15
+dark	Ocean-Label-Base	33:labelTextVisibility	0-24	1
+dark	Ocean-Label-Base	172:labelInfo	0-24	{"height": 16.88311767578125}
+dark	Ocean-Label-Color-Light-Elevated-Base	24:textColor	0-5	rgb(35,35,35) a=153
+dark	Ocean-Label-Color-Light-Elevated-Base	24:textColor	5-8	rgb(35,35,35) a=128
+dark	Ocean-Label-Color-Light-Elevated-Base	24:textColor	8-24	rgb(35,35,35) a=115
+dark	Ocean-Label-Color-Light-Elevated-Base	25:labelHaloColor	0-24	rgb(249,245,237) a=0
+dark	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	0-2	0.25
+dark	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	2-4	0.35
+dark	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	4-6	0.45
+dark	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	6-14	0.55
+dark	Ocean-Label-Color-Dark-Elevated-Base	18:textSizeScale	14-24	0.75
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	0-2	rgb(62,112,172) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	2-4	rgb(62,116,182) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	4-6	rgb(70,124,190) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	6-12	rgb(68,126,197) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	12-14	rgb(62,121,193) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	24:textColor	14-24	rgb(59,116,186) a=255
+dark	Ocean-Label-Color-Dark-Elevated-Base	25:labelHaloColor	0-24	rgb(19,31,73) a=255
+dark	Ocean-Label-Point-Large	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Point-Large	29:fontSizeParam	0-3	0.5
+dark	Ocean-Label-Point-Large	29:fontSizeParam	3-4	1
+dark	Ocean-Label-Point-Large	29:fontSizeParam	4-24	2
+dark	Ocean-Label-Point-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Point-Medium	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	0-4	0.5
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	4-5	1
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	5-24	2
+dark	Ocean-Label-Point-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Point-Small	23:fontSpec	0-7	%$default,semibold,italic
+dark	Ocean-Label-Point-Small	23:fontSpec	7-24	%$default,medium,italic
+dark	Ocean-Label-Point-Small	29:fontSizeParam	0-6	0.5
+dark	Ocean-Label-Point-Small	29:fontSizeParam	6-7	1
+dark	Ocean-Label-Point-Small	29:fontSizeParam	7-24	0.5
+dark	Ocean-Label-Point-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Small	172:labelInfo	6-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Large	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Large	29:fontSizeParam	0-3	3
+dark	Ocean-Label-Line-Large	29:fontSizeParam	3-4	4
+dark	Ocean-Label-Line-Large	29:fontSizeParam	4-24	5
+dark	Ocean-Label-Line-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Line-Medium	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	0-4	3
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	4-5	4
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	5-24	5
+dark	Ocean-Label-Line-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Line-Small	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Small	29:fontSizeParam	0-6	3
+dark	Ocean-Label-Line-Small	29:fontSizeParam	6-7	4
+dark	Ocean-Label-Line-Small	29:fontSizeParam	7-24	5
+dark	Ocean-Label-Line-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Small	172:labelInfo	6-7	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Small	172:labelInfo	7-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}

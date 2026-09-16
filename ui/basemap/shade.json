@@ -1,0 +1,96 @@
+{
+ "what": "terrain light factor light(n)/light(0,0,1) for the flat map (RENDER-PIPELINE 2.5 / 7.4), from the AWS terrarium DEM with the App's formula",
+ "bounds": {
+  "lng": [
+   90.0,
+   160.3125
+  ],
+  "lat": [
+   0.0,
+   60.23981116999893
+  ]
+ },
+ "coordinates": [
+  [
+   90.0,
+   60.23981116999893
+  ],
+  [
+   160.3125,
+   60.23981116999893
+  ],
+  [
+   160.3125,
+   0.0
+  ],
+  [
+   90.0,
+   0.0
+  ]
+ ],
+ "encoding": "8-bit grey, factor = value / 128 (1.0 = flat ground); multiply the linear albedo by it, then sRGB-encode",
+ "formula": "n = normalize(-s dh/dx, -s dh/dy, 1); light = 0.49683 cube(n) + 0.7085 max(n.L, 0); L = (-0.366, -0.211, 0.906) view-fixed (azimuth 240 deg, altitude 65 deg)",
+ "files": {
+  "shade-ea-z5.png": {
+   "apple_zoom": 5,
+   "groundElevationScale": 3.25,
+   "dem_smoothing_px_at_z7": 1,
+   "size": [
+    3200,
+    3456
+   ]
+  },
+  "shade-ea-z6.png": {
+   "apple_zoom": 6,
+   "groundElevationScale": 2.5,
+   "dem_smoothing_px_at_z7": 1,
+   "size": [
+    3200,
+    3456
+   ]
+  },
+  "shade-ea-z7.png": {
+   "apple_zoom": 7,
+   "groundElevationScale": 1.5,
+   "dem_smoothing_px_at_z7": 1,
+   "size": [
+    3200,
+    3456
+   ]
+  }
+ },
+ "stats": {
+  "shade-ea-z5.png": {
+   "p1": 0.728,
+   "p5": 0.871,
+   "p50": 0.999,
+   "p95": 1.038,
+   "p99": 1.057,
+   "min": 0.407,
+   "max": 1.063
+  },
+  "shade-ea-z6.png": {
+   "p1": 0.793,
+   "p5": 0.907,
+   "p50": 1.0,
+   "p95": 1.035,
+   "p99": 1.055,
+   "min": 0.407,
+   "max": 1.063
+  },
+  "shade-ea-z7.png": {
+   "p1": 0.885,
+   "p5": 0.95,
+   "p50": 1.0,
+   "p95": 1.027,
+   "p99": 1.048,
+   "min": 0.407,
+   "max": 1.063
+  }
+ },
+ "check_japan_view": {
+  "app": "snap-japan.png (Apple z6.x), forest-coloured pixels of the Japanese Alps box x 560-700 y 330-430 (1280x744): luma p5 181 / p50 204 / p95 216 = linear 0.73 / 0.95 / 1.08 of the flat Forest colour (176,222,144) x light = luma 210",
+  "formula_1km_s2.5": "Alps box lon 136.5-139.5 lat 35-37 on the z7 DEM: p5 0.83 / p50 1.00 / p95 1.05 (3 km smoothing: 0.90 / 1.00 / 1.04)",
+  "reading": "the App darkens its slopes about twice as deep as n.L with s = 2.5 on a 1 km DEM; the extra is not in the formula decoded so far \u2014 candidates: the ground shadow map (DaVinci::groundShadowMap_* in the metallib, shadow x direct term, RENDER-PIPELINE 2.5) and normalsSharpnessBias 0.93 (semantics unknown). A tilt exaggeration of 2 on the 1 km slopes reproduces p5 0.67 / p50 0.98 / p95 1.05"
+ }
+}
