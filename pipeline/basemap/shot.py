@@ -92,11 +92,12 @@ def main():
     ap.add_argument("--wait-js", default="window.__globe && window.__globe.map.loaded() && window.__globe.map.areTilesLoaded()")
     ap.add_argument("--settle", type=float, default=2.0)
     ap.add_argument("--eval-js"); ap.add_argument("--eval-out")
+    ap.add_argument("--swiftshader", action="store_true", help="software GL like the acceptance session's shotm.py")
     a = ap.parse_args()
     port = free_port()
     prof = tempfile.mkdtemp()
     proc = subprocess.Popen([CHROME, "--headless=new", f"--remote-debugging-port={port}", f"--user-data-dir={prof}",
-                             f"--window-size={a.w},{a.h}", "--hide-scrollbars", "--use-angle=metal", "--enable-unsafe-swiftshader",
+                             f"--window-size={a.w},{a.h}", "--hide-scrollbars", "--use-angle=" + ("swiftshader" if a.swiftshader else "metal"), "--enable-unsafe-swiftshader",
                              "--no-first-run", "--no-default-browser-check", "about:blank"],
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
