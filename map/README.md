@@ -102,6 +102,7 @@ No data, no functions — rows and the card are placeholder text.
 * iPhone: Kit Sheet three detents (small 96 / medium 44 % / large) with the search capsule 44 in the head, right-top 44 round buttons, stacked card sheet,
   Map Modes as a sheet; `.cb` becomes the 22 multi-select circle (iOS has no square checkbox).
 * Hash: `#z/lat/lng&m=<mode>&sel=<id>` (globe.js keeps the extras; `m` and `sel` restore on load).
+* Text: English throughout (sidebar rows, card, Map Modes, aria labels, page title) — the user’s system and Maps are English (acceptance 2026-09-16 night); placeholders read "—" / "placeholder".
 * kit-audit: `ACCEPT_BASE=http://127.0.0.1:8792 CDP_PORT=9400 python3 pipeline/ui/kit-audit.py --mac map`; the audit opens the card and
   the modes popover first (kitaudit.js exercise). Phone run needs the simulator.
 
