@@ -248,7 +248,8 @@
   map.on('load', updateLabels);
   map.on('zoomend', updateLabels);
   map.on('moveend', () => { syncFront(); collide(); });
-  map.on('idle', () => { syncFront(); collide(); setTimeout(() => { syncFront(); collide(); }, 800); });   // after every source finished loading and rendering
+  let idleCount = 0;
+  map.on('idle', () => { idleCount++; syncFront(); collide(); setTimeout(() => { syncFront(); collide(); }, 800); });   // after every source finished loading and rendering
   addEventListener('resize', () => setTimeout(() => { syncFront(); collide(); }, 300));
   map.on('render', syncFront);
 
@@ -322,6 +323,8 @@
   });
   window.__globe = {
     map, meta,
+    get idleCount() { return idleCount; },
+    get labelStats() { const m = markers.filter(it => it.added); return { inRange: m.length, front: m.filter(it => it.front).length, visible: m.filter(it => it.front && !it.collided).length }; },
     setHillshade: (k) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', k),
     globeRadiusPx,
   };
