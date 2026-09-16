@@ -310,3 +310,10 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 
 上面从「13:4x 验收 ui 98c0d1a」起到「23:3x 验收 ui 1e4edca」各条标题里的钟点是我估的，越往后越离谱（写到 23:3x 时真实时间约 17:2x）。顺序与内容不受影响；**以后每条标题的时间一律取 `date` 输出**。
 
+## 2026-09-16 17:41　验收 data 3ec9ccf（系统材质配方 MATERIALS.md + materials/ + pipeline/materials/）　验收人：transit 验收（Fable）
+
+**看**：文档 6 节（三套材质系统与 Maps 用哪套 / CoreMaterial 全表 / AppKit 材质 = Catalyst UIBlurEffect 在 Mac 的形态 / Liquid Glass 77 参数 / 来源 / 未解）；数据 4 份；工具 4 件含一个 200 行 Catalyst 探针 app。
+**独立核**：`otool -L /System/Applications/Maps.app/Contents/MacOS/Maps` 命中 /System/iOSSupport 34 处（UIKit、MapsUI）——**Maps 是 Catalyst 应用**，它的结论成立；由此 CoreMaterial 的 54 个 .materialrecipe 不是 Mac 上 Maps 侧栏/卡片的决定文件，决定的是 AppKit NSVisualEffectMaterial（UIBlurEffect 在 Mac 上映射）与 Liquid Glass 的 glassBackground 滤镜（参数在代码里，它进程内实例化控件导出层树读到）。这纠正了我 22:3x 那条「照 .materialrecipe 实现」的方向。
+**控件→配方**（§1/§3/§4）：侧栏 = 玻璃侧栏参数集；Map Modes = NSPopover → NSGlassEffectView 弹窗参数集；右列钮 = UIGlassEffect regular/clear；搜索框 = UISearchBar 玻璃（bleed 12.6、blurOpacity 0.4）；地点卡 = UISheetPresentationController + MUBlurView（blurStyle 常量未抓到，五个候选形态列出）。示例：sidebar 亮 = blur 30 saturate 2.2 + rgba(246,246,246,.84) + #e9e9e9 darken + 5% 变色层。
+**结论**：放行合并。界面会话按 §3/§4 写 CSS（可换：blur/saturate/mix-blend/白填/rim；不可换：bleed、折射、MaxLuma、变色层），采样只核对。
+
