@@ -30,8 +30,8 @@ decompile (`~/Money/styl-work/vk/VectorKit_NN.mm`, iOS 26.1) confirmed against t
 
 | pass | vertex / fragment | what |
 |---|---|---|
-| ground tiles (flat map and the globe's cube faces) | `DaVinci::ground_base_vertex` / `DaVinci::ground_fragment` | terrain mesh, land-cover albedo, water-depth gradient, lighting, fog |
-| globe surface | `DaVinci::globe_texture_vertex` / `globe_texture_fragment` | draws the S2 cube-face textures the ground pass rendered; fragment is only `sRGB→linear(texel)` — no lighting here |
+| ground tiles — flat map (`MapDataType::DaVinciGround`) and the standard globe (`MapDataType::DaVinciGroundGlobe`, curved tiles, `globeLightingEnabled` + `ecefCoordinates` function constants) | `DaVinci::ground_base_vertex` / `DaVinci::ground_fragment` | terrain mesh, land-cover albedo, water-depth gradient, lighting, fog |
+| satellite / hybrid globe only (`GlobeRasterRenderLayer`, "GlobeTexturedShader") | `DaVinci::globe_texture_vertex` / `globe_texture_fragment` | draws raster imagery on S2 cube faces (`RASTER_SATELLITE_POLAR` etc.); fragment is only `sRGB→linear(texel)`; the vertex samples a `Flyover::AtmosphereTexture` by distance — not used by the standard map |
 | globe halo | `GlobeAtmosphere::globe_atmosphere_vertex` / `_fragment` | the blue rim around the globe |
 | flat-map sky / fog | `Sky::sky_*`, `Fog::fog_*` | sky quad above the horizon, fog strip |
 | stars | `GlobeStars::*`, `Stars::*` | white points with alpha |
