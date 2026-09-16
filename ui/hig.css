@@ -446,8 +446,8 @@ a.row:active,button.row:active{background:var(--fill)}
   html .maplibregl-ctrl-attrib.maplibregl-compact{min-height:24px;border-radius:12px;margin:0} html .maplibregl-ctrl-attrib-button{width:24px;height:24px}
   html .maplibregl-ctrl-attrib{font-size:.7692em;line-height:1.3em}
   /* C1 第二张 Sheet（大阪「图层」）= Kit Popovers：从工具条钮下弹出，r20、白 70% + #bfbfbf 10% + 模糊 30、阴影 0 18 46 25%、箭头 46×10；头同面板头（24，红灯关闭） */
-  html .sheet.opt{left:auto;right:8px;top:52px;bottom:auto;width:320px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
-     -webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}   /* 宽 320 = 实机 Map Modes 弹窗 */
+  html .sheet.opt{left:auto;right:58px;top:13px;bottom:auto;width:320px;max-height:calc(100dvh - 60px);border-radius:20px;background:rgba(255,255,255,.7);
+     -webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8);box-shadow:0 18px 46px rgba(0,0,0,.25),inset 0 0 0 .5px rgba(0,0,0,.08)}   /* 宽 320、右缘 1222（离右列 14）、顶 13 = 实机 Map Modes 弹窗（styl-work/native-mapmodes.png 1280×744 @2x，2026-09-16） */
   /* 图层弹窗 = 地图 App「Map Modes」（隔壁实机截图 2026-09-16）：标题 17 Bold 居中；模式 = 65 方块 tile r14、间 10、选中 3px tint 环、标签 13；开关 = 白盒 r13 里 44 高的行，左侧 16 复选框 + 13 标签，发丝线内缩 32；底部灰 13 出处 */
   html .sheet.opt .head{height:auto;min-height:0;padding:14px 12px 0} html .sheet.opt .head .slot{width:24px;height:24px} html .sheet.opt .head .tt{padding:0;text-align:center}   /* html 前缀：第 14 节的 iOS 规则在后面；标题居中 = 实机 Map Modes */
   html .sheet.opt .head .tt .t-head{font-size:1.3077em;line-height:1.2941em;font-weight:700;padding-top:0}
