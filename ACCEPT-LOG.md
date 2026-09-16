@@ -491,3 +491,8 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 东亚 z3 高分辨率表未接，需数据会话出 spr-class-globe-ea.png。
 **结论**：放行合并。
 
+## 2026-09-16 23:21　验收 data d10c1c6（铁路线名英文）　验收人：transit 验收（Fable）
+
+自读 tiles/transit.pmtiles 大阪 z12 片（12/3589/1626）：rail 层键 cls/n/op/name_en/op_en，23 条线全有英文（Hankyu Kyoto Line、Osaka Metro Midosuji Line、JR Osaka Loop Line、Sanyo Shinkansen…），新干线 op_en 空如约。602 线对上 556，46 条市电/缆车无 OSM 英文名，文档写明措辞是 OSM 的不是 Apple 的。**结论**：放行合并。
+另：数据会话把 DvMt 球栅格拷回仓库的动作被它的权限分类器拦下，它请我或用户代拷——不代做（权限绕过），且已无必要：界面 5f99911 在浏览器里用类栅格 + DvMt 色重着色，不需要那四张图。
+
