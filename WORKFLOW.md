@@ -42,7 +42,7 @@ pipeline 里 29 个脚本假定「从仓库根运行」，指的是所在那棵�
 - 用之前先看模拟器前台是不是自己的页面（`xcrun simctl io <udid> screenshot`），不是就等，不在别人的页面上点。
 - 不杀不是自己起的进程，不关不是自己启动的设备（先 `ps -o lstart,ppid` 看是谁的）。
 - 要用之前先发会话间消息问对方释放，用完说一声。同时驱动会互相把状态改掉（09-16 上午发生过）。
-- **「屏幕锁定」的真相（2026-09-16 13:5x 查清，用户从不锁屏）**：这台 Mac 息屏后不要密码（`sysadminctl -screenLock status` = off），用户也从不手动锁；但显示器一熄（几分钟一次，`pmset -g log` 可查），macOS 仍把会话标成 `CGSSessionScreenIsLocked = true`，于是 computer-use 的菜单/点击被系统挡、screencapture 出不了图、浏览器面板不合成。**这不是用户锁的，别再说「用户锁屏了」，也别叫用户解锁。** 处理（2026-09-16 15:0x 三会话商定，用户否了 8 小时常亮）：**不做任何常驻唤醒**；谁截 App 窗口谁在截前 `caffeinate -u -t 20` 唤醒 20 秒再 screencapture；网页截图一律无头 Chrome 落盘（不依赖显示器，全新配置 + `?v=<提交号>` 防缓存）；桌面浏览器面板只在用户人在电脑前时用；碰到 locked=true 就等显示器亮或发消息给验收会话，报告里写「显示器熄屏导致系统标记锁定」。
+- **「屏幕锁定」的真相（2026-09-16 13:5x 查清，用户从不锁屏）**：这台 Mac 息屏后不要密码（`sysadminctl -screenLock status` = off），用户也从不手动锁；但显示器一熄（几分钟一次，`pmset -g log` 可查），macOS 仍把会话标成 `CGSSessionScreenIsLocked = true`，于是 computer-use 的菜单/点击被系统挡、screencapture 出不了图、浏览器面板不合成。**这不是用户锁的，别再说「用户锁屏了」，也别叫用户解锁。** 处理（2026-09-16 15:0x 三会话商定，用户否了 8 小时常亮）：**不做任何常驻唤醒**；谁截 App 窗口谁用 `caffeinate -d -u <截图命令>` 把整条命令包住（进程活着就亮屏，退出即撤），截前查 `CGSSessionScreenIsLocked`，仍为 1 就每 2 秒重查最多 30 秒再放弃并报验收会话；网页截图一律无头 Chrome 落盘（不依赖显示器，全新配置 + `?v=<提交号>` 防缓存；**用真实时间等待，别用 `--virtual-time-budget`**：虚拟时间会把 fetch 和 setTimeout 的预算吃掉，标注数据没到就截了——09-16 两次「零标注」就是这个原因；或等 `__globe.idleCount>0 && __globe.labelStats.visible>0` 再截）；桌面浏览器面板只在用户人在电脑前时用；碰到 locked=true 就等显示器亮或发消息给验收会话，报告里写「显示器熄屏导致系统标记锁定」。
 
 ## 四、交付与验收（会话间消息，用户不传话）
 
