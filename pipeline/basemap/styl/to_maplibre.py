@@ -55,15 +55,13 @@ NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local n
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 DASH_PT = 0.2       # pt per dashPattern unit on the Mac's output (RENDER-PIPELINE §7.16: 0.19 / 0.203 / 0.215 measured)
-# Expressways below Apple z8 are drawn by Line-LowZoom-Connection-Base / LowZoom-Connection-JPN-Base (RENDER-PIPELINE
-# §7.15), which resolve.py cannot see (conditional rows + diamond inheritance).  Apple keeps only the curated
-# "low-zoom connection" classes (feature:85 / feature:31) at z4-7, at 1.0-1.85 px for Japan's main links; OpenMapTiles
-# has no such class, so every OSM motorway would get that width.  The aggregate that matches best is the sheet's
-# unconditional row: z6-7 width 0.5, no stroke (Line-LowZoom-Connection-Base), then the feature:85 row z7-11 width 1,
-# grey (209,209,209); below Apple z6 nothing (only the curated classes are visible there).
-# (apple zmin, zmax, width, strokeWidth, fill rgb, stroke rgba, fillColorLumAdjustment)
-LOWZOOM_EXPRESSWAY = [(6.0, 7.0, 0.5, 0.0, (136, 152, 184), None, 0),
-                      (7.0, 8.0, 1.0, 0.0, (209, 209, 209), None, 0)]
+# Expressways below Apple z8 (RENDER-PIPELINE §7.15): resolve.py (v6: diamond inheritance = last occurrence, conditional
+# rows by context) now yields the Line-LowZoom-Connection-Base row itself — 0.5 px, no stroke, at Apple z6-7.  What it
+# cannot know is the feature class: Apple shows only its curated low-zoom connection classes below z6 (feature:85 rows)
+# and draws them 1 px grey (209,209,209) at z7-11; OpenMapTiles has no such class, so the layer starts at Apple z6 and
+# the z7-8 band is set here.  (apple zmin, zmax, width, strokeWidth, fill rgb, stroke rgba, fillColorLumAdjustment)
+LOWZOOM_EXPRESSWAY_MINZOOM = 6.0
+LOWZOOM_EXPRESSWAY = [(7.0, 8.0, 1.0, 0.0, (209, 209, 209), None, 0)]
 
 # (id, kind, source-layer, filter, apple style template ({m} = Light/Dark, {e} = Explore-Light/Explore-Dark), note)
 # kind: bg | fill | road | rail | line | boundary | place | roadname | watername
@@ -142,10 +140,17 @@ def step(bands, conv, lo=0.0, hi=24.0):
     return expr
 
 
+# Cascade context (resolve.py v6): client:69 = 2 is the map style the Mac/Elevated render matches (RENDER-PIPELINE §7.15),
+# client:1 (TimePeriod) 0 = day / 1 = night, feature:4 (Country) 10 = Japan.  Feature classes we cannot know (road
+# LineType 1, low-zoom connection class 85 ...) are left out, so their conditional rows are skipped.
+CONTEXT = {'light': {'client': {69: 2, 1: 0}, 'feature': {4: 10}}, 'dark': {'client': {69: 2, 1: 1}, 'feature': {4: 10}}}
+
+
 class Gen:
     def __init__(self, path, lum):
         self.src = path
-        self.r = Resolver(path)
+        self.resolvers = {m: Resolver(path, context=CONTEXT[m]) for m in ('light', 'dark')}
+        self.r = self.resolvers['light']
         self.lum = lum
         self.rows = []
 
@@ -355,37 +360,41 @@ class Gen:
         return []
 
     def lowzoom_expressway(self, layers, base, layout):
-        """Below Apple z8 the expressway is the Line-LowZoom-Connection line (RENDER-PIPELINE §7.15): splice the
-        LOWZOOM_EXPRESSWAY bands in front of the sheet's z8+ bands of the motorway casing/fill layers."""
-        def splice(expr, low, hi_default):
-            # expr is a step expression or constant over Apple zoom (already offset); rebuild with low bands first
-            bands = []
-            for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
-                bands.append((a, b, low(w, sw, fc, sc, lum)))
+        """Splice the LOWZOOM_EXPRESSWAY bands into the motorway casing/fill expressions and start the layer at
+        LOWZOOM_EXPRESSWAY_MINZOOM (RENDER-PIPELINE §7.15)."""
+        def splice(expr, low):
             hi = expr if isinstance(expr, list) and expr[0] == 'step' else ['step', ['zoom'], expr]
-            # values of the sheet expression from Apple z8 on: evaluate at z8 and keep later stops
-            def at(z):
-                v = hi[2]
-                for zz, vv in zip(hi[3::2], hi[4::2]):
-                    if z + ZOFF >= zz:
-                        v = vv
-                return v
-            bands.append((8.0, 8.0001, at(8.0)))
-            out = ['step', ['zoom'], bands[0][2]]
-            for a, b, v in bands[1:]:
-                out += [max(0.0, a + ZOFF), v]
-            for zz, vv in zip(hi[3::2], hi[4::2]):
-                if zz > 8.0 + ZOFF:
-                    out += [zz, vv]
-            return out
+            stops = list(zip([None] + hi[3::2], [hi[2]] + hi[4::2]))          # (maplibre zoom or None, value)
+            out = []
+            for z, v in stops:
+                za = 0.0 if z is None else z - ZOFF                          # apple zoom of this stop
+                for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
+                    if a <= za < b:
+                        v = low(w, sw, fc, sc, lum)
+                out.append((z, v))
+            # insert the low bands' own edges
+            for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
+                for edge, val in ((a, low(w, sw, fc, sc, lum)), (b, None)):
+                    ml = max(0.0, edge + ZOFF)
+                    if not any(z == ml for z, _ in out if z is not None):
+                        if val is None:                                       # band end: back to the sheet value there
+                            val = hi[2]
+                            for zz, vv in zip(hi[3::2], hi[4::2]):
+                                if ml >= zz:
+                                    val = vv
+                        out.append((ml, val))
+            out = [(z, v) for z, v in out if z is None] + sorted([(z, v) for z, v in out if z is not None])
+            res = ['step', ['zoom'], out[0][1]]
+            for z, v in out[1:]:
+                res += [z, v]
+            return res
         for l in layers:
             casing = l['id'].endswith('-casing')
-            l['minzoom'] = max(0.0, LOWZOOM_EXPRESSWAY[0][0] + ZOFF)
-            l['paint']['line-width'] = splice(l['paint']['line-width'],
-                                              lambda w, sw, fc, sc, lum: round(w + 2 * sw, 3) if casing else w, None)
+            l['minzoom'] = max(0.0, LOWZOOM_EXPRESSWAY_MINZOOM + ZOFF)
+            l['paint']['line-width'] = splice(l['paint']['line-width'], lambda w, sw, fc, sc, lum: round(w + 2 * sw, 3) if casing else w)
             l['paint']['line-color'] = splice(l['paint']['line-color'],
                                               lambda w, sw, fc, sc, lum: (rgba({'rgba': list(sc)}) if sc else 'rgba(0,0,0,0)') if casing
-                                              else rgba({'rgba': list(fc) + [255]}, lum), None)
+                                              else rgba({'rgba': list(fc) + [255]}, lum))
         return layers
 
     def elevated_name(self, name):
@@ -407,6 +416,7 @@ class Gen:
 
     def style(self, mode):
         m, e = ('Light', 'Explore-Light') if mode == 'light' else ('Dark', 'Explore-Dark')
+        self.r = self.resolvers[mode]
         layers = []
         roads_casing, roads_fill = [], []
         for lid, kind, src, flt, tpl, note in MAPPING:

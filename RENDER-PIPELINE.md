@@ -365,12 +365,16 @@ the last word for z ≤ 7:
 
 So at the Japan view (Apple z6.1) the expressway is the low-zoom connection line, 0.5–1.85 px with a thin light
 stroke, grey-blue rgb(136,152,184) darkened 25 % (≈ rgb(102,114,138)) — the "≈ 1 px faint purple-grey" of the
-side-by-side — and the 2.25 px purple table only takes over from z8. Our generator (`resolve.py`) ignores
-conditional rows and visits each parent once (depth-first, first occurrence), which left the JPN width table last
-and produced 2.25 px. v6 (`LOWZOOM_EXPRESSWAY` in `to_maplibre.py`) draws OSM motorways below Apple z8 with the
-unconditional rows — nothing below z6, 0.5 px rgb(136,152,184) at z6–7, 1 px rgb(209,209,209) at z7–8 — because
-OpenMapTiles has no equivalent of Apple's curated low-zoom connection classes (with the 1.85 px Japan rows every OSM
-expressway became a heavy web); the purple table starts at z8.
+side-by-side — and the 2.25 px purple table only takes over from z8. Our generator's resolver used to ignore
+conditional rows and to visit each parent once (first occurrence), which left the JPN width table last and produced
+2.25 px. `resolve.py` v6 fixes both: diamond inheritance keeps the *last* occurrence (so the LowZoom base overrides), and
+conditional sets are evaluated against a context (`to_maplibre.py` `CONTEXT`: client:69 = 2, client:1 = 0 day / 1
+night, feature:4 = 10 Japan; conditions on attributes not in the context are treated as unsatisfied). With that the
+leaf itself resolves to 0.5 px at z6–7. What no context can supply is the feature's low-zoom connection class
+(feature:85 / feature:31 — Apple's curated links, 1–1.85 px, everything else hidden at z0–7), so `to_maplibre.py`
+starts the motorway layer at Apple z6 and sets the z7–8 band to the feature:85 row (1 px rgb(209,209,209)); the
+purple table starts at z8. Regenerating the whole style with the new resolver changed nothing else (diff of v6 vs
+v6b: only the motorway low-zoom bands and a hidden z6–7 row of LocalMajorRoad).
 
 ### 7.16 Closing item ② — the dash unit, three measurements
 
