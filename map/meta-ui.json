@@ -622,8 +622,9 @@
   "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
   "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
   "exaggeration_by_zoom": {
-   "9": 0.07,
-   "3": 0.047
+   "3": 0.047,
+   "5": 0.3,
+   "9": 0.07
   },
   "calibration": {
    "alps_z9": {
@@ -644,7 +645,16 @@
    },
    "method": "Calibrate the globe page's hill-shade exaggeration against Apple's renders.",
    "azimuth": 260,
-   "altitude": 45
+   "altitude": 45,
+   "japan_z5": {
+    "zoom": 5.1,
+    "k": 0.3,
+    "tradeoff": "texture match says 0.38, but relief highlights do not register pixel-for-pixel with the App (other DEM, exaggeration), so the acceptance metric rises with k: 7.66 % @0.15 (texture 6.8), 8.18 % @0.30 (8.7), 9.18 % @0.38 (~9.9), 12.3 % @0.50 (11.5); 0.30 chosen",
+    "method": "land relief texture: std of high-pass (6 px box) luminance over green land pixels, App snap-japan.png 9.9 vs ours 6.29 @k0.055 / 6.78 @0.15 / 8.72 @0.30 / 11.51 @0.50 -> 0.38 by linear interpolation",
+    "view": "#ll=36,138&spn=12,16&ui=0 (z 5.10, centre 138/36.23)",
+    "target_image": "~/Money/styl-work/snap-japan.png (MKMapSnapshotter, same region)",
+    "note": "the slope regression used at z9 is not usable here (terrarium z7 hill-shade range 0.16, r 0.01): the App's country-zoom relief is exaggerated texture, so the texture statistic is matched instead"
+   }
   }
  },
  "labels": {

@@ -36,9 +36,19 @@ No data, no functions — rows and the card are placeholder text.
 * kit-audit: `ACCEPT_BASE=http://127.0.0.1:8792 CDP_PORT=9400 python3 pipeline/ui/kit-audit.py --mac map` → KIT-OK (28 ✅); the audit opens the card and
   the modes popover first (kitaudit.js exercise). Phone run needs the simulator.
 
-## Globe → flat hand-over (z 5–6)
+## Globe → flat hand-over (three zoom bands)
 
-One MapLibre style holds both worlds. `projection.type` is the expression `['interpolate', ['linear'], ['zoom'], 5, 'vertical-perspective', 6, 'mercator']` (MapLibre's own `globe` preset does the same at 11→12), so the sphere flattens exactly while the globe layers (bathymetry, shelf, land, climate, graticule, DOM labels, limb/shading canvases) fade out with `interpolate zoom 5→1, 6→0` and the data session's flat style (`map/style-flat-{light,dark}.json`, OpenFreeMap vector tiles, `pipeline/basemap/styl/to_maplibre.py`) fades in with the mirror ramp; its layers get `minzoom ≥ 5` and ids prefixed `flat-`. The hill-shade stays through both (calibrated at z 3 and z 9) and is inserted above the flat fills, below its lines and labels. Flat labels use the style's Noto glyphs (MapLibre symbol layers cannot use the system font); the globe's DOM labels stay `-apple-system`.
+One MapLibre style holds both worlds; the data session's flat style (`map/style-flat-{light,dark}.json`, OpenFreeMap + `tiles/transit.pmtiles` through the pmtiles protocol) is appended with ids `flat-*`.
+
+| band | what happens |
+|---|---|
+| **palette 4.6–5.0** | fill colours interpolate from the App's globe palette (`palette-globe.json`) to its flat palette (`palette-ocean/land.json`, snapshotter): the App's flat renderer owns everything from z 5. The globe climate raster cross-fades into `climate-light.png`; the shelf raster fades out |
+| **morph 5–6** | `projection.type` = `interpolate zoom 5 'vertical-perspective' → 6 'mercator'`; flat fills, water and lines fade in; the 0–200 m band hands over to OSM water (coastlines are OSM's from z 6); limb/shading canvases fade with the morph |
+| **overlay 5–8 (fade 7–8)** | the globe drawing stays on top of the flat land/water: NE bathymetry ≥ 200 m, land tint + climate raster, graticule, DOM labels — the App's vegetation colour, sea-depth grading and hill-shade at these zooms are renderer textures, not style-sheet layers. Fade-out at 7→8 (asked as 8–9; the NE isobaths at 0.02–0.04° and the 0.088°/px raster stair-step from ~z 7; `&over=8,9` in the hash overrides). Flat place/water labels fade in on the same ramp |
+
+Layer order bottom→top: globe background · flat background/land fills · globe land tint + climate · flat water · globe bathymetry + shelf + graticule · hill-shade · flat lines · flat symbols. Hill-shade exaggeration by zoom `{3: 0.047, 5: 0.30, 9: 0.07}` — z 5 calibrated on `snap-japan.png` by land relief texture (App 9.9 vs ours 6.3 @0.055 / 8.7 @0.30 / 11.5 @0.50; the slope regression is unusable at this zoom, r 0.01) with the acceptance metric as the tie-breaker (7.66 % @0.15 → 8.18 % @0.30 → 12.3 % @0.50). Flat labels use the style's Noto glyphs; the globe's DOM labels stay `-apple-system`.
+
+`&ui=0` hides the shell for basemap-only comparisons; `pipeline/basemap/score-views.sh` scores the five acceptance views with `styl-work/cmp-accept.py`.
 
 ## Layers (bottom → top) and where every number comes from
 

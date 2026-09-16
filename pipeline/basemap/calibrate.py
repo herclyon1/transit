@@ -22,6 +22,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ARGS = sys.argv[1:]
 sys.argv = [sys.argv[0]]
 import palette as P  # noqa: E402  (elevation_and_slope, hillshade)
 
@@ -40,6 +41,9 @@ VIEWS = {
     # Tints confound a direct regression here, so the target is the 5-95% range of the per-pixel
     # luminance change caused by the hill-shade layer alone (render at k minus render at k=0).
     "globe_z4": ("ll=30,125&spn=50,60", 5, 6.0, "delta"),
+    # country zoom (the Japan acceptance view): the target is measured on the App's own flat render of the
+    # same view (styl-work/snap-japan.png) with the same regression, through our page's pixel->lnglat map
+    "japan_z5": ("ll=36,138&spn=12,16&ui=0", 7, os.path.expanduser("~/Money/styl-work/snap-japan.png"), "regress"),
 }
 
 
@@ -97,10 +101,21 @@ def delta_amplitude(png_k, png_0, pts):
 def main():
     meta = json.load(open(META))
     result = {}
+    only = [a for a in ARGS if not a.startswith("-")]
     for name, (h, tz, target, method) in VIEWS.items():
+        if only and name not in only:
+            continue
         lo, hi = 0.0, 1.0
         best = None
         png0 = None
+        if isinstance(target, str):   # measure the target amplitude on the App image with our pixel grid
+            probe = os.path.join(TMP, f"{name}-probe.png")
+            z, pts = shoot(h, 0.05, probe)
+            app_png = os.path.join(TMP, f"{name}-app.png")
+            Image.open(target).convert("RGB").resize((1280, 744), Image.LANCZOS).save(app_png)
+            target, n_t = amplitude(app_png, pts, tz)
+            print(f"{name}: App target amplitude {target:.2f} from {n_t} land samples ({os.path.basename(VIEWS[name][2])})", file=sys.stderr, flush=True)
+            VIEWS[name] = (h, tz, target, method)
         if method == "delta":
             png0 = os.path.join(TMP, f"{name}-0.000.png")
             shoot(h, 0.0, png0)
@@ -121,9 +136,10 @@ def main():
                 hi = k
         result[name] = {"zoom": round(best[3], 2), "k": round(best[0], 3), "amplitude": round(best[1], 1), "n": best[2],
                         "target": target, "method": method}
-    ex = {str(round(v["zoom"])): v["k"] for v in result.values()}
+    ex = dict(meta["hillshade"].get("exaggeration_by_zoom") or {})   # keep earlier anchors (z3, z9) when a view is skipped
+    ex.update({str(round(v["zoom"])): v["k"] for v in result.values()})
     meta["hillshade"]["exaggeration_by_zoom"] = ex
-    meta["hillshade"]["calibration"] = dict(result, method=__doc__.strip().split("\n")[0], azimuth=260, altitude=45)
+    meta["hillshade"]["calibration"] = dict(meta["hillshade"].get("calibration") or {}, **result, method=__doc__.strip().split("\n")[0], azimuth=260, altitude=45)
     json.dump(meta, open(META, "w"), indent=1, ensure_ascii=False)
     print(json.dumps(result, indent=1))
 

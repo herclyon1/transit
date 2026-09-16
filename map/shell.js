@@ -12,6 +12,8 @@
     'osaka-station': { title: '大阪駅', sub: '大阪市北区 · 占位' }, 'tokyo-station': { title: '東京駅', sub: '千代田区 · 占位' },
   };
 
+  // &ui=0 hides the shell (basemap-only comparisons against App snapshots)
+  if (extras().get('ui') === '0') document.documentElement.classList.add('noui');
   waitGlobe().then(G => { try {
     const app = HIGShell.create({ map: false, sheetEl: $('sheet'), listEl: $('list'), cardEl: $('card'), initial: 'medium',
       card: item => ({ title: item.title, sub: item.sub, html: null }),
@@ -37,7 +39,9 @@
     let OPT = null;
     const opt = $('optSheet');
     function openModes() {
-      if (app.open) app.dismiss();
+      // Mac: the popover opens beside the place card (Maps.app keeps the card); iPhone: the modes sheet
+      // replaces the main sheet, so the card (stacked in it) goes with it
+      if (app.open && !app.wideSplit()) app.dismiss();
       opt.hidden = false; if (!app.wideSplit()) $('sheet').hidden = true; HIG.sf();
       if (!OPT && HIG.sheet) OPT = HIG.sheet(opt, { initial: 'medium', detents: ['medium', 'large'] });
       else if (OPT && OPT.sim) { OPT.sim.layout(); OPT.set('medium'); }

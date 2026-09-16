@@ -15,9 +15,22 @@
   // globe -> flat hand-over: the sphere flattens to Mercator between GLOBE_Z0 and GLOBE_Z1 (MapLibre
   // projection expression) while the globe layers fade out and the data session's flat style
   // (map/style-flat-*.json, OpenFreeMap vector tiles, pipeline/basemap/styl/to_maplibre.py) fades in
-  const GLOBE_Z0 = 5, GLOBE_Z1 = 6;
+  // Two zoom bands (2026-09-16, acceptance): the sphere flattens and the flat lines/fills come in at
+  // MORPH 5-6; the globe's own drawing (bathymetry, shelf, land tint, climate raster, DOM labels) stays
+  // on top of the flat land/water through z 5-8 — the App's vegetation colour, sea-depth grading and
+  // hill-shade at those zooms are renderer textures, not style-sheet layers — and fades out at OVER 8-9,
+  // where the flat place/water labels take over.
+  const GLOBE_Z0 = 5, GLOBE_Z1 = 6;            // projection morph + flat lines/fills fade-in
+  const PAL_Z0 = 4.6, PAL_Z1 = 5.0;            // globe palette -> flat palette (the App's flat renderer owns z >= 5)
+  // OVER was asked for as 8-9; set to 7-8 because the globe drawing's sources are coarse for closer
+  // zooms — NE 10m isobaths simplified to 0.02-0.04 deg and the 0.088 deg/px climate raster show as
+  // stair-steps from z ~7 (600 m-1.2 km per px). &over=8,9 in the hash overrides for comparison.
+  const overQ = (location.hash.match(/[&#]over=([\d.]+),([\d.]+)/) || []).slice(1).map(Number);
+  const OVER_Z0 = overQ[0] || 7, OVER_Z1 = overQ[1] || 8;   // globe drawing + DOM labels fade-out, flat place labels fade-in
   const fadeIn = ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 0, GLOBE_Z1, 1];
-  const fadeOut = ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 1, GLOBE_Z1, 0];
+  const fadeOut = ['interpolate', ['linear'], ['zoom'], OVER_Z0, 1, OVER_Z1, 0];
+  const fadeInLate = ['interpolate', ['linear'], ['zoom'], OVER_Z0, 0, OVER_Z1, 1];
+  const PLACE_LABELS = /^(label-country|label-state|label-city|label-city-large|label-town|label-village|label-water-ocean|label-water-lake)$/;
   const OPACITY_PROP = { fill: ['fill-opacity'], line: ['line-opacity'], symbol: ['text-opacity', 'icon-opacity'],
                          background: ['background-opacity'], raster: ['raster-opacity'], 'fill-extrusion': ['fill-extrusion-opacity'], circle: ['circle-opacity'] };
   function withFade(layer, fade, minzoom) {
@@ -25,8 +38,14 @@
     l.paint = l.paint || {};
     for (const prop of OPACITY_PROP[l.type] || []) {
       const cur = l.paint[prop];
-      // existing opacities in the flat style are plain numbers; scale the fade's end value by them
-      l.paint[prop] = (typeof cur === 'number') ? fade.map((v, i) => (i === fade.length - 1 ? v * cur : v)) : fade;
+      if (Array.isArray(cur) && cur[0] === 'interpolate' && fade === fadeOut) {
+        // a morph ramp (5->6) already there: append the OVER fade-out stops, scaled by the ramp's end value
+        const end = cur[cur.length - 1];
+        l.paint[prop] = [...cur, OVER_Z0, end, OVER_Z1, 0];
+      } else {
+        // existing opacities in the flat style are plain numbers; scale the fade's end value by them
+        l.paint[prop] = (typeof cur === 'number') ? fade.map((v, i) => (i === fade.length - 1 ? v * cur : v)) : fade;
+      }
     }
     if (minzoom != null) l.minzoom = Math.max(l.minzoom || 0, minzoom);
     return l;
@@ -74,26 +93,32 @@
     const want = q.get('pal') || 'globe';
     return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
   }
+  // Colours: the App's GLOBE style below the morph (palette-globe.json), its FLAT style above it
+  // (palette-ocean/land.json, sampled off MKMapSnapshotter), interpolated over the morph 5->6 so the
+  // sphere and its palette change together. Dark mode has only the flat dark palette.
+  const zmix = (a, b) => ['interpolate', ['linear'], ['zoom'], PAL_Z0, a, PAL_Z1, b];
   function colours(m) {
     const pal = paletteName(m);
+    const flatOcean = meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: b[m] }));
     if (pal === 'globe') {
       const gb = meta.globe_palette.ocean_bands;
       const last = gb[gb.length - 1].light;
       return {
         pal,
-        ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: (gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light })),
-        land: meta.globe_palette.land_tints.humid,
-        climate: 'globe',
+        ocean: meta.ocean_bands.map((b, i) => ({ depth_min_m: b.depth_min_m,
+          globe: (gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light,
+          c: zmix((gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light, flatOcean[i].c) })),
+        land: zmix(meta.globe_palette.land_tints.humid, meta.land_tints.humid.light_hex),
+        climate: 'globe', climateFlat: 'light',
       };
     }
-    return { pal, ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: b[m] })),
-             land: meta.land_tints.humid[m + '_hex'], climate: m };
+    return { pal, ocean: flatOcean, land: meta.land_tints.humid[m + '_hex'], climate: m, climateFlat: null };
   }
   function style(m) {
     const col = colours(m);
     const layers = [
       // the sphere itself: shallow-water colour so coast gaps between NE land and NE ocean read as shelf
-      { id: 'bg', type: 'background', paint: { 'background-color': col.ocean[0].c } },
+      { id: 'bg', type: 'background', paint: { 'background-color': col.ocean[0].globe || col.ocean[0].c } },
     ];
     const sources = {};
     for (const b of col.ocean) {
@@ -105,13 +130,19 @@
         // shelf grading inside the 0-200 m band: depth-coloured raster (palette-shelf.json ramp, terrarium
         // z5), drawn above the 0-200 fill and below the deeper fills, so NE's 200 m contour still wins
         sources['shelf'] = { type: 'image', url: 'data/shelf-globe.png', coordinates: meta.shelf.bounds };
-        layers.push({ id: 'shelf', type: 'raster', source: 'shelf', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0 } });
+        layers.push({ id: 'shelf', type: 'raster', source: 'shelf', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0,
+          'raster-opacity': ['interpolate', ['linear'], ['zoom'], PAL_Z0, 1, PAL_Z1, 0] } });
       }
     }
     layers.push({ id: 'land', type: 'fill', source: 'land',
       paint: { 'fill-color': col.land, 'fill-antialias': true, 'fill-outline-color': col.land } });
     layers.push({ id: 'climate', type: 'raster', source: 'climate-' + col.climate,
-      paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0 } });
+      paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0,
+               ...(col.climateFlat ? { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], PAL_Z0, 1, PAL_Z1, 0] } : {}) } });
+    if (col.climateFlat) {
+      layers.push({ id: 'climate-flat', type: 'raster', source: 'climate-' + col.climateFlat,
+        paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': ['interpolate', ['linear'], ['zoom'], PAL_Z0, 0, PAL_Z1, 1] } });
+    }
     // hill-shade: light from the azimuth fitted on Apple's own render; exaggeration calibrated per zoom
     const stops = [];
     for (const z of Object.keys(HILLSHADE_K).map(Number).sort((a, b) => a - b)) stops.push(z, HILLSHADE_K[z]);
@@ -131,21 +162,32 @@
       layers.push({ id: 'graticule', type: 'line', source: 'graticule', filter: ['==', ['geometry-type'], 'LineString'],
         paint: { 'line-color': gl.colour, 'line-width': gl.width_pt, 'line-dasharray': gl.dash_pt } });
     }
-    // globe layers fade out over the hand-over (background and hill-shade stay: the flat background
-    // covers the ocean colour, the hill-shade is calibrated at country zoom as well)
-    const globeLayers = layers.map(l => (l.type === 'background' || l.type === 'hillshade') ? l : withFade(l, fadeOut));
+    // globe drawing fades out at OVER 8-9 (background and hill-shade stay throughout); the 0-200 m band
+    // hands over to the flat style's OSM water at the morph, so coastlines are OSM's from z 6 on
+    const globeLayers = layers.map(l => (l.type === 'background' || l.type === 'hillshade') ? l
+      : (l.id === 'bathy-0' ? withFade(l, ['interpolate', ['linear'], ['zoom'], GLOBE_Z0, 1, GLOBE_Z1, 0]) : withFade(l, fadeOut)));
     const flat = m === 'dark' ? flatDark : flatLight;
-    const flatSources = {}, flatLayers = [];
+    const flatSources = {}, flatFills = [], flatWater = [], flatLines = [], flatSymbols = [];
     let glyphs;
     if (flat) {
       Object.assign(flatSources, flat.sources);
       glyphs = flat.glyphs;
-      for (const l of flat.layers) flatLayers.push(withFade({ ...l, id: 'flat-' + l.id }, fadeIn, GLOBE_Z0));
+      for (const l0 of flat.layers) {
+        const l = { ...l0, id: 'flat-' + l0.id };
+        if (l.type === 'symbol') flatSymbols.push(PLACE_LABELS.test(l0.id) ? withFade(l, fadeInLate, OVER_Z0) : withFade(l, fadeIn, GLOBE_Z0));
+        else if (l.type === 'line') flatLines.push(withFade(l, fadeIn, GLOBE_Z0));
+        else if (l0.id === 'water') flatWater.push(withFade(l, fadeIn, GLOBE_Z0));
+        else flatFills.push(withFade(l, fadeIn, GLOBE_Z0));            // background, landcover, landuse, park, building
+      }
     }
-    // the hill-shade goes above the flat fills but below its lines/labels: re-order it after the flat land use
+    // order (bottom -> top): globe background · flat background/land fills · globe land tint + climate ·
+    // flat water (so lakes show through the land tint) · globe bathymetry + shelf + graticule · hill-shade ·
+    // flat lines · flat symbols. NE coastlines sit over OSM's until z 9 where the globe drawing has faded.
     const hs = globeLayers.splice(globeLayers.findIndex(l => l.id === 'hillshade'), 1)[0];
-    const firstLine = flatLayers.findIndex(l => l.type === 'line' || l.type === 'symbol');
-    const ordered = firstLine >= 0 ? [...globeLayers, ...flatLayers.slice(0, firstLine), hs, ...flatLayers.slice(firstLine)] : [...globeLayers, hs, ...flatLayers];
+    const gBg = globeLayers.filter(l => l.type === 'background');
+    const gLand = globeLayers.filter(l => l.id === 'land' || l.id === 'climate' || l.id === 'climate-flat');
+    const gSea = globeLayers.filter(l => l.type !== 'background' && !gLand.includes(l));
+    const ordered = [...gBg, ...flatFills, ...gLand, ...flatWater, ...gSea, hs, ...flatLines, ...flatSymbols];
     return {
       version: 8,
       // sphere from GLOBE_Z0 down, Mercator from GLOBE_Z1 up, morph in between (MapLibre's own 'globe' preset is 11->12)
@@ -157,6 +199,7 @@
         ...flatSources,
         land: { type: 'geojson', data: 'data/land.geojson' },
         ['climate-' + col.climate]: { type: 'image', url: 'data/climate-' + col.climate + '.png', coordinates: meta.climate_image.bounds },
+        ...(col.climateFlat ? { ['climate-' + col.climateFlat]: { type: 'image', url: 'data/climate-' + col.climateFlat + '.png', coordinates: meta.climate_image.bounds } } : {}),
         dem: { type: 'raster-dem', tiles: [TERRARIUM], encoding: 'terrarium', tileSize: 256, maxzoom: 15,
                attribution: 'Terrain: AWS Terrain Tiles (Mapzen terrarium)' },
       },
@@ -267,12 +310,14 @@
     }
     return flat('continent');
   }
-  // country size follows the .styl Country-Label-Medium height curve, anchored on the App measurement at z 3.12
+  // country size between two measurements: the App globe at z 3.12 (labels_app.country 10.5 pt) and the
+  // flat render at z 4.2 (labels.country 11.0 pt); flat beyond. The .styl labelInfo.height curve
+  // (9.5 -> 14 over z 3-5) is not a font size (it overshoots both measurements) and is not used.
   function countrySize() {
-    const c = appSpec.country_size_curve, z = map ? map.getZoom() : 3.12;
-    const h = (zz) => { const zs = c.zoom, hs = c.height; if (zz <= zs[0]) return hs[0]; if (zz >= zs[zs.length - 1]) return hs[hs.length - 1];
-      for (let i = 1; i < zs.length; i++) if (zz <= zs[i]) return hs[i - 1] + (hs[i] - hs[i - 1]) * (zz - zs[i - 1]) / (zs[i] - zs[i - 1]); };
-    return appSpec.country.size_pt * h(z) / h(c.anchor_zoom);
+    const z = map ? map.getZoom() : 3.12;
+    const a = { z: 3.12, s: appSpec.country.size_pt }, b = { z: 4.2, s: labelSpec.country.size_pt };
+    if (z <= a.z) return a.s; if (z >= b.z) return b.s;
+    return a.s + (b.s - a.s) * (z - a.z) / (b.z - a.z);
   }
   const WEIGHT = { regular: 400, medium: 500, semibold: 600, bold: 700, heavy: 800, black: 900 };
   function breakLines(name, kind) {
@@ -332,7 +377,7 @@
     const cities = (await (await fetch('data/cities.geojson')).json()).features;
     for (const f of cities) {
       const p = f.properties;
-      if (p.globe_rank > 3) continue;
+      if (p.globe_rank > 4) continue;   // min_zoom (data session's ranking) decides when a city appears
       const kind = p.capital === 1 ? 'capital' : 'city';
       markers.push(makeLabel({ name: p.name, min_label: p.min_zoom ?? 3, max_label: 12, rank: p.globe_rank }, kind, f.geometry.coordinates));
     }
@@ -380,7 +425,8 @@
     if (g && Math.hypot(bx - g.cx, pt.y - g.cy) + Math.hypot(it.w || 0, it.h || 0) / 2 > g.r - 2) return false;
     return true;
   }
-  const globeFade = () => Math.max(0, Math.min(1, (GLOBE_Z1 - map.getZoom()) / (GLOBE_Z1 - GLOBE_Z0)));
+  const globeFade = () => Math.max(0, Math.min(1, (OVER_Z1 - map.getZoom()) / (OVER_Z1 - OVER_Z0)));
+  const morphFade = () => Math.max(0, Math.min(1, (GLOBE_Z1 - map.getZoom()) / (GLOBE_Z1 - GLOBE_Z0)));
   function apply(it) {
     const f = globeFade();
     it.el.style.visibility = (f > 0 && it.front && !it.collided) ? 'visible' : 'hidden';
@@ -540,7 +586,7 @@
     }
   }
   const HAZE_ALPHA = meta.background.haze_alpha || 0.5;
-  map.on('render', () => { limb.style.opacity = globeFade().toFixed(3); drawLimb(); });
+  map.on('render', () => { limb.style.opacity = morphFade().toFixed(3); drawLimb(); });
   addEventListener('resize', drawLimb);
 
   // ---- light / dark follow the system -----------------------------------------------------
