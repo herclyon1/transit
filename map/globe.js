@@ -112,9 +112,17 @@
     return k * s / ml;
   }
   function hillshadeStops(colour) {
-    const out = [];
-    for (let z = 0; z <= 18; z++) out.push(z, `rgba(${colour},${hillshadeAlpha(z).toFixed(4)})`);
+    // below PAL the globe post-pass shades Apple's own mesh (globe-light.js terrain term); the MapLibre hill-shade on the
+    // terrarium DEM takes over across PAL 4.6-5
+    const out = [PAL_Z0, `rgba(${colour},0)`];
+    for (let z = Math.ceil(PAL_Z1); z <= 18; z++) out.push(z, `rgba(${colour},${hillshadeAlpha(z).toFixed(4)})`);
     return ['interpolate', ['linear'], ['zoom'], ...out];
+  }
+  // groundElevationScale at the Apple zoom of the current view (groundSettings.json, RENDER-PIPELINE 2.5: z1 14, z2 9, z3 7, z4 5 ...)
+  function groundElevationScale(zMap) {
+    const gs = SN ? SN.climate_tinting['groundSettings.json'] : null;
+    const z = Math.min(20, Math.max(1, Math.round(zMap + 1)));
+    return gs && gs[String(z)] ? gs[String(z)].groundElevationScale : 1;
   }
 
   // ---- style ----------------------------------------------------------------------------
@@ -129,6 +137,7 @@
     return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
   }
   const G = meta.ground;   // ui/basemap/ground.json via globe-data.py: sheet colours, bounds of the ground rasters
+  const GG = meta.ground_globe;   // ui/basemap/ground-globe.json (data session): Apple's own globe rasters, bounds, groundElevationScale table
   function landFill(m) {
     // NE land fill under the ground rasters: Forest sheet colour (the default class) x light; sheet band for Apple z6
     const bands = G && G.sheet.colours.Forest && G.sheet.colours.Forest[m];
@@ -165,6 +174,7 @@
       paint: { 'fill-color': pal === 'globe' ? ['interpolate', ['linear'], ['zoom'], PAL_Z0, meta.globe_palette.land_tints.humid, PAL_Z1, flatLand] : flatLand, 'fill-antialias': true,
                'fill-outline-color': pal === 'globe' ? ['interpolate', ['linear'], ['zoom'], PAL_Z0, meta.globe_palette.land_tints.humid, PAL_Z1, flatLand] : flatLand } });
     if (pal === 'globe') {
+      // fallback under Apple's own rasters where the cache had no tile (alpha 0): the sampled pastel tints (pending)
       layers.push({ id: 'climate', type: 'raster', source: 'climate-globe', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
       sources['climate-globe'] = { type: 'image', url: 'data/climate-globe.png', coordinates: meta.climate_image.bounds };
     }
@@ -174,6 +184,15 @@
       const op = pal === 'globe' ? palIn : 1;
       layers.push({ id: 'ground', type: 'raster', source: 'ground', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': op } });
       layers.push({ id: 'ground-ea', type: 'raster', source: 'ground-ea', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': op } });
+    }
+    if (GG) {
+      // below PAL: Apple's own land-cover class + climate rasters, sheet colours x light (RENDER-PIPELINE 2.4b,
+      // pipeline/basemap/spr_globe.py -> ui/basemap/ground-globe.json): world 4096^2 (z2 tiles, z3 on top) and the East-Asia
+      // z3 sheet at its own resolution; alpha 0 where the cache had no tile, so the fallbacks above show through
+      sources['ground-globe'] = { type: 'image', url: 'data/ground-globe-' + m + '.png', coordinates: GG.world.coordinates };
+      sources['ground-globe-ea'] = { type: 'image', url: 'data/ground-globe-ea-' + m + '.png', coordinates: GG.east_asia.coordinates };
+      layers.push({ id: 'ground-globe', type: 'raster', source: 'ground-globe', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
+      layers.push({ id: 'ground-globe-ea', type: 'raster', source: 'ground-globe-ea', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
     }
     // hill-shade: light az 240 / alt 65 (SHADER-NUMBERS 4.1), strength from groundElevationScale (hillshadeAlpha);
     // drawn above the land and BELOW every water layer — the ground shader has no relief on water (waterDepth path)
@@ -212,7 +231,7 @@
     const pick = ids => globeLayers.filter(l => ids.includes(l.id));
     const hs = pick(['hillshade'])[0];
     const gBg = globeLayers.filter(l => l.type === 'background');
-    const gLand = pick(['land', 'climate', 'ground', 'ground-ea']);
+    const gLand = pick(['land', 'climate', 'ground', 'ground-ea', 'ground-globe', 'ground-globe-ea']);
     const gSea = globeLayers.filter(l => !gBg.includes(l) && !gLand.includes(l) && l !== hs);
     const ordered = [...gBg, ...flatFills, ...gLand, hs, ...flatWater, ...gSea, ...flatAlways, ...flatLines, ...flatSymbols];
     return {
@@ -520,7 +539,7 @@
   limb.id = 'limb';
   document.getElementById('map').appendChild(limb);
   let post = null;
-  try { post = (SN && window.__globeLight) ? window.__globeLight.create(lightCanvas, SN) : null; }
+  try { post = (SN && window.__globeLight) ? window.__globeLight.create(lightCanvas, SN) : null; if (post) post.onHeightLoaded = () => map.triggerRepaint(); }
   catch (e) { (window.__errs = window.__errs || []).push(String(e && e.message || e)); console.error(e); }
   // rim: GlobeAtmosphere far-camera constants (SHADER-NUMBERS 3.3 / 4.5): R = 6356752.31 m, maxHeight 150 km,
   // colorMidpoint 0.5 -> the visible mid->black ramp spans 75 km at the limb's scale; midColor = Sky-Standard-Day fill
@@ -612,7 +631,10 @@
     lightCanvas.style.width = w + 'px'; lightCanvas.style.height = h + 'px';
     if (post) {
       const mid = RIM.mid[mode()].map(toLin);
-      post.draw(map.getCanvas(), g, dpr, mid, rimPx(g.r), 1, fade);
+      const c = map.getCenter();
+      // Apple's ground shader on the globe: the sphere normal tilted by its mesh heights x groundElevationScale(Apple z),
+      // fading out over PAL where the terrarium hill-shade takes over (globe-light.js)
+      post.draw(map.getCanvas(), g, dpr, mid, rimPx(g.r), 1, fade, GG ? { lat: c.lat, lng: c.lng, scale: groundElevationScale(map.getZoom()), amount: palFade() } : null);
     } else {
       // fallback without WebGL: the measured rim profile (pending)
       const outer = ctx.createRadialGradient(g.cx, g.cy, g.r, g.cx, g.cy, g.r + OUTER.length / 2);
@@ -635,7 +657,7 @@
     map, meta, shader: SN, setHashExtra, hashExtras: () => hashState.q,
     get idleCount() { return idleCount; },
     get labelStats() { const m = markers.filter(it => it.added); return { inRange: m.length, front: m.filter(it => it.front).length, visible: m.filter(it => it.front && !it.collided).length }; },
-    hillshadeAlpha, rampColour, LIGHT, post,
+    hillshadeAlpha, rampColour, LIGHT, post, groundElevationScale,
     get starsDrawn() { return starsDrawn; },
     globeRadiusPx,
   };

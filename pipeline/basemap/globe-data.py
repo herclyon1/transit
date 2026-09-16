@@ -409,6 +409,7 @@ def main():
         # decoded inputs (2026-09-16 evening): land colour rasters, tropics/equator/polar styles, star catalogue
         "ground": json.load(open(os.path.join(ROOT, "ui", "basemap", "ground.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "ground.json")) else None,
         "geolines": json.load(open(os.path.join(ROOT, "ui", "basemap", "geolines.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "geolines.json")) else None,
+        "ground_globe": json.load(open(os.path.join(ROOT, "ui", "basemap", "ground-globe.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "ground-globe.json")) else None,   # data session: Apple SPR rasters (RENDER-PIPELINE 2.4b)
         "stars": {"file": "../basemap/data/globe/stars.bin", "format": "basemap/data/globe/stars-format.md (10000 x float32[3]: angle 0-2pi, angle +-1.54, brightness 14.08->10.02)",
                   "source": "VectorKit embedded zip sky/stars.bin (RENDER-PIPELINE 2.1)"},
         "shader": {"file": "../basemap/data/shader/shader-numbers.json", "doc": "SHADER-NUMBERS.md / RENDER-PIPELINE.md 2.2-2.5, 4",

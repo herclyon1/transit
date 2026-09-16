@@ -3168,6 +3168,353 @@
    }
   }
  },
+ "ground_globe": {
+  "what": "globe ground rasters from Apple's SPR tiles (VECTOR_SPR_MERCATOR z2-3) decoded with GeoServices' GEOVectorTile; see RENDER-PIPELINE 2.4-2.5",
+  "generator": "pipeline/basemap/spr_globe.py <- pipeline/basemap/spr_dump.m <- ~/Library/.../com.apple.geod/.../MapTiles.sqlitedb (copy)",
+  "world": {
+   "crs": "EPSG:3857 whole world",
+   "size": 4096,
+   "coordinates": [
+    [
+     -180,
+     85.0511
+    ],
+    [
+     180,
+     85.0511
+    ],
+    [
+     180,
+     -85.0511
+    ],
+    [
+     -180,
+     -85.0511
+    ]
+   ],
+   "files": [
+    "ground-globe-light.png",
+    "ground-globe-dark.png",
+    "spr-class-globe.png",
+    "climate-temp-globe.png (1024)",
+    "climate-arid-globe.png (1024)",
+    "height-globe.png (2048, terrarium)"
+   ]
+  },
+  "east_asia": {
+   "lng": [
+    90,
+    180
+   ],
+   "lat": [
+    0,
+    66.51326
+   ],
+   "size": 2048,
+   "coordinates": [
+    [
+     90,
+     66.51326
+    ],
+    [
+     180,
+     66.51326
+    ],
+    [
+     180,
+     0
+    ],
+    [
+     90,
+     0
+    ]
+   ],
+   "files": [
+    "ground-globe-ea-light.png",
+    "ground-globe-ea-dark.png",
+    "height-globe-ea.png (1024, terrarium)"
+   ]
+  },
+  "apple_zoom_of_sheet_colours": 3.0,
+  "light_flat": 1.045404719,
+  "classes": [
+   "Ground",
+   "Forest",
+   "Wetlands",
+   "Cultivated",
+   "Herbaceous",
+   "Shrubland",
+   "Barren",
+   "IceSnow",
+   "Vegetation",
+   "Sand",
+   "DryLake",
+   "Water"
+  ],
+  "class_index_255": "no Apple tile in the cache copy (alpha 0 in the albedo rasters)",
+  "coverage_tiles": [
+   "2/0/0",
+   "2/0/1",
+   "2/0/2",
+   "2/1/0",
+   "2/1/1",
+   "2/2/0",
+   "2/2/1",
+   "2/2/2",
+   "2/3/0",
+   "2/3/1",
+   "2/3/2",
+   "3/0/2",
+   "3/0/3",
+   "3/0/4",
+   "3/0/5",
+   "3/1/3",
+   "3/2/3",
+   "3/3/2",
+   "3/3/3",
+   "3/3/4",
+   "3/4/2",
+   "3/4/3",
+   "3/4/4",
+   "3/4/5",
+   "3/5/2",
+   "3/5/3",
+   "3/5/4",
+   "3/5/5",
+   "3/6/2",
+   "3/6/3",
+   "3/6/4",
+   "3/6/5",
+   "3/7/2",
+   "3/7/3",
+   "3/7/4",
+   "3/7/5"
+  ],
+  "climate": {
+   "temp_codes": "0 Arctic 1 VeryCold 2 Cold 3 Cool 4 Warm 5 Hot 6 VeryHot (VectorKit gss enum strings); cell = 1 + (T-3)/3",
+   "arid_codes": "0 VeryWet 1 Wet 2 Moist 3 SemiDry 4 Dry 5 VeryDry; cell = 1 + (A-3)/3 for A<3, 1 + (A-3)/2 for A>=3 (SHADER-NUMBERS 3.2)",
+   "hsv_deltas": {
+    "light": {
+     "veryHotHSVAdjustment": [
+      0,
+      0,
+      0.1
+     ],
+     "arcticHSVAdjustment": [
+      0,
+      -0.2,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -35,
+      0,
+      0.1
+     ],
+     "veryWetHSVAdjustment": [
+      0,
+      0,
+      0
+     ]
+    },
+    "dark": {
+     "veryHotHSVAdjustment": [
+      0,
+      0.1,
+      0.01
+     ],
+     "arcticHSVAdjustment": [
+      3,
+      -0.1,
+      0
+     ],
+     "veryWetHSVAdjustment": [
+      6,
+      -0.05,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -4,
+      0,
+      0.02
+     ]
+    }
+   }
+  },
+  "height": {
+   "source": "DaVinci terrain mesh (chapter 100) vertex z x tileSizeInMeters x cos(lat); vertex spacing ~25 km at z3, ~50 km at z2",
+   "exaggeration_by_apple_zoom": {
+    "1-6": {
+     "veryHotHSVAdjustment": [
+      0,
+      0,
+      0.1
+     ],
+     "arcticHSVAdjustment": [
+      0,
+      -0.2,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -35,
+      0,
+      0.1
+     ],
+     "veryWetHSVAdjustment": [
+      0,
+      0,
+      0
+     ]
+    },
+    "6-7": {
+     "veryHotHSVAdjustment": [
+      0,
+      0,
+      0.1
+     ],
+     "arcticHSVAdjustment": [
+      0,
+      -0.2,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -35,
+      0,
+      0.1
+     ],
+     "veryWetHSVAdjustment": [
+      0,
+      0,
+      0
+     ]
+    },
+    "7-8": {
+     "veryHotHSVAdjustment": [
+      0,
+      0,
+      0.1
+     ],
+     "arcticHSVAdjustment": [
+      0,
+      -0.1,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -24,
+      0,
+      0.06
+     ],
+     "veryWetHSVAdjustment": [
+      0,
+      0,
+      0
+     ]
+    },
+    "8-9": {
+     "veryHotHSVAdjustment": [
+      0,
+      0,
+      0
+     ],
+     "arcticHSVAdjustment": [
+      0,
+      0,
+      0
+     ],
+     "veryDryHSVAdjustment": [
+      -12,
+      0,
+      0.03
+     ],
+     "veryWetHSVAdjustment": [
+      0,
+      0,
+      0
+     ]
+    },
+    "1": {
+     "groundElevationScale": 14,
+     "normalsSharpnessBias": 0.95
+    },
+    "2": {
+     "groundElevationScale": 9,
+     "normalsSharpnessBias": 0.95
+    },
+    "3": {
+     "groundElevationScale": 7,
+     "normalsSharpnessBias": 0.95
+    },
+    "4": {
+     "groundElevationScale": 5,
+     "normalsSharpnessBias": 0.95
+    },
+    "5": {
+     "groundElevationScale": 3.25,
+     "normalsSharpnessBias": 0.94
+    },
+    "6": {
+     "groundElevationScale": 2.5,
+     "normalsSharpnessBias": 0.93
+    },
+    "7": {
+     "groundElevationScale": 1.5,
+     "normalsSharpnessBias": 0.93
+    },
+    "8": {
+     "groundElevationScale": 1.4,
+     "normalsSharpnessBias": 0.9
+    },
+    "9": {
+     "groundElevationScale": 1.35,
+     "normalsSharpnessBias": 0.85
+    },
+    "10": {
+     "groundElevationScale": 1.3,
+     "normalsSharpnessBias": 0.85
+    },
+    "11": {
+     "groundElevationScale": 1.25,
+     "normalsSharpnessBias": 0.82
+    },
+    "12": {
+     "groundElevationScale": 1.25,
+     "normalsSharpnessBias": 0.78
+    },
+    "13": {
+     "groundElevationScale": 1.25,
+     "normalsSharpnessBias": 0.77
+    },
+    "14": {
+     "groundElevationScale": 1.25,
+     "normalsSharpnessBias": 0.75
+    },
+    "15": {
+     "groundElevationScale": 1.25,
+     "normalsSharpnessBias": 0.73
+    },
+    "16": {
+     "groundElevationScale": 1.15,
+     "normalsSharpnessBias": 0.73
+    },
+    "17": {
+     "groundElevationScale": 1,
+     "normalsSharpnessBias": 0.73
+    },
+    "18": {
+     "groundElevationScale": 1,
+     "normalsSharpnessBias": 0.73
+    },
+    "19": {
+     "groundElevationScale": 1,
+     "normalsSharpnessBias": 0.73
+    },
+    "20": {
+     "groundElevationScale": 1,
+     "normalsSharpnessBias": 0.73
+    }
+   },
+   "note": "z1-4 groundElevationScale 14 / 9 / 7 / 5 is what makes the App's z3 globe look mountainous (RENDER-PIPELINE 2.5)"
+  }
+ },
  "stars": {
   "file": "../basemap/data/globe/stars.bin",
   "format": "basemap/data/globe/stars-format.md (10000 x float32[3]: angle 0-2pi, angle +-1.54, brightness 14.08->10.02)",
