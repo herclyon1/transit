@@ -35,3 +35,16 @@ python3 pipeline/basemap/styl/globe_numbers.py basemap/data/styl/globe-default-2
 python3 pipeline/basemap/styl/styl_decode.py ~/Money/styl-work/globe-default-20207.styl --show Country-Label-Extra-Large-Base   # 看全属性
 ```
 全量表（每个样式全部属性）在本地 `basemap/data/styl/globe-default-20207.tsv`，不进仓库；@2x 版 `globe-default-21097@2x.styl` 的线宽/字号系数另有一套（STYL-FORMAT 第四节），Retina 屏对照时用它。
+
+## 平面样式生成器（2026-09-16 下午，`pipeline/basemap/styl/to_maplibre.py`）
+
+```bash
+python3 pipeline/basemap/styl/to_maplibre.py ~/Money/styl-work/default-56689.styl map/style-flat-light.json map/style-flat-dark.json   # 加 --lum 试亮度调整
+python3 pipeline/rangeserver.py 8793 &   # 预览 http://127.0.0.1:8793/map/flat.html?dark=0#ll=34.69,135.50&spn=0.12,0.2
+```
+- 输入：同一份 `default-56689.styl`（亮/暗是同一文件里的 `.Light*` / `.Dark*` 叶样式）；解析用 `resolve.py`（继承链先父后子、后者覆盖，缩放段「后者优先」）。
+- 数据：OpenFreeMap `planet`（OpenMapTiles 字段），字体只有 Noto Sans Regular/Bold/Italic（medium→Regular、semibold→Bold、bold,italic→Italic）。
+- 映射表 `map/style-flat-mapping.tsv`（80 行）：每个 MapLibre 图层对应哪个苹果叶样式，「inferred」标出的是我推的（motorway→FreewayControlled、trunk→MajorHighway、primary→Highway、secondary→ConnectorRoad、tertiary→LocalMajorRoad、minor→LocalRoad-MinorRoad、service→ServiceRoad、path→PrivatePath、日本路网用 `.Light-JPN`；城市标注按 OpenMapTiles rank 对 City-Label-LMZ-05/07/09/12；区名 SubMuni-Ward；湖名 Lake-Label.Zoom9；海名 Ocean-Points.Large）。
+- 取值：fillColor/strokeColor→颜色（按缩放段 step），width→line-width，套边 = width + 2×strokeWidth 画在下层，visible=False 段→minzoom，边界属性 12→line-opacity（推断为不透明度 0.25），labelInfo.height→text-size（段内从 height 线性到 heightCurveLimit），文字色/光晕色照搬，建筑面用 buildingFlatColor(86)。
+- 没做：隧道/桥（`brunnel`）、匝道（Ramp-*）、盾牌、POI、LumAdjustment 的精确函数（`--lum` 用 HSL 亮度 ±adj/100 近似，默认关）、z17+ 的宽度（苹果换成地面单位，数值 30/60/120 不能直接用）。
+- 自检图：`pipeline/basemap/raw/flat/osaka-{light,dark}.png`（无头 Chrome，同视野 1280×744），验收拿 MKMapSnapshotter 同视野并排。

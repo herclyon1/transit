@@ -1,0 +1,81 @@
+layer	kind	apple_style	note
+background	bg	LandPolygon.Explore-Light	land fill = background (OpenMapTiles has no land polygon)
+landcover-wood	fill	Landcover-Forest.Light-Explore	OpenMapTiles wood ~ Apple Forest (inferred)
+landcover-grass	fill	Landcover-Herbaceous.Light-Explore	grass/farmland ~ Herbaceous (inferred)
+landcover-sand	fill	Landcover-Sand.Light-Explore	
+landuse-residential	fill	ResidentialPolygon-TintBand.Explore-Light	tint band only in Apple; used as flat fill (inferred)
+landuse-commercial	fill	CommercialPolygon.Explore-Light	
+landuse-hospital	fill	HospitalPolygon.Explore-Light	
+landuse-school	fill	UniversityPolygon.Explore-Light	school ~ University (inferred)
+landuse-cemetery	fill	CemeteryPolygon.Explore-Light	
+landuse-stadium	fill	StadiumPolygon.Explore-Light	pitch/playground ~ Stadium (inferred)
+park	fill	ParkPolygon.Explore-Light	
+landuse-park	fill	ParkPolygon.Explore-Light	
+aeroway	fill	AirportPolygon.Explore-Light	
+water	fill	Landcover-Water.Light-Explore	
+waterway	line	Rivers-Light-Flat-Base	no dotted leaf for rivers; Flat-Base variant (inferred)
+building	building	BuildingFootprint.Light-Explore	fill = buildingFlatColor(86), outline = strokeColor
+road-path	road	Line-PrivatePath.Light	path/track ~ PrivatePath (inferred)
+road-service	road	Line-ServiceRoad.Light	
+road-minor	road	Line-LocalRoad-MinorRoad.Light-JPN	
+road-tertiary	road	Line-LocalMajorRoad.Light-JPN	tertiary ~ LocalMajorRoad (inferred)
+road-secondary	road	Line-ConnectorRoad.Light-JPN	secondary ~ ConnectorRoad (inferred)
+road-primary	road	Line-Highway.Light-JPN	primary ~ Highway (inferred)
+road-trunk	road	Line-MajorHighway.Light-JPN	trunk ~ MajorHighway (inferred)
+road-motorway	road	Line-FreewayControlled.Light-JPN	motorway ~ FreewayControlled
+rail	rail	Railway-Japan.Light	
+boundary-state	boundary	Border-State.Explore-Light	12 = opacity (inferred)
+boundary-country	boundary	Border-Country.Non-Disputed-Light	
+label-road-minor	roadname	Line-LocalRoad-MinorRoad.Light-JPN	road label numbers come from the road style itself
+label-road-secondary	roadname	Line-ConnectorRoad.Light-JPN	
+label-road-primary	roadname	Line-Highway.Light-JPN	
+label-road-motorway	roadname	Line-FreewayControlled.Light-JPN	
+label-water-lake	watername	Lake-Label.Zoom9-Light	Zoom9 variant for city-scale lakes (inferred)
+label-water-ocean	watername	Ocean-Points.Large-Explore-Light	Large size class (inferred)
+label-ward	place	SubMuni-Ward.Light	suburb/quarter ~ 区 ward (inferred)
+label-village	place	City-Label-LMZ-12.Light	LMZ = label min zoom; village ~ LMZ-12 (inferred)
+label-town	place	City-Label-LMZ-09.Light	town ~ LMZ-09 (inferred)
+label-city	place	City-Label-LMZ-07.Light	city rank>3 ~ LMZ-07 (inferred)
+label-city-large	place	City-Label-LMZ-05.Light	city rank<=3 ~ LMZ-05 (inferred)
+label-state	place	State-Label-Medium.Light	
+label-country	place	Country-Label-Medium.Light	
+background	bg	LandPolygon.Explore-Dark	land fill = background (OpenMapTiles has no land polygon)
+landcover-wood	fill	Landcover-Forest.Dark-Explore	OpenMapTiles wood ~ Apple Forest (inferred)
+landcover-grass	fill	Landcover-Herbaceous.Dark-Explore	grass/farmland ~ Herbaceous (inferred)
+landcover-sand	fill	Landcover-Sand.Dark-Explore	
+landuse-residential	fill	ResidentialPolygon-TintBand.Explore-Dark	tint band only in Apple; used as flat fill (inferred)
+landuse-commercial	fill	CommercialPolygon.Explore-Dark	
+landuse-hospital	fill	HospitalPolygon.Explore-Dark	
+landuse-school	fill	UniversityPolygon.Explore-Dark	school ~ University (inferred)
+landuse-cemetery	fill	CemeteryPolygon.Explore-Dark	
+landuse-stadium	fill	StadiumPolygon.Explore-Dark	pitch/playground ~ Stadium (inferred)
+park	fill	ParkPolygon.Explore-Dark	
+landuse-park	fill	ParkPolygon.Explore-Dark	
+aeroway	fill	AirportPolygon.Explore-Dark	
+water	fill	Landcover-Water.Dark-Explore	
+waterway	line	Rivers-Dark-Flat-Base	no dotted leaf for rivers; Flat-Base variant (inferred)
+building	building	BuildingFootprint.Dark-Explore	fill = buildingFlatColor(86), outline = strokeColor
+road-path	road	Line-PrivatePath.Dark	path/track ~ PrivatePath (inferred)
+road-service	road	Line-ServiceRoad.Dark	
+road-minor	road	Line-LocalRoad-MinorRoad.Dark-JPN	
+road-tertiary	road	Line-LocalMajorRoad.Dark-JPN	tertiary ~ LocalMajorRoad (inferred)
+road-secondary	road	Line-ConnectorRoad.Dark-JPN	secondary ~ ConnectorRoad (inferred)
+road-primary	road	Line-Highway.Dark-JPN	primary ~ Highway (inferred)
+road-trunk	road	Line-MajorHighway.Dark-JPN	trunk ~ MajorHighway (inferred)
+road-motorway	road	Line-FreewayControlled.Dark-JPN	motorway ~ FreewayControlled
+rail	rail	Railway-Japan.Dark	
+boundary-state	boundary	Border-State.Explore-Dark	12 = opacity (inferred)
+boundary-country	boundary	Border-Country.Non-Disputed-Dark	
+label-road-minor	roadname	Line-LocalRoad-MinorRoad.Dark-JPN	road label numbers come from the road style itself
+label-road-secondary	roadname	Line-ConnectorRoad.Dark-JPN	
+label-road-primary	roadname	Line-Highway.Dark-JPN	
+label-road-motorway	roadname	Line-FreewayControlled.Dark-JPN	
+label-water-lake	watername	Lake-Label.Zoom9-Dark	Zoom9 variant for city-scale lakes (inferred)
+label-water-ocean	watername	Ocean-Points.Large-Explore-Dark	Large size class (inferred)
+label-ward	place	SubMuni-Ward.Dark	suburb/quarter ~ 区 ward (inferred)
+label-village	place	City-Label-LMZ-12.Dark	LMZ = label min zoom; village ~ LMZ-12 (inferred)
+label-town	place	City-Label-LMZ-09.Dark	town ~ LMZ-09 (inferred)
+label-city	place	City-Label-LMZ-07.Dark	city rank>3 ~ LMZ-07 (inferred)
+label-city-large	place	City-Label-LMZ-05.Dark	city rank<=3 ~ LMZ-05 (inferred)
+label-state	place	State-Label-Medium.Dark	
+label-country	place	Country-Label-Medium.Dark	
