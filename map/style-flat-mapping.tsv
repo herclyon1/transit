@@ -23,6 +23,7 @@ road-secondary	road	Line-ConnectorRoad.Light-JPN	secondary ~ ConnectorRoad (infe
 road-primary	road	Line-Highway.Light-JPN	primary ~ Highway (inferred)
 road-trunk	road	Line-MajorHighway.Light-JPN	trunk ~ MajorHighway (inferred)
 road-motorway	road	Line-FreewayControlled.Light-JPN	motorway ~ FreewayControlled
+road-kokudo	road	Line-Highway.Light-JPN-ClassOne	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
 rail	rail	Railway-Japan.Light	
 boundary-state	boundary	Border-State.Explore-Light	12 = opacity (inferred)
 boundary-country	boundary	Border-Country.Non-Disputed-Light	
@@ -63,6 +64,7 @@ road-secondary	road	Line-ConnectorRoad.Dark-JPN	secondary ~ ConnectorRoad (infer
 road-primary	road	Line-Highway.Dark-JPN	primary ~ Highway (inferred)
 road-trunk	road	Line-MajorHighway.Dark-JPN	trunk ~ MajorHighway (inferred)
 road-motorway	road	Line-FreewayControlled.Dark-JPN	motorway ~ FreewayControlled
+road-kokudo	road	Line-Highway.Dark-JPN-ClassOne	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
 rail	rail	Railway-Japan.Dark	
 boundary-state	boundary	Border-State.Explore-Dark	12 = opacity (inferred)
 boundary-country	boundary	Border-Country.Non-Disputed-Dark	

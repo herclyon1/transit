@@ -70,6 +70,7 @@ MAPPING = [
     ('road-primary', 'road', 'transportation', ['in', 'class', 'primary'], 'Line-Highway.{m}-JPN', 'primary ~ Highway (inferred)'),
     ('road-trunk', 'road', 'transportation', ['in', 'class', 'trunk'], 'Line-MajorHighway.{m}-JPN', 'trunk ~ MajorHighway (inferred)'),
     ('road-motorway', 'road', 'transportation', ['in', 'class', 'motorway'], 'Line-FreewayControlled.{m}-JPN', 'motorway ~ FreewayControlled'),
+    ('road-kokudo', 'road', 'transportation_name', ['all', ['in', ['get', 'class'], ['literal', ['trunk', 'primary', 'secondary', 'tertiary']]], ['==', ['slice', ['coalesce', ['get', 'name'], ''], 0, 2], '国道']], 'Line-Highway.{m}-JPN-ClassOne', '国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)'),
     ('rail', 'rail', 'transportation', ['all', ['==', 'class', 'rail'], ['!=', 'brunnel', 'tunnel']], 'Railway-Japan.{m}', ''),
     ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity (inferred)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
@@ -121,12 +122,15 @@ class Gen:
     def adj(self, name, pid):
         return self.r.value_at(name, pid, 12) or 0.0 if self.lum else 0.0
 
-    def minzoom(self, name):
-        """First zoom from which visible(0) is never False; None when never hidden."""
-        vis = [(a, b, v) for a, b, v in self.r.bands(name, 0) if v is False]
-        if not vis:
-            return None
-        return max(0.0, max(b for a, b, v in vis) + ZOFF)
+    def zoom_range(self, name, pid=0, hidden=lambda v: v is False):
+        """(minzoom, maxzoom) from a property's bands: a hidden band touching z0 sets minzoom, one touching z24 sets maxzoom."""
+        lo, hi = None, None
+        for a, b, v in self.r.bands(name, pid):
+            if hidden(v) and a == 0.0:
+                lo = max(0.0, b + ZOFF)
+            if hidden(v) and b == 24.0:
+                hi = max(0.0, a + ZOFF)
+        return lo, hi
 
     def color_expr(self, name, pid, adj_pid=None):
         lum = self.adj(name, adj_pid) if adj_pid else 0.0
@@ -198,9 +202,13 @@ class Gen:
         base = {'id': lid, 'source': 'openmaptiles', 'source-layer': src}
         if flt:
             base['filter'] = flt
-        mz = self.minzoom(style)
-        if mz:
-            base['minzoom'] = mz
+        lo, hi = self.zoom_range(style)
+        # labelTextVisibility(33) is NOT used as a gate: freeways carry 33=0 at every zoom yet Maps labels them
+        # (HANSHIN EXPRESSWAY ... in the acceptance render), so 0 does not mean hidden.
+        if lo:
+            base['minzoom'] = lo
+        if hi is not None and hi < 24:
+            base['maxzoom'] = hi
         out = []
         if kind == 'bg':
             return [{'id': lid, 'type': 'background', 'paint': {'background-color': self.color_expr(style, 1, 470)}}]
