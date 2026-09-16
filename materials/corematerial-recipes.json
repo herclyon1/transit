@@ -1,0 +1,4248 @@
+{
+ "source": "/System/Library/PrivateFrameworks/CoreMaterial.framework/Versions/A/Resources",
+ "recipes": [
+  {
+   "name": "ambientCompact",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "curvesValues": {
+     "inputRedValues": [
+      0,
+      0.7,
+      0.88,
+      0.88
+     ],
+     "inputGreenValues": [
+      0,
+      0.7,
+      0.88,
+      0.88
+     ],
+     "inputBlueValues": [
+      0,
+      0.7,
+      0.88,
+      0.88
+     ]
+    },
+    "blurRadius": 40,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "carPlayPlatters",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 15
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0.95,
+     "alpha": 1
+    },
+    "tintAlpha": 0.65
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "carPlayPlattersDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 15
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0.1,
+     "alpha": 1
+    },
+    "tintAlpha": 0.65
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "dockDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "luminanceAmount": 0.5,
+    "luminanceValues": [
+     0.29,
+     -0.2,
+     0.375,
+     0.65
+    ],
+    "blurRadius": 30,
+    "saturation": 1.6,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "dockLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "luminanceAmount": 0.5,
+    "luminanceValues": [
+     0.3,
+     0.5,
+     1.0,
+     0.77
+    ],
+    "blurRadius": 30,
+    "saturation": 1.8,
+    "brightness": 0.08,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgeBackground",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeLight",
+    "fill": "platterFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.47,
+    "luminanceValues": [
+     0,
+     0.13,
+     0.13,
+     0
+    ],
+    "saturation": 1.35,
+    "blurRadius": 29.5,
+    "backdropScale": 0.45,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgeBackgroundDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "backdropScale": 0.45,
+    "luminanceAmount": 0.57,
+    "luminanceValues": [
+     -0.1,
+     0.03,
+     0.03,
+     -0.1
+    ],
+    "saturation": 1.45,
+    "blurRadius": 29.5,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgePlatters",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeLight",
+    "fill": "platterFillLight"
+   },
+   "filtering": {
+    "colorMatrix": [
+     [
+      0.920517,
+      -0.451026,
+      -0.0869913,
+      0,
+      0.65875
+     ],
+     [
+      -0.229326,
+      0.699512,
+      -0.0876859,
+      0,
+      0.65875
+     ],
+     [
+      -0.230021,
+      -0.449984,
+      1.06251,
+      0,
+      0.65875
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ],
+    "blurRadius": 15.0,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgePlattersDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeDark",
+    "fill": "platterFillDark"
+   },
+   "filtering": {
+    "colorMatrix": [
+     [
+      1.04989,
+      -0.084126,
+      -0.0157665,
+      0,
+      0.095
+     ],
+     [
+      -0.0424589,
+      1.00889,
+      -0.0164264,
+      0,
+      0.095
+     ],
+     [
+      -0.0431188,
+      -0.0831362,
+      1.07625,
+      0,
+      0.095
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ],
+    "blurRadius": 15.0,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgePlattersSheer",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeLight",
+    "fill": "platterFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.6,
+    "luminanceValues": [
+     0.775,
+     0.85,
+     1.05,
+     0.94
+    ],
+    "saturation": 2.4,
+    "blurRadius": 30,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "knowledgePlattersSheerDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeDark",
+    "fill": "platterFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.4,
+    "luminanceValues": [
+     0.41,
+     -0.4,
+     0.3,
+     0
+    ],
+    "saturation": 1.4,
+    "brightness": -0.03,
+    "blurRadius": 30,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "modules",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "moduleStroke",
+    "fill": "moduleFill"
+   },
+   "filtering": {
+    "colorMatrix": [
+     [
+      0.924,
+      -0.175,
+      -0.018,
+      0,
+      -0.061
+     ],
+     [
+      -0.052,
+      0.801,
+      -0.018,
+      0,
+      -0.061
+     ],
+     [
+      -0.052,
+      -0.175,
+      0.958,
+      0,
+      -0.061
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "modulesBackground",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "moduleStroke",
+    "fill": "moduleFill"
+   },
+   "filtering": {
+    "luminanceAmount": 0.4,
+    "luminanceValues": [
+     0.38,
+     0,
+     1,
+     0.76
+    ],
+    "blurRadius": 25,
+    "saturation": 1.6,
+    "zoom": 0.04
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "modulesBackgroundSheer",
+   "kind": "descendantrecipe",
+   "version": 2,
+   "inherits": "modulesBackground",
+   "styles": {
+    "stroke": "moduleStroke",
+    "fill": "moduleFill"
+   },
+   "filtering": {
+    "luminanceAmount": 0.4,
+    "luminanceValues": [
+     0.38,
+     0,
+     1,
+     0.76
+    ],
+    "blurRadius": 10.0,
+    "saturation": 1.45,
+    "zoom": 0.01,
+    "backdropScale": 0.25,
+    "blurInputQuality": "medium"
+   },
+   "tinting": {
+    "tintColor": {
+     "red": 0.518,
+     "green": 0.545,
+     "blue": 0.584,
+     "alpha": 1.0
+    },
+    "tintAlpha": 0.06
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "modulesSheer",
+   "kind": "descendantrecipe",
+   "version": 2,
+   "inherits": "modules",
+   "styles": {
+    "stroke": "moduleStroke",
+    "fill": "moduleFill"
+   },
+   "filtering": {
+    "colorMatrix": [
+     [
+      0.924,
+      -0.175,
+      -0.018,
+      0,
+      -0.061
+     ],
+     [
+      -0.052,
+      0.801,
+      -0.018,
+      0,
+      -0.061
+     ],
+     [
+      -0.052,
+      -0.175,
+      0.958,
+      0,
+      -0.061
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ],
+    "blurRadius": 15.0,
+    "backdropScale": 0.05,
+    "blurInputQuality": "low"
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformChromeDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformChromeFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.75,
+    "luminanceValues": [
+     0.23,
+     0.52,
+     0.27,
+     0.255
+    ],
+    "blurRadius": 22.5,
+    "backdropScale": 0.25,
+    "saturation": 2.0,
+    "brightness": -0.1,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformChromeDarkReduceTransparency",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformChromeFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.85,
+    "luminanceValues": [
+     0.225,
+     0.31,
+     0.25,
+     0.2
+    ],
+    "backdropScale": 0.25,
+    "brightness": -0.1,
+    "averageColorEnabled": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformChromeDarkReduceTransparencyLayer1",
+   "kind": "descendantrecipe",
+   "version": 2,
+   "inherits": "platformChromeDarkReduceTransparency",
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformChromeFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.85,
+    "luminanceValues": [
+     0.225,
+     0.31,
+     0.25,
+     0.2
+    ],
+    "backdropScale": 0.25,
+    "brightness": -0.04,
+    "averageColorEnabled": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformChromeLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformChromeFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.75,
+    "luminanceValues": [
+     0.8,
+     0.9,
+     1.1,
+     0.825
+    ],
+    "blurRadius": 22.5,
+    "backdropScale": 0.25,
+    "saturation": 1.1,
+    "brightness": 0.1,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformChromeLightReduceTransparency",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformChromeFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.75,
+    "luminanceValues": [
+     0.95,
+     0.9,
+     1.1,
+     0.825
+    ],
+    "backdropScale": 0.25,
+    "saturation": 0.8,
+    "brightness": 0.1,
+    "averageColorEnabled": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.75,
+    "luminanceValues": [
+     0.16,
+     0.26,
+     0.1,
+     0.1
+    ],
+    "blurRadius": 30,
+    "saturation": 1.5,
+    "brightness": 0,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentDark~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.6,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0,
+     "alpha": 1
+    },
+    "tintAlpha": 0.5
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentGlass",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentGlassDarker",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentGlassLighter",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentGlassUltraDarker",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.75,
+    "luminanceValues": [
+     0.9,
+     0.83,
+     0.925,
+     0.815
+    ],
+    "blurRadius": 30,
+    "saturation": 1.5,
+    "brightness": 0.1,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentLight~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.6,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 1,
+     "alpha": 1
+    },
+    "tintAlpha": 0.4
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThickDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.88,
+    "luminanceValues": [
+     0.14,
+     0.16,
+     0.1,
+     0.03
+    ],
+    "blurRadius": 45,
+    "saturation": 1.5,
+    "brightness": 0,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThickDark~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0,
+     "alpha": 1
+    },
+    "tintAlpha": 0.8
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThickLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.88,
+    "luminanceValues": [
+     0.99,
+     0.95,
+     0.98,
+     0.905
+    ],
+    "blurRadius": 45,
+    "saturation": 1.5,
+    "brightness": 0.045,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThickLightShadowed",
+   "kind": "descendantrecipe",
+   "version": 2,
+   "inherits": "platformContentThickLight",
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.88,
+    "luminanceValues": [
+     0.99,
+     0.95,
+     0.98,
+     0.955
+    ],
+    "blurRadius": 45,
+    "saturation": 1.5,
+    "brightness": 0.045,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThickLight~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 1,
+     "alpha": 1
+    },
+    "tintAlpha": 0.6
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThinDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.6,
+    "luminanceValues": [
+     0.2,
+     0.21,
+     0.1,
+     0.15
+    ],
+    "blurRadius": 30,
+    "saturation": 1.35,
+    "brightness": 0,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThinDark~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.4,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0,
+     "alpha": 1
+    },
+    "tintAlpha": 0.32
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThinLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.6,
+    "luminanceValues": [
+     0.725,
+     0.825,
+     0.76,
+     0.73
+    ],
+    "blurRadius": 30,
+    "saturation": 1.35,
+    "brightness": 0.12,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentThinLight~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.8,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 1,
+     "alpha": 1
+    },
+    "tintAlpha": 0.3
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentUltraThinDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.5,
+    "luminanceValues": [
+     0.24,
+     0.24,
+     0.3,
+     0.39
+    ],
+    "blurRadius": 22.5,
+    "saturation": 1.1,
+    "brightness": 0,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentUltraThinDark~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinDark",
+    "fill": "platformFillDark"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.3,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0,
+     "alpha": 1
+    },
+    "tintAlpha": 0.08
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentUltraThinLight",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.5,
+    "luminanceValues": [
+     0.45,
+     0.55,
+     0.65,
+     0.68
+    ],
+    "blurRadius": 22.5,
+    "saturation": 1.1,
+    "brightness": 0.12,
+    "blurAtEnd": true,
+    "backdropScale": 0.25
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformContentUltraThinLight~appletv",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platformStrokeThinLight",
+    "fill": "platformFillLight"
+   },
+   "filtering": {
+    "blurRadius": 50,
+    "saturation": 1.3,
+    "backdropScale": 0.625
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 1,
+     "alpha": 1
+    },
+    "tintAlpha": 0.06
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformDisabled",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformPinched",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platformSelected",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 45,
+    "colorMatrix": [
+     [
+      0.921,
+      -0.265,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      0.735,
+      -0.027,
+      0,
+      0.235
+     ],
+     [
+      -0.079,
+      -0.265,
+      0.973,
+      0,
+      0.235
+     ],
+     [
+      0,
+      0,
+      0,
+      1.0,
+      0
+     ]
+    ]
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "platters",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeLight",
+    "fill": "platterFillLight"
+   },
+   "filtering": {
+    "luminanceAmount": 0.6,
+    "luminanceValues": [
+     0.775,
+     0.85,
+     1.05,
+     0.94
+    ],
+    "saturation": 2.4,
+    "blurRadius": 30,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "plattersDark",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeDark",
+    "fill": "platterFillDark"
+   },
+   "filtering": {
+    "luminanceAmount": 0.4,
+    "luminanceValues": [
+     0.41,
+     -0.4,
+     0.3,
+     0
+    ],
+    "saturation": 1.4,
+    "brightness": -0.03,
+    "blurRadius": 30,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "previewBackground",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "blurRadius": 11.2,
+    "zoom": 0.024
+   },
+   "tinting": {
+    "tintColor": {
+     "white": 0,
+     "alpha": 1.0
+    },
+    "tintAlpha": 0.088
+   },
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "tintablePlatters",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": {
+    "stroke": "platterStrokeLight",
+    "fill": "platterFillLight"
+   },
+   "filtering": {
+    "saturation": 1.8,
+    "blurRadius": 30,
+    "backdropScale": 0.25,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  },
+  {
+   "name": "toolbarButtonBackground",
+   "kind": "materialrecipe",
+   "version": 2,
+   "inherits": null,
+   "styles": null,
+   "filtering": {
+    "luminanceAmount": 0.5,
+    "luminanceValues": [
+     0.24,
+     0.24,
+     0.3,
+     0.39
+    ],
+    "backdropScale": 0.25,
+    "saturation": 1.1,
+    "blurRadius": 15,
+    "blurAtEnd": true
+   },
+   "tinting": null,
+   "other_baseMaterial_keys": [],
+   "other_top_keys": []
+  }
+ ],
+ "stylesets": [
+  {
+   "name": "highContrastStyle",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "highContrast",
+    "secondary": "highContrast",
+    "tertiary": "highContrast",
+    "quaternary": "highContrast"
+   },
+   "styles": {
+    "highContrastPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 1.0
+     }
+    },
+    "highContrastSecondary": {
+     "tintColor": {
+      "red": 0.64,
+      "green": 0.64,
+      "blue": 0.64,
+      "alpha": 1.0
+     }
+    }
+   }
+  },
+  {
+   "name": "moduleFill",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "secondary": "moduleItemOff",
+    "tertiary": "moduleHighlight",
+    "quaternary": "moduleRuleOnDark",
+    "highlight": "moduleHighlight",
+    "separator": "moduleRuleOnDark"
+   },
+   "styles": {
+    "moduleItemOff": {
+     "tintColor": {
+      "white": 1.0,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputBackdropAware": true,
+     "inputColorMatrix": [
+      [
+       1.3937,
+       -0.3576,
+       -0.0361,
+       0,
+       0.12
+      ],
+      [
+       -0.1063,
+       1.1424,
+       -0.0361,
+       0,
+       0.12
+      ],
+      [
+       -0.1063,
+       -0.3576,
+       1.4639,
+       0,
+       0.12
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "moduleHighlight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputBackdropAware": true,
+     "inputColorMatrix": [
+      [
+       0.266,
+       -0.215,
+       -0.022,
+       0,
+       0.97
+      ],
+      [
+       -0.064,
+       0.115,
+       -0.022,
+       0,
+       0.97
+      ],
+      [
+       -0.064,
+       -0.215,
+       0.308,
+       0,
+       0.97
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "moduleRuleOnDark": {
+     "tintColor": {
+      "white": 1.0,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantDark",
+     "colorDodge": {
+      "red": 0.45,
+      "green": 0.45,
+      "blue": 0.45,
+      "alpha": 1.0
+     },
+     "colorLighten": {
+      "white": 1.0,
+      "alpha": 0.38
+     },
+     "inputReversed": false
+    },
+    "moduleRuleOnLight": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.6
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "moduleRuleOnDarkSubtle": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 0.12
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "moduleRuleOnLightSubtle": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.12
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "moduleListTint": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.05
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    }
+   }
+  },
+  {
+   "name": "moduleStroke",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "modulePrimary",
+    "secondary": "moduleSecondary",
+    "tertiary": "moduleRuleOnDark",
+    "quaternary": "moduleRuleOnDark",
+    "separator": "moduleRuleOnDark"
+   },
+   "styles": {
+    "modulePrimary": {
+     "tintColor": {
+      "white": 1.0,
+      "alpha": 1.0
+     }
+    },
+    "modulePrimaryOnLight": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 1.0
+     }
+    },
+    "moduleSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputBackdropAware": true,
+     "inputColorMatrix": [
+      [
+       1,
+       0,
+       0,
+       0,
+       0.35
+      ],
+      [
+       0,
+       1,
+       0,
+       0,
+       0.35
+      ],
+      [
+       0,
+       0,
+       1,
+       0,
+       0.35
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0.35
+      ]
+     ]
+    },
+    "moduleSecondaryOnLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputBackdropAware": true,
+     "inputColorMatrix": [
+      [
+       0.4,
+       0,
+       0,
+       0,
+       0.141176477
+      ],
+      [
+       0,
+       0.4,
+       0,
+       0,
+       0.141
+      ],
+      [
+       0,
+       0,
+       0.4,
+       0,
+       0.157647073
+      ],
+      [
+       0,
+       0,
+       0,
+       0.4,
+       0.6
+      ]
+     ]
+    },
+    "moduleRuleOnDark": {
+     "tintColor": {
+      "white": 1.0,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantDark",
+     "colorDodge": {
+      "red": 0.45,
+      "green": 0.45,
+      "blue": 0.45,
+      "alpha": 1.0
+     },
+     "colorLighten": {
+      "white": 1.0,
+      "alpha": 0.38
+     },
+     "inputReversed": false
+    }
+   }
+  },
+  {
+   "name": "platformChromeFillDark",
+   "kind": "descendantstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformChromeTabBarText",
+    "secondary": "platformFillDarkSecondary",
+    "tertiary": "platformFillDarkTertiary",
+    "quaternary": "platformDarkSeparator",
+    "highlight": "platformFillDarkTertiary",
+    "separator": "platformDarkSeparator",
+    "inherits": "platformFillDark"
+   },
+   "styles": {
+    "platformFillDarkPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.37625,
+       -0.7345164,
+       -0.1417335,
+       0,
+       0.4999999
+      ],
+      [
+       -0.373512,
+       1.016302,
+       -0.1427905,
+       0,
+       0.5
+      ],
+      [
+       -0.374569,
+       -0.732931,
+       1.6075,
+       0,
+       0.4999999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.22658,
+       -0.3410732,
+       -0.06550679,
+       0,
+       0.1799999
+      ],
+      [
+       -0.1732296,
+       1.059582,
+       -0.06635241,
+       0,
+       0.18
+      ],
+      [
+       -0.1740752,
+       -0.3398048,
+       1.33388,
+       0,
+       0.1799999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.060532,
+       -0.07796578,
+       -0.0145662,
+       0,
+       0.12
+      ],
+      [
+       -0.03931839,
+       1.022549,
+       -0.01523062,
+       0,
+       0.12
+      ],
+      [
+       -0.03998281,
+       -0.07696921,
+       1.084952,
+       0,
+       0.1200001
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformDarkSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.396216,
+       -0.5971366,
+       -0.1150794,
+       0,
+       0.298
+      ],
+      [
+       -0.3035528,
+       1.103659,
+       -0.1161062,
+       0,
+       0.2979999
+      ],
+      [
+       -0.3045796,
+       -0.5955964,
+       1.584176,
+       0,
+       0.298
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformChromeTabBarText": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0.6603,
+       -0.1764285,
+       -0.0338715,
+       0,
+       0.46
+      ],
+      [
+       -0.089598,
+       0.5739225,
+       -0.03432451,
+       0,
+       0.46
+      ],
+      [
+       -0.090051,
+       -0.175749,
+       0.7158,
+       0,
+       0.46
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformChromeFillLight",
+   "kind": "descendantstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformChromeTabBarText",
+    "secondary": "platformFillLightSecondary",
+    "tertiary": "platformFillLightTertiary",
+    "quaternary": "platformLightSeparator",
+    "highlight": "platformFillLightTertiary",
+    "separator": "platformLightSeparator",
+    "inherits": "platformFillLight"
+   },
+   "styles": {
+    "platformFillLightPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.514125,
+       -0.954751,
+       -0.184374,
+       0,
+       0.0625
+      ],
+      [
+       -0.485603,
+       1.046185,
+       -0.185582,
+       0,
+       0.06249997
+      ],
+      [
+       -0.486811,
+       -0.952939,
+       1.81475,
+       0,
+       0.0625
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.23555,
+       -0.3234631,
+       -0.06208679,
+       0,
+       0
+      ],
+      [
+       -0.1642596,
+       1.077192,
+       -0.06293241,
+       0,
+       0
+      ],
+      [
+       -0.1651052,
+       -0.3221948,
+       1.3373,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.177642,
+       -0.1426014,
+       -0.02704049,
+       0,
+       -0.08399999
+      ],
+      [
+       -0.07218799,
+       1.107983,
+       -0.0277955,
+       0,
+       -0.08399999
+      ],
+      [
+       -0.07294299,
+       -0.141469,
+       1.222412,
+       0,
+       -0.08399999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformLightSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.407578,
+       -0.5748306,
+       -0.1107474,
+       0,
+       0.01900005
+      ],
+      [
+       -0.2921908,
+       1.125965,
+       -0.1117742,
+       0,
+       0.01899996
+      ],
+      [
+       -0.2932176,
+       -0.5732903,
+       1.588508,
+       0,
+       0.01900005
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformChromeTabBarText": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.201,
+       -0.587657,
+       -0.113343,
+       0,
+       0.1
+      ],
+      [
+       -0.298796,
+       0.913045,
+       -0.114249,
+       0,
+       0.1
+      ],
+      [
+       -0.299702,
+       -0.586298,
+       1.386,
+       0,
+       0.1
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformColorsDark",
+   "kind": "descendantstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "platformGray": "platformGrayDark",
+    "platformBlue": "platformBlueDark",
+    "platformTeal": "platformTealDark",
+    "platformOrange": "platformOrangeLight",
+    "platformGreen": "platformGreenLight",
+    "inherits": "platformColorsLight"
+   },
+   "styles": {
+    "platformGrayLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.0701,
+       -0.0591818,
+       -0.0109182,
+       0,
+       -0.08
+      ],
+      [
+       -0.0297504,
+       1.04133,
+       -0.0115826,
+       0,
+       -0.08
+      ],
+      [
+       -0.0304148,
+       -0.0581852,
+       1.0886,
+       0,
+       -0.08
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformBlueLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.147322,
+       -0.289224,
+       -0.0561696,
+       0,
+       0.443676
+      ],
+      [
+       -0.194856,
+       -0.382542,
+       -0.0742928,
+       0,
+       0.964455
+      ],
+      [
+       -0.246675,
+       -0.484275,
+       -0.09405,
+       0,
+       1.74288
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0.1
+      ]
+     ]
+    },
+    "platformTealLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.0560625,
+       -0.110063,
+       -0.021375,
+       0,
+       0.30641
+      ],
+      [
+       -0.095637,
+       -0.187756,
+       -0.0364636,
+       0,
+       0.890516
+      ],
+      [
+       -0.112125,
+       -0.220125,
+       -0.04275,
+       0,
+       1.24044
+      ],
+      [
+       -0.0897,
+       -0.1761,
+       -0.0342,
+       1.0,
+       0.45
+      ]
+     ]
+    },
+    "platformOrangeLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.46412,
+       0.070659,
+       0.013461,
+       0,
+       1.52438
+      ],
+      [
+       0.02514,
+       -0.301562,
+       0.00966162,
+       0,
+       0.93276
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0.1794,
+       0.3522,
+       0.0684,
+       1.0,
+       -0.4
+      ]
+     ]
+    },
+    "platformGreenLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.0723896,
+       0.000889868,
+       0.000134727,
+       0,
+       0.177077
+      ],
+      [
+       0.0155487,
+       -0.289381,
+       0.000692411,
+       0,
+       0.936432
+      ],
+      [
+       0.00877353,
+       0.00175226,
+       -0.162916,
+       0,
+       0.380563
+      ],
+      [
+       -0.1196,
+       -0.2348,
+       -0.0456,
+       1.0,
+       0.1
+      ]
+     ]
+    },
+    "platformGrayDark": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.0701,
+       -0.0591818,
+       -0.0109182,
+       0,
+       0.06
+      ],
+      [
+       -0.0297504,
+       1.04133,
+       -0.0115826,
+       0,
+       0.06
+      ],
+      [
+       -0.0304148,
+       -0.0581852,
+       1.0886,
+       0,
+       0.0600001
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformBlueDark": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0.0560625,
+       0.110063,
+       0.021375,
+       0,
+       0.022213
+      ],
+      [
+       0.0804609,
+       0.157962,
+       0.0306774,
+       0,
+       0.496058
+      ],
+      [
+       0.112125,
+       0.220125,
+       0.04275,
+       0,
+       1.04443
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformTealDark": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0,
+       0,
+       0,
+       0,
+       0.158311
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0.740335
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0.902769
+      ],
+      [
+       -0.0897,
+       -0.1761,
+       -0.0342,
+       1,
+       0.28
+      ]
+     ]
+    },
+    "platformOrangeDark": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0,
+       0,
+       0,
+       0,
+       1
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0.581249
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0.018462
+      ],
+      [
+       -0.0897,
+       -0.1761,
+       -0.0342,
+       1.0,
+       0.28
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformColorsLight",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "platformGray": "platformGrayLight",
+    "platformBlue": "platformBlueLight",
+    "platformTeal": "platformTealLight",
+    "platformOrange": "platformOrangeLight",
+    "platformGreen": "platformGreenLight"
+   },
+   "styles": {
+    "platformGrayLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.0701,
+       -0.0591818,
+       -0.0109182,
+       0,
+       -0.08
+      ],
+      [
+       -0.0297504,
+       1.04133,
+       -0.0115826,
+       0,
+       -0.08
+      ],
+      [
+       -0.0304148,
+       -0.0581852,
+       1.0886,
+       0,
+       -0.08
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformBlueLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.147322,
+       -0.289224,
+       -0.0561696,
+       0,
+       0.443676
+      ],
+      [
+       -0.194856,
+       -0.382542,
+       -0.0742928,
+       0,
+       0.964455
+      ],
+      [
+       -0.246675,
+       -0.484275,
+       -0.09405,
+       0,
+       1.74288
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0.1
+      ]
+     ]
+    },
+    "platformTealLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.0560625,
+       -0.110063,
+       -0.021375,
+       0,
+       0.30641
+      ],
+      [
+       -0.095637,
+       -0.187756,
+       -0.0364636,
+       0,
+       0.890516
+      ],
+      [
+       -0.112125,
+       -0.220125,
+       -0.04275,
+       0,
+       1.24044
+      ],
+      [
+       -0.0897,
+       -0.1761,
+       -0.0342,
+       1.0,
+       0.45
+      ]
+     ]
+    },
+    "platformOrangeLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.46412,
+       0.070659,
+       0.013461,
+       0,
+       1.52438
+      ],
+      [
+       0.02514,
+       -0.301562,
+       0.00966162,
+       0,
+       0.93276
+      ],
+      [
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      [
+       0.1794,
+       0.3522,
+       0.0684,
+       1.0,
+       -0.4
+      ]
+     ]
+    },
+    "platformGreenLight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       -0.0723896,
+       0.000889868,
+       0.000134727,
+       0,
+       0.177077
+      ],
+      [
+       0.0155487,
+       -0.289381,
+       0.000692411,
+       0,
+       0.936432
+      ],
+      [
+       0.00877353,
+       0.00175226,
+       -0.162916,
+       0,
+       0.380563
+      ],
+      [
+       -0.1196,
+       -0.2348,
+       -0.0456,
+       1.0,
+       0.1
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformFillDark",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformFillDarkPrimary",
+    "secondary": "platformFillDarkSecondary",
+    "tertiary": "platformFillDarkTertiary",
+    "quaternary": "platformDarkSeparator",
+    "highlight": "platformFillDarkTertiary",
+    "separator": "platformDarkSeparator"
+   },
+   "styles": {
+    "platformFillDarkPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.37625,
+       -0.7345164,
+       -0.1417335,
+       0,
+       0.4999999
+      ],
+      [
+       -0.373512,
+       1.016302,
+       -0.1427905,
+       0,
+       0.5
+      ],
+      [
+       -0.374569,
+       -0.732931,
+       1.6075,
+       0,
+       0.4999999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.22658,
+       -0.3410732,
+       -0.06550679,
+       0,
+       0.1799999
+      ],
+      [
+       -0.1732296,
+       1.059582,
+       -0.06635241,
+       0,
+       0.18
+      ],
+      [
+       -0.1740752,
+       -0.3398048,
+       1.33388,
+       0,
+       0.1799999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.060532,
+       -0.07796578,
+       -0.0145662,
+       0,
+       0.12
+      ],
+      [
+       -0.03931839,
+       1.022549,
+       -0.01523062,
+       0,
+       0.12
+      ],
+      [
+       -0.03998281,
+       -0.07696921,
+       1.084952,
+       0,
+       0.1200001
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformDarkSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.396216,
+       -0.5971366,
+       -0.1150794,
+       0,
+       0.298
+      ],
+      [
+       -0.3035528,
+       1.103659,
+       -0.1161062,
+       0,
+       0.2979999
+      ],
+      [
+       -0.3045796,
+       -0.5955964,
+       1.584176,
+       0,
+       0.298
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformFillDark~appletv",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformFillLightPrimary",
+    "secondary": "platformFillLightSecondary",
+    "tertiary": "platformFillLightTertiary",
+    "quaternary": "platformLightSeparator",
+    "highlight": "platformFillLightTertiary",
+    "separator": "platformLightSeparator"
+   },
+   "styles": {
+    "platformFillLightPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformFillLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformFillLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformLightSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    }
+   }
+  },
+  {
+   "name": "platformFillLight",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformFillLightPrimary",
+    "secondary": "platformFillLightSecondary",
+    "tertiary": "platformFillLightTertiary",
+    "quaternary": "platformLightSeparator",
+    "highlight": "platformFillLightTertiary",
+    "separator": "platformLightSeparator"
+   },
+   "styles": {
+    "platformFillLightPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.514125,
+       -0.954751,
+       -0.184374,
+       0,
+       0.0625
+      ],
+      [
+       -0.485603,
+       1.046185,
+       -0.185582,
+       0,
+       0.06249997
+      ],
+      [
+       -0.486811,
+       -0.952939,
+       1.81475,
+       0,
+       0.0625
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.23555,
+       -0.3234631,
+       -0.06208679,
+       0,
+       0
+      ],
+      [
+       -0.1642596,
+       1.077192,
+       -0.06293241,
+       0,
+       0
+      ],
+      [
+       -0.1651052,
+       -0.3221948,
+       1.3373,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformFillLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.177642,
+       -0.1426014,
+       -0.02704049,
+       0,
+       -0.08399999
+      ],
+      [
+       -0.07218799,
+       1.107983,
+       -0.0277955,
+       0,
+       -0.08399999
+      ],
+      [
+       -0.07294299,
+       -0.141469,
+       1.222412,
+       0,
+       -0.08399999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformLightSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.407578,
+       -0.5748306,
+       -0.1107474,
+       0,
+       0.01900005
+      ],
+      [
+       -0.2921908,
+       1.125965,
+       -0.1117742,
+       0,
+       0.01899996
+      ],
+      [
+       -0.2932176,
+       -0.5732903,
+       1.588508,
+       0,
+       0.01900005
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformFillLight~appletv",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformFillLightPrimary",
+    "secondary": "platformFillLightSecondary",
+    "tertiary": "platformFillLightTertiary",
+    "quaternary": "platformLightSeparator",
+    "highlight": "platformFillLightTertiary",
+    "separator": "platformLightSeparator"
+   },
+   "styles": {
+    "platformFillLightPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformFillLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformFillLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformLightSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    }
+   }
+  },
+  {
+   "name": "platformStrokeDark",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeDarkPrimary",
+    "secondary": "platformStrokeDarkSecondary",
+    "tertiary": "platformStrokeDarkTertiary",
+    "quaternary": "platformStrokeDarkQuaternary"
+   },
+   "styles": {
+    "platformStrokeDarkPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 0.96
+     }
+    },
+    "platformStrokeDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.173492,
+       -0.641661,
+       -0.123831,
+       0,
+       0.556
+      ],
+      [
+       -0.326304,
+       0.859041,
+       -0.124737,
+       0,
+       0.5560001
+      ],
+      [
+       -0.32721,
+       -0.640302,
+       1.375512,
+       0,
+       0.556
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.396216,
+       -0.5971366,
+       -0.1150794,
+       0,
+       0.298
+      ],
+      [
+       -0.3035528,
+       1.103659,
+       -0.1161062,
+       0,
+       0.2979999
+      ],
+      [
+       -0.3045796,
+       -0.5955964,
+       1.584176,
+       0,
+       0.298
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeDarkQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.22658,
+       -0.3410732,
+       -0.06550679,
+       0,
+       0.1799999
+      ],
+      [
+       -0.1732296,
+       1.059582,
+       -0.06635241,
+       0,
+       0.18
+      ],
+      [
+       -0.1740752,
+       -0.3398048,
+       1.33388,
+       0,
+       0.1799999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformStrokeDark~appletv",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeDarkPrimary",
+    "secondary": "platformStrokeDarkSecondary",
+    "tertiary": "platformStrokeDarkTertiary",
+    "quaternary": "platformStrokeDarkQuaternary"
+   },
+   "styles": {
+    "platformStrokeDarkPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": "1"
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformStrokeDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": "0.5"
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformStrokeDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": "0.3"
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    },
+    "platformStrokeDarkQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": "0.2"
+     },
+     "blending": {
+      "compositingFilter": "plusL"
+     }
+    }
+   }
+  },
+  {
+   "name": "platformStrokeLight",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeLightPrimary",
+    "secondary": "platformStrokeLightSecondary",
+    "tertiary": "platformStrokeLightTertiary",
+    "quaternary": "platformStrokeLightQuaternary"
+   },
+   "styles": {
+    "platformStrokeLightPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.96
+     }
+    },
+    "platformStrokeLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.551948,
+       -0.8804954,
+       -0.169953,
+       0,
+       0.04425001
+      ],
+      [
+       -0.4477795,
+       1.12044,
+       -0.171161,
+       0,
+       0.04424998
+      ],
+      [
+       -0.4489875,
+       -0.8786834,
+       1.829171,
+       0,
+       0.04425001
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.407578,
+       -0.5748306,
+       -0.1107474,
+       0,
+       0.01900005
+      ],
+      [
+       -0.2921908,
+       1.125965,
+       -0.1117742,
+       0,
+       0.01899996
+      ],
+      [
+       -0.2932176,
+       -0.5732903,
+       1.588508,
+       0,
+       0.01900005
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeLightQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.23555,
+       -0.3234631,
+       -0.06208679,
+       0,
+       0
+      ],
+      [
+       -0.1642596,
+       1.077192,
+       -0.06293241,
+       0,
+       0
+      ],
+      [
+       -0.1651052,
+       -0.3221948,
+       1.3373,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformStrokeLight~appletv",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeLightPrimary",
+    "secondary": "platformStrokeLightSecondary",
+    "tertiary": "platformStrokeLightTertiary",
+    "quaternary": "platformStrokeLightQuaternary"
+   },
+   "styles": {
+    "platformStrokeLightPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": "1"
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformStrokeLightSecondary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": "0.6"
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformStrokeLightTertiary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": "0.4"
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platformStrokeLightQuaternary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": "0.2"
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    }
+   }
+  },
+  {
+   "name": "platformStrokeThinDark",
+   "kind": "descendantstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeDarkPrimary",
+    "secondary": "platformStrokeDarkSecondary",
+    "tertiary": "platformStrokeDarkTertiary",
+    "quaternary": "platformStrokeDarkQuaternary",
+    "inherits": "platformStrokeDark"
+   },
+   "styles": {
+    "platformStrokeDarkPrimary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 0.96
+     }
+    },
+    "platformStrokeDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0.828075,
+       -0.337963,
+       -0.06511199,
+       0,
+       0.5375
+      ],
+      [
+       -0.171789,
+       0.662505,
+       -0.06571601,
+       0,
+       0.5375001
+      ],
+      [
+       -0.172393,
+       -0.337057,
+       0.93445,
+       0,
+       0.5375
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.040035,
+       -0.3145706,
+       -0.0604644,
+       0,
+       0.3175
+      ],
+      [
+       -0.1598018,
+       0.885991,
+       -0.06118922,
+       0,
+       0.3175
+      ],
+      [
+       -0.1605266,
+       -0.3134834,
+       1.13901,
+       0,
+       0.3175
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeDarkQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.22658,
+       -0.3410732,
+       -0.06550679,
+       0,
+       0.1799999
+      ],
+      [
+       -0.1732296,
+       1.059582,
+       -0.06635241,
+       0,
+       0.18
+      ],
+      [
+       -0.1740752,
+       -0.3398048,
+       1.33388,
+       0,
+       0.1799999
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platformStrokeThinLight",
+   "kind": "descendantstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platformStrokeLightPrimary",
+    "secondary": "platformStrokeLightSecondary",
+    "tertiary": "platformStrokeLightTertiary",
+    "quaternary": "platformStrokeLightQuaternary",
+    "inherits": "platformStrokeLight"
+   },
+   "styles": {
+    "platformStrokeLightPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.96
+     }
+    },
+    "platformStrokeLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0.9362975,
+       -0.3218643,
+       -0.0619332,
+       0,
+       0.04874998
+      ],
+      [
+       -0.1635529,
+       0.7786505,
+       -0.06259762,
+       0,
+       0.04874998
+      ],
+      [
+       -0.1642173,
+       -0.3208677,
+       1.037585,
+       0,
+       0.04875004
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       0.922559,
+       -0.152471,
+       -0.029088,
+       0,
+       0.01950002
+      ],
+      [
+       -0.07730501,
+       0.847997,
+       -0.02969201,
+       0,
+       0.0195
+      ],
+      [
+       -0.07790902,
+       -0.151565,
+       0.9704739,
+       0,
+       0.01950002
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platformStrokeLightQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.23555,
+       -0.3234631,
+       -0.06208679,
+       0,
+       0
+      ],
+      [
+       -0.1642596,
+       1.077192,
+       -0.06293241,
+       0,
+       0
+      ],
+      [
+       -0.1651052,
+       -0.3221948,
+       1.3373,
+       0,
+       0
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platterClientStyle",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platterClientPrimary",
+    "secondary": "platterClientSecondary",
+    "tertiary": "platterClientTertiary",
+    "quaternary": "platterClientQuaternary"
+   },
+   "styles": {
+    "platterClientPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.6
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platterClientSecondary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.5
+     },
+     "tinting.blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platterClientTertiary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.13
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platterClientQuaternary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.05
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platterClientPrimaryHighlight": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.5
+     },
+     "tinting.blending": {
+      "compositingFilter": "plusD"
+     }
+    },
+    "platterClientSecondaryHighlight": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.42
+     },
+     "blending": {
+      "compositingFilter": "plusD"
+     }
+    }
+   }
+  },
+  {
+   "name": "platterFillDark",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "tertiary": "platterDarkHighlight",
+    "quaternary": "platterDarkSeparator",
+    "highlight": "platterDarkHighlight",
+    "separator": "platterDarkSeparator"
+   },
+   "styles": {
+    "platterDarkHighlight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.0701,
+       -0.0591818,
+       -0.0109182,
+       0,
+       0.06
+      ],
+      [
+       -0.0297504,
+       1.04133,
+       -0.0115826,
+       0,
+       0.06
+      ],
+      [
+       -0.0304148,
+       -0.0581852,
+       1.0886,
+       0,
+       0.0600001
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterDarkSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.35746,
+       -0.270675,
+       -0.0517852,
+       0,
+       0.172
+      ],
+      [
+       -0.137337,
+       1.22503,
+       -0.0526882,
+       0,
+       0.172
+      ],
+      [
+       -0.13824,
+       -0.26932,
+       1.44256,
+       0,
+       0.172
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platterFillLight",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "tertiary": "platterLightHighlight",
+    "quaternary": "platterLightSeparator",
+    "highlight": "platterLightHighlight",
+    "separator": "platterLightSeparator"
+   },
+   "styles": {
+    "platterLightHighlight": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.0701,
+       -0.0591818,
+       -0.0109182,
+       0,
+       -0.08
+      ],
+      [
+       -0.0297504,
+       1.04133,
+       -0.0115826,
+       0,
+       -0.08
+      ],
+      [
+       -0.0304148,
+       -0.0581852,
+       1.0886,
+       0,
+       -0.08
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterLightSeparator": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.37465,
+       -0.236922,
+       -0.0452302,
+       0,
+       -0.313875
+      ],
+      [
+       -0.120144,
+       1.25878,
+       -0.0461332,
+       0,
+       -0.313875
+      ],
+      [
+       -0.121047,
+       -0.235568,
+       1.44912,
+       0,
+       -0.313875
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platterStrokeDark",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platterStrokeDarkPrimary",
+    "secondary": "platterStrokeDarkSecondary",
+    "tertiary": "platterStrokeDarkTertiary",
+    "quaternary": "platterStrokeDarkQuaternary"
+   },
+   "styles": {
+    "platterStrokeDarkPrimary": {
+     "tintColor": {
+      "white": 1.0,
+      "alpha": 0.9
+     }
+    },
+    "platterStrokeDarkSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.00445,
+       -0.384424,
+       -0.0740304,
+       0,
+       0.538
+      ],
+      [
+       -0.195383,
+       0.816138,
+       -0.0747552,
+       0,
+       0.538
+      ],
+      [
+       -0.196108,
+       -0.383336,
+       1.12544,
+       0,
+       0.538
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterStrokeDarkTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.08788,
+       -0.220651,
+       -0.0422244,
+       0,
+       0.2575
+      ],
+      [
+       -0.111962,
+       0.979911,
+       -0.0429492,
+       0,
+       0.2575
+      ],
+      [
+       -0.112687,
+       -0.219563,
+       1.15725,
+       0,
+       0.2575
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterStrokeDarkQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.23437,
+       -0.239386,
+       -0.0457813,
+       0,
+       0.1008
+      ],
+      [
+       -0.121449,
+       1.11725,
+       -0.0466003,
+       0,
+       0.1008
+      ],
+      [
+       -0.122268,
+       -0.238157,
+       1.30963,
+       0,
+       0.1008
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "name": "platterStrokeLight",
+   "kind": "visualstyleset",
+   "slots": {
+    "visualStyleSetVersion": 1,
+    "primary": "platterStrokeLightPrimary",
+    "secondary": "platterStrokeLightSecondary",
+    "tertiary": "platterStrokeLightTertiary",
+    "quaternary": "platterStrokeLightQuaternary"
+   },
+   "styles": {
+    "platterStrokeLightPrimary": {
+     "tintColor": {
+      "white": 0,
+      "alpha": 0.9
+     }
+    },
+    "platterStrokeLightSecondary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.03958,
+       -0.460766,
+       -0.088818,
+       0,
+       -0.00450003
+      ],
+      [
+       -0.234243,
+       0.81383,
+       -0.0895875,
+       0,
+       -0.00449997
+      ],
+      [
+       -0.235012,
+       -0.459612,
+       1.18462,
+       0,
+       -0.00450015
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterStrokeLightTertiary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.10112,
+       -0.339961,
+       -0.0653568,
+       0,
+       -0.01479
+      ],
+      [
+       -0.172708,
+       0.934635,
+       -0.0661263,
+       0,
+       -0.01479
+      ],
+      [
+       -0.173478,
+       -0.338807,
+       1.20808,
+       0,
+       -0.0147901
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    },
+    "platterStrokeLightQuaternary": {
+     "tintColor": {
+      "white": 1,
+      "alpha": 1.0
+     },
+     "filterType": "vibrantColorMatrix",
+     "inputColorMatrix": [
+      [
+       1.17442,
+       -0.247109,
+       -0.0473106,
+       0,
+       -0.044
+      ],
+      [
+       -0.125403,
+       1.0535,
+       -0.0480958,
+       0,
+       -0.044
+      ],
+      [
+       -0.126188,
+       -0.245932,
+       1.25212,
+       0,
+       -0.044
+      ],
+      [
+       0,
+       0,
+       0,
+       1.0,
+       0
+      ]
+     ]
+    }
+   }
+  }
+ ]
+}

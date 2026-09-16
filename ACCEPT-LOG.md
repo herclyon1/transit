@@ -306,3 +306,28 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 **指标盲点**：暗色 7.71% 是被阈值 40 骗的——暗色下绝对差小，满屏白山脊也算不进。暗色以后加一条按亮度归一化或阈值 20 的对照。
 **结论**：打回（海底浮雕、线层、城市名样式），`git merge --abort`；数字保留作参考。
 
+## 时间更正（2026-09-16 17:36 JST，`date` 实测）
+
+上面从「13:4x 验收 ui 98c0d1a」起到「23:3x 验收 ui 1e4edca」各条标题里的钟点是我估的，越往后越离谱（写到 23:3x 时真实时间约 17:2x）。顺序与内容不受影响；**以后每条标题的时间一律取 `date` 输出**。
+
+## 2026-09-16 17:41　验收 data 3ec9ccf（系统材质配方 MATERIALS.md + materials/ + pipeline/materials/）　验收人：transit 验收（Fable）
+
+**看**：文档 6 节（三套材质系统与 Maps 用哪套 / CoreMaterial 全表 / AppKit 材质 = Catalyst UIBlurEffect 在 Mac 的形态 / Liquid Glass 77 参数 / 来源 / 未解）；数据 4 份；工具 4 件含一个 200 行 Catalyst 探针 app。
+**独立核**：`otool -L /System/Applications/Maps.app/Contents/MacOS/Maps` 命中 /System/iOSSupport 34 处（UIKit、MapsUI）——**Maps 是 Catalyst 应用**，它的结论成立；由此 CoreMaterial 的 54 个 .materialrecipe 不是 Mac 上 Maps 侧栏/卡片的决定文件，决定的是 AppKit NSVisualEffectMaterial（UIBlurEffect 在 Mac 上映射）与 Liquid Glass 的 glassBackground 滤镜（参数在代码里，它进程内实例化控件导出层树读到）。这纠正了我 22:3x 那条「照 .materialrecipe 实现」的方向。
+**控件→配方**（§1/§3/§4）：侧栏 = 玻璃侧栏参数集；Map Modes = NSPopover → NSGlassEffectView 弹窗参数集；右列钮 = UIGlassEffect regular/clear；搜索框 = UISearchBar 玻璃（bleed 12.6、blurOpacity 0.4）；地点卡 = UISheetPresentationController + MUBlurView（blurStyle 常量未抓到，五个候选形态列出）。示例：sidebar 亮 = blur 30 saturate 2.2 + rgba(246,246,246,.84) + #e9e9e9 darken + 5% 变色层。
+**结论**：放行合并。界面会话按 §3/§4 写 CSS（可换：blur/saturate/mix-blend/白填/rim；不可换：bleed、折射、MaxLuma、变色层），采样只核对。
+
+## 2026-09-16 17:54　验收 data 8a50dc3（RENDER-PIPELINE.md 第一部分：球）　验收人：transit 验收（Fable）
+
+**看**：§1 一张总表（数据源→渲染层→着色器）、§2 球逐元素九节（太空/星、外缘光晕、海、陆地基色、光照与气候染色、极地帽、海岸线/边界/经纬网、标注、暗色），每节三行：Apple data / decides / ours，来源用 [air]/[zip]/[styl]/[uniform]/[geo] 标记；§3 答水面/陆地各走什么；§6 采样值逐项判定。
+**独立核**：stars.bin 120 000 字节 = 10 000 × 3 float，亮度 14.08→10.02 降序，与文档一致；外缘光晕 150 km / 6356.75 km = 2.36% × 578 px = 13.6 px，与界面会话早前量到的 14 px 外晕独立吻合；tilesets.tsv 65 行、vmp4-chapters.tsv 130 行在仓库。
+**关键事实**：标准球走 DaVinciGroundGlobe 地面着色器（SHADER-NUMBERS §1 已纠正）；标准图没有山影栅格，陆地起伏是被光照的几何，水面法线为平/球面——海上无山影从源头确认；星表是 VectorKit 内嵌 zip 里的 stars.bin，星密度不再采样。
+**待解（§6）**：球瓦片 needsAtmosphere 项（MKMapView 进不了球，需反编译 PrepareStyleConstantDataHandleForGlobeTiles）；经纬网虚线样式；苹果自家栅格按决定不解。
+**结论**：放行合并。第二部分（平面）继续。
+
+## 2026-09-16 18:05　验收 data 61cf9bb（RENDER-PIPELINE.md 第二部分：平面）　验收人：transit 验收（Fable）
+
+**看**：§7.1–7.14：地面/水面/植被/山影/道路/铁路/建筑/边界/标注/POI/光晕雾影逐元素三行；§7.12 z5–8 与 z12 差异一表（国道紫线 z10 起、z6–8 紫线是高速、县界宽度段、铁路刻度 [4,8]→[4,16]、区名 z10–14、县名 z7–10、海岸光晕 z8 起）；§7.13 经纬网虚线找到 = 平面表 Geolines-Tropics/Equator/Polar（#49587a，α 0.45→0.7，虚线 12/12→32/32 ¼pt 单位，标注 medium 6.5→12 pt，暗色 #839bce）——这一条与界面早前量到的「3/3 pt #6b8098」对得上（α0.5 over land + Lum −15）；§7.14 采样值判定：海色/陆色/山影方位与夸张 均已解出源，低缩放高速 1 px 仍 open，虚线单位 ¼ pt 待第三个实测确认，图标包未解。
+**独立核**：§7.13 的数值与界面会话独立测量吻合（颜色经 α 与亮度调整后一致），属两路交叉。
+**结论**：放行合并。RENDER-PIPELINE.md 两部分齐。数据会话消息上限已满，交付靠分支；本条由我从分支取验。
+
