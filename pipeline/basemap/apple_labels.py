@@ -9,8 +9,9 @@ Reads the raw dump (GEOVectorTile decode of the VECTOR_SPR_STANDARD tiles in the
 = label paths, pois = point labels) and writes
     ~/Money/styl-work/apple-data/apple-globe-labels.tsv   (outside the repo) one row per feature per tile: kind, name (native), type, subtype, minzoom,
                                                 rank, lon/lat of the point or of the path's middle, the path itself
-    map/data/physical.geojson, map/data/undersea.geojson, map/data/cities.geojson   + `apple_minzoom`, `apple_type`,
-                                                `apple_rank`, `apple_name` on the features whose name matches
+    ~/Money/styl-work/apple-data/apple-globe-labels-calibration.json   our features joined to Apple's label rows by name
+                                                (outside the repo: calibration for the label rules only; map/data
+                                                carries no apple_* field — user's rule 2026-09-17)
 Attribute ids read off the decoded pairs (basemap/data/globe/apple-globe-labels.md): 5 FeatureType (3 point / 21 physical
 line-area), 6 type (0 continent, 1 country, 2 state, 3 city, 130 capital, 180 island, 5 sea, 140 desert, 170 region,
 221 water body, 428 undersea area, 430 mountains, 431 undersea ridge), 92 subtype, 85 min zoom (tile zoom at which the
@@ -27,6 +28,7 @@ import unicodedata
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 RAW = os.path.join(ROOT, 'pipeline', 'basemap', 'raw', 'apple-labels-raw.tsv')
 OUT_TSV = os.path.expanduser('~/Money/styl-work/apple-data/apple-globe-labels.tsv')   # Apple label data stays outside the repo
+CALIB = os.path.expanduser('~/Money/styl-work/apple-data/apple-globe-labels-calibration.json')
 TYPE6 = {'0': 'continent', '1': 'country', '2': 'state', '3': 'city', '5': 'sea', '130': 'capital', '180': 'island', '411': 'other-point',
          '140': 'desert', '170': 'region', '221': 'water', '223': 'plain', '424': 'undersea-424', '428': 'undersea-area', '430': 'mountains', '431': 'undersea-ridge'}
 SUB92 = {'1': 'island group', '6': 'desert', '8': 'escarpment', '9': 'upland', '15': 'range', '17': 'plateau', '18': 'land basin', '31': 'basin', '32': 'peninsula',
@@ -81,37 +83,35 @@ def main():
         k = (o['kind'], o['type'], o['name'])
         if k not in first or int(o['minzoom'] or 99) < int(first[k]['minzoom'] or 99):
             first[k] = o
-    # join onto our layers by normalised name
+    # join onto our layers by normalised name -> CALIBRATION FILE OUTSIDE THE REPO (user's rule 2026-09-17: Apple's per-feature
+    # min-zoom / rank is tile content, not a rule; map/data carries only fields our own rules compute, checked against this file)
     def join(path, namekey, kinds):
         d = json.load(open(path, encoding='utf-8'))
         idx = collections.defaultdict(list)
         for k, o in first.items():
             if o['type'] in kinds:
                 idx[norm(o['name'])].append(o)
-        hit = 0
+        rows = []
         for ft in d['features']:
             p = ft['properties']
-            for key in ('apple_minzoom', 'apple_type', 'apple_rank', 'apple_name'):
-                p.pop(key, None)
             cands = idx.get(norm(str(p.get(namekey) or p.get('name') or '')))
             if not cands:
                 continue
-            # nearest candidate by position
             gx, gy = (ft['geometry']['coordinates'] if ft['geometry']['type'] == 'Point' else p.get('rep', [None, None])[::-1] if p.get('rep') else (None, None))
             best = min(cands, key=lambda o: (abs(o['lon'] - gx) + abs(o['lat'] - gy)) if gx is not None else 0)
             if gx is not None and abs(best['lon'] - gx) + abs(best['lat'] - gy) > 25:
                 continue
-            p['apple_minzoom'] = int(best['minzoom'] or 0); p['apple_type'] = best['type'] + ('/' + best['subtype'] if best['subtype'] else '')
-            p['apple_rank'] = int(best['rank']) if best['rank'] else None; p['apple_name'] = best['name']
-            hit += 1
-        json.dump(d, open(path, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
-        print(f'{os.path.basename(path)}: {hit} features matched', file=sys.stderr)
-        return d
-    join(os.path.join(ROOT, 'map', 'data', 'physical.geojson'), 'name', {'desert', 'region', 'mountains', 'plain'})
-    join(os.path.join(ROOT, 'map', 'data', 'undersea.geojson'), 'label', {'undersea-area', 'undersea-ridge', 'undersea-424'})
+            rows.append({'name': p.get(namekey) or p.get('name'), 'apple_name': best['name'], 'apple_minzoom': int(best['minzoom'] or 0),
+                         'apple_type': best['type'] + ('/' + best['subtype'] if best['subtype'] else ''), 'apple_rank': int(best['rank']) if best['rank'] else None,
+                         'ours': {k: v for k, v in p.items() if k not in ('name_zh', 'name_ja', 'rep', 'axis')}})
+        print(f'{os.path.basename(path)}: {len(rows)} features matched', file=sys.stderr)
+        return rows
+    calib = {'what': 'Apple globe label set (z2-6) joined to our layers by name; calibration for the label rules (cities.py, undersea.py, physical) — never shipped',
+             'physical': join(os.path.join(ROOT, 'map', 'data', 'physical.geojson'), 'name', {'desert', 'region', 'mountains', 'plain'}),
+             'undersea': join(os.path.join(ROOT, 'map', 'data', 'undersea.geojson'), 'label', {'undersea-area', 'undersea-ridge', 'undersea-424'})}
     cities = os.path.join(ROOT, 'map', 'data', 'cities.geojson')
     if os.path.exists(cities):
-        join(cities, 'name_en', {'city', 'capital'})
+        calib['cities'] = join(cities, 'name_en', {'city', 'capital'})
     # what Apple names that we have no feature for (English-looking names only)
     missing = [o for k, o in first.items() if o['kind'] == 'physical' and re.match(r'^[A-Za-z]', o['name'])]
     have = set()
@@ -120,8 +120,10 @@ def main():
         have |= {norm(str(f['properties'].get(key) or '')) for f in d['features']}
     missing = sorted({o['name'] for o in missing if norm(o['name']) not in have})
     print(f'{len(missing)} Apple physical names without a match in physical/undersea.geojson: {missing[:40]}', file=sys.stderr)
-    json.dump({'unmatched_physical_names': missing, 'counts_by_zoom_kind_type': collections.Counter((o['z'], o['kind'], o['type']) for o in out).most_common()},
-              open(os.path.join(ROOT, 'basemap', 'data', 'globe', 'apple-globe-labels-unmatched.json'), 'w'), indent=1, ensure_ascii=False)
+    calib['unmatched_physical_names'] = missing
+    calib['counts_by_zoom_kind_type'] = collections.Counter((o['z'], o['kind'], o['type']) for o in out).most_common()
+    json.dump(calib, open(CALIB, 'w'), indent=1, ensure_ascii=False)
+    print(f'calibration file -> {CALIB}', file=sys.stderr)
 
 
 if __name__ == '__main__':
