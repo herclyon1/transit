@@ -463,3 +463,11 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 判定：样式值取对，**看起来仍不一致**，差在三处：① 光栅——MapLibre 1.5 px 线中心像素满填，Apple 读 ≈45–60% 覆盖（线 AA/宽度语义，属渲染器，派数据会话从 VectorKit 道路着色器解）；② 地块——OSM landuse commercial/retail 只有 81 片，Apple 逐块覆盖（数据，不求一致，记录）；③ 双向车道/住宅路密度（已派数据会话）。单元 2 样式部分闭合，像素一致待 ①③。
 noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=0 全部 noui=true、侧栏无。**闭合**。
 **结论**：放行合并。
+
+## 2026-09-16 21:59　验收 data 63308c3（单 1 球陆地地形：苹果自家解码器解 SPR 瓦片）　验收人：transit 验收（Fable）
+
+先看：map/data/ground-globe-light.png（4096² 墨卡托，缩看 scratchpad/gg-light.png）——北半球 z2 + 东半球 z3 覆盖，撒哈拉/阿拉伯/塔里木粉沙、青藏灰白、格陵兰冰雪、森林深绿分带合理；无瓦片区（南极、南美南部）α0 如文档所述。ground-globe-ea（东亚 2048²）纹理密度达到 App z3 的山脉纹理量级。
+再核：RENDER-PIPELINE §2.4b 记了缓存键编码、四个 chapter 的结构与读法；材质 id→类的对应用进程内抓到的 aridityTexture 与解出的 154 栅格逐字节相同（diff 0）钉住；spr-materials.json 每条带出处。工具 spr_dump.m 只读缓存副本，无窗无网络，符合规矩。
+纠正：之前文档「154 = 地类索引」错，实为气候码（153 温度 / 154 降水）。
+未闭合：Mac 球粉彩来源追到 DvMt 材质资源（tileset 60，client:69=2 Elevated 分支），位打包格式未解——现在 ground-globe 用表色（= iOS 观感），文档标明；数据会话排在单 3 之前解。
+**结论**：放行合并。界面会话接线：z<4.6 用 ground-globe 栅格替换 palette-globe/climate-globe，山影用 height-globe 配 groundElevationScale(z)。
