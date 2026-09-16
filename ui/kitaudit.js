@@ -47,8 +47,8 @@
   rule({name:'搜索框材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%）', ref:'MATERIALS.md §4「search field」行（BlurOpacity 0.4 / Bleed / 折射略）', plat:'mac', sel:'#list .head .search', leaf:false,
     check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   // ---- iPhone 材质（MATERIALS.md §2 / §4，hig.css §20） ----
-  rule({name:'Sheet 材质 = platformContentLight（MATERIALS.md §2：blur 30，sat 1.5，brightness +0.1；亮度重映射未解 → Kit 白 70% + #bfbfbf 10% 顶着）', ref:'MATERIALS.md §2 platformContentLight 行；NUMBERS.md「Sheet (iPhone)」', plat:'ios', sel:'.sheet', leaf:false,
-    check:el=>[...BF(el,'blur(30px) saturate(1.5) contrast(0.833) brightness(1.2)'),...BG(el,'rgba(255, 255, 255, 0.7)')]});
+  rule({name:'Sheet 材质 = UIGlassEffect regular（MATERIALS.md §4 基线：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%；模拟器 Maps 黑底 #858585 = 0.52 对上）', ref:'MATERIALS.md §4「Baseline — regular glass, light」；raw/renders/ios-maps-globe-sheet.png', plat:'ios', sel:'.sheet', leaf:false,
+    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'44 圆钮材质 = UIGlassEffect regular（MATERIALS.md §4 基线：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%，顶光 .5）', ref:'MATERIALS.md §4「Baseline — regular glass, light」', plat:'ios', sel:'.bar button.btn-glass, .map-ctl .btn-glass', leaf:false,
     check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'搜索胶囊材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：regular 脸 + blur 5 + 白填 20%）', ref:'MATERIALS.md §4「search field」行', plat:'ios', sel:'.sheet .head .search', leaf:false,

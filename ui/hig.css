@@ -798,16 +798,16 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
 }
 
 /* ---------- 20. iPhone 材质（MATERIALS.md，2026-09-16 晚）----------
-   iOS 上 UIBlurEffect 走 CoreMaterial 配方（§2）：Sheet = systemMaterial → platformContentLight / Dark（§6：卡/Sheet 默认 systemMaterial；
-   EnableThickCardMaterial 开则 platformContentThick*）——blurRadius 30、saturation 1.5、brightness +0.1（加法 → contrast(.833) brightness(1.2)），
-   luminance 重映射 luminanceAmount 0.75 / luminanceValues [0.9, 0.83, 0.925, 0.815] × luminanceColorMap.png（算法未解，§6）：它负责的「白」用
-   Kit Sheets › iPhone 的填充顶着（NUMBERS.md「Sheet (iPhone)」：白 70% + #bfbfbf 10%，模糊 30 饱和 1.4 与配方一致），解出后替换。
-   搜索胶囊与 44 圆钮在 iOS 26 是 Liquid Glass，参数集与 Mac 相同（§4：UIKit UIGlassEffect 与 AppKit 值一致），按 §4 regular / search field 写。
-   写法同 §19：脸色矩阵 + 白填折成一个 contrast/brightness；MaxLuma（regular dark 0.35、search dark 0.6）需要 body 级材质层，手机端未做，注明。 */
+   §1 证据表把 Sheet 记成 MUBlurView systemMaterial → CoreMaterial platformContentLight（§2：blur 30、sat 1.5、brightness +0.1、luminance
+   重映射 0.75/[0.9,0.83,0.925,0.815]×luminanceColorMap.png，算法未解）。模拟器里 iOS 27 Maps 同状态核对（raw/renders/ios-maps-globe-sheet.png，
+   3x）：Sheet 压黑太空 #858585 = 0.52，正是 §4 regular 玻璃在黑底的值（0.4 + 0.2·0.8 = 0.52）；压海 #98d8fb 与 regular 脸算出的 #80cff7 差 ≤ 24；
+   而 §2 配方的 Kit 顶替填出 #bbbbbb（0.73）。所以 iOS 26 的 Sheet 按 §4「Baseline — regular glass」写（与 44 圆钮同集；搜索胶囊 §4 search field）。
+   未解：Sheet 的实际模糊比 BlurRadius 5 强得多（玻璃的 backdrop 采样缩放未记，搜索框那行提到 0.5——半径可能按缩放后的像素算）；MaxLuma
+   （regular dark 0.35 / search dark 0.6）需要 body 级材质层，手机端未做。写法同 §19：脸色矩阵 + 白填折成一个 contrast/brightness。 */
 @media (max-width: 899.98px), (pointer: coarse){
-  /* Sheet：§2 platformContentLight 行 — blur 30 sat 1.5 brightness +0.1；填 = Kit（白 70% + #bfbfbf 10%） */
-  .sheet.glass,.sheet{background-color:rgba(255,255,255,.7);background-image:linear-gradient(rgba(191,191,191,.1),rgba(191,191,191,.1));
-     -webkit-backdrop-filter:blur(30px) saturate(1.5) contrast(.833) brightness(1.2);backdrop-filter:blur(30px) saturate(1.5) contrast(.833) brightness(1.2)}
+  /* Sheet：§4 regular light — BlurRadius 5；Face 0.4 + 0.56·in（contrast(.41) brightness(1.36)）Sat 1.2；FillColor 白 20%；MaxLuma 1 */
+  .sheet.glass,.sheet{background-color:rgba(255,255,255,.2);background-image:none;
+     -webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2)}
   /* 44 圆钮组：§4 regular light — BlurRadius 5；Face 0.4 + 0.56·in（contrast(.41) brightness(1.36)）Sat 1.2；FillColor 白 20%；
      KeyFillHighlight 0.5 自上 → inset 0 1px 白 50%；ShadowOpacity 0 → 无投影 */
   .bar .btn-glass,.map-ctl .btn-glass,.bar .glass{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);
@@ -815,12 +815,11 @@ details[open] > .r.disc::after,.r.disc[aria-expanded="true"]::after{-webkit-mask
   /* 搜索胶囊：§4 search field light = regular 脸 + blur 5 + 白填 20%（BlurOpacity 0.4 / Bleed 12.6 / 折射略） */
   .sheet .head .search{background:rgba(255,255,255,.2);-webkit-backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2);backdrop-filter:blur(5px) contrast(.41) brightness(1.36) saturate(1.2)}
 }
-@media (max-width: 899.98px) and (prefers-color-scheme: dark), (pointer: coarse) and (prefers-color-scheme: dark){  /* 暗色：§2 platformContentDark（blur 30 sat 1.5 brightness 0；luminance 0.75 / [0.16,0.26,0.1,0.1] 未解 → 填用 Kit Glass dark #1e1e20 55%，NUMBERS.md「Glass」行）；
-     圆钮 / 搜索 = §4 regular dark（Face 0.08 + 1.045·in = contrast(.87) brightness(1.2) saturate(1.3)，FillColor 0；MaxLuma 0.35 / 0.6 未做） */
-  :root:not([data-theme="light"]) .sheet.glass,:root:not([data-theme="light"]) .sheet{background-color:rgba(30,30,32,.55);background-image:none;-webkit-backdrop-filter:blur(30px) saturate(1.5);backdrop-filter:blur(30px) saturate(1.5)}
+@media (max-width: 899.98px) and (prefers-color-scheme: dark), (pointer: coarse) and (prefers-color-scheme: dark){  /* 暗色：Sheet / 圆钮 / 搜索 = §4 regular dark（Face 0.08 + 1.045·in = contrast(.87) brightness(1.2) saturate(1.3)，FillColor 0；MaxLuma 0.35 / 0.6 未做） */
+  :root:not([data-theme="light"]) .sheet.glass,:root:not([data-theme="light"]) .sheet{background-color:rgba(0,0,0,0);background-image:none;-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
   :root:not([data-theme="light"]) .bar .btn-glass,:root:not([data-theme="light"]) .map-ctl .btn-glass,:root:not([data-theme="light"]) .bar .glass,:root:not([data-theme="light"]) .sheet .head .search{background:rgba(0,0,0,0);-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
 }
 @media (max-width: 899.98px), (pointer: coarse){
-  :root[data-theme="dark"] .sheet.glass,:root[data-theme="dark"] .sheet{background-color:rgba(30,30,32,.55);background-image:none;-webkit-backdrop-filter:blur(30px) saturate(1.5);backdrop-filter:blur(30px) saturate(1.5)}
+  :root[data-theme="dark"] .sheet.glass,:root[data-theme="dark"] .sheet{background-color:rgba(0,0,0,0);background-image:none;-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
   :root[data-theme="dark"] .bar .btn-glass,:root[data-theme="dark"] .map-ctl .btn-glass,:root[data-theme="dark"] .bar .glass,:root[data-theme="dark"] .sheet .head .search{background:rgba(0,0,0,0);-webkit-backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3);backdrop-filter:blur(5px) contrast(.87) brightness(1.2) saturate(1.3)}
 }
