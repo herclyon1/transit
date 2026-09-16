@@ -40,21 +40,47 @@
 
   // ---- style ----------------------------------------------------------------------------
   const TERRARIUM = meta.sources.hillshade.url;
+  // Two palettes are stored (ui/basemap): 'flat' = the snapshotter's flat style (palette-ocean/land,
+  // light + dark) and 'globe' = the App's globe style sampled off its screenshot through the fitted
+  // camera (palette-globe, light only). Light mode defaults to 'globe' — that is what the App shows;
+  // '#...&pal=flat' forces the flat one. Dark mode has only the flat dark palette.
+  function paletteName(m) {
+    const h = location.hash.replace(/^#/, '');
+    const q = new URLSearchParams(h.includes('=') ? h : '');
+    const want = q.get('pal') || 'globe';
+    return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
+  }
+  function colours(m) {
+    const pal = paletteName(m);
+    if (pal === 'globe') {
+      const gb = meta.globe_palette.ocean_bands;
+      const last = gb[gb.length - 1].light;
+      return {
+        pal,
+        ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: (gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light })),
+        land: meta.globe_palette.land_tints.humid,
+        climate: 'globe',
+      };
+    }
+    return { pal, ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: b[m] })),
+             land: meta.land_tints.humid[m + '_hex'], climate: m };
+  }
   function style(m) {
-    const bands = meta.ocean_bands;            // depth_min_m ascending; deeper drawn on top
-    const tint = meta.land_tints;
+    const col = colours(m);
     const layers = [
       // the sphere itself: shallow-water colour so coast gaps between NE land and NE ocean read as shelf
-      { id: 'bg', type: 'background', paint: { 'background-color': bands[0][m] } },
+      { id: 'bg', type: 'background', paint: { 'background-color': col.ocean[0].c } },
     ];
-    for (const b of bands) {
-      layers.push({ id: 'bathy-' + b.depth_min_m, type: 'fill', source: 'bathy',
-        filter: ['==', ['get', 'depth'], b.depth_min_m],
-        paint: { 'fill-color': b[m], 'fill-antialias': false } });
+    const sources = {};
+    for (const b of col.ocean) {
+      // one source per level: the 12 files parse in parallel workers and paint as they arrive
+      sources['bathy-' + b.depth_min_m] = { type: 'geojson', data: 'data/bathy-' + b.depth_min_m + '.geojson', tolerance: 0.5 };
+      layers.push({ id: 'bathy-' + b.depth_min_m, type: 'fill', source: 'bathy-' + b.depth_min_m,
+        paint: { 'fill-color': b.c, 'fill-antialias': false } });
     }
     layers.push({ id: 'land', type: 'fill', source: 'land',
-      paint: { 'fill-color': tint.humid[m + '_hex'], 'fill-antialias': true, 'fill-outline-color': tint.humid[m + '_hex'] } });
-    layers.push({ id: 'climate', type: 'raster', source: 'climate-' + m,
+      paint: { 'fill-color': col.land, 'fill-antialias': true, 'fill-outline-color': col.land } });
+    layers.push({ id: 'climate', type: 'raster', source: 'climate-' + col.climate,
       paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0 } });
     // hill-shade: light from the azimuth fitted on Apple's own render; exaggeration calibrated per zoom
     const stops = [];
@@ -73,9 +99,9 @@
       projection: { type: 'globe' },
       sky: { 'atmosphere-blend': ATMOSPHERE_BLEND },
       sources: {
-        bathy: { type: 'geojson', data: 'data/bathy.geojson' },
+        ...sources,
         land: { type: 'geojson', data: 'data/land.geojson' },
-        ['climate-' + m]: { type: 'image', url: 'data/climate-' + m + '.png', coordinates: meta.climate_image.bounds },
+        ['climate-' + col.climate]: { type: 'image', url: 'data/climate-' + col.climate + '.png', coordinates: meta.climate_image.bounds },
         dem: { type: 'raster-dem', tiles: [TERRARIUM], encoding: 'terrarium', tileSize: 256, maxzoom: 15,
                attribution: 'Terrain: AWS Terrain Tiles (Mapzen terrarium)' },
       },
@@ -163,34 +189,52 @@
     markers.push({ mk, p, el, added: false });
   }
   function escapeHtml(s) { return s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])); }
+  // A label is shown when: inside NE's zoom range, in front of the globe and inside the disc
+  // (checked every frame — MapLibre's own opacityWhenCovered lags the mercator->globe switch, which
+  // put VIETNAM / INDONESIA in space on 2026-09-16), and not colliding with a more important label.
+  function inRange(it, z) { return z >= (it.p.min_label ?? 0) && z <= (it.p.max_label ?? 99); }
+  function visibleOnGlobe(it) {
+    const tr = map.transform;
+    if (tr.isLocationOccluded && tr.isLocationOccluded(it.mk.getLngLat())) return false;
+    const pt = map.project(it.mk.getLngLat());
+    if (!(pt.x > -200 && pt.x < innerWidth + 200 && pt.y > -200 && pt.y < innerHeight + 200)) return false;
+    const g = lastGlobe;   // disc geometry from drawLimb(); the whole label box must sit inside the disc
+    if (g && Math.hypot(pt.x - g.cx, pt.y - g.cy) + Math.hypot(it.w || 0, it.h || 0) / 2 > g.r - 2) return false;
+    return true;
+  }
+  function apply(it) { it.el.style.visibility = (it.front && !it.collided) ? 'visible' : 'hidden'; }
   function updateLabels() {
     const z = map.getZoom();
     for (const it of markers) {
-      // NE's editorial zoom range per label (min_label..max_label), the same fields NE uses for its own styles
-      const on = z >= (it.p.min_label ?? 0) && z <= (it.p.max_label ?? 99);
-      if (on && !it.added) { it.mk.addTo(map); it.added = true; }
+      const on = inRange(it, z);
+      if (on && !it.added) { it.mk.addTo(map); it.added = true; it.w = it.el.offsetWidth; it.h = it.el.offsetHeight; }
       else if (!on && it.added) { it.mk.remove(); it.added = false; }
     }
+    syncFront();
     collide();
   }
-  // greedy collision: more important first (lower min_label, then lower rank), later boxes that
-  // overlap an earlier one are hidden; boxes behind the globe are skipped
+  function syncFront() {
+    for (const it of markers) if (it.added) { it.front = visibleOnGlobe(it); apply(it); }
+  }
+  // greedy collision on projected boxes (map.project + measured element size, independent of when
+  // MapLibre last positioned the DOM): more important first (lower min_label, then lower rank)
   function collide() {
-    const shown = markers.filter(it => it.added)
+    const shown = markers.filter(it => it.added && it.front)
       .sort((a, b) => (a.p.min_label - b.p.min_label) || (a.p.rank - b.p.rank));
     const kept = [];
     for (const it of shown) {
-      if (map.transform.isLocationOccluded(it.mk.getLngLat())) { it.el.style.visibility = 'hidden'; continue; }
-      const r = it.el.getBoundingClientRect();
-      const box = { l: r.left - 2, t: r.top - 2, r: r.right + 2, b: r.bottom + 2 };
-      const hit = kept.some(k => box.l < k.r && box.r > k.l && box.t < k.b && box.b > k.t);
-      it.el.style.visibility = hit ? 'hidden' : 'visible';
-      if (!hit) kept.push(box);
+      const c = map.project(it.mk.getLngLat());
+      const box = { l: c.x - it.w / 2 - 2, t: c.y - it.h / 2 - 2, r: c.x + it.w / 2 + 2, b: c.y + it.h / 2 + 2 };
+      it.collided = kept.some(k => box.l < k.r && box.r > k.l && box.t < k.b && box.b > k.t);
+      if (!it.collided) kept.push(box);
+      apply(it);
     }
   }
   map.on('load', updateLabels);
   map.on('zoomend', updateLabels);
-  map.on('moveend', collide);
+  map.on('moveend', () => { syncFront(); collide(); });
+  map.on('idle', () => { syncFront(); collide(); });   // after every source finished loading and rendering
+  map.on('render', syncFront);
 
   // ---- limb glow: the Maps App's atmosphere rim, replayed from the measured radial profile ------
   // Apple (native.png row 800 @2x): the ocean greys/brightens toward the limb over ~60 pt (inner haze),
@@ -220,6 +264,7 @@
     const p = map.project(pt(lo)), cpx = map.project(c);
     return { r: Math.hypot(p.x - cpx.x, p.y - cpx.y), cx: cpx.x, cy: cpx.y };
   }
+  let lastGlobe = null;   // {r, cx, cy} of the projected disc, refreshed every frame by drawLimb()
   function drawLimb() {
     const dpr = devicePixelRatio || 1;
     const w = innerWidth, h = innerHeight;
@@ -229,7 +274,8 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
     const g = globeRadiusPx();
-    if (!g || !(g.r > 10) || g.r > 6000) return;
+    lastGlobe = (g && g.r > 10 && g.r < 6000) ? g : null;
+    if (!lastGlobe) return;
     // outer fall-off: additive-looking glow over black -> paint the measured colours with alpha 1
     const outer = ctx.createRadialGradient(g.cx, g.cy, g.r, g.cx, g.cy, g.r + OUTER.length / 2);
     OUTER.forEach((rgb, i) => outer.addColorStop(Math.min(1, i / (OUTER.length - 1)), `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`));

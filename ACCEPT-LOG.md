@@ -108,3 +108,19 @@
 **记下**：Ramapo Deep 在 GEBCO 辞典里没有（只有 Ramapo Bank），App 那条标签无公开来源，页面上不做；pmtiles 没做（本机无 tippecanoe），三级 GeoJSON 先用。
 **结论**：放行，合并 main。
 
+## 2026-09-16 14:5x　验收 ui 70f9ef0（球调色板 + 含 ab63014 缺陷修复）　验收人：transit 验收（Fable）
+
+**看了什么**：`merge --no-commit ui`，8791；浏览器面板未显示（桌面 app 窗口不在前台时页面不合成），改无头 Chrome 1280×744 落盘：`#ll=30,125&spn=50,60` 亮、`#2.3/20/140` 亮（scratchpad g70-*.png）。对照 native.png（App 球，同东亚视野）。
+
+| 项 | 怎么验 | 结果 |
+|---|---|---|
+| 球轮廓拟合 | 我在 native.png y=743 行从右扫第一个非黑像素 x=2435 → 半径 1170 px；它拟合 1156.3 + 14 px 光晕 = 1170.3 | 一致 |
+| 球海色 | 我在 native.png 菲律宾海 (1716,1010) 取中值 #74b8e6，它 5000–6000 m 档 centre #77bce9 / #75b9e9；孟加拉湾 #a2d7f7 对 1000–2000 m 档 #a9d6f1 | 对上（Δ≤4） |
+| 缺陷 2 Arctic Ocean | 东亚视野渲染图上黄海处已无该标注 | 修好 |
+| 缺陷 3 标注集合 | 东亚视野 15 条（KAZAKHSTAN/ASIA/CHINA/JAPAN/SOUTH KOREA/INDIA/VIETNAM/THAILAND/PHILIPPINES + Sea of Okhotsk/Sea of Japan/Bay of Bengal/South China Sea/Philippine Sea） | 修好 |
+| 整体 | 东亚视野与 native.png 并看：球大小、浅蓝海、淡绿陆、紫色国名、蓝斜体海名，三秒像 | 放行 |
+
+**未验/记下**：全球视野 `#2.3/20/140` 无头渲染里一条标注都没有（可能是无头虚拟时间下 idle 未触发），要在面板可见时用真浏览器再看一次；暗色只有平面暗色（缺 App 暗色球截图，我这边不能切系统外观）。
+
+**结论**：放行，合并 main。
+

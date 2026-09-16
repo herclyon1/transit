@@ -12,6 +12,7 @@ The renders themselves are Apple imagery and stay in the gitignored
 |---|---|---|
 | `palette-ocean.json` | depth band (Natural Earth 10m bathymetry levels) → RGB, light + dark, n and residual per band, 200 samples | `pipeline/basemap/palette.py` |
 | `palette-land.json` | land tint classes (humid / semi-humid / dry / very-dry / high-grey) × hill-shade class → RGB, light + dark; hill-shade light azimuth; VectorKit `groundSettings.json` exaggeration table | `pipeline/basemap/palette.py` |
+| `palette-globe.json` | the App's **globe** style (a different style sheet the snapshotter cannot render): ocean by depth band and land by Köppen tint, sampled from the Maps App screenshot `native.png` through a fitted globe camera (silhouette circle + 11 city markers ↔ NE populated places, rms 4.9 px @2x); `centre` stats = r/limb ≤ 0.5, least hazed; radial haze trend of deep ocean by r/limb | `pipeline/basemap/globefit.py` |
 | `labels-globe.json` | globe-scale label typography (continent, country, ocean/sea, deep, undersea feature, graticule): SF weight, size pt, tracking pt, glyph / halo colour light + dark; space background, limb glow and star field from the Maps App screenshot | `pipeline/basemap/labels.py` |
 
 ## Run

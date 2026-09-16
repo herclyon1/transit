@@ -226,6 +226,138 @@
    "n": 17
   }
  },
+ "globe_palette": {
+  "source": "ui/basemap/palette-globe.json (pipeline/basemap/globefit.py on the Maps App globe screenshot)",
+  "camera": {
+   "lat0": 30.1769,
+   "lng0": 116.153,
+   "D_earth_radii": 2.8765,
+   "limb_radius_px": 1156.3,
+   "rms_px": 4.86,
+   "camera_altitude_km": 11955.0
+  },
+  "ocean_bands": [
+   {
+    "depth_min_m": 0,
+    "light": "#bfe4f7",
+    "n": 2515
+   },
+   {
+    "depth_min_m": 200,
+    "light": "#b0dbf3",
+    "n": 952
+   },
+   {
+    "depth_min_m": 1000,
+    "light": "#a9d6f1",
+    "n": 1038
+   },
+   {
+    "depth_min_m": 2000,
+    "light": "#9cceee",
+    "n": 1053
+   },
+   {
+    "depth_min_m": 3000,
+    "light": "#8dc8ed",
+    "n": 1162
+   },
+   {
+    "depth_min_m": 4000,
+    "light": "#80bee8",
+    "n": 1536
+   },
+   {
+    "depth_min_m": 5000,
+    "light": "#77bce9",
+    "n": 1758
+   },
+   {
+    "depth_min_m": 6000,
+    "light": "#75b9e9",
+    "n": 107
+   },
+   {
+    "depth_min_m": 7000,
+    "light": "#73b7ea",
+    "n": 9
+   },
+   {
+    "depth_min_m": 8000,
+    "light": "#6caddd",
+    "n": 63
+   },
+   {
+    "depth_min_m": 9000,
+    "light": "#6daede",
+    "n": 19
+   }
+  ],
+  "land_tints": {
+   "humid": "#e9f6d8",
+   "semi_humid": "#ebf2d9",
+   "high_grey": "#f6f8ed",
+   "very_dry": "#f8f4e3"
+  },
+  "haze_by_r_over_limb_deep_ocean": {
+   "0.2": {
+    "rgb": [
+     120,
+     190,
+     236
+    ],
+    "n": 229
+   },
+   "0.3": {
+    "rgb": [
+     123,
+     190,
+     233
+    ],
+    "n": 1349
+   },
+   "0.4": {
+    "rgb": [
+     121,
+     187,
+     231
+    ],
+    "n": 1809
+   },
+   "0.5": {
+    "rgb": [
+     119,
+     185,
+     227
+    ],
+    "n": 2355
+   },
+   "0.6": {
+    "rgb": [
+     112,
+     175,
+     219
+    ],
+    "n": 2951
+   },
+   "0.7": {
+    "rgb": [
+     108,
+     170,
+     212
+    ],
+    "n": 3592
+   },
+   "0.8": {
+    "rgb": [
+     105,
+     166,
+     206
+    ],
+    "n": 932
+   }
+  }
+ },
  "climate_image": {
   "size_px": 4096,
   "bounds": [
@@ -273,32 +405,7 @@
    "20": 1
   },
   "alps_probe_luma_amplitude": 14.3,
-  "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
-  "exaggeration_by_zoom": {
-   "9": 0.07,
-   "3": 0.047
-  },
-  "calibration": {
-   "alps_z9": {
-    "zoom": 8.72,
-    "k": 0.07,
-    "amplitude": 14.2,
-    "n": 12884,
-    "target": 14.3,
-    "method": "regress"
-   },
-   "globe_z4": {
-    "zoom": 3.12,
-    "k": 0.047,
-    "amplitude": 5.8,
-    "n": 6110,
-    "target": 6.0,
-    "method": "delta"
-   },
-   "method": "Calibrate the globe page's hill-shade exaggeration against Apple's renders.",
-   "azimuth": 260,
-   "altitude": 45
-  }
+  "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)"
  },
  "labels": {
   "continent": {
