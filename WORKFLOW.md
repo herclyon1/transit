@@ -25,26 +25,24 @@
 
 起法：在自己的树里 `python3 pipeline/rangeserver.py <端口> &`。8790 是旧界面树的，8788 是更早的，都别动。
 
-## 三、共享资源：模拟器与 Maps 窗口，用锁
+## 三、共享资源：模拟器与 Maps 窗口
 
-一台 Mac 只有一个 iPhone 18 Pro Max 模拟器、一个地图 App 窗口。用前占锁，用完释放：
+一台 Mac 只有一个 iPhone 18 Pro Max 模拟器、一个地图 App 窗口，三个会话共用。不加锁，靠三条规矩：
+- 用之前先看模拟器前台是不是自己的页面（`xcrun simctl io <udid> screenshot`），不是就等，不在别人的页面上点。
+- 不杀不是自己起的进程，不关不是自己启动的设备（先 `ps -o lstart,ppid` 看是谁的）。
+- 验收要用时，用会话间消息说一声，干活会话停手。
 
-```
-pipeline/lock.sh take simulator ui      # 或 data / accept；资源名 simulator / maps
-pipeline/lock.sh free simulator ui
-pipeline/lock.sh show
-```
+## 四、交付与验收（会话间消息，用户不传话）
 
-被占用就等，不许杀进程、不许关别人的设备、不许在别人的页面上点。验收要用时，干活会话释放。
+三个会话互相用桌面端的会话间消息联系（send_message / SendMessage）。验收会话：标题「工作流最优方案验收」，id `local_ffb898d8-d748-430a-81a4-6a04c98d4d32`。
 
-## 四、交付与验收
-
-1. 干活会话在自己的树、自己的分支上提交；提交信息里的数字必须是 computed style 实测值。推自己的分支：`git push -u origin ui`（或 data）。
-2. 做完一个可验收的单元，告诉用户一句：「ui 分支 <提交号> 待验收：<改了什么>」。用户转给验收会话（或用桌面端直接发给验收会话）。
+1. 干活会话在自己的树、自己的分支上提交；提交信息里的数字必须是 computed style 实测值。推自己的分支：`git push origin ui`（或 data）。
+2. 做完一个可验收的单元，**直接发消息给验收会话**：「ui 分支 <提交号> 待验收：改了什么、要看哪个状态（哪页、Mac 还是手机、什么缩放）、对照 Maps 的哪个状态」。不经用户。
 3. 验收会话：`git fetch && git log main..origin/ui`，在 `transit` 树里 `git merge --no-commit origin/ui` 看，起 8791 预览，按 PLAN-MAC-LOOK 第 0 节一致清单自己开 Maps 同状态截图、跑 kit-audit 两端 + `?accept=1`。
-4. 结论写 ACCEPT-LOG.md，**并排图存进 `accept/<日期>-<提交号>.png`**，企业微信推给用户。放行才 `git merge` 进 main 并推；打回就 `git merge --abort`，写明哪几项。
-5. 干活会话每天开工先 `git merge main`（把别人已放行的拿过来），不要反过来把 main 合进自己没验收的东西再推 main。
+4. 结论写 ACCEPT-LOG.md，**并排图存进 `accept/<日期>-<提交号>.png`**，企业微信推给用户。放行才 `git merge` 进 main 并推；打回就 `git merge --abort`，**发消息告诉干活会话**哪几项不过、依据是什么。
+5. 干活会话每天开工先 `git merge main`（把别人已放行的拿过来），不要把 main 合进自己没验收的东西再推 main。
 6. **main 不接受直接开发提交**。只有验收会话的合并、ACCEPT-LOG、本页。方案文档（PLAN-*、IDEAS）谁写谁提交到自己分支，随下次验收一起进 main。
+7. 用户是最终验收人：只看 ACCEPT-LOG 和并排图，抽查；效果差追责验收会话。
 
 ## 五、备份
 
