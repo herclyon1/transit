@@ -62,8 +62,12 @@
   "files": [
    "ground-globe-ea-light.png",
    "ground-globe-ea-dark.png",
+   "spr-class-globe-ea.png (2048, class index, 255 = no tile)",
+   "climate-temp-globe-ea.png (256)",
+   "climate-arid-globe-ea.png (256)",
    "height-globe-ea.png (1024, terrarium)"
-  ]
+  ],
+  "class_raster": "pipeline/basemap/spr_class_ea.py (same box, same class list, same decode as spr-class-globe.png)"
  },
  "apple_zoom_of_sheet_colours": 3.0,
  "light_flat": 1.045404719,
