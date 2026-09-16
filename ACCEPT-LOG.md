@@ -500,3 +500,8 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 
 自读 map/data/spr-class-globe-ea.png：2048² 灰度，值 0–7、11（Ground…IceSnow、Water），255 无瓦片；伪彩看（scratchpad/class-ea.png）海陆轮廓、贝加尔湖、华北平原耕地、日本列岛城区块分布合理。climate-temp/arid-globe-ea 256² 码值 1–6 / 0–5。**结论**：放行合并**；界面接高分辨率表。
 
+## 2026-09-17 23:26　用户自查两项：球缘光晕缺失；标注要解逻辑不抄清单　验收人：transit 验收（Fable）
+
+- 球缘：App 第 330 行 luma 152→164→160→137→83→0（盘内亮带 + 盘外 ~14 px 渐落），我们 140→113→0 硬切且有锯齿亮线。§2.2 公式早已解出但 globe-light.js 未画出来；我放行 5f99911 时没查球缘——验收漏项。派界面最优先修，交付附 4× 裁片与剖面。
+- 标注：如实记录现状——样式解出；要素/级别取自苹果瓦片每要素 min-zoom（抄数据）；碰撞/优先级/密度是 MapLibre 的（非苹果逻辑）。改为：数据会话解 VectorKit 标注布局逻辑，苹果 min-zoom 只作校准，规则写 README，map/data 不硬带 apple_* 名单。
+
