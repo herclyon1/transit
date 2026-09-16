@@ -46,6 +46,13 @@
     check:el=>[...BF(el,'blur(10px) contrast(0.65) brightness(1.15)'),...BG(el,'rgba(255, 255, 255, 0.1)')]});
   rule({name:'搜索框材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%）', ref:'MATERIALS.md §4「search field」行（BlurOpacity 0.4 / Bleed / 折射略）', plat:'mac', sel:'#list .head .search', leaf:false,
     check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
+  // ---- iPhone 材质（MATERIALS.md §2 / §4，hig.css §20） ----
+  rule({name:'Sheet 材质 = platformContentLight（MATERIALS.md §2：blur 30，sat 1.5，brightness +0.1；亮度重映射未解 → Kit 白 70% + #bfbfbf 10% 顶着）', ref:'MATERIALS.md §2 platformContentLight 行；NUMBERS.md「Sheet (iPhone)」', plat:'ios', sel:'.sheet', leaf:false,
+    check:el=>[...BF(el,'blur(30px) saturate(1.5) contrast(0.833) brightness(1.2)'),...BG(el,'rgba(255, 255, 255, 0.7)')]});
+  rule({name:'44 圆钮材质 = UIGlassEffect regular（MATERIALS.md §4 基线：blur 5，Face 0.4+0.56·in，Sat 1.2，白填 20%，顶光 .5）', ref:'MATERIALS.md §4「Baseline — regular glass, light」', plat:'ios', sel:'.bar button.btn-glass, .map-ctl .btn-glass', leaf:false,
+    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
+  rule({name:'搜索胶囊材质 = 玻璃搜索框参数（MATERIALS.md §4 search field：regular 脸 + blur 5 + 白填 20%）', ref:'MATERIALS.md §4「search field」行', plat:'ios', sel:'.sheet .head .search', leaf:false,
+    check:el=>[...BF(el,'blur(5px) contrast(0.41) brightness(1.36) saturate(1.2)'),...BG(el,'rgba(255, 255, 255, 0.2)')]});
   rule({name:'Map Modes 弹窗无关闭钮（点外部关闭）', ref:'styl-work/native-mapmodes.png（Maps.app 2026-09-16）', plat:'mac', sel:'.sheet.opt', leaf:false, check:el=>{ const x=el.querySelector('#optClose'); return !x||rect(x).width===0?[]:['弹窗上有 × 钮，Maps.app 的 Map Modes 没有']; }});
   rule({name:'抓手 60×4', ref:'iOS 27 Kit › Toolbars › Top - Sheet', plat:'ios', sel:'.sheet .grab i', check:el=>{ const r=rect(el); return near(r.width,60)&&near(r.height,4)?[]:[`${num(r.width)}×${num(r.height)}≠60×4`]; }});
   rule({name:'抓手（桌面不显示）', ref:'macOS 无 Sheet 抓手', plat:'mac', sel:'.sheet .grab', check:()=>[]});

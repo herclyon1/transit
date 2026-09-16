@@ -69,6 +69,14 @@ No data, no functions — rows and the card are placeholder text.
   affine reading of FaceColorMatrixWhite/Black holds on black, not on mid-tones — for the data session; sidebar over the dark limb (100,600)
   `#98a2aa` / `#93999e`, over land (100,200) `#cfd3d9` / `#e0e0e0`; search field (140,65) `#d3d5d6` / `#c9cacb`; button interior (1254,26)
   `#2b2b2b` / `#313131`. kit-audit rules check the computed `backdrop-filter` / `background` strings of all five (KIT-OK Mac 47).
+* **iPhone materials (`ui/hig.css` §20):** iOS `UIBlurEffect` runs the CoreMaterial recipes (MATERIALS.md §2): the sheet = systemMaterial →
+  `platformContentLight` (blur 30, saturation 1.5, brightness +0.1 → `contrast(.833) brightness(1.2)`); its luminance remap (amount 0.75,
+  values [0.9, 0.83, 0.925, 0.815] × `luminanceColorMap.png`) is not decoded (§6), so the whiteness it produces is stood in by the Kit's
+  Sheet fill (NUMBERS.md "Sheet (iPhone)": white 70 % + #bfbfbf 10 %; the Kit's blur 30 / sat 1.4 agrees with the recipe) — to be replaced
+  when the remap is decoded. Dark: `platformContentDark` blur 30 / sat 1.5, fill from the Kit Glass dark row (#1e1e20 55 %). The 44 round
+  buttons and the search capsule are Liquid Glass on iOS 26 (same §4 parameter sets as on the Mac: regular baseline / search field). The
+  MaxLuma clamps of the dark variants would need body-level material layers and are not done on the phone. Checked in headless Chrome at
+  390×844 (computed strings via the in-page kit-audit: the three material rules pass; the simulator was not used).
 * iPhone: Kit Sheet three detents (small 96 / medium 44 % / large) with the search capsule 44 in the head, right-top 44 round buttons, stacked card sheet,
   Map Modes as a sheet; `.cb` becomes the 22 multi-select circle (iOS has no square checkbox).
 * Hash: `#z/lat/lng&m=<mode>&sel=<id>` (globe.js keeps the extras; `m` and `sel` restore on load).
