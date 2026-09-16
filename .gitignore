@@ -19,3 +19,8 @@ osaka/data/raw/a31b/*.zip
 
 # SUUMO 沿線页 HTML 缓存（约 160 页 × 100 KB），suumo_stations.py 缺了会重抓
 osaka/data/raw/suumo/html/
+
+# .styl 全量导出（20 MB，苹果样式逐值），本地用 pipeline/basemap/styl/styl_decode.py --tsv/--json 重生成；只提交 globe-key-numbers.tsv
+basemap/data/styl/*.json
+basemap/data/styl/globe-default-*.tsv
+basemap/data/styl/default-*.tsv
