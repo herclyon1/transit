@@ -196,6 +196,8 @@
   }
   const hashState = parseHash();
   const region = hashState.region;
+  // the flat style (v5+) reads tiles/transit.pmtiles (N02 railways) through the pmtiles protocol
+  if (window.pmtiles && maplibregl.addProtocol) maplibregl.addProtocol('pmtiles', new pmtiles.Protocol().tile);
   const map = new maplibregl.Map({
     container: 'map',
     style: style(mode()),
@@ -208,6 +210,7 @@
     canvasContextAttributes: { antialias: true, preserveDrawingBuffer: true },
   });
   map.setPadding(hashState.padding);
+  map.on('error', e => { const m = 'map: ' + (e && e.error && e.error.message || e); (window.__errs = window.__errs || []).push(m); console.error(m); });
   // Perspective like the Maps App: its globe camera (palette-globe.json, fitted on the App screenshot,
   // 1280x744 pt) sits D = 2.894 earth radii from the centre with focal length 1569.5 pt, i.e. a
   // vertical field of view of 2*atan(372/1569.5) = 26.7 deg (MapLibre default 36.87). With this fov the
