@@ -332,6 +332,39 @@ def shelf_meta():
             "bins": [{"depth_min_m": b["depth_min_m"], "depth_max_m": b["depth_max_m"], "hex": (b.get("centre") or b)["hex"], "n": b["n"]} for b in s["bins"]]}
 
 
+def dvmt_globe_meta():
+    """The Mac App globe's ground colours: DvMt materials, client:69 = 0 (globe), TimePeriod 0 day / 1 night
+    (ui/basemap/dvmt-materials.json, data session; RENDER-PIPELINE 2.3 / 6). Colour bands are by Apple zoom."""
+    p = os.path.join(ROOT, "ui", "basemap", "dvmt-materials.json")
+    if not os.path.exists(p):
+        return None
+    d = json.load(open(p))
+    out = {"source": "ui/basemap/dvmt-materials.json (pipeline/basemap/dvmt.py <- DvMt tileset 60 of the geod cache); variant client:69=0 (globe), client:1 0 day / 1 night",
+           "light": {}, "dark": {}, "water_light": None, "water_dark": None}
+    for mid, m in d["materials"].items():
+        cls = m.get("class")
+        if not cls or cls.startswith("overlay"):
+            continue
+        for v in m["variants"]:
+            c = v.get("conditions", {})
+            if c.get("69") != 0 or "0" in c:
+                continue
+            mode = "dark" if c.get("1") == 1 else "light"
+            vals = v.get("values", {})
+            if cls == "Water":
+                ramp = vals.get("17")
+                if ramp:
+                    if len(ramp[0]) == 3 and isinstance(ramp[0][2], list):   # zoom-banded ramps [zmin, zmax, ramp]: take the band containing z3
+                        ramp = next((r for a, b, r in ramp if a <= 3 < b), ramp[0][2])
+                    out["water_" + mode] = [[float(dm), hx[:7]] for dm, hx in ramp]
+                continue
+            col = vals.get("27")
+            if col is None:
+                continue
+            out[mode][cls] = [[a, b, c_] for a, b, c_ in col] if isinstance(col, list) else [[0, 26, col]]
+    return out
+
+
 def main():
     meta_only = "--meta" in sys.argv
     ocean = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-ocean.json")))
@@ -410,6 +443,7 @@ def main():
         "ground": json.load(open(os.path.join(ROOT, "ui", "basemap", "ground.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "ground.json")) else None,
         "geolines": json.load(open(os.path.join(ROOT, "ui", "basemap", "geolines.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "geolines.json")) else None,
         "ground_globe": json.load(open(os.path.join(ROOT, "ui", "basemap", "ground-globe.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "ground-globe.json")) else None,   # data session: Apple SPR rasters (RENDER-PIPELINE 2.4b)
+        "dvmt_globe": dvmt_globe_meta(),   # the Mac App globe's material colours (DvMt), replaces palette-globe / palette-shelf sampling
         "stars": {"file": "../basemap/data/globe/stars.bin", "format": "basemap/data/globe/stars-format.md (10000 x float32[3]: angle 0-2pi, angle +-1.54, brightness 14.08->10.02)",
                   "source": "VectorKit embedded zip sky/stars.bin (RENDER-PIPELINE 2.1)"},
         "shader": {"file": "../basemap/data/shader/shader-numbers.json", "doc": "SHADER-NUMBERS.md / RENDER-PIPELINE.md 2.2-2.5, 4",
@@ -423,8 +457,9 @@ def main():
         },
         "pending": {
             "what": "values still SAMPLED off App screenshots (used only below the PAL hand-over or where no decoded source exists)",
-            "globe_palette": "App-globe ocean bands / land tints (palette-globe.json): the standard globe runs the ground shader (RENDER-PIPELINE 2.3-2.5) but its pastel output is not reproduced by ramp x light (fog fit failed, map/README.md); used for z < 4.6 only",
-            "shelf": "0-200 m shelf raster colours (palette-shelf.json), z < 4.6 only",
+            "globe_palette": "App-globe ocean bands / land tints (palette-globe.json): retired 2026-09-17 - the globe paints the DvMt globe materials (dvmt_globe) on Apple's rasters; kept as the verification of those colours (humid #e9f6d8 vs Forest x light #e3f1d8, 1000-2000 m #a9d6f1 vs ramp #a2ddf9); only the camera fit is still used",
+            "climate_globe_png": "sampled pastel Koppen tints: only the no-tile fallback under Apple's rasters (Americas, southern hemisphere)",
+            "shelf": "0-200 m shelf raster (palette-shelf.json): retired 2026-09-17, the DvMt water ramp covers 0-7 km",
             "labels_app / labels": "label typography measured on App renders; the globe sheet rows (globe-key-numbers.tsv) are decoded but not yet wired to the DOM labels",
             "background.stars": "star size 1.2 pt and grey levels: GlobeStars vertex point-size/alpha formula not decoded; positions/brightness order now from stars.bin",
         },

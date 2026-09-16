@@ -84,12 +84,30 @@
     const tx = g.texels_linear_rgba8;
     return hex([0, 1, 2].map(k => toSrgb8((tx[i0][k] / 255 * (1 - f) + tx[i1][k] / 255 * f) * LIGHT)));
   }
+  // the Mac App GLOBE's water: DvMt material 318 (Water) depth ramp, client:69 = 0, day / night (meta.dvmt_globe.water_*,
+  // RENDER-PIPELINE 2.3 / 6): 15 stops 0 m .. 7 km in sRGB; interpolated in linear light, x light(0,0,1), sRGB-encoded.
+  // Verification: sampled palette-globe 1000-2000 m band #a9d6f1 vs ramp(1000 m) x light #a2ddf9.
+  function dvmtRampColour(m, depth) {
+    const ramp = meta.dvmt_globe['water_' + m];
+    let i = 0; while (i < ramp.length - 1 && ramp[i + 1][0] <= depth) i++;
+    const [d0, c0] = ramp[i], [d1, c1] = ramp[Math.min(i + 1, ramp.length - 1)];
+    const f = d1 > d0 ? Math.max(0, Math.min(1, (depth - d0) / (d1 - d0))) : 0;
+    const a = [1, 3, 5].map(k => toLin(parseInt(c0.slice(k, k + 2), 16))), b = [1, 3, 5].map(k => toLin(parseInt(c1.slice(k, k + 2), 16)));
+    return hex(a.map((v, k) => toSrgb8((v * (1 - f) + b[k] * f) * LIGHT)));
+  }
   const RAMP_DEPTHS = [11000, 8000, 6000, 4500, 3500, 2800, 2200, 1700, 1300, 1000, 800, 650, 520, 420, 350, 300, 250, 200, 160, 130, 100, 80, 60, 45, 35, 25, 18, 13, 9, 6, 4, 3, 2, 1.5, 1];
-  function oceanLayers(m, opacity) {
+  function oceanLayers(m, opacity, id = 'ocean', colour = rampColour) {
     if (!SN) return [];
-    const stops = RAMP_DEPTHS.flatMap(d => [-d, rampColour(m, d)]);
-    return [{ id: 'ocean', type: 'color-relief', source: 'dem',
-      paint: { 'color-relief-color': ['interpolate', ['linear'], ['elevation'], ...stops, -0.5, rampColour(m, 0.5), 0, 'rgba(0,0,0,0)'], 'color-relief-opacity': opacity } }];
+    const stops = RAMP_DEPTHS.flatMap(d => [-d, colour(m, d)]);
+    return [{ id, type: 'color-relief', source: 'dem',
+      paint: { 'color-relief-color': ['interpolate', ['linear'], ['elevation'], ...stops, -0.5, colour(m, 0.5), 0, 'rgba(0,0,0,0)'], 'color-relief-opacity': opacity } }];
+  }
+  // DvMt globe land material colour for a class at the Apple zoom of the sheet band used for the rasters (z3)
+  function dvmtLand(m, cls, appleZ = 3) {
+    const bands = meta.dvmt_globe && meta.dvmt_globe[m] && meta.dvmt_globe[m][cls];
+    if (!bands) return null;
+    const b = bands.find(x => x[0] <= appleZ && appleZ < x[1]) || bands[bands.length - 1];
+    return b[2];
   }
 
   // ---- hill-shade strength from groundSettings.json (SHADER-NUMBERS 4.4 table, groundElevationScale) --------
@@ -131,10 +149,11 @@
   // texture path is not decoded), light only, below PAL; 'flat' = decoded originals (ocean ramp, Landcover sheet
   // colours, ground rasters). Light mode shows the globe palette below z 4.6; '#...&pal=flat' forces flat throughout.
   function paletteName(m) {
+    // 'globe' below PAL = the Mac App globe's own materials (DvMt, client:69 = 0) on Apple's class/climate rasters;
+    // '#...&pal=flat' forces the flat colours at every zoom (debug)
     const h = location.hash.replace(/^#/, '');
     const q = new URLSearchParams(h.includes('&') ? h.slice(h.indexOf('&') + 1) : (h.includes('=') ? h : ''));
-    const want = q.get('pal') || 'globe';
-    return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
+    return (q.get('pal') === 'flat' || !meta.dvmt_globe) ? 'flat' : 'globe';
   }
   const G = meta.ground;   // ui/basemap/ground.json via globe-data.py: sheet colours, bounds of the ground rasters
   const GG = meta.ground_globe;   // ui/basemap/ground-globe.json (data session): Apple's own globe rasters, bounds, groundElevationScale table
@@ -149,32 +168,19 @@
     const flatLand = landFill(m);
     const sources = {};
     const layers = [];
-    // the sphere itself (background = ocean where nothing else is drawn): globe palette's 0-200 m colour, else the
-    // ramp's coast colour (the flat sheet's Water fill (141,220,247) is within 6/255 of it)
-    const bgColour = pal === 'globe' ? meta.globe_palette.ocean_bands[0].light : (SN ? rampColour(m, 0.5) : meta.ocean_bands[0][m]);
+    // the sphere itself (background = ocean where nothing else is drawn): globe = DvMt water ramp at 0.5 m, flat = the
+    // shader ramp's coast colour (the flat sheet's Water fill (141,220,247) is within 6/255 of it)
+    const globeLand = pal === 'globe' ? lit([1, 3, 5].map(k => parseInt(dvmtLand(m, 'Ground').slice(k, k + 2), 16))) : null;
+    const bgColour = pal === 'globe' ? dvmtRampColour(m, 0.5) : (SN ? rampColour(m, 0.5) : meta.ocean_bands[0][m]);
     layers.push({ id: 'bg', type: 'background', paint: { 'background-color': bgColour } });
-    if (pal === 'globe') {
-      // sampled globe palette (pending): NE isobath fills + shelf raster, fading into the decoded ramp over PAL
-      const gb = meta.globe_palette.ocean_bands, last = gb[gb.length - 1].light;
-      for (const b of meta.ocean_bands) {
-        const c = (gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light;
-        sources['bathy-' + b.depth_min_m] = { type: 'geojson', data: 'data/bathy-' + b.depth_min_m + '.geojson', tolerance: 0.5 };
-        layers.push({ id: 'bathy-' + b.depth_min_m, type: 'fill', source: 'bathy-' + b.depth_min_m, paint: { 'fill-color': c, 'fill-antialias': false, 'fill-opacity': palOut } });
-        if (b.depth_min_m === 0 && meta.shelf) {
-          sources['shelf'] = { type: 'image', url: 'data/shelf-globe.png', coordinates: meta.shelf.bounds };
-          layers.push({ id: 'shelf', type: 'raster', source: 'shelf', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
-        }
-      }
-    }
-    // decoded ocean ramp on the terrarium DEM: from PAL in the light/globe case, everywhere in dark or pal=flat
-    const ocean = oceanLayers(m, pal === 'globe' ? palIn : 1);
-    layers.push(...ocean);
-    // land: NE land fill (Forest sheet colour) + ground rasters (Landcover class x climate tint; ground.py)
-    layers.push({ id: 'land', type: 'fill', source: 'land',
-      paint: { 'fill-color': pal === 'globe' ? ['interpolate', ['linear'], ['zoom'], PAL_Z0, meta.globe_palette.land_tints.humid, PAL_Z1, flatLand] : flatLand, 'fill-antialias': true,
-               'fill-outline-color': pal === 'globe' ? ['interpolate', ['linear'], ['zoom'], PAL_Z0, meta.globe_palette.land_tints.humid, PAL_Z1, flatLand] : flatLand } });
-    if (pal === 'globe') {
-      // fallback under Apple's own rasters where the cache had no tile (alpha 0): the sampled pastel tints (pending)
+    // ocean: DvMt globe ramp below PAL, the flat renderer's ramp from PAL (both color-relief on the terrarium DEM)
+    if (pal === 'globe') layers.push(...oceanLayers(m, palOut, 'ocean-globe', dvmtRampColour));
+    layers.push(...oceanLayers(m, pal === 'globe' ? palIn : 1));
+    // land: NE land fill (globe: DvMt Ground material; flat: Forest sheet colour) + ground rasters
+    const landColour = pal === 'globe' ? ['interpolate', ['linear'], ['zoom'], PAL_Z0, globeLand, PAL_Z1, flatLand] : flatLand;
+    layers.push({ id: 'land', type: 'fill', source: 'land', paint: { 'fill-color': landColour, 'fill-antialias': true, 'fill-outline-color': landColour } });
+    if (pal === 'globe' && m === 'light') {
+      // no-tile fallback under Apple's rasters (southern hemisphere, Americas): the sampled pastel tints (pending)
       layers.push({ id: 'climate', type: 'raster', source: 'climate-globe', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
       sources['climate-globe'] = { type: 'image', url: 'data/climate-globe.png', coordinates: meta.climate_image.bounds };
     }
@@ -185,14 +191,12 @@
       layers.push({ id: 'ground', type: 'raster', source: 'ground', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': op } });
       layers.push({ id: 'ground-ea', type: 'raster', source: 'ground-ea', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': op } });
     }
-    if (GG) {
-      // below PAL: Apple's own land-cover class + climate rasters, sheet colours x light (RENDER-PIPELINE 2.4b,
-      // pipeline/basemap/spr_globe.py -> ui/basemap/ground-globe.json): world 4096^2 (z2 tiles, z3 on top) and the East-Asia
-      // z3 sheet at its own resolution; alpha 0 where the cache had no tile, so the fallbacks above show through
+    if (GG && pal === 'globe') {
+      // below PAL: Apple's own land-cover class + climate rasters (RENDER-PIPELINE 2.4b) recoloured at load with the
+      // Mac App globe's DvMt materials (buildGlobeGround -> canvas source 'ground-globe-dvmt', added once built);
+      // until the canvas is ready the data session's sheet-coloured raster stands in
       sources['ground-globe'] = { type: 'image', url: 'data/ground-globe-' + m + '.png', coordinates: GG.world.coordinates };
-      sources['ground-globe-ea'] = { type: 'image', url: 'data/ground-globe-ea-' + m + '.png', coordinates: GG.east_asia.coordinates };
       layers.push({ id: 'ground-globe', type: 'raster', source: 'ground-globe', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
-      layers.push({ id: 'ground-globe-ea', type: 'raster', source: 'ground-globe-ea', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } });
     }
     // hill-shade: light az 240 / alt 65 (SHADER-NUMBERS 4.1), strength from groundElevationScale (hillshadeAlpha);
     // drawn above the land and BELOW every water layer — the ground shader has no relief on water (waterDepth path)
@@ -231,7 +235,7 @@
     const pick = ids => globeLayers.filter(l => ids.includes(l.id));
     const hs = pick(['hillshade'])[0];
     const gBg = globeLayers.filter(l => l.type === 'background');
-    const gLand = pick(['land', 'climate', 'ground', 'ground-ea', 'ground-globe', 'ground-globe-ea']);
+    const gLand = pick(['land', 'climate', 'ground', 'ground-ea', 'ground-globe']);
     const gSea = globeLayers.filter(l => !gBg.includes(l) && !gLand.includes(l) && l !== hs);
     const ordered = [...gBg, ...flatFills, ...gLand, hs, ...flatWater, ...gSea, ...flatAlways, ...flatLines, ...flatSymbols];
     return {
@@ -249,6 +253,82 @@
       },
       layers: ordered,
     };
+  }
+
+  // ---- Apple's globe ground recoloured with the Mac App globe's own materials -----------------------------
+  // Inputs (data session, RENDER-PIPELINE 2.4b): data/spr-class-globe.png (4096^2, class index per pixel, 255 = no tile),
+  // data/climate-{temp,arid}-globe.png (1024^2 codes). Colours: DvMt materials, client:69 = 0, day / night, Apple z4 band
+  // (meta.dvmt_globe); climate tint = groundSettings HSV cells sampled bilinearly by the codes (SHADER-NUMBERS 3.2, 4.4);
+  // x light(0,0,1); sRGB. Done here at load (a 924-entry LUT, one pass over 16.7 M pixels) so that no new Apple-derived
+  // raster enters the repository. Verification: sampled palette-globe humid #e9f6d8 vs Forest #deecd3 x light = #e3f1d8.
+  const CLASS_UNTINTED = new Set(['Ground', 'DryLake', 'Water']);   // DvMt k = 0 materials carry no climate cells
+  function hsvAdjust(lin, dh, ds, dv) {
+    const [r, g, b] = lin; const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+    let h = 0; if (d > 1e-9) { h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; if (h < 0) h += 360; }
+    let sat = mx > 1e-9 ? d / mx : 0, v = mx;
+    h = (h + dh + 360) % 360; sat = Math.max(0, Math.min(1, sat + ds)); v = Math.max(0, Math.min(1, v + dv));
+    const c = v * sat, hp = h / 60, x = c * (1 - Math.abs(hp % 2 - 1)), m0 = v - c, i = Math.floor(hp) % 6;
+    const rgb = [[c, x, 0], [x, c, 0], [0, c, x], [0, x, c], [x, 0, c], [c, 0, x]][i];
+    return [rgb[0] + m0, rgb[1] + m0, rgb[2] + m0];
+  }
+  async function buildGlobeGround(m) {
+    if (!GG || !meta.dvmt_globe) return null;
+    const load = async url => createImageBitmap(await (await fetch(url)).blob());
+    const [cls, temp, arid] = await Promise.all(['data/spr-class-globe.png', 'data/climate-temp-globe.png', 'data/climate-arid-globe.png'].map(load));
+    const px = (bm) => { const c = document.createElement('canvas'); c.width = bm.width; c.height = bm.height; const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(bm, 0, 0); return { d: x.getImageData(0, 0, bm.width, bm.height).data, w: bm.width }; };
+    const C = px(cls), T = px(temp), A = px(arid);
+    const adj = GG.climate.hsv_deltas[m];
+    const tAdj = [adj.arcticHSVAdjustment, [0, 0, 0], adj.veryHotHSVAdjustment], aAdj = [adj.veryWetHSVAdjustment, [0, 0, 0], adj.veryDryHSVAdjustment];
+    const classes = GG.classes;                       // index -> class name (spr-class-globe.png values)
+    // LUT[class][T 0..6][A 0..5] -> [r,g,b] sRGB bytes
+    const lut = classes.map(name => {
+      // Water: the material's ramp at 0.5 m (lakes; the sea is covered by the color-relief ramp drawn above)
+      const hexc = name === 'Water' ? dvmtRampColour(m, 0.5) : dvmtLand(m, name, 4);
+      if (!hexc) return null;
+      const base = [1, 3, 5].map(k => (name === 'Water' ? toLin(parseInt(hexc.slice(k, k + 2), 16)) / LIGHT : toLin(parseInt(hexc.slice(k, k + 2), 16))));
+      const cells = [];                               // cells[a][t]
+      for (let a = 0; a < 3; a++) { cells.push([]); for (let t = 0; t < 3; t++) cells[a].push(CLASS_UNTINTED.has(name) ? base : hsvAdjust(base, tAdj[t][0] + aAdj[a][0], tAdj[t][1] + aAdj[a][1], tAdj[t][2] + aAdj[a][2])); }
+      const out = [];
+      for (let tc = 0; tc < 7; tc++) { out.push([]); for (let ac = 0; ac < 6; ac++) {
+        const tcell = Math.max(0, Math.min(2, 1 + (tc - 3) / 3)), acell = Math.max(0, Math.min(2, ac < 3 ? 1 + (ac - 3) / 3 : 1 + (ac - 3) / 2));   // ground-globe.json climate
+        const t0 = Math.min(1, Math.floor(tcell)), a0 = Math.min(1, Math.floor(acell)), ft = tcell - t0, fa = acell - a0;
+        const c = [0, 1, 2].map(k => ((cells[a0][t0][k] * (1 - ft) + cells[a0][t0 + 1][k] * ft) * (1 - fa) + (cells[a0 + 1][t0][k] * (1 - ft) + cells[a0 + 1][t0 + 1][k] * ft) * fa) * LIGHT);
+        out[tc].push(c.map(toSrgb8));
+      } }
+      return out;
+    });
+    const N = C.w, out = new Uint8ClampedArray(N * N * 4), ratio = T.w / N;
+    for (let y = 0; y < N; y++) {
+      const ty = Math.floor(y * ratio) * T.w;
+      for (let x = 0; x < N; x++) {
+        const i = y * N + x, ci = C.d[i * 4];
+        const table = ci < classes.length ? lut[ci] : null;
+        if (!table) continue;                          // 255 = no tile -> alpha 0
+        const ti = (ty + Math.floor(x * ratio)) * 4;
+        const tc = T.d[ti] === 255 ? 3 : Math.min(6, T.d[ti]), ac = A.d[ti] === 255 ? 3 : Math.min(5, A.d[ti]);
+        const c = table[tc][ac]; const o = i * 4;
+        out[o] = c[0]; out[o + 1] = c[1]; out[o + 2] = c[2]; out[o + 3] = 255;
+      }
+    }
+    const canvas = document.createElement('canvas'); canvas.width = N; canvas.height = N;
+    canvas.getContext('2d').putImageData(new ImageData(out, N, N), 0, 0);
+    return canvas;
+  }
+  let globeGroundCanvas = null, globeGroundMode = null, globeGroundUrl = null;
+  async function attachGlobeGround() {
+    const m = mode();
+    if (paletteName(m) !== 'globe' || !GG) return;
+    if (!globeGroundCanvas || globeGroundMode !== m) {
+      globeGroundCanvas = await buildGlobeGround(m); globeGroundMode = m;
+      // an image source (blob URL) rather than a canvas source: MapLibre 5.6 drew the 4096^2 canvas source black
+      if (globeGroundUrl) URL.revokeObjectURL(globeGroundUrl);
+      globeGroundUrl = globeGroundCanvas ? URL.createObjectURL(await new Promise(r => globeGroundCanvas.toBlob(r, 'image/png'))) : null;
+    }
+    if (!globeGroundUrl || !map.getLayer('ground-globe')) return;
+    if (map.getSource('ground-globe-dvmt')) { map.removeLayer('ground-globe-dvmt'); map.removeSource('ground-globe-dvmt'); }
+    map.addSource('ground-globe-dvmt', { type: 'image', url: globeGroundUrl, coordinates: GG.world.coordinates });
+    map.addLayer({ id: 'ground-globe-dvmt', type: 'raster', source: 'ground-globe-dvmt', paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0, 'raster-opacity': palOut } }, 'hillshade');
+    map.setPaintProperty('ground-globe', 'raster-opacity', 0);     // the sheet-coloured stand-in steps back
   }
 
   // ---- camera from hash -------------------------------------------------------------------
@@ -522,6 +602,7 @@
     }
   }
   map.on('load', updateLabels);
+  map.once('load', () => { attachGlobeGround().catch(e => (window.__errs = window.__errs || []).push('globe ground: ' + (e && e.message || e))); });
   map.on('zoomend', updateLabels);
   map.on('moveend', () => { syncFront(); collide(); });
   let idleCount = 0;
@@ -651,13 +732,14 @@
   mq.addEventListener('change', () => {
     const m = mode();
     map.setStyle(style(m));
+    map.once('styledata', () => attachGlobeGround().catch(() => {}));
     for (const it of markers) styleLabel(it.el, it.kind, m);
   });
   window.__globe = {
     map, meta, shader: SN, setHashExtra, hashExtras: () => hashState.q,
     get idleCount() { return idleCount; },
     get labelStats() { const m = markers.filter(it => it.added); return { inRange: m.length, front: m.filter(it => it.front).length, visible: m.filter(it => it.front && !it.collided).length }; },
-    hillshadeAlpha, rampColour, LIGHT, post, groundElevationScale,
+    hillshadeAlpha, rampColour, dvmtRampColour, dvmtLand, LIGHT, post, groundElevationScale, buildGlobeGround, get globeGroundCanvas() { return globeGroundCanvas; },
     get starsDrawn() { return starsDrawn; },
     globeRadiusPx,
   };
