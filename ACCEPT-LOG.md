@@ -533,3 +533,11 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 - 期间 App 曾被切到 Transit 模式（谁切的未知），我经菜单 View→Explore 切回。
 - 显示器断言检查：pmset PreventUserIdleDisplaySleep 0 / UserIsActive 0；computer-use 锁已释放，浏览器面板未开。
 
+## 2026-09-17 08:36　并排图重拍未成：Maps 被重新启动，状态对不上　验收人：transit 验收（Fable）
+
+- 00:5x 起用 `open maps://…` 时 Maps 已不在运行（原窗口 4961 消失，谁关的未知），被重新拉起成新窗口 54：无工具栏、悬浮侧栏盖住地图左侧、同 spn 下比例尺 375 km（14:00 参照是 500 km，侧栏挤窄了视口）。AX 里没有 Sidebar 按钮，View 菜单没有 Hide Sidebar，⌃⌘S 无效——侧栏关不掉，因此 side-2026-09-17/app-*.png 三张**不是同状态**，不能当参照；北美那张还是空白（未加载完）。
+- 有效的参照仍只有 14:00 的 native-nosidebar.png（亚洲）。
+- 期间我的 8791 服务在会话环境重置时被杀，已重启；scratchpad 被清空，改把产物写到 ~/Money/styl-work/side-2026-09-17/。
+- 断言检查：PreventUserIdleDisplaySleep 0；computer-use 锁已释放；浏览器面板未开。
+- 需要：把 Maps 侧栏关掉（用户或另一会话点一下），或批准我全屏控制点它；之后重拍三视野。
+
