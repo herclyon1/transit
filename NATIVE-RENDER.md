@@ -99,3 +99,8 @@ swiftc -O pipeline/basemap/snap.swift -o /tmp/snap
 - Coastline-Glow-Light-Base 属性 57 = ff fb dd 87 → #87ddfb，渲染图近岸浅水带 #88d4f5。
 - 属性 24 = 标注文字色，25 = 标注描边色（Line-* 样式里 24 是深灰、25 是白 α0.7，与 LabelCoreStyleGroup 调用方一致）。
 - 改真缓存做「改值看效果」：权限系统判定为绕过 GeoServices 的 SHA1/ETAG 扩展属性校验，不做；改用「解出的值 vs 渲染像素」互证，已足够定名。
+
+## 系统材质不是 VectorKit 画的，配方是明文（2026-09-16 22:3x）
+
+侧栏/弹窗/玻璃钮/卡是 macOS 系统材质（AppKit/SwiftUI 材质，Liquid Glass），配方在 `/System/Library/PrivateFrameworks/CoreMaterial.framework/Versions/A/Resources/*.materialrecipe`（54 个，XML plist，`plutil -p` 直接读）+ `*.visualstyleset`（fill/stroke 层）+ `luminanceColorMap.png`（256×1）。例：platformContentLight = blurRadius 30、saturation 1.5、brightness 0.1、backdropScale 0.25、luminanceAmount 0.75 + luminanceValues [0.9, 0.83, 0.925, 0.815]；platformContentThinLight = blur 30、sat 1.35、brightness 0.12、luminance 0.6；platformContentGlass = blur 45 + 4×5 colorMatrix；toolbarButtonBackground = blur 15、sat 1.1、luminance 0.5。fill 层是「vibrantColorMatrix + tint」，不是平面白 α——这就是为什么 Kit 的「白 70%」在不同底图上采出来都不一样。
+待做（数据会话）：dump 全部配方 + 查 Maps 各控件用哪个配方 → MATERIALS.md；界面按配方实现，采样只验证。

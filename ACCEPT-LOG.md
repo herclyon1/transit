@@ -276,3 +276,19 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 两条小项记下、随下一单修：① 点开弹窗后卡片被关（App 不关地点卡）；② 弹窗有 × 钮，App 的 Map Modes 弹窗没有（点外部关闭）。
 **结论**：放行合并。壳骨架至此放行（Mac）；iPhone 端按它的 kit-audit KIT-OK 35 记，待我在面板可见时复看手感。
 
+## 2026-09-16 22:0x　更正：Map Modes 弹窗材质（用户指出不透明度不对）　验收人：transit 验收（Fable）
+
+同坐标对比 native-mapmodes.png vs shell4b.png（弹窗同在 (902,13,320)，右半压在黑太空上）：(1200,150) App #505254 / 我们 #bcc1c6；(1200,240) App #647990 / 我们 #c5d1dc；(1100,290) App #66a2cb / 我们 #c3dff3。黑背景上 App 弹窗有效白约 **30%**，我们 74%（computed 白 70% + blur 40 + sat 1.8）。**87b2a5b 放行时我没量材质，错放**；Kit「白 70% + #bfbfbf 10% + blur 30」和早上记的「弹窗 70%」都与 App 不符（早上多半量在白盒或亮底上）。已让界面会话按黑太空区实测重拟弹窗材质，并用同法复核侧栏 78% / 卡 86%。**方法记入规矩：材质一律在黑太空区同坐标对比量，不在亮底上量。**
+
+## 2026-09-16 23:0x　验收 data 8ece01b（着色器解码：SHADER-NUMBERS.md + shader-numbers.json + 6 个工具）　验收人：transit 验收（Fable）
+
+**先看**：文档 6 节 239 行（哪个着色器画什么 / uniform 结构 / 公式 / 数值 / 与界面拟合对比 / 未解），json 顶层 10 键（lighting、ground_atmosphere、water_depth_gradient、ambient_irradiance_cube、landCoverSettings、climate_tinting、landcover_palettes、lighting_dark…），工具 metallib_dump / ir2pseudo / structs / capture.m / probe_settings.m / numbers.py 在仓库。
+**独立核对**：
+| 项 | 它解出 | 我独立量到 | 结论 |
+|---|---|---|---|
+| 光向 | tileLightDirection (−0.366,−0.211,0.906) → 方位 240.0° 仰角 65.0° | 界面会话此前用 10 万像素拟合 L=(−0.436,−0.251,0.864) → 方位 240.1° 仰角 59.8° | 方位独立吻合；仰角差 5°，以解出值为准 |
+| 海深色带 | 256 texel 线性 RGBA8，t = saturate((log2(深度)+6.6439)·0.0515) | 我 09-16 用渲染器采的平面海色：4000–5000 m #0d99ec vs ramp t=0.97 → #0d94e6（Δ≤6）；≥7000 m #0d8de6 vs t=1 → #0d8ae2（Δ≤4） | 深水档对上；浅水档有光照/陆架差，属预期 |
+| 抓取方式 | capture.m 进程内起 MKMapView 钩 Metal 编码器抓 uniform/纹理，亮暗 × 5 视野 | 方法可复现，不用猜 | 认 |
+**未解（它写明）**：scene 表 Lighting-Base 属性名、Maps 球本体无法进程内抓（球大气常量出自反编译）、水深 ramp 源文件、调色板行→类名靠颜色匹配。
+**结论**：放行合并。转界面会话：光照仰角 65°、线性光照公式、海深 ramp + 公式、Landcover 基色 + groundSettings 气候微调、天空色——全部替换现有拟合/采样值，采样只做验证。
+
