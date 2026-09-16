@@ -234,8 +234,8 @@ a.row:active,button.row:active{background:var(--fill)}
   /* 侧栏 = Kit Windows › Left Pane（材质 #fafafa 80% + 模糊 100），宽 200 贴左通高（Maps）；上面 52 = Kit Titlebar（标题 Bold 15 + 副题 Medium 11，左起 14 = Kit 侧栏文字内缩） */
   /* 材质 = 地图 App 实机采样（2026-09-16 09:xx，同状态截图 PLAN-MAC-LOOK 第 0 节 #8/#11）：侧栏和卡片都透出底图的颜色（侧栏压在海上 (232,238,217)、卡片 (246,254,233)），
      Kit 的 #fafafa 80% + 模糊 100 几乎不透色，作废；改成 白 78% + 模糊 40 + 饱和 1.8 */
-  .sheet{left:0;top:0;bottom:0;width:200px;border-radius:0;box-shadow:none;
-         background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8)}
+  .sheet{left:0;top:0;bottom:0;width:200px;border-radius:0;box-shadow:none}
+  html .sheet.glass,html .sheet{background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(40px) saturate(1.8);backdrop-filter:blur(40px) saturate(1.8)}   /* html .sheet.glass 压过后面的 html .glass（A26 材质），验收 619397d 打回的就是这条没生效 */
   .sheet .head{height:52px;min-height:52px;padding:0 8px 0 14px;gap:8px;align-items:center}
   .sheet .head .slot{width:auto;height:auto;min-width:0} .sheet .head .slot:empty{display:none}
   .sheet .head .tt{text-align:left;padding:0;min-width:0}
