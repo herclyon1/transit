@@ -88,3 +88,11 @@
 
 **结论**：放行，合并 main。
 
+## 2026-09-16 14:2x　验收 ui ab63014（球页面缺陷 1–3 修复）　验收人：transit 验收（Fable）
+
+**看了什么**：`merge --no-commit ui`，8791，1280×744，暗色 #2.3/20/140、暗色 #3.12/33.48/125、亮色 #3.12/33.48/125，各等 16 秒。
+- 缺陷 1 标注出圈：**修好**，VIETNAM/INDONESIA 在球内。
+- 缺陷 2 Arctic Ocean：**没好**，亮暗两张东亚视野里仍落在黄海位置。
+- 缺陷 3 标注集合：**更差**，东亚视野亮暗都只剩 ASIA/RUSSIA/INDIA/Arctic Ocean 四条（上版二十多条）；它报「暗色 37 条」与截图不符，以截图为准。
+**结论**：打回（2、3）。`git merge --abort`，main 不动。App「球边压陆地」参照图已截：`~/Money/styl-work/native-limb-land-light.png`（1280×744 pt @2x，`maps://?ll=30,60&spn=50,60`）。
+
