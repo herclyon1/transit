@@ -74,3 +74,10 @@ swiftc -O pipeline/basemap/snap.swift -o /tmp/snap
 ## 产品形态定：网页
 
 原生 App 免费自用可行（Mac 无限期，iPhone 免费账号七天自动续签），但非苹果用户看不到，且原生 MapKit 也没有球。网页 + MapLibre 是唯一同时满足「别人能看」「有球」的形态。
+
+## .styl 容器结构（2026-09-16 11:5x 初探，样本在 ~/Money/styl-work/，不进仓库）
+
+- 头：`STYL` + u16 版本 5 + u16 1，随后是块表（u32 偏移/长度/解压后大小 + u16 类型号）。
+- 正文是若干 **zlib 流**（0x78 0x9c）：globe-default-21097@2x.styl 有 5 段，解压后 647 / 22 / 54 892 / 147 930 / 22 735 字节。
+- 解压后仍是自定义二进制，不是 protobuf 文本，只有零星可读串：`%$default,semibold`（字体规格）、`Route-Line-Flex-Point`（图层名）。大量重复的 `RFFVf`/`ccK` 之类短串像是位打包的属性表。
+- 结论：不是「解压就有 JSON」那种；要解就是从零推格式，工作量未知。已派数据会话做限时探测（见 WORKFLOW 派工记录），界面会话同时搭「渲染器当量具」的采样管线兜底。
