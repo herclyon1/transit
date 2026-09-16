@@ -1,0 +1,911 @@
+mode	style	prop	zoom	value
+light	PhysicalFeature-Rank-1-2-Globe	0:visible	14-24	False
+light	PhysicalFeature-Rank-1-2-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-1-2-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-1-2-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-1-2-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-1-2-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-1-2-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-1-2-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-1-2-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-1-2-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+light	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	7-24	{"height": 32.467533111572266}
+light	PhysicalFeature-Rank-3-5-Globe	0:visible	14-24	False
+light	PhysicalFeature-Rank-3-5-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-3-5-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-3-5-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-3-5-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-3-5-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-3-5-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-3-5-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-3-5-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-3-5-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	7-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Rank-6-Globe	0:visible	14-24	False
+light	PhysicalFeature-Rank-6-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-6-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-6-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-6-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-6-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-6-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	2-4	2.5
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	4-5	5
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	5-6	15
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	6-7	40
+light	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	7-24	80
+light	PhysicalFeature-Rank-6-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-6-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-6-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	2-3	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-6-Globe	172:labelInfo	7-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-7-Globe	0:visible	14-24	False
+light	PhysicalFeature-Rank-7-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-7-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-7-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-7-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-7-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-7-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	0-1	0.5
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	1-5	3
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	5-6	10
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	6-7	20
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	7-8	30
+light	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	8-24	40
+light	PhysicalFeature-Rank-7-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-7-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-7-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	0-1	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	1-4	{"height": 9.090909004211426}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	4-5	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	5-6	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	6-7	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	7-8	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-7-Globe	172:labelInfo	8-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-8-9-Globe	0:visible	14-24	False
+light	PhysicalFeature-Rank-8-9-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-8-9-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-8-9-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+light	PhysicalFeature-Rank-8-9-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-8-9-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-8-9-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	0-1	0.5
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	1-6	3
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	6-7	11.5
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	7-8	20
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	8-9	37
+light	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	9-24	54
+light	PhysicalFeature-Rank-8-9-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-8-9-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Rank-8-9-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	0-1	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	1-5	{"height": 10.389610290527344}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	5-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	6-7	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	7-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	8-9	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	9-24	{"height": 19.480518341064453}
+light	PhysicalFeature-Rank-1-2-Island-Globe	0:visible	7-24	False
+light	PhysicalFeature-Rank-1-2-Island-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-1-2-Island-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-1-2-Island-Globe	23:fontSpec	0-24	%$default,bold,italic
+light	PhysicalFeature-Rank-1-2-Island-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-1-2-Island-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-1-2-Island-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	3-4	10
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	4-5	20
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	5-6	40
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	6-7	80
+light	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	7-24	160
+light	PhysicalFeature-Rank-1-2-Island-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+light	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	7-24	{"height": 32.467533111572266}
+light	PhysicalFeature-Rank-3-5-Island-Globe	0:visible	7-24	False
+light	PhysicalFeature-Rank-3-5-Island-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Rank-3-5-Island-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Rank-3-5-Island-Globe	23:fontSpec	0-24	%$default,bold,italic
+light	PhysicalFeature-Rank-3-5-Island-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Rank-3-5-Island-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Rank-3-5-Island-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	0-2	0.5
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	2-3	2.5
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	3-4	5
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	4-5	10
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	5-6	20
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	6-7	40
+light	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	7-24	80
+light	PhysicalFeature-Rank-3-5-Island-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	7-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Area-Points-Globe	0:visible	16-24	False
+light	PhysicalFeature-Area-Points-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Area-Points-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Area-Points-Globe	23:fontSpec	0-24	%$default,medium,width=132
+light	PhysicalFeature-Area-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Area-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Area-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	0-13	0.5
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	13-14	1
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	14-15	3
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	15-16	13
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	16-17	23
+light	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	17-24	0.5
+light	PhysicalFeature-Area-Points-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Area-Points-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Area-Points-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	0-13	{"height": 12.98701286315918}
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	13-14	{"height": 7.792207717895508, "heightCurve": 0, "heightCurveLimit": 11.038961410522461}
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	14-15	{"height": 11.038961410522461, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	15-16	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	16-17	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.83116912841797}
+light	PhysicalFeature-Area-Points-Globe	172:labelInfo	17-24	{"height": 12.98701286315918}
+light	PhysicalFeature-Region-Points-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Region-Points-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Region-Points-Globe	23:fontSpec	0-24	%$default,medium,width=70
+light	PhysicalFeature-Region-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Region-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Region-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	0-8	3
+light	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	8-12	4
+light	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	12-24	6
+light	PhysicalFeature-Region-Points-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Region-Points-Globe	170:labelColorSource	0-24	5
+light	PhysicalFeature-Region-Points-Globe	172:labelInfo	0-6	{"height": 14.285714149475098}
+light	PhysicalFeature-Region-Points-Globe	172:labelInfo	6-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Region-Points-Globe	172:labelInfo	8-12	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+light	PhysicalFeature-Region-Points-Globe	172:labelInfo	12-24	{"height": 22.077922821044922}
+light	PhysicalFeature-Region-Points-Globe	187:labelDefaultTextPosition	0-24	256
+light	PhysicalFeature-Region-Points-Globe	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Mountain-Points-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Mountain-Points-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Mountain-Points-Globe	24:textColor	0-9	rgb(184,134,87) a=255
+light	PhysicalFeature-Mountain-Points-Globe	24:textColor	9-10	rgb(198,141,87) a=255
+light	PhysicalFeature-Mountain-Points-Globe	24:textColor	10-12	rgb(206,147,91) a=255
+light	PhysicalFeature-Mountain-Points-Globe	24:textColor	12-24	rgb(218,148,84) a=255
+light	PhysicalFeature-Mountain-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Mountain-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Mountain-Points-Globe	58:sizeRange	0-24	[0.0, 2.0]
+light	PhysicalFeature-Mountain-Points-Globe	59:dropShadowColor	0-24	rgb(0,0,0) a=128
+light	PhysicalFeature-Coastal-Points-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Coastal-Points-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Coastal-Points-Globe	23:fontSpec	0-24	%$default,medium,italic
+light	PhysicalFeature-Coastal-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Coastal-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Coastal-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Coastal-Points-Globe	29:fontSizeParam	0-24	0.25
+light	PhysicalFeature-Coastal-Points-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Coastal-Points-Globe	170:labelColorSource	0-24	5
+light	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	0-4	{"height": 14.285714149475098}
+light	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	4-12	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	12-24	{"height": 12.98701286315918}
+light	PhysicalFeature-Coastal-Points-Globe	187:labelDefaultTextPosition	0-24	16
+light	PhysicalFeature-Coastal-Points-Globe	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Island-Points-Globe	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Island-Points-Globe	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Island-Points-Globe	23:fontSpec	0-24	%$default,semibold,italic
+light	PhysicalFeature-Island-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+light	PhysicalFeature-Island-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Island-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Island-Points-Globe	29:fontSizeParam	0-24	0.5
+light	PhysicalFeature-Island-Points-Globe	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Island-Points-Globe	170:labelColorSource	0-24	5
+light	PhysicalFeature-Island-Points-Globe	172:labelInfo	0-24	{"height": 11.363636016845703}
+light	PhysicalFeature-Island-Points-Globe	187:labelDefaultTextPosition	0-24	256
+light	PhysicalFeature-Island-Points-Globe	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Undersea-Points-Globe-Base	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Undersea-Points-Globe-Base	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Undersea-Points-Globe-Base	23:fontSpec	0-24	%$default,semibold,width=100
+light	PhysicalFeature-Undersea-Points-Globe-Base	24:textColor	0-24	rgb(29,104,241) a=255
+light	PhysicalFeature-Undersea-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Undersea-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Undersea-Points-Globe-Base	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Undersea-Points-Globe-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Undersea-Points-Globe-Base	170:labelColorSource	0-24	2
+light	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+light	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Undersea-Points-Globe-Base	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Undersea-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	23:fontSpec	0-24	%$default,bold,width=140
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	24:textColor	0-24	rgb(29,104,241) a=255
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	29:fontSizeParam	0-24	3
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	172:labelInfo	0-24	{"height": 10.389610290527344}
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	187:labelDefaultTextPosition	0-24	256
+light	PhysicalFeature-Undersea-Area-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+light	PhysicalFeature-Elevation-Points-Globe-Base	18:textSizeScale	0-11	1.2
+light	PhysicalFeature-Elevation-Points-Globe-Base	18:textSizeScale	11-24	1.83
+light	PhysicalFeature-Elevation-Points-Globe-Base	23:fontSpec	0-24	%$default,semibold,width=100
+light	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	0-9	rgb(184,134,87) a=255
+light	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	9-10	rgb(198,141,87) a=255
+light	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	10-12	rgb(206,147,91) a=255
+light	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	12-24	rgb(218,148,84) a=255
+light	PhysicalFeature-Elevation-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	PhysicalFeature-Elevation-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	PhysicalFeature-Elevation-Points-Globe-Base	29:fontSizeParam	0-24	0
+light	PhysicalFeature-Elevation-Points-Globe-Base	33:labelTextVisibility	0-24	1
+light	PhysicalFeature-Elevation-Points-Globe-Base	170:labelColorSource	0-24	5
+light	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+light	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+light	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+light	PhysicalFeature-Elevation-Points-Globe-Base	187:labelDefaultTextPosition	0-24	1
+light	PhysicalFeature-Elevation-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+light	Ocean-Label-Point-ExtraLarge	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	0-1	0.5
+light	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	1-3	1
+light	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	3-24	2
+light	Ocean-Label-Point-ExtraLarge	172:labelInfo	0-1	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-ExtraLarge	172:labelInfo	1-3	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-ExtraLarge	172:labelInfo	3-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Point-Large	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Point-Large	29:fontSizeParam	0-3	0.5
+light	Ocean-Label-Point-Large	29:fontSizeParam	3-4	1
+light	Ocean-Label-Point-Large	29:fontSizeParam	4-24	2
+light	Ocean-Label-Point-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Point-Medium	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Point-Medium	29:fontSizeParam	0-4	0.5
+light	Ocean-Label-Point-Medium	29:fontSizeParam	4-5	1
+light	Ocean-Label-Point-Medium	29:fontSizeParam	5-24	2
+light	Ocean-Label-Point-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Point-Small	23:fontSpec	0-7	%$default,semibold,italic
+light	Ocean-Label-Point-Small	23:fontSpec	7-24	%$default,medium,italic
+light	Ocean-Label-Point-Small	29:fontSizeParam	0-6	0.5
+light	Ocean-Label-Point-Small	29:fontSizeParam	6-7	1
+light	Ocean-Label-Point-Small	29:fontSizeParam	7-24	0.5
+light	Ocean-Label-Point-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Point-Small	172:labelInfo	6-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Point-ExtraSmall	23:fontSpec	0-24	%$default,medium,italic
+light	Ocean-Label-Point-ExtraSmall	29:fontSizeParam	0-24	0.5
+light	Ocean-Label-Point-ExtraSmall	172:labelInfo	0-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Large	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Large	29:fontSizeParam	0-3	3
+light	Ocean-Label-Line-Large	29:fontSizeParam	3-4	4
+light	Ocean-Label-Line-Large	29:fontSizeParam	4-24	5
+light	Ocean-Label-Line-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Line-Medium	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Medium	29:fontSizeParam	0-4	3
+light	Ocean-Label-Line-Medium	29:fontSizeParam	4-5	4
+light	Ocean-Label-Line-Medium	29:fontSizeParam	5-24	5
+light	Ocean-Label-Line-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Line-Small	23:fontSpec	0-24	%$default,semibold,italic
+light	Ocean-Label-Line-Small	29:fontSizeParam	0-6	3
+light	Ocean-Label-Line-Small	29:fontSizeParam	6-7	4
+light	Ocean-Label-Line-Small	29:fontSizeParam	7-24	5
+light	Ocean-Label-Line-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+light	Ocean-Label-Line-Small	172:labelInfo	6-7	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+light	Ocean-Label-Line-Small	172:labelInfo	7-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	Ocean-Label-Color-Globe-Base	18:textSizeScale	0-11	1.2
+light	Ocean-Label-Color-Globe-Base	18:textSizeScale	11-24	1.83
+light	Ocean-Label-Color-Globe-Base	24:textColor	0-24	rgb(170,224,235) a=255
+light	Ocean-Label-Color-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+light	Ocean-Label-Color-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+light	Continent-PointLabel-Globe	0:visible	3-24	False
+light	Continent-PointLabel-Globe	18:textSizeScale	0-8	1.2
+light	Continent-PointLabel-Globe	18:textSizeScale	8-11	1.83
+light	Continent-PointLabel-Globe	18:textSizeScale	11-24	2.2
+light	Continent-PointLabel-Globe	23:fontSpec	0-24	%$default,semibold,width=80
+light	Continent-PointLabel-Globe	24:textColor	0-24	rgb(237,232,235) a=250
+light	Continent-PointLabel-Globe	25:labelHaloColor	0-24	rgb(22,0,8) a=217
+light	Continent-PointLabel-Globe	29:fontSizeParam	0-24	0.45
+light	Continent-PointLabel-Globe	172:labelInfo	0-2	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+light	Continent-PointLabel-Globe	172:labelInfo	2-3	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 25.97402572631836}
+light	Continent-PointLabel-Globe	172:labelInfo	3-24	{"height": 25.97402572631836}
+light	City-Globe-Base	18:textSizeScale	0-8	1.2
+light	City-Globe-Base	18:textSizeScale	8-11	1.83
+light	City-Globe-Base	18:textSizeScale	11-24	2
+light	City-Globe-Base	24:textColor	0-24	rgb(247,247,247) a=255
+light	City-Globe-Base	25:labelHaloColor	0-24	rgb(28,38,50) a=199
+light	City-Style-02	0:visible	0-2	False
+light	City-Style-02	18:textSizeScale	0-24	0.5
+light	City-Style-02	23:fontSpec	0-2	%$default,medium-G1,width=90
+light	City-Style-02	23:fontSpec	2-3	%$default,medium-G3,width=90
+light	City-Style-02	23:fontSpec	3-4	%$default,semibold,width=90
+light	City-Style-02	23:fontSpec	4-6	%$default,bold,width=90
+light	City-Style-02	23:fontSpec	6-11	%$default,bold-G1,width=90
+light	City-Style-02	23:fontSpec	11-24	%$default,semibold,width=90
+light	City-Style-02	29:fontSizeParam	0-2	0
+light	City-Style-02	29:fontSizeParam	2-3	0.35
+light	City-Style-02	29:fontSizeParam	3-8	0
+light	City-Style-02	29:fontSizeParam	8-24	0.35
+light	City-Style-02	33:labelTextVisibility	12-24	0
+light	City-Style-02	172:labelInfo	0-2	{"height": 13.636363983154297}
+light	City-Style-02	172:labelInfo	2-5	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+light	City-Style-02	172:labelInfo	5-9	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 29.870128631591797}
+light	City-Style-02	172:labelInfo	9-12	{"height": 29.870128631591797, "heightCurve": 0, "heightCurveLimit": 41.558441162109375}
+light	City-Style-02	172:labelInfo	12-24	{"height": 41.558441162109375}
+light	City-Style-02	187:labelDefaultTextPosition	0-8	2
+light	City-Style-02	187:labelDefaultTextPosition	8-24	256
+light	City-Style-03	0:visible	0-2	False
+light	City-Style-03	18:textSizeScale	0-24	0.5
+light	City-Style-03	23:fontSpec	0-4	%$default,medium-G1,width=90
+light	City-Style-03	23:fontSpec	4-5	%$default,semibold,width=90
+light	City-Style-03	23:fontSpec	5-7	%$default,bold,width=90
+light	City-Style-03	23:fontSpec	7-11	%$default,bold-G1,width=90
+light	City-Style-03	23:fontSpec	11-24	%$default,semibold,width=90
+light	City-Style-03	29:fontSizeParam	0-3	0
+light	City-Style-03	29:fontSizeParam	3-4	0.35
+light	City-Style-03	29:fontSizeParam	4-9	0
+light	City-Style-03	29:fontSizeParam	9-24	0.35
+light	City-Style-03	33:labelTextVisibility	13-24	0
+light	City-Style-03	172:labelInfo	0-3	{"height": 13.636363983154297}
+light	City-Style-03	172:labelInfo	3-5	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+light	City-Style-03	172:labelInfo	5-6	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+light	City-Style-03	172:labelInfo	6-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 25.97402572631836}
+light	City-Style-03	172:labelInfo	9-13	{"height": 25.97402572631836, "heightCurve": 0, "heightCurveLimit": 41.558441162109375}
+light	City-Style-03	172:labelInfo	13-24	{"height": 41.558441162109375}
+light	City-Style-03	187:labelDefaultTextPosition	0-9	2
+light	City-Style-03	187:labelDefaultTextPosition	9-24	256
+light	City-Style-04	0:visible	0-2	False
+light	City-Style-04	18:textSizeScale	0-24	0.5
+light	City-Style-04	23:fontSpec	0-5	%$default,medium-G1,width=90
+light	City-Style-04	23:fontSpec	5-6	%$default,semibold,width=90
+light	City-Style-04	23:fontSpec	6-9	%$default,bold,width=90
+light	City-Style-04	23:fontSpec	9-11	%$default,bold-G1,width=90
+light	City-Style-04	23:fontSpec	11-24	%$default,semibold,width=90
+light	City-Style-04	29:fontSizeParam	0-3	0
+light	City-Style-04	29:fontSizeParam	3-5	0.35
+light	City-Style-04	29:fontSizeParam	5-9	0
+light	City-Style-04	29:fontSizeParam	9-24	0.35
+light	City-Style-04	33:labelTextVisibility	13-24	0
+light	City-Style-04	172:labelInfo	0-4	{"height": 13.636363983154297}
+light	City-Style-04	172:labelInfo	4-6	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+light	City-Style-04	172:labelInfo	6-7	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+light	City-Style-04	172:labelInfo	7-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 23.376623153686523}
+light	City-Style-04	172:labelInfo	9-13	{"height": 23.376623153686523, "heightCurve": 0, "heightCurveLimit": 38.961036682128906}
+light	City-Style-04	172:labelInfo	13-24	{"height": 38.961036682128906}
+light	City-Style-04	187:labelDefaultTextPosition	0-9	2
+light	City-Style-04	187:labelDefaultTextPosition	9-24	256
+light	City-Style-05	0:visible	0-2	False
+light	City-Style-05	18:textSizeScale	0-24	0.5
+light	City-Style-05	23:fontSpec	0-6	%$default,medium-G1,width=90
+light	City-Style-05	23:fontSpec	6-7	%$default,semibold,width=90
+light	City-Style-05	23:fontSpec	7-11	%$default,bold,width=90
+light	City-Style-05	23:fontSpec	11-24	%$default,semibold,width=90
+light	City-Style-05	29:fontSizeParam	0-4	0
+light	City-Style-05	29:fontSizeParam	4-6	0.35
+light	City-Style-05	29:fontSizeParam	6-9	0
+light	City-Style-05	29:fontSizeParam	9-24	0.35
+light	City-Style-05	33:labelTextVisibility	13-24	0
+light	City-Style-05	172:labelInfo	0-5	{"height": 13.636363983154297}
+light	City-Style-05	172:labelInfo	5-7	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+light	City-Style-05	172:labelInfo	7-8	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+light	City-Style-05	172:labelInfo	8-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 20.779220581054688}
+light	City-Style-05	172:labelInfo	9-13	{"height": 20.779220581054688, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+light	City-Style-05	172:labelInfo	13-24	{"height": 36.3636360168457}
+light	City-Style-05	187:labelDefaultTextPosition	0-9	2
+light	City-Style-05	187:labelDefaultTextPosition	9-24	256
+light	City-Style-06	0:visible	0-2	False
+light	City-Style-06	18:textSizeScale	0-24	0.5
+light	City-Style-06	23:fontSpec	0-7	%$default,medium-G1,width=90
+light	City-Style-06	23:fontSpec	7-8	%$default,semibold,width=90
+light	City-Style-06	23:fontSpec	8-9	%$default,bold,width=90
+light	City-Style-06	23:fontSpec	9-14	%$default,semibold,width=90
+light	City-Style-06	23:fontSpec	14-24	%$default,medium-G1,width=90
+light	City-Style-06	29:fontSizeParam	0-5	0
+light	City-Style-06	29:fontSizeParam	5-7	0.35
+light	City-Style-06	29:fontSizeParam	7-24	0
+light	City-Style-06	33:labelTextVisibility	14-24	0
+light	City-Style-06	172:labelInfo	0-5	{"height": 13.636363983154297}
+light	City-Style-06	172:labelInfo	5-6	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+light	City-Style-06	172:labelInfo	6-8	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+light	City-Style-06	172:labelInfo	8-9	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.83116912841797}
+light	City-Style-06	172:labelInfo	9-14	{"height": 18.83116912841797, "heightCurve": 0, "heightCurveLimit": 38.31168746948242}
+light	City-Style-06	172:labelInfo	14-24	{"height": 38.31168746948242}
+light	City-Style-06	187:labelDefaultTextPosition	0-9	2
+light	City-Style-06	187:labelDefaultTextPosition	9-14	256
+light	City-Style-06	187:labelDefaultTextPosition	14-24	2
+dark	PhysicalFeature-Rank-1-2-Globe	0:visible	14-24	False
+dark	PhysicalFeature-Rank-1-2-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-1-2-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-1-2-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-1-2-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-1-2-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-1-2-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-1-2-Globe	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-1-2-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-1-2-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-1-2-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+dark	PhysicalFeature-Rank-1-2-Globe	172:labelInfo	7-24	{"height": 32.467533111572266}
+dark	PhysicalFeature-Rank-3-5-Globe	0:visible	14-24	False
+dark	PhysicalFeature-Rank-3-5-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-3-5-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-3-5-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-3-5-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-3-5-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-3-5-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-3-5-Globe	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-3-5-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-3-5-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-3-5-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-3-5-Globe	172:labelInfo	7-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Rank-6-Globe	0:visible	14-24	False
+dark	PhysicalFeature-Rank-6-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-6-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-6-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-6-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-6-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-6-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	2-4	2.5
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	4-5	5
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	5-6	15
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	6-7	40
+dark	PhysicalFeature-Rank-6-Globe	29:fontSizeParam	7-24	80
+dark	PhysicalFeature-Rank-6-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-6-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-6-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	2-3	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	3-4	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	4-5	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	5-6	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	6-7	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-6-Globe	172:labelInfo	7-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-7-Globe	0:visible	14-24	False
+dark	PhysicalFeature-Rank-7-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-7-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-7-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-7-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-7-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-7-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	0-1	0.5
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	1-5	3
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	5-6	10
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	6-7	20
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	7-8	30
+dark	PhysicalFeature-Rank-7-Globe	29:fontSizeParam	8-24	40
+dark	PhysicalFeature-Rank-7-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-7-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-7-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	0-1	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	1-4	{"height": 9.090909004211426}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	4-5	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	5-6	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	6-7	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	7-8	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-7-Globe	172:labelInfo	8-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-8-9-Globe	0:visible	14-24	False
+dark	PhysicalFeature-Rank-8-9-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-8-9-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-8-9-Globe	23:fontSpec	0-24	%$default,bold-G3,width=140
+dark	PhysicalFeature-Rank-8-9-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-8-9-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-8-9-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	0-1	0.5
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	1-6	3
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	6-7	11.5
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	7-8	20
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	8-9	37
+dark	PhysicalFeature-Rank-8-9-Globe	29:fontSizeParam	9-24	54
+dark	PhysicalFeature-Rank-8-9-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-8-9-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Rank-8-9-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	0-1	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	1-5	{"height": 10.389610290527344}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	5-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	6-7	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	7-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	8-9	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-8-9-Globe	172:labelInfo	9-24	{"height": 19.480518341064453}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	0:visible	7-24	False
+dark	PhysicalFeature-Rank-1-2-Island-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-1-2-Island-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-1-2-Island-Globe	23:fontSpec	0-24	%$default,bold,italic
+dark	PhysicalFeature-Rank-1-2-Island-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-1-2-Island-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-1-2-Island-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	3-4	10
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	4-5	20
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	5-6	40
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	6-7	80
+dark	PhysicalFeature-Rank-1-2-Island-Globe	29:fontSizeParam	7-24	160
+dark	PhysicalFeature-Rank-1-2-Island-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	4-5	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	5-6	{"height": 22.077922821044922, "heightCurve": 0, "heightCurveLimit": 27.272727966308594}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	6-7	{"height": 27.272727966308594, "heightCurve": 0, "heightCurveLimit": 32.467533111572266}
+dark	PhysicalFeature-Rank-1-2-Island-Globe	172:labelInfo	7-24	{"height": 32.467533111572266}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	0:visible	7-24	False
+dark	PhysicalFeature-Rank-3-5-Island-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Rank-3-5-Island-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Rank-3-5-Island-Globe	23:fontSpec	0-24	%$default,bold,italic
+dark	PhysicalFeature-Rank-3-5-Island-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Rank-3-5-Island-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Rank-3-5-Island-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	0-2	0.5
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	2-3	2.5
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	3-4	5
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	4-5	10
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	5-6	20
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	6-7	40
+dark	PhysicalFeature-Rank-3-5-Island-Globe	29:fontSizeParam	7-24	80
+dark	PhysicalFeature-Rank-3-5-Island-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	0-2	{"height": 12.98701286315918}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	2-3	{"height": 9.090909004211426, "heightCurve": 0, "heightCurveLimit": 11.688311576843262}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	3-4	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 14.285714149475098}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	4-5	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	5-6	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	6-7	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Rank-3-5-Island-Globe	172:labelInfo	7-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Area-Points-Globe	0:visible	16-24	False
+dark	PhysicalFeature-Area-Points-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Area-Points-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Area-Points-Globe	23:fontSpec	0-24	%$default,medium,width=132
+dark	PhysicalFeature-Area-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Area-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Area-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	0-13	0.5
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	13-14	1
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	14-15	3
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	15-16	13
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	16-17	23
+dark	PhysicalFeature-Area-Points-Globe	29:fontSizeParam	17-24	0.5
+dark	PhysicalFeature-Area-Points-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Area-Points-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Area-Points-Globe	59:dropShadowColor	0-24	rgb(51,39,34) a=26
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	0-13	{"height": 12.98701286315918}
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	13-14	{"height": 7.792207717895508, "heightCurve": 0, "heightCurveLimit": 11.038961410522461}
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	14-15	{"height": 11.038961410522461, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	15-16	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	16-17	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.83116912841797}
+dark	PhysicalFeature-Area-Points-Globe	172:labelInfo	17-24	{"height": 12.98701286315918}
+dark	PhysicalFeature-Region-Points-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Region-Points-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Region-Points-Globe	23:fontSpec	0-24	%$default,medium,width=70
+dark	PhysicalFeature-Region-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Region-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Region-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	0-8	3
+dark	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	8-12	4
+dark	PhysicalFeature-Region-Points-Globe	29:fontSizeParam	12-24	6
+dark	PhysicalFeature-Region-Points-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Region-Points-Globe	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Region-Points-Globe	172:labelInfo	0-6	{"height": 14.285714149475098}
+dark	PhysicalFeature-Region-Points-Globe	172:labelInfo	6-8	{"height": 14.285714149475098, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Region-Points-Globe	172:labelInfo	8-12	{"height": 16.88311767578125, "heightCurve": 0, "heightCurveLimit": 22.077922821044922}
+dark	PhysicalFeature-Region-Points-Globe	172:labelInfo	12-24	{"height": 22.077922821044922}
+dark	PhysicalFeature-Region-Points-Globe	187:labelDefaultTextPosition	0-24	256
+dark	PhysicalFeature-Region-Points-Globe	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Mountain-Points-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Mountain-Points-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Mountain-Points-Globe	24:textColor	0-9	rgb(184,134,87) a=255
+dark	PhysicalFeature-Mountain-Points-Globe	24:textColor	9-10	rgb(198,141,87) a=255
+dark	PhysicalFeature-Mountain-Points-Globe	24:textColor	10-12	rgb(206,147,91) a=255
+dark	PhysicalFeature-Mountain-Points-Globe	24:textColor	12-24	rgb(218,148,84) a=255
+dark	PhysicalFeature-Mountain-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Mountain-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Mountain-Points-Globe	58:sizeRange	0-24	[0.0, 2.0]
+dark	PhysicalFeature-Mountain-Points-Globe	59:dropShadowColor	0-24	rgb(0,0,0) a=128
+dark	PhysicalFeature-Coastal-Points-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Coastal-Points-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Coastal-Points-Globe	23:fontSpec	0-24	%$default,medium,italic
+dark	PhysicalFeature-Coastal-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Coastal-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Coastal-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Coastal-Points-Globe	29:fontSizeParam	0-24	0.25
+dark	PhysicalFeature-Coastal-Points-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Coastal-Points-Globe	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	0-4	{"height": 14.285714149475098}
+dark	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	4-12	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Coastal-Points-Globe	172:labelInfo	12-24	{"height": 12.98701286315918}
+dark	PhysicalFeature-Coastal-Points-Globe	187:labelDefaultTextPosition	0-24	16
+dark	PhysicalFeature-Coastal-Points-Globe	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Island-Points-Globe	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Island-Points-Globe	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Island-Points-Globe	23:fontSpec	0-24	%$default,semibold,italic
+dark	PhysicalFeature-Island-Points-Globe	24:textColor	0-24	rgb(221,208,188) a=255
+dark	PhysicalFeature-Island-Points-Globe	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Island-Points-Globe	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Island-Points-Globe	29:fontSizeParam	0-24	0.5
+dark	PhysicalFeature-Island-Points-Globe	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Island-Points-Globe	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Island-Points-Globe	172:labelInfo	0-24	{"height": 11.363636016845703}
+dark	PhysicalFeature-Island-Points-Globe	187:labelDefaultTextPosition	0-24	256
+dark	PhysicalFeature-Island-Points-Globe	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Undersea-Points-Globe-Base	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Undersea-Points-Globe-Base	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Undersea-Points-Globe-Base	23:fontSpec	0-24	%$default,semibold,width=100
+dark	PhysicalFeature-Undersea-Points-Globe-Base	24:textColor	0-24	rgb(29,104,241) a=255
+dark	PhysicalFeature-Undersea-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Undersea-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Undersea-Points-Globe-Base	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Undersea-Points-Globe-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Undersea-Points-Globe-Base	170:labelColorSource	0-24	2
+dark	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+dark	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Undersea-Points-Globe-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Undersea-Points-Globe-Base	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Undersea-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	23:fontSpec	0-24	%$default,bold,width=140
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	24:textColor	0-24	rgb(29,104,241) a=255
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	29:fontSizeParam	0-24	3
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	172:labelInfo	0-24	{"height": 10.389610290527344}
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	187:labelDefaultTextPosition	0-24	256
+dark	PhysicalFeature-Undersea-Area-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+dark	PhysicalFeature-Elevation-Points-Globe-Base	18:textSizeScale	0-11	1.2
+dark	PhysicalFeature-Elevation-Points-Globe-Base	18:textSizeScale	11-24	1.83
+dark	PhysicalFeature-Elevation-Points-Globe-Base	23:fontSpec	0-24	%$default,semibold,width=100
+dark	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	0-9	rgb(184,134,87) a=255
+dark	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	9-10	rgb(198,141,87) a=255
+dark	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	10-12	rgb(206,147,91) a=255
+dark	PhysicalFeature-Elevation-Points-Globe-Base	24:textColor	12-24	rgb(218,148,84) a=255
+dark	PhysicalFeature-Elevation-Points-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	PhysicalFeature-Elevation-Points-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	PhysicalFeature-Elevation-Points-Globe-Base	29:fontSizeParam	0-24	0
+dark	PhysicalFeature-Elevation-Points-Globe-Base	33:labelTextVisibility	0-24	1
+dark	PhysicalFeature-Elevation-Points-Globe-Base	170:labelColorSource	0-24	5
+dark	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	0-4	{"height": 12.337661743164062}
+dark	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	4-5	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	5-12	{"height": 12.98701286315918}
+dark	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	12-14	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	PhysicalFeature-Elevation-Points-Globe-Base	172:labelInfo	14-24	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.88311767578125}
+dark	PhysicalFeature-Elevation-Points-Globe-Base	187:labelDefaultTextPosition	0-24	1
+dark	PhysicalFeature-Elevation-Points-Globe-Base	260:textElementMarginVertical	0-24	2.5
+dark	Ocean-Label-Point-ExtraLarge	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	0-1	0.5
+dark	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	1-3	1
+dark	Ocean-Label-Point-ExtraLarge	29:fontSizeParam	3-24	2
+dark	Ocean-Label-Point-ExtraLarge	172:labelInfo	0-1	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-ExtraLarge	172:labelInfo	1-3	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-ExtraLarge	172:labelInfo	3-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Point-Large	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Point-Large	29:fontSizeParam	0-3	0.5
+dark	Ocean-Label-Point-Large	29:fontSizeParam	3-4	1
+dark	Ocean-Label-Point-Large	29:fontSizeParam	4-24	2
+dark	Ocean-Label-Point-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Point-Medium	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	0-4	0.5
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	4-5	1
+dark	Ocean-Label-Point-Medium	29:fontSizeParam	5-24	2
+dark	Ocean-Label-Point-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Point-Small	23:fontSpec	0-7	%$default,semibold,italic
+dark	Ocean-Label-Point-Small	23:fontSpec	7-24	%$default,medium,italic
+dark	Ocean-Label-Point-Small	29:fontSizeParam	0-6	0.5
+dark	Ocean-Label-Point-Small	29:fontSizeParam	6-7	1
+dark	Ocean-Label-Point-Small	29:fontSizeParam	7-24	0.5
+dark	Ocean-Label-Point-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Point-Small	172:labelInfo	6-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Point-ExtraSmall	23:fontSpec	0-24	%$default,medium,italic
+dark	Ocean-Label-Point-ExtraSmall	29:fontSizeParam	0-24	0.5
+dark	Ocean-Label-Point-ExtraSmall	172:labelInfo	0-24	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Large	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Large	29:fontSizeParam	0-3	3
+dark	Ocean-Label-Line-Large	29:fontSizeParam	3-4	4
+dark	Ocean-Label-Line-Large	29:fontSizeParam	4-24	5
+dark	Ocean-Label-Line-Large	172:labelInfo	0-3	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Large	172:labelInfo	3-4	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Large	172:labelInfo	4-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Line-Medium	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	0-4	3
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	4-5	4
+dark	Ocean-Label-Line-Medium	29:fontSizeParam	5-24	5
+dark	Ocean-Label-Line-Medium	172:labelInfo	0-4	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Medium	172:labelInfo	4-5	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Medium	172:labelInfo	5-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Line-Small	23:fontSpec	0-24	%$default,semibold,italic
+dark	Ocean-Label-Line-Small	29:fontSizeParam	0-6	3
+dark	Ocean-Label-Line-Small	29:fontSizeParam	6-7	4
+dark	Ocean-Label-Line-Small	29:fontSizeParam	7-24	5
+dark	Ocean-Label-Line-Small	172:labelInfo	0-6	{"height": 10.389610290527344, "heightCurve": 0, "heightCurveLimit": 12.98701286315918}
+dark	Ocean-Label-Line-Small	172:labelInfo	6-7	{"height": 12.98701286315918, "heightCurve": 0, "heightCurveLimit": 15.584415435791016}
+dark	Ocean-Label-Line-Small	172:labelInfo	7-24	{"height": 15.584415435791016, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	Ocean-Label-Color-Globe-Base	18:textSizeScale	0-11	1.2
+dark	Ocean-Label-Color-Globe-Base	18:textSizeScale	11-24	1.83
+dark	Ocean-Label-Color-Globe-Base	24:textColor	0-24	rgb(170,224,235) a=255
+dark	Ocean-Label-Color-Globe-Base	25:labelHaloColor	0-11	rgb(28,38,50) a=199
+dark	Ocean-Label-Color-Globe-Base	25:labelHaloColor	11-24	rgb(28,38,50) a=219
+dark	Continent-PointLabel-Globe	0:visible	3-24	False
+dark	Continent-PointLabel-Globe	18:textSizeScale	0-8	1.2
+dark	Continent-PointLabel-Globe	18:textSizeScale	8-11	1.83
+dark	Continent-PointLabel-Globe	18:textSizeScale	11-24	2.2
+dark	Continent-PointLabel-Globe	23:fontSpec	0-24	%$default,semibold,width=80
+dark	Continent-PointLabel-Globe	24:textColor	0-24	rgb(237,232,235) a=250
+dark	Continent-PointLabel-Globe	25:labelHaloColor	0-24	rgb(22,0,8) a=217
+dark	Continent-PointLabel-Globe	29:fontSizeParam	0-24	0.45
+dark	Continent-PointLabel-Globe	172:labelInfo	0-2	{"height": 11.688311576843262, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+dark	Continent-PointLabel-Globe	172:labelInfo	2-3	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 25.97402572631836}
+dark	Continent-PointLabel-Globe	172:labelInfo	3-24	{"height": 25.97402572631836}
+dark	City-Globe-Base	18:textSizeScale	0-8	1.2
+dark	City-Globe-Base	18:textSizeScale	8-11	1.83
+dark	City-Globe-Base	18:textSizeScale	11-24	2
+dark	City-Globe-Base	24:textColor	0-24	rgb(247,247,247) a=255
+dark	City-Globe-Base	25:labelHaloColor	0-24	rgb(28,38,50) a=199
+dark	City-Style-02	0:visible	0-2	False
+dark	City-Style-02	18:textSizeScale	0-24	0.5
+dark	City-Style-02	23:fontSpec	0-2	%$default,medium-G1,width=90
+dark	City-Style-02	23:fontSpec	2-3	%$default,medium-G3,width=90
+dark	City-Style-02	23:fontSpec	3-4	%$default,semibold,width=90
+dark	City-Style-02	23:fontSpec	4-6	%$default,bold,width=90
+dark	City-Style-02	23:fontSpec	6-11	%$default,bold-G1,width=90
+dark	City-Style-02	23:fontSpec	11-24	%$default,semibold,width=90
+dark	City-Style-02	29:fontSizeParam	0-2	0
+dark	City-Style-02	29:fontSizeParam	2-3	0.35
+dark	City-Style-02	29:fontSizeParam	3-8	0
+dark	City-Style-02	29:fontSizeParam	8-24	0.35
+dark	City-Style-02	33:labelTextVisibility	12-24	0
+dark	City-Style-02	172:labelInfo	0-2	{"height": 13.636363983154297}
+dark	City-Style-02	172:labelInfo	2-5	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 19.480518341064453}
+dark	City-Style-02	172:labelInfo	5-9	{"height": 19.480518341064453, "heightCurve": 0, "heightCurveLimit": 29.870128631591797}
+dark	City-Style-02	172:labelInfo	9-12	{"height": 29.870128631591797, "heightCurve": 0, "heightCurveLimit": 41.558441162109375}
+dark	City-Style-02	172:labelInfo	12-24	{"height": 41.558441162109375}
+dark	City-Style-02	187:labelDefaultTextPosition	0-8	2
+dark	City-Style-02	187:labelDefaultTextPosition	8-24	256
+dark	City-Style-03	0:visible	0-2	False
+dark	City-Style-03	18:textSizeScale	0-24	0.5
+dark	City-Style-03	23:fontSpec	0-4	%$default,medium-G1,width=90
+dark	City-Style-03	23:fontSpec	4-5	%$default,semibold,width=90
+dark	City-Style-03	23:fontSpec	5-7	%$default,bold,width=90
+dark	City-Style-03	23:fontSpec	7-11	%$default,bold-G1,width=90
+dark	City-Style-03	23:fontSpec	11-24	%$default,semibold,width=90
+dark	City-Style-03	29:fontSizeParam	0-3	0
+dark	City-Style-03	29:fontSizeParam	3-4	0.35
+dark	City-Style-03	29:fontSizeParam	4-9	0
+dark	City-Style-03	29:fontSizeParam	9-24	0.35
+dark	City-Style-03	33:labelTextVisibility	13-24	0
+dark	City-Style-03	172:labelInfo	0-3	{"height": 13.636363983154297}
+dark	City-Style-03	172:labelInfo	3-5	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+dark	City-Style-03	172:labelInfo	5-6	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+dark	City-Style-03	172:labelInfo	6-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 25.97402572631836}
+dark	City-Style-03	172:labelInfo	9-13	{"height": 25.97402572631836, "heightCurve": 0, "heightCurveLimit": 41.558441162109375}
+dark	City-Style-03	172:labelInfo	13-24	{"height": 41.558441162109375}
+dark	City-Style-03	187:labelDefaultTextPosition	0-9	2
+dark	City-Style-03	187:labelDefaultTextPosition	9-24	256
+dark	City-Style-04	0:visible	0-2	False
+dark	City-Style-04	18:textSizeScale	0-24	0.5
+dark	City-Style-04	23:fontSpec	0-5	%$default,medium-G1,width=90
+dark	City-Style-04	23:fontSpec	5-6	%$default,semibold,width=90
+dark	City-Style-04	23:fontSpec	6-9	%$default,bold,width=90
+dark	City-Style-04	23:fontSpec	9-11	%$default,bold-G1,width=90
+dark	City-Style-04	23:fontSpec	11-24	%$default,semibold,width=90
+dark	City-Style-04	29:fontSizeParam	0-3	0
+dark	City-Style-04	29:fontSizeParam	3-5	0.35
+dark	City-Style-04	29:fontSizeParam	5-9	0
+dark	City-Style-04	29:fontSizeParam	9-24	0.35
+dark	City-Style-04	33:labelTextVisibility	13-24	0
+dark	City-Style-04	172:labelInfo	0-4	{"height": 13.636363983154297}
+dark	City-Style-04	172:labelInfo	4-6	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+dark	City-Style-04	172:labelInfo	6-7	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+dark	City-Style-04	172:labelInfo	7-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 23.376623153686523}
+dark	City-Style-04	172:labelInfo	9-13	{"height": 23.376623153686523, "heightCurve": 0, "heightCurveLimit": 38.961036682128906}
+dark	City-Style-04	172:labelInfo	13-24	{"height": 38.961036682128906}
+dark	City-Style-04	187:labelDefaultTextPosition	0-9	2
+dark	City-Style-04	187:labelDefaultTextPosition	9-24	256
+dark	City-Style-05	0:visible	0-2	False
+dark	City-Style-05	18:textSizeScale	0-24	0.5
+dark	City-Style-05	23:fontSpec	0-6	%$default,medium-G1,width=90
+dark	City-Style-05	23:fontSpec	6-7	%$default,semibold,width=90
+dark	City-Style-05	23:fontSpec	7-11	%$default,bold,width=90
+dark	City-Style-05	23:fontSpec	11-24	%$default,semibold,width=90
+dark	City-Style-05	29:fontSizeParam	0-4	0
+dark	City-Style-05	29:fontSizeParam	4-6	0.35
+dark	City-Style-05	29:fontSizeParam	6-9	0
+dark	City-Style-05	29:fontSizeParam	9-24	0.35
+dark	City-Style-05	33:labelTextVisibility	13-24	0
+dark	City-Style-05	172:labelInfo	0-5	{"height": 13.636363983154297}
+dark	City-Style-05	172:labelInfo	5-7	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+dark	City-Style-05	172:labelInfo	7-8	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.18181800842285}
+dark	City-Style-05	172:labelInfo	8-9	{"height": 18.18181800842285, "heightCurve": 0, "heightCurveLimit": 20.779220581054688}
+dark	City-Style-05	172:labelInfo	9-13	{"height": 20.779220581054688, "heightCurve": 0, "heightCurveLimit": 36.3636360168457}
+dark	City-Style-05	172:labelInfo	13-24	{"height": 36.3636360168457}
+dark	City-Style-05	187:labelDefaultTextPosition	0-9	2
+dark	City-Style-05	187:labelDefaultTextPosition	9-24	256
+dark	City-Style-06	0:visible	0-2	False
+dark	City-Style-06	18:textSizeScale	0-24	0.5
+dark	City-Style-06	23:fontSpec	0-7	%$default,medium-G1,width=90
+dark	City-Style-06	23:fontSpec	7-8	%$default,semibold,width=90
+dark	City-Style-06	23:fontSpec	8-9	%$default,bold,width=90
+dark	City-Style-06	23:fontSpec	9-14	%$default,semibold,width=90
+dark	City-Style-06	23:fontSpec	14-24	%$default,medium-G1,width=90
+dark	City-Style-06	29:fontSizeParam	0-5	0
+dark	City-Style-06	29:fontSizeParam	5-7	0.35
+dark	City-Style-06	29:fontSizeParam	7-24	0
+dark	City-Style-06	33:labelTextVisibility	14-24	0
+dark	City-Style-06	172:labelInfo	0-5	{"height": 13.636363983154297}
+dark	City-Style-06	172:labelInfo	5-6	{"height": 12.337661743164062, "heightCurve": 0, "heightCurveLimit": 13.636363983154297}
+dark	City-Style-06	172:labelInfo	6-8	{"height": 13.636363983154297, "heightCurve": 0, "heightCurveLimit": 16.233766555786133}
+dark	City-Style-06	172:labelInfo	8-9	{"height": 16.233766555786133, "heightCurve": 0, "heightCurveLimit": 18.83116912841797}
+dark	City-Style-06	172:labelInfo	9-14	{"height": 18.83116912841797, "heightCurve": 0, "heightCurveLimit": 38.31168746948242}
+dark	City-Style-06	172:labelInfo	14-24	{"height": 38.31168746948242}
+dark	City-Style-06	187:labelDefaultTextPosition	0-9	2
+dark	City-Style-06	187:labelDefaultTextPosition	9-14	256
+dark	City-Style-06	187:labelDefaultTextPosition	14-24	2

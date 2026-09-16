@@ -13,7 +13,8 @@ Shatsky Rise at globe zoom):
   class 2  Ridge, Plateau, Basin, Trough, Abyssal Plain, Escarpment
 Everything else (single seamounts, banks, canyons ...) is dropped: 4,000+ names would be noise at globe scale.
 Geometry: points as they are; lines as LineString; polygons collapsed to the centroid of their largest ring.
-Every feature carries `rep` = [lng, lat] representative point, `type`, `cls`, `feature_id`, `geom_src` (point/line/polygon)
+Every feature carries `rep` = [lng, lat] representative point, `type`, `cls`, `feature_id`, `geom_src` (point/line/polygon);
+polygon features also `axis` = [[lng, lat], [lng, lat]], the polygon's long axis for spread (letter-spaced) text
 and `label` = "NAME TYPE" (the gazetteer stores the specific term only: "Challenger" + "Deep").
 Not in the gazetteer: "Ramapo Deep" (only a "Ramapo" Bank exists) — the App's Ramapo Deep label has no public source here.
 """
@@ -78,6 +79,28 @@ def representative(geom):
     return max((ring_area_centroid(r) for r in rings), key=lambda x: x[0])[1]
 
 
+def label_axis(geom):
+    """Two points [lng, lat] on the polygon's principal axis (PCA of the largest ring, in a local equirectangular frame),
+    spanning the ring's extent along it: the App spreads the trench / basin / ridge name along the feature (the tile's
+    label path); the UI lays the text along this segment (west-to-east ordered)."""
+    import math
+    rings = geom['coordinates'] if geom['type'] == 'Polygon' else max(geom['coordinates'], key=lambda p: len(p[0]))
+    ring = max(rings, key=len)
+    pts = [(float(x), float(y)) for x, y in (r[:2] for r in ring)]
+    if len(pts) < 3:
+        return None
+    cx = sum(x for x, _ in pts) / len(pts); cy = sum(y for _, y in pts) / len(pts)
+    k = math.cos(math.radians(cy))
+    xs = [(x - cx) * k for x, _ in pts]; ys = [y - cy for _, y in pts]
+    sxx = sum(x * x for x in xs); syy = sum(y * y for y in ys); sxy = sum(x * y for x, y in zip(xs, ys))
+    ang = 0.5 * math.atan2(2 * sxy, sxx - syy)
+    ux, uy = math.cos(ang), math.sin(ang)
+    t = [x * ux + y * uy for x, y in zip(xs, ys)]
+    t0, t1 = min(t), max(t)
+    a = [round(cx + t0 * ux / k, 3), round(cy + t0 * uy, 3)]; b = [round(cx + t1 * ux / k, 3), round(cy + t1 * uy, 3)]
+    return [a, b] if a[0] <= b[0] else [b, a]
+
+
 def main():
     out, counts = [], {}
     for layer, src in ((0, 'point'), (1, 'line'), (2, 'polygon')):
@@ -92,11 +115,14 @@ def main():
                 geom = {'type': 'Point', 'coordinates': rep}
             elif src == 'polygon':
                 geom = {'type': 'Point', 'coordinates': rep}
+                axis = label_axis(f['geometry'])          # long axis of the polygon: the baseline for spread text
             else:
                 geom = {'type': geom['type'], 'coordinates': json.loads(json.dumps(geom['coordinates']), parse_float=lambda s: round(float(s), 3))}
-            out.append({'type': 'Feature', 'geometry': geom,
-                        'properties': {'name': p['NAME'], 'type': p['TYPE'], 'label': f"{p['NAME']} {p['TYPE']}",
-                                       'cls': cls, 'feature_id': p['FEATURE_ID'], 'geom_src': src, 'rep': rep}})
+            props = {'name': p['NAME'], 'type': p['TYPE'], 'label': f"{p['NAME']} {p['TYPE']}",
+                     'cls': cls, 'feature_id': p['FEATURE_ID'], 'geom_src': src, 'rep': rep}
+            if src == 'polygon' and axis:
+                props['axis'] = axis
+            out.append({'type': 'Feature', 'geometry': geom, 'properties': props})
             counts[p['TYPE']] = counts.get(p['TYPE'], 0) + 1
     out.sort(key=lambda f: (f['properties']['cls'], f['properties']['type'], f['properties']['name']))
     fc = {'type': 'FeatureCollection',

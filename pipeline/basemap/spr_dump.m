@@ -145,6 +145,14 @@ int main(int argc, char **argv) {
                 if (vp) [[NSData dataWithBytes:vp length:vc * 12] writeToFile:[base stringByAppendingString:@"-verts.f32"] atomically:YES];
                 if (ip) [[NSData dataWithBytes:ip length:ic * 2] writeToFile:[base stringByAppendingString:@"-idx.u16"] atomically:YES];
                 if (mp) [[NSData dataWithBytes:mp length:mc * 128] writeToFile:[base stringByAppendingString:@"-meshes.bin"] atomically:YES];
+                // mesh descriptor +0x40: pointer to the per-vertex attribute stream(s) (normals), +0x48 count — dump the first mesh's
+                if (mp && getenv("SPR_ATTR")) {
+                    // mesh descriptor: +0x30 pointer with +0x38 count == vertexCount: the per-vertex attribute data (normals?)
+                    const uint8_t *ap = *(const uint8_t *const *)(mp + 0x30); uint32_t ac = *(const uint32_t *)(mp + 0x38);
+                    uint32_t vcount = *(const uint32_t *)(mp + 8);
+                    fprintf(stderr, "  mesh0 attr ptr %p count %u vcount %u\n", ap, ac, vcount);
+                    if (ap && ac == vcount) [[NSData dataWithBytes:ap length:vcount * 16] writeToFile:[base stringByAppendingString:@"-mesh0-attr-data.bin"] atomically:YES];
+                }
                 if (rp) [[NSData dataWithBytes:rp length:rc2 * 128] writeToFile:[base stringByAppendingString:@"-renderables.bin"] atomically:YES];
                 [js appendFormat:@"\"vertex_count\":%ld,\"index_count\":%ld,\"mesh_count\":%ld,\"renderable_count\":%ld,", vc, ic, mc, rc2];
             }
