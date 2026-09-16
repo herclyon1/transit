@@ -22,5 +22,5 @@
   "30813": {"class": "DryLake", "captured_lin": "#e4dec9", "sheet": "no sheet colour within 10 (nearest SportsClay lin #deded0 d=13, DryLake rgb(245,241,223) lin #e9e0bc d=20); id family 0x1102500b — appears on the salt flats / dry lakes of Iran, Central Asia, Australia, southern Africa and the Great Basin; painted with the captured colour"}
  },
  "stack_rule": "class = the last material in the stack that has a class; 264 / 310 never change the colour (modifiers); [223] alone = Ground, [318] alone = Water",
- "not_decoded": "the DvMt material resources themselves (tileset 60, one per id, in the same cache) hold each material's own zoom-banded colour tables and the water ramps, conditioned on client attributes (0x45 = client:69 map style); their bit-packed format (geo::codec::MaterialSheet::decodeMaterial in VectorKit) is not decoded yet — see RENDER-PIPELINE 6"
+ "dvmt": "the DvMt resources are decoded (pipeline/basemap/dvmt.py -> ui/basemap/dvmt-materials.json): per material, colour bands by zoom under (client:1 day/night, client:69 map style 0 globe / 1 standard / 2 Elevated); style 2 = the sheet Landcover colours, style 0 = the Mac globe pastels; the resources themselves stay outside the repo"
 }
