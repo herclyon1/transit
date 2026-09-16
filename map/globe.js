@@ -222,12 +222,14 @@
     map.once('load', refit);
     addEventListener('resize', () => setTimeout(refit, 50));
   }
-  // keep the hash in MapLibre's z/lat/lng form, preserving the extra parameters
-  map.on('moveend', () => {
+  // keep the hash in MapLibre's z/lat/lng form, preserving the extra parameters (m=, sel=, pal=, fov=, pad*)
+  function writeHash() {
     const c = map.getCenter(), z = map.getZoom();
     const extras = [...hashState.q.entries()].map(([k, v]) => `${k}=${v}`).join('&');
     history.replaceState(null, '', `#${z.toFixed(2)}/${c.lat.toFixed(2)}/${c.lng.toFixed(2)}` + (extras ? '&' + extras : ''));
-  });
+  }
+  map.on('moveend', writeHash);
+  function setHashExtra(k, v) { if (v == null || v === '') hashState.q.delete(k); else hashState.q.set(k, v); writeHash(); }
 
   // ---- labels: DOM markers in the system font --------------------------------------------
   // Two style sources: labelSpec (measured on the snapshotter's flat renders, labels-globe.json) and
@@ -545,7 +547,7 @@
     for (const it of markers) styleLabel(it.el, it.kind, m);
   });
   window.__globe = {
-    map, meta,
+    map, meta, setHashExtra, hashExtras: () => hashState.q,
     get idleCount() { return idleCount; },
     get labelStats() { const m = markers.filter(it => it.added); return { inRange: m.length, front: m.filter(it => it.front).length, visible: m.filter(it => it.front && !it.collided).length }; },
     setHillshade: (k) => map.setPaintProperty('hillshade', 'hillshade-exaggeration', k),
