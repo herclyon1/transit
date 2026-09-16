@@ -427,6 +427,16 @@ OSM 里北方四岛不属于日本行政区划，所以落在北海道多边形�
 抽检结果：地下鉄 1,495 区間 / 10 家（東京地下鉄373・大阪メトロ251・都営234・名古屋200・
 札幌96・横浜87・福岡75・京都63・神戸58・仙台58），南港ポートタウン線正确落在新交通里。
 
+### 铁路英文线名（2026-09-16，数据会话）
+
+`transit.pmtiles` 的 `rail` 层加了 `name_en` / `op_en`（`rail_name_en.py`，对照表 `rail-name-en.tsv`）。
+N02 的线名是事业者自己的简称（西日本旅客鉄道「山陽線」、阪急「京都線」、阪神「本線」、Osaka Metro「1号線(御堂筋線)」），
+OSM 的 way 名带事业者、带「本」（「JR山陽本線」「阪急京都線」「阪神本線」「Osaka Metro御堂筋線」），所以两边都归一化再对，
+取对上的 way 的 `name:en` 多数票（602 条线对上 556）。英文拆成 `op_en`（JR / Hankyu / Osaka Metro …）和 `name_en`（Kyoto Line …），
+显示 = `op_en + " " + name_en`；新干线 App 写的是 "Sanyo Shinkansen"，所以 `op_en` 留空。
+这台 Mac 没有 tippecanoe，瓦片用 `mvt_retag.py`（直接读写 protobuf，其他字节一个不动）原地改写。
+这是 OSM 的写法不是 Apple 的写法（Apple 的线路标签字符串还没解）。
+
 ## 底图
 
 国土地理院タイル（官方、允许引用，日本境内覆盖最好）三选一：

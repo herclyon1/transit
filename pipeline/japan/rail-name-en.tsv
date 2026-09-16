@@ -1,0 +1,603 @@
+op	n	cls	op_en	name_en	osm_name	how	segments_in_tiles
+こうべ未来都市機構	摩耶ケーブル線	cable				unmatched	34
+ラクテンチ	別府ラクテンチケーブル線	cable				unmatched	40
+一般財団法人青函トンネル記念館	青函トンネル竜飛斜坑線	cable		Seikan Tunnel Tappi Shako Line	青函トンネル竜飛斜坑線	exact (no operator on way) (relation)	31
+丹後海陸交通	天橋立鋼索鉄道	cable		Tango Land Amanohashidate Steel Railway	天橋立鋼索鉄道	alias	31
+京福電気鉄道	鋼索線	cable	Keifuku	Cable Line	鋼索線	exact	31
+京阪電気鉄道	鋼索線	cable	Keihan	Iwashimizu-Hachimangu-Sando-Cable	石清水八幡宮参道ケーブル	alias	52
+十国峠	十国鋼索線	cable	Izuhakone Railway	Jukkokutoge Cable Line	十国鋼索線	alias (no operator on way)	29
+南海電気鉄道	鋼索線	cable	Nankai	Cable Line	鋼索線	exact	31
+四国ケーブル	八栗ケーブル	cable				unmatched	29
+大山観光電鉄	大山鋼索線	cable				unmatched	53
+小田急箱根	鋼索線	cable	Hakone Tozan	Cable Car	小田急箱根鋼索線	alias	122
+御岳登山鉄道	ケーブルカー	cable		Mitake Tozan Railway	御岳登山鉄道	operator-named (no operator on way) (relation)	28
+比叡山鉄道	比叡山鉄道線	cable		Hieizan Railway	比叡山鉄道	operator-named	71
+湘南モノレール	江の島線	cable	Shonan Monorail	Enoshima Line	江の島線	exact (relation)	182
+皿倉登山鉄道	帆柱ケーブル線	cable				unmatched	33
+神戸六甲鉄道	六甲ケーブル線	cable		Rokko Cable Line	六甲ケーブル線	exact	33
+立山黒部貫光	鋼索線	cable				unmatched	72
+筑波観光鉄道	筑波山鋼索鉄道線	cable		Tsukubasan Cable Car	筑波山ケーブルカー	alias (no operator on way)	32
+近畿日本鉄道	生駒鋼索線	cable	Kintetsu	Ikoma Cable Line	生駒鋼索線	exact	95
+近畿日本鉄道	西信貴鋼索線	cable	Kintetsu			unmatched	30
+鞍馬寺	鞍馬山鋼索鉄道	cable		Kurama-dera Cable	鞍馬寺ケーブル	alias (no operator on way)	25
+高尾登山電鉄	高尾鋼索線	cable		Takao Tozan Railway	高尾登山電鉄	operator-named (no operator on way)	33
+九州旅客鉄道	三角線	jr	JR	Misumi Line	三角線	exact	240
+九州旅客鉄道	久大線	jr	JR	Kyudai Main Line	久大線	exact	984
+九州旅客鉄道	佐世保線	jr	JR	Sasebo Line	佐世保線	exact	413
+九州旅客鉄道	吉都線	jr	JR	Kitto Line	吉都線	exact	503
+九州旅客鉄道	唐津線	jr	JR	Karatsu Line	唐津線	exact	359
+九州旅客鉄道	大村線	jr	JR	Omura Line	大村線	exact	388
+九州旅客鉄道	宮崎空港線	jr	JR	Miyazaki Kuko Line	宮崎空港線	exact	56
+九州旅客鉄道	山陽線	jr	JR	San'yo Main Line	山陽線	exact	41
+九州旅客鉄道	後藤寺線	jr	JR	Gotoji Line	後藤寺線	exact	165
+九州旅客鉄道	指宿枕崎線	jr	JR	Ibusuki Makurazaki Line	指宿枕崎線	exact	874
+九州旅客鉄道	日南線	jr	JR	Nichinan Line	日南線	exact	714
+九州旅客鉄道	日田彦山線	jr	JR	Hitahikosan Line	日田彦山線	exact	633
+九州旅客鉄道	日豊線	jr	JR	Nippo Main Line	日豊線	exact	3448
+九州旅客鉄道	筑肥線	jr	JR	Chikuhi Line	筑肥線	exact	748
+九州旅客鉄道	筑豊線	jr	JR	Chikuho Main Line	筑豊本線	norm	693
+九州旅客鉄道	篠栗線	jr	JR	Sasaguri Line	篠栗線	exact	277
+九州旅客鉄道	肥薩線	jr	JR	Hisatsu Line	肥薩線	exact	939
+九州旅客鉄道	豊肥線	jr	JR	Hohi Main Line	豊肥線	exact	1041
+九州旅客鉄道	長崎線	jr	JR	Nagasaki Main Line	長崎線	exact	1255
+九州旅客鉄道	香椎線	jr	JR	Kashii Line	香椎線	exact	393
+九州旅客鉄道	鹿児島線	jr	JR	Kagoshima Main Line	鹿児島本線	norm	2992
+北海道旅客鉄道	函館線	jr	JR	Hakodate Line	函館本線	norm	3385
+北海道旅客鉄道	千歳線	jr	JR	Chitose Line	千歳線	exact	586
+北海道旅客鉄道	宗谷線	jr	JR	Soya Line	宗谷本線	norm	1528
+北海道旅客鉄道	室蘭線	jr	JR	Muroran Line	室蘭本線	norm	1638
+北海道旅客鉄道	富良野線	jr	JR	Furano Line	富良野線	exact	452
+北海道旅客鉄道	日高線	jr	JR	Hidaka Line	日高本線	norm (no operator on way) (relation)	125
+北海道旅客鉄道	札沼線	jr	JR	Sassho Line	札沼線	exact	386
+北海道旅客鉄道	根室線	jr	JR	Nemuro Line	根室本線	norm	1918
+北海道旅客鉄道	海峡線	jr	JR	Kaikyo Line	海峡線	exact	289
+北海道旅客鉄道	留萌線	jr	JR	Rumoi Line	留萌線	exact (no operator on way) (relation)	137
+北海道旅客鉄道	石勝線	jr	JR	Sekisho Line	石勝線	exact	484
+北海道旅客鉄道	石北線	jr	JR	Sekihoku Line	石北本線	norm	1298
+北海道旅客鉄道	釧網線	jr	JR	Senmo Main Line	釧網本線	norm	819
+四国旅客鉄道	予土線	jr	JR	Yodo Line	予土線	exact	510
+四国旅客鉄道	予讃線	jr	JR	Yosan Line	予讃線	exact	2621
+四国旅客鉄道	内子線	jr	JR	Uchiko Line	内子線	exact	77
+四国旅客鉄道	土讃線	jr	JR	Dosan Line	土讃線	exact	1605
+四国旅客鉄道	徳島線	jr	JR	Tokushima Line	徳島線	exact	591
+四国旅客鉄道	本四備讃線	jr	JR	Honshi-Bisan Line	本四備讃線	exact	119
+四国旅客鉄道	牟岐線	jr	JR	Mugi Line	牟岐線	exact	729
+四国旅客鉄道	高徳線	jr	JR	Kotoku Line	高徳線	exact	764
+四国旅客鉄道	鳴門線	jr	JR	Naruto Line	鳴門線	exact	167
+東日本旅客鉄道	上越線	jr	JR	Joetsu Line	上越線	exact	1701
+東日本旅客鉄道	両毛線	jr	JR	Ryomo Line	両毛線	exact	577
+東日本旅客鉄道	中央線	jr	JR	Chuo Line	中央線	exact	2734
+東日本旅客鉄道	久留里線	jr	JR	Kururi Line	久留里線	exact (no operator on way)	333
+東日本旅客鉄道	五日市線	jr	JR	Itsukaichi Line	五日市線	exact	163
+東日本旅客鉄道	五能線	jr	JR	Gono Line	五能線	exact	1173
+東日本旅客鉄道	京葉線	jr	JR	Keiyo Line	京葉線	exact	580
+東日本旅客鉄道	仙山線	jr	JR	Senzan Line	仙山線	exact	534
+東日本旅客鉄道	仙石線	jr	JR	Senseki Line	仙石線	exact	774
+東日本旅客鉄道	伊東線	jr	JR	Ito Line	伊東線	exact	139
+東日本旅客鉄道	信越線	jr	JR	Shin-etsu Line	信越線	exact	1810
+東日本旅客鉄道	八戸線	jr	JR	Hachinohe Line	八戸線	exact	633
+東日本旅客鉄道	八高線	jr	JR	Hachiko Line	八高線	exact	677
+東日本旅客鉄道	内房線	jr	JR	Uchibo Line	内房線	exact	924
+東日本旅客鉄道	北上線	jr	JR	Kitakami Line	北上線	exact	434
+東日本旅客鉄道	南武線	jr	JR	Nambu Line	南武線	exact	705
+東日本旅客鉄道	只見線	jr	JR	Tadami Line	只見線	exact	907
+東日本旅客鉄道	吾妻線	jr	JR	Agatsuma Line	吾妻線	exact	497
+東日本旅客鉄道	外房線	jr	JR	Sotobo Line	外房線	exact	834
+東日本旅客鉄道	大湊線	jr	JR	Ominato Line	大湊線	exact	349
+東日本旅客鉄道	大糸線	jr	JR	Oito Line	大糸線	exact	903
+東日本旅客鉄道	大船渡線	jr	JR	Ofunato Line	大船渡線	exact	390
+東日本旅客鉄道	奥羽線	jr	JR	Ou Line	奥羽線	exact	3874
+東日本旅客鉄道	小海線	jr	JR	Koumi Line	小海線	exact	753
+東日本旅客鉄道	山手線	jr	JR	Yamanote Line	山手線	exact	584
+東日本旅客鉄道	山田線	jr	JR	Yamada Line	山田線	exact	517
+東日本旅客鉄道	川越線	jr	JR	Kawagoe Line	川越線	exact	270
+東日本旅客鉄道	左沢線	jr	JR	Aterazawa Line	左沢線	exact	299
+東日本旅客鉄道	常磐線	jr	JR	Joban Line	常磐線	exact	2553
+東日本旅客鉄道	弥彦線	jr	JR	Yahiko Line	弥彦線	exact	210
+東日本旅客鉄道	成田線	jr	JR	Narita Line	成田線	exact	892
+東日本旅客鉄道	日光線	jr	JR	Nikko Line	日光線	exact	230
+東日本旅客鉄道	東北線	jr	JR	Tohoku Line	東北線	exact	5394
+東日本旅客鉄道	東海道線	jr	JR	Tokaido Main Line	東海道本線	norm	1603
+東日本旅客鉄道	東金線	jr	JR	Togane Line	東金線	exact	147
+東日本旅客鉄道	根岸線	jr	JR	Negishi Line	根岸線	exact	284
+東日本旅客鉄道	横浜線	jr	JR	Yokohama Line	横浜線	exact	528
+東日本旅客鉄道	横須賀線	jr	JR	Yokosuka Line	横須賀線	exact	294
+東日本旅客鉄道	武蔵野線	jr	JR	Musashino Line	武蔵野線	exact	699
+東日本旅客鉄道	気仙沼線	jr	JR	Kesennuma Line	気仙沼線	exact	154
+東日本旅客鉄道	水戸線	jr	JR	Mito Line	水戸線	exact	418
+東日本旅客鉄道	水郡線	jr	JR	Suigun Line	水郡線	exact	1187
+東日本旅客鉄道	津軽線	jr	JR	Tsugaru Line	津軽線	exact	659
+東日本旅客鉄道	烏山線	jr	JR	Karasuyama Line	烏山線	exact	212
+東日本旅客鉄道	田沢湖線	jr	JR	Tazawako Line	田沢湖線	exact	565
+東日本旅客鉄道	男鹿線	jr	JR	Oga Line	男鹿線	exact	255
+東日本旅客鉄道	白新線	jr	JR	Hakushin Line	白新線	exact	340
+東日本旅客鉄道	相模線	jr	JR	Sagami Line	相模線	exact	420
+東日本旅客鉄道	石巻線	jr	JR	Ishinomaki Line	石巻線	exact	398
+東日本旅客鉄道	磐越東線	jr	JR	Banetsu East Line	磐越東線	exact	534
+東日本旅客鉄道	磐越西線	jr	JR	Banetsu West Line	磐越西線	exact	1199
+東日本旅客鉄道	篠ノ井線	jr	JR	Shinonoi Line	篠ノ井線	exact	453
+東日本旅客鉄道	米坂線	jr	JR	Yonesaka Line	米坂線	exact	594
+東日本旅客鉄道	総武線	jr	JR	Sobu Main Line	総武本線	norm	1367
+東日本旅客鉄道	羽越線	jr	JR	Uetsu Line	羽越線	exact	2103
+東日本旅客鉄道	花輪線	jr	JR	Hanawa Line	花輪線	exact	773
+東日本旅客鉄道	赤羽線	jr	JR	Akabane Line	赤羽線	exact	99
+東日本旅客鉄道	越後線	jr	JR	Echigo Line	越後線	exact	853
+東日本旅客鉄道	釜石線	jr	JR	Kamaishi Line	釜石線	exact	630
+東日本旅客鉄道	陸羽東線	jr	JR	Rikuu East Line	陸羽東線	exact	752
+東日本旅客鉄道	陸羽西線	jr	JR	Rikuu West Line	陸羽西線	exact	310
+東日本旅客鉄道	青梅線	jr	JR	Ome Line	青梅線	exact	636
+東日本旅客鉄道	飯山線	jr	JR	Iiyama Line	飯山線	exact	804
+東日本旅客鉄道	高崎線	jr	JR	Takasaki Line	高崎線	exact	673
+東日本旅客鉄道	鶴見線	jr	JR	Tsurumi Line	鶴見線	exact	309
+東日本旅客鉄道	鹿島線	jr	JR	Kashima Line	鹿島線	exact (no operator on way)	183
+東海旅客鉄道	中央線	jr	JR	Chuo Line	中央線	exact	1678
+東海旅客鉄道	参宮線	jr	JR	Sangu Line	参宮線	exact	272
+東海旅客鉄道	名松線	jr	JR	Meisho Line	名松線	exact	380
+東海旅客鉄道	太多線	jr	JR	Taita Line	太多線	exact	217
+東海旅客鉄道	御殿場線	jr	JR	Gotemba Line	御殿場線	exact	591
+東海旅客鉄道	東海道線	jr	JR	Tokaido Main Line	東海道本線	norm	3082
+東海旅客鉄道	武豊線	jr	JR	Taketoyo Line	武豊線	exact	282
+東海旅客鉄道	紀勢線	jr	JR	Kisei Line	紀勢線	exact	1227
+東海旅客鉄道	身延線	jr	JR	Minobu Line	身延線	exact	1027
+東海旅客鉄道	関西線	jr	JR	Kansai Line	関西線	exact	602
+東海旅客鉄道	飯田線	jr	JR	Iida Line	飯田線	exact	2514
+東海旅客鉄道	高山線	jr	JR	Takayama Line	高山線	exact	1089
+西日本旅客鉄道	JR東西線	jr	JR	Tozai Line	JR東西線	exact	230
+西日本旅客鉄道	おおさか東線	jr	JR	Osaka Higashi Line	おおさか東線	exact	328
+西日本旅客鉄道	七尾線	jr	JR	Nanao Line	七尾線	exact	510
+西日本旅客鉄道	伯備線	jr	JR	Hakubi Line	伯備線	exact	1034
+西日本旅客鉄道	加古川線	jr	JR	Kakogawa Line	加古川線	exact	630
+西日本旅客鉄道	北陸線	jr	JR	Hokuriku Main Line	北陸本線	norm	698
+西日本旅客鉄道	博多南線	jr	JR	Hakata-Minami Line	博多南線	exact	82
+西日本旅客鉄道	可部線	jr	JR	Kabe Line	可部線	exact	301
+西日本旅客鉄道	吉備線	jr	JR	Kibi Line	吉備線	exact	225
+西日本旅客鉄道	呉線	jr	JR	Kure Line	呉線	exact	800
+西日本旅客鉄道	和歌山線	jr	JR	Wakayama Line	和歌山線	exact	1081
+西日本旅客鉄道	因美線	jr	JR	Inbi Line	因美線	exact	539
+西日本旅客鉄道	城端線	jr	JR	Johana Line	城端線	exact	365
+西日本旅客鉄道	境線	jr	JR	Sakai Line	境線	exact	394
+西日本旅客鉄道	大糸線	jr	JR	Oito Line	大糸線	exact	251
+西日本旅客鉄道	大阪環状線	jr	JR	Osaka Loop Line	大阪環状線	exact	490
+西日本旅客鉄道	奈良線	jr	JR	Nara Line	奈良線	exact	448
+西日本旅客鉄道	姫新線	jr	JR	Kishin Line	姫新線	exact	1075
+西日本旅客鉄道	宇部線	jr	JR	Ube Line	宇部線	exact	423
+西日本旅客鉄道	宇野線	jr	JR	Uno Line	宇野線	exact	366
+西日本旅客鉄道	小浜線	jr	JR	Obama Line	小浜線	exact	627
+西日本旅客鉄道	小野田線	jr	JR	Onoda Line	小野田線	exact	265
+西日本旅客鉄道	山口線	jr	JR	Yamaguchi Line	山口線	exact	739
+西日本旅客鉄道	山陰線	jr	JR	Sanin Main Line	山陰線	exact	4669
+西日本旅客鉄道	山陽線	jr	JR	San'yo Main Line	山陽線	exact	4588
+西日本旅客鉄道	岩徳線	jr	JR	Gantoku Line	岩徳線	exact	425
+西日本旅客鉄道	播但線	jr	JR	Bantan Line	播但線	exact	503
+西日本旅客鉄道	木次線	jr	JR	Kisuki Line	木次線	exact	532
+西日本旅客鉄道	本四備讃線	jr	JR	Honshi-Bisan Line	本四備讃線	exact	120
+西日本旅客鉄道	東海道線	jr	JR	Tokaido Main Line	東海道本線	norm	1749
+西日本旅客鉄道	桜井線	jr	JR	Man'yo-Mahoroba Line	桜井線	exact	346
+西日本旅客鉄道	桜島線	jr	JR	Sakurajima Line	桜島線	exact	99
+西日本旅客鉄道	氷見線	jr	JR	Himi Line	氷見線	exact	178
+西日本旅客鉄道	津山線	jr	JR	Tsuyama Line	津山線	exact	482
+西日本旅客鉄道	湖西線	jr	JR	Kosei Line	湖西線	exact	606
+西日本旅客鉄道	片町線	jr	JR	Katamachi Line	片町線	exact	571
+西日本旅客鉄道	福塩線	jr	JR	Fukuen Line	福塩線	exact	683
+西日本旅客鉄道	福知山線	jr	JR	Fukuchiyama Line	福知山線	exact	958
+西日本旅客鉄道	紀勢線	jr	JR	Kisei Line	紀勢線	exact	1935
+西日本旅客鉄道	美祢線	jr	JR	Mine Line	美祢線	exact	322
+西日本旅客鉄道	舞鶴線	jr	JR	Maizuru Line	舞鶴線	exact	191
+西日本旅客鉄道	芸備線	jr	JR	Geibi Line	芸備線	exact	1182
+西日本旅客鉄道	草津線	jr	JR	Kusatsu Line	草津線	exact	388
+西日本旅客鉄道	赤穂線	jr	JR	Ako Line	赤穂線	exact	519
+西日本旅客鉄道	越美北線	jr	JR	Etsumi-Hoku Line	越美北線	exact	534
+西日本旅客鉄道	関西空港線	jr	JR	Kansai Airport Line	関西空港線	exact	94
+西日本旅客鉄道	関西線	jr	JR	Kansai Line	関西線	exact	1141
+西日本旅客鉄道	阪和線	jr	JR	Hanwa Line	阪和線	exact	945
+西日本旅客鉄道	高山線	jr	JR	Takayama Main Line	高山本線	norm	289
+ゆりかもめ	東京臨海新交通臨海線	mono		Yurikamome	ゆりかもめ	alias	351
+北九州高速鉄道	小倉線	mono				unmatched	269
+千葉都市モノレール	1号線	mono		Chiba Urban Monorail Line 1	1号線	exact	129
+千葉都市モノレール	2号線	mono		Chiba Urban Monorail Line 2	2号線	exact	281
+名古屋ガイドウェイバス	ガイドウェイバス志段味線	mono				unmatched	181
+埼玉新都市交通	伊奈線	mono		Saitama New Shuttle Ina Line	伊奈線	exact	262
+多摩都市モノレール	多摩都市モノレール線	mono		Tama Monorail	多摩都市モノレール	alias	397
+大阪モノレール	国際文化公園都市モノレール線(彩都線)	mono	Osaka Monorail	Saito Line	彩都線	alias	121
+大阪モノレール	大阪モノレール線	mono	Osaka Monorail	Main Line	大阪モノレール本線	alias	305
+大阪市高速電気軌道	南港ポートタウン線	mono	Osaka Metro	New Tram	ニュートラム	alias	207
+山万	ユーカリが丘線	mono		Yamaman Yukarigaoka Line	ユーカリが丘線	exact	130
+広島高速交通	広島新交通1号線	mono		Astram Line	広島新交通1号線	exact	460
+愛知高速交通	東部丘陵線	mono	Aichi Rapid Transit	Tobu Kyuryo Line	東部丘陵線	exact	225
+東京モノレール	東京モノレール羽田線	mono		Tokyo Monorail	東京モノレール	alias	266
+東京都	日暮里・舎人ライナー	mono	Toei	Nippori-Toneri Liner	日暮里・舎人ライナー	exact	270
+横浜シーサイドライン	金沢シーサイドライン	mono		Kanazawa Seaside Line	金沢シーサイドライン	exact	287
+沖縄都市モノレール	沖縄都市モノレール線	mono		Okinawa Urban Monorail	沖縄都市モノレール線	exact	391
+神戸新交通	ポートアイランド線	mono	Kobe New Transit	Port Liner	ポートライナー	alias	294
+神戸新交通	六甲アイランド線	mono	Kobe New Transit	Rokko Liner	六甲ライナー	alias	144
+舞浜リゾートライン	ディズニーリゾートライン	mono		Disney Resort Line	ディズニーリゾートライン	exact	89
+西武鉄道	山口線	mono	Seibu	Yamaguchi Line	山口線	exact	52
+JR東海交通事業	城北線	private		TKJ Johoku Line	城北線	exact (relation)	163
+アルピコ交通	上高地線	private		Kamikochi Line	上高地線	exact	301
+一畑電車	北松江線	private	Ichibata Electric Railway	Kita Matsue Line	北松江線	exact	564
+一畑電車	大社線	private	Ichibata Electric Railway	Taisha Line	大社線	exact	127
+三岐鉄道	三岐線	private	Sangi Railway	Sangi Line	三岐線	exact	324
+三岐鉄道	北勢線	private	Sangi Railway	Hokusei Line	北勢線	exact	278
+三岐鉄道	近鉄連絡線	private	Sangi Railway			unmatched	33
+上信電鉄	上信線	private		Joshin Line	上信線	exact (relation)	456
+上毛電気鉄道	上毛線	private	Jomo Electric Railway	Jomo Line	上毛線	exact	511
+上田電鉄	別所線	private		Bessho Line	別所線	exact	308
+京成電鉄	千原線	private	Keisei	Chihara Line	千原線	exact	132
+京成電鉄	千葉線	private	Keisei	Chiba Line	千葉線	exact	220
+京成電鉄	成田空港線	private	Keisei	Narita Airport Line	成田空港線	exact	303
+京成電鉄	押上線	private	Keisei	Oshiage Line	押上線	exact	149
+京成電鉄	本線	private	Keisei	Main Line	本線	exact	1080
+京成電鉄	東成田線	private	Keisei	Higashi-Narita Line	東成田線	exact	49
+京成電鉄	金町線	private	Keisei	Kanamachi Line	金町線	exact	64
+京浜急行電鉄	久里浜線	private	Keikyu	Kurihama Line	久里浜線	exact	207
+京浜急行電鉄	大師線	private	Keikyu	Daishi Line	大師線	exact	142
+京浜急行電鉄	本線	private	Keikyu	Main Line	本線	exact	1165
+京浜急行電鉄	空港線	private	Keikyu	Airport Line	空港線	exact	152
+京浜急行電鉄	逗子線	private	Keikyu	Zushi Line	逗子線	exact	91
+京王電鉄	井の頭線	private	Keio	railway Inokashira Line	井の頭線	exact	359
+京王電鉄	京王線	private		Keio Line	京王線	exact	839
+京王電鉄	動物園線	private	Keio	Zoo Line	動物園線	exact	42
+京王電鉄	相模原線	private	Keio	Sagamihara Line	相模原線	exact	285
+京王電鉄	競馬場線	private	Keio			unmatched	39
+京王電鉄	高尾線	private	Keio	Takao Line	高尾線	exact	159
+京阪電気鉄道	中之島線	private	Keihan	Nakanoshima Line	中之島線	exact	94
+京阪電気鉄道	交野線	private	Keihan	Katano Line	交野線	exact (spelling fixed)	165
+京阪電気鉄道	京阪本線	private		Keihan Main Line	京阪本線	exact	984
+京阪電気鉄道	宇治線	private	Keihan	Uji Line	宇治線	exact	168
+京阪電気鉄道	鴨東線	private	Keihan	Oto Line	鴨東線	exact (spelling fixed)	58
+伊予鉄道	城北線	private	Iyotetsu	Johoku Line	城北線	exact	181
+伊予鉄道	横河原線	private	Iyotetsu	Yokogawara Line	横河原線	exact	335
+伊予鉄道	郡中線	private	Iyotetsu	Gunchu Line	郡中線	exact	255
+伊予鉄道	高浜線	private	Iyotetsu	Takahama Line	高浜線	exact	237
+伊豆急行	伊豆急行線	private		Izu Kyuko Line	伊豆急行線	exact (relation)	391
+伊豆箱根鉄道	大雄山線	private	Izuhakone Railway	Daiyuzan Line	大雄山線	exact	258
+伊豆箱根鉄道	駿豆線	private	Izuhakone Railway	Sunzu Line	駿豆線	exact	294
+北陸鉄道	浅野川線	private	Hokuriku Railway	Asanogawa Line	浅野川線	exact (spelling fixed)	321
+北陸鉄道	石川線	private	Hokuriku Railway	Ishikawa Line	石川線	exact (relation)	355
+南海電気鉄道	加太線	private	Nankai	Kada Line	加太線	exact	192
+南海電気鉄道	南海本線	private	Nankai	Main Line	南海本線	exact	1138
+南海電気鉄道	和歌山港線	private	Nankai	Wakayamako Line	和歌山港線	exact	37
+南海電気鉄道	多奈川線	private	Nankai	Tanagawa Line	多奈川線	exact	114
+南海電気鉄道	空港線	private	Nankai	Airport Line	空港線	exact	92
+南海電気鉄道	高師浜線	private	Nankai	Takashinohama Line	高師浜線	exact	65
+南海電気鉄道	高野線	private	Nankai	Koya Line	高野線	exact	1069
+叡山電鉄	叡山本線	private	Eizan	Main Line	叡山本線	exact (relation)	176
+叡山電鉄	鞍馬線	private	Eizan	Kurama Line	鞍馬線	exact	218
+名古屋鉄道	三河線	private	Meitetsu	Mikawa Line	三河線	exact	545
+名古屋鉄道	各務原線	private	Meitetsu	Kakamigahara Line	各務原線	exact	383
+名古屋鉄道	名古屋本線	private	Meitetsu	Nagoya Main Line	名古屋本線	exact	1593
+名古屋鉄道	小牧線	private	Meitetsu	Komaki Line	小牧線	exact	345
+名古屋鉄道	尾西線	private	Meitetsu	Bisai Line	尾西線	exact	540
+名古屋鉄道	常滑線	private	Meitetsu	Tokoname Line	常滑線	exact	518
+名古屋鉄道	広見線	private	Meitetsu	Hiromi Line	広見線	exact	277
+名古屋鉄道	河和線	private	Meitetsu	Kowa Line	河和線	exact	465
+名古屋鉄道	津島線	private	Meitetsu	Tsushima Line	津島線	exact	196
+名古屋鉄道	瀬戸線	private	Meitetsu	Seto Line	瀬戸線	exact	422
+名古屋鉄道	犬山線	private	Meitetsu	Inuyama Line	犬山線	exact	456
+名古屋鉄道	知多新線	private	Meitetsu	Chita New Line	知多新線	exact	134
+名古屋鉄道	空港線	private	Meitetsu	Airport Line	空港線	exact	66
+名古屋鉄道	竹鼻線	private	Meitetsu	Takehana Line	竹鼻線	exact	198
+名古屋鉄道	築港線	private	Meitetsu	Chikko Line	築港線	exact	30
+名古屋鉄道	羽島線	private	Meitetsu	Hashima Line	羽島線	exact	35
+名古屋鉄道	蒲郡線	private	Meitetsu	Gamagori Line	蒲郡線	exact	220
+名古屋鉄道	西尾線	private	Meitetsu	Nishio Line	西尾線	exact	318
+名古屋鉄道	豊田線	private	Meitetsu	Toyota Line	豊田線	exact	190
+和歌山電鐵	貴志川線	private	Wakayama Electric Railway	Kishigawa Line	貴志川線	exact	313
+大井川鐵道	井川線	private	Oigawa Railway	Ikawa Line	井川線	exact	318
+大井川鐵道	大井川本線	private	Oigawa Railway	Oigawa Main Line	大井川本線	exact	456
+富士山麓電気鉄道	大月線	private	Fujikyu			unmatched	359
+富士山麓電気鉄道	河口湖線	private	Fujikyu			unmatched	66
+富山地方鉄道	上滝線	private	Toyama Chiho Railway			unmatched	288
+富山地方鉄道	不二越線	private	Toyama Chiho Railway			unmatched	107
+富山地方鉄道	富山港線	private	Toyama Chiho Railway	Toyama Light Rail Toyamako Line	富山港線	exact (relation)	216
+富山地方鉄道	本線	private	Toyama Chiho Railway	Main Line	本線	exact (spelling fixed)	933
+富山地方鉄道	立山線	private	Toyama Chiho Railway	Tateyama Line	立山線	exact (no operator on way) (relation)	370
+小湊鐵道	小湊鐵道線	private		Kominato Line	小湊鐵道	operator-named	436
+小田急箱根	鉄道線	private		Hakone Tozan Line	鉄道線	exact	300
+小田急電鉄	多摩線	private	Odakyu	Tama Line	多摩線	exact	197
+小田急電鉄	小田原線	private	Odakyu	Odawara Line	小田原線	exact	1216
+小田急電鉄	江ノ島線	private	Odakyu	Enoshima Line	江ノ島線	exact	439
+山陽電気鉄道	本線	private	Sanyo Electric Railway	Main Line	本線	exact	1131
+山陽電気鉄道	網干線	private	Sanyo Electric Railway	Aboshi Line	網干線	exact	161
+岳南電車	岳南鉄道線	private		Gakunan Railway Line	岳南電車岳南線	alias (no operator on way) (relation)	213
+島原鉄道	島原鉄道線	private		Shimabara Railway Line	島原鉄道	operator-named (no operator on way) (relation)	572
+嵯峨野観光鉄道	嵯峨野観光線	private	Sagano Scenic Railway	Sagano Scenic Line	嵯峨野観光線	exact (relation)	98
+広島電鉄	宮島線	private	Hiroden			unmatched	486
+弘南鉄道	大鰐線	private	Konan Railway	Owani Line	大鰐線	exact	303
+弘南鉄道	弘南線	private	Konan Railway	Konan Line	弘南線	exact	313
+新京成電鉄	新京成線	private	Shin-Keisei			unmatched	547
+東急電鉄	こどもの国線	private	Tokyu	Kodomonokuni Line	こどもの国線	exact	57
+東急電鉄	大井町線	private	Tokyu	Oimachi Line	大井町線	exact	340
+東急電鉄	東急多摩川線	private	Tokyu	Tamagawa Line	東急多摩川線	exact	141
+東急電鉄	東急新横浜線	private	Tokyu	Shin-Yokohama Line	東急新横浜線	exact (no operator on way)	60
+東急電鉄	東横線	private		Tokyu-Toyoko Line	東横線	exact	534
+東急電鉄	池上線	private	Tokyu	Ikegami Line	池上線	exact	316
+東急電鉄	田園都市線	private	Tokyu	Den-en-toshi Line	田園都市線	exact	631
+東急電鉄	目黒線	private		Tokyu-Meguro Line	目黒線	exact	180
+東武鉄道	亀戸線	private	Tobu	Kameido Line	亀戸線	exact	103
+東武鉄道	伊勢崎線	private	Tobu	Isesaki Line	伊勢崎線	exact	1493
+東武鉄道	佐野線	private	Tobu	Sano Line	佐野線	exact	257
+東武鉄道	大師線	private	Tobu	Daishi Line	大師線	exact	43
+東武鉄道	宇都宮線	private	Tobu	Utsunomiya Line	宇都宮線	exact	265
+東武鉄道	小泉線	private	Tobu	Koizumi Line	小泉線	exact	223
+東武鉄道	日光線	private	Tobu	Nikko Line	日光線	exact	780
+東武鉄道	東上本線	private	Tobu	Tojo Line	東上線	norm	1046
+東武鉄道	桐生線	private	Tobu	Kiryu Line	桐生線	exact	246
+東武鉄道	越生線	private	Tobu	Ogose Line	越生線	exact	187
+東武鉄道	野田線	private	Tobu	Noda Line	野田線	exact	884
+東武鉄道	鬼怒川線	private	Tobu	Kinugawa Line	鬼怒川線	exact	201
+水間鉄道	水間線	private	Mizuma Railway	Mizuma Line	水間線	exact	206
+江ノ島電鉄	江ノ島電鉄線	private	Enoden	Enoshima Electric Railway	江ノ島電鉄	operator-named	316
+津軽鉄道	津軽鉄道線	private		Tsugaru Railway Line	津軽鉄道線	exact	327
+流鉄	流山線	private	Ryutetsu	Nagareyama Line	流山線	exact	135
+熊本電気鉄道	菊池線	private	Kumamoto Electric Railway	Kikuchi Line	菊池線	exact	345
+熊本電気鉄道	藤崎線	private	Kumamoto Electric Railway	Fujisaki Line	藤崎線	exact	65
+相模鉄道	相鉄いずみ野線	private	Sotetsu	Izumino Line	相鉄いずみ野線	exact	222
+相模鉄道	相鉄新横浜線	private	Sotetsu	Shin-yokohama Line	相鉄新横浜線	exact (no operator on way)	70
+相模鉄道	相鉄本線	private	Sotetsu	Main Line	相鉄本線	exact (relation)	531
+神戸電鉄	三田線	private	Kobe Electric Railway	Sanda Line	三田線	exact	250
+神戸電鉄	公園都市線	private	Kobe Electric Railway	Koen-Toshi Line	公園都市線	exact	103
+神戸電鉄	有馬線	private	Kobe Electric Railway	Arima Line	有馬線	exact	400
+神戸電鉄	神戸高速線	private	Kobe Electric Railway	Kobe Kosoku Line	神戸高速線	exact	34
+神戸電鉄	粟生線	private	Kobe Electric Railway	Ao Line	粟生線	exact	558
+福井鉄道	福武線	private	Fukui Railway	Fukubu Line	福武線	exact	430
+福島交通	飯坂線	private	Fukushima Transportation	Iizaka Line	飯坂線	exact	263
+秩父鉄道	秩父本線	private	Chichibu Railway	Chichibu Main Line	秩父本線	exact (relation)	875
+筑豊電気鉄道	筑豊電気鉄道線	private		Chikuho Electric Railroad Line	筑豊電気鉄道線	exact (relation)	431
+紀州鉄道	紀州鉄道線	private		Kishu Railway Line	紀州鉄道線	exact	108
+能勢電鉄	妙見線	private	Noseden	Myoken Line	妙見線	exact	333
+能勢電鉄	日生線	private	Noseden	Nissei Line	日生線	exact	39
+西日本鉄道	天神大牟田線	private	Nishitetsu	Tenjin-Omuta Line	天神大牟田線	exact	1188
+西日本鉄道	太宰府線	private	Nishitetsu	Dazaifu Line	太宰府線	exact	78
+西日本鉄道	甘木線	private	Nishitetsu	Amagi Line	甘木線	exact	252
+西日本鉄道	貝塚線	private	Nishitetsu	Kaizuka Line	貝塚線	exact	246
+西武鉄道	国分寺線	private	Seibu	Kokubunji Line	国分寺線	exact	137
+西武鉄道	多摩川線	private	Seibu	Tamagawa Line	多摩川線	exact (relation)	123
+西武鉄道	多摩湖線	private	Seibu	Tamako Line	多摩湖線	exact	158
+西武鉄道	拝島線	private	Seibu	Haijima Line	拝島線	exact	221
+西武鉄道	新宿線	private	Seibu	Shinjuku Line	新宿線	exact	703
+西武鉄道	池袋線	private	Seibu	Ikebukuro Line	池袋線	exact	776
+西武鉄道	狭山線	private	Seibu	Sayama Line	狭山線	exact	56
+西武鉄道	西武園線	private		Seibu-en Line	西武園線	exact	44
+西武鉄道	西武有楽町線	private	Seibu	Yurakucho Line	西武有楽町線	exact	83
+西武鉄道	西武秩父線	private	Seibu	Chichibu Line	西武秩父線	exact	162
+西武鉄道	豊島線	private	Seibu	Toshima Line	豊島線	exact	42
+豊橋鉄道	渥美線	private	Toyohashi Railroad	Atsumi Line	渥美線	exact	353
+近江鉄道	八日市線	private	Ohmi Railway	Yokaichi Line	八日市線	exact	147
+近江鉄道	多賀線	private	Ohmi Railway	Taga Line	多賀線	exact	62
+近江鉄道	本線	private	Ohmi Railway	Main Line	本線	exact	595
+近畿日本鉄道	けいはんな線	private	Kintetsu	Keihanna Line	けいはんな線	exact	129
+近畿日本鉄道	京都線	private	Kintetsu	Kyoto Line	京都線	exact	591
+近畿日本鉄道	信貴線	private	Kintetsu	Shigi Line	信貴線	exact	62
+近畿日本鉄道	南大阪線	private	Kintetsu	Minami-Osaka Line	南大阪線	exact	665
+近畿日本鉄道	吉野線	private	Kintetsu	Yoshino Line	吉野線	exact	369
+近畿日本鉄道	名古屋線	private	Kintetsu	Nagoya Line	名古屋線	exact	1079
+近畿日本鉄道	大阪線	private	Kintetsu	Osaka Line	大阪線	exact	1326
+近畿日本鉄道	天理線	private	Kintetsu	Tenri Line	天理線	exact	82
+近畿日本鉄道	奈良線	private	Kintetsu	Nara Line	奈良線	exact	471
+近畿日本鉄道	山田線	private	Kintetsu	Yamada Line	山田線	exact	342
+近畿日本鉄道	御所線	private	Kintetsu	Gose Line	御所線	exact	88
+近畿日本鉄道	志摩線	private	Kintetsu	Shima Line	志摩線	exact	387
+近畿日本鉄道	橿原線	private	Kintetsu	Kashihara Line	橿原線	exact	471
+近畿日本鉄道	湯の山線	private	Kintetsu	Yunoyama Line	湯の山線	exact	215
+近畿日本鉄道	生駒線	private	Kintetsu	Ikoma Line	生駒線	exact	336
+近畿日本鉄道	田原本線	private	Kintetsu	Tawaramoto Line	田原本線	exact	184
+近畿日本鉄道	道明寺線	private	Kintetsu	Domyoji Line	道明寺線	exact	53
+近畿日本鉄道	鈴鹿線	private	Kintetsu	Suzuka Line	鈴鹿線	exact	139
+近畿日本鉄道	長野線	private	Kintetsu	Nagano Line	長野線	exact	182
+近畿日本鉄道	難波線	private	Kintetsu	Namba Line	難波線	exact	56
+近畿日本鉄道	鳥羽線	private	Kintetsu	Toba Line	鳥羽線	exact	121
+遠州鉄道	鉄道線	private		Enshu Railway Line	鉄道線	exact	414
+銚子電気鉄道	銚子電気鉄道線	private		Choshi Electric Railway Line	銚子電気鉄道線	exact	201
+長野電鉄	長野線	private	Nagano Electric Railway	Nagano Line	長野線	exact (no operator on way) (relation)	564
+関東鉄道	常総線	private	Kanto Railway	Joso Line	常総線	exact	578
+関東鉄道	竜ヶ崎線	private	Kanto Railway	Ryugasaki Line	竜ヶ崎線	exact	56
+阪急電鉄	京都線	private	Hankyu	Kyoto Line	京都線	exact	694
+阪急電鉄	今津線	private	Hankyu	Imazu Line	今津線	exact	298
+阪急電鉄	伊丹線	private	Hankyu	Itami Line	伊丹線	exact	81
+阪急電鉄	千里線	private	Hankyu	Senri Line	千里線	exact	255
+阪急電鉄	宝塚線	private	Hankyu	Takarazuka Line	宝塚線	exact	471
+阪急電鉄	嵐山線	private	Hankyu	Arashiyama Line	嵐山線	exact	91
+阪急電鉄	甲陽線	private	Hankyu	Koyo Line	甲陽線	exact	58
+阪急電鉄	神戸線	private	Hankyu	Kobe Line	神戸線	exact	438
+阪急電鉄	神戸高速線	private	Hankyu	Kobe Kosoku Line	神戸高速線	exact	103
+阪急電鉄	箕面線	private	Hankyu	Minoo Line	箕面線	exact	78
+阪神電気鉄道	本線	private	Hanshin	Main Line	本線	exact	772
+阪神電気鉄道	武庫川線	private	Hanshin	Mukogawa Line	武庫川線	exact	77
+阪神電気鉄道	神戸高速線	private	Hanshin	Kobe Kosoku Line	神戸高速線	exact (relation)	175
+阪神電気鉄道	阪神なんば線	private		Hanshin Namba Line	阪神なんば線	exact (relation)	253
+静岡鉄道	静岡清水線	private	Shizuoka Railway	Shizuoka–Shimizu Line	静岡清水線	exact	315
+養老鉄道	養老線	private	Yoro Railway	Yoro Line	養老線	exact	640
+高松琴平電気鉄道	志度線	private	Kotoden	Shido Line	志度線	exact	367
+高松琴平電気鉄道	琴平線	private	Kotoden	Kotohira Line	琴平線	exact	566
+高松琴平電気鉄道	長尾線	private	Kotoden	Nagao Line	長尾線	exact	400
+黒部峡谷鉄道	本線	private				unmatched	222
+IRいしかわ鉄道	IRいしかわ鉄道線	sector3		IR Ishikawa Railway Line	IRいしかわ鉄道線	exact	549
+WILLER　TRAINS	宮津線	sector3	Kyoto Tango Railway	Miyazu Line	宮津線	exact	591
+WILLER　TRAINS	宮福線	sector3	Kyoto Tango Railway	Miyafuku Line	宮福線	exact	389
+あいの風とやま鉄道	あいの風とやま鉄道線	sector3		Ainokaze Toyama Railway Line	あいの風とやま鉄道線	exact	760
+いすみ鉄道	いすみ線	sector3		Isumi Line	いすみ線	exact (relation)	317
+えちごトキめき鉄道	妙高はねうまライン	sector3		Myoko Haneuma Line	妙高はねうまライン	exact (relation)	268
+えちごトキめき鉄道	日本海ひすいライン	sector3				unmatched	487
+えちぜん鉄道	三国芦原線	sector3	Echizen Railway	Mikuni Awara Line	三国芦原線	exact	459
+えちぜん鉄道	勝山永平寺線	sector3		Katsuyama Eiheiji Line	えちぜん鉄道勝山永平寺線	norm (no operator on way) (relation)	512
+くま川鉄道	湯前線	sector3	Kumagawa Railroad	Yunomae Line	湯前線	exact	348
+しなの鉄道	しなの鉄道線	sector3		Shinano Railway Line	しなの鉄道線	exact	523
+しなの鉄道	北しなの線	sector3		Kita-Shinano Line	北しなの線	exact	222
+のと鉄道	七尾線	sector3	Noto Railway	Nanao Line	七尾線	exact	190
+ひたちなか海浜鉄道	湊線	sector3	Hitachinaka Seaside Railway	Minato Line	湊線	exact	283
+わたらせ渓谷鐵道	わたらせ渓谷線	sector3		Watarase Keikoku Line	わたらせ渓谷線	exact	439
+アイジーアールいわて銀河鉄道	いわて銀河鉄道線	sector3		Iwate Galaxy Railway Line	いわて銀河鉄道線	exact	846
+ハピラインふくい	ハピラインふくい線	sector3		Hapi-line Fukui	ハピラインふくい線	exact	548
+万葉線	新湊港線	sector3		Manyosen Shinminatoko Line	万葉線新湊港線	norm (no operator on way) (relation)	172
+三国芦原線	えちぜん鉄道	sector3				unmatched	10
+三陸鉄道	リアス線	sector3	Sanriku Railway	Riasu Line	リアス線	exact	392
+三陸鉄道	北リアス線	sector3	Sanriku Railway	Kita-Riasu Line	北リアス線	exact	491
+三陸鉄道	南リアス線	sector3				unmatched	253
+井原鉄道	井原線	sector3	Ibara Railway	Ibara Line	井原線	exact	391
+仙台空港鉄道	仙台空港線	sector3		Sendai Airport Line	仙台空港線	exact	91
+伊勢鉄道	伊勢線	sector3	Ise Railway	Ise Line	伊勢線	exact (relation)	239
+伊賀鉄道	伊賀線	sector3	Iga Railway	Iga Line	伊賀線	exact	311
+会津鉄道	会津線	sector3	Aizu Railway	Aizu Line	会津線	exact	531
+信楽高原鐵道	信楽線	sector3	Shigaraki Kohgen Railway	Shigaraki Line	信楽線	exact	155
+北大阪急行電鉄	南北線	sector3	Kita-Osaka Kyuko	Namboku Line	南北線	exact	102
+北条鉄道	北条線	sector3	Hojo Railway	Hojo Line	北条線	exact	213
+北総鉄道	北総線	sector3		Hokuso Line	北総線	exact	412
+北越急行	ほくほく線	sector3		Hokuhoku Line	ほくほく線	exact (relation)	349
+南阿蘇鉄道	高森線	sector3	Minamiaso Railway	Takamori Line	高森線	exact	216
+名古屋臨海高速鉄道	西名古屋港線	sector3		Aonami Line	あおなみ線	alias (spelling fixed)	251
+四日市あすなろう鉄道	八王子線	sector3	Yokkaichi Asunarou Railway	Hachioji Line	四日市あすなろう鉄道八王子線	norm (no operator on way) (relation)	31
+四日市あすなろう鉄道	内部線	sector3	Yokkaichi Asunarou Railway	Utsube Line	四日市あすなろう鉄道内部線	norm (no operator on way) (relation)	171
+土佐くろしお鉄道	中村線	sector3	Tosa Kuroshio Railway	Nakamura Line	中村線	exact	381
+土佐くろしお鉄道	宿毛線	sector3	Tosa Kuroshio Railway	Sukumo Line	宿毛線	exact	191
+土佐くろしお鉄道	阿佐線	sector3	Tosa Kuroshio Railway	Asa Line	阿佐線	exact (relation)	516
+埼玉高速鉄道	埼玉高速鉄道線	sector3		Saitama Rapid Railway Line	埼玉高速鉄道線	exact	183
+天竜浜名湖鉄道	天竜浜名湖線	sector3		Tenryu Hamanako Line	天竜浜名湖線	exact	936
+山形鉄道	フラワー長井線	sector3		Flower Nagai Line	フラワー長井線	exact	447
+平成筑豊鉄道	伊田線	sector3	Heisei Chikuho Railway	Ita Line	伊田線	exact	399
+平成筑豊鉄道	田川線	sector3	Heisei Chikuho Railway	Tagawa Line	田川線	exact	405
+平成筑豊鉄道	糸田線	sector3	Heisei Chikuho Railway	Itoda Line	糸田線	exact	198
+平成筑豊鉄道	門司港レトロ観光線	sector3	Heisei Chikuho Railway	Mojiko Retro Scenic Line	門司港レトロ観光線	exact	69
+愛知環状鉄道	愛知環状鉄道線	sector3		Aichi Loop Line	愛知環状鉄道線	exact	583
+明知鉄道	明知線	sector3	Akechi Railway	Akechi Line	明知線	exact	284
+智頭急行	智頭線	sector3	Chizu Express	Chizu Line	智頭線	exact	390
+東京臨海高速鉄道	臨海副都心線	sector3		Rinkai Line	りんかい線	alias	173
+東葉高速鉄道	東葉高速線	sector3		Toyo Rapid Line	東葉高速線	exact	201
+松浦鉄道	西九州線	sector3	Matsuura Railway	Nishi-Kyushu Line	西九州線	exact	1367
+横浜高速鉄道	みなとみらい21線	sector3	Yokohama Minatomirai Railway	Yokohama Minatomirai 21 Line	みなとみらい21線	exact	154
+樽見鉄道	樽見線	sector3	Tarumi Railway	Tarumi Line	樽見線	exact	486
+水島臨海鉄道	水島本線	sector3	Mizushima Rinkai Railway	Mizushima Main Line	水島本線	exact	213
+泉北高速鉄道	泉北高速鉄道線	sector3	Semboku			unmatched	150
+甘木鉄道	甘木線	sector3	Amagi Railway	Amagi Line	甘木線	exact	230
+由利高原鉄道	鳥海山ろく線	sector3				unmatched	292
+真岡鐵道	真岡線	sector3	Mooka Railway	Mooka Line	真岡線	exact	412
+秋田内陸縦貫鉄道	秋田内陸線	sector3	Akita Nairiku Jukan Railway	Akita Nairiku Line	秋田内陸線	exact	806
+肥薩おれんじ鉄道	肥薩おれんじ鉄道線	sector3		Hisatsu Orange Railway	肥薩おれんじ鉄道線	exact	795
+芝山鉄道	芝山鉄道線	sector3				unmatched	31
+若桜鉄道	若桜線	sector3	Wakasa Railway	Wakasa Line	若桜線	exact	225
+道南いさりび鉄道	道南いさりび鉄道線	sector3		South Hokkaido Railway	道南いさりび鉄道線	exact	402
+野岩鉄道	会津鬼怒川線	sector3	Yagan Railway	Aizu Kinugawa Line	会津鬼怒川線	exact	222
+錦川鉄道	錦川清流線	sector3	Nishikigawa Railway	Nishikigawa Seiryu Line	錦川清流線	exact	326
+長良川鉄道	越美南線	sector3	Nagaragawa Railway	Etsumi-Nan Line	越美南線	exact	903
+阿佐海岸鉄道	阿佐東線	sector3		Asato Line	阿佐東線	exact	87
+阿武隈急行	阿武隈急行線	sector3		Abukuma Express Line	阿武隈急行線	exact	693
+青い森鉄道	青い森鉄道線	sector3		Aoimori Railway Line	青い森鉄道線	exact	1050
+首都圏新都市鉄道	常磐新線	sector3		Tsukuba Express	つくばエクスプレス	alias	514
+鹿島臨海鉄道	大洗鹿島線	sector3	Kashima Rinkai Railway	Oarai Kashima Line	大洗鹿島線	exact	477
+九州旅客鉄道	九州新幹線	shinkansen		Kyushu Shinkansen	九州新幹線	exact	591
+九州旅客鉄道	西九州新幹線	shinkansen		Nishi-Kyushu Shinkansen	西九州新幹線	exact	176
+北海道旅客鉄道	北海道新幹線	shinkansen		Hokkaido Shinkansen	北海道新幹線	exact	358
+東日本旅客鉄道	上越新幹線	shinkansen		Joetsu Shinkansen	上越新幹線	exact	617
+東日本旅客鉄道	北陸新幹線	shinkansen		Hokuriku Shinkansen	北陸新幹線	exact	419
+東日本旅客鉄道	東北新幹線	shinkansen		Tohoku Shinkansen	東北新幹線	exact	1523
+東海旅客鉄道	東海道新幹線	shinkansen		Tokaido Shinkansen	東海道新幹線	exact	1171
+西日本旅客鉄道	北陸新幹線	shinkansen		Hokuriku Shinkansen	北陸新幹線	exact	650
+西日本旅客鉄道	山陽新幹線	shinkansen		Sanyo Shinkansen	山陽新幹線	exact	1236
+京都市	東西線	subway	Kyoto City Subway	Tozai Line	東西線	exact	381
+京都市	烏丸線	subway	Kyoto City Subway	Karasuma Line	烏丸線	exact	326
+仙台市	南北線	subway	Sendai Subway	Namboku Line	南北線	exact	390
+仙台市	東西線	subway	Sendai Subway	Tozai Line	東西線	exact	268
+名古屋市	1号線東山線	subway	Nagoya City Subway	Higashiyama Line	1号線東山線	exact (spelling fixed)	514
+名古屋市	2号線名城線	subway	Nagoya City Subway	Meijo Line	名城線	norm (relation)	256
+名古屋市	2号線名港線	subway	Nagoya City Subway	Meiko Line	名港線	norm (relation)	151
+名古屋市	3号線鶴舞線	subway	Nagoya City Subway	Tsurumai Line	3号線鶴舞線	exact	449
+名古屋市	4号線名城線	subway	Nagoya City Subway	Meijo Line	名城線	norm (relation)	410
+名古屋市	6号線桜通線	subway	Nagoya City Subway	Sakura-dori Line	6号線桜通線	exact	548
+名古屋市	上飯田線	subway	Nagoya City Subway	Kamiiida Line	上飯田線	exact (relation)	31
+大阪市高速電気軌道	1号線(御堂筋線)	subway	Osaka Metro	Midosuji Line	御堂筋線	norm	482
+大阪市高速電気軌道	2号線(谷町線)	subway	Osaka Metro	Tanimachi Line	谷町線	norm	653
+大阪市高速電気軌道	3号線(四つ橋線)	subway	Osaka Metro	Yotsubashi Line	四つ橋線	norm	255
+大阪市高速電気軌道	4号線(中央線)	subway	Osaka Metro	Chuo Line	中央線	norm	323
+大阪市高速電気軌道	5号線(千日前線)	subway	Osaka Metro	Sennichimae Line	千日前線	norm (spelling fixed)	313
+大阪市高速電気軌道	6号線(堺筋線)	subway	Osaka Metro	Sakaisuji Line	堺筋線	norm	213
+大阪市高速電気軌道	7号線(長堀鶴見緑地線)	subway	Osaka Metro	Nagahori Tsurumi-ryokuchi Line	長堀鶴見緑地線	norm (relation) (spelling fixed)	374
+大阪市高速電気軌道	8号線(今里筋線)	subway	Osaka Metro	Imazatosuji Line	今里筋線	norm (relation)	232
+札幌市	南北線	subway	Sapporo Subway	Namboku Line	南北線	exact (relation)	408
+札幌市	東西線	subway	Sapporo Subway	Tozai Line	東西線	exact (relation)	515
+札幌市	東豊線	subway	Sapporo Subway	Toho Line	東豊線	exact	356
+東京地下鉄	11号線半蔵門線	subway	Tokyo Metro	Hanzomon Line	半蔵門線	norm	321
+東京地下鉄	13号線副都心線	subway	Tokyo Metro	Fukutoshin Line	副都心線	norm	254
+東京地下鉄	2号線日比谷線	subway	Tokyo Metro	Hibiya Line	日比谷線	norm	522
+東京地下鉄	3号線銀座線	subway	Tokyo Metro	Ginza Line	銀座線	norm	434
+東京地下鉄	4号線丸ノ内線	subway	Tokyo Metro	Marunouchi Line	丸ノ内線	norm	608
+東京地下鉄	4号線丸ノ内線分岐線	subway	Tokyo Metro	Marunouchi Line	丸ノ内線	alias	90
+東京地下鉄	5号線東西線	subway	Tokyo Metro	Tozai Line	東西線	norm	568
+東京地下鉄	7号線南北線	subway	Tokyo Metro	Namboku Line	南北線	norm	449
+東京地下鉄	8号線有楽町線	subway	Tokyo Metro	Yurakucho Line	有楽町線	norm	590
+東京地下鉄	9号線千代田線	subway	Tokyo Metro	Chiyoda Line	千代田線	norm	515
+東京都	10号線新宿線	subway	Toei	Shinjuku Line	新宿線	norm	511
+東京都	12号線大江戸線	subway	Toei	Oedo Line	大江戸線	norm	985
+東京都	1号線浅草線	subway	Toei	Asakusa Line	浅草線	norm	493
+東京都	6号線三田線	subway	Toei	Mita Line	三田線	norm	645
+横浜市	1号線	subway	Yokohama Municipal Subway	Blue Line	横浜市営1号線	alias (spelling fixed)	394
+横浜市	3号線	subway	Yokohama Municipal Subway	Line 3	横浜市営3号線	alias	427
+横浜市	4号線	subway	Yokohama Municipal Subway	Green Line	横浜市営地下鉄グリーンライン	alias	218
+神戸市	北神線	subway	Kobe City Subway	Hokushin Line	北神線	exact	47
+神戸市	山手線	subway	Kobe City Subway	Seishin-Yamate Line	西神・山手線	alias	185
+神戸市	海岸線	subway	Kobe City Subway	Kaigan Line	海岸線	exact	255
+神戸市	西神延伸線	subway	Kobe City Subway	Seishin-Yamate Line	西神・山手線	alias	207
+神戸市	西神線	subway	Kobe City Subway	Seishin-Yamate Line	西神・山手線	alias	88
+福岡市	1号線(空港線)	subway	Fukuoka City Subway	Kuko Line	空港線	norm	290
+福岡市	2号線(箱崎線)	subway	Fukuoka City Subway	Hakozaki Line	箱崎線	norm	148
+福岡市	3号線(七隈線)	subway	Fukuoka City Subway	Nanakuma Line	七隈線	norm (relation)	398
+とさでん交通	伊野線	tram	Tosaden Kotsu	Ino Line	伊野線	exact	658
+とさでん交通	後免線	tram	Tosaden Kotsu	Gomen Line	後免線	exact	726
+とさでん交通	桟橋線	tram	Tosaden Kotsu	Sanbashi Line	桟橋線	exact	152
+とさでん交通	駅前線	tram	Tosaden Kotsu			unmatched	63
+一般社団法人札幌市交通事業振興公社	1条線	tram	Sapporo Streetcar			unmatched	86
+一般社団法人札幌市交通事業振興公社	山鼻線	tram	Sapporo Streetcar			unmatched	265
+一般社団法人札幌市交通事業振興公社	山鼻西線	tram	Sapporo Streetcar			unmatched	206
+一般社団法人札幌市交通事業振興公社	都心線	tram	Sapporo Streetcar			unmatched	96
+万葉線	高岡軌道線	tram		Manyosen Takaoka Kido Line	万葉線高岡軌道線	norm (no operator on way) (relation)	359
+京福電気鉄道	北野線	tram	Keifuku	Kitano Line	北野線	exact	238
+京福電気鉄道	嵐山本線	tram	Keifuku	Arashiyama Main Line	嵐山本線	exact	282
+京阪電気鉄道	京津線	tram	Keihan	Keishin Line	京津線	exact (spelling fixed)	160
+京阪電気鉄道	石山坂本線	tram	Keihan	Ishiyama-Sakamoto Line	石山坂本線	exact (spelling fixed)	489
+伊予鉄道	城南線	tram	Iyotetsu	Jonan Line	城南線	exact	245
+伊予鉄道	大手町線	tram	Iyotetsu	Otemachi Line	大手町線	exact	96
+伊予鉄道	本町線	tram	Iyotetsu	Honmachi Line	本町線	exact	104
+伊予鉄道	花園線	tram	Iyotetsu	Hanazono Line	花園線	exact	28
+伊予鉄道	連絡線	tram	Iyotetsu			unmatched	33
+函館市	大森線	tram		Hakodate City Tram	大森線	exact	42
+函館市	宝来・谷地頭線	tram	Hakodate City Tram	Hakodate City Horai and Tanijito Line	宝来・谷地頭線	exact	77
+函館市	本線	tram	Hakodate City Tram	Hakodate City Main Line	本線	exact	173
+函館市	湯の川線	tram		Hakodate City Tram	湯の川線	exact	325
+北大阪急行電鉄	南北線	tram	Kita-Osaka Kyuko	Namboku Line	南北線	exact	22
+名古屋鉄道	豊川線	tram	Meitetsu	Toyokawa Line	豊川線	exact (relation)	114
+宇都宮ライトレール	宇都宮芳賀ライトレール線	tram		Utsunomiya Light Rail Line	宇都宮芳賀ライトレール線	exact	474
+富山地方鉄道	呉羽線	tram	Toyama Chiho Railway			unmatched	51
+富山地方鉄道	安野屋線	tram	Toyama Chiho Railway			unmatched	47
+富山地方鉄道	富山港線	tram	Toyama Chiho Railway	Toyama Light Rail Toyamako Line	富山港線	exact (relation)	87
+富山地方鉄道	富山都心線	tram	Toyama Chiho Railway			unmatched	84
+富山地方鉄道	富山駅南北接続線	tram	Toyama Chiho Railway			unmatched	36
+富山地方鉄道	支線	tram	Toyama Chiho Railway			unmatched	85
+富山地方鉄道	本線	tram	Toyama Chiho Railway	Main Line	本線	exact (spelling fixed)	276
+岡山電気軌道	東山本線	tram	Okaden			unmatched	194
+岡山電気軌道	清輝橋線	tram	Okaden			unmatched	131
+広島電鉄	宇品線	tram	Hiroden	Ujina Line	宇品線	exact	439
+広島電鉄	本線	tram	Hiroden	Main Line	本線	exact	424
+広島電鉄	横川線	tram	Hiroden	Yokogawa Line	横川線	exact	103
+広島電鉄	江波線	tram	Hiroden			unmatched	133
+広島電鉄	白島線	tram	Hiroden	Hakushima Line	白島線	exact	105
+広島電鉄	皆実線	tram	Hiroden	Minami Line	皆実線	exact	138
+東京都	荒川線	tram	Toei	Toden Arakawa Line	荒川線	exact	637
+東急電鉄	世田谷線	tram	Tokyu	Setagaya Line	世田谷線	exact	194
+熊本市	上熊本線	tram	Kumamoto City Tram			unmatched	187
+熊本市	健軍線	tram	Kumamoto City Tram			unmatched	171
+熊本市	幹線	tram	Kumamoto City Tram			unmatched	196
+熊本市	水前寺線	tram	Kumamoto City Tram			unmatched	124
+熊本市	田崎線	tram	Kumamoto City Tram	Tasaki Line	田崎線	exact (spelling fixed)	48
+福井鉄道	福武線	tram	Fukui Railway	Fukubu Line	福武線	exact	125
+豊橋鉄道	東田本線	tram	Toyohashi Railroad	Azumada Line	東田本線	exact	263
+近畿日本鉄道	けいはんな線	tram	Kintetsu	Keihanna Line	けいはんな線	exact	90
+長崎電気軌道	大浦支線	tram	Nagasaki Electric Tramway	Oura Branch Line	大浦支線	exact	92
+長崎電気軌道	本線	tram	Nagasaki Electric Tramway	Main Line	本線	exact	500
+長崎電気軌道	桜町支線	tram	Nagasaki Electric Tramway	Sakuramachi Branch Line	桜町支線	exact	59
+長崎電気軌道	蛍茶屋支線	tram	Nagasaki Electric Tramway	Hotarujaya Branch Line	蛍茶屋支線	exact	192
+長崎電気軌道	赤迫支線	tram	Nagasaki Electric Tramway	Akasako Branch Line	赤迫支線	exact	30
+阪堺電気軌道	上町線	tram	Hankai Tramway	Uemachi Line	上町線	exact	210
+阪堺電気軌道	阪堺線	tram	Hankai Tramway	Hankai Line	阪堺線	exact	647
+鹿児島市	唐湊線	tram	Kagoshima City Tram			unmatched	202
+鹿児島市	第一期線	tram	Kagoshima City Tram			unmatched	247
+鹿児島市	第二期線	tram	Kagoshima City Tram			unmatched	64
+鹿児島市	谷山線	tram	Kagoshima City Tram			unmatched	296
