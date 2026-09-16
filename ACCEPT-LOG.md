@@ -471,3 +471,9 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 纠正：之前文档「154 = 地类索引」错，实为气候码（153 温度 / 154 降水）。
 未闭合：Mac 球粉彩来源追到 DvMt 材质资源（tileset 60，client:69=2 Elevated 分支），位打包格式未解——现在 ground-globe 用表色（= iOS 观感），文档标明；数据会话排在单 3 之前解。
 **结论**：放行合并。界面会话接线：z<4.6 用 ground-globe 栅格替换 palette-globe/climate-globe，山影用 height-globe 配 groundElevationScale(z)。
+
+## 2026-09-16 22:19　验收 ui bf8559a（球 z<4.6 接苹果地面栅格）——**暂扣不合**　验收人：transit 验收（Fable）
+
+先看（scratchpad/accbf/cmp-globe-side.png）：结构对了——青藏高原灰白、戈壁/塔里木粉沙、山脉纹理都出来了；但整体陆地是饱和绿（表色 = iOS 观感），App 是粉彩，肉眼比合并前差。指标阈值 40 6.60%（合并前 3.74%），阈值 20 25.6%。
+判定：结构闭合、颜色回退。main 上不合视觉倒退，分支留着，等数据会话解出 DvMt 材质色后一起合。
+另：63308c3 已推到公开仓库的 9 张苹果数据栅格（map/data/ground-globe-*、height-globe-*、spr-class-globe、climate-*-globe，共 9.5 MB）是苹果地图数据本身，已向用户提出处理方式待定；在定之前两会话不再往仓库提交苹果数据文件。
