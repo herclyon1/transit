@@ -41,7 +41,40 @@
    "name": "AWS Terrain Tiles, terrarium encoding",
    "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"
   },
-  "colours": "ui/basemap/palette-ocean.json, palette-land.json, labels-globe.json (Apple renderer sampled 2026-09-16)"
+  "colours": "ui/basemap/palette-ocean.json, palette-land.json, labels-globe.json (Apple renderer sampled 2026-09-16)",
+  "bathymetry_levels": {
+   "name": "Natural Earth 10m Bathymetry v4.1.0, three levels of detail",
+   "files": {
+    "bathy-z0.geojson": "zoom < 4, DP 0.2 deg, min ring 0.1 deg^2, 2 decimals, 1.1 MB",
+    "bathy-z4.geojson": "zoom 4-6, DP 0.05 deg, min ring 0.005 deg^2, 6.9 MB",
+    "bathy.geojson": "zoom >= 6, DP 0.02 deg, 12 MB (globe-data.py)"
+   },
+   "generator": "pipeline/basemap/bathy-levels.py",
+   "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_bathymetry_all.zip",
+   "license": "public domain"
+  },
+  "undersea": {
+   "name": "GEBCO Gazetteer of Undersea Feature Names (IHO-IOC GEBCO, NOAA NCEI ArcGIS feature service)",
+   "url": "https://services2.arcgis.com/C8EMgrsFcRFL6LrL/arcgis/rest/services/Undersea_Features/FeatureServer",
+   "landing": "https://www.gebco.net/data-products/undersea-feature-names",
+   "file": "undersea.geojson",
+   "count": 1479,
+   "classes": {
+    "1": "Trench, Deep, Rise, Seamount Chain, Seamounts, Fracture Zone (468)",
+    "2": "Ridge, Plateau, Basin, Trough, Abyssal Plain, Escarpment (1011)"
+   },
+   "generator": "pipeline/basemap/undersea.py",
+   "note": "gazetteer stores the specific term only; label = NAME + TYPE. No Ramapo Deep in the gazetteer (only Ramapo Bank)."
+  },
+  "cities": {
+   "name": "Natural Earth 10m populated places v5.1.2",
+   "url": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_populated_places.zip",
+   "license": "public domain",
+   "file": "cities.geojson",
+   "count": 1148,
+   "globe_rank": "1 SCALERANK<=1 (68) / 2 SCALERANK 2 & POP>=3M or capital (174) / 3 (331) / 4 (575); East Asia box rank 1+2 = 32 names",
+   "generator": "pipeline/basemap/cities.py"
+  }
  },
  "simplification": {
   "douglas_peucker_deg": 0.01,
