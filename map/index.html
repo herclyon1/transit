@@ -27,6 +27,11 @@
 </div>
 
 <!-- Sidebar (Mac 200 full height, white 78% blur 40 sat 1.8) / iPhone Sheet three detents (small 96 / medium 44% / large) -->
+<!-- Mac material layers (MATERIALS.md §3/§4, hig.css §19): the material's luminance clamp / darken fill is a mix-blend-mode
+     over the filtered backdrop, which only composes when the layer is NOT inside the panel's stacking context — so the
+     sidebar and the card paint their material here, one fixed layer each, and the panels themselves are transparent -->
+<div class="mat" id="matSidebar" aria-hidden="true"></div>
+<div class="mat" id="matCard" aria-hidden="true" hidden></div>
 <aside class="sheet glass split" id="sheet" aria-label="侧栏" data-role="sidebar">
   <div class="grab" aria-hidden="true"><i></i></div>
   <div id="list">

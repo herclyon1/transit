@@ -20,7 +20,7 @@ html, body { background: #000; }
      PLAN-MAC-LOOK §0 #2). The head grows to 47 + 36 + 12 so the list starts under it like Maps' "Places". */
   .sheet #list .head { height: 95px; min-height: 95px; padding: 47px 15px 12px 15px; align-items: flex-start; }
   .sheet #list .head .search { flex: none; width: 170px; height: 36px; margin: 0; padding: 0 8px; border-radius: 999px;
-    background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.05); }   /* Kit Search Fields XL: white fill, 1 px black 5% outside border, icon slot at x 8 */
+    box-shadow: 0 0 0 1px rgba(0,0,0,.05); }   /* Kit Search Fields XL: 1 px black 5% outside border, icon slot at x 8; the fill is the glass material (hig.css §19, MATERIALS.md §4 search field) */
   .sheet #list .head .search .sf { width: 13px; height: 13px; }
   .sheet #list .head .search input { font-size: 1em; font-weight: 500; }   /* Medium 13 */
   /* rows: Kit Sidebars › Medium 32; detail Medium 13 secondary (PLAN-MAC-LOOK §0 #6) */
@@ -28,7 +28,7 @@ html, body { background: #000; }
 }
 
 /* &ui=0: basemap only (acceptance compares the map against App snapshots without chrome) */
-html.noui .bar, html.noui .sheet, html.noui .maplibregl-ctrl-top-right { display: none !important; }
+html.noui .bar, html.noui .sheet, html.noui .mat, html.noui .maplibregl-ctrl-top-right { display: none !important; }
 
 /* Mac: Map Modes is a popover (styl-work/native-mapmodes.png, 2026-09-16) — no close button; it closes on an
    outside click (map/shell.js). The iPhone sheet keeps its X. */
