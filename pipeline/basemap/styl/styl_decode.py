@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from decoder_table import DECODER          # stream property id -> gss decoder function (macOS 27 VectorKit)
 from property_names import PROPS           # stream property id -> (gss::PropertyID, decoder, kDefault* name, default)
+from inferred_names import name_of         # kDefault* name, else name inferred from callers/styles/values
 
 CHAPTER_INFO, CHAPTER_GLOBAL, CHAPTER_PROPERTY_SETS, CHAPTER_STYLES, CHAPTER_MATCHING_TREE = 1, 10, 20, 21, 30
 
@@ -285,10 +286,12 @@ def attr_name(aid):
 
 
 def prop_label(pid):
-    p = PROPS.get(pid)
-    if not p:
-        return f'{pid}'
-    return f'{pid}:{p[2] or p[1]}'
+    """'id:name' — kDefault* constant name, else inferred name (inferred_names.py), else the decoder type."""
+    n = name_of(pid)
+    if n == str(pid):
+        p = PROPS.get(pid)
+        return f'{pid}:{p[1]}' if p else f'{pid}'
+    return f'{pid}:{n}'
 
 
 def fmt_value(v):

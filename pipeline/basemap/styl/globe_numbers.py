@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 """Curated number table for the globe style sheet: colours / widths / font sizes of the styles that draw on the globe.
 
-Reads the full TSV produced by `styl_decode.py FILE.styl --tsv` and keeps the properties we can name with confidence:
-  1 fill colour, 2 stroke colour (kDefaultStrokeColor), 3 width, 6 stroke width, 21 font size (pt), 23 font spec,
-  24 text colour, 25 text halo colour (kDefaultLabelHaloColor), 29/18 label size factors, 32 label spacing.
+Reads the full TSV produced by `styl_decode.py FILE.styl --tsv` and keeps the properties we can name with confidence
+(see inferred_names.py): fill/stroke colour, width, stroke width, font size, font spec, text colour, text halo colour,
+text size scale, label spacing, coastline glow width/colour, grid colour.
 Usage: globe_numbers.py IN.tsv OUT.tsv
 """
 import sys
+from pathlib import Path
 
-KEEP = {'1': 'fill', '2': 'stroke', '3': 'width', '6': 'strokeWidth', '21': 'fontSize', '23': 'font', '24': 'textColor',
-        '25': 'haloColor', '18': 'textScale?', '29': 'haloWidth?', '32': 'labelSpacing', '57': 'glowColor?', '55': 'glowWidth?'}
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from inferred_names import name_of
+
+KEEP = {str(i): name_of(i) for i in (1, 2, 3, 6, 21, 23, 24, 25, 18, 29, 32, 55, 57, 203)}
 GLOBE_WORDS = ('globe', 'ocean', 'continent', 'country', 'border', 'coastline', 'rivers', 'lake', 'physicalfeature', 'capitalcity', 'city-', 'state')
 
 

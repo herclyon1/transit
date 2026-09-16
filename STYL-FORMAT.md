@@ -80,19 +80,21 @@ uint(样式位数) 样式数
 
 不是尺寸翻倍。逐行比对（`globe-default-20207` vs `21097@2x`，20 843 行）：值不同的主要是属性 18（float，标签字号系数，×0.85/×1.17）、3（线宽，×0.8/×0.5/×1.08…）、6（描边宽，×2/×0.8）、384（×2）、125 图标尺寸档；@2x 多出 1002 行（图标缩放 456、labelInfo 172、图标尺寸 125）。两份都要留。
 
-## 五、属性编号→名字（半成品，`pipeline/basemap/styl/property_names.py`）
+## 五、属性编号→名字（`property_names.py` 定死的 + `inferred_names.py` 推的）
+
+进度（球文件实际用到 210 个属性）：**kDefault 定死 64 + 按调用方/样式名/值推出 36 = 100/210**；剩 110 个多是用一两次的布尔/枚举，推名对数值表意义不大。全表 425 个有映射的属性里 kDefault 定死 144。
 
 两套编号：**.styl 流里的编号（0–496）≠ 代码里的 `gss::PropertyID`**，中间有一张 u16 重映射表（27 版 VectorKit `0x1c354a768`，流 2→PropertyID 93）。验收会话的 `prop_callers.txt` 键是 PropertyID，已按重映射转成流编号（`callers_by_stream_id.tsv`），26.1 调用点的取值类型与 27 解码表 0 冲突。
 
 已定名 144 个（`gss::defaultValueForKey<PropertyID,T>` 在进程内逐编号调用，返回常量地址对符号名 `kDefaultXxx`）：25 haloColor、32 labelSpacing、42 arrowSpacing、45/46 arrow 色、70–74 margin、85/86 建筑色、87 trafficWidth、100–103 标签朝向/布局/图标样式、106/107 图标字形/光晕色、125 iconSize、187/188 文字位置、189–195 盾牌间距、221 curbColor、253/255/256 亮度、463–492 各 LumAdjustment、485/486 halo…
-靠上下文推的（未定死，表里空名）：**1 = 填充色/主色**（802 处，路线蓝在这）、**2 = 描边色**（kDefaultStrokeColor）、**3 = 线宽**（getRoadWidths/halfWidthAtZoom 读它）、**6 = 描边宽**、**21 = 字号 pt**（uint，值 12/13/18/20）、**22 = 图标名**（"POI-Marker"）、**23 = 字体规格**（"%$default,semibold,width=90"）、**24 = 文字色**、18/29 = 字号系数/光晕宽（FontSizeInfo 读）、55/57 = 海岸线光晕宽/色（只在 Coastline-Glow-* 出现）。
+推出来的 36 个在 `inferred_names.py`，每个带证据和把握度（high/mid/low）。high 的：**1 fillColor**（802 处，路线蓝在这）、**2 strokeColor**、**3 width**（getRoadWidths/halfWidthAtZoom 读它）、**6 strokeWidth**（描边/套边宽）、**21 fontSize**（uint，8/12/13/18/20 pt）、**22 iconName**、**23 fontSpec**（"%$default,semibold,width=90"）、**24 textColor**（LabelCoreStyleGroup 读，暗色海洋标注对上实测）、**25 textHaloColor**、**55/57 coastlineGlowWidth/Color**（只在 Coastline-Glow-*，亮色 rgb(135,221,251) 对验收渲染的近岸浅水带 #88d4f5）、**203 gridColor**（只在 Grid-GlobeHybrid，混合球的经纬网）、**172 labelInfo**（复合：标签高度/高度曲线/光晕/字距/箭头高，未拆）。mid/low 的：0 visibleFlag、13/15 渲染顺序、18 textSizeScale、9/29/127 字号参数、41 arrowSize、90–93 traffic 复合、210–212 route line scale 等。
 要素属性编号 1 起对 VectorKit 的名字表（1 LineType、4 Country 8 位、5 FeatureType、6 PoiType 9 位，位数吻合）；客户端属性 0x10000+ 只前三个对得上（MapMode 3 位、TimePeriod 1 位、SelectionState 2 位），后面枚举有洞，表里保留原编号。
 
 ## 六、球的底色不在这里（要点）
 
 球文件 2421 个样式按前缀：POI 616、PhysicalFeature 300、Line 106、Globe(-Roads) 97、Route 87、City/CapitalCity 123、Border 27、Ocean 28、Rivers 31、Coastline 8……**没有一个面填充样式**（平面 default-56689.styl 有 11 293 个样式，含 Landcover-Water-*、LandPolygon-*、WaterPolygon-*、ParkPolygon-* 等）。
 - 平面亮色水面：Landcover-Water-Explore-Light-Base 属性 1 = rgb(141,213,246) z0–4 / (136,217,246) z4–5 / (141,220,247) z5+；暗色 (33,57,130) / (31,54,122)。
-- 量具测的球海色 (131,194,235)/(171,214,239) 在 9 份文件的 rgba8 里都没有（容差 10）；最接近的是 Ferry 线 (121,196,238) 和球上水体标注色 (170,224,235)。
+- 量具的分深度海色（`ui/basemap/palette-ocean.json`，亮 (108,201,250)→(13,141,230)、暗 (23,43,104)→(0,13,34)）用 `match_palette.py` 对球文件和平面文件所有 rgba8（容差 12）：亮色档全部落空或只碰到无关的路线/POI 色，暗色档碰到的是标注光晕/河流描边（Rivers-Dark、Ocean-Label halo (19,31,73)、Geolines）——都不是面填充。深度分层是渲染器的海底贴图/明暗，不是样式表颜色。
 - 所以球的海/陆是渲染器自己的贴图（NATIVE-RENDER 已记：球只在私有实现里），样式表管不到；要球的底色仍走「渲染器当量具」采样。scene-*.styl（ScenePropertyID）解开是 299 个相机/光照样式，也无颜色。
 
 ## 七、没做完的
@@ -111,6 +113,7 @@ python3 pipeline/basemap/styl/styl_decode.py FILE.styl --show Ocean-Label-Color-
 python3 pipeline/basemap/styl/styl_decode.py FILE.styl --color 61,115,182 8                        # 反查颜色
 python3 pipeline/basemap/styl/styl_decode.py FILE.styl --tsv basemap/data/styl/globe-default-20207.tsv
 python3 pipeline/basemap/styl/globe_numbers.py basemap/data/styl/globe-default-20207.tsv basemap/data/styl/globe-key-numbers.tsv
+python3 pipeline/basemap/styl/match_palette.py ../transit-ui/ui/basemap/palette-ocean.json FILE.styl --tol 12   # 量具海色 vs 样式表颜色
 ```
 验收三个抽查点（都能回到原始文件）：① `--show Route-Line-Base-Light` 属性 1 = rgb(0,162,255)；② `--show Ocean-Label-Color-Dark-Base` 属性 24 z2–4 = rgb(62,116,182) 对实测 #3d73b6；③ `--show Border-Country-NonDisputed-Base` 线宽 z0–2 0.9 → z12–14 2.1（`globe-key-numbers.tsv` 同行）。计数：属性集 3115、样式 2421、20 章剩 1 位、21 章剩 2 位。
 
