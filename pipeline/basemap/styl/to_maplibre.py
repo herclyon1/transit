@@ -51,7 +51,18 @@ TILES = 'https://tiles.openfreemap.org/planet'
 ZOFF = -1.0     # Apple zoom -> MapLibre zoom
 ELEVATED = True  # prefer the "-Elevated" leaf variants: Maps on the Mac / MKMapSnapshotter(.realistic) draw those
 GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
-NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local name (acceptance 2026-09-16: no zh fallback)
+# Label language (acceptance 2026-09-16 evening): the user's system is English and Maps labels everything in English, so
+# OSM name:en, then OpenMapTiles name_en, then the Latin transliteration name:latin, and only then the local name.
+NAME = ['coalesce', ['get', 'name:en'], ['get', 'name_en'], ['get', 'name:latin'], ['get', 'name']]
+# Ward names: OSM name:en carries "Nishiyodogawa Ward" / "Kita Ward"; Maps sets the bare name (NISHIYODOGAWA), so the
+# " Ward" suffix (and a trailing "-ku") is cut before the uppercase transform.
+WARD_NAME = ['let', 'n', NAME,
+             ['case',
+              ['==', ['slice', ['var', 'n'], ['max', 0, ['-', ['length', ['var', 'n']], 5]]], ' Ward'],
+              ['slice', ['var', 'n'], 0, ['max', 0, ['-', ['length', ['var', 'n']], 5]]],
+              ['==', ['slice', ['var', 'n'], ['max', 0, ['-', ['length', ['var', 'n']], 3]]], '-ku'],
+              ['slice', ['var', 'n'], 0, ['max', 0, ['-', ['length', ['var', 'n']], 3]]],
+              ['var', 'n']]]
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 DASH_PT = 0.2       # pt per dashPattern unit on the Mac's output (RENDER-PIPELINE §7.16: 0.19 / 0.203 / 0.215 measured)
@@ -361,6 +372,8 @@ class Gen:
                 layout['text-max-width'] = 8
             if lid in ('label-ward', 'label-country', 'label-state'):
                 layout.update({'text-transform': 'uppercase', 'text-letter-spacing': 0.1})   # Maps sets Latin ward/state/country names in caps with tracking
+            if lid == 'label-ward':
+                layout['text-field'] = WARD_NAME
             paint = {'text-color': tc or '#000'}
             if hc:
                 paint.update({'text-halo-color': hc, 'text-halo-width': 1.5})
