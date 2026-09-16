@@ -38,6 +38,9 @@ VIEWS = {
     "ea1x-dark": ("ea-dark.png", "ea-dark.json"),
     "wide1x": ("wide-light.png", "wide-light.json"),
     "wide1x-dark": ("wide-dark.png", "wide-dark.json"),
+    # the Maps App GLOBE screenshot (sidebar closed, 1280x744 pt @2x) — its own style sheet, so its
+    # labels are measured separately from the snapshotter's flat style
+    "app2x": (os.path.expanduser("~/Money/styl-work/native-nosidebar.png"), None),
 }
 
 # Label catalogue. cx, cy, w, h are a generous search box in 1x points of that
@@ -74,6 +77,20 @@ LABELS = [
     dict(id="undersea-shatsky", kind="undersea", text="SHATSKY RISE", view="ea2x", cx=1106, cy=250, w=60, h=110, italic=False, rotate=True),
     # graticule
     dict(id="graticule-tropic", kind="graticule", text="Tropic of Cancer", view="ea2x", cx=907, cy=464, w=100, h=14, italic=False),
+    # ---- the App's globe (z 3.12 camera-equivalent), boxes read off native-nosidebar.png @1x ----
+    dict(id="app-country-china", kind="app-country", text="CHINA", view="app2x", cx=405, cy=271, w=52, h=14, italic=False),
+    dict(id="app-country-mongolia", kind="app-country", text="MONGOLIA", view="app2x", cx=437, cy=125, w=68, h=13, italic=False),
+    dict(id="app-country-kyrgyzstan", kind="app-country", text="KYRGYZSTAN", view="app2x", cx=220, cy=132, w=78, h=13, italic=False),
+    dict(id="app-country-north", kind="app-country", text="NORTH", view="app2x", cx=657, cy=222, w=40, h=11, italic=False),
+    dict(id="app-capital-tokyo", kind="app-capital", text="Tokyo", view="app2x", cx=838, cy=284, w=42, h=13, italic=False),
+    dict(id="app-city-seoul", kind="app-city", text="Seoul", view="app2x", cx=687, cy=272, w=30, h=13, italic=False),
+    dict(id="app-city-busan", kind="app-city", text="Busan", view="app2x", cx=712, cy=304, w=30, h=12, italic=False),
+    dict(id="app-city-fukuoka", kind="app-city", text="Fukuoka", view="app2x", cx=681, cy=322, w=40, h=12, italic=False),
+    dict(id="app-city-qingdao", kind="app-city", text="Qingdao", view="app2x", cx=613, cy=292, w=40, h=12, italic=False),
+    dict(id="app-sea-philippine-l1", kind="app-sea", text="Philippine", view="app2x", cx=783, cy=489, w=72, h=14, italic=True),
+    dict(id="app-sea-philippine-l2", kind="app-sea", text="Sea", view="app2x", cx=783, cy=502, w=30, h=13, italic=True),
+    dict(id="app-deep-ramapo", kind="app-deep", text="Ramapo Deep", view="app2x", cx=887, cy=346, w=68, h=12, italic=False),
+    dict(id="app-graticule-tropic", kind="app-graticule", text="Tropic of Cancer", view="app2x", cx=773, cy=462, w=92, h=12, italic=False),
 ]
 
 
@@ -83,8 +100,15 @@ def log(*a):
 
 def load_view(vid):
     png, meta = VIEWS[vid]
-    p = os.path.join(RENDERS, png)
-    m = json.load(open(os.path.join(RENDERS, meta)))["render"]
+    if meta is None:   # App screenshot, no render json: describe it here
+        p = png
+        m = {"scale": 2, "center": [30.14, 124.45], "span": "camera: lat0 30.14 lng0 124.45 D 2.894 (palette-shelf.json)",
+             "rendered_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(os.stat(p).st_mtime)),
+             "tool": "Maps App (macOS 27) globe view screenshot, maps://?ll=30,125&spn=50,60, sidebar closed"}
+        png = os.path.basename(p)
+    else:
+        p = os.path.join(RENDERS, png)
+        m = json.load(open(os.path.join(RENDERS, meta)))["render"]
     img = np.asarray(Image.open(p).convert("RGB")).astype(float)
     return img, m, png
 

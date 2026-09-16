@@ -240,6 +240,80 @@ def globe_palette():
     }
 
 
+def build_graticule():
+    """Tropics and equator as dashed lines + their labels. Label anchors are where the App put them,
+    unprojected through the fitted cameras: 'Tropic of Cancer' at (23.35, 135.2) on native-nosidebar.png
+    (pixel 773,462 @1x), 'Equator' at (4.35, 64.9) on native.png (pixel 105,540 @1x; the label sits a
+    little above the line). 'Tropic of Capricorn' was not in any screenshot: same longitude by symmetry."""
+    def line(lat):
+        return {"type": "Feature", "properties": {"lat": lat}, "geometry": {"type": "LineString",
+                "coordinates": [[lng, lat] for lng in range(-180, 181, 2)]}}
+    feats = [line(23.4366), line(0.0), line(-23.4366)]
+    labels = [("Tropic of Cancer", 23.4366, 135.2, "native-nosidebar.png px 773,462 @1x through camera lat0 30.14 lng0 124.45"),
+              ("Equator", 0.0, 64.9, "native.png px 105,540 @1x through camera lat0 30.18 lng0 116.15"),
+              ("Tropic of Capricorn", -23.4366, 135.2, "not observed; longitude of Tropic of Cancer by symmetry")]
+    for name, lat, lng, src in labels:
+        feats.append({"type": "Feature", "properties": {"kind": "graticule", "name": name, "min_label": 2.0, "max_label": 8.0, "rank": 0, "anchor_source": src},
+                      "geometry": {"type": "Point", "coordinates": [lng, lat]}})
+    json.dump({"type": "FeatureCollection", "features": feats}, open(os.path.join(OUT, "graticule.geojson"), "w"), separators=(",", ":"))
+
+
+def app_labels_meta():
+    """Label styles measured on the App's globe screenshot (labels-globe.json kinds app-*)."""
+    lg = json.load(open(os.path.join(ROOT, "ui", "basemap", "labels-globe.json")))["summary_by_kind"]
+    out = {}
+    for k, v in lg.items():
+        if not k.startswith("app-"):
+            continue
+        out[k[4:]] = {"weight": v["weight_consensus"], "size_pt": v["size_pt_median"], "tracking_pt": v["tracking_pt_median"],
+                      "italic": v["italic"], "case": v["case"], "colour": v["glyph_hex_median"],
+                      "halo": ("#%02x%02x%02x" % tuple(v["halo_rgb_median"])) if v["halo_rgb_median"] else None,
+                      "halo_width_px_2x": v["halo_width_px_median"], "n": v["n"]}
+    # the only clean city halo measurement is Tokyo's (white, 1.47 px @2x); Busan's came out land-green
+    # (#e1f0d5, the background leaking into a thin halo), so cities take the capital's halo
+    if "city" in out and "capital" in out:
+        out["city"]["halo"], out["city"]["halo_width_px_2x"] = out["capital"]["halo"], out["capital"]["halo_width_px_2x"]
+        out["city"]["halo_note"] = "taken from the capital (Tokyo) measurement; Busan's own halo read land-green"
+    # dashed graticule line: darkest dash pixels near the 'Tropic of Cancer' label on native-nosidebar.png
+    # rows 930-938 x 1400-1520 @2x -> rgb(107,128,152); dash/gap ~3 pt read off the 4x crop
+    out["graticule_line"] = {"colour": "#6b8098", "width_pt": 1, "dash_pt": [3, 3],
+                             "source": "native-nosidebar.png darkest dash pixels rows 930-938, x 1400-1520 (2x)"}
+    # city marker: white disc in a dark ring, 7 px @2x (Tokyo, native.png 1786-1802 x 530-544)
+    out["city_marker"] = {"diameter_pt": 3.5, "ring_pt": 1, "ring_colour": "#5c5c5c", "fill": "#ffffff", "gap_to_text_pt": 4,
+                          "source": "native.png Tokyo marker luminance print (ring 92, core 254), 2026-09-16"}
+    # country label size curve: Country-Label-Medium-Base labelInfo.height by zoom (globe-key-numbers.tsv),
+    # used as a relative curve anchored on the measured size at z 3.12
+    out["country_size_curve"] = {"zoom": [3, 4, 5, 6, 7], "height": [9.5, 11.5, 14, 15, 16], "anchor_zoom": 3.12,
+                                 "source": "basemap/data/styl/globe-key-numbers.tsv Country-Label-Medium-Base 172:labelInfo.height"}
+    return out
+
+
+def shading_meta():
+    p = os.path.join(ROOT, "ui", "basemap", "shading-globe.json")
+    if not os.path.exists(p):
+        return None
+    s = json.load(open(p))
+    return {"source": "ui/basemap/shading-globe.json (pipeline/basemap/shading.py on native-nosidebar.png)",
+            "a": s["a"], "b": s["b"], "L": s["L"], "centre_factor": s["centre_factor"], "r2": s["r2"], "n": s["n_samples"]}
+
+
+def haze_meta():
+    """Inner limb haze stops for drawLimb(): only the bins where the fit is meaningful (alpha >= 0.1,
+    haze colour inside 0..255); inner bins carry alpha ~0.03-0.08 with nonsense colours = no haze."""
+    p = os.path.join(ROOT, "ui", "basemap", "haze-globe.json")
+    if not os.path.exists(p):
+        return None
+    h = json.load(open(p))
+    stops = []
+    for b in h["bins"]:
+        if b["alpha"] >= 0.1 and b["haze_rgb"] and all(0 <= v <= 255 for v in b["haze_rgb"]):
+            stops.append({"r": round((b["r_min"] + b["r_max"]) / 2, 4), "rgb": b["haze_rgb"], "alpha": b["alpha"], "n": b["n"]})
+    if not stops:
+        return None
+    return {"source": "ui/basemap/haze-globe.json (pipeline/basemap/haze.py on native-limb-land-light.png)",
+            "starts_at_r": round(stops[0]["r"] - 0.03, 3), "stops": stops}
+
+
 def shelf_meta():
     p = os.path.join(ROOT, "ui", "basemap", "palette-shelf.json")
     if not os.path.exists(p):
@@ -263,6 +337,7 @@ def main():
     v_land = build_land()
     climate = build_climate(tints)
     v_labels = build_labels()
+    build_graticule()
     meta = {
         "generated_by": "pipeline/basemap/globe-data.py",
         "sources": {
@@ -289,6 +364,9 @@ def main():
         # light only (the screenshot is light); 'centre' = r/limb <= 0.5, least hazed
         "globe_palette": globe_palette(),
         "shelf": shelf_meta(),
+        "haze": haze_meta(),
+        "shading": shading_meta(),
+        "labels_app": app_labels_meta(),
         "climate_image": climate,
         "hillshade": {
             "illumination_direction_deg": land["hillshade"]["probe_japan_alps"]["fit"]["azimuth_deg"],

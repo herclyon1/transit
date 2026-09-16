@@ -436,6 +436,189 @@
    }
   ]
  },
+ "haze": {
+  "source": "ui/basemap/haze-globe.json (pipeline/basemap/haze.py on native-limb-land-light.png)",
+  "starts_at_r": 0.895,
+  "stops": [
+   {
+    "r": 0.925,
+    "rgb": [
+     72,
+     79,
+     132
+    ],
+    "alpha": 0.185,
+    "n": 8544
+   },
+   {
+    "r": 0.95,
+    "rgb": [
+     113,
+     122,
+     146
+    ],
+    "alpha": 0.324,
+    "n": 4766
+   },
+   {
+    "r": 0.9675,
+    "rgb": [
+     130,
+     144,
+     164
+    ],
+    "alpha": 0.485,
+    "n": 3288
+   },
+   {
+    "r": 0.98,
+    "rgb": [
+     139,
+     157,
+     178
+    ],
+    "alpha": 0.666,
+    "n": 2022
+   },
+   {
+    "r": 0.99,
+    "rgb": [
+     148,
+     163,
+     182
+    ],
+    "alpha": 0.944,
+    "n": 1771
+   },
+   {
+    "r": 0.9975,
+    "rgb": [
+     124,
+     145,
+     173
+    ],
+    "alpha": 0.923,
+    "n": 846
+   }
+  ]
+ },
+ "shading": {
+  "source": "ui/basemap/shading-globe.json (pipeline/basemap/shading.py on native-nosidebar.png)",
+  "a": 0.7526,
+  "b": 0.3167,
+  "L": [
+   -0.4361,
+   -0.251,
+   0.8642
+  ],
+  "centre_factor": 1.0263,
+  "r2": 0.854,
+  "n": 100714
+ },
+ "labels_app": {
+  "country": {
+   "weight": "black",
+   "size_pt": 10.53,
+   "tracking_pt": -0.11,
+   "italic": false,
+   "case": "upper",
+   "colour": "#c0a0b5",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 4
+  },
+  "capital": {
+   "weight": "heavy",
+   "size_pt": 11.66,
+   "tracking_pt": -0.87,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#505c73",
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47,
+   "n": 1
+  },
+  "city": {
+   "weight": "semibold",
+   "size_pt": 11.36,
+   "tracking_pt": -0.51,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#9f9c98",
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47,
+   "n": 4,
+   "halo_note": "taken from the capital (Tokyo) measurement; Busan's own halo read land-green"
+  },
+  "sea": {
+   "weight": "semibold",
+   "size_pt": 11.03,
+   "tracking_pt": 1.11,
+   "italic": true,
+   "case": "mixed",
+   "colour": "#5189bd",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 2
+  },
+  "deep": {
+   "weight": "semibold",
+   "size_pt": 10.11,
+   "tracking_pt": 0.18,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#476ba8",
+   "halo": null,
+   "halo_width_px_2x": null,
+   "n": 1
+  },
+  "graticule": {
+   "weight": "regular",
+   "size_pt": 11.0,
+   "tracking_pt": 0.3,
+   "italic": false,
+   "case": "mixed",
+   "colour": "#708ca6",
+   "halo": "#a7d1ef",
+   "halo_width_px_2x": 1.05,
+   "n": 1
+  },
+  "graticule_line": {
+   "colour": "#6b8098",
+   "width_pt": 1,
+   "dash_pt": [
+    3,
+    3
+   ],
+   "source": "native-nosidebar.png darkest dash pixels rows 930-938, x 1400-1520 (2x)"
+  },
+  "city_marker": {
+   "diameter_pt": 3.5,
+   "ring_pt": 1,
+   "ring_colour": "#5c5c5c",
+   "fill": "#ffffff",
+   "gap_to_text_pt": 4,
+   "source": "native.png Tokyo marker luminance print (ring 92, core 254), 2026-09-16"
+  },
+  "country_size_curve": {
+   "zoom": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "height": [
+    9.5,
+    11.5,
+    14,
+    15,
+    16
+   ],
+   "anchor_zoom": 3.12,
+   "source": "basemap/data/styl/globe-key-numbers.tsv Country-Label-Medium-Base 172:labelInfo.height"
+  }
+ },
  "climate_image": {
   "size_px": 4096,
   "bounds": [
@@ -562,6 +745,72 @@
    "dark": "#7e94c7",
    "halo": "#69a3e3",
    "halo_width_px_2x": 1.75
+  },
+  "app-country": {
+   "weight": "black",
+   "size_pt": 10.53,
+   "tracking_pt": -0.11,
+   "italic": false,
+   "case": "upper",
+   "light": "#c0a0b5",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-capital": {
+   "weight": "heavy",
+   "size_pt": 11.66,
+   "tracking_pt": -0.87,
+   "italic": false,
+   "case": "mixed",
+   "light": "#505c73",
+   "dark": null,
+   "halo": "#ffffff",
+   "halo_width_px_2x": 1.47
+  },
+  "app-city": {
+   "weight": "semibold",
+   "size_pt": 11.36,
+   "tracking_pt": -0.51,
+   "italic": false,
+   "case": "mixed",
+   "light": "#9f9c98",
+   "dark": null,
+   "halo": "#e1f0d5",
+   "halo_width_px_2x": 2.54
+  },
+  "app-sea": {
+   "weight": "semibold",
+   "size_pt": 11.03,
+   "tracking_pt": 1.11,
+   "italic": true,
+   "case": "mixed",
+   "light": "#5189bd",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-deep": {
+   "weight": "semibold",
+   "size_pt": 10.11,
+   "tracking_pt": 0.18,
+   "italic": false,
+   "case": "mixed",
+   "light": "#476ba8",
+   "dark": null,
+   "halo": null,
+   "halo_width_px_2x": null
+  },
+  "app-graticule": {
+   "weight": "regular",
+   "size_pt": 11.0,
+   "tracking_pt": 0.3,
+   "italic": false,
+   "case": "mixed",
+   "light": "#708ca6",
+   "dark": null,
+   "halo": "#a7d1ef",
+   "halo_width_px_2x": 1.05
   }
  },
  "ocean_sizes_pt": {
