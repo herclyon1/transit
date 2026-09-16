@@ -331,7 +331,10 @@ class Gen:
             if lid == 'road-motorway':
                 out = self.lowzoom_expressway(out, base, layout)
             if kind == 'rail' and out:
-                out[-1]['layout'] = {'line-join': 'round'}
+                # rail lines: butt caps on both core and casing — a dashed casing with round caps grows a blue dot beyond
+                # every core dash (v6.1: that is what made the shinkansen read as heavy blue dashes at Apple z6-8)
+                for l in out:
+                    l['layout'] = {'line-join': 'round', 'line-cap': 'butt'}
                 if lid == 'rail':
                     for l in out:
                         l.setdefault('minzoom', 6.0)      # N02 has every branch line; Maps hides surface rail below Apple z7
