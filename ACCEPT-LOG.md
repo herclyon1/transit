@@ -401,3 +401,7 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 **记下**：① 中间调（海面）Δ58：玻璃 Face 矩阵仿射读法在中间调不成立，已转数据会话核 glassBackground 合成顺序；② 侧栏边缘 Δ41：疑为 bleed（边缘吸色）CSS 做不了，等数据会话结论；③ 暗弧边缘偏硬。
 **结论**：放行合并（Mac）。iPhone 材质走 CoreMaterial 配方 §2，另单。
 
+## 2026-09-16 19:33　验收 ui c2950d3（iPhone 材质：Sheet 走 CoreMaterial platformContent 配方，钮/搜索走 Liquid Glass §4）　验收人：transit 验收（Fable）
+
+合并无冲突；hig.css §20 每条注 MATERIALS/NUMBERS 行。Sheet 的亮度重映射（luminance map）算法未解，白度暂用 Kit 填充顶着并注明待替换——符合规矩（写明采样/替代）。未在模拟器跑全量 kit-audit（它按规矩先问）。**放行合并**；批准它现在用模拟器跑 `kit-audit --phone` 并做 iOS 端同坐标材质采样：参照用模拟器里的 Apple Maps（iOS 27），同状态截图后对比。
+
