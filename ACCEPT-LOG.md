@@ -420,3 +420,11 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 来源：QuartzCore default.metallib（fat 21 片，第 0 片 AIR，fat_metallib.py 拆）glass_background_*_lpf + 共享缓存 CA::OGL::GlassBackgroundFilter::render / CA::ColorMatrix::set_ycc_composite，MATERIALS.md §5 已记路径。§3 各材质 CSS 折算数与 CA 树差 ≤1/255（headless Chrome 实测）。
 未闭合：MaxLuma（regular 暗 0.35 / sidebar 亮 0.85 / search 暗 0.6）无 CSS 形式，用 brightness(1−(1−L)·Ȳ) 近似，只在 Ȳ 处精确——文档已标明，属近似不属采样。
 **结论**：放行合并。
+
+## 2026-09-16 21:12　自查：一致程度不够，功能线搁置　验收人：transit 验收（Fable）
+
+用户质问后我用 main 87ce6b6 重跑五个标准视野并逐张看并排图（scratchpad/acc87/cmp-*-side.png）。指标（>40）球 3.74%、大阪亮 7.27%/暗 8.07%、日本亮 8.02%/暗 7.72%，但阈值 20 大阪暗 18.02%、日本暗 13.92%。并排图的实际差距：
+- 球：App 陆地有地形起伏（高原灰白、沙漠棕），我们平涂粉彩（z<4.6 采样替代项）；App 标注≈60（城市+海名+海沟深点+沙漠山脉散字），我们≈35 且无物理地名；海沟虚线+名字缺；陆架发白发糊。
+- 大阪 z12：**语言错**（系统英文，App 全英文，我们全日文）；国道盾牌/车站/POI/铁路线名图标全缺；区名 App 大写拉丁+街区名，我们只有汉字区名；暗色我们道路亮灰偏粗，App 深灰细线，公园绿过饱和。
+- 日本 z6：语言同上；地形阴影/森林纹理几乎没有；海沟散字缺。
+**验收错误**：此前只看指标过关就放行，没按 WORKFLOW「逐元素写差异」执行。改法：指标改为阈值 20 并列阈值 40；放行必附逐元素清单（语言、标注数、图标、地形、暗色道路）；任一项未闭合不放行。功能线暂停，清单已派两会话。
