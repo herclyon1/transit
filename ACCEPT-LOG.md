@@ -471,3 +471,7 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 纠正：之前文档「154 = 地类索引」错，实为气候码（153 温度 / 154 降水）。
 未闭合：Mac 球粉彩来源追到 DvMt 材质资源（tileset 60，client:69=2 Elevated 分支），位打包格式未解——现在 ground-globe 用表色（= iOS 观感），文档标明；数据会话排在单 3 之前解。
 **结论**：放行合并。界面会话接线：z<4.6 用 ground-globe 栅格替换 palette-globe/climate-globe，山影用 height-globe 配 groundElevationScale(z)。
+
+## 2026-09-16 22:22　验收 ui-english 82a0ac3（壳文字英文）　验收人：transit 验收（Fable）
+
+先看（scratchpad/acceng/sidebar.png）：搜索框、Cities/Recents 行、骨架说明、Index › 全英文；index.html/shell.js 无汉字残留。挑到 main 之上另开分支，不含暂扣的 bf8559a。**结论**：放行合并。
