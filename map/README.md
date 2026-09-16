@@ -220,13 +220,27 @@ python3 pipeline/basemap/palette.py / labels.py / globefit.py / shading.py / haz
 * Flat style items for the data session: the expressway width below Apple z8 is resolved in v6 (RENDER-PIPELINE 7.15); prefecture borders
   magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6 — the App's "thin grey lines" there are Ground-class valley floors
   (sampled: rgb(239,240,228) = Ground × light), not lines; shinkansen drawn at z 5 where the App shows none; labels in name:ja vs the App's English.
-* Dark Osaka roads (acceptance 2026-09-16 late, "lighter and thicker"): the colours and widths are the `Line-*.Dark-JPN-Elevated` rows at
-  Apple z13.2 exactly — at our motorway pixels the App's brightest quartile is `#899fc4`, our fill; primary `#7689a3` vs `#788499`; ground
-  `#37485d` in both. What differs is data: OSM dual-carriageway expressways are two ways, drawn as two 3.75 px lines (a row profile shows
-  8 px of fill where the App has one 5 px line), and OSM `minor` (residential) is far denser than Apple's local-road class at Apple z13 —
-  our render has 337 k road-ish pixels against the App's 148 k (2.3×) with the same run-length distribution (median 2 px). Parks: App
-  `#316858` vs ours `#246259` (+13 R): the sheet fill `ParkPolygon.Elevated-Dark` rgb(0,100,96) is what we draw; the App's park carries a
-  texture on top. Nothing to change in the style; the fixes are data-side (merge dual carriageways, thin the residential set).
+* Dark Osaka roads (acceptance 2026-09-16 late, "lighter and thicker"; sent back once for minor/tertiary). Same-position check, every
+  road layer drawn at z 12.2 (App `snap-osaka12-dark.png` at our fill pixels, 1280×744):
+
+  | layer | sheet fill (`Line-*.Dark-JPN-Elevated`, Apple z13.2) | w | our px | App median | App mode | App p75 |
+  |---|---|---|---|---|---|---|
+  | road-motorway / kokudo | `#899fc4` (137,159,196) | 3.75 | 29 958 | `#798ba5` | **`#899fc4`** | `#899fc4` |
+  | road-primary / trunk / secondary | `#788499` (120,132,153) | 3.25 | 40 728 | `#606e82` | **`#798ba3`** | `#7789a3` |
+  | road-tertiary | `#536072` (83,96,114) | 2.5 | 70 821 | `#445163` | `#465264` | `#495569` |
+  | road-minor | `#4d5b6d` (77,91,109) | 1.5 | 111 213 | `#3d4a5c` | `#3c495b` | `#414e61` |
+  | ground | `Landcover-Ground.Dark-Elevated` `#37485d` | | | `#37485d` (image mode) | | |
+
+  The wide classes reproduce the sheet exactly (the App's mode at our pixels *is* our fill; medians are pulled down by our two
+  dual-carriageway lines and edge pixels). For tertiary / minor the App never reaches the fill colour: cross-sections at our minor pixels
+  show the App at ground `#37485d` with at most a `#465264` lift 1–2 px away, and the 200×120 crop of downtown
+  (`raw/score/dark-crop.png`) shows why — the App's streets there are **gaps between `CommercialPolygon.Elevated-Dark` blocks
+  (rgb(72,74,115))**, i.e. 1.5 px `#4d5b6d` lines antialiased against purple and ground read as the darker `#3c495b`; in light mode the
+  same streets are white lines on peach blocks (`raw/score/light-crop.png`), which we match. OSM has 28 commercial + 53 retail + 6
+  residential landuse polygons in these tiles against Apple's block-by-block coverage, and OpenFreeMap's `transportation` carries no
+  `subclass` at z12 (14 113 `undefined`), so residential cannot be separated from unclassified either. Colours and widths stay the sheet's;
+  the difference is data (block polygons, dual carriageways, residential density) plus the rasteriser (MapLibre keeps a 1.5 px line at
+  full fill colour, Apple's reads ~60 % coverage).
 * Load order the user sees: the ocean ramp and hill-shade wait for the terrarium DEM tiles (network); until they arrive the flat water colour
   shows (within 6/255 of the ramp's coast colour). On the GPU headless everything is up ~5 s after the page's own JS (ground rasters 0.2 s,
   land 1 s, DEM 5 s); the acceptance's software-GL (swiftshader) run needed ~30 s because the 3200×3456 raster and every tile upload are

@@ -12,7 +12,8 @@
     'osaka-station': { title: '大阪駅', sub: '大阪市北区 · 占位' }, 'tokyo-station': { title: '東京駅', sub: '千代田区 · 占位' },
   };
 
-  // &ui=0 hides the shell (basemap-only comparisons against App snapshots)
+  // &ui=0 hides the shell (basemap-only comparisons against App snapshots); index.html sets html.noui in the head
+  // before first paint and on hashchange — this is only the fallback
   if (extras().get('ui') === '0') document.documentElement.classList.add('noui');
   waitGlobe().then(G => { try {
     const app = HIGShell.create({ map: false, sheetEl: $('sheet'), listEl: $('list'), cardEl: $('card'), initial: 'medium',
