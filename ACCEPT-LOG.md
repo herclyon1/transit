@@ -317,3 +317,11 @@ Mac 1280×744，shotm 真实时间等 16 s，`#3.12/30.14/124.45&m=cost&sel=osak
 **控件→配方**（§1/§3/§4）：侧栏 = 玻璃侧栏参数集；Map Modes = NSPopover → NSGlassEffectView 弹窗参数集；右列钮 = UIGlassEffect regular/clear；搜索框 = UISearchBar 玻璃（bleed 12.6、blurOpacity 0.4）；地点卡 = UISheetPresentationController + MUBlurView（blurStyle 常量未抓到，五个候选形态列出）。示例：sidebar 亮 = blur 30 saturate 2.2 + rgba(246,246,246,.84) + #e9e9e9 darken + 5% 变色层。
 **结论**：放行合并。界面会话按 §3/§4 写 CSS（可换：blur/saturate/mix-blend/白填/rim；不可换：bleed、折射、MaxLuma、变色层），采样只核对。
 
+## 2026-09-16 17:54　验收 data 8a50dc3（RENDER-PIPELINE.md 第一部分：球）　验收人：transit 验收（Fable）
+
+**看**：§1 一张总表（数据源→渲染层→着色器）、§2 球逐元素九节（太空/星、外缘光晕、海、陆地基色、光照与气候染色、极地帽、海岸线/边界/经纬网、标注、暗色），每节三行：Apple data / decides / ours，来源用 [air]/[zip]/[styl]/[uniform]/[geo] 标记；§3 答水面/陆地各走什么；§6 采样值逐项判定。
+**独立核**：stars.bin 120 000 字节 = 10 000 × 3 float，亮度 14.08→10.02 降序，与文档一致；外缘光晕 150 km / 6356.75 km = 2.36% × 578 px = 13.6 px，与界面会话早前量到的 14 px 外晕独立吻合；tilesets.tsv 65 行、vmp4-chapters.tsv 130 行在仓库。
+**关键事实**：标准球走 DaVinciGroundGlobe 地面着色器（SHADER-NUMBERS §1 已纠正）；标准图没有山影栅格，陆地起伏是被光照的几何，水面法线为平/球面——海上无山影从源头确认；星表是 VectorKit 内嵌 zip 里的 stars.bin，星密度不再采样。
+**待解（§6）**：球瓦片 needsAtmosphere 项（MKMapView 进不了球，需反编译 PrepareStyleConstantDataHandleForGlobeTiles）；经纬网虚线样式；苹果自家栅格按决定不解。
+**结论**：放行合并。第二部分（平面）继续。
+
