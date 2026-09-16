@@ -1,5 +1,12 @@
 # Basemap numbers measured off Apple's renderer
 
+**Status 2026-09-16 evening:** the decoded originals (SHADER-NUMBERS.md, RENDER-PIPELINE.md, the `.styl` sheets) now drive
+`map/globe.js`; the sampled files below are *verification* only, except where no decoded source exists yet
+(the globe's pastel palette below z 4.6, the globe label typography — `map/meta-ui.json → pending`). Two decoded files
+live here too: `ground.json` (`pipeline/basemap/ground.py`: Landcover sheet colours, groundSettings HSV cells,
+Köppen → climate codes, MODIS IGBP → Apple classes, raster bounds) and `geolines.json` (`pipeline/basemap/geolines.py`:
+Geolines-Tropics/Equator/Polar styles).
+
 Apple's map style sheets (`.styl`) are compiled binaries, but Apple's renderer
 runs locally (`MKMapSnapshotter` / `MKMapView`, VectorKit). These files treat
 it as a measuring instrument: render, sample pixels at coordinates whose

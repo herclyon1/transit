@@ -13,11 +13,12 @@ Inputs (pipeline/basemap/raw/, gitignored; downloaded by palette.py / by hand):
 Outputs (map/data/, committed — all sources are public domain / CC-BY):
     bathy-<depth>.geojson    one MultiPolygon per depth level (parallel load), DP 0.02/0.04 deg, 3/2 decimals
     land.geojson             land MultiPolygon, same simplification
-    climate-light.png, climate-dark.png   Web-Mercator raster of land tint (palette-land.json),
-                             Koppen class -> tint by the majority mapping fitted on palette.py's samples,
-                             masked to Natural Earth land, ocean transparent
+    climate-globe.png        Web-Mercator raster of the App-globe land tints (palette-globe.json, SAMPLED, pending:
+                             the globe texture path is not decoded); the flat-band land colour rasters
+                             (ground-*.png) come from pipeline/basemap/ground.py (decoded sheet colours)
     labels.geojson           points: continents, countries, oceans/seas with NE zoom ranges
     meta.json                colours + sources + numbers used by map/globe.js
+    --meta                   rewrite meta.json / meta-ui.json / graticule.geojson only (no NE rebuild)
 """
 import json
 import math
@@ -139,10 +140,14 @@ def build_climate(tints):
             ImageDraw.Draw(im).polygon(list(zip((x - x0).tolist(), (y - y0).tolist())), fill=1)
             land[y0:y1, x0:x1] ^= np.asarray(im, dtype=np.uint8)
     gp = globe_palette()
-    modes = {"light": {t: v["light"] for t, v in tints.items()}, "dark": {t: v["dark"] for t, v in tints.items()}}
+    # only the App-globe tints (SAMPLED, pending): the light/dark flat-band rasters are ground.py's now
+    modes = {}
     if gp:
         # the App's globe land tints (light only); tints the screenshot did not contain fall back to the flat palette
         modes["globe"] = {t: [int(gp["land_tints"].get(t, tints[t]["light_hex"])[i:i + 2], 16) for i in (1, 3, 5)] for t in tints}
+    for old in ("climate-light.png", "climate-dark.png"):
+        if os.path.exists(os.path.join(OUT, old)):
+            os.remove(os.path.join(OUT, old))
     for mode, tint_rgb in modes.items():
         rgba = np.zeros((N, N, 4), dtype=np.uint8)
         for k in range(1, 31):
@@ -245,10 +250,11 @@ def build_graticule():
     unprojected through the fitted cameras: 'Tropic of Cancer' at (23.35, 135.2) on native-nosidebar.png
     (pixel 773,462 @1x), 'Equator' at (4.35, 64.9) on native.png (pixel 105,540 @1x; the label sits a
     little above the line). 'Tropic of Capricorn' was not in any screenshot: same longitude by symmetry."""
-    def line(lat):
-        return {"type": "Feature", "properties": {"lat": lat}, "geometry": {"type": "LineString",
+    def line(lat, kind):
+        # kind -> Geolines-{Tropics,Equator,Polar} (ui/basemap/geolines.json); equator solid, others dashed
+        return {"type": "Feature", "properties": {"lat": lat, "kind": kind}, "geometry": {"type": "LineString",
                 "coordinates": [[lng, lat] for lng in range(-180, 181, 2)]}}
-    feats = [line(23.4366), line(0.0), line(-23.4366)]
+    feats = [line(23.4366, "tropics"), line(0.0, "equator"), line(-23.4366, "tropics"), line(66.5634, "polar"), line(-66.5634, "polar")]
     labels = [("Tropic of Cancer", 23.4366, 135.2, "native-nosidebar.png px 773,462 @1x through camera lat0 30.14 lng0 124.45"),
               ("Equator", 0.0, 64.9, "native.png px 105,540 @1x through camera lat0 30.18 lng0 116.15"),
               ("Tropic of Capricorn", -23.4366, 135.2, "not observed; longitude of Tropic of Cancer by symmetry")]
@@ -294,6 +300,7 @@ def shading_meta():
         return None
     s = json.load(open(p))
     return {"source": "ui/basemap/shading-globe.json (pipeline/basemap/shading.py on native-nosidebar.png)",
+            "status": "replaced by the shader formula in map/globe-light.js (SHADER-NUMBERS 4.1); kept as the verification fit",
             "a": s["a"], "b": s["b"], "L": s["L"], "centre_factor": s["centre_factor"], "r2": s["r2"], "n": s["n_samples"]}
 
 
@@ -311,6 +318,7 @@ def haze_meta():
     if not stops:
         return None
     return {"source": "ui/basemap/haze-globe.json (pipeline/basemap/haze.py on native-limb-land-light.png)",
+            "status": "not drawn any more (RENDER-PIPELINE 6: the inner darkening is the n.L term + rim; kept as verification data)",
             "starts_at_r": round(stops[0]["r"] - 0.03, 3), "stops": stops}
 
 
@@ -325,6 +333,7 @@ def shelf_meta():
 
 
 def main():
+    meta_only = "--meta" in sys.argv
     ocean = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-ocean.json")))
     land = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-land.json")))
     labels = json.load(open(os.path.join(ROOT, "ui", "basemap", "labels-globe.json")))
@@ -333,10 +342,22 @@ def main():
         base = t["by_shading"].get("flat") or t["by_shading"].get("lit")
         tints[t["tint"]] = {"light": base["light"]["rgb"], "dark": base["dark"]["rgb"],
                             "light_hex": base["light"]["hex"], "dark_hex": base["dark"]["hex"], "n": base["light"]["n"]}
-    v_bathy = build_bathy()
-    v_land = build_land()
-    climate = build_climate(tints)
-    v_labels = build_labels()
+    if meta_only:
+        prev_ui = json.load(open(os.path.join(ROOT, "map", "meta-ui.json")))
+        prev_meta = json.load(open(os.path.join(OUT, "meta.json")))
+        v_bathy = prev_meta["sources"]["bathymetry"]["name"].split("v")[-1]
+        v_land = prev_meta["sources"]["land"]["name"].split("v")[-1]
+        climate = prev_ui["climate_image"]
+        v_labels = {"regions": "5.1.1", "countries": "5.1.1", "marine": "5.1.1"}
+        import re
+        m_ = re.findall(r"v([\d.]+)", prev_meta["sources"]["labels"]["name"])
+        if len(m_) >= 3:
+            v_labels = {"countries": m_[0], "marine": m_[1], "regions": m_[2]}
+    else:
+        v_bathy = build_bathy()
+        v_land = build_land()
+        climate = build_climate(tints)
+        v_labels = build_labels()
     build_graticule()
     # Two files (2026-09-16, acceptance session): map/data/meta.json = data sources only, shared with the
     # data session (physical/undersea/cities land there too) -> update only our own keys, keep the rest;
@@ -361,10 +382,14 @@ def main():
         "climate": {"name": "Beck et al. 2023, High-resolution (1 km) Koppen-Geiger maps for 1901-2099, 1991-2020 present-day map, 0.1 deg",
                     "url": "https://figshare.com/articles/dataset/21789074 (koppen_geiger_tif.zip, 1991_2020/koppen_geiger_0p1.tif)",
                     "license": "CC BY 4.0", "koppen_to_tint": {str(k): v for k, v in KOPPEN_TINT.items()}, "default_tint": DEFAULT_TINT,
-                    "mapping_basis": "majority vote of palette.py's 705 land samples per Koppen class (see globe-data.py header)"},
+                    "mapping_basis": "climate-globe.png (globe, sampled tints): majority vote of palette.py's 705 land samples per Koppen class; ground-*.png (flat band): Koppen -> temperature/aridity codes, ui/basemap/ground.json koppen_climate"},
+        "landcover": {"name": "NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual (MCD12Q1 IGBP, 500 m), East Asia box lat 0-60 lng 90-160 at WMTS z7",
+                      "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual/default/2024-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png",
+                      "license": "NASA open data (no login)", "generator": "pipeline/basemap/ground.py", "class_mapping": "ui/basemap/ground.json igbp_to_apple, map/README.md"},
         "hillshade": {"name": "AWS Terrain Tiles, terrarium encoding", "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"},
         "colours": "map/meta-ui.json (ui/basemap/palette-*.json, labels-globe.json, haze/shading-globe.json)",
-        "graticule": {"name": "tropics 23.4366 deg and equator, label anchors from the App screenshots", "file": "graticule.geojson", "generator": "pipeline/basemap/globe-data.py"},
+        "graticule": {"name": "tropics 23.4366, equator, polar circles 66.5634 deg; label anchors from the App screenshots", "file": "graticule.geojson", "generator": "pipeline/basemap/globe-data.py",
+                      "style": "ui/basemap/geolines.json (default-56689.styl Geolines-*, pipeline/basemap/geolines.py)"},
     })
     meta["simplification"] = {"douglas_peucker_deg": TOL, "min_ring_area_deg2": MIN_AREA, "decimals": DECIMALS}
     json.dump(meta, open(meta_path, "w"), indent=1, ensure_ascii=False)
@@ -381,13 +406,26 @@ def main():
         "shading": shading_meta(),
         "labels_app": app_labels_meta(),
         "climate_image": climate,
+        # decoded inputs (2026-09-16 evening): land colour rasters, tropics/equator/polar styles, star catalogue
+        "ground": json.load(open(os.path.join(ROOT, "ui", "basemap", "ground.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "ground.json")) else None,
+        "geolines": json.load(open(os.path.join(ROOT, "ui", "basemap", "geolines.json"))) if os.path.exists(os.path.join(ROOT, "ui", "basemap", "geolines.json")) else None,
+        "stars": {"file": "../basemap/data/globe/stars.bin", "format": "basemap/data/globe/stars-format.md (10000 x float32[3]: angle 0-2pi, angle +-1.54, brightness 14.08->10.02)",
+                  "source": "VectorKit embedded zip sky/stars.bin (RENDER-PIPELINE 2.1)"},
+        "shader": {"file": "../basemap/data/shader/shader-numbers.json", "doc": "SHADER-NUMBERS.md / RENDER-PIPELINE.md 2.2-2.5, 4",
+                   "used_for": ["light direction, light/ambient colours, irradiance cube (globe-light.js)", "water-depth ramp (color-relief layer)",
+                                "groundSettings HSV tints + groundElevationScale (ground.py, hillshadeAlpha)", "sky colours for the rim"]},
         "hillshade": {
-            "illumination_direction_deg": land["hillshade"]["probe_japan_alps"]["fit"]["azimuth_deg"],
-            "fit_r": land["hillshade"]["probe_japan_alps"]["fit"]["pearson_r"],
-            "ground_elevation_scale_by_zoom": land["ground_settings"]["day"]["groundElevationScale_by_zoom"],
-            "alps_probe_luma_amplitude": 14.3,
-            "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
+            "light": "azimuth 240 deg / altitude 65 deg from shader-numbers.json lighting (RENDER-PIPELINE 7.4)",
+            "strength": "hillshadeAlpha(z) in map/globe.js: alpha = (lightColor*cos(alt)/light(0,0,1)/2.2) * groundElevationScale(z+1) / (0.625 * 2^(0.3*(15-(z+1)))) — MapLibre 'standard' method, exaggeration 0.5",
+            "replaced": "illumination_direction_deg 260 (fitted) and exaggeration_by_zoom {3: 0.047, 5: 0.30, 9: 0.07} (calibrated) — removed 2026-09-16 evening",
             "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+        },
+        "pending": {
+            "what": "values still SAMPLED off App screenshots (used only below the PAL hand-over or where no decoded source exists)",
+            "globe_palette": "App-globe ocean bands / land tints (palette-globe.json): the standard globe runs the ground shader (RENDER-PIPELINE 2.3-2.5) but its pastel output is not reproduced by ramp x light (fog fit failed, map/README.md); used for z < 4.6 only",
+            "shelf": "0-200 m shelf raster colours (palette-shelf.json), z < 4.6 only",
+            "labels_app / labels": "label typography measured on App renders; the globe sheet rows (globe-key-numbers.tsv) are decoded but not yet wired to the DOM labels",
+            "background.stars": "star size 1.2 pt and grey levels: GlobeStars vertex point-size/alpha formula not decoded; positions/brightness order now from stars.bin",
         },
         "labels": {k: {"weight": v["weight_consensus"], "size_pt": v["size_pt_median"], "tracking_pt": v["tracking_pt_median"],
                        "italic": v["italic"], "case": v["case"], "light": v["glyph_hex_median"],
@@ -405,13 +443,7 @@ def main():
                        "limb_inner_haze_every_2px_2x": labels["background"]["limb_glow"]["profiles"][1]["inner_haze_rgb_every_2px_2x"],
                        "limb_source": "native.png row 800 (2x), Maps App globe screenshot"},
     }
-    # the exaggeration calibration (calibrate.py) lives in the old meta or the previous ui meta: keep it
     ui_path = os.path.join(ROOT, "map", "meta-ui.json")
-    prev = json.load(open(ui_path)) if os.path.exists(ui_path) else {}
-    old_h = (prev.get("hillshade") or {}) or (json.load(open(meta_path + ".bak")) if os.path.exists(meta_path + ".bak") else {}).get("hillshade", {})
-    for k in ("exaggeration_by_zoom", "calibration"):
-        if k in old_h:
-            ui_meta["hillshade"][k] = old_h[k]
     json.dump(ui_meta, open(ui_path, "w"), indent=1, ensure_ascii=False)
     for f in sorted(os.listdir(OUT)):
         log(f"{f:20s} {os.path.getsize(os.path.join(OUT, f)) / 1e6:6.2f} MB")

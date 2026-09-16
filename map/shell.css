@@ -26,3 +26,10 @@ html, body { background: #000; }
   /* rows: Kit Sidebars › Medium 32; detail Medium 13 secondary (PLAN-MAC-LOOK §0 #6) */
   .sheet .mrow .ico .sf { width: 16px; height: 16px; color: var(--ink-2); }
 }
+
+/* &ui=0: basemap only (acceptance compares the map against App snapshots without chrome) */
+html.noui .bar, html.noui .sheet, html.noui .maplibregl-ctrl-top-right { display: none !important; }
+
+/* Mac: Map Modes is a popover (styl-work/native-mapmodes.png, 2026-09-16) — no close button; it closes on an
+   outside click (map/shell.js). The iPhone sheet keeps its X. */
+@media (min-width: 900px) and (pointer: fine) { .sheet.opt #optClose { display: none; } }

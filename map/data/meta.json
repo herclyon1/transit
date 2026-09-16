@@ -35,7 +35,7 @@
     "30": "high_grey"
    },
    "default_tint": "humid",
-   "mapping_basis": "majority vote of palette.py's 705 land samples per Koppen class (see globe-data.py header)"
+   "mapping_basis": "climate-globe.png (globe, sampled tints): majority vote of palette.py's 705 land samples per Koppen class; ground-*.png (flat band): Koppen -> temperature/aridity codes, ui/basemap/ground.json koppen_climate"
   },
   "hillshade": {
    "name": "AWS Terrain Tiles, terrarium encoding",
@@ -112,9 +112,17 @@
    "note": "polygons -> largest-ring centroid point; islands/island groups/continents dropped; NE writes major feature names in capitals (NAME as delivered)"
   },
   "graticule": {
-   "name": "tropics 23.4366 deg and equator, label anchors from the App screenshots",
+   "name": "tropics 23.4366, equator, polar circles 66.5634 deg; label anchors from the App screenshots",
    "file": "graticule.geojson",
-   "generator": "pipeline/basemap/globe-data.py"
+   "generator": "pipeline/basemap/globe-data.py",
+   "style": "ui/basemap/geolines.json (default-56689.styl Geolines-*, pipeline/basemap/geolines.py)"
+  },
+  "landcover": {
+   "name": "NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual (MCD12Q1 IGBP, 500 m), East Asia box lat 0-60 lng 90-160 at WMTS z7",
+   "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual/default/2024-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png",
+   "license": "NASA open data (no login)",
+   "generator": "pipeline/basemap/ground.py",
+   "class_mapping": "ui/basemap/ground.json igbp_to_apple, map/README.md"
   }
  },
  "simplification": {

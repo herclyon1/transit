@@ -1,0 +1,1250 @@
+{
+ "what": "ground colour rasters for the z5-8 overlay band: Landcover sheet colour x groundSettings climate tint x flat-ground light, sRGB-encoded",
+ "formula": "sRGB(linearise(fillColor) tinted by (temperature, aridity) HSV cells, bilinear, x light(0,0,1))",
+ "light_flat_ground": {
+  "value": 1.0454,
+  "expr": "ambientLightColor * cube(+z) + lightColor * L.z",
+  "source": "basemap/data/shader/shader-numbers.json lighting.{ambientLightColor_linear,lightColor_linear,tileLightDirection}, ambient_irradiance_cube.face_mean[+z]"
+ },
+ "sheet": {
+  "file": "default-56689.styl",
+  "styles": "Landcover-<Class>-Elevated-{Light,Dark}-Base 1:fillColor",
+  "apple_zoom_used": 6.0,
+  "note": "Apple z = MapLibre z + 1; band containing Apple z6 = the MapLibre z5 acceptance view",
+  "colours": {
+   "Forest": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       146,
+       213,
+       98
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       163,
+       217,
+       125
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 7.0,
+      "rgb": [
+       176,
+       222,
+       144
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 7.0,
+      "zmax": 10.0,
+      "rgb": [
+       180,
+       224,
+       149
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 11.0,
+      "rgb": [
+       181,
+       224,
+       151
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 13.0,
+      "rgb": [
+       176,
+       224,
+       141
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 13.0,
+      "zmax": 17.0,
+      "rgb": [
+       172,
+       224,
+       135
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       156,
+       219,
+       110
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       0,
+       107,
+       103
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       2,
+       98,
+       94
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       3,
+       93,
+       93
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       1,
+       89,
+       89
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Wetlands": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       133,
+       215,
+       120
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       141,
+       220,
+       129
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 7.0,
+      "rgb": [
+       175,
+       230,
+       168
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 7.0,
+      "zmax": 10.0,
+      "rgb": [
+       182,
+       232,
+       174
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 11.0,
+      "rgb": [
+       190,
+       235,
+       183
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       180,
+       230,
+       173
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 17.0,
+      "rgb": [
+       170,
+       230,
+       161
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       143,
+       219,
+       132
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       20,
+       107,
+       119
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       18,
+       103,
+       115
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       17,
+       99,
+       111
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       13,
+       95,
+       107
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Cultivated": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       176,
+       219,
+       120
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       181,
+       222,
+       129
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 7.0,
+      "rgb": [
+       199,
+       235,
+       152
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 7.0,
+      "zmax": 11.0,
+      "rgb": [
+       204,
+       237,
+       161
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 13.0,
+      "rgb": [
+       212,
+       237,
+       161
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 13.0,
+      "zmax": 17.0,
+      "rgb": [
+       211,
+       237,
+       158
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       194,
+       227,
+       141
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 7.0,
+      "rgb": [
+       64,
+       120,
+       96
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 7.0,
+      "zmax": 8.0,
+      "rgb": [
+       56,
+       112,
+       90
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       53,
+       109,
+       87
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       49,
+       104,
+       87
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       40,
+       101,
+       84
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Herbaceous": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       165,
+       219,
+       118
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       178,
+       227,
+       135
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 7.0,
+      "rgb": [
+       188,
+       230,
+       151
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 7.0,
+      "zmax": 10.0,
+      "rgb": [
+       195,
+       237,
+       159
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 11.0,
+      "rgb": [
+       192,
+       235,
+       155
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 13.0,
+      "rgb": [
+       189,
+       232,
+       151
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 13.0,
+      "zmax": 17.0,
+      "rgb": [
+       186,
+       232,
+       144
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       170,
+       227,
+       120
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       19,
+       111,
+       99
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       23,
+       104,
+       93
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       35,
+       98,
+       89
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       38,
+       93,
+       87
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Shrubland": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 2.0,
+      "rgb": [
+       193,
+       227,
+       125
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 2.0,
+      "zmax": 3.0,
+      "rgb": [
+       216,
+       230,
+       149
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       220,
+       232,
+       162
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 5.0,
+      "rgb": [
+       226,
+       235,
+       179
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 5.0,
+      "zmax": 8.0,
+      "rgb": [
+       228,
+       235,
+       192
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 10.0,
+      "rgb": [
+       227,
+       235,
+       188
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 13.0,
+      "rgb": [
+       226,
+       237,
+       194
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 13.0,
+      "zmax": 15.0,
+      "rgb": [
+       222,
+       237,
+       178
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 15.0,
+      "zmax": 17.0,
+      "rgb": [
+       215,
+       235,
+       156
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       208,
+       230,
+       143
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       59,
+       114,
+       96
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       42,
+       109,
+       96
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       29,
+       104,
+       94
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       14,
+       99,
+       96
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Barren": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       237,
+       230,
+       197
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 4.0,
+      "rgb": [
+       240,
+       235,
+       209
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 4.0,
+      "zmax": 11.0,
+      "rgb": [
+       240,
+       236,
+       216
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 17.0,
+      "rgb": [
+       242,
+       235,
+       201
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 17.0,
+      "zmax": 24.0,
+      "rgb": [
+       242,
+       233,
+       187
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       117,
+       119,
+       97
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       102,
+       110,
+       91
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       84,
+       98,
+       82
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       77,
+       93,
+       81
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "IceSnow": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 24.0,
+      "rgb": [
+       245,
+       245,
+       245
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 3.0,
+      "rgb": [
+       102,
+       142,
+       178
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 3.0,
+      "zmax": 8.0,
+      "rgb": [
+       93,
+       133,
+       168
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 11.0,
+      "rgb": [
+       83,
+       124,
+       161
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 11.0,
+      "zmax": 14.0,
+      "rgb": [
+       73,
+       117,
+       156
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 14.0,
+      "zmax": 24.0,
+      "rgb": [
+       64,
+       109,
+       148
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Ground": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 6.0,
+      "rgb": [
+       235,
+       237,
+       223
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 6.0,
+      "zmax": 8.0,
+      "rgb": [
+       239,
+       240,
+       230
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 10.0,
+      "rgb": [
+       245,
+       245,
+       235
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 12.0,
+      "rgb": [
+       245,
+       244,
+       236
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 12.0,
+      "zmax": 24.0,
+      "rgb": [
+       247,
+       246,
+       242
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 8.0,
+      "rgb": [
+       62,
+       79,
+       104
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 8.0,
+      "zmax": 15.0,
+      "rgb": [
+       55,
+       72,
+       93
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 15.0,
+      "zmax": 16.0,
+      "rgb": [
+       58,
+       77,
+       101
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 16.0,
+      "zmax": 24.0,
+      "rgb": [
+       61,
+       83,
+       109
+      ],
+      "a": 255
+     }
+    ]
+   },
+   "Developed": {
+    "light": [
+     {
+      "zmin": 0.0,
+      "zmax": 10.0,
+      "rgb": [
+       242,
+       234,
+       228
+      ],
+      "a": 255
+     },
+     {
+      "zmin": 10.0,
+      "zmax": 22.0,
+      "rgb": [
+       204,
+       170,
+       255
+      ],
+      "a": 255
+     }
+    ],
+    "dark": [
+     {
+      "zmin": 0.0,
+      "zmax": 24.0,
+      "rgb": [
+       204,
+       170,
+       255
+      ],
+      "a": 255
+     }
+    ]
+   }
+  }
+ },
+ "hsv": {
+  "day": {
+   "veryHotHSVAdjustment": [
+    0,
+    0,
+    0.1
+   ],
+   "arcticHSVAdjustment": [
+    0,
+    -0.2,
+    0
+   ],
+   "veryDryHSVAdjustment": [
+    -35,
+    0,
+    0.1
+   ],
+   "veryWetHSVAdjustment": [
+    0,
+    0,
+    0
+   ]
+  },
+  "night": {
+   "veryHotHSVAdjustment": [
+    0,
+    0.1,
+    0.01
+   ],
+   "arcticHSVAdjustment": [
+    3,
+    -0.1,
+    0
+   ],
+   "veryWetHSVAdjustment": [
+    6,
+    -0.05,
+    0
+   ],
+   "veryDryHSVAdjustment": [
+    -4,
+    0,
+    0.02
+   ]
+  },
+  "source": "shader-numbers.json climate_tinting.groundSettings.json['1-6'] / groundSettingsNight.json['1-9']",
+  "cells": "3x3 per class, axes add (SHADER-NUMBERS 4.4), sampled bilinearly by the codes below"
+ },
+ "koppen_climate": {
+  "1": {
+   "temperature": 2,
+   "aridity": 1
+  },
+  "2": {
+   "temperature": 2,
+   "aridity": 1
+  },
+  "3": {
+   "temperature": 1.5,
+   "aridity": 1
+  },
+  "4": {
+   "temperature": 1.5,
+   "aridity": 2
+  },
+  "5": {
+   "temperature": 1,
+   "aridity": 2
+  },
+  "6": {
+   "temperature": 1.5,
+   "aridity": 1
+  },
+  "7": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "8": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "9": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "10": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "11": {
+   "temperature": 1.5,
+   "aridity": 1
+  },
+  "12": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "13": {
+   "temperature": 1,
+   "aridity": 1.5
+  },
+  "14": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "15": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "16": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "17": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "18": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "19": {
+   "temperature": 0.5,
+   "aridity": 1.5
+  },
+  "20": {
+   "temperature": 0.5,
+   "aridity": 1.5
+  },
+  "21": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "22": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "23": {
+   "temperature": 0.5,
+   "aridity": 1.5
+  },
+  "24": {
+   "temperature": 0.5,
+   "aridity": 1.5
+  },
+  "25": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "26": {
+   "temperature": 1,
+   "aridity": 1
+  },
+  "27": {
+   "temperature": 0.5,
+   "aridity": 1
+  },
+  "28": {
+   "temperature": 0.5,
+   "aridity": 1
+  },
+  "29": {
+   "temperature": 0,
+   "aridity": 1
+  },
+  "30": {
+   "temperature": 0,
+   "aridity": 1
+  }
+ },
+ "koppen_default_class": {
+  "4": "Barren",
+  "5": "Barren",
+  "6": "Shrubland",
+  "7": "Shrubland",
+  "29": "Barren",
+  "30": "IceSnow",
+  "default": "Forest"
+ },
+ "igbp_to_apple": {
+  "1": "Forest",
+  "2": "Forest",
+  "3": "Forest",
+  "4": "Forest",
+  "5": "Forest",
+  "8": "Forest",
+  "6": "Shrubland",
+  "7": "Shrubland",
+  "9": "Herbaceous",
+  "10": "Herbaceous",
+  "11": "Wetlands",
+  "12": "Cultivated",
+  "14": "Cultivated",
+  "13": "Ground",
+  "15": "IceSnow",
+  "16": "Barren",
+  "17": null,
+  "0": null,
+  "255": null
+ },
+ "landcover_source": {
+  "name": "NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual (MODIS MCD12Q1 IGBP, 500 m)",
+  "url_template": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual/default/2024-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png",
+  "time": "2024-01-01",
+  "colormap": "https://gibs.earthdata.nasa.gov/colormaps/v1.3/MODIS_IGBP_Land_Cover_Type.xml",
+  "tile_zoom": 7,
+  "box": {
+   "lat": [
+    0.0,
+    60.0
+   ],
+   "lng": [
+    90.0,
+    160.0
+   ]
+  },
+  "igbp_histogram": {
+   "1": 511879,
+   "2": 1230303,
+   "3": 457570,
+   "4": 1032587,
+   "5": 2216703,
+   "6": 47669,
+   "7": 324582,
+   "8": 4094127,
+   "9": 2168958,
+   "10": 4757399,
+   "11": 109294,
+   "12": 1858766,
+   "13": 240402,
+   "14": 350930,
+   "15": 11182,
+   "16": 1751196,
+   "17": 23073253
+  }
+ },
+ "global": {
+  "size_px": 4096,
+  "bounds": [
+   [
+    -180,
+    85.0511
+   ],
+   [
+    180,
+    85.0511
+   ],
+   [
+    180,
+    -85.0511
+   ],
+   [
+    -180,
+    -85.0511
+   ]
+  ],
+  "files": [
+   "ground-light.png",
+   "ground-dark.png"
+  ]
+ },
+ "east_asia": {
+  "size_px": [
+   6400,
+   6912
+  ],
+  "bounds": [
+   [
+    90.0,
+    60.23981116999893
+   ],
+   [
+    160.3125,
+    60.23981116999893
+   ],
+   [
+    160.3125,
+    0.0
+   ],
+   [
+    90.0,
+    0.0
+   ]
+  ],
+  "files": [
+   "ground-ea-light.png",
+   "ground-ea-dark.png"
+  ]
+ }
+}

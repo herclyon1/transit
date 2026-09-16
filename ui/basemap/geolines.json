@@ -1,0 +1,1323 @@
+{
+ "source": "default-56689.styl",
+ "note": "Apple zoom bands; dash units quarter-pt; lum adjustments are HSL lightness points (RENDER-PIPELINE 7.13)",
+ "styles": {
+  "Geolines-Tropics.Explore-Light-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Light-Base",
+    "Geolines-Tropics",
+    "Geolines-Tropics.Explore-Light-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.451
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.502
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.6
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.702
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 1.149999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       194,
+       219,
+       234
+      ],
+      "alpha": 0.149
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": {
+      "dash": [
+       12,
+       12,
+       12,
+       12
+      ]
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "dash": [
+       16,
+       16,
+       16,
+       16
+      ]
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "dash": [
+       24,
+       24,
+       24,
+       24
+      ]
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       32,
+       32,
+       32,
+       32
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -25.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  },
+  "Geolines-Tropics.Explore-Dark-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Dark-Base",
+    "Geolines-Tropics",
+    "Geolines-Tropics.Explore-Dark-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       131,
+       155,
+       206
+      ],
+      "alpha": 0.302
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 1.149999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       126,
+       149,
+       199
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       2,
+       13,
+       46
+      ],
+      "alpha": 0.349
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": {
+      "dash": [
+       12,
+       12,
+       12,
+       12
+      ]
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "dash": [
+       16,
+       16,
+       16,
+       16
+      ]
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "dash": [
+       24,
+       24,
+       24,
+       24
+      ]
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       32,
+       32,
+       32,
+       32
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 10.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 15.0
+    }
+   ],
+   "labelHaloColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  },
+  "Geolines-Equator.Explore-Light-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Light-Base",
+    "Geolines-Equator",
+    "Geolines-Equator.Explore-Light-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.451
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.502
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.6
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.702
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": 1.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1.5
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1.899999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       194,
+       219,
+       234
+      ],
+      "alpha": 0.149
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       4,
+       0
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -25.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  },
+  "Geolines-Equator.Explore-Dark-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Dark-Base",
+    "Geolines-Equator",
+    "Geolines-Equator.Explore-Dark-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       131,
+       155,
+       206
+      ],
+      "alpha": 0.302
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": 1.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1.5
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1.899999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       126,
+       149,
+       199
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       2,
+       13,
+       46
+      ],
+      "alpha": 0.349
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       4,
+       0
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 10.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 15.0
+    }
+   ],
+   "labelHaloColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  },
+  "Geolines-Polar.Explore-Light-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Light-Base",
+    "Geolines-Tropics",
+    "Geolines-Polar",
+    "Geolines-Polar.Explore-Light-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.451
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.502
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.6
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 0.702
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 1.149999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       73,
+       88,
+       122
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       194,
+       219,
+       234
+      ],
+      "alpha": 0.149
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": {
+      "dash": [
+       12,
+       12,
+       12,
+       12
+      ]
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "dash": [
+       16,
+       16,
+       16,
+       16
+      ]
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "dash": [
+       24,
+       24,
+       24,
+       24
+      ]
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       32,
+       32,
+       32,
+       32
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -25.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  },
+  "Geolines-Polar.Explore-Dark-Elevated": {
+   "inherits": [
+    "Geolines-Base",
+    "Geolines-Dark-Base",
+    "Geolines-Tropics",
+    "Geolines-Polar",
+    "Geolines-Polar.Explore-Dark-Elevated"
+   ],
+   "fillColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       131,
+       155,
+       206
+      ],
+      "alpha": 0.302
+     }
+    }
+   ],
+   "width": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 1.149999976158142
+    }
+   ],
+   "textColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       126,
+       149,
+       199
+      ],
+      "alpha": 1.0
+     }
+    }
+   ],
+   "labelHaloColor": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": {
+      "rgb": [
+       2,
+       13,
+       46
+      ],
+      "alpha": 0.349
+     }
+    }
+   ],
+   "fontSpec": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": "%$default,medium-G3,width=90"
+    }
+   ],
+   "textSizeScale": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 0.8999999761581421
+    }
+   ],
+   "labelInfo": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": {
+      "height": 6.5
+     }
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": {
+      "height": 7.5,
+      "heightCurve": 0,
+      "heightCurveLimit": 9.0
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "height": 9.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 10.0
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "height": 10.0,
+      "heightCurve": 0,
+      "heightCurveLimit": 12.0
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "height": 12.0
+     }
+    }
+   ],
+   "dashPattern": [
+    {
+     "zmin": 0.0,
+     "zmax": 4.0,
+     "value": {
+      "dash": [
+       12,
+       12,
+       12,
+       12
+      ]
+     }
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": {
+      "dash": [
+       16,
+       16,
+       16,
+       16
+      ]
+     }
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 12.0,
+     "value": {
+      "dash": [
+       24,
+       24,
+       24,
+       24
+      ]
+     }
+    },
+    {
+     "zmin": 12.0,
+     "zmax": 24.0,
+     "value": {
+      "dash": [
+       32,
+       32,
+       32,
+       32
+      ]
+     }
+    }
+   ],
+   "labelColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 10.0
+    }
+   ],
+   "fillColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": 15.0
+    }
+   ],
+   "labelHaloColorLumAdjustment": [
+    {
+     "zmin": 0.0,
+     "zmax": 24.0,
+     "value": -15.0
+    }
+   ],
+   "labelTextVisibility": [
+    {
+     "zmin": 0.0,
+     "zmax": 2.0,
+     "value": 0
+    },
+    {
+     "zmin": 2.0,
+     "zmax": 24.0,
+     "value": 1
+    }
+   ],
+   "labelSpacing": [
+    {
+     "zmin": 2.0,
+     "zmax": 4.0,
+     "value": 500.0
+    },
+    {
+     "zmin": 4.0,
+     "zmax": 8.0,
+     "value": 1000.0
+    },
+    {
+     "zmin": 8.0,
+     "zmax": 24.0,
+     "value": 1200.0
+    }
+   ]
+  }
+ }
+}
