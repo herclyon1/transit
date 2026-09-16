@@ -11,7 +11,7 @@ Inputs (pipeline/basemap/raw/, gitignored; downloaded by palette.py / by hand):
     ne_regions_polys/        Natural Earth 10m geography regions polys (continents)
     koppen/1991_2020/        Beck et al. 2023 Koppen-Geiger 0.1 deg raster + legend.txt
 Outputs (map/data/, committed — all sources are public domain / CC-BY):
-    bathy.geojson            MultiPolygon per depth level, simplified 0.01 deg, 3 decimals
+    bathy-<depth>.geojson    one MultiPolygon per depth level (parallel load), DP 0.02/0.04 deg, 3/2 decimals
     land.geojson             land MultiPolygon, same simplification
     climate-light.png, climate-dark.png   Web-Mercator raster of land tint (palette-land.json),
                              Koppen class -> tint by the majority mapping fitted on palette.py's samples,
@@ -59,7 +59,7 @@ def version(base):
     return open(base + ".VERSION.txt").read().strip()
 
 
-def polygons_geojson(base, props_fn=None, tol=TOL, min_area=MIN_AREA):
+def polygons_geojson(base, props_fn=None, tol=TOL, min_area=MIN_AREA, decimals=DECIMALS):
     feats = []
     for kind, rings, rec in nelib.read_layer(base):
         if kind != "polygon":
@@ -67,25 +67,32 @@ def polygons_geojson(base, props_fn=None, tol=TOL, min_area=MIN_AREA):
         s = nelib.simplify_polygon(rings, tol, min_area)
         if not s:
             continue
-        coords = nelib.rings_to_geojson_polygons(s, DECIMALS)
+        coords = nelib.rings_to_geojson_polygons(s, decimals)
         feats.append({"type": "Feature", "properties": props_fn(rec) if props_fn else {},
                       "geometry": {"type": "MultiPolygon", "coordinates": coords}})
     return feats
 
 
 def build_bathy():
-    feats = []
+    """One GeoJSON per depth level (bathy-<depth>.geojson) so the 12 sources parse in parallel
+    workers and paint progressively (a single 12 MB file took ~8 s before anything showed)."""
+    for old in ("bathy.geojson",):
+        if os.path.exists(os.path.join(OUT, old)):
+            os.remove(os.path.join(OUT, old))
     for letter, depth in NE_LEVELS:
         base = os.path.join(RAW, "ne_bathy", f"ne_10m_bathymetry_{letter}_{depth}")
-        # bathymetry is a globe-scale fill: 0.02 deg (~2 km) keeps the 12 levels under ~8 MB
-        f = polygons_geojson(base, lambda r, d=depth: {"depth": d}, tol=2 * TOL, min_area=4 * MIN_AREA)
-        # one MultiPolygon per level
+        # level 0 is the coastline (keep 3 decimals, 0.02 deg); deeper contours are smooth GEBCO
+        # isobaths: 2 decimals (~1 km) and drop speckle rings < 0.01 deg^2 (~10x10 km) from 4000 m down
+        dec = 3 if depth == 0 else 2
+        min_area = 4 * MIN_AREA if depth < 4000 else 0.01
+        tol = 2 * TOL if depth < 3000 else 4 * TOL      # 0.02 deg near the coast, 0.04 deg (~4 km) for abyssal contours
+        f = polygons_geojson(base, lambda r, d=depth: {"depth": d}, tol=tol, min_area=min_area, decimals=dec)
         coords = [c for ft in f for c in ft["geometry"]["coordinates"]]
-        feats.append({"type": "Feature", "properties": {"depth": depth},
-                      "geometry": {"type": "MultiPolygon", "coordinates": coords}})
-        log(f"bathy {depth}: {sum(len(p[0]) for p in coords)} outer vertices, {len(coords)} polygons")
-    fc = {"type": "FeatureCollection", "features": feats}
-    json.dump(fc, open(os.path.join(OUT, "bathy.geojson"), "w"), separators=(",", ":"))
+        fc = {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"depth": depth},
+                                                          "geometry": {"type": "MultiPolygon", "coordinates": coords}}]}
+        p = os.path.join(OUT, f"bathy-{depth}.geojson")
+        json.dump(fc, open(p, "w"), separators=(",", ":"))
+        log(f"bathy {depth}: {sum(len(pp[0]) for pp in coords)} outer vertices, {len(coords)} polygons, {os.path.getsize(p) / 1e6:.2f} MB")
     return version(os.path.join(RAW, "ne_bathy", "ne_10m_bathymetry_L_0"))
 
 
@@ -147,15 +154,32 @@ def build_climate(tints):
     return {"size_px": N, "bounds": [[-180, 85.0511], [180, 85.0511], [180, -85.0511], [-180, -85.0511]]}
 
 
-def largest_ring_centroid(rings):
-    best = max(rings, key=lambda r: abs(nelib.ring_area(r)))
-    x, y = best[:, 0], best[:, 1]
-    a = nelib.ring_area(best)
-    if abs(a) < 1e-9:
-        return float(x.mean()), float(y.mean())
-    cx = float(((x + np.roll(x, -1)) * (x * np.roll(y, -1) - np.roll(x, -1) * y)).sum() / (6 * a))
-    cy = float(((y + np.roll(y, -1)) * (x * np.roll(y, -1) - np.roll(x, -1) * y)).sum() / (6 * a))
-    return cx, cy
+def label_point(rings):
+    """Interior label point on the sphere: sample each outer ring's interior on a lat/lng grid,
+    average the unit vectors weighted by cos(lat) (= spherical area), and if the mean falls
+    outside the polygon (crescent seas) snap to the nearest sampled interior point. Works for
+    polar polygons (Arctic Ocean) and antimeridian splits (Pacific), where a planar lng/lat
+    centroid lands thousands of km off (2026-09-16: 'Arctic Ocean' drawn in the Yellow Sea)."""
+    outers = [r for r in rings if nelib.ring_area(r) < 0] or rings   # shapefile outer = clockwise
+    vecs, pts = [], []
+    for r in outers:
+        x0, x1, y0, y1 = r[:, 0].min(), r[:, 0].max(), r[:, 1].min(), r[:, 1].max()
+        step = max(0.1, max(x1 - x0, y1 - y0) / 120)
+        xs = np.arange(x0 + step / 2, x1, step); ys = np.arange(y0 + step / 2, y1, step)
+        for lat in ys:
+            for lng in xs:
+                if nelib.point_in_ring((lng, lat), r):
+                    la, lo = math.radians(lat), math.radians(lng)
+                    v = np.array([math.cos(la) * math.cos(lo), math.cos(la) * math.sin(lo), math.sin(la)])
+                    vecs.append(v * math.cos(la)); pts.append((v, lng, lat))
+    if not pts:
+        r = max(rings, key=len); return float(r[:, 0].mean()), float(r[:, 1].mean())
+    m = np.sum(vecs, axis=0); m /= np.linalg.norm(m) + 1e-12
+    lat = math.degrees(math.asin(max(-1, min(1, m[2])))); lng = math.degrees(math.atan2(m[1], m[0]))
+    if any(nelib.point_in_ring((lng, lat), r) for r in outers):
+        return lng, lat
+    v, lng, lat = max(pts, key=lambda p: float(p[0] @ m))
+    return lng, lat
 
 
 def build_labels():
@@ -165,7 +189,7 @@ def build_labels():
     for kind, rings, rec in nelib.read_layer(base):
         if kind != "polygon" or rec["FEATURECLA"] != "Continent":
             continue
-        cx, cy = largest_ring_centroid(rings)
+        cx, cy = label_point(rings)
         feats.append({"type": "Feature", "properties": {"kind": "continent", "name": rec["NAME"],
                                                         "min_label": rec["MIN_LABEL"], "max_label": rec["MAX_LABEL"], "rank": rec["SCALERANK"]},
                       "geometry": {"type": "Point", "coordinates": [round(cx, 3), round(cy, 3)]}})
@@ -184,7 +208,7 @@ def build_labels():
     for kind, rings, rec in nelib.read_layer(base):
         if kind != "polygon" or not rec.get("name") or rec["featurecla"] not in ("ocean", "sea", "bay", "gulf"):
             continue
-        cx, cy = largest_ring_centroid(rings)
+        cx, cy = label_point(rings)
         feats.append({"type": "Feature", "properties": {"kind": "ocean" if rec["featurecla"] == "ocean" else "sea",
                                                         "name": rec["name"], "min_label": rec["min_label"], "max_label": rec["max_label"],
                                                         "rank": rec["scalerank"]},

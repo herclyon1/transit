@@ -19,12 +19,12 @@ Light / dark follow `prefers-color-scheme`.
 | layer | data | colour / size |
 |---|---|---|
 | `background` | — | shallowest ocean band (`palette-ocean.json` 0–200 m) so coast gaps between NE land and NE ocean read as shelf |
-| `bathy-<depth>` ×12 | Natural Earth 10m Bathymetry v4.1.0 (public domain), simplified 0.02°, `data/bathy.geojson` 12 MB | `palette-ocean.json` band medians, light and dark |
+| `bathy-<depth>` ×12 | Natural Earth 10m Bathymetry v4.1.0 (public domain), one file per level so they parse in parallel and paint progressively; DP 0.02° (<3000 m) / 0.04° (abyssal), `data/bathy-*.geojson` 10 MB total | `palette-ocean.json` band medians, light and dark |
 | `land` | Natural Earth 10m Land v5.1.1, simplified 0.01°, `data/land.geojson` 2.5 MB | `palette-land.json` humid flat tint |
 | `climate` (raster image) | Beck et al. 2023 Köppen-Geiger 1991–2020 0.1° (CC BY 4.0) → `data/climate-{light,dark}.png`, Web-Mercator 4096², masked to NE land | Köppen class → tint by majority vote of `palette.py`'s 705 samples (BWk/BWh very-dry, BSk/Dwc/Cwb semi-humid, ET/EF high-grey, rest humid) |
 | `hillshade` | AWS Terrain Tiles (terrarium) raster-dem | azimuth 260° (fit on Apple's Alps render, r 0.59); exaggeration **calibrated**: 0.07 @ z8.7 (luminance amplitude 14.2 vs Apple 14.3), 0.047 @ z3.1 (5–95 % shading range 5.8 vs Apple's ≈6 flat-vs-slope drop) — `pipeline/basemap/calibrate.py` |
 | limb glow (canvas) | — | radial profile replayed from `native.png` row 800: 60 pt inner haze + 7 pt outer fall-off to `#000000` |
-| labels (DOM markers) | NE 10m admin_0_countries `LABEL_X/Y`, `MIN/MAX_LABEL`; marine polys (ocean/sea/bay/gulf) and continent polys → largest-ring centroid | `labels-globe.json`: continent heavy 17.4 pt +2.6 tracking `#955e8d`; country heavy 11 pt `#8c608a` white stroke 1.2 px; ocean/sea semibold italic 14 / 11 pt `#206aa1` (+0.9); dark colours from the dark render. Font `-apple-system` stack. Zoom visibility = NE's `min_label..max_label`; greedy collision by importance |
+| labels (DOM markers) | NE 10m admin_0_countries `LABEL_X/Y`, `MIN/MAX_LABEL`; marine polys (ocean/sea/bay/gulf) and continent polys → spherical interior point (cos-lat-weighted mean of grid samples, snapped inside; fixes Arctic Ocean landing in the Yellow Sea) | `labels-globe.json`: continent heavy 17.4 pt +2.6 tracking `#955e8d`; country heavy 11 pt `#8c608a` white stroke 1.2 px; ocean/sea semibold italic 14 / 11 pt `#206aa1` (+0.9); dark colours from the dark render. Font `-apple-system` stack. Zoom visibility = NE's `min_label..max_label`; in-front-of-globe and inside-the-disc checked every frame; greedy collision on projected boxes after `idle` |
 | stars (canvas) | — | 8.6 per 100×100 pt, 1.2 pt squares, grey p10/p50/p90 = 53/137/194 from `native.png` |
 
 `data/meta.json` carries all of it (written by `pipeline/basemap/globe-data.py`; calibration by `calibrate.py`).

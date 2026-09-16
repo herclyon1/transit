@@ -240,32 +240,7 @@
    "20": 1
   },
   "alps_probe_luma_amplitude": 14.3,
-  "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)",
-  "exaggeration_by_zoom": {
-   "9": 0.07,
-   "3": 0.047
-  },
-  "calibration": {
-   "alps_z9": {
-    "zoom": 8.72,
-    "k": 0.07,
-    "amplitude": 14.2,
-    "n": 12884,
-    "target": 14.3,
-    "method": "regress"
-   },
-   "globe_z4": {
-    "zoom": 3.12,
-    "k": 0.047,
-    "amplitude": 5.8,
-    "n": 6110,
-    "target": 6.0,
-    "method": "delta"
-   },
-   "method": "Calibrate the globe page's hill-shade exaggeration against Apple's renders.",
-   "azimuth": 260,
-   "altitude": 45
-  }
+  "note": "amplitude = luminance change over the 5-95% hill-shade range in the z~9 Alps render (regression slope 24.2 per unit hill-shade)"
  },
  "labels": {
   "continent": {
