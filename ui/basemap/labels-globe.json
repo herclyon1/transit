@@ -1,0 +1,3383 @@
+{
+ "what": "Globe-scale label typography of Apple Maps (macOS 27, VectorKit native style), measured off the renderer",
+ "generated_utc": "2026-09-16T03:29:34Z",
+ "generator": "pipeline/basemap/labels.py + textmetrics.swift",
+ "method": {
+  "segmentation": "search box -> background = median of the 2 px border ring -> pixels >22 RGB units from it -> 2-means into glyph (darker) and halo; glyph core = median of the 25% most saturated glyph pixels",
+  "ink_box": "per-row / per-column max of glyph coverage alpha, 50% crossing interpolated to sub-pixel",
+  "size": "ink height / CoreText ink height of the same string in SF at 100 pt (kern 0) x 100 / scale",
+  "tracking": "(ink width - CoreText ink width at that size) / (glyph count - 1), in pt; NB rotated labels are measured on a de-rotated alpha map (bicubic), expect +-0.3 pt",
+  "weight": "SF weight whose CoreText ink area (scaled to the fitted size) is closest to the measured coverage sum; halo blending biases coverage upward, so treat a regular/medium split as +-1 step",
+  "halo": "mean of the four (halo edge - ink edge) distances at 50% of halo-vs-background blend, in image px",
+  "font_name": "SF; the renderer reports .AppleSystemUIFont / .SFNS-* (system font). Web: -apple-system, system-ui",
+  "precision": "2x captures: +-0.25 px -> +-0.1 pt on size; 1x snapshots: +-0.5 px -> +-0.35 pt on 10 pt text"
+ },
+ "summary_by_kind": {
+  "continent": {
+   "weight_consensus": "heavy",
+   "n": 2,
+   "labels": [
+    "continent-asia",
+    "continent-australia"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "upper",
+   "weight_fits": [
+    "black",
+    "heavy"
+   ],
+   "size_pt_median": 17.38,
+   "size_pt_range": [
+    17.3,
+    17.47
+   ],
+   "tracking_pt_median": 2.64,
+   "tracking_pt_range": [
+    2.05,
+    3.23
+   ],
+   "glyph_rgb_median": [
+    149,
+    94,
+    141
+   ],
+   "glyph_hex_median": "#955e8d",
+   "halo_rgb_median": null,
+   "halo_width_px_median": null,
+   "dark_glyph_rgb_median": [
+    164,
+    150,
+    165
+   ]
+  },
+  "country": {
+   "weight_consensus": "heavy",
+   "n": 4,
+   "labels": [
+    "country-china",
+    "country-mongolia",
+    "country-india",
+    "country-thailand"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "upper",
+   "weight_fits": [
+    "black",
+    "heavy"
+   ],
+   "size_pt_median": 11.02,
+   "size_pt_range": [
+    10.25,
+    12.27
+   ],
+   "tracking_pt_median": -0.36,
+   "tracking_pt_range": [
+    -0.72,
+    -0.05
+   ],
+   "glyph_rgb_median": [
+    140,
+    96,
+    138
+   ],
+   "glyph_hex_median": "#8c608a",
+   "halo_rgb_median": [
+    240,
+    246,
+    231
+   ],
+   "halo_width_px_median": 1.16,
+   "dark_glyph_rgb_median": [
+    188,
+    153,
+    173
+   ]
+  },
+  "country-small": {
+   "weight_consensus": "heavy",
+   "n": 1,
+   "labels": [
+    "country-philippines"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "upper",
+   "weight_fits": [
+    "heavy"
+   ],
+   "size_pt_median": 11.23,
+   "size_pt_range": [
+    11.23,
+    11.23
+   ],
+   "tracking_pt_median": -0.28,
+   "tracking_pt_range": [
+    -0.28,
+    -0.28
+   ],
+   "glyph_rgb_median": [
+    140,
+    96,
+    138
+   ],
+   "glyph_hex_median": "#8c608a",
+   "halo_rgb_median": [
+    231,
+    241,
+    231
+   ],
+   "halo_width_px_median": 1.06,
+   "dark_glyph_rgb_median": [
+    188,
+    153,
+    173
+   ]
+  },
+  "ocean": {
+   "weight_consensus": "semibold",
+   "n": 9,
+   "labels": [
+    "sea-philippine-l1",
+    "sea-philippine-l2",
+    "sea-bengal-l1",
+    "sea-bengal-l2",
+    "ocean-npacific-l1",
+    "ocean-npacific-l2",
+    "ocean-npacific-l3",
+    "ocean-indian-l1",
+    "ocean-indian-l2"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": true,
+   "case": "mixed",
+   "weight_fits": [
+    "medium",
+    "semibold"
+   ],
+   "size_pt_median": 12.64,
+   "size_pt_range": [
+    11.04,
+    15.41
+   ],
+   "tracking_pt_median": 0.86,
+   "tracking_pt_range": [
+    -0.18,
+    1.21
+   ],
+   "glyph_rgb_median": [
+    32,
+    106,
+    161
+   ],
+   "glyph_hex_median": "#206aa1",
+   "halo_rgb_median": [
+    85,
+    193,
+    254
+   ],
+   "halo_width_px_median": 0.29,
+   "dark_glyph_rgb_median": [
+    61,
+    115,
+    182
+   ]
+  },
+  "deep": {
+   "weight_consensus": "bold",
+   "n": 3,
+   "labels": [
+    "deep-ramapo",
+    "deep-vityaz",
+    "deep-challenger-l1"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "bold",
+    "medium"
+   ],
+   "size_pt_median": 10.76,
+   "size_pt_range": [
+    10.46,
+    10.78
+   ],
+   "tracking_pt_median": -0.23,
+   "tracking_pt_range": [
+    -0.44,
+    -0.13
+   ],
+   "glyph_rgb_median": [
+    71,
+    107,
+    168
+   ],
+   "glyph_hex_median": "#476ba8",
+   "halo_rgb_median": [
+    82,
+    161,
+    232
+   ],
+   "halo_width_px_median": 0.77,
+   "dark_glyph_rgb_median": [
+    58,
+    96,
+    156
+   ]
+  },
+  "undersea": {
+   "weight_consensus": "black",
+   "n": 2,
+   "labels": [
+    "undersea-midpacific",
+    "undersea-shatsky"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "upper",
+   "weight_fits": [
+    "black"
+   ],
+   "size_pt_median": 7.88,
+   "size_pt_range": [
+    7.73,
+    8.04
+   ],
+   "tracking_pt_median": 4.72,
+   "tracking_pt_range": [
+    4.48,
+    4.96
+   ],
+   "glyph_rgb_median": [
+    55,
+    112,
+    165
+   ],
+   "glyph_hex_median": "#3770a5",
+   "halo_rgb_median": [
+    88,
+    176,
+    242
+   ],
+   "halo_width_px_median": null,
+   "dark_glyph_rgb_median": [
+    56,
+    96,
+    159
+   ]
+  },
+  "graticule": {
+   "weight_consensus": "bold",
+   "n": 1,
+   "labels": [
+    "graticule-tropic"
+   ],
+   "font": "SF (system font, .AppleSystemUIFont / .SFNS-*); web fallback: -apple-system, system-ui",
+   "italic": false,
+   "case": "mixed",
+   "weight_fits": [
+    "bold"
+   ],
+   "size_pt_median": 8.81,
+   "size_pt_range": [
+    8.81,
+    8.81
+   ],
+   "tracking_pt_median": 0.66,
+   "tracking_pt_range": [
+    0.66,
+    0.66
+   ],
+   "glyph_rgb_median": [
+    74,
+    86,
+    118
+   ],
+   "glyph_hex_median": "#4a5676",
+   "halo_rgb_median": [
+    105,
+    163,
+    227
+   ],
+   "halo_width_px_median": 1.75,
+   "dark_glyph_rgb_median": [
+    126,
+    148,
+    199
+   ]
+  }
+ },
+ "labels": [
+  {
+   "id": "continent-asia",
+   "kind": "continent",
+   "text": "ASIA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     130,
+     71,
+     200,
+     89
+    ],
+    "ink_px": {
+     "left": 140.95,
+     "top": 75.04,
+     "w": 48.81,
+     "h": 12.75
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     149,
+     94,
+     141
+    ],
+    "glyph_hex": "#955e8d",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     223,
+     231,
+     179
+    ],
+    "ink_area_px2": 241.2,
+    "glyph_px_n": 225,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.16,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 17.47,
+    "tracking_pt": 2.05,
+    "ink_density_ratio": 0.769,
+    "stem_ratio": 1.15,
+    "all_weights": {
+     "black": {
+      "size_pt": 17.47,
+      "tracking_pt": 2.05,
+      "ink_density_ratio": 0.769,
+      "stem_ratio": 1.15
+     },
+     "bold": {
+      "size_pt": 17.49,
+      "tracking_pt": 3.13,
+      "ink_density_ratio": 1.03,
+      "stem_ratio": 1.613
+     },
+     "heavy": {
+      "size_pt": 17.47,
+      "tracking_pt": 2.56,
+      "ink_density_ratio": 0.871,
+      "stem_ratio": 1.325
+     },
+     "medium": {
+      "size_pt": 17.49,
+      "tracking_pt": 3.83,
+      "ink_density_ratio": 1.334,
+      "stem_ratio": 2.155
+     },
+     "regular": {
+      "size_pt": 17.51,
+      "tracking_pt": 4.22,
+      "ink_density_ratio": 1.616,
+      "stem_ratio": 2.703
+     },
+     "semibold": {
+      "size_pt": 17.49,
+      "tracking_pt": 3.53,
+      "ink_density_ratio": 1.185,
+      "stem_ratio": 1.888
+     }
+    },
+    "cap_height_pt": 12.31
+   },
+   "dark": {
+    "glyph_hex": "#a496a5",
+    "glyph_rgb": [
+     164,
+     150,
+     165
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     58,
+     115,
+     104
+    ],
+    "ink_px": {
+     "left": 140.63,
+     "top": 74.8,
+     "w": 50.84,
+     "h": 13.02
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "continent-australia",
+   "kind": "continent",
+   "text": "AUSTRALIA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     448,
+     696,
+     598,
+     714
+    ],
+    "ink_px": {
+     "left": 460.07,
+     "top": 699.29,
+     "w": 123.04,
+     "h": 12.63
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     149,
+     94,
+     141
+    ],
+    "glyph_hex": "#955e8d",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     220,
+     244,
+     146
+    ],
+    "ink_area_px2": 449.3,
+    "glyph_px_n": 504,
+    "curved_letters": null,
+    "stem": {
+     "px": 2.98,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "heavy",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontHeavy",
+    "size_pt": 17.3,
+    "tracking_pt": 3.23,
+    "ink_density_ratio": 0.72,
+    "stem_ratio": 0.959,
+    "all_weights": {
+     "black": {
+      "size_pt": 17.3,
+      "tracking_pt": 2.89,
+      "ink_density_ratio": 0.637,
+      "stem_ratio": 0.832
+     },
+     "bold": {
+      "size_pt": 17.33,
+      "tracking_pt": 3.6,
+      "ink_density_ratio": 0.851,
+      "stem_ratio": 1.166
+     },
+     "heavy": {
+      "size_pt": 17.3,
+      "tracking_pt": 3.23,
+      "ink_density_ratio": 0.72,
+      "stem_ratio": 0.959
+     },
+     "medium": {
+      "size_pt": 17.33,
+      "tracking_pt": 4.07,
+      "ink_density_ratio": 1.103,
+      "stem_ratio": 1.559
+     },
+     "regular": {
+      "size_pt": 17.35,
+      "tracking_pt": 4.32,
+      "ink_density_ratio": 1.336,
+      "stem_ratio": 1.954
+     },
+     "semibold": {
+      "size_pt": 17.33,
+      "tracking_pt": 3.87,
+      "ink_density_ratio": 0.979,
+      "stem_ratio": 1.365
+     }
+    },
+    "cap_height_pt": 12.19
+   },
+   "dark": {
+    "glyph_hex": "#a496a5",
+    "glyph_rgb": [
+     164,
+     150,
+     165
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     28,
+     120,
+     104
+    ],
+    "ink_px": {
+     "left": 459.6,
+     "top": 698.85,
+     "w": 122.99,
+     "h": 14.54
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "country-china",
+   "kind": "country",
+   "text": "CHINA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     688,
+     552,
+     816,
+     584
+    ],
+    "ink_px": {
+     "left": 715.37,
+     "top": 559.86,
+     "w": 75.86,
+     "h": 17.91
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     140,
+     96,
+     138
+    ],
+    "glyph_hex": "#8c608a",
+    "halo_rgb": [
+     236,
+     243,
+     230
+    ],
+    "halo_hex": "#ecf3e6",
+    "halo_width_px": 0.66,
+    "bg_rgb": [
+     195,
+     225,
+     148
+    ],
+    "ink_area_px2": 811.6,
+    "glyph_px_n": 615,
+    "curved_letters": null,
+    "stem": {
+     "px": 5.63,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 12.27,
+    "tracking_pt": -0.44,
+    "ink_density_ratio": 0.952,
+    "stem_ratio": 1.108,
+    "all_weights": {
+     "black": {
+      "size_pt": 12.27,
+      "tracking_pt": -0.44,
+      "ink_density_ratio": 0.952,
+      "stem_ratio": 1.108
+     },
+     "bold": {
+      "size_pt": 12.28,
+      "tracking_pt": 0.08,
+      "ink_density_ratio": 1.271,
+      "stem_ratio": 1.554
+     },
+     "heavy": {
+      "size_pt": 12.27,
+      "tracking_pt": -0.19,
+      "ink_density_ratio": 1.076,
+      "stem_ratio": 1.277
+     },
+     "medium": {
+      "size_pt": 12.28,
+      "tracking_pt": 0.41,
+      "ink_density_ratio": 1.648,
+      "stem_ratio": 2.077
+     },
+     "regular": {
+      "size_pt": 12.3,
+      "tracking_pt": 0.59,
+      "ink_density_ratio": 1.999,
+      "stem_ratio": 2.604
+     },
+     "semibold": {
+      "size_pt": 12.28,
+      "tracking_pt": 0.27,
+      "ink_density_ratio": 1.463,
+      "stem_ratio": 1.819
+     }
+    },
+    "cap_height_pt": 8.65
+   },
+   "dark": {
+    "glyph_hex": "#bc99ad",
+    "glyph_rgb": [
+     188,
+     153,
+     173
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     66,
+     117,
+     97
+    ],
+    "ink_px": {
+     "left": 358.86,
+     "top": 279.65,
+     "w": 36.75,
+     "h": 10.71
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "country-mongolia",
+   "kind": "country",
+   "text": "MONGOLIA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     646,
+     182,
+     806,
+     214
+    ],
+    "ink_px": {
+     "left": 671.33,
+     "top": 190.9,
+     "w": 109.22,
+     "h": 14.97
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     140,
+     96,
+     138
+    ],
+    "glyph_hex": "#8c608a",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     229,
+     236,
+     188
+    ],
+    "ink_area_px2": 842.1,
+    "glyph_px_n": 807,
+    "curved_letters": null,
+    "stem": {
+     "px": 3.72,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "heavy",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontHeavy",
+    "size_pt": 10.25,
+    "tracking_pt": -0.05,
+    "ink_density_ratio": 0.938,
+    "stem_ratio": 1.01,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.25,
+      "tracking_pt": -0.21,
+      "ink_density_ratio": 0.838,
+      "stem_ratio": 0.876
+     },
+     "bold": {
+      "size_pt": 10.27,
+      "tracking_pt": 0.12,
+      "ink_density_ratio": 1.095,
+      "stem_ratio": 1.228
+     },
+     "heavy": {
+      "size_pt": 10.25,
+      "tracking_pt": -0.05,
+      "ink_density_ratio": 0.938,
+      "stem_ratio": 1.01
+     },
+     "medium": {
+      "size_pt": 10.27,
+      "tracking_pt": 0.34,
+      "ink_density_ratio": 1.397,
+      "stem_ratio": 1.642
+     },
+     "regular": {
+      "size_pt": 10.28,
+      "tracking_pt": 0.45,
+      "ink_density_ratio": 1.676,
+      "stem_ratio": 2.058
+     },
+     "semibold": {
+      "size_pt": 10.27,
+      "tracking_pt": 0.25,
+      "ink_density_ratio": 1.248,
+      "stem_ratio": 1.438
+     }
+    },
+    "cap_height_pt": 7.22
+   },
+   "dark": {
+    "glyph_hex": "#bc99ac",
+    "glyph_rgb": [
+     188,
+     153,
+     172
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     61,
+     114,
+     97
+    ],
+    "ink_px": {
+     "left": 335.71,
+     "top": 94.84,
+     "w": 56.47,
+     "h": 9.24
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "country-india",
+   "kind": "country",
+   "text": "INDIA",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     62,
+     924,
+     162,
+     956
+    ],
+    "ink_px": {
+     "left": 89.0,
+     "top": 933.19,
+     "w": 56.79,
+     "h": 16.06
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     140,
+     96,
+     138
+    ],
+    "glyph_hex": "#8c608a",
+    "halo_rgb": [
+     240,
+     246,
+     231
+    ],
+    "halo_hex": "#f0f6e7",
+    "halo_width_px": 1.37,
+    "bg_rgb": [
+     203,
+     238,
+     154
+    ],
+    "ink_area_px2": 502.8,
+    "glyph_px_n": 414,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.58,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 11.4,
+    "tracking_pt": -0.72,
+    "ink_density_ratio": 0.761,
+    "stem_ratio": 0.971,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.4,
+      "tracking_pt": -0.72,
+      "ink_density_ratio": 0.761,
+      "stem_ratio": 0.971
+     },
+     "bold": {
+      "size_pt": 11.4,
+      "tracking_pt": -0.21,
+      "ink_density_ratio": 1.013,
+      "stem_ratio": 1.363
+     },
+     "heavy": {
+      "size_pt": 11.4,
+      "tracking_pt": -0.48,
+      "ink_density_ratio": 0.858,
+      "stem_ratio": 1.118
+     },
+     "medium": {
+      "size_pt": 11.4,
+      "tracking_pt": 0.12,
+      "ink_density_ratio": 1.31,
+      "stem_ratio": 1.821
+     },
+     "regular": {
+      "size_pt": 11.4,
+      "tracking_pt": 0.31,
+      "ink_density_ratio": 1.592,
+      "stem_ratio": 2.286
+     },
+     "semibold": {
+      "size_pt": 11.4,
+      "tracking_pt": -0.02,
+      "ink_density_ratio": 1.164,
+      "stem_ratio": 1.595
+     }
+    },
+    "cap_height_pt": 8.03
+   },
+   "dark": {
+    "glyph_hex": "#bc99ad",
+    "glyph_rgb": [
+     188,
+     153,
+     173
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     61,
+     123,
+     103
+    ],
+    "ink_px": {
+     "left": 44.67,
+     "top": 466.23,
+     "w": 29.21,
+     "h": 8.74
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "country-thailand",
+   "kind": "country",
+   "text": "THAILAND",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     630,
+     1120,
+     746,
+     1152
+    ],
+    "ink_px": {
+     "left": 635.59,
+     "top": 1130.66,
+     "w": 105.47,
+     "h": 15.0
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     140,
+     96,
+     138
+    ],
+    "glyph_hex": "#8c608a",
+    "halo_rgb": [
+     240,
+     246,
+     231
+    ],
+    "halo_hex": "#f0f6e7",
+    "halo_width_px": 1.16,
+    "bg_rgb": [
+     203,
+     238,
+     154
+    ],
+    "ink_area_px2": 865.7,
+    "glyph_px_n": 742,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.61,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 10.64,
+    "tracking_pt": -0.29,
+    "ink_density_ratio": 0.889,
+    "stem_ratio": 1.046,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.64,
+      "tracking_pt": -0.29,
+      "ink_density_ratio": 0.889,
+      "stem_ratio": 1.046
+     },
+     "bold": {
+      "size_pt": 10.64,
+      "tracking_pt": 0.12,
+      "ink_density_ratio": 1.186,
+      "stem_ratio": 1.468
+     },
+     "heavy": {
+      "size_pt": 10.64,
+      "tracking_pt": -0.1,
+      "ink_density_ratio": 1.003,
+      "stem_ratio": 1.205
+     },
+     "medium": {
+      "size_pt": 10.64,
+      "tracking_pt": 0.37,
+      "ink_density_ratio": 1.536,
+      "stem_ratio": 1.962
+     },
+     "regular": {
+      "size_pt": 10.64,
+      "tracking_pt": 0.52,
+      "ink_density_ratio": 1.867,
+      "stem_ratio": 2.464
+     },
+     "semibold": {
+      "size_pt": 10.64,
+      "tracking_pt": 0.26,
+      "ink_density_ratio": 1.364,
+      "stem_ratio": 1.719
+     }
+    },
+    "cap_height_pt": 7.5
+   },
+   "dark": {
+    "glyph_hex": "#bc99ad",
+    "glyph_rgb": [
+     188,
+     153,
+     173
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     59,
+     122,
+     99
+    ],
+    "ink_px": {
+     "left": 317.98,
+     "top": 565.11,
+     "w": 52.71,
+     "h": 9.04
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "country-philippines",
+   "kind": "country-small",
+   "text": "PHILIPPINES",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1152,
+     1204,
+     1332,
+     1236
+    ],
+    "ink_px": {
+     "left": 1176.7,
+     "top": 1214.64,
+     "w": 127.98,
+     "h": 16.39
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     140,
+     96,
+     138
+    ],
+    "glyph_hex": "#8c608a",
+    "halo_rgb": [
+     231,
+     241,
+     231
+    ],
+    "halo_hex": "#e7f1e7",
+    "halo_width_px": 1.06,
+    "bg_rgb": [
+     119,
+     193,
+     244
+    ],
+    "ink_area_px2": 1249.8,
+    "glyph_px_n": 952,
+    "curved_letters": null,
+    "stem": {
+     "px": 4.06,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "heavy",
+    "weight_by": "stem",
+    "font": ".AppleSystemUIFontHeavy",
+    "size_pt": 11.23,
+    "tracking_pt": -0.28,
+    "ink_density_ratio": 1.022,
+    "stem_ratio": 1.006,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.23,
+      "tracking_pt": -0.47,
+      "ink_density_ratio": 0.905,
+      "stem_ratio": 0.873
+     },
+     "bold": {
+      "size_pt": 11.24,
+      "tracking_pt": -0.06,
+      "ink_density_ratio": 1.205,
+      "stem_ratio": 1.225
+     },
+     "heavy": {
+      "size_pt": 11.23,
+      "tracking_pt": -0.28,
+      "ink_density_ratio": 1.022,
+      "stem_ratio": 1.006
+     },
+     "medium": {
+      "size_pt": 11.24,
+      "tracking_pt": 0.2,
+      "ink_density_ratio": 1.556,
+      "stem_ratio": 1.636
+     },
+     "regular": {
+      "size_pt": 11.26,
+      "tracking_pt": 0.35,
+      "ink_density_ratio": 1.879,
+      "stem_ratio": 2.052
+     },
+     "semibold": {
+      "size_pt": 11.24,
+      "tracking_pt": 0.09,
+      "ink_density_ratio": 1.384,
+      "stem_ratio": 1.433
+     }
+    },
+    "cap_height_pt": 7.91
+   },
+   "dark": {
+    "glyph_hex": "#bc99ad",
+    "glyph_rgb": [
+     188,
+     153,
+     173
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     12,
+     29,
+     72
+    ],
+    "ink_px": {
+     "left": 588.15,
+     "top": 607.0,
+     "w": 66.15,
+     "h": 8.66
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "sea-philippine-l1",
+   "kind": "ocean",
+   "text": "Philippine",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1466,
+     964,
+     1626,
+     996
+    ],
+    "ink_px": {
+     "left": 1490.05,
+     "top": 970.1,
+     "w": 117.49,
+     "h": 19.9
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     50,
+     99,
+     153
+    ],
+    "glyph_hex": "#326399",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     67,
+     147,
+     226
+    ],
+    "ink_area_px2": 658.8,
+    "glyph_px_n": 589,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 11.04,
+    "tracking_pt": 1.12,
+    "ink_density_ratio": 1.019,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.48,
+      "tracking_pt": 0.6,
+      "ink_density_ratio": 0.728
+     },
+     "bold": {
+      "size_pt": 10.86,
+      "tracking_pt": 0.99,
+      "ink_density_ratio": 0.913
+     },
+     "heavy": {
+      "size_pt": 10.67,
+      "tracking_pt": 0.77,
+      "ink_density_ratio": 0.801
+     },
+     "medium": {
+      "size_pt": 11.14,
+      "tracking_pt": 1.24,
+      "ink_density_ratio": 1.123
+     },
+     "regular": {
+      "size_pt": 11.38,
+      "tracking_pt": 1.36,
+      "ink_density_ratio": 1.314
+     },
+     "semibold": {
+      "size_pt": 11.04,
+      "tracking_pt": 1.12,
+      "ink_density_ratio": 1.019
+     }
+    },
+    "cap_height_pt": 7.78
+   },
+   "dark": {
+    "glyph_hex": "#3d73b5",
+    "glyph_rgb": [
+     61,
+     115,
+     181
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     2,
+     16,
+     46
+    ],
+    "ink_px": {
+     "left": 745.08,
+     "top": 484.29,
+     "w": 59.74,
+     "h": 11.78
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "sea-philippine-l2",
+   "kind": "ocean",
+   "text": "Sea",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1506,
+     990,
+     1586,
+     1022
+    ],
+    "ink_px": {
+     "left": 1529.0,
+     "top": 996.03,
+     "w": 41.05,
+     "h": 17.3
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     49,
+     98,
+     152
+    ],
+    "glyph_hex": "#316298",
+    "halo_rgb": [
+     85,
+     174,
+     242
+    ],
+    "halo_hex": "#55aef2",
+    "halo_width_px": 0.45,
+    "bg_rgb": [
+     66,
+     146,
+     225
+    ],
+    "ink_area_px2": 263.3,
+    "glyph_px_n": 216,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "medium",
+    "weight_by": "ink_density",
+    "font": ".SFNS-MediumItalic",
+    "size_pt": 11.88,
+    "tracking_pt": 0.72,
+    "ink_density_ratio": 1.029,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.85,
+      "tracking_pt": -0.53,
+      "ink_density_ratio": 0.654
+     },
+     "bold": {
+      "size_pt": 11.87,
+      "tracking_pt": 0.24,
+      "ink_density_ratio": 0.833
+     },
+     "heavy": {
+      "size_pt": 11.86,
+      "tracking_pt": -0.17,
+      "ink_density_ratio": 0.73
+     },
+     "medium": {
+      "size_pt": 11.88,
+      "tracking_pt": 0.72,
+      "ink_density_ratio": 1.029
+     },
+     "regular": {
+      "size_pt": 11.9,
+      "tracking_pt": 0.99,
+      "ink_density_ratio": 1.219
+     },
+     "semibold": {
+      "size_pt": 11.88,
+      "tracking_pt": 0.51,
+      "ink_density_ratio": 0.938
+     }
+    },
+    "cap_height_pt": 8.37
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     2,
+     16,
+     45
+    ],
+    "ink_px": {
+     "left": 764.26,
+     "top": 497.79,
+     "w": 21.78,
+     "h": 9.14
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "sea-bengal-l1",
+   "kind": "ocean",
+   "text": "Bay of",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     282,
+     1150,
+     394,
+     1182
+    ],
+    "ink_px": {
+     "left": 299.23,
+     "top": 1158.04,
+     "w": 75.85,
+     "h": 20.02
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     58,
+     114,
+     161
+    ],
+    "glyph_hex": "#3a72a1",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     80,
+     169,
+     240
+    ],
+    "ink_area_px2": 406.9,
+    "glyph_px_n": 313,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 11.05,
+    "tracking_pt": 1.21,
+    "ink_density_ratio": 1.047,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.73,
+      "tracking_pt": 0.8,
+      "ink_density_ratio": 0.74
+     },
+     "bold": {
+      "size_pt": 10.95,
+      "tracking_pt": 1.11,
+      "ink_density_ratio": 0.935
+     },
+     "heavy": {
+      "size_pt": 10.85,
+      "tracking_pt": 0.93,
+      "ink_density_ratio": 0.819
+     },
+     "medium": {
+      "size_pt": 11.11,
+      "tracking_pt": 1.3,
+      "ink_density_ratio": 1.151
+     },
+     "regular": {
+      "size_pt": 11.25,
+      "tracking_pt": 1.38,
+      "ink_density_ratio": 1.353
+     },
+     "semibold": {
+      "size_pt": 11.05,
+      "tracking_pt": 1.21,
+      "ink_density_ratio": 1.047
+     }
+    },
+    "cap_height_pt": 7.79
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     13,
+     25,
+     65
+    ],
+    "ink_px": {
+     "left": 149.8,
+     "top": 578.72,
+     "w": 39.49,
+     "h": 11.36
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "sea-bengal-l2",
+   "kind": "ocean",
+   "text": "Bengal",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     282,
+     1176,
+     394,
+     1208
+    ],
+    "ink_px": {
+     "left": 296.75,
+     "top": 1184.05,
+     "w": 81.37,
+     "h": 20.01
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     56,
+     113,
+     161
+    ],
+    "glyph_hex": "#3871a1",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     78,
+     168,
+     239
+    ],
+    "ink_area_px2": 504.4,
+    "glyph_px_n": 374,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 11.11,
+    "tracking_pt": 1.19,
+    "ink_density_ratio": 1.044,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.02,
+      "tracking_pt": 0.52,
+      "ink_density_ratio": 0.721
+     },
+     "bold": {
+      "size_pt": 11.08,
+      "tracking_pt": 1.01,
+      "ink_density_ratio": 0.925
+     },
+     "heavy": {
+      "size_pt": 11.05,
+      "tracking_pt": 0.75,
+      "ink_density_ratio": 0.806
+     },
+     "medium": {
+      "size_pt": 11.13,
+      "tracking_pt": 1.33,
+      "ink_density_ratio": 1.15
+     },
+     "regular": {
+      "size_pt": 11.17,
+      "tracking_pt": 1.51,
+      "ink_density_ratio": 1.361
+     },
+     "semibold": {
+      "size_pt": 11.11,
+      "tracking_pt": 1.19,
+      "ink_density_ratio": 1.044
+     }
+    },
+    "cap_height_pt": 7.83
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     13,
+     24,
+     64
+    ],
+    "ink_px": {
+     "left": 148.19,
+     "top": 591.39,
+     "w": 41.85,
+     "h": 11.69
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "ocean-npacific-l1",
+   "kind": "ocean",
+   "text": "North",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     858,
+     284,
+     914,
+     300
+    ],
+    "ink_px": {
+     "left": 868.3,
+     "top": 287.09,
+     "w": 37.96,
+     "h": 10.03
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     27,
+     104,
+     161
+    ],
+    "glyph_hex": "#1b68a1",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     14,
+     154,
+     240
+    ],
+    "ink_area_px2": 128.4,
+    "glyph_px_n": 99,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "medium",
+    "weight_by": "ink_density",
+    "font": ".SFNS-MediumItalic",
+    "size_pt": 14.03,
+    "tracking_pt": 0.86,
+    "ink_density_ratio": 1.003,
+    "all_weights": {
+     "black": {
+      "size_pt": 13.96,
+      "tracking_pt": -0.49,
+      "ink_density_ratio": 0.592
+     },
+     "bold": {
+      "size_pt": 14.0,
+      "tracking_pt": 0.34,
+      "ink_density_ratio": 0.784
+     },
+     "heavy": {
+      "size_pt": 13.98,
+      "tracking_pt": -0.1,
+      "ink_density_ratio": 0.671
+     },
+     "medium": {
+      "size_pt": 14.03,
+      "tracking_pt": 0.86,
+      "ink_density_ratio": 1.003
+     },
+     "regular": {
+      "size_pt": 14.06,
+      "tracking_pt": 1.16,
+      "ink_density_ratio": 1.219
+     },
+     "semibold": {
+      "size_pt": 14.02,
+      "tracking_pt": 0.63,
+      "ink_density_ratio": 0.898
+     }
+    },
+    "cap_height_pt": 9.89
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     1,
+     15,
+     46
+    ],
+    "ink_px": {
+     "left": 868.11,
+     "top": 286.89,
+     "w": 37.99,
+     "h": 10.08
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "ocean-npacific-l2",
+   "kind": "ocean",
+   "text": "Pacific",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     858,
+     298,
+     914,
+     314
+    ],
+    "ink_px": {
+     "left": 864.14,
+     "top": 300.46,
+     "w": 46.14,
+     "h": 10.47
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     27,
+     107,
+     165
+    ],
+    "glyph_hex": "#1b6ba5",
+    "halo_rgb": [
+     79,
+     193,
+     254
+    ],
+    "halo_hex": "#4fc1fe",
+    "halo_width_px": 0.29,
+    "bg_rgb": [
+     15,
+     157,
+     240
+    ],
+    "ink_area_px2": 174.3,
+    "glyph_px_n": 213,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "ink_density",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 14.13,
+    "tracking_pt": 0.59,
+    "ink_density_ratio": 1.018,
+    "all_weights": {
+     "black": {
+      "size_pt": 13.24,
+      "tracking_pt": -0.0,
+      "ink_density_ratio": 0.751
+     },
+     "bold": {
+      "size_pt": 13.84,
+      "tracking_pt": 0.45,
+      "ink_density_ratio": 0.921
+     },
+     "heavy": {
+      "size_pt": 13.55,
+      "tracking_pt": 0.19,
+      "ink_density_ratio": 0.818
+     },
+     "medium": {
+      "size_pt": 14.3,
+      "tracking_pt": 0.74,
+      "ink_density_ratio": 1.112
+     },
+     "regular": {
+      "size_pt": 14.67,
+      "tracking_pt": 0.87,
+      "ink_density_ratio": 1.293
+     },
+     "semibold": {
+      "size_pt": 14.13,
+      "tracking_pt": 0.59,
+      "ink_density_ratio": 1.018
+     }
+    },
+    "cap_height_pt": 9.96
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     2,
+     16,
+     49
+    ],
+    "ink_px": {
+     "left": 864.05,
+     "top": 300.47,
+     "w": 46.15,
+     "h": 12.93
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "ocean-npacific-l3",
+   "kind": "ocean",
+   "text": "Ocean",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     858,
+     312,
+     914,
+     328
+    ],
+    "ink_px": {
+     "left": 866.42,
+     "top": 315.2,
+     "w": 42.01,
+     "h": 11.22
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     27,
+     106,
+     163
+    ],
+    "glyph_hex": "#1b6aa3",
+    "halo_rgb": [
+     94,
+     196,
+     255
+    ],
+    "halo_hex": "#5ec4ff",
+    "halo_width_px": 0.16,
+    "bg_rgb": [
+     14,
+     156,
+     240
+    ],
+    "ink_area_px2": 161.6,
+    "glyph_px_n": 177,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "medium",
+    "weight_by": "ink_density",
+    "font": ".SFNS-MediumItalic",
+    "size_pt": 15.41,
+    "tracking_pt": -0.18,
+    "ink_density_ratio": 0.952,
+    "all_weights": {
+     "black": {
+      "size_pt": 15.36,
+      "tracking_pt": -1.41,
+      "ink_density_ratio": 0.585
+     },
+     "bold": {
+      "size_pt": 15.39,
+      "tracking_pt": -0.66,
+      "ink_density_ratio": 0.758
+     },
+     "heavy": {
+      "size_pt": 15.38,
+      "tracking_pt": -1.06,
+      "ink_density_ratio": 0.656
+     },
+     "medium": {
+      "size_pt": 15.41,
+      "tracking_pt": -0.18,
+      "ink_density_ratio": 0.952
+     },
+     "regular": {
+      "size_pt": 15.43,
+      "tracking_pt": 0.09,
+      "ink_density_ratio": 1.144
+     },
+     "semibold": {
+      "size_pt": 15.41,
+      "tracking_pt": -0.39,
+      "ink_density_ratio": 0.861
+     }
+    },
+    "cap_height_pt": 10.86
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     2,
+     16,
+     50
+    ],
+    "ink_px": {
+     "left": 866.41,
+     "top": 315.14,
+     "w": 42.03,
+     "h": 12.09
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "ocean-indian-l1",
+   "kind": "ocean",
+   "text": "Indian",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     102,
+     665,
+     158,
+     681
+    ],
+    "ink_px": {
+     "left": 111.1,
+     "top": 668.22,
+     "w": 39.53,
+     "h": 9.34
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     27,
+     107,
+     163
+    ],
+    "glyph_hex": "#1b6ba3",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     12,
+     160,
+     243
+    ],
+    "ink_area_px2": 148.4,
+    "glyph_px_n": 92,
+    "curved_letters": null,
+    "stem": {
+     "px": 3.47,
+     "letter": "I"
+    }
+   },
+   "fit": {
+    "weight": "semibold",
+    "weight_by": "stem",
+    "font": ".SFNS-SemiboldItalic",
+    "size_pt": 12.64,
+    "tracking_pt": 1.06,
+    "ink_density_ratio": 1.18,
+    "stem_ratio": 0.988,
+    "all_weights": {
+     "black": {
+      "size_pt": 11.9,
+      "tracking_pt": 0.49,
+      "ink_density_ratio": 0.858,
+      "stem_ratio": 0.817
+     },
+     "bold": {
+      "size_pt": 12.4,
+      "tracking_pt": 0.92,
+      "ink_density_ratio": 1.063,
+      "stem_ratio": 0.938
+     },
+     "heavy": {
+      "size_pt": 12.15,
+      "tracking_pt": 0.67,
+      "ink_density_ratio": 0.938,
+      "stem_ratio": 0.865
+     },
+     "medium": {
+      "size_pt": 12.78,
+      "tracking_pt": 1.2,
+      "ink_density_ratio": 1.296,
+      "stem_ratio": 1.04
+     },
+     "regular": {
+      "size_pt": 13.09,
+      "tracking_pt": 1.33,
+      "ink_density_ratio": 1.502,
+      "stem_ratio": 1.105
+     },
+     "semibold": {
+      "size_pt": 12.64,
+      "tracking_pt": 1.06,
+      "ink_density_ratio": 1.18,
+      "stem_ratio": 0.988
+     }
+    },
+    "cap_height_pt": 8.91
+   },
+   "dark": {
+    "glyph_hex": "#3d73b6",
+    "glyph_rgb": [
+     61,
+     115,
+     182
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     5,
+     19,
+     52
+    ],
+    "ink_px": {
+     "left": 110.89,
+     "top": 668.09,
+     "w": 41.37,
+     "h": 11.09
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "ocean-indian-l2",
+   "kind": "ocean",
+   "text": "Ocean",
+   "italic": true,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/wide-light.png",
+    "scale": 1,
+    "center": [
+     20,
+     150
+    ],
+    "span": [
+     120,
+     170
+    ],
+    "rendered_at_utc": "2026-09-16T03:20:01Z",
+    "tool": "MKMapSnapshotter (macOS MapKit, VectorKit native style)"
+   },
+   "measured": {
+    "box_px": [
+     102,
+     679,
+     158,
+     695
+    ],
+    "ink_px": {
+     "left": 111.01,
+     "top": 683.12,
+     "w": 39.67,
+     "h": 10.15
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     32,
+     105,
+     157
+    ],
+    "glyph_hex": "#20699d",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     12,
+     161,
+     243
+    ],
+    "ink_area_px2": 140.3,
+    "glyph_px_n": 94,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "medium",
+    "weight_by": "ink_density",
+    "font": ".SFNS-MediumItalic",
+    "size_pt": 13.94,
+    "tracking_pt": 0.26,
+    "ink_density_ratio": 1.01,
+    "all_weights": {
+     "black": {
+      "size_pt": 13.9,
+      "tracking_pt": -0.86,
+      "ink_density_ratio": 0.62
+     },
+     "bold": {
+      "size_pt": 13.92,
+      "tracking_pt": -0.18,
+      "ink_density_ratio": 0.804
+     },
+     "heavy": {
+      "size_pt": 13.91,
+      "tracking_pt": -0.55,
+      "ink_density_ratio": 0.696
+     },
+     "medium": {
+      "size_pt": 13.94,
+      "tracking_pt": 0.26,
+      "ink_density_ratio": 1.01
+     },
+     "regular": {
+      "size_pt": 13.96,
+      "tracking_pt": 0.5,
+      "ink_density_ratio": 1.214
+     },
+     "semibold": {
+      "size_pt": 13.94,
+      "tracking_pt": 0.06,
+      "ink_density_ratio": 0.914
+     }
+    },
+    "cap_height_pt": 9.82
+   },
+   "dark": {
+    "glyph_hex": "#3d73b5",
+    "glyph_rgb": [
+     61,
+     115,
+     181
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     6,
+     22,
+     54
+    ],
+    "ink_px": {
+     "left": 110.74,
+     "top": 682.66,
+     "w": 41.52,
+     "h": 10.41
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/wide-dark.png",
+     "rendered_at_utc": "2026-09-16T03:20:01Z"
+    }
+   }
+  },
+  {
+   "id": "deep-ramapo",
+   "kind": "deep",
+   "text": "Ramapo Deep",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1724,
+     700,
+     1856,
+     728
+    ],
+    "ink_px": {
+     "left": 1724.5,
+     "top": 708.41,
+     "w": 126.55,
+     "h": 18.84
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     71,
+     107,
+     168
+    ],
+    "glyph_hex": "#476ba8",
+    "halo_rgb": [
+     82,
+     161,
+     232
+    ],
+    "halo_hex": "#52a1e8",
+    "halo_width_px": 0.77,
+    "bg_rgb": [
+     66,
+     145,
+     224
+    ],
+    "ink_area_px2": 775.3,
+    "glyph_px_n": 681,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "medium",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontMedium",
+    "size_pt": 10.76,
+    "tracking_pt": -0.13,
+    "ink_density_ratio": 1.04,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.76,
+      "tracking_pt": -0.89,
+      "ink_density_ratio": 0.617
+     },
+     "bold": {
+      "size_pt": 10.76,
+      "tracking_pt": -0.43,
+      "ink_density_ratio": 0.815
+     },
+     "heavy": {
+      "size_pt": 10.76,
+      "tracking_pt": -0.68,
+      "ink_density_ratio": 0.694
+     },
+     "medium": {
+      "size_pt": 10.76,
+      "tracking_pt": -0.13,
+      "ink_density_ratio": 1.04
+     },
+     "regular": {
+      "size_pt": 10.76,
+      "tracking_pt": 0.04,
+      "ink_density_ratio": 1.245
+     },
+     "semibold": {
+      "size_pt": 10.76,
+      "tracking_pt": -0.26,
+      "ink_density_ratio": 0.931
+     }
+    },
+    "cap_height_pt": 7.58
+   },
+   "dark": {
+    "glyph_hex": "#3a5f9a",
+    "glyph_rgb": [
+     58,
+     95,
+     154
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     0,
+     13,
+     39
+    ],
+    "ink_px": {
+     "left": 862.5,
+     "top": 354.08,
+     "w": 64.8,
+     "h": 9.69
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "deep-vityaz",
+   "kind": "deep",
+   "text": "Vityaz Depth",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1796,
+     284,
+     1916,
+     312
+    ],
+    "ink_px": {
+     "left": 1796.5,
+     "top": 287.6,
+     "w": 115.09,
+     "h": 19.65
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     71,
+     107,
+     168
+    ],
+    "glyph_hex": "#476ba8",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     111,
+     187,
+     242
+    ],
+    "ink_area_px2": 901.6,
+    "glyph_px_n": 1918,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "bold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBold",
+    "size_pt": 10.78,
+    "tracking_pt": -0.44,
+    "ink_density_ratio": 1.045,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.32,
+      "tracking_pt": -0.65,
+      "ink_density_ratio": 0.836
+     },
+     "bold": {
+      "size_pt": 10.78,
+      "tracking_pt": -0.44,
+      "ink_density_ratio": 1.045
+     },
+     "heavy": {
+      "size_pt": 10.53,
+      "tracking_pt": -0.56,
+      "ink_density_ratio": 0.916
+     },
+     "medium": {
+      "size_pt": 11.08,
+      "tracking_pt": -0.3,
+      "ink_density_ratio": 1.293
+     },
+     "regular": {
+      "size_pt": 11.22,
+      "tracking_pt": -0.19,
+      "ink_density_ratio": 1.54
+     },
+     "semibold": {
+      "size_pt": 10.95,
+      "tracking_pt": -0.36,
+      "ink_density_ratio": 1.171
+     }
+    },
+    "cap_height_pt": 7.6
+   },
+   "dark": {
+    "glyph_hex": "#3a609c",
+    "glyph_rgb": [
+     58,
+     96,
+     156
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     24,
+     45,
+     99
+    ],
+    "ink_px": {
+     "left": 898.5,
+     "top": 142.99,
+     "w": 58.51,
+     "h": 10.8
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "deep-challenger-l1",
+   "kind": "deep",
+   "text": "Challenger",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1612,
+     1226,
+     1728,
+     1254
+    ],
+    "ink_px": {
+     "left": 1614.01,
+     "top": 1231.88,
+     "w": 98.78,
+     "h": 18.79
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     71,
+     107,
+     168
+    ],
+    "glyph_hex": "#476ba8",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     80,
+     166,
+     236
+    ],
+    "ink_area_px2": 706.8,
+    "glyph_px_n": 638,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "bold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBold",
+    "size_pt": 10.46,
+    "tracking_pt": -0.23,
+    "ink_density_ratio": 0.991,
+    "all_weights": {
+     "black": {
+      "size_pt": 10.44,
+      "tracking_pt": -0.73,
+      "ink_density_ratio": 0.738
+     },
+     "bold": {
+      "size_pt": 10.46,
+      "tracking_pt": -0.23,
+      "ink_density_ratio": 0.991
+     },
+     "heavy": {
+      "size_pt": 10.44,
+      "tracking_pt": -0.49,
+      "ink_density_ratio": 0.838
+     },
+     "medium": {
+      "size_pt": 10.46,
+      "tracking_pt": 0.08,
+      "ink_density_ratio": 1.279
+     },
+     "regular": {
+      "size_pt": 10.47,
+      "tracking_pt": 0.26,
+      "ink_density_ratio": 1.539
+     },
+     "semibold": {
+      "size_pt": 10.46,
+      "tracking_pt": -0.05,
+      "ink_density_ratio": 1.14
+     }
+    },
+    "cap_height_pt": 7.37
+   },
+   "dark": {
+    "glyph_hex": "#3d66a2",
+    "glyph_rgb": [
+     61,
+     102,
+     162
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     8,
+     21,
+     53
+    ],
+    "ink_px": {
+     "left": 859.63,
+     "top": 621.45,
+     "w": 3.87,
+     "h": 5.68
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "undersea-midpacific",
+   "kind": "undersea",
+   "text": "MID-PACIFIC SEAMOUNTS",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     2090,
+     966,
+     2490,
+     1054
+    ],
+    "ink_px": {
+     "left": 2097.48,
+     "top": 1034.21,
+     "w": 387.75,
+     "h": 11.74
+    },
+    "rotation_deg": -168.0,
+    "glyph_rgb": [
+     55,
+     111,
+     165
+    ],
+    "glyph_hex": "#376fa5",
+    "halo_rgb": [
+     88,
+     176,
+     242
+    ],
+    "halo_hex": "#58b0f2",
+    "halo_width_px": null,
+    "bg_rgb": [
+     68,
+     148,
+     227
+    ],
+    "ink_area_px2": 1353.6,
+    "glyph_px_n": 1517,
+    "curved_letters": {
+     "n_central_letters": 7,
+     "letter_ink_h_px_median": 11.74
+    },
+    "stem": null
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 8.04,
+    "tracking_pt": 4.48,
+    "ink_density_ratio": 0.963,
+    "all_weights": {
+     "black": {
+      "size_pt": 8.04,
+      "tracking_pt": 4.48,
+      "ink_density_ratio": 0.963
+     },
+     "bold": {
+      "size_pt": 8.05,
+      "tracking_pt": 4.72,
+      "ink_density_ratio": 1.272
+     },
+     "heavy": {
+      "size_pt": 8.04,
+      "tracking_pt": 4.6,
+      "ink_density_ratio": 1.084
+     },
+     "medium": {
+      "size_pt": 8.05,
+      "tracking_pt": 4.88,
+      "ink_density_ratio": 1.634
+     },
+     "regular": {
+      "size_pt": 8.06,
+      "tracking_pt": 4.96,
+      "ink_density_ratio": 1.965
+     },
+     "semibold": {
+      "size_pt": 8.05,
+      "tracking_pt": 4.81,
+      "ink_density_ratio": 1.457
+     }
+    },
+    "cap_height_pt": 5.66
+   },
+   "dark": {
+    "glyph_hex": "#38609f",
+    "glyph_rgb": [
+     56,
+     96,
+     159
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     0,
+     13,
+     44
+    ],
+    "ink_px": {
+     "left": 1048.01,
+     "top": 517.28,
+     "w": 191.99,
+     "h": 6.46
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "undersea-shatsky",
+   "kind": "undersea",
+   "text": "SHATSKY RISE",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     2152,
+     390,
+     2272,
+     610
+    ],
+    "ink_px": {
+     "left": 2173.14,
+     "top": 472.62,
+     "w": 221.21,
+     "h": 11.29
+    },
+    "rotation_deg": 112.8,
+    "glyph_rgb": [
+     56,
+     113,
+     166
+    ],
+    "glyph_hex": "#3871a6",
+    "halo_rgb": null,
+    "halo_hex": null,
+    "halo_width_px": null,
+    "bg_rgb": [
+     68,
+     149,
+     228
+    ],
+    "ink_area_px2": 731.2,
+    "glyph_px_n": 617,
+    "curved_letters": {
+     "n_central_letters": 4,
+     "letter_ink_h_px_median": 11.29
+    },
+    "stem": null
+   },
+   "fit": {
+    "weight": "black",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBlack",
+    "size_pt": 7.73,
+    "tracking_pt": 4.96,
+    "ink_density_ratio": 1.013,
+    "all_weights": {
+     "black": {
+      "size_pt": 7.73,
+      "tracking_pt": 4.96,
+      "ink_density_ratio": 1.013
+     },
+     "bold": {
+      "size_pt": 7.74,
+      "tracking_pt": 5.25,
+      "ink_density_ratio": 1.346
+     },
+     "heavy": {
+      "size_pt": 7.73,
+      "tracking_pt": 5.09,
+      "ink_density_ratio": 1.143
+     },
+     "medium": {
+      "size_pt": 7.74,
+      "tracking_pt": 5.43,
+      "ink_density_ratio": 1.732
+     },
+     "regular": {
+      "size_pt": 7.75,
+      "tracking_pt": 5.54,
+      "ink_density_ratio": 2.086
+     },
+     "semibold": {
+      "size_pt": 7.74,
+      "tracking_pt": 5.36,
+      "ink_density_ratio": 1.543
+     }
+    },
+    "cap_height_pt": 5.45
+   },
+   "dark": {
+    "glyph_hex": "#38609f",
+    "glyph_rgb": [
+     56,
+     96,
+     159
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     0,
+     14,
+     45
+    ],
+    "ink_px": {
+     "left": 1085.94,
+     "top": 236.03,
+     "w": 111.68,
+     "h": 6.64
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  },
+  {
+   "id": "graticule-tropic",
+   "kind": "graticule",
+   "text": "Tropic of Cancer",
+   "italic": false,
+   "source": {
+    "image": "pipeline/basemap/raw/renders/live-ea-light.png",
+    "scale": 2,
+    "center": [
+     30,
+     125
+    ],
+    "span": [
+     50,
+     60
+    ],
+    "rendered_at_utc": "2026-09-16T03:10:55Z",
+    "tool": "MKMapView live (macOS MapKit, VectorKit native style) + screencapture -l <window>"
+   },
+   "measured": {
+    "box_px": [
+     1714,
+     914,
+     1914,
+     942
+    ],
+    "ink_px": {
+     "left": 1741.0,
+     "top": 921.92,
+     "w": 152.06,
+     "h": 16.04
+    },
+    "rotation_deg": 0.0,
+    "glyph_rgb": [
+     74,
+     86,
+     118
+    ],
+    "glyph_hex": "#4a5676",
+    "halo_rgb": [
+     105,
+     163,
+     227
+    ],
+    "halo_hex": "#69a3e3",
+    "halo_width_px": 1.75,
+    "bg_rgb": [
+     67,
+     147,
+     226
+    ],
+    "ink_area_px2": 665.8,
+    "glyph_px_n": 537,
+    "curved_letters": null,
+    "stem": null
+   },
+   "fit": {
+    "weight": "bold",
+    "weight_by": "ink_density",
+    "font": ".AppleSystemUIFontBold",
+    "size_pt": 8.81,
+    "tracking_pt": 0.66,
+    "ink_density_ratio": 1.004,
+    "all_weights": {
+     "black": {
+      "size_pt": 8.45,
+      "tracking_pt": 0.51,
+      "ink_density_ratio": 0.803
+     },
+     "bold": {
+      "size_pt": 8.81,
+      "tracking_pt": 0.66,
+      "ink_density_ratio": 1.004
+     },
+     "heavy": {
+      "size_pt": 8.62,
+      "tracking_pt": 0.58,
+      "ink_density_ratio": 0.881
+     },
+     "medium": {
+      "size_pt": 9.03,
+      "tracking_pt": 0.77,
+      "ink_density_ratio": 1.242
+     },
+     "regular": {
+      "size_pt": 9.04,
+      "tracking_pt": 0.9,
+      "ink_density_ratio": 1.506
+     },
+     "semibold": {
+      "size_pt": 8.95,
+      "tracking_pt": 0.72,
+      "ink_density_ratio": 1.123
+     }
+    },
+    "cap_height_pt": 6.21
+   },
+   "dark": {
+    "glyph_hex": "#7e94c7",
+    "glyph_rgb": [
+     126,
+     148,
+     199
+    ],
+    "halo_hex": null,
+    "halo_rgb": null,
+    "bg_rgb": [
+     3,
+     16,
+     45
+    ],
+    "ink_px": {
+     "left": 870.04,
+     "top": 460.25,
+     "w": 79.07,
+     "h": 9.79
+    },
+    "source": {
+     "image": "pipeline/basemap/raw/renders/ea-dark.png",
+     "rendered_at_utc": "2026-09-16T03:00:16Z"
+    }
+   }
+  }
+ ],
+ "background": {
+  "source": {
+   "file": "/Users/herclyon/Money/styl-work/native.png",
+   "what": "Maps App (macOS 27) globe view screenshot taken by the acceptance session, 2560x1488 @2x",
+   "mtime_local": "2026-09-16T11:50:52"
+  },
+  "space_rgb": [
+   0,
+   0,
+   0
+  ],
+  "space_hex": "#000000",
+  "space_regions": {
+   "right_gutter": {
+    "box_px_2x": [
+     2440,
+     500,
+     2470,
+     1100
+    ],
+    "mode_rgb": [
+     0,
+     0,
+     0
+    ],
+    "mode_share": 0.9977
+   },
+   "bottom_right": {
+    "box_px_2x": [
+     2300,
+     1250,
+     2470,
+     1470
+    ],
+    "mode_rgb": [
+     0,
+     0,
+     0
+    ],
+    "mode_share": 0.9889
+   },
+   "top_right": {
+    "box_px_2x": [
+     2330,
+     20,
+     2470,
+     120
+    ],
+    "mode_rgb": [
+     0,
+     0,
+     0
+    ],
+    "mode_share": 0.9996
+   }
+  },
+  "limb_glow": {
+   "note": "the atmosphere reads as a light grey-blue rim just inside the limb that falls to pure black in ~7 pt; profiles run inward->outward, last entry is the first black pixel",
+   "profiles": [
+    {
+     "row_px_2x": 600,
+     "first_black_x_2x": 2428,
+     "rgb_inward_to_outward": [
+      [
+       115,
+       138,
+       166
+      ],
+      [
+       111,
+       133,
+       160
+      ],
+      [
+       107,
+       128,
+       154
+      ],
+      [
+       104,
+       124,
+       149
+      ],
+      [
+       100,
+       119,
+       142
+      ],
+      [
+       92,
+       110,
+       134
+      ],
+      [
+       86,
+       103,
+       126
+      ],
+      [
+       79,
+       96,
+       117
+      ],
+      [
+       73,
+       88,
+       107
+      ],
+      [
+       66,
+       80,
+       96
+      ],
+      [
+       56,
+       69,
+       84
+      ],
+      [
+       46,
+       57,
+       69
+      ],
+      [
+       31,
+       39,
+       49
+      ],
+      [
+       1,
+       1,
+       2
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     "half_luma_width_px_2x": 11
+    },
+    {
+     "row_px_2x": 800,
+     "first_black_x_2x": 2435,
+     "rgb_inward_to_outward": [
+      [
+       118,
+       142,
+       170
+      ],
+      [
+       114,
+       137,
+       164
+      ],
+      [
+       110,
+       131,
+       158
+      ],
+      [
+       105,
+       126,
+       152
+      ],
+      [
+       100,
+       120,
+       146
+      ],
+      [
+       95,
+       114,
+       138
+      ],
+      [
+       90,
+       107,
+       130
+      ],
+      [
+       83,
+       100,
+       122
+      ],
+      [
+       76,
+       92,
+       113
+      ],
+      [
+       70,
+       84,
+       102
+      ],
+      [
+       61,
+       75,
+       90
+      ],
+      [
+       51,
+       63,
+       77
+      ],
+      [
+       38,
+       48,
+       59
+      ],
+      [
+       19,
+       25,
+       31
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     "half_luma_width_px_2x": 11
+    },
+    {
+     "row_px_2x": 1000,
+     "first_black_x_2x": 2408,
+     "rgb_inward_to_outward": [
+      [
+       116,
+       139,
+       168
+      ],
+      [
+       112,
+       134,
+       162
+      ],
+      [
+       108,
+       129,
+       155
+      ],
+      [
+       103,
+       124,
+       150
+      ],
+      [
+       98,
+       118,
+       143
+      ],
+      [
+       93,
+       111,
+       135
+      ],
+      [
+       87,
+       105,
+       127
+      ],
+      [
+       80,
+       97,
+       118
+      ],
+      [
+       74,
+       89,
+       109
+      ],
+      [
+       67,
+       80,
+       98
+      ],
+      [
+       57,
+       70,
+       85
+      ],
+      [
+       47,
+       58,
+       71
+      ],
+      [
+       33,
+       42,
+       51
+      ],
+      [
+       3,
+       5,
+       6
+      ],
+      [
+       0,
+       0,
+       0
+      ]
+     ],
+     "half_luma_width_px_2x": 11
+    }
+   ]
+  },
+  "stars": {
+   "strip_px_2x": [
+    2440,
+    520,
+    2560,
+    1488
+   ],
+   "count": 25,
+   "per_100x100_pt": 8.61,
+   "size_px_2x_median": 6.0,
+   "peak_gray_p10_p50_p90": [
+    53,
+    137,
+    194
+   ],
+   "colour": "neutral grey-white (peak channel equal within 2)"
+  }
+ }
+}
