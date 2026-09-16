@@ -4,7 +4,7 @@
 html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
 #stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
 #map { position: fixed; inset: 0; z-index: 1; background: transparent; }
-#limb { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#light, #limb { position: absolute; inset: 0; z-index: 2; pointer-events: none; }   /* #light: WebGL post-pass (lighting + rim), #limb: 2D fallback */
 .maplibregl-marker { z-index: 3; }
 .maplibregl-canvas-container, .maplibregl-canvas { background: transparent; }
 .maplibregl-ctrl-attrib, .maplibregl-ctrl-logo { display: none; }

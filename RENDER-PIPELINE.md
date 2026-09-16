@@ -343,3 +343,22 @@ located" row is closed by this.
 | road density / label density | not a number: Apple's placement and collision; accepted difference |
 | dash unit (¼ pt) | **inferred from two measurements** (tropics 12 ↔ 3 pt, rail ticks) — confirm on one more (border [18,4,…] ↔ 4.5/1 pt) |
 | icon glyphs (POI, shields, stations) | **not decoded** (icon packs); Kit components meanwhile |
+
+
+## 8. UI side — what `map/` renders from the above (UI session, 2026-09-16 evening)
+
+Implementation notes and every conversion are in `map/README.md`; this is the index of which section each element
+follows and what is still sampled.
+
+| element | implemented from | still sampled / open |
+|---|---|---|
+| lighting (globe) | §2.5 / §4: `pixel_lin · light(n) / light(0,0,1)` in a WebGL post-pass over MapLibre's canvas (`map/globe-light.js`), irradiance cube as a cubemap | — |
+| rim | §2.2 formula and constants; the visible part is the mid → black half (75 km): the horizon → mid half lies inside the perspective silhouette (`map/README.md` "rim geometry"); sheet colours **linearised** (the sRGB-as-linear reading misses the screenshot by 30–40/255) | none; the "14 px outer glow" in §2.2 is 14 px @2x = 7 pt = 75 km, not 150 km |
+| inner haze | dropped per §6 (n·L + rim) | residual +0.066 linear (R,G) at r/limb 0.9–0.95 — the globe-tile `atmos` constants |
+| ocean | §2.3 ramp + depth mapping on the terrarium DEM as a MapLibre `color-relief` layer, × light(0,0,1); NE isobath fills only below z 4.6 | globe below z 4.6 keeps `palette-globe.json`: ramp × light does not reproduce the pastel globe (fog fit fails, `map/README.md`) |
+| land colour | §2.4 sheet colours (`Landcover-*-Elevated-{Light,Dark}-Base`, `pipeline/basemap/ground.py`) + §2.5b HSV cells; classes from NASA GIBS MODIS IGBP (East-Asia box) / Köppen elsewhere; Urban → Ground (the App paints Kanto in the Ground colour) | Apple's own class/climate rasters; `climate-globe.png` (sampled tints) below z 4.6 |
+| hill-shade | §7.4: az 240° / alt 65°, `groundElevationScale(z)` → MapLibre `hillshade-shadow-color` alpha by the small-slope equation (`map/README.md`), water excluded by layer order | `normalsSharpnessBias`, the cube term on tilted normals |
+| graticule | §7.13 Geolines-* (`ui/basemap/geolines.json`) incl. polar circles; equator solid | label size ×1.2 (globe textSizeScale?) and `labelColorLumAdjustment` not applied |
+| stars | §2.1 `stars.bin`, angles as RA/Dec in the earth frame through the page camera, alpha from brightness | frame, point size; 36 stars drawn vs ~300 counted on the App |
+| labels | flat band: the `.styl`-derived symbol layers of `style-flat-*.json` from z 4.6; globe DOM labels below | globe DOM typography still `labels-globe.json` (sampled); undersea line labels, physical ranges not drawn |
+| flat style items seen at z 5.1 (for the data session) | — | FreewayControlled 2.25 px purple from Apple z6 covers 59 000 px where the App shows land (§7.14 open); `Border-State` magenta α 0.25 where the App shows none; the App's thin light lines in the mountains are Ground-class valley floors, not lines |

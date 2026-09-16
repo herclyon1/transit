@@ -49,6 +49,13 @@
     function closeModes() { opt.hidden = true; $('sheet').hidden = false; }
     $('modeBtn').addEventListener('click', () => (opt.hidden ? openModes() : closeModes()));
     $('optClose').addEventListener('click', closeModes);
+    // Mac: Maps.app's Map Modes is a popover — no close button (hidden in map/shell.css), a click anywhere outside
+    // it or on the toolbar button closes it; the iPhone modes sheet keeps its X (Maps iOS "Choose Map")
+    document.addEventListener('pointerdown', e => {
+      if (opt.hidden || !app.wideSplit()) return;
+      if (opt.contains(e.target) || $('modeBtn').contains(e.target)) return;
+      closeModes();
+    }, true);
     function setMode(m, push = true) {
       if (!MODES.includes(m)) return;
       opt.querySelectorAll('.mode').forEach(b => b.setAttribute('aria-checked', b.dataset.mode === m ? 'true' : 'false'));
