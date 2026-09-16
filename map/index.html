@@ -13,6 +13,11 @@
 <link rel="stylesheet" href="../ui/hig.css">
 <link rel="stylesheet" href="globe.css">
 <link rel="stylesheet" href="shell.css">
+<script>
+// &ui=0 (basemap-only comparisons): set before the body paints and keep it in step with the hash, so no frame ever shows
+// the shell (acceptance 2026-09-16 late saw the sidebar in one of three headless shots)
+(function(){ const f=()=>{ const h=location.hash.replace(/^#/,''); const q=new URLSearchParams(h.includes('&')?h.slice(h.indexOf('&')+1):(h.includes('=')?h:'')); document.documentElement.classList.toggle('noui', q.get('ui')==='0'); }; f(); addEventListener('hashchange', f); })();
+</script>
 </head>
 <body>
 <canvas id="stars"></canvas>
