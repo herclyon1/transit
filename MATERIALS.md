@@ -25,7 +25,8 @@ Files (all under `materials/`, produced by `pipeline/materials/`):
    `_convertStyleToRecipe(UIBlurEffectStyle, _UIVisualEffectEnvironment *)` (UIKitCore; the Catalyst copy imports
    exactly `MTCoreMaterialRecipePlatformContent{UltraThin,Thin,,Thick}{Light,Dark}`, `PlatformChrome{Light,Dark}`,
    `Platters`, `PlattersDark`, `Modules`, `ModulesSheer`, `PreviewBackground`).
-   **On this Mac that path is not taken** — see 2. The four `platformContentGlass*` recipes, `platformSelected /
+   **On this Mac that path is not taken** — see 2 — and on iOS 26+ it is not the sheet background either (the
+   sheet is UIKit glass, §4); the recipes remain what `UIBlurEffect` views *inside* the content resolve to on iOS. The four `platformContentGlass*` recipes, `platformSelected /
    Pinched / Disabled` and `toolbarButtonBackground` are referenced by no dylib in the macOS shared cache except
    CoreMaterial itself (grep of all 4 088 extracted images); they are not the Liquid Glass.
 2. **AppKit `NSVisualEffectView` materials** (CoreUI, `NSVisualEffectViewCoreUIImpl`) — `CABackdropLayer` with
@@ -49,7 +50,7 @@ Files (all under `materials/`, produced by `pipeline/materials/`):
 | Map Modes popover | UIKit / SwiftUI popover; on Catalyst the popover view is hosted by AppKit (`UIPopoverPresentationController`, view has no `UIWindow`) → `NSPopover` | `NSPopoverFrame` = `NSGlassEffectView` | §4 "NSPopover" |
 | right-column glass buttons | `-[MUBlurView initGlassBlurWithTintColor:glassStyle:]`, `_maps_applyGlassBackgroundForButton:buttonBackgroundType:…` → `UIGlassEffect` (`glassStyle` 0 regular / 1 clear); some are SwiftUI `.glassEffect` (`SwiftUI.GlassEffectContainer` bound) | UIKit glass (identical filter values to `NSGlassEffectView`) | §4 baseline (regular) / "clear" |
 | search field | `UISearchBar` / `UISearchController` (class bound by `Maps`) | `UISearchBarTextField` background = glass with the search-field parameter set | §4 "searchBar" |
-| place card / sheets | `UISheetPresentationController` (bound), `MUBlurView initWithBlurEffectStyle:` fed by a Maps theme object (`type` 2 = material, `blurStyle` = `UIBlurEffectStyle`, `groupName`, `additionalColor`) | on the Mac every `UIBlurEffectStyle` becomes an AppKit `NSVisualEffectMaterial` (§3) | §3 |
+| place card / sheets | `UISheetPresentationController` (bound), `MUBlurView initWithBlurEffectStyle:` fed by a Maps theme object (`type` 2 = material, `blurStyle` = `UIBlurEffectStyle`, `groupName`, `additionalColor`) | **iOS 26+ (iPhone): the partial-height sheet's background is UIKit's own Liquid Glass**, not the app's `MUBlurView` — Apple: "partial height sheets are inset with a Liquid Glass background by default … when transitioning to a full height sheet the glass gradually becomes opaque" ([WWDC25 284, Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)); the UI session's iOS 27 simulator shot of Maps has the sheet over black space at #858585 = 0.52 = the §4 **regular** set over black (Black 0.4 · (1 − 0.2) + 0.2), whereas the §2 CoreMaterial recipe + Kit value would give 0.73. **Mac (Catalyst):** the card sits in the sidebar column, and any `UIBlurEffectStyle` the theme picks becomes an AppKit `NSVisualEffectMaterial` (§3) | iPhone: §4 regular (blur box ≈ 16 pt, see §4 "How the filter composites"); Mac: §3 |
 | status-bar background | `StatusBarBackgroundViewStyle` → `MUBlurView initWithBlurEffectStyle:` (the one `UIBlurEffect` class reference in `Maps`) | §3 | §3 |
 
 The exact `blurStyle` constants of the Maps theme objects are built in Swift code (`initWithBlurStyle:groupName:
@@ -114,8 +115,10 @@ grey fill composited with `darkenBlendMode` (light) / `lightenBlendMode` (dark),
 `UIBlurEffectStyle` → `NSVisualEffectMaterial` on the Mac (`materials/catalyst-materials.json`, the effect's
 own description): `systemMaterial → 6 popover`, `systemThickMaterial → 5 menu`, `systemChromeMaterial → 3
 titlebar`, `systemThinMaterial → 20 (private, "thin")`, `systemUltraThinMaterial → 26 (private, "ultraThin")`;
-the legacy `light / extraLight / dark / regular / prominent` are plain fills without blur (`rgba(255,255,255,0.3)`,
-`rgba(247,247,247,0.8)`, `rgba(28,28,28,0.73)`), i.e. deprecated styles get no backdrop on the Mac.
+the legacy `light / extraLight / dark / regular / prominent` keep UIKit's own tree on the Mac (`UICABackdropLayer`
+scale 0.25 with `gaussianBlur` radius 30 (light, regular) / 20 (extraLight, dark, prominent) + `colorSaturate` 1.8,
+then a grey fill: white 0.3 (light, regular), 0.97 α0.8 (extraLight, prominent), 0.11 α0.73 (dark)) — corrected
+2026-09-16 from `catalyst-materials.json`; an earlier version of this paragraph called them fills without blur.
 
 **CSS equivalent (exact for this class of material).** Chrome rule first (UI session's four-way test
 `pipeline/basemap/raw/score/mattest.html`, re-run here with siblings and containers, 2026-09-16): `mix-blend-mode`
@@ -201,8 +204,18 @@ bleed and shadow colour matrices arrive as three 3×4 half rows each, built on t
 `CA::ColorMatrix::set_ycc_composite(white, black, saturation, fillColor)`. Per fragment inside the shape:
 
 1. **blur** — the backdrop texture sampled at a mip level, `lod = max(0, log2(blur_alpha0 · blur_radius))` in the
-   shader (a downsampled-pyramid blur, not a Gaussian; the four BlurOpacity/BlurDistance pairs pick levels by distance
-   to the edge in the non-minimal variants), un-premultiplied;
+   shader (a downsampled-pyramid blur, not a Gaussian; `blur_alpha0` = BlurOpacity0, the other three alphas are the
+   differences BlurOpacity(n−1) − BlurOpacity(n) and pick further levels by BlurDistance in the non-minimal
+   variants), un-premultiplied. **BlurRadius counts texels of the backdrop capture, and the capture is downsampled by
+   the `CABackdropLayer.scale`** the view sets (regular glass, popover, sidebar 0.25; clear glass and the search field
+   0.5; AppKit materials 0.125), so the blur on screen is a box of ≈ BlurOpacity0 · BlurRadius / scale **points**:
+   regular 0.8 · 5 / 0.25 = 16 pt, clear 10 / 0.5 = 20 pt, popover and sidebar 10 / 0.25 = 40 pt, search field
+   0.4 · 5 / 0.5 = 4 pt. Measured on the globe limb under the Maps sidebar (`~/Money/styl-work/native.png`, rows 700
+   and 900 @2×, `pipeline/materials/limb_blur.py`): luma 135 → 220 with the 10–90 % rise over 68 / 72 px = 34 / 36 pt, which is a 40 pt box
+   (0.8 × 40 = 32 pt; a Gaussian of σ = BlurRadius = 10 pt would rise over 26 pt and a 20 pt box over 16 pt). The
+   CPU side multiplies the radius by the source-surface scale and two further factors before it reaches the uniform
+   (`render`, `fmul.2s v26, v0, v1[0]`); those factors were not traced to their origin — the relation above is the
+   measured one and is what the limb width supports;
 2. **BlurFill** (when enabled) — a second, wider sample f at level from `BlurFillBlurRadius` (two taps averaged);
    `c = mix(Darken·min(c,f) + Lighten·max(c,f) + (1 − Darken − Lighten)·c, f, Normal)`; over a flat backdrop
    c = f and this is a no-op — it only lightens (regular) or darkens (dark variants) *gradients* under the glass;
@@ -248,7 +261,7 @@ with their class defaults — the `glassBackground` values above are what the vi
 
 | part of the recipe | CSS | fidelity |
 |---|---|---|
-| BlurRadius 5 (regular) / 10 (clear, sidebar, popover) | `backdrop-filter: blur(5px)` / `blur(10px)` | approximate — the filter samples a mip pyramid (level log2 of the radius), CSS blurs with a Gaussian of that σ |
+| BlurRadius / backdrop scale (box ≈ BlurOpacity0 · BlurRadius / scale pt: regular 16, clear 20, popover and sidebar 40, search 4) | Gaussian with the same 10–90 % width, σ = 0.31 · box: regular `backdrop-filter: blur(5px)`, clear `blur(6px)`, popover and sidebar `blur(12.5px)`, search field `blur(1.3px)` | approximate (box vs Gaussian); the old `blur(10px)` for popover / sidebar was 2.5× too sharp — the 5 px for regular glass was right by coincidence (0.8 · 5 / 0.25 · 0.31 = 5) |
 | Face colour matrix (luma levels + chroma saturation, see above): CSS `contrast(c) brightness(b) saturate(S / slope)` with slope = White − Black, c = ½·slope / (½·slope + Black), b = slope / c — the per-channel `contrast/brightness` pair reproduces the luma mapping and scales the chroma by slope, and `saturate(1 / slope)` (a luma-preserving Rec.709 saturation matrix in CSS too) puts the chroma back; verified in Chrome against `glass_face.py` within 1/255 | regular light: `contrast(0.412) brightness(1.360) saturate(2.143)`; regular dark: `contrast(0.867) brightness(1.205) saturate(1.244)`; clear / popover light: `contrast(0.652) brightness(1.150) saturate(1.333)`; clear dark: `contrast(0.882) brightness(0.850) saturate(1.333)`; sidebar light: `contrast(0.441) brightness(1.430) saturate(1.905)`; sidebar dark: `contrast(0.667) brightness(0.600) saturate(1.500)` | exact for the matrix; the MaxLuma step (regular dark 0.35, sidebar light 0.85, search dark 0.6) has no CSS form — put `brightness(1 − (1 − L)·Ȳ)` *first* in the list with Ȳ the backdrop's typical luma (map at the acceptance view ≈ 0.6 → sidebar light `brightness(0.91)`), exact only at Ȳ |
 | FaceColorMatrixFillColor rgba(255,255,255,0.2) (regular) / 0.1 (clear) / 0 (dark) | `background: rgba(255,255,255,.2)` | exact |
 | BlurFill (a second, wider blur mixed in by min/max: regular lightens gradients at 0.9, dark variants darken at 0.9, then 0.5 normal) | omit — it is a no-op over a flat backdrop and only reshapes gradients; nearest CSS is a sibling `backdrop-filter: blur(8px)` with `mix-blend-mode: lighten` (light) / `darken` (dark) at opacity .9, subject to the §3 stacking-context rule | approximate |
