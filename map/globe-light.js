@@ -3,7 +3,10 @@
 // (captured from VectorKit, 2026-09-16). MapLibre paints every surface colour as albedo x light(0,0,1)
 // (the flat renderer's value, so the same colours serve the flat map); this pass reads those pixels back,
 // linearises them, and re-lights per pixel:
-//   light(n)  = ambientLightColor * cube(n) + lightColor * max(n.L, 0)        (linear RGB; n = sphere normal in view space)
+//   light(n)  = ambientLightColor * cube(n) + lightColor * max(n.L, 0)        (linear RGB; n in view space)
+//   n         = the terrain normal (SHADER-NUMBERS 3.1, globe path): the sphere normal at the pixel, tilted by the slope of
+//               Apple's own mesh heights (map/data/height-globe*.png, RENDER-PIPELINE 2.4b) x groundElevationScale(Apple z)
+//               (groundSettings.json) in the local east/north/up frame, re-expressed in view space; water is flat (mesh z ~ 0)
 //   colour    = albedo * light(n) = pixel_lin * light(n) / light(0,0,1)
 //   rim       = mix(midColor, black, t2) * (lightColor * I + ambientLightColor),  I = 0.25 * (L.pos + 1)^2
 //               over (outerRadius - innerRadius) * (1 - colorMidPoint) = 75 km outside the silhouette
@@ -31,6 +34,34 @@
     uniform float u_rimPx;            // 75 km at limb scale, device px
     uniform float u_rimLight;         // AtmosphereConstants.lightingEnabled (1 = far camera)
     uniform float u_alpha;            // fade (morph to flat)
+    uniform sampler2D u_height;       // Apple mesh heights, world Web-Mercator, terrarium (height-globe.png)
+    uniform sampler2D u_heightEa;     // same, East Asia lon 90-180 / lat 0-66.51 (height-globe-ea.png)
+    uniform vec2 u_hsize;             // texel counts of the two height textures (world, ea)
+    uniform mat3 u_frame;             // columns: east, north, up unit vectors of the view centre in ECEF (view -> ECEF)
+    uniform float u_scale;            // groundElevationScale(Apple z)
+    uniform float u_terrain;          // 0..1: how much of the terrain tilt to apply (fades out over PAL)
+    const float PI = 3.14159265358979;
+    const float EARTH_W = 40075016.686;                                    // Web-Mercator world width, metres
+    const float EA_LNG0 = 90.0, EA_LNG1 = 180.0, EA_LAT1 = 66.51326;       // ground-globe.json east_asia
+    float mercY(float lat) { return log(tan(PI / 4.0 + lat / 2.0)); }
+    float terr(vec4 c) { return (c.r * 256.0 + c.g + c.b / 256.0) * 255.0 - 32768.0; }
+    // slope of the height field (metres per metre) in local east/north at lat/lng (radians); terrain normal in that frame
+    vec3 terrainNormal(float lat, float lng) {
+      float latd = degrees(lat), lngd = degrees(lng);
+      bool ea = lngd >= EA_LNG0 && lngd <= EA_LNG1 && latd >= 0.0 && latd <= EA_LAT1;
+      vec2 uv; float texels; float span;                                   // span = longitude span of the texture, degrees
+      if (ea) { uv = vec2((lngd - EA_LNG0) / (EA_LNG1 - EA_LNG0), (mercY(radians(EA_LAT1)) - mercY(lat)) / (mercY(radians(EA_LAT1)) - 0.0)); texels = u_hsize.y; span = 90.0; }
+      else    { uv = vec2((lngd + 180.0) / 360.0, (PI - mercY(lat)) / (2.0 * PI)); texels = u_hsize.x; span = 360.0; }
+      float d = 1.0 / texels;
+      float mPerTexel = EARTH_W * (span / 360.0) / texels * cos(lat);        // conformal: same east and north
+      float hE, hW, hN, hS;
+      if (ea) { hE = terr(texture2D(u_heightEa, uv + vec2(d, 0.0))); hW = terr(texture2D(u_heightEa, uv - vec2(d, 0.0)));
+                hN = terr(texture2D(u_heightEa, uv - vec2(0.0, d))); hS = terr(texture2D(u_heightEa, uv + vec2(0.0, d))); }
+      else    { hE = terr(texture2D(u_height, uv + vec2(d, 0.0)));   hW = terr(texture2D(u_height, uv - vec2(d, 0.0)));
+                hN = terr(texture2D(u_height, uv - vec2(0.0, d)));   hS = terr(texture2D(u_height, uv + vec2(0.0, d))); }
+      float ge = (hE - hW) / (2.0 * mPerTexel), gn = (hN - hS) / (2.0 * mPerTexel);
+      return normalize(vec3(-u_scale * ge, -u_scale * gn, 1.0));
+    }
     vec3 toLin(vec3 c) { return mix(c / 12.92, pow((c + 0.055) / 1.055, vec3(2.4)), step(0.04045, c)); }
     vec3 toSrgb(vec3 v) { v = clamp(v, 0.0, 1.0); return mix(v * 12.92, 1.055 * pow(v, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, v)); }
     void main() {
@@ -43,6 +74,17 @@
       if (disc >= 0.0) {
         float t = (-B - sqrt(disc)) / (2.0 * A);
         vec3 n = vec3(dx * t, dy * t, u_D - t);                          // unit sphere -> the normal
+        if (u_terrain > 0.0) {
+          vec3 ne = u_frame * n;                                          // ECEF
+          float lat = asin(clamp(ne.z, -1.0, 1.0)), lng = atan(ne.y, ne.x);
+          vec3 tn = terrainNormal(lat, lng);
+          // local frame at the pixel, in view space: up = n, east = d/dlng, north = up x east
+          vec3 eastE = vec3(-sin(lng), cos(lng), 0.0);
+          vec3 eastV = normalize(eastE * u_frame);                          // ECEF -> view: multiply by the transpose
+          vec3 northV = cross(n, eastV);
+          vec3 nt = normalize(tn.x * eastV + tn.y * northV + tn.z * n);
+          n = normalize(mix(n, nt, u_terrain));
+        }
         vec4 m = texture2D(u_map, uv);
         vec3 base = m.a > 0.001 ? m.rgb / m.a : vec3(0.0);
         vec3 lin = toLin(base);
@@ -82,7 +124,24 @@
     const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     const aPos = gl.getAttribLocation(prog, 'a_pos'); gl.enableVertexAttribArray(aPos); gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-    const U = {}; for (const name of ['u_map', 'u_cube', 'u_size', 'u_c', 'u_r', 'u_D', 'u_f', 'u_L', 'u_lc', 'u_amb', 'u_lightC', 'u_mid', 'u_rimPx', 'u_rimLight', 'u_alpha']) U[name] = gl.getUniformLocation(prog, name);
+    const U = {}; for (const name of ['u_map', 'u_cube', 'u_size', 'u_c', 'u_r', 'u_D', 'u_f', 'u_L', 'u_lc', 'u_amb', 'u_lightC', 'u_mid', 'u_rimPx', 'u_rimLight', 'u_alpha',
+                                      'u_height', 'u_heightEa', 'u_hsize', 'u_frame', 'u_scale', 'u_terrain']) U[name] = gl.getUniformLocation(prog, name);
+    // height textures (units 2, 3): Apple's mesh heights as terrarium PNGs (RENDER-PIPELINE 2.4b); 1x1 zero until loaded
+    const hsize = [1, 1];
+    const mkTex = (unit) => { const t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([128, 0, 0, 255]));   // 32768 -> 0 m
+      for (const [k, v] of [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+      return t; };
+    const heightTex = mkTex(2), heightEaTex = mkTex(3);
+    function loadHeight(url, unit, tex, idx) {
+      const img = new Image();
+      img.onload = () => { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img); hsize[idx] = img.width; if (onHeight) onHeight(); };
+      img.src = url;
+    }
+    let onHeight = null;
+    loadHeight('data/height-globe.png', 2, heightTex, 0);
+    loadHeight('data/height-globe-ea.png', 3, heightEaTex, 1);
     // map texture (unit 0)
     const mapTex = gl.createTexture(); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, mapTex);
     for (const [k, v] of [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
@@ -103,14 +162,16 @@
     for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_CUBE_MAP, k, v);
     const L = sn.lighting.tileLightDirection, lc = sn.lighting.lightColor_linear[0], amb = sn.lighting.ambientLightColor_linear[0];
     const lightC = amb * centreZ + lc * L[2];       // the same cube sample the shader takes at n = (0,0,1)
-    gl.uniform1i(U.u_map, 0); gl.uniform1i(U.u_cube, 1);
+    gl.uniform1i(U.u_map, 0); gl.uniform1i(U.u_cube, 1); gl.uniform1i(U.u_height, 2); gl.uniform1i(U.u_heightEa, 3);
     gl.uniform3f(U.u_L, L[0], L[1], L[2]); gl.uniform1f(U.u_lc, lc); gl.uniform1f(U.u_amb, amb); gl.uniform1f(U.u_lightC, lightC);
     gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND);
     let lastW = 0, lastH = 0;
     return {
       lightC, centreZ,
-      /** geom: {cx, cy, r, capDeg} in CSS px (y down); mid: [r,g,b] linear; rimPx CSS px; alpha 0..1 */
-      draw(mapCanvas, geom, dpr, mid, rimPx, rimLight, alpha) {
+      set onHeightLoaded(fn) { onHeight = fn; },
+      /** geom: {cx, cy, r, capDeg} in CSS px (y down); mid: [r,g,b] linear; rimPx CSS px; alpha 0..1;
+       *  terrain: {lat, lng (deg, view centre), scale (groundElevationScale), amount 0..1} or null */
+      draw(mapCanvas, geom, dpr, mid, rimPx, rimLight, alpha, terrain) {
         const W = mapCanvas.width, H = mapCanvas.height;      // device px
         if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
         gl.viewport(0, 0, W, H);
@@ -123,6 +184,13 @@
         gl.uniform2f(U.u_size, W, H); gl.uniform2f(U.u_c, geom.cx * dpr, geom.cy * dpr); gl.uniform1f(U.u_r, geom.r * dpr);
         gl.uniform1f(U.u_D, D); gl.uniform1f(U.u_f, f);
         gl.uniform3f(U.u_mid, mid[0], mid[1], mid[2]); gl.uniform1f(U.u_rimPx, rimPx * dpr); gl.uniform1f(U.u_rimLight, rimLight); gl.uniform1f(U.u_alpha, alpha);
+        if (terrain && terrain.amount > 0) {
+          const la = terrain.lat * Math.PI / 180, lo = terrain.lng * Math.PI / 180;
+          // columns east, north, up (ECEF) of the view centre; view x = east, y = north, z = up (bearing 0, pitch 0)
+          const east = [-Math.sin(lo), Math.cos(lo), 0], north = [-Math.sin(la) * Math.cos(lo), -Math.sin(la) * Math.sin(lo), Math.cos(la)], up = [Math.cos(la) * Math.cos(lo), Math.cos(la) * Math.sin(lo), Math.sin(la)];
+          gl.uniformMatrix3fv(U.u_frame, false, new Float32Array([...east, ...north, ...up]));
+          gl.uniform1f(U.u_scale, terrain.scale); gl.uniform1f(U.u_terrain, terrain.amount); gl.uniform2f(U.u_hsize, hsize[0], hsize[1]);
+        } else gl.uniform1f(U.u_terrain, 0);
         gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       },
