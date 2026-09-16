@@ -81,3 +81,10 @@ swiftc -O pipeline/basemap/snap.swift -o /tmp/snap
 - 正文是若干 **zlib 流**（0x78 0x9c）：globe-default-21097@2x.styl 有 5 段，解压后 647 / 22 / 54 892 / 147 930 / 22 735 字节。
 - 解压后仍是自定义二进制，不是 protobuf 文本，只有零星可读串：`%$default,semibold`（字体规格）、`Route-Line-Flex-Point`（图层名）。大量重复的 `RFFVf`/`ccK` 之类短串像是位打包的属性表。
 - 结论：不是「解压就有 JSON」那种；要解就是从零推格式，工作量未知。已派数据会话做限时探测（见 WORKFLOW 派工记录），界面会话同时搭「渲染器当量具」的采样管线兜底。
+
+## GitHub 上有没有解析项目（2026-09-16 12:0x 查过）
+
+- **没有** .styl 解析器（gh 仓库/代码搜索 + 网搜，关键词 styl/VectorKit/GeoServices/STYL 均无）。
+- 相邻的两样：
+  1. `19h/vmp4-dump`（Rust）：解 VMP4 瓦片的 50 多种 section，大多只到十六进制转储，不解样式表。
+  2. `EthanArbuckle/iPhone18-3_26.1_23B85_Restore`：iOS 26.1 每个二进制的 Hex-Rays 反编译伪代码。VectorKit 的 C++ 部分 147 个文件已拉到 `~/Money/styl-work/vk/`（41 MB）。样式表解析器在 VectorKit_09/10/11/12/13/14/20/77.mm（搜 `STYL Parse Error Here`），样式语言叫 **GeoCSS**（`GEOGetGeoCSSStyleSheetLog`），.styl 是编译后的 GeoCSS。有解析器源码，解格式从「盲猜」变成「照着读」。
