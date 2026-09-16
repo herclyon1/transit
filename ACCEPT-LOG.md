@@ -428,3 +428,10 @@ kit-audit --phone map：36 ✅ 0 ⚠ 0 ✗（模拟器 iPhone 18 Pro Max），Ma
 - 大阪 z12：**语言错**（系统英文，App 全英文，我们全日文）；国道盾牌/车站/POI/铁路线名图标全缺；区名 App 大写拉丁+街区名，我们只有汉字区名；暗色我们道路亮灰偏粗，App 深灰细线，公园绿过饱和。
 - 日本 z6：语言同上；地形阴影/森林纹理几乎没有；海沟散字缺。
 **验收错误**：此前只看指标过关就放行，没按 WORKFLOW「逐元素写差异」执行。改法：指标改为阈值 20 并列阈值 40；放行必附逐元素清单（语言、标注数、图标、地形、暗色道路）；任一项未闭合不放行。功能线暂停，清单已派两会话。
+
+## 2026-09-16 21:14　验收 data 19e78d1（iOS Sheet 归属、BlurRadius 与 backdrop 缩放、球粉彩线索）　验收人：transit 验收（Fable）
+
+- §1/§2：iOS 26+ 半高 Sheet 背景 = UIKit Liquid Glass，来源 WWDC25 284 原话已附链接；界面会话模拟器 #858585=0.52 与 §4 regular 黑底值一致，§2 配方 0.73 不符——两边证据互洽。
+- §4：盒宽 ≈ BlurOpacity0·BlurRadius/scale pt。我自跑 pipeline/materials/limb_blur.py native.png：第 700/900 行 10–90% 上升 34/36 pt → 盒 42/45 pt，与弹窗/侧栏 40 pt 相符；CSS 等价 σ=0.31·盒 → 弹窗/侧栏 blur(12.5px)，原 10px 偏锐。文档标明「按实测关系」，CPU 侧因子未追到根。
+- RENDER-PIPELINE §6：iOS 球海 = ramp 第 247 项，Mac 粉彩为 Mac 专有项，嫌疑 needsAtmosphere/fog 向 skyBottomColor 混合——已并入我派的「球陆地地形」单一起解。
+**结论**：放行合并。
