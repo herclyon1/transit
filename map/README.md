@@ -28,16 +28,17 @@ Light / dark follow `prefers-color-scheme`.
 
 ### Acceptance numbers (`pipeline/basemap/score-views.sh`, `styl-work/cmp-accept.py`, 2026-09-16 evening)
 
-| view | before (1e4edca, fitted/calibrated values) | now (decoded originals) |
-|---|---|---|
-| globe `#3.12/30.14/124.45` | 4.35 % | **3.86 %** |
-| Japan light z 5.1 | 8.11 % (flat lines/labels at 10 % opacity: they faded in over 5–6) | **10.85 %** — 6.95 % with the flat line + symbol layers hidden, 10.50 % with only the symbols hidden: the `.styl` FreewayControlled purple (2.25 px + 0.4 stroke from Apple z6) covers 59 000 px where the App shows plain land (RENDER-PIPELINE 7.14 open item), the rest is label language (name:ja) |
-| Japan dark z 5.1 | 7.69 % | **10.75 %** (t = 20: 15.56 %) — same line/label cause |
-| Osaka light z 12.2 | 7.09 % | **7.08 %** |
-| Osaka dark z 12.2 | 7.90 % | **7.89 %** (t = 20: 17.88 %) |
+| view | 1e4edca (fitted / calibrated values, flat v5) | 333213b (decoded originals, flat v5) | now (decoded originals, **flat v6** 9a4415a) |
+|---|---|---|---|
+| globe `#3.12/30.14/124.45` | 4.35 % | 3.86 % | **3.74 %** |
+| Japan light z 5.1 | 8.11 % (flat lines/labels at 10 % opacity: they faded in over 5–6) | 10.85 % (flat fully on: v5's 2.25 px purple expressways covered 59 000 px the App leaves plain — RENDER-PIPELINE 7.15) | **8.56 %** (6.95 % with the flat line + symbol layers hidden) |
+| Japan dark z 5.1 | 7.69 % | 10.75 % | **8.27 %** (t = 20: 14.31 %) |
+| Osaka light z 12.2 | 7.09 % | 7.08 % | **7.33 %** |
+| Osaka dark z 12.2 | 7.90 % | 7.89 % | **8.10 %** (t = 20: 18.01 %) |
 
 The dark numbers at threshold 20 come from `pipeline/basemap/cmpdiff.py --t 20` (same recipe as cmp-accept: luminance of |Δ| after
-LANCZOS to 1280×744, toolbar column masked, denominator all pixels).
+LANCZOS to 1280×744, toolbar column masked, denominator all pixels). Osaka moved with the flat style (v5 → v6: coast glow, rail ticks,
+label fonts), not with this page.
 
 ## Shell (PLAN-ONE-MAP §4 skeleton, 2026-09-16)
 
@@ -63,11 +64,11 @@ No data, no functions — rows and the card are placeholder text.
 |---|---|
 | **PAL 4.6–5.0** | the globe's *sampled* palette (`palette-globe.json`, `climate-globe.png`, shelf raster — pending, see below) hands over to the decoded colours: ocean ramp (`color-relief`), NE land fill = Forest sheet colour, ground rasters. The whole flat style (fills, lines, `.styl` labels) fades in and the DOM globe labels fade out — the App's flat renderer owns z ≥ 5, so at the z 5.1 view everything flat is fully on |
 | **MORPH 5–6** | `projection.type` = `interpolate zoom 5 'vertical-perspective' → 6 'mercator'`; the post-pass (lighting + rim) fades with it. Nothing else changes |
-| **OVER 7–8** | the NE / raster drawing (ground rasters, ocean ramp, graticule, deep-sea and graticule DOM labels) fades out; asked as 8–9, kept at 7–8 because the 0.1° Köppen tint and the NE coastline stair-step from z ~7; `&over=8,9` overrides |
+| **OVER 7–8** | the NE / raster drawing (ground rasters, ocean ramp, deep-sea and graticule DOM labels) fades out; asked as 8–9, kept at 7–8 because the 0.1° Köppen tint and the NE coastline stair-step from z ~7; `&over=8,9` overrides |
 
 Layer order bottom→top: globe background · flat background/land fills · NE land fill + ground rasters (+ `climate-globe` below PAL) ·
 **hill-shade** · flat water (lakes over the land; OSM ocean under the ramp) · NE isobaths + shelf (below PAL) · **ocean ramp** ·
-graticule · flat lines · flat symbols. The ocean ramp is opaque wherever the terrarium DEM says depth ≥ 1 m, so the hill-shade never
+flat geoline-* · flat lines · flat symbols. The ocean ramp is opaque wherever the terrarium DEM says depth ≥ 1 m, so the hill-shade never
 shows on water (RENDER-PIPELINE §3: the ground shader has no relief on the water path).
 
 ## Layers — data and where every number comes from
@@ -80,7 +81,7 @@ shows on water (RENDER-PIPELINE §3: the ground shader has no relief on the wate
 | `ground`, `ground-ea` (raster images) | global 4096² Web-Mercator (class from Köppen) and the East-Asia box lat 0–60 / lng 90–160 at GIBS z7 (6400×6912, class from **NASA GIBS MODIS_Combined_L3_IGBP_Land_Cover_Type_Annual**, MCD12Q1 500 m, 2024-01-01, 675 tiles, no login) — `pipeline/basemap/ground.py`, `data/ground-{light,dark}.png`, `data/ground-ea-{light,dark}.png` | per pixel: Landcover class base colour (sheet, linearised) → 3×3 climate cells by `groundSettings.json` HSV deltas (z1–6: veryHot V+0.1, arctic S−0.2, veryDry H−35° V+0.1; night file for dark) sampled bilinearly by the temperature/aridity codes → × light(0,0,1) → sRGB. Sources: `shader-numbers.json climate_tinting`, SHADER-NUMBERS 4.4. Tables below |
 | `hillshade` | AWS Terrain Tiles raster-dem | light **azimuth 240° / altitude 65°** (`shader-numbers.json lighting`); strength from `groundElevationScale(z)` through the conversion below; MapLibre `standard` method, exaggeration 0.5 (identity slope warp), shadow black / highlight white with alpha(z), no accent |
 | post-pass `#light` (`globe-light.js`, WebGL) | MapLibre's canvas read back per frame | **lighting**: pixel_lin × light(n)/light(0,0,1), `light(n) = 0.49683·cube(n) + 0.7085·max(n·L,0)`, L = (−0.366, −0.211, 0.906) view-fixed, cube = the 8×8×6 irradiance texture (SHADER-NUMBERS 3.1/4.1); **rim**: `mix(midColor, black, t2) × (0.7085·0.25·(L·pos+1)² + 0.49683)` over 75 km outside the silhouette, midColor = Sky-Standard-Day rgb(155,196,237) / Night rgb(35,76,122) linearised (SHADER-NUMBERS 3.3, RENDER-PIPELINE 2.2). See "rim geometry" below |
-| `graticule-{tropics,equator,polar}` (lines) | `data/graticule.geojson`: 23.4366°, 0°, 66.5634° | `Geolines-{Tropics,Equator,Polar}.Explore-{Light,Dark}-Elevated` (`ui/basemap/geolines.json`, `pipeline/basemap/geolines.py`, RENDER-PIPELINE 7.13): fill rgb(73,88,122) α 0.45/0.50/0.60/0.70 by Apple z 0/2/4/8 with fillColorLumAdjustment −15 (HSL lightness), width 1.15 (equator 1 → 1.5 → 1.9), dash [12,12] → [16,16] → [24,24] → [32,32] in ¼-pt units (equator solid: [4,0]); dark rgb(131,155,206) α 0.30, +15 |
+| `flat-geoline-{tropics,equator}` (lines, every zoom, no fade) | `data/graticule.geojson` (globe-data.py: 23.4366°, 0°, 66.5634°) | the flat style's own layers (v6 `to_maplibre.py` from `Geolines-{Tropics,Equator}.Explore-*`, RENDER-PIPELINE 7.13/7.16: rgb(73,88,122) α by zoom, width 1.15 / equator 1 → 1.9, dashes at 0.2 pt per unit); the polar circles take the tropics row (filter lat ≠ 0). This page's own `graticule-*` layers (¼-pt dashes, lum −15) were dropped for them; `ui/basemap/geolines.json` stays as the decoded reference and feeds the DOM label |
 | labels (DOM markers, z < 5) | NE 10m admin_0 `LABEL_X/Y`, marine + continent polys → spherical interior point; cities `data/cities.geojson` (`globe_rank` ≤ 4); deeps `data/undersea.geojson` (cls 1 Deep); graticule labels at the App's anchors | **pending**: typography measured on the App globe (`labels-globe.json`, `meta-ui.json labels_app`); the globe sheet rows (`basemap/data/styl/globe-key-numbers.tsv`) are decoded but not wired yet. Graticule label = Geolines textColor rgb(73,88,122), medium, labelInfo.height 7.5→9 (Apple z2–4), 9→10 (4–8), halo rgb(194,219,234) α 0.15 → not drawn (α < 0.2). Continents hidden from Apple z3 (`Continent-PointLabel-Base visible=False`) |
 | labels (flat, z ≥ 4.6) | the flat style's symbol layers (`to_maplibre.py` ← `.styl` City-Label-LMZ / Country-Label / State-Label / Ocean-Points) | the sheet's, unchanged here |
 | stars (canvas) | `basemap/data/globe/stars.bin` (VectorKit embedded zip, 10 000 × float32[3]) | positions: angle 0 / angle 1 taken as right ascension / declination in the earth-fixed frame, projected through the page camera; alpha = (brightness − 10)/4.1; **pending**: frame (stars-format.md), the GlobeStars point-size/alpha formula (size 1.2 pt is the App measurement) |
@@ -174,9 +175,9 @@ python3 pipeline/basemap/palette.py / labels.py / globefit.py / shading.py / haz
 * Stars: frame and point-size/alpha mapping (RENDER-PIPELINE 2.1); the catalogue through the page camera gives 36 stars in the acceptance
   view against ~300 counted on the App screenshot.
 * Inner limb residual (+0.066 linear in R,G at r/limb 0.9–0.95) — the globe-tile `fogParameters` / `atmos` constants were not captured.
-* Flat style items for the data session: FreewayControlled 2.25 px purple from Apple z6 where the App shows ≈ nothing (59 000 px in the Japan
-  view), prefecture borders magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6 — the App's "thin grey lines" there are
-  Ground-class valley floors (sampled: rgb(239,240,228) = Ground × light), not lines; labels in name:ja vs the App's English.
+* Flat style items for the data session: the expressway width below Apple z8 is resolved in v6 (RENDER-PIPELINE 7.15); prefecture borders
+  magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6 — the App's "thin grey lines" there are Ground-class valley floors
+  (sampled: rgb(239,240,228) = Ground × light), not lines; shinkansen drawn at z 5 where the App shows none; labels in name:ja vs the App's English.
 * No country borders below z 4.6 (the flat `boundary-*` layers start at PAL); the App draws `Border-Country` from Apple z2.
 * Undersea names along lines (Japan Trench, basins), physical range labels (Taebaek Mountains) — data exists (`undersea.geojson`, `physical.geojson`), not drawn.
 * Material values of the shell (sidebar / card / popover / glass buttons) — MATERIALS.md, next unit.

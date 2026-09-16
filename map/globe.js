@@ -25,7 +25,7 @@
   //                lines, .styl labels) fades in while the DOM globe labels fade out — the App's flat renderer owns
   //                z >= 5, so at the z5.1 acceptance view everything flat is fully on
   //   MORPH 5-6    the sphere flattens (projection expression) — nothing else changes
-  //   OVER 7-8     the NE/raster drawing (ground rasters, ocean ramp, graticule, deep/graticule labels) fades out;
+  //   OVER 7-8     the NE/raster drawing (ground rasters, ocean ramp, deep/graticule DOM labels) fades out;
   //                asked for as 8-9, kept at 7-8 because the 0.1 deg Koppen tint and NE coastlines stair-step from z ~7;
   //                &over=8,9 overrides for comparison
   const GLOBE_Z0 = 5, GLOBE_Z1 = 6;
@@ -117,44 +117,6 @@
     return ['interpolate', ['linear'], ['zoom'], ...out];
   }
 
-  // ---- Geolines helpers: sheet bands (Apple z) -> MapLibre zoom expressions ----------------------------
-  const appleZ = z => z - 1;                 // Apple tile zoom = MapLibre zoom + 1 (basemap/data/styl/README.md)
-  function stepByBands(bands, f) {
-    // [{zmin,zmax,value}] in Apple z -> ['step', ['zoom'], v0, z1, v1, ...] in MapLibre z
-    const sorted = [...bands].sort((x, y) => x.zmin - y.zmin);
-    if (sorted.length === 1) return f(sorted[0].value);
-    const out = ['step', ['zoom'], f(sorted[0].value)];
-    for (const bnd of sorted.slice(1)) out.push(appleZ(bnd.zmin), f(bnd.value));
-    return out;
-  }
-  // fillColorLumAdjustment: HSL lightness +- points/100 (the tropics' measured dash #6b8098 = #49587a at alpha 0.5
-  // after -15 over the sampled ocean colour, map/README.md)
-  function lumAdjust(rgb, pts) {
-    const r = rgb[0] / 255, g = rgb[1] / 255, b = rgb[2] / 255;
-    const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h = 0, sat = 0; const l = (mx + mn) / 2;
-    if (mx !== mn) {
-      const d = mx - mn; sat = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
-      h = mx === r ? ((g - b) / d + (g < b ? 6 : 0)) : mx === g ? ((b - r) / d + 2) : ((r - g) / d + 4); h /= 6;
-    }
-    const l2 = Math.max(0, Math.min(1, l + pts / 100));
-    const q = l2 < 0.5 ? l2 * (1 + sat) : l2 + sat - l2 * sat, p2 = 2 * l2 - q;
-    const t2c = t => { t = (t + 1) % 1; return t < 1 / 6 ? p2 + (q - p2) * 6 * t : t < 1 / 2 ? q : t < 2 / 3 ? p2 + (q - p2) * (2 / 3 - t) * 6 : p2; };
-    return [t2c(h + 1 / 3), t2c(h), t2c(h - 1 / 3)].map(v => Math.round(v * 255));
-  }
-  function geoColour(st) {
-    const adj = st.fillColorLumAdjustment ? st.fillColorLumAdjustment[0].value : 0;
-    return stepByBands(st.fillColor, v => { const c = lumAdjust(v.rgb, adj); return `rgba(${c[0]},${c[1]},${c[2]},${v.alpha})`; });
-  }
-  function geoWidth(st) { return stepByBands(st.width, v => v); }
-  function geoDash(st) {
-    // dashPattern [on, off, ...] in quarter points -> MapLibre line-dasharray in line-width units; [4,0] = solid
-    if (!st.dashPattern) return {};
-    const w0 = st.width[0].value;
-    const conv = d => d.dash.map(v => v / 4 / w0);
-    if (st.dashPattern.length === 1 && st.dashPattern[0].value.dash[1] === 0) return {};
-    return { 'line-dasharray': stepByBands(st.dashPattern, v => ['literal', conv(v)]) };
-  }
-
   // ---- style ----------------------------------------------------------------------------
   const TERRARIUM = (meta.sources.hillshade && meta.sources.hillshade.url) || meta.hillshade.url;
   // Palettes: 'globe' = the App's globe style sampled off its screenshot (palette-globe.json; pending — the globe
@@ -224,27 +186,19 @@
         'hillshade-highlight-color': hillshadeStops('255,255,255'),
         'hillshade-accent-color': 'rgba(0,0,0,0)',
       } });
-    // tropics / equator / polar circles: Geolines-{Tropics,Equator,Polar}.Explore-{Light,Dark}-Elevated
-    // (ui/basemap/geolines.json, RENDER-PIPELINE 7.13); Apple z = MapLibre z + 1; dash units are quarter points
-    if (meta.geolines) {
-      sources['graticule'] = { type: 'geojson', data: 'data/graticule.geojson' };
-      for (const kind of ['tropics', 'equator', 'polar']) {
-        const st = meta.geolines.styles[`Geolines-${kind[0].toUpperCase() + kind.slice(1)}.Explore-${m === 'dark' ? 'Dark' : 'Light'}-Elevated`];
-        if (!st) continue;
-        layers.push({ id: 'graticule-' + kind, type: 'line', source: 'graticule', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['==', ['get', 'kind'], kind]],
-          paint: { 'line-color': geoColour(st), 'line-width': geoWidth(st), ...geoDash(st) } });
-      }
-    }
     // everything drawn here except the background and the hill-shade fades out at OVER
     const globeLayers = layers.map(l => (l.type === 'background' || l.type === 'hillshade') ? l : withFade(l, fadeOut));
     const flat = m === 'dark' ? flatDark : flatLight;
-    const flatSources = {}, flatFills = [], flatWater = [], flatLines = [], flatSymbols = [];
+    const flatSources = {}, flatFills = [], flatWater = [], flatLines = [], flatSymbols = [], flatAlways = [];
     let glyphs;
     if (flat) {
       Object.assign(flatSources, flat.sources);
       glyphs = flat.glyphs;
       for (const l0 of flat.layers) {
         const l = { ...l0, id: 'flat-' + l0.id };
+        // tropics / equator / polar circles (style-flat v6 geoline-*, Geolines-* rows, RENDER-PIPELINE 7.13/7.16):
+        // drawn at every zoom — the App has them on the globe — above the ocean ramp, no fade
+        if (l0.id.startsWith('geoline-')) { flatAlways.push(l); continue; }
         if (l.type === 'symbol') flatSymbols.push(withFade(l, fadeIn, PAL_Z0));   // .styl label styles take over at PAL
         else if (l.type === 'line') flatLines.push(withFade(l, fadeIn, PAL_Z0));
         else if (l0.id === 'water') flatWater.push(withFade(l, fadeIn, PAL_Z0));
@@ -260,7 +214,7 @@
     const gBg = globeLayers.filter(l => l.type === 'background');
     const gLand = pick(['land', 'climate', 'ground', 'ground-ea']);
     const gSea = globeLayers.filter(l => !gBg.includes(l) && !gLand.includes(l) && l !== hs);
-    const ordered = [...gBg, ...flatFills, ...gLand, hs, ...flatWater, ...gSea, ...flatLines, ...flatSymbols];
+    const ordered = [...gBg, ...flatFills, ...gLand, hs, ...flatWater, ...gSea, ...flatAlways, ...flatLines, ...flatSymbols];
     return {
       version: 8,
       // sphere from GLOBE_Z0 down, Mercator from GLOBE_Z1 up, morph in between (MapLibre's own 'globe' preset is 11->12)
