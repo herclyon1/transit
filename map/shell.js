@@ -7,9 +7,9 @@
   const waitGlobe = () => new Promise(r => { const t = () => window.__globe ? r(window.__globe) : setTimeout(t, 30); t(); });
   const extras = () => { const h = location.hash.replace(/^#/, ''); return new URLSearchParams(h.includes('&') ? h.slice(h.indexOf('&') + 1) : (h.includes('=') ? h : '')); };
   const MODES = ['cost', 'live', 'learn', 'quiz'];
-  const PLACES = {   // placeholder card content, one per row
-    'osaka': { title: '大阪', sub: '日本 · JPY · 占位' }, 'tokyo': { title: '东京', sub: '日本 · JPY · 占位' }, 'seoul': { title: '首尔', sub: '韩国 · KRW · 占位' },
-    'osaka-station': { title: '大阪駅', sub: '大阪市北区 · 占位' }, 'tokyo-station': { title: '東京駅', sub: '千代田区 · 占位' },
+  const PLACES = {   // placeholder card content, one per row (English: the user's system and Maps are English, acceptance 2026-09-16 night)
+    'osaka': { title: 'Osaka', sub: 'Japan · JPY · placeholder' }, 'tokyo': { title: 'Tokyo', sub: 'Japan · JPY · placeholder' }, 'seoul': { title: 'Seoul', sub: 'South Korea · KRW · placeholder' },
+    'osaka-station': { title: 'Osaka Station', sub: 'Kita, Osaka · placeholder' }, 'tokyo-station': { title: 'Tokyo Station', sub: 'Chiyoda, Tokyo · placeholder' },
   };
 
   // &ui=0 hides the shell (basemap-only comparisons against App snapshots); index.html sets html.noui in the head
