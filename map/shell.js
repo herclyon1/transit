@@ -12,12 +12,17 @@
     'osaka-station': { title: '大阪駅', sub: '大阪市北区 · 占位' }, 'tokyo-station': { title: '東京駅', sub: '千代田区 · 占位' },
   };
 
-  waitGlobe().then(G => {
+  waitGlobe().then(G => { try {
     const app = HIGShell.create({ map: false, sheetEl: $('sheet'), listEl: $('list'), cardEl: $('card'), initial: 'medium',
       card: item => ({ title: item.title, sub: item.sub, html: null }),
       onDismiss: () => G.setHashExtra('sel', null) });
     // Mac: ± under the right column (hig.css 11b positions .maplibregl-ctrl-top-right at --bar-h); iPhone: none (Maps has none)
-    if (app.wideSplit()) G.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+    if (app.wideSplit()) {
+      const nav = new maplibregl.NavigationControl({ showCompass: false });
+      G.map.addControl(nav, 'top-right');
+      // acceptance probes: fixed roles on the ± buttons (MapLibre owns the markup)
+      const c = nav._container; if (c) { const [zi, zo] = c.querySelectorAll('button'); if (zi) zi.dataset.role = 'rail-zoom-in'; if (zo) zo.dataset.role = 'rail-zoom-out'; }
+    }
 
     // ---- rows -> card (placeholder), sel= in the hash
     function select(id, push = true) {
@@ -54,5 +59,5 @@
     if (q.get('sel')) select(q.get('sel'), false);
     HIG.sf();
     window.__shell = { app, select, setMode, openModes, closeModes };
-  });
+  } catch (e) { (window.__errs = window.__errs || []).push('shell: ' + (e && e.message || e)); console.error(e); } });
 })();
