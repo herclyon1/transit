@@ -519,3 +519,10 @@ noui：index.html head 内联首帧前设置 + hashchange 跟随；我三拍 ui=
 ④ 苹果瓦片字节自查：geojson 的 apple_* 字段全去（164/152/764）、unmatched.json 删、9+3 张栅格全部由第三方重出；我 grep map/data 无 apple_ 字段。
 **结论**：放行合并。数据会话停工中。
 
+## 2026-09-17 01:59　验收 ui d8eaea9（球缘光晕）　验收人：transit 验收（Fable）
+
+① 规则出处：RENDER-PIPELINE §2.2 / SHADER-NUMBERS 3.3 的 GlobeAtmosphere corona（150 km，中点在轮廓线；盘内 horizon→mid、盘外 mid→black，× 光照项），颜色 = 样式表 Sky-Standard-Day/Night 两色（与捕获 skyTop/skyBottom 逐字节同）。拟合值只有地面大气项 w=1.15（已标）。
+② 剖面：第 330 行 App …156,164,160,163,163,160,137,83,0；我们 …152,157,164,155,155,169,155,113,0——盘内亮带与盘外渐落都有了，峰位略靠内、外半略短（corona 网格摆放未解，请数据会话解 buildAtmosphereModel）。锯齿青线消失（4× 裁片 scratchpad/accd8/limb-zoom.png）。
+③ 指标：3.64%（前 3.91%），t20 9.04%。星星 36 vs ≈300 未动。
+**结论**：放行合并。界面停工中，树里街区名改动未提交。
+

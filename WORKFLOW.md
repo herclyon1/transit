@@ -44,6 +44,8 @@ pipeline 里 29 个脚本假定「从仓库根运行」，指的是所在那棵�
 - 要用之前先发会话间消息问对方释放，用完说一声。同时驱动会互相把状态改掉（09-16 上午发生过）。
 - **「屏幕锁定」的真相（2026-09-16 13:5x 查清，用户从不锁屏）**：这台 Mac 息屏后不要密码（`sysadminctl -screenLock status` = off），用户也从不手动锁；但显示器一熄（几分钟一次，`pmset -g log` 可查），macOS 仍把会话标成 `CGSSessionScreenIsLocked = true`，于是 computer-use 的菜单/点击被系统挡、screencapture 出不了图、浏览器面板不合成。**这不是用户锁的，别再说「用户锁屏了」，也别叫用户解锁。** 处理（2026-09-16 15:0x 三会话商定，用户否了 8 小时常亮）：**不做任何常驻唤醒**；谁截 App 窗口谁用 `caffeinate -d -u <截图命令>` 把整条命令包住（进程活着就亮屏，退出即撤），截前查 `CGSSessionScreenIsLocked`，仍为 1 就每 2 秒重查最多 30 秒再放弃并报验收会话；网页截图一律无头 Chrome 落盘（不依赖显示器，全新配置 + `?v=<提交号>` 防缓存；**用真实时间等待，别用 `--virtual-time-budget`**：虚拟时间会把 fetch 和 setTimeout 的预算吃掉，标注数据没到就截了——09-16 两次「零标注」就是这个原因；或等 `__globe.idleCount>0 && __globe.labelStats.visible>0` 再截）；桌面浏览器面板只在用户人在电脑前时用；碰到 locked=true 就等显示器亮或发消息给验收会话，报告里写「显示器熄屏导致系统标记锁定」。
 
+- **显示器常亮的真相（2026-09-17 00:4x 查清）**：09-16 显示器从 13:50 亮到 00:42 共 11 小时，不是 caffeinate，是 Claude 桌面应用的内置浏览器面板持有 NoDisplaySleep「Capturing」断言（面板一开就持有，不关不睡），外加无头 Chrome 每次几秒的 Capturing 断言 397 次、caffeinate -d -u 31 次，间隔都短于息屏阈值。规矩：① 内置浏览器面板、模拟器面板用完立刻关（tabs_close / detach）；② 每次验收结束跑 `pmset -g assertions | grep -E "PreventUserIdleDisplaySleep|NoDisplaySleep|UserIsActive"`，非零就找到进程处理，结果一行写进 ACCEPT-LOG；③ caffeinate 只包截图那一条命令，不包整个脚本。
+
 ## 四、交付与验收（会话间消息，用户不传话）
 
 三个会话互相用桌面端的会话间消息联系（send_message / SendMessage）。验收会话：标题「工作流最优方案验收」，id `local_ffb898d8-d748-430a-81a4-6a04c98d4d32`。
