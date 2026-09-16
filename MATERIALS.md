@@ -14,7 +14,7 @@ Files (all under `materials/`, produced by `pipeline/materials/`):
 | `appkit-materials.json` | layer trees of every `NSVisualEffectMaterial` (light + dark, behindWindow + withinWindow), `NSGlassEffectView` regular / clear / tinted, `NSPopover`, and the `CASDFGlass*Effect` defaults | `dump_appkit_materials.m` |
 | `catalyst-materials.json` | layer trees UIKit-on-Mac builds for every `UIBlurEffect` system style, `UIGlassEffect` regular / clear / tinted / interactive, a `UISplitViewController` sidebar column, `UINavigationBar`, `UIToolbar`, `UISearchBar`, a glass `UIButton`, a popover | `catalyst_probe/` (a 200-line Mac Catalyst app, `build.sh`) |
 
-`pipeline/materials/summarize.py` regenerates the tables below from the two JSON dumps.
+`pipeline/materials/summarize.py` regenerates the tables below from the two JSON dumps; `glass_face.py` evaluates the decoded glass face step and prints its CSS, `fat_metallib.py` splits the fat QuartzCore metallib for `shader/metallib_dump.py`.
 
 ## 1. The three material systems, and which one Maps uses
 
@@ -100,7 +100,7 @@ grey fill composited with `darkenBlendMode` (light) / `lightenBlendMode` (dark),
 
 | material | light: saturate / fill / blend fill | dark: saturate / fill / blend fill |
 |---|---|---|
-| sidebar (= toolTip, underWindowBackground) | 2.2 / rgba(246,246,246,0.84) / #e9e9e9 darken / chameleon 5 % | 2.4 / rgba(40,40,40,0.80) / #242424 lighten / 5 % |
+| sidebar (= toolTip, underWindowBackground) — **not the Maps sidebar**, which is the UIKit glass sidebar of §4 | 2.2 / rgba(246,246,246,0.84) / #e9e9e9 darken / chameleon 5 % | 2.4 / rgba(40,40,40,0.80) / #242424 lighten / 5 % |
 | popover | 2.0 / rgba(246,246,246,0.60) / #f1f1f1 darken | 2.0 / rgba(40,40,40,0.60) / #1c1c1c lighten |
 | menu | 2.1 / rgba(246,246,246,0.72) / #ededed darken | 2.2 / rgba(40,40,40,0.70) / #202020 lighten |
 | hudWindow (= fullScreenUI) | 1.9 / rgba(246,246,246,0.48) / #f5f5f5 darken | 1.6 / rgba(40,40,40,0.40) / #141414 lighten |
@@ -117,19 +117,41 @@ titlebar`, `systemThinMaterial → 20 (private, "thin")`, `systemUltraThinMateri
 the legacy `light / extraLight / dark / regular / prominent` are plain fills without blur (`rgba(255,255,255,0.3)`,
 `rgba(247,247,247,0.8)`, `rgba(28,28,28,0.73)`), i.e. deprecated styles get no backdrop on the Mac.
 
-**CSS equivalent (exact for this class of material):**
+**CSS equivalent (exact for this class of material).** Chrome rule first (UI session's four-way test
+`pipeline/basemap/raw/score/mattest.html`, re-run here with siblings and containers, 2026-09-16): `mix-blend-mode`
+blends only with what is painted in the *same stacking context*, and Chrome does not include a `backdrop-filter`
+element's filtered backdrop in that element's own group — so a child or `::after` with `mix-blend-mode: darken`
+inside the blurred element sees nothing but the element's fill and paints as a flat opaque rectangle (the
+`::after` construct this document used to recommend). Two constructs work:
+
+1. **one element** — the blend mode on the blurred element itself, the translucent fill folded into the filter
+   (`contrast(c) brightness(b)` reproduces `(1 − a)·in + a·F` exactly: b = (1 − a) + 2·a·F, c = (1 − a) / b, F the
+   fill grey in 0–1), the opaque fill as its `background`, text in a *sibling* above it (children inherit the
+   blend and vanish);
+2. **two siblings** — element A `backdrop-filter` + translucent `background`, element B after it with the opaque
+   fill and `mix-blend-mode`; both in the same stacking context as the map, i.e. direct children of `body` or of a
+   wrapper that creates **no** stacking context (no `z-index`, `transform`, `opacity`, `filter`, `isolation`,
+   `will-change`, `position: fixed`) — inside any such wrapper B again goes flat (measured: `transform`,
+   `isolation: isolate`, `position: fixed` and `z-index` wrappers all fail, a plain `position: absolute` wrapper
+   works). Both give the same pixels as the CA tree within ±1/255.
 
 ```css
-.material-sidebar-light {                 /* NSVisualEffectMaterialSidebar, light */
-  backdrop-filter: blur(30px) saturate(2.2);
-  background: rgba(246,246,246,.84);
+/* NSVisualEffectMaterial popover (= UIBlurEffect systemMaterial on the Mac), light, one element */
+.material-popover-light {
+  backdrop-filter: blur(30px) saturate(2.0) contrast(0.2568) brightness(1.5576);  /* blur, saturate, rgba(246,246,246,.6) */
+  background: #f1f1f1; mix-blend-mode: darken;                                       /* the opaque darken fill */
 }
-.material-sidebar-light::after {          /* the opaque darken-blend fill */
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: #e9e9e9; mix-blend-mode: darken;
-}
-/* dark: blur(30px) saturate(2.4); rgba(40,40,40,.80); ::after #242424 with mix-blend-mode: lighten */
+/* dark: blur(30px) saturate(2.0) contrast(0.68) brightness(0.5882); background: #1c1c1c; mix-blend-mode: lighten */
 ```
+
+| material | light: `saturate() contrast() brightness()` + fill, `darken` | dark: same + fill, `lighten` |
+|---|---|---|
+| popover (systemMaterial) | 2.0, 0.2568, 1.5576 + #f1f1f1 | 2.0, 0.68, 0.5882 + #1c1c1c |
+| menu (systemThickMaterial) | 2.1, 0.1677, 1.6692 + #ededed | 2.2, 0.5773, 0.5196 + #202020 |
+| hudWindow | 1.9, 0.3596, 1.4461 + #f5f5f5 | 1.6, 0.827, 0.7255 + #141414 |
+| thin / ultraThin (systemThinMaterial, 0.36 × 0.5 = a 0.18) | 1.8, 0.7025, 1.1673 + #f9f9f9 | 1.6, 0.827, 0.7255 + #141414 |
+| AppKit sidebar (not used by Maps) | 2.2, 0.0899, 1.7807 + #e9e9e9 | 2.4, 0.4435, 0.451 + #242424 |
+
 The 5 % chameleon layer (window average colour) has no CSS equivalent and is visually negligible; `sdrNormalize`
 only matters for HDR content. CoreAnimation's `gaussianBlur inputRadius` and CSS `blur()` are both the Gaussian
 σ in points.
@@ -168,6 +190,49 @@ Variants (only the parameters that differ from the baseline):
 | **search field** (`UISearchBar` text field, light) | BleedAmount 12.6, BleedHeight 12.6, BlurOpacity0/1 0.4, InnerRefractionAmount −18, InnerRefractionHeight 9 (backdrop scale 0.5) |
 | **search field, dark** | as regular/dark plus the four search deltas; FaceColorMatrixMaxLuma/SDR 0.6 |
 
+### How the filter composites them (from the shader and the uniform builder)
+
+Read 2026-09-16 from `QuartzCore.framework/Resources/default.metallib` (fat file; the AIR slice holds
+`glass_background_{minimal,e,r,re,c,ce,cr,all}[_sdf]_lpf` / `_lph` and `glass_foreground*`; extracted with
+`pipeline/materials/fat_metallib.py` + `pipeline/basemap/shader/metallib_dump.py`, bitcode read with
+`xcrun clang -x ir -S -emit-llvm`) and from `CA::OGL::GlassBackgroundFilter::render` in the shared-cache
+QuartzCore (symbols present). The uniform block is `GlassBackgroundUniforms` (320 B) + `…Ext` (28 B): the face,
+bleed and shadow colour matrices arrive as three 3×4 half rows each, built on the CPU by
+`CA::ColorMatrix::set_ycc_composite(white, black, saturation, fillColor)`. Per fragment inside the shape:
+
+1. **blur** — the backdrop texture sampled at a mip level, `lod = max(0, log2(blur_alpha0 · blur_radius))` in the
+   shader (a downsampled-pyramid blur, not a Gaussian; the four BlurOpacity/BlurDistance pairs pick levels by distance
+   to the edge in the non-minimal variants), un-premultiplied;
+2. **BlurFill** (when enabled) — a second, wider sample f at level from `BlurFillBlurRadius` (two taps averaged);
+   `c = mix(Darken·min(c,f) + Lighten·max(c,f) + (1 − Darken − Lighten)·c, f, Normal)`; over a flat backdrop
+   c = f and this is a no-op — it only lightens (regular) or darkens (dark variants) *gradients* under the glass;
+3. **refraction** — the edge lens re-samples the backdrop with displaced coordinates (InnerRefraction*), blended by
+   `RefractionOpacity`;
+4. **MaxLuma** (only when the effective limit L < 1; on an SDR display L = MaxLumaSDR, on EDR it slides towards
+   MaxLuma) — with Y the Rec.709 luma of c: `k = saturate(1 − Y·(1 − L))`, `c = k·(Y + (c − Y)·(1 + 0.3·(1 − k)))`,
+   i.e. a soft luma compression (white → L, mid grey 0.5 → 0.5·(1 − 0.5·(1 − L))) with the chroma boosted a little
+   to compensate; the uniform is `face_color_matrix_max_luma_complement = 1 − L`;
+5. **face colour matrix** — **in YCbCr (Rec.709), not per channel**: `Y' = Black + (White − Black)·Y`,
+   `Cb' = 0.5 + Saturation·(Cb − 0.5)`, `Cr'` likewise, back to RGB, then `FillColor` composited source-over
+   (`out = (1 − a)·rgb + a·fill`, the matrix rows scaled by 1 − a and the fill added to the bias column);
+   `mix(c, out, FaceOpacity)`. Black and White are therefore *luma* levels: a saturated backdrop keeps its chroma and
+   only its luma is remapped, which is why the light glass barely changes a blue sea (Y 0.59 → 0.65 for the popover)
+   while the per-channel affine reading this document had before (`out = Black + (White − Black)·in`) would have
+   lifted the red channel by +25 and greyed it. Check against the App: Map Modes popover over the Pacific
+   (`~/Money/styl-work/native-mapmodes.png`, 1280-frame (1100,198) vs the sea at (1100,228) = rgb(104,161,198)):
+   YCbCr model rgb(131,182,216), per-channel model rgb(142,180,205), App rgb(135,181,211) — the per-channel model is
+   11 too red and 6 too dark in blue, the YCbCr model is within 5 on every channel. Over black both models give the
+   same (Y = 0), which is why the sidebar's 52 % over black matched either way.
+6. **bleed** — the edge band (BleedAmount / BleedHeight) re-samples the backdrop and pushes it through the bleed
+   matrix (same `set_ycc_composite` form) and optionally a darken blend (`BleedDarkenBlend`);
+7. **key-fill highlight**, **ring shadow**, **shadow** (outside the shape; the shadow matrix is the third
+   `set_ycc_composite`), **SDR holding tone**;
+8. **clamp** — `Clamp` limits the result to [−0.75, Clamp] per channel, or scales the colour so max(r,g,b) ≤ Clamp
+   when `ClampPreserveHue`; then × EDR scale.
+
+`pipeline/materials/glass_face.py` evaluates steps 4–5 for any of the §4 parameter sets and prints the CSS
+equivalents below.
+
 Around the filter, every glass element also has: a `CASDFElementLayer` (the rounded-rect signed-distance shape
 that drives refraction and highlight), a `CAChameleonLayer` at 5 % with `colorBlendMode`, and a hidden
 `CASDFLayer` carrying the content vibrancy matrix `vibrantColorMatrix` — regular: rows
@@ -183,10 +248,10 @@ with their class defaults — the `glassBackground` values above are what the vi
 
 | part of the recipe | CSS | fidelity |
 |---|---|---|
-| BlurRadius 5 (regular) / 10 (clear, sidebar, popover) | `backdrop-filter: blur(5px)` / `blur(10px)` | exact (σ) |
-| Face colour matrix: out = Black + (White − Black)·in, then Saturation (CSS: `contrast(c) brightness(b)` with c = ½·slope / (½·slope + Black), b = slope / c) | regular light (0.4 + 0.56·in): `contrast(0.41) brightness(1.36) saturate(1.2)`; regular dark (0.08 + 1.045·in): `contrast(0.87) brightness(1.20) saturate(1.3)`; clear / popover light (0.2 + 0.75·in): `contrast(0.65) brightness(1.15)`; clear dark (0.05 + 0.75·in): `contrast(0.88) brightness(0.85)`; sidebar light (0.4 + 0.63·in): `contrast(0.44) brightness(1.43) saturate(1.2)`; sidebar dark (0.1 + 0.4·in): `contrast(0.67) brightness(0.60) saturate(0.6)` | good; the MaxLuma clamp (dark 0.35, sidebar light 0.85, search dark 0.6) is not expressible — approximate with a translucent black overlay |
+| BlurRadius 5 (regular) / 10 (clear, sidebar, popover) | `backdrop-filter: blur(5px)` / `blur(10px)` | approximate — the filter samples a mip pyramid (level log2 of the radius), CSS blurs with a Gaussian of that σ |
+| Face colour matrix (luma levels + chroma saturation, see above): CSS `contrast(c) brightness(b) saturate(S / slope)` with slope = White − Black, c = ½·slope / (½·slope + Black), b = slope / c — the per-channel `contrast/brightness` pair reproduces the luma mapping and scales the chroma by slope, and `saturate(1 / slope)` (a luma-preserving Rec.709 saturation matrix in CSS too) puts the chroma back; verified in Chrome against `glass_face.py` within 1/255 | regular light: `contrast(0.412) brightness(1.360) saturate(2.143)`; regular dark: `contrast(0.867) brightness(1.205) saturate(1.244)`; clear / popover light: `contrast(0.652) brightness(1.150) saturate(1.333)`; clear dark: `contrast(0.882) brightness(0.850) saturate(1.333)`; sidebar light: `contrast(0.441) brightness(1.430) saturate(1.905)`; sidebar dark: `contrast(0.667) brightness(0.600) saturate(1.500)` | exact for the matrix; the MaxLuma step (regular dark 0.35, sidebar light 0.85, search dark 0.6) has no CSS form — put `brightness(1 − (1 − L)·Ȳ)` *first* in the list with Ȳ the backdrop's typical luma (map at the acceptance view ≈ 0.6 → sidebar light `brightness(0.91)`), exact only at Ȳ |
 | FaceColorMatrixFillColor rgba(255,255,255,0.2) (regular) / 0.1 (clear) / 0 (dark) | `background: rgba(255,255,255,.2)` | exact |
-| BlurFill layers (a second blur of radius 8 lightened at 0.9 over the face, normal at 0.5) | second element `backdrop-filter: blur(8px)` with `mix-blend-mode: lighten; opacity: .9` | approximate (CA composites them inside one filter) |
+| BlurFill (a second, wider blur mixed in by min/max: regular lightens gradients at 0.9, dark variants darken at 0.9, then 0.5 normal) | omit — it is a no-op over a flat backdrop and only reshapes gradients; nearest CSS is a sibling `backdrop-filter: blur(8px)` with `mix-blend-mode: lighten` (light) / `darken` (dark) at opacity .9, subject to the §3 stacking-context rule | approximate |
 | KeyFillHighlight (rim light from the top, 120° spread, amount 0.5) | `box-shadow: inset 0 1px 0 rgba(255,255,255,.5)` plus an inset gradient border `linear-gradient(180deg, rgba(255,255,255,.5), transparent 40%)` masked to a 1 px ring | approximate — the real one follows the SDF of the shape (curvature 1, height 0.5 pt) |
 | Bleed (70 pt of backdrop colour pulled into the edge, darken-blended, sat 1.2) | none; nearest is an extra `backdrop-filter: blur(35px)` element clipped to a 70 px inner margin with `mix-blend-mode: darken` | rough |
 | InnerRefraction −60 / height 20 (edge lens) | SVG filter `feDisplacementMap` driven by a radial gradient map, or omit | rough / omit |
@@ -213,6 +278,12 @@ Recommended order for the UI page: (1) blur radius, (2) face levels + saturation
 - Layer trees: `pipeline/materials/dump_appkit_materials.m` (AppKit) and `pipeline/materials/catalyst_probe`
   (UIKit on Mac), run on this machine (macOS 27 / build of 2026-09).
 - Glass filter input names: enumerated from the `DLCAFilter` instance AppKit attaches (`inputKeysForFilterType:`).
+- Glass compositing: `/System/Library/Frameworks/QuartzCore.framework/Versions/A/Resources/default.metallib` (fat, 21
+  slices; slice 0 is AIR bitcode) — `glass_background_*_lpf` fragment shaders, `GlassBackgroundUniforms` /
+  `GlassBackgroundUniformsExt` struct layouts from `air.struct_type_info`; the uniform builder
+  `CA::OGL::GlassBackgroundFilter::render` and `CA::ColorMatrix::set_ycc_composite` in the shared-cache QuartzCore
+  (`otool -tV`, symbols kept; the Rec.709 RGB↔YCbCr matrices at its literal pool). Input atoms are alphabetical
+  (`inputFaceColorMatrixBlack` 0x186 … `White` 0x18b, `MaxLuma` 0x188, `MaxLumaSDR` 0x189).
 
 ## 6. Not resolved
 
@@ -231,6 +302,7 @@ Recommended order for the UI page: (1) blur radius, (2) face levels + saturation
 - The CoreMaterial luminance remap algorithm (`luminanceAmount` × LUT) is not needed on the Mac (recipes unused
   there) and was not reverse-engineered.
 - `glassBackground` inputs that stayed at 0 in every variant (Aberration*, OuterRefraction*, SDRShadow*) are
-  listed but their behaviour is unknown.
+  listed; the shader has code for them (chromatic aberration = per-channel offset sampling, outer refraction =
+  a second lens band outside the inner one) but with amount 0 none of it runs, so they were not decoded further.
 - The vibrancy applied to *text* inside glass (`_UIMaterialDefinitionView` portal + `vibrantColorMatrix`) is
   captured as a matrix; the resulting text colours were not computed.
