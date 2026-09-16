@@ -2,7 +2,14 @@
 """Generate MapLibre style JSON from Apple's flat style sheet (default-*.styl) — numbers straight from the decode,
 nothing hand-tuned.
 
-  to_maplibre.py ~/Money/styl-work/default-56689.styl map/style-flat-light.json map/style-flat-dark.json [--lum]
+  to_maplibre.py ~/Money/styl-work/default-iosmac-11358.styl map/style-flat-light.json map/style-flat-dark.json [--lum] [--zoom-offset -1]
+
+Which .styl: `default-iosmac-*.styl` is what Maps on the Mac (and MKMapSnapshotter) renders — same colours and zoom bands
+as the iOS `default-*.styl`, all sizes (widths, text) x1.2987 (= 100/77).  Use the iOS file for phone-sized numbers.
+
+Zoom: Apple's zoom is 256-px-tile based, MapLibre's is 512-px based, so Apple z = MapLibre z + 1.  Every band edge,
+minzoom and text-size stop is shifted by --zoom-offset (default -1).  Check: the acceptance render
+ll=34.69,135.50 spn=0.12,0.2 at 1280x744 is Apple z12.8 (log2(360*744/(0.146*256))) and MapLibre z11.8.
 
 Data source is OpenFreeMap's `planet` tiles (OpenMapTiles schema).  MAPPING below pairs each OpenMapTiles layer +
 filter with the Apple leaf style whose values it should take (`.Light-JPN` / `.Dark-JPN` road variants for Japan,
@@ -18,6 +25,8 @@ What is taken from Apple (via resolve.Resolver, cascade + zoom bands):
   textColor(24) / labelHaloColor(25) -> text-color / text-halo-color
   fontSpec(23)                       -> Noto Sans Regular | Bold | Italic (OpenFreeMap serves only these three)
   buildingFlatColor(86)              -> building fill
+  dashPattern 279 / 280              -> line-dasharray on the fill / casing line (LE u16 pairs dash,gap in pt, divided by
+                                        the line width at Apple z13 because MapLibre dash units are line widths)
 With --lum the *ColorLumAdjustment values (463/464/470/471) are applied as an HSL lightness offset of adj/100;
 the exact function VectorKit uses is unknown, so this is off by default.
 """
@@ -30,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from resolve import Resolver
 
 TILES = 'https://tiles.openfreemap.org/planet'
+ZOFF = -1.0     # Apple zoom -> MapLibre zoom
 GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
 NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name:zh'], ['get', 'name']]
 
@@ -97,12 +107,13 @@ def step(bands, conv, lo=0.0, hi=24.0):
         return conv(bands[0][2])
     expr = ['step', ['zoom'], conv(bands[0][2])]
     for a, b, v in bands[1:]:
-        expr += [a, conv(v)]
+        expr += [max(0.0, a + ZOFF), conv(v)]
     return expr
 
 
 class Gen:
     def __init__(self, path, lum):
+        self.src = path
         self.r = Resolver(path)
         self.lum = lum
         self.rows = []
@@ -115,7 +126,7 @@ class Gen:
         vis = [(a, b, v) for a, b, v in self.r.bands(name, 0) if v is False]
         if not vis:
             return None
-        return max(b for a, b, v in vis)
+        return max(0.0, max(b for a, b, v in vis) + ZOFF)
 
     def color_expr(self, name, pid, adj_pid=None):
         lum = self.adj(name, adj_pid) if adj_pid else 0.0
@@ -129,11 +140,11 @@ class Gen:
         for a, b in zip(edges, edges[1:]):
             wv = self.r.value_at(name, 3, a) or 0.0
             sv = self.r.value_at(name, 6, a) or 0.0
-            v = wv + 2 * sv if casing else wv
-            if bands and abs(bands[-1][2] - v) < 1e-9:
+            v = round(wv + 2 * sv if casing else wv, 3)
+            if bands and bands[-1][2] == v:
                 bands[-1] = (bands[-1][0], b, v)
             else:
-                bands.append((a, b, round(v, 3)))
+                bands.append((a, b, v))
         return step(bands, lambda v: v)
 
     def text_size_expr(self, name):
@@ -145,9 +156,9 @@ class Gen:
         stops = []
         for a, b, v in bands:
             h, lim = v['height'], v.get('heightCurveLimit')
-            stops.append((a, h))
+            stops.append((max(0.0, a + ZOFF), h))
             if lim is not None and lim != h:
-                stops.append((min(b, 24) - 0.01, lim))
+                stops.append((max(0.01, min(b, 24) + ZOFF - 0.01), lim))
         expr = ['interpolate', ['linear'], ['zoom']]
         last = None
         for z, v in stops:
@@ -156,6 +167,17 @@ class Gen:
             expr += [round(z, 2), v]
             last = z
         return expr
+
+    def dash(self, name, pid, casing=False):
+        """dashPattern (279 fill / 280 casing): LE u16 (dash, gap) pairs in pt -> MapLibre line-dasharray (line widths)."""
+        v = self.r.value_at(name, pid, 13)
+        pairs = v.get('dash') if isinstance(v, dict) else None
+        if not pairs:
+            return None
+        w = (self.r.value_at(name, 3, 13) or 0.0) + (2 * (self.r.value_at(name, 6, 13) or 0.0) if casing else 0.0)
+        if w <= 0 or len(pairs) < 2 or all(x == 0 for x in pairs[1::2]):
+            return None                                   # (4, 0) = solid
+        return [round(x / w, 2) for x in pairs]
 
     def font(self, name):
         spec = self.r.value_at(name, 23, 12) or ''
@@ -199,10 +221,17 @@ class Gen:
             fc, sc = self.color_expr(style, 1, 470), self.color_expr(style, 2, 471)
             layout = {'line-cap': 'round', 'line-join': 'round'}
             if sc and (self.r.value_at(style, 6, 14) or 0) > 0:
-                out.append({**base, 'id': lid + '-casing', 'type': 'line', 'layout': layout,
-                            'paint': {'line-color': sc, 'line-width': self.width_expr(style, casing=True)}})
+                paint = {'line-color': sc, 'line-width': self.width_expr(style, casing=True)}
+                d = self.dash(style, 280, casing=True)
+                if d:
+                    paint['line-dasharray'] = d
+                out.append({**base, 'id': lid + '-casing', 'type': 'line', 'layout': layout, 'paint': paint})
             if fc:
-                out.append({**base, 'type': 'line', 'layout': layout, 'paint': {'line-color': fc, 'line-width': self.width_expr(style)}})
+                paint = {'line-color': fc, 'line-width': self.width_expr(style)}
+                d = self.dash(style, 279)
+                if d:
+                    paint['line-dasharray'] = d
+                out.append({**base, 'type': 'line', 'layout': layout, 'paint': paint})
             if kind == 'rail' and out:
                 out[-1]['layout'] = {'line-join': 'round'}
             return out
@@ -212,6 +241,9 @@ class Gen:
             op = self.r.value_at(style, 12, 12)
             if op is not None:
                 paint['line-opacity'] = op
+            d = self.dash(style, 279)
+            if d:
+                paint['line-dasharray'] = d
             return [{**base, 'type': 'line', 'paint': paint}]
         if kind in ('place', 'watername', 'roadname'):
             tc, hc = self.color_expr(style, 24, 463), self.color_expr(style, 25, 464)
@@ -246,15 +278,19 @@ class Gen:
         pre = [l for l in layers if l['type'] != 'symbol' and l['id'] not in ('boundary-state', 'boundary-country')]
         bounds = [l for l in layers if l['id'] in ('boundary-state', 'boundary-country')]
         labels = [l for l in layers if l['type'] == 'symbol']
-        return {'version': 8, 'name': f'Apple flat {mode} (generated from default-56689.styl)',
-                'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': 'default-56689.styl',
-                             'lum_adjustment_applied': self.lum, 'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
+        return {'version': 8, 'name': f'Apple flat {mode} (generated from {Path(self.src).name})',
+                'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': Path(self.src).name,
+                             'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum,
+                             'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
                 'sources': {'openmaptiles': {'type': 'vector', 'url': TILES}},
                 'glyphs': GLYPHS, 'layers': pre + roads_casing + roads_fill + bounds + labels}
 
 
 def main(argv):
+    global ZOFF
     lum = '--lum' in argv
+    if '--zoom-offset' in argv:
+        i = argv.index('--zoom-offset'); ZOFF = float(argv[i + 1]); del argv[i:i + 2]
     argv = [a for a in argv if a != '--lum']
     src, out_light, out_dark = argv[1], argv[2], argv[3]
     g = Gen(src, lum)

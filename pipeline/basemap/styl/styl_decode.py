@@ -214,6 +214,10 @@ def _decode_value(r, dec, nbits):
         if r.tell() - start > nbits:
             return {'raw_bits': nbits, 'partial': out}
         return out
+    if dec == 'dashPattern' and nbits % 16 == 0:
+        # little-endian u16 pairs (dash, gap) in pt; (4, 0) = solid.  Railway-Japan: 4,48,4,48; country border: 18,4,10,4,4,4
+        vals = [r.byte() | (r.byte() << 8) for _ in range(nbits // 16)]
+        return {'dash': vals}
     if dec in ('dashPattern', 'iconGradient', 'animationCurve', 'genericShieldStyle') or nbits > 64:
         return {'raw_bits': nbits}                         # composite types: layout not decoded yet
     return r.uint(nbits)                                   # uint32 and every enum-like decoder read readUIntBits(nbits)
