@@ -188,7 +188,7 @@ ground shader; `globe_texture_*` is the satellite globe).
 | hill-shade azimuth 260° | light azimuth | **decoded**: 240° / 65° [cap] (flat and globe alike) |
 | `labels-globe.json` typography | globe sheet label styles | **decoded** [styl tsv]; keep the sampled file as verification only |
 | star density / grey levels | `stars.bin` | **decoded** [zip]; the sky frame (which star where) unresolved |
-| graticule dash `#6b8098` 3/3 | `Geolines-Tropics` / `-Equator` / `-Polar` in the **flat** sheet `default-56689.styl` | **decoded** (§7.13): `#49587a` α0.45–0.7, width 1.15, dash [12,12]…[32,32] ¼-pt units |
+| graticule dash `#6b8098` 3/3 | `Geolines-Tropics` / `-Equator` / `-Polar` in the **flat** sheet `default-56689.styl` | **decoded** (§7.13): `#49587a` α0.45–0.7, width 1.15, dash [12,12]…[32,32] at ≈ 0.2 pt per unit |
 | material α (MATERIALS.md) | AppKit / glass recipes | **decoded** (MATERIALS.md) |
 | Apple's depth raster, land-cover raster, climate raster | VMP4 chapters 154 / 155 | **not decoded by decision** (VMP4 rasters); all replacements are public data |
 
@@ -218,7 +218,7 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 | Apple data | sea: class Water in chapter 154 + depth in chapter 155 → ramp (§2.3), the same at z12 (Osaka Bay shows the ramp's 0–100 m colours `#91daf3…#6dc7f4`); inland water polygons: `VECTOR_SPR_STANDARD` chapter 31/145 lines and polygons (`WaterPolygon-*`, `Rivers-*` styles) [vmp4, styl]. |
 | look | ramp × light for the sea; polygons `WaterPolygon-Day-Base` / `Landcover-Water.Light-Elevated` fill `#8ddcf7` (all zooms) [styl]; rivers `Rivers-Light-Elevated-Base` width 1.5 (≤ z10) → 2.1 (z12) → 2.5 (z14) → 2.75 (z16), colour `#8ddcf7`, hidden from z16 as lines (polygons take over) [styl]; coastline glow `Coastline-Glow-Light-Base`: width 0 at z ≤ 8, 5 px z8–10, 7 z10–12, 8 z12–14, 9 z14+, colour `#87ddfb` → `#82daf7` (z8) → `#8adaf4` (z10+) [styl] — a glow drawn along the coast on the water side (`CoastlineRenderLayer`). |
 | our rebuild | `water` fill = `Landcover-Water.Light-Explore` `#8ddcf7`; `waterway` = `Rivers-Light-Elevated-Base` widths [`to_maplibre.py` ← styl]; the sea is one flat colour (OpenMapTiles has no depth). `palette-ocean.json` (sampled, 0–200 m `#6cc9fa` … ≥ 7 km `#0d8de6`) is what the UI used for the sea bands. |
-| gap | sea: use the ramp (§2.3) with a depth source (terrarium/NE) instead of `palette-ocean.json` — the sampled bands are the ramp seen through the snapshotter, decoded now; coastline glow not drawn (8 px `#8adaf4` inner glow at z12 is visible in the acceptance side-by-side as the lighter rim along the coast) → a `line` layer on the coastline with blur; rivers at z12 use the sheet width (done). |
+| gap | sea: use the ramp (§2.3) with a depth source (terrarium/NE) instead of `palette-ocean.json` — the sampled bands are the ramp seen through the snapshotter, decoded now; coastline glow: v6 draws it as a blurred line on the ocean polygon outline, offset to the water side (width prop 55, colour prop 57, from Apple z8); rivers at z12 use the sheet width (done). |
 
 ### 7.3 Vegetation and land-use fills
 
@@ -252,9 +252,9 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 | | |
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD`/`ROADS` lines with rail class; Japan → `Railway-Japan*` [vmp4, styl]. |
-| look [styl] | `Railway-Japan.Light`: colour `#71a7ff`, width 1.0 at every zoom, stroke 0.25 (≤ z8) → 0.375 (z10–13) → 0.5 (z14+); **tick pattern (prop 280, inherited `Railway-Base`) by zoom: [4,8] ≤ z10, [4,12] z10–12, [4,16] z12–14, [4,20] z14–16, [4,24] z16–17, [4,32] z17+** (the base row's [4,48] is only the fallback); `Railway-Japan.Bullet-Light` (新幹線): white core 1.0–1.25 px with `#006fff` stroke 0.5, dash (prop 279, `Japan-Railway-Bullet-Base`) [28,28] z6–8, [36,36] z8–13, [48,48] z13–15, [84,84] z15–16, [108,108] z16–17, [128,128] z17+. Dash unit: the tropics' [12,12] measured 3/3 pt by the UI ⇒ **¼ pt per unit** (so z12 rail ticks = 1 pt on, 4 pt off). |
-| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); `rail-casing` dash `[2.29, 9.14]` = base [4,48] ÷ width [`to_maplibre.py`]; shinkansen dash `[48,48]` in MapLibre line-width units. |
-| gap | dashes use the base row and the wrong unit: at z12 the sheet says ticks 1 pt / gap 4 pt (`[4,16]` × ¼ pt), shinkansen 9 pt / 9 pt; `to_maplibre.py` should take the zoom rows of 279/280 and convert ¼-pt → px ÷ line-width for `line-dasharray`. Colours and widths are already the sheet's. |
+| look [styl] | `Railway-Japan.Light`: colour `#71a7ff`, width 1.0 at every zoom, stroke 0.25 (≤ z8) → 0.375 (z10–13) → 0.5 (z14+); **tick pattern (prop 280, inherited `Railway-Base`) by zoom: [4,8] ≤ z10, [4,12] z10–12, [4,16] z12–14, [4,20] z14–16, [4,24] z16–17, [4,32] z17+** (the base row's [4,48] is only the fallback); `Railway-Japan.Bullet-Light` (新幹線): white core 1.0–1.25 px with `#006fff` stroke 0.5, dash (prop 279, `Japan-Railway-Bullet-Base`) [28,28] z6–8, [36,36] z8–13, [48,48] z13–15, [84,84] z15–16, [108,108] z16–17, [128,128] z17+. Dash unit: **≈ 0.2 pt per unit on screen** (three measurements, §7.16; = ¼ sheet-pt × the Mac's 0.77), so z12 rail ticks ≈ 0.8 pt on, 3.2 pt off. |
+| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width), shinkansen dash from the 279 rows [`to_maplibre.py`]. |
+| gap | closed in v6 (`to_maplibre.py`): dashes per zoom band from the 279/280 rows, value × 0.2 pt ÷ line-width, as `step` expressions; z12 ticks 0.8 pt / 3.2 pt. |
 
 ### 7.7 Buildings
 
@@ -271,8 +271,8 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD` lines with admin level [vmp4]. |
 | look [styl] | country `Border-Country.Non-Disputed-Light`: fill `#b3009e` α0.8 (≤ z7) → α0.7 (z8+), stroke `#b3009e` α0.2–0.3, width 1.45 (z5) → 1.55 (z6–7) → 1.75 (z8–9) → 1.95 (z10–11) → 2.1 (z12–13) → 2.25 (z14+), stroke width 0.25 → 1.35 → 1.95 → 2.1 → 2.75 → 3.25, dash [48,12,48,12,12,12] z6–12 → [64,16,64,16,16,16] z12+; **prefecture** `Border-State.Explore-Light`: fill `#b3009e` α0.7 (z5) / α0.8 (z6–7) / α0.65 (z8–9) / α0.7 (z10+), stroke α0.2 → 0.35, width **0.9 (z5) → 1.05 (z6–7) → 1.25 (z8–11) → 1.75 (z12+)**, stroke width 0.25 → 0.5 → 1.1 → 2.25, dash [18,4,10,4,4,4] z6–12 → [24,6,12,6,6,6] z12–16; prop 12 (opacity, inferred 0.25). Tropics/equator (also on the flat map): `Geolines-*`, §7.13. |
-| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, `line-opacity` 0.25 (inferred prop 12), dash from the *base* row [`to_maplibre.py`]. |
-| gap | dash rows by zoom + ¼-pt unit (same fix as rail); the meaning of prop 12 (0.25) is still inferred. |
+| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, dash rows by zoom (v6) [`to_maplibre.py`]. |
+| gap | closed in v6: dash rows by zoom + 0.2 pt unit; prop 12 is **not** an opacity — with the v5 `line-opacity 0.25` the prefecture borders were far fainter than the App's at the Japan view, without it they match (fillColor alpha 0.7–0.8 is the whole story); v6 drops it. |
 
 ### 7.9 Labels
 
@@ -326,7 +326,7 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 `Geolines-Tropics.Explore-Light-Elevated` / `Geolines-Equator.*` / `Geolines-Polar.*` in `default-56689.styl` (not in
 the globe sheet — the globe draws them from the flat sheet): fill `#49587a` (rgb 73,88,122) α 0.45 (z0–2) → 0.5
 (z2–4) → 0.6 (z4–8) → 0.7 (z8+), `fillColorLumAdjustment` −15, width 1.15 (tropics; equator 1 → 1.5 → 1.9),
-dash [12,12] (< z4) → [16,16] (z4–8) → [24,24] (z8–12) → [32,32] (z12+) in ¼-pt units = 3/3 pt at globe zoom (the
+dash [12,12] (< z4) → [16,16] (z4–8) → [24,24] (z8–12) → [32,32] (z12+) at ≈ 0.2 pt per unit (§7.16) = 3.2/3.2 pt at globe zoom (the
 UI measured 3/3 pt `#6b8098`: the colour is `#49587a` at α0.5 over land after the −15 luminance step); labels
 "Tropic of Cancer" from the same style: `%$default,medium-G3,width=90`, 6.5 → 7.5 (z2) → 9 (z4) → 10 (z8) → 12 pt,
 colour `#49587a`, halo `#c2dbea` α0.15, spacing 500–1200. Dark: `#839bce` α0.3, text `#7e95c7`. §6's "not
@@ -339,11 +339,52 @@ located" row is closed by this.
 | `palette-ocean.json` depth bands (snapshotter) | **decoded**: ramp(§2.3) — the flat sea is the same ramp; bands are its samples |
 | `palette-land.json` tints + hill-shade classes | **decoded**: land-cover class colours by zoom [styl] + climate delta [res]; the hill-shade "lit/shaded" split is the n·L term with the sheet colour as albedo |
 | hill-shade azimuth 260°, exaggeration calibration | **decoded**: 240°/65°, `groundElevationScale(z)`; `normalsSharpnessBias` use not decoded |
-| the ≈ 1 px faint expressway at z6–8 vs the sheet's 2.25 px | **open** — no low-zoom row found; candidates `Line-LowZoom-Connection-Base`, a `*-LowZoom` variant, or the `Elevated` variant's `strokeRenderOrder`; next: dump every style whose name contains `Freeway` at z6 |
+| the ≈ 1 px faint expressway at z6–8 vs the sheet's 2.25 px | **resolved** (§7.15): below Apple z8 expressways are drawn by the `Line-LowZoom-Connection-Base` rows (inherited through `Roads-Localized-JPN-Base` → `LowZoom-Connection-JPN-Base`), not by the `Roads-Localized-JPN-Freeway-Controlled-Widths-Base` table our resolver picked; `resolve.py` drops conditional rows and de-duplicates diamond parents, which put the width table last |
 | road density / label density | not a number: Apple's placement and collision; accepted difference |
-| dash unit (¼ pt) | **inferred from two measurements** (tropics 12 ↔ 3 pt, rail ticks) — confirm on one more (border [18,4,…] ↔ 4.5/1 pt) |
+| dash unit | **measured three times** (§7.16): 0.19 (UI, tropics [16,16] at globe z4.1), 0.203 (tropics [16,16] at z7.5, offscreen 2× render) and 0.215 pt per unit (49th-parallel country border [48,12,48,12,12,12] at z8.9) — i.e. **≈ 0.2 pt per unit on the Mac's output**, consistent with ¼ pt in sheet points drawn at the Mac's 0.77 scale (0.193) and not with a plain ¼ pt (0.25); the ±6 % spread is dash fitting per segment + anti-aliasing |
 | icon glyphs (POI, shields, stations) | **not decoded** (icon packs); Kit components meanwhile |
 
+### 7.15 Closing item ① — why the expressway is ≈ 1 px at Apple z6–7
+
+`Line-FreewayControlled.Light-JPN-Elevated` inherits, in order, `Line-FreewayControlled.Light-Elevated` (→ `…-Base`:
+width 0.85 + 0.85 at z0–8, 1.65 z8–9, 2.0 z9–10, 2.3 z10–11 … [styl]) and `Line-FreewayControlled-JPN-Light-Elevated-Base`
+(→ `Roads-Localized-JPN-Freeway-Controlled-Widths-Base`: 2.25 at z0–8 …, and → `Roads-Localized-JPN-Light-Base` →
+`Roads-Localized-JPN-Base` → `LowZoom-Connection-JPN-Base` → `Line-LowZoom-Connection-Base`). The low-zoom style is
+the last word for z ≤ 7:
+
+- `Line-LowZoom-Connection-Base` zoom row **z6–7: width 0.5, strokeWidth 0** (unconditional); conditional rows
+  `client:69 ∈ {0,1,2} & feature:85 ∈ 0…7` (the road's low-zoom connection class): visible z0–7 only for the
+  classes 4–7 from z4/5/6, then z7–11 **width 1, stroke 0, fill rgb(209,209,209)**; everything with a
+  `feature:1(~LineType)` in the excluded list is **hidden at z0–7**.
+- `LowZoom-Connection-JPN-Base` adds Japan rows (`feature:4(~Country)=[10] & feature:31=[1]`): for `client:69=2`
+  width **1.0 (z4–5) → 1.25 (z5–6) → 1.85 (z6–7)** with stroke 0.3/0.4/0.5, fill rgb(136,152,184) stroke
+  rgb(249,255,255), `fillColorLumAdjustment −25`; a second `client:69=2` group with a dark stroke rgb(19,21,26)
+  α0.5 and lum +5; for `client:69=1` the Japan expressways are **green rgb(92,204,98)** 0.75 (z4–5) → 1.35 (z5–6) — the
+  flat/Explore look. `client:69` is therefore the map style selector (2 = elevated/Mac, 1 = flat, 0 = ?; inferred
+  from which group matches the Mac render).
+
+So at the Japan view (Apple z6.1) the expressway is the low-zoom connection line, 0.5–1.85 px with a thin light
+stroke, grey-blue rgb(136,152,184) darkened 25 % (≈ rgb(102,114,138)) — the "≈ 1 px faint purple-grey" of the
+side-by-side — and the 2.25 px purple table only takes over from z8. Our generator (`resolve.py`) ignores
+conditional rows and visits each parent once (depth-first, first occurrence), which left the JPN width table last
+and produced 2.25 px. v6 (`LOWZOOM_EXPRESSWAY` in `to_maplibre.py`) draws OSM motorways below Apple z8 with the
+unconditional rows — nothing below z6, 0.5 px rgb(136,152,184) at z6–7, 1 px rgb(209,209,209) at z7–8 — because
+OpenMapTiles has no equivalent of Apple's curated low-zoom connection classes (with the 1.85 px Japan rows every OSM
+expressway became a heavy web); the purple table starts at z8.
+
+### 7.16 Closing item ② — the dash unit, three measurements
+
+| line, sheet row | zoom | measured (2× render, `pipeline/basemap/snapshot.swift`, offscreen `MKMapSnapshotter`) | pt per unit |
+|---|---|---|---|
+| `Geolines-Tropics` [16,16] | Apple z4.1 (UI's globe measurement, 3/3 pt) | 6 pt period / 32 units | 0.19 |
+| `Geolines-Tropics` [16,16] | z7.5 (23.44°N, 124.5°E, 800×400 pt, span 3°×6°) | on 6–7 px, off 6–7 px @2× → 13 px = 6.5 pt period | 0.203 |
+| `Border-Country.Non-Disputed` [48,12,48,12,12,12] | z8.9 (49th parallel, 49.0°N 109°W, span 1.2°×2.4°) | 20/6/20/6/4/6 px @2× → 62 px = 31 pt period | 0.215 |
+
+Unit ≈ **0.2 pt on the Mac's output per dash-pattern unit** (0.19–0.215; anti-aliasing takes ≈ 1 px from each dash
+and adds it to each gap, and the renderer fits whole periods into segments). It is not a plain ¼ pt (0.25, would be
+8 pt / 37 pt periods); the closest closed form is ¼ sheet-pt drawn at the Mac's 0.77 scale (0.193), the same scale
+that makes the iosmac sheet's ×1.2987 widths come out at the iOS values. For MapLibre: `line-dasharray` entry =
+value × 0.2 pt ÷ line-width (both in CSS px at 1×).
 
 ## 8. UI side — what `map/` renders from the above (UI session, 2026-09-16 evening)
 
@@ -361,4 +402,4 @@ follows and what is still sampled.
 | graticule | §7.13 Geolines-* (`ui/basemap/geolines.json`) incl. polar circles; equator solid | label size ×1.2 (globe textSizeScale?) and `labelColorLumAdjustment` not applied |
 | stars | §2.1 `stars.bin`, angles as RA/Dec in the earth frame through the page camera, alpha from brightness | frame, point size; 36 stars drawn vs ~300 counted on the App |
 | labels | flat band: the `.styl`-derived symbol layers of `style-flat-*.json` from z 4.6; globe DOM labels below | globe DOM typography still `labels-globe.json` (sampled); undersea line labels, physical ranges not drawn |
-| flat style items seen at z 5.1 (for the data session) | — | FreewayControlled 2.25 px purple from Apple z6 covers 59 000 px where the App shows land (§7.14 open); `Border-State` magenta α 0.25 where the App shows none; the App's thin light lines in the mountains are Ground-class valley floors, not lines |
+| flat style items seen at z 5.1 (for the data session) | expressway below Apple z8 → §7.15 (v6 `LOWZOOM_EXPRESSWAY`); dash unit → §7.16 | `Border-State` magenta α 0.25 (inferred prop 12) where the App shows none at Apple z6; the App's thin light lines in the mountains are Ground-class valley floors (rgb(239,240,228) = Ground × light), not lines |

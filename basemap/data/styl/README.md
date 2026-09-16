@@ -38,6 +38,8 @@ python3 pipeline/basemap/styl/styl_decode.py ~/Money/styl-work/globe-default-202
 
 ## 平面样式生成器（2026-09-16 下午，`pipeline/basemap/styl/to_maplibre.py`）
 
+v6（2026-09-16 晚，按 RENDER-PIPELINE §7.12）：虚线按缩放段（279/280 各行）出 `step` 表达式，单位 = 0.2 pt（§7.16 三次实测，不是 ¼ pt），除以该段线宽；海岸光晕层 `coast-glow`（Coastline-Glow-Base 宽 55 / 颜色 57，画在 OpenMapTiles ocean 多边形轮廓上、`line-offset` 向水侧，苹果 z8 起）；字体按缩放段（fontSpec 23 各行 → `text-font` step）；高速在苹果 z<8 走 Line-LowZoom-Connection 的无条件行（z6–7 0.5 px 灰蓝、z7–8 1 px 灰，z6 以下不画；§7.15）；经纬网 `geoline-tropics/-equator` 读 `map/data/graticule.geojson`，样式 Geolines-Tropics/Equator（§7.13）；县界/国界的 `line-opacity 0.25`（属性 12 的推断）去掉——日本视野并排图证明苹果的县界就是 fillColor 自带的 α0.7–0.8。指标：大阪 z12 亮 7.35% / 暗 8.11%（v5 当日重测 7.08%，差额里光晕 +0.01、铁路刻度 +0.02，其余是字体分段与边界）；日本视野亮 68.67% / 暗 33.62%（绿色植被归界面叠层，线与字见 `~/Money/styl-work/cmp-v6-japan-light-side.png`）。
+
 ```bash
 python3 pipeline/basemap/styl/to_maplibre.py ~/Money/styl-work/default-56689.styl map/style-flat-light.json map/style-flat-dark.json   # 加 --lum 试亮度调整
 python3 pipeline/rangeserver.py 8793 &   # 预览 http://127.0.0.1:8793/map/flat.html?dark=0#ll=34.69,135.50&spn=0.12,0.2

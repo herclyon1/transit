@@ -14,6 +14,10 @@
    "type": "vector",
    "url": "https://tiles.openfreemap.org/planet"
   },
+  "graticule": {
+   "type": "geojson",
+   "data": "data/graticule.geojson"
+  },
   "transit": {
    "type": "vector",
    "url": "pmtiles://../tiles/transit.pmtiles",
@@ -357,6 +361,81 @@
     ],
     "fill-antialias": false
    }
+  },
+  {
+   "id": "coast-glow",
+   "source": "openmaptiles",
+   "source-layer": "water",
+   "filter": [
+    "==",
+    "class",
+    "ocean"
+   ],
+   "type": "line",
+   "layout": {
+    "line-cap": "round",
+    "line-join": "round"
+   },
+   "paint": {
+    "line-color": [
+     "step",
+     [
+      "zoom"
+     ],
+     "rgba(34,59,135,1)",
+     11.0,
+     "rgba(33,57,131,1)",
+     13.0,
+     "rgba(31,57,122,1)"
+    ],
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     0.0,
+     7.0,
+     5.0,
+     9.0,
+     7.0,
+     11.0,
+     8.0,
+     13.0,
+     9.0
+    ],
+    "line-blur": [
+     "step",
+     [
+      "zoom"
+     ],
+     0.0,
+     7.0,
+     3.75,
+     9.0,
+     5.25,
+     11.0,
+     6.0,
+     13.0,
+     6.75
+    ],
+    "line-offset": [
+     "step",
+     [
+      "zoom"
+     ],
+     -0.0,
+     7.0,
+     -2.5,
+     9.0,
+     -3.5,
+     11.0,
+     -4.0,
+     13.0,
+     -4.5
+    ],
+    "line-opacity": 0.85
+   },
+   "minzoom": 7.0
   },
   {
    "id": "waterway",
@@ -824,7 +903,7 @@
     "class",
     "motorway"
    ],
-   "minzoom": 2.0,
+   "minzoom": 5.0,
    "maxzoom": 15.0,
    "type": "line",
    "layout": {
@@ -837,8 +916,10 @@
      [
       "zoom"
      ],
-     "rgba(45,61,81,1)",
-     5.0,
+     "rgba(0,0,0,0)",
+     6.0,
+     "rgba(0,0,0,0)",
+     7.0,
      "rgba(19,21,26,0.502)"
     ],
     "line-width": [
@@ -846,7 +927,9 @@
      [
       "zoom"
      ],
-     3.05,
+     0.5,
+     6.0,
+     1.0,
      7.0,
      3.7,
      8.0,
@@ -1363,7 +1446,7 @@
     "class",
     "motorway"
    ],
-   "minzoom": 2.0,
+   "minzoom": 5.0,
    "maxzoom": 15.0,
    "type": "line",
    "layout": {
@@ -1376,8 +1459,10 @@
      [
       "zoom"
      ],
-     "rgba(136,157,192,1)",
-     5.0,
+     "rgba(136,152,184,1)",
+     6.0,
+     "rgba(209,209,209,1)",
+     7.0,
      "rgba(128,149,184,1)",
      8.0,
      "rgba(137,159,196,1)"
@@ -1387,7 +1472,9 @@
      [
       "zoom"
      ],
-     2.25,
+     0.5,
+     6.0,
+     1.0,
      7.0,
      2.3,
      8.0,
@@ -1543,10 +1630,69 @@
      2.5
     ],
     "line-dasharray": [
-     2.29,
-     9.14,
-     2.29,
-     9.14
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       0.53,
+       1.07,
+       0.53,
+       1.07
+      ]
+     ],
+     9.0,
+     [
+      "literal",
+      [
+       0.46,
+       1.37,
+       0.46,
+       1.37
+      ]
+     ],
+     11.0,
+     [
+      "literal",
+      [
+       0.46,
+       1.83,
+       0.46,
+       1.83
+      ]
+     ],
+     13.0,
+     [
+      "literal",
+      [
+       0.4,
+       2.0,
+       0.4,
+       2.0
+      ]
+     ],
+     15.0,
+     [
+      "literal",
+      [
+       0.36,
+       2.13,
+       0.36,
+       2.13
+      ]
+     ],
+     16.0,
+     [
+      "literal",
+      [
+       0.32,
+       2.56,
+       0.32,
+       2.56
+      ]
+     ]
     ]
    },
    "minzoom": 6.0
@@ -1655,8 +1801,156 @@
      1.5
     ],
     "line-dasharray": [
-     48.0,
-     48.0
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       1,
+       0
+      ]
+     ],
+     5.0,
+     [
+      "literal",
+      [
+       5.6,
+       5.6
+      ]
+     ],
+     7.0,
+     [
+      "literal",
+      [
+       5.76,
+       5.76
+      ]
+     ],
+     12.0,
+     [
+      "literal",
+      [
+       9.6,
+       9.6
+      ]
+     ],
+     14.0,
+     [
+      "literal",
+      [
+       16.8,
+       16.8
+      ]
+     ],
+     15.0,
+     [
+      "literal",
+      [
+       14.4,
+       14.4
+      ]
+     ],
+     16.0,
+     [
+      "literal",
+      [
+       17.07,
+       17.07
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "id": "geoline-tropics",
+   "source": "graticule",
+   "source-layer": "graticule",
+   "filter": [
+    "!=",
+    [
+     "get",
+     "lat"
+    ],
+    0
+   ],
+   "type": "line",
+   "paint": {
+    "line-color": "rgba(131,155,206,0.302)",
+    "line-width": 1.15,
+    "line-dasharray": [
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       2.09,
+       2.09,
+       2.09,
+       2.09
+      ]
+     ],
+     3.0,
+     [
+      "literal",
+      [
+       2.78,
+       2.78,
+       2.78,
+       2.78
+      ]
+     ],
+     7.0,
+     [
+      "literal",
+      [
+       4.17,
+       4.17,
+       4.17,
+       4.17
+      ]
+     ],
+     11.0,
+     [
+      "literal",
+      [
+       5.57,
+       5.57,
+       5.57,
+       5.57
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "id": "geoline-equator",
+   "source": "graticule",
+   "source-layer": "graticule",
+   "filter": [
+    "==",
+    [
+     "get",
+     "lat"
+    ],
+    0
+   ],
+   "type": "line",
+   "paint": {
+    "line-color": "rgba(131,155,206,0.302)",
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     1.0,
+     3.0,
+     1.5,
+     7.0,
+     1.9
     ]
    }
   },
@@ -1704,14 +1998,54 @@
      2.0,
      0.9
     ],
-    "line-opacity": 0.25,
     "line-dasharray": [
-     26.67,
-     6.67,
-     13.33,
-     6.67,
-     6.67,
-     6.67
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       1,
+       0
+      ]
+     ],
+     5.0,
+     [
+      "literal",
+      [
+       4.0,
+       0.89,
+       2.22,
+       0.89,
+       0.89,
+       0.89
+      ]
+     ],
+     11.0,
+     [
+      "literal",
+      [
+       5.33,
+       1.33,
+       2.67,
+       1.33,
+       1.33,
+       1.33
+      ]
+     ],
+     15.0,
+     [
+      "literal",
+      [
+       8.89,
+       1.78,
+       4.44,
+       2.67,
+       2.67,
+       2.67
+      ]
+     ]
     ]
    }
   },
@@ -1773,14 +2107,78 @@
      13.0,
      2.25
     ],
-    "line-opacity": 0.25,
     "line-dasharray": [
-     30.48,
-     7.62,
-     30.48,
-     7.62,
-     7.62,
-     7.62
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       1,
+       0
+      ]
+     ],
+     5.0,
+     [
+      "literal",
+      [
+       6.19,
+       1.55,
+       6.19,
+       1.55,
+       1.55,
+       1.55
+      ]
+     ],
+     7.0,
+     [
+      "literal",
+      [
+       5.49,
+       1.37,
+       5.49,
+       1.37,
+       1.37,
+       1.37
+      ]
+     ],
+     9.0,
+     [
+      "literal",
+      [
+       4.92,
+       1.23,
+       4.92,
+       1.23,
+       1.23,
+       1.23
+      ]
+     ],
+     11.0,
+     [
+      "literal",
+      [
+       6.1,
+       1.52,
+       6.1,
+       1.52,
+       1.52,
+       1.52
+      ]
+     ],
+     13.0,
+     [
+      "literal",
+      [
+       5.69,
+       1.42,
+       5.69,
+       1.42,
+       1.42,
+       1.42
+      ]
+     ]
     ]
    }
   },
@@ -1811,7 +2209,23 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Regular"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     15.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",
@@ -1904,7 +2318,23 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Regular"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     12.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",
@@ -2000,7 +2430,23 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Regular"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     12.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",
@@ -2095,7 +2541,23 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Regular"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     12.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",
@@ -2551,7 +3013,30 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Bold"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     9.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ],
+     13.0,
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",
@@ -2622,7 +3107,23 @@
      ]
     ],
     "text-font": [
-     "Noto Sans Bold"
+     "step",
+     [
+      "zoom"
+     ],
+     [
+      "literal",
+      [
+       "Noto Sans Regular"
+      ]
+     ],
+     5.0,
+     [
+      "literal",
+      [
+       "Noto Sans Bold"
+      ]
+     ]
     ],
     "text-size": [
      "interpolate",

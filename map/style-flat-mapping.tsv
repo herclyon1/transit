@@ -12,6 +12,7 @@ park	fill	ParkPolygon.Elevated-Light
 landuse-park	fill	ParkPolygon.Elevated-Light	
 aeroway	fill	AirportPolygon.Explore-Light	
 water	fill	Landcover-Water.Light-Explore	
+coast-glow	glow	Coastline-Glow-Light-Base	glow on the water side of the ocean polygon edge: width prop 55 (Coastline-Glow-Base), colour prop 57; OpenMapTiles has no coastline line, the ocean polygon outline stands in
 waterway	line	Rivers-Light-Elevated-Base	no dotted leaf for rivers; Flat-Base variant (inferred)
 building	building	BuildingFootprint.Light-Explore	fill = buildingFlatColor(86), outline = strokeColor
 road-path	road	Line-PrivatePath.Light-Elevated	path/track ~ PrivatePath (inferred)
@@ -25,7 +26,9 @@ road-motorway	road	Line-FreewayControlled.Light-JPN-Elevated	motorway ~ FreewayC
 road-kokudo	road	Line-Highway.Light-JPN-ClassOne-Elevated	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
 rail	rail	Railway-Japan.Light	N02 centre lines via transit.pmtiles; surface railways
 rail-shinkansen	rail	Railway-Japan.Bullet-Light	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
-boundary-state	boundary	Border-State.Explore-Light	12 = opacity (inferred)
+geoline-tropics	geoline	Geolines-Tropics.Explore-Light-Elevated	tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)
+geoline-equator	geoline	Geolines-Equator.Explore-Light-Elevated	equator, same source
+boundary-state	boundary	Border-State.Explore-Light	alpha from fillColor; prop 12 not used (v6)
 boundary-country	boundary	Border-Country.Non-Disputed-Light	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Light-JPN-Elevated	road label numbers come from the road style itself
 label-road-secondary	roadname	Line-ConnectorRoad.Light-JPN-Elevated	
@@ -53,6 +56,7 @@ park	fill	ParkPolygon.Elevated-Dark
 landuse-park	fill	ParkPolygon.Elevated-Dark	
 aeroway	fill	AirportPolygon.Explore-Dark	
 water	fill	Landcover-Water.Dark-Explore	
+coast-glow	glow	Coastline-Glow-Dark-Base	glow on the water side of the ocean polygon edge: width prop 55 (Coastline-Glow-Base), colour prop 57; OpenMapTiles has no coastline line, the ocean polygon outline stands in
 waterway	line	Rivers-Dark-Elevated-Base	no dotted leaf for rivers; Flat-Base variant (inferred)
 building	building	BuildingFootprint.Dark-Explore	fill = buildingFlatColor(86), outline = strokeColor
 road-path	road	Line-PrivatePath.Dark-Elevated	path/track ~ PrivatePath (inferred)
@@ -66,7 +70,9 @@ road-motorway	road	Line-FreewayControlled.Dark-JPN-Elevated	motorway ~ FreewayCo
 road-kokudo	road	Line-Highway.Dark-JPN-ClassOne	国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)
 rail	rail	Railway-Japan.Dark	N02 centre lines via transit.pmtiles; surface railways
 rail-shinkansen	rail	Railway-Japan.Bullet-Dark	N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)
-boundary-state	boundary	Border-State.Explore-Dark	12 = opacity (inferred)
+geoline-tropics	geoline	Geolines-Tropics.Explore-Dark-Elevated	tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)
+geoline-equator	geoline	Geolines-Equator.Explore-Dark-Elevated	equator, same source
+boundary-state	boundary	Border-State.Explore-Dark	alpha from fillColor; prop 12 not used (v6)
 boundary-country	boundary	Border-Country.Non-Disputed-Dark	
 label-road-minor	roadname	Line-LocalRoad-MinorRoad.Dark-JPN-Elevated	road label numbers come from the road style itself
 label-road-secondary	roadname	Line-ConnectorRoad.Dark-JPN-Elevated	

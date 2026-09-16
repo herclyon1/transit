@@ -217,7 +217,17 @@ Recommended order for the UI page: (1) blur radius, (2) face levels + saturation
 ## 6. Not resolved
 
 - The `blurStyle` constants inside the Maps theme objects (Swift code; no ObjC call site with an immediate) —
-  which §3 row each card / sheet uses. Every candidate's Mac form is in §3.
+  which §3 row each card / sheet uses. Partial answer from MapsUI itself (cache-optimised `objc_msgSend$` stubs
+  resolved through the dyld cache, `pipeline/materials/catalyst_probe/selofs.m` + scratch `cachecalls.py`): the
+  effects MapsUI builds directly are `UIBlurEffectStyle` 10 systemChromeMaterial (`MUPlacePhotoGalleryAttributionView`),
+  9 systemThickMaterial (`MUScrollableSegmentedPickerContentView`), 16 systemUltraThinMaterialDark
+  (`MUCardButton _updateButtonAppearance`), 7 systemThinMaterial (a Swift view) and the private 1100
+  (`+[UIButtonConfiguration(MUPlaceHeaderButtonExtras) _setupDirectionsButtonConfiguration:]`, → the Chrome recipe
+  pair in `_convertStyleToRecipe`); `-[MUBlurView initWithBlurEffectStyle:]` has no caller inside MapsUI — the
+  card/sheet containers get their style from the Maps app's Swift theme, which also carries the feature flag
+  `EnableThickCardMaterial` ("Enable Thick Card Material") — i.e. the place card is systemMaterial (8) by default
+  and systemThickMaterial (9) with the flag, which on the Mac are `NSVisualEffectMaterial` popover (6) / menu (5)
+  (§3). The remaining unknown is the default-off/on state of that flag on this build.
 - The CoreMaterial luminance remap algorithm (`luminanceAmount` × LUT) is not needed on the Mac (recipes unused
   there) and was not reverse-engineered.
 - `glassBackground` inputs that stayed at 0 in every variant (Aberration*, OuterRefraction*, SDRShadow*) are
