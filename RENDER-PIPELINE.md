@@ -72,7 +72,7 @@ altitude in the acceptance view ≈ 12 000 km (h ≫ 150 km ⇒ the atmosphere c
 | Apple data | none — a corona mesh (`ggl::GlobeAtmosphere::AtmosphereMesh`, `buildAtmosphereModel`) from `innerRadius` to `outerRadius`. |
 | look | `GlobeAtmosphere::globe_atmosphere_vertex/fragment` [air] + constants filled in `md::GlobeSkyRenderLayer::layout` [vk VectorKit_44.mm:7582, values checked in the macOS binary]: R = 6 356 752.31 m; h = max(\|camera\| − R, 100); horizonDistance = √(h(h+2R))/R; outerRadius = R + h + horizonDistance·1.1R·tan(fov/2); far branch (h ≥ 150 000 m [res VKDebugSettings `daVinciAtmosphereMaxHeight`]): t = clamp((h−150 000)/150 000, 0, 1) = 1 at globe distance, colorMidPoint = 1 − t·0.5 (`daVinciAtmosphereColorMidpoint` 0.5) = 0.5, lightingEnabled = t = 1, outerRadius → 150 000 + R. Colours [styl `default-iosmac-11358.styl` → `Sky-Standard-Day`]: midColor = fillColor rgb(155,196,237), horizonColor = prop 202 rgb(212,226,240); endColor = (0,0,0,1) [vk constant]; night: `Sky-Standard-Night` rgb(35,76,122) / rgb(86,109,165). Fragment: c = mix(horizon, mid, t1) then mix(c, end, t2) over the radial distance with the mid point at 0.5 of the corona; c *= light where light = lightColor·lightIntensity + ambient·(1−nightLightFade), lightIntensity = 0.25·(dot(primaryLightDirection, pos)+1)², primaryLightDirection = the §2.5 light in view space; nightLightFade = 0 by day. |
 | our rebuild | canvas "limb haze" [ui `haze-globe.json`]: per r/limb bin a colour + opacity solved from pixels (r 0.925 a 0.19 `#484f84` → 0.99 a 0.94 `#94a3b6`) and "outer 7 pt fall-off from the `native.png` row-800 profile" — **sampled/fitted**. MapLibre's own atmosphere is off. |
-| gap / fix | the outside glow is fully specified above: at the acceptance camera (D = 2.89 earth radii ⇒ h = 1.89 R ≫ 150 km) the far branch sets the corona's outer edge to R + 150 km = 1.0236 R, i.e. **2.4 % of the silhouette radius ≈ 14 px at the 578 px (1×) silhouette** — the 14 px outer glow the UI measured on `native.png`; colours rgb(212,226,240) at the surface → rgb(155,196,237) at half the thickness (colorMidPoint 0.5) → black at the edge, multiplied by the sun term (brighter on the lit side, `lightingEnabled` = 1 in the far branch). Replace the fitted haze table by this; keep the table only to verify. The *inside* darkening the UI folded into "haze" is not this pass — it is the lighting term (§2.5) plus, if enabled for globe tiles, the ground atmosphere term (unresolved, §6). |
+| gap / fix | the outside glow is fully specified above: at the acceptance camera (D = 2.89 earth radii ⇒ h = 1.89 R ≫ 150 km) the far branch sets the corona's outer edge to R + 150 km = 1.0236 R, i.e. **2.4 % of the silhouette radius ≈ 14 px at the 578 px (1×) silhouette = 150 km**; what the UI measured on `native-nosidebar.png` is 14 px **@2× = 7 pt = 75 km — the outer half of the corona (mid colour → black)**: the inner half (horizon colour → mid) sits over the disc's own edge pixels and reads as part of the limb. Colours rgb(212,226,240) at the surface → rgb(155,196,237) at half the thickness (colorMidPoint 0.5) → black at the edge, multiplied by the sun term (brighter on the lit side, `lightingEnabled` = 1 in the far branch). Replace the fitted haze table by this; keep the table only to verify. The *inside* darkening the UI folded into "haze" is not this pass — it is the lighting term (§2.5) plus, if enabled for globe tiles, the ground atmosphere term (unresolved, §6). |
 
 ### 2.3 Ocean
 
@@ -183,7 +183,7 @@ ground shader; `globe_texture_*` is the satellite globe).
 | `palette-globe.json` land tints (5 Köppen classes) | land-cover class base colour (sheet) + climate HSV delta | **decoded** for the colours and the deltas [styl, res]; the class and climate *rasters* are Apple's (chapter 154, VMP4 raster, out of scope) → stand-in data needed (ESA WorldCover + a temperature/aridity classification) |
 | `shading-globe.json` a, b, L | light(n) | **decoded** [cap]: a → 0.4968·cube, b → 0.7085, L → az 240° alt 65°, applied in linear light |
 | `haze-globe.json` inner bins (r 0.5–0.99) | not an effect: the same n·L falloff + rim overlap | **replace by the lighting formula**; the ground `needsAtmosphere` term on globe tiles could add a small skyBottomColor bleed near the limb — value not captured (MKMapView never enters the globe path); decodable only from the decompile of `PrepareStyleConstantDataHandleForGlobeTiles` (not done) |
-| `haze-globe.json` outer 7 pt glow | GlobeAtmosphere corona | **decoded** (§2.2 formula + colours); thickness 2.4 % of the radius at the acceptance camera |
+| `haze-globe.json` outer 7 pt glow | GlobeAtmosphere corona | **decoded** (§2.2 formula + colours); corona 150 km = 2.4 % of the radius = 14 pt at the acceptance camera, of which the visible mid→black half is the 7 pt (14 px @2×) the UI measured |
 | hill-shade exaggeration k `{3: 0.047, 5: 0.30, 9: 0.07}` | `groundElevationScale(z)` on the DEM before normals + n·L with 0.7085 | **decoded** [res]; the mapping from MapLibre's `hillshade-exaggeration` to a DEM scale is the UI's implementation detail, the target amplitude is now a formula, not a calibration |
 | hill-shade azimuth 260° | light azimuth | **decoded**: 240° / 65° [cap] (flat and globe alike) |
 | `labels-globe.json` typography | globe sheet label styles | **decoded** [styl tsv]; keep the sampled file as verification only |
@@ -253,7 +253,7 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD`/`ROADS` lines with rail class; Japan → `Railway-Japan*` [vmp4, styl]. |
 | look [styl] | `Railway-Japan.Light`: colour `#71a7ff`, width 1.0 at every zoom, stroke 0.25 (≤ z8) → 0.375 (z10–13) → 0.5 (z14+); **tick pattern (prop 280, inherited `Railway-Base`) by zoom: [4,8] ≤ z10, [4,12] z10–12, [4,16] z12–14, [4,20] z14–16, [4,24] z16–17, [4,32] z17+** (the base row's [4,48] is only the fallback); `Railway-Japan.Bullet-Light` (新幹線): white core 1.0–1.25 px with `#006fff` stroke 0.5, dash (prop 279, `Japan-Railway-Bullet-Base`) [28,28] z6–8, [36,36] z8–13, [48,48] z13–15, [84,84] z15–16, [108,108] z16–17, [128,128] z17+. Dash unit: **≈ 0.2 pt per unit on screen** (three measurements, §7.16; = ¼ sheet-pt × the Mac's 0.77), so z12 rail ticks ≈ 0.8 pt on, 3.2 pt off. |
-| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width), shinkansen dash from the 279 rows [`to_maplibre.py`]. |
+| our rebuild | N02 centre lines from `tiles/transit.pmtiles` (`rail`, `cls`); v6: casing dash per zoom from the 280 rows (`[4,8]`…`[4,32]` × 0.2 pt ÷ casing width); v6.1: the 279 dash (whole line) also dashes the casing — the shinkansen's 0.5 px blue outline is dashed together with its white core, which is the App's pale blue dashed line at z6–8 (a solid 2 px blue casing under a dashed core read as heavy blue dashes) [`to_maplibre.py`]. |
 | gap | closed in v6 (`to_maplibre.py`): dashes per zoom band from the 279/280 rows, value × 0.2 pt ÷ line-width, as `step` expressions; z12 ticks 0.8 pt / 3.2 pt. |
 
 ### 7.7 Buildings
@@ -271,8 +271,8 @@ App and `MKMapSnapshotter(.realistic)` draw). Values read with `pipeline/basemap
 |---|---|
 | Apple data | `VECTOR_SPR_STANDARD` lines with admin level [vmp4]. |
 | look [styl] | country `Border-Country.Non-Disputed-Light`: fill `#b3009e` α0.8 (≤ z7) → α0.7 (z8+), stroke `#b3009e` α0.2–0.3, width 1.45 (z5) → 1.55 (z6–7) → 1.75 (z8–9) → 1.95 (z10–11) → 2.1 (z12–13) → 2.25 (z14+), stroke width 0.25 → 1.35 → 1.95 → 2.1 → 2.75 → 3.25, dash [48,12,48,12,12,12] z6–12 → [64,16,64,16,16,16] z12+; **prefecture** `Border-State.Explore-Light`: fill `#b3009e` α0.7 (z5) / α0.8 (z6–7) / α0.65 (z8–9) / α0.7 (z10+), stroke α0.2 → 0.35, width **0.9 (z5) → 1.05 (z6–7) → 1.25 (z8–11) → 1.75 (z12+)**, stroke width 0.25 → 0.5 → 1.1 → 2.25, dash [18,4,10,4,4,4] z6–12 → [24,6,12,6,6,6] z12–16; prop 12 (opacity, inferred 0.25). Tropics/equator (also on the flat map): `Geolines-*`, §7.13. |
-| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, dash rows by zoom (v6) [`to_maplibre.py`]. |
-| gap | closed in v6: dash rows by zoom + 0.2 pt unit; prop 12 is **not** an opacity — with the v5 `line-opacity 0.25` the prefecture borders were far fainter than the App's at the Japan view, without it they match (fillColor alpha 0.7–0.8 is the whole story); v6 drops it. |
+| our rebuild | OpenMapTiles `boundary` admin_level 2 / 4 with the rows above, `line-opacity` = prop 12 (0.25), dash rows by zoom (v6) [`to_maplibre.py`]. |
+| gap | closed in v6/v6.1: dash rows by zoom + 0.2 pt unit; prop 12 = 0.25 **is** applied as line opacity again (v6 had dropped it; the z6 crop against the App shows the prefecture border as a pale mauve = rgb(179,0,158) at 0.8 × 0.25 — the sheet's `fillColorLumAdjustment −10` darkens instead and is wrong here, so 12 is the multiplier). |
 
 ### 7.9 Labels
 
@@ -365,12 +365,16 @@ the last word for z ≤ 7:
 
 So at the Japan view (Apple z6.1) the expressway is the low-zoom connection line, 0.5–1.85 px with a thin light
 stroke, grey-blue rgb(136,152,184) darkened 25 % (≈ rgb(102,114,138)) — the "≈ 1 px faint purple-grey" of the
-side-by-side — and the 2.25 px purple table only takes over from z8. Our generator (`resolve.py`) ignores
-conditional rows and visits each parent once (depth-first, first occurrence), which left the JPN width table last
-and produced 2.25 px. v6 (`LOWZOOM_EXPRESSWAY` in `to_maplibre.py`) draws OSM motorways below Apple z8 with the
-unconditional rows — nothing below z6, 0.5 px rgb(136,152,184) at z6–7, 1 px rgb(209,209,209) at z7–8 — because
-OpenMapTiles has no equivalent of Apple's curated low-zoom connection classes (with the 1.85 px Japan rows every OSM
-expressway became a heavy web); the purple table starts at z8.
+side-by-side — and the 2.25 px purple table only takes over from z8. Our generator's resolver used to ignore
+conditional rows and to visit each parent once (first occurrence), which left the JPN width table last and produced
+2.25 px. `resolve.py` v6 fixes both: diamond inheritance keeps the *last* occurrence (so the LowZoom base overrides), and
+conditional sets are evaluated against a context (`to_maplibre.py` `CONTEXT`: client:69 = 2, client:1 = 0 day / 1
+night, feature:4 = 10 Japan; conditions on attributes not in the context are treated as unsatisfied). With that the
+leaf itself resolves to 0.5 px at z6–7. What no context can supply is the feature's low-zoom connection class
+(feature:85 / feature:31 — Apple's curated links, 1–1.85 px, everything else hidden at z0–7), so `to_maplibre.py`
+starts the motorway layer at Apple z6 and sets the z7–8 band to the feature:85 row (1 px rgb(209,209,209)); the
+purple table starts at z8. Regenerating the whole style with the new resolver changed nothing else (diff of v6 vs
+v6b: only the motorway low-zoom bands and a hidden z6–7 row of LocalMajorRoad).
 
 ### 7.16 Closing item ② — the dash unit, three measurements
 

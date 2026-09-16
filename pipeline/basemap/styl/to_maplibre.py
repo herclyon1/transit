@@ -55,15 +55,13 @@ NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local n
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 DASH_PT = 0.2       # pt per dashPattern unit on the Mac's output (RENDER-PIPELINE §7.16: 0.19 / 0.203 / 0.215 measured)
-# Expressways below Apple z8 are drawn by Line-LowZoom-Connection-Base / LowZoom-Connection-JPN-Base (RENDER-PIPELINE
-# §7.15), which resolve.py cannot see (conditional rows + diamond inheritance).  Apple keeps only the curated
-# "low-zoom connection" classes (feature:85 / feature:31) at z4-7, at 1.0-1.85 px for Japan's main links; OpenMapTiles
-# has no such class, so every OSM motorway would get that width.  The aggregate that matches best is the sheet's
-# unconditional row: z6-7 width 0.5, no stroke (Line-LowZoom-Connection-Base), then the feature:85 row z7-11 width 1,
-# grey (209,209,209); below Apple z6 nothing (only the curated classes are visible there).
-# (apple zmin, zmax, width, strokeWidth, fill rgb, stroke rgba, fillColorLumAdjustment)
-LOWZOOM_EXPRESSWAY = [(6.0, 7.0, 0.5, 0.0, (136, 152, 184), None, 0),
-                      (7.0, 8.0, 1.0, 0.0, (209, 209, 209), None, 0)]
+# Expressways below Apple z8 (RENDER-PIPELINE §7.15): resolve.py (v6: diamond inheritance = last occurrence, conditional
+# rows by context) now yields the Line-LowZoom-Connection-Base row itself — 0.5 px, no stroke, at Apple z6-7.  What it
+# cannot know is the feature class: Apple shows only its curated low-zoom connection classes below z6 (feature:85 rows)
+# and draws them 1 px grey (209,209,209) at z7-11; OpenMapTiles has no such class, so the layer starts at Apple z6 and
+# the z7-8 band is set here.  (apple zmin, zmax, width, strokeWidth, fill rgb, stroke rgba, fillColorLumAdjustment)
+LOWZOOM_EXPRESSWAY_MINZOOM = 6.0
+LOWZOOM_EXPRESSWAY = [(7.0, 8.0, 1.0, 0.0, (209, 209, 209), None, 0)]
 
 # (id, kind, source-layer, filter, apple style template ({m} = Light/Dark, {e} = Explore-Light/Explore-Dark), note)
 # kind: bg | fill | road | rail | line | boundary | place | roadname | watername
@@ -102,7 +100,7 @@ MAPPING = [
     ('rail-shinkansen', 'rail', 'rail', ['==', 'cls', 'shinkansen'], 'Railway-Japan.Bullet-{m}', 'N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)'),
     ('geoline-tropics', 'geoline', 'graticule', ['!=', ['get', 'lat'], 0], 'Geolines-Tropics.{e}-Elevated', 'tropics from map/data/graticule.geojson; the globe sheet has no line style, the flat sheet Geolines-* draws them (RENDER-PIPELINE §7.13)'),
     ('geoline-equator', 'geoline', 'graticule', ['==', ['get', 'lat'], 0], 'Geolines-Equator.{e}-Elevated', 'equator, same source'),
-    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', 'alpha from fillColor; prop 12 not used (v6)'),
+    ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity 0.25 (inferred, confirmed by the z6 crop in v6.1)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
     ('label-road-minor', 'roadname', 'transportation_name', ['in', 'class', 'minor', 'service', 'tertiary'], 'Line-LocalRoad-MinorRoad.{m}-JPN', 'road label numbers come from the road style itself'),
     ('label-road-secondary', 'roadname', 'transportation_name', ['in', 'class', 'secondary'], 'Line-ConnectorRoad.{m}-JPN', ''),
@@ -142,10 +140,17 @@ def step(bands, conv, lo=0.0, hi=24.0):
     return expr
 
 
+# Cascade context (resolve.py v6): client:69 = 2 is the map style the Mac/Elevated render matches (RENDER-PIPELINE §7.15),
+# client:1 (TimePeriod) 0 = day / 1 = night, feature:4 (Country) 10 = Japan.  Feature classes we cannot know (road
+# LineType 1, low-zoom connection class 85 ...) are left out, so their conditional rows are skipped.
+CONTEXT = {'light': {'client': {69: 2, 1: 0}, 'feature': {4: 10}}, 'dark': {'client': {69: 2, 1: 1}, 'feature': {4: 10}}}
+
+
 class Gen:
     def __init__(self, path, lum):
         self.src = path
-        self.r = Resolver(path)
+        self.resolvers = {m: Resolver(path, context=CONTEXT[m]) for m in ('light', 'dark')}
+        self.r = self.resolvers['light']
         self.lum = lum
         self.rows = []
 
@@ -311,7 +316,9 @@ class Gen:
             layout = {'line-cap': 'round', 'line-join': 'round'}
             if sc and (self.r.value_at(style, 6, 14) or 0) > 0:
                 paint = {'line-color': sc, 'line-width': self.width_expr(style, casing=True)}
-                d = self.dash(style, 280, casing=True)
+                # 280 dashes the stroke alone (rail ticks); 279 dashes the whole line, so the casing takes it too
+                # (v6.1: the shinkansen's blue 0.5 px outline is dashed with its white core, giving Apple's pale blue dashes)
+                d = self.dash(style, 280, casing=True) or self.dash(style, 279, casing=True)
                 if d:
                     paint['line-dasharray'] = d
                 out.append({**base, 'id': lid + '-casing', 'type': 'line', 'layout': layout, 'paint': paint})
@@ -332,8 +339,11 @@ class Gen:
         if kind == 'boundary':
             fc = self.color_expr(style, 1, 470)
             paint = {'line-color': fc, 'line-width': self.width_expr(style)}
-            # prop 12 (0.25 on borders) was applied as line-opacity up to v5; the Japan-view side-by-side (v6) shows Apple's
-            # prefecture borders at the fillColor's own alpha (0.7-0.8), so 12 is not an opacity and is no longer used.
+            # prop 12 (0.25 on borders) as line-opacity: v6 dropped it, v6.1 restores it — the App's z6 prefecture borders
+            # are a pale mauve (crop compared 2026-09-16 evening), i.e. rgb(179,0,158) at 0.8 x 0.25, not at 0.8.
+            op = self.r.value_at(style, 12, 12)
+            if op is not None:
+                paint['line-opacity'] = op
             d = self.dash(style, 279)
             if d:
                 paint['line-dasharray'] = d
@@ -355,37 +365,41 @@ class Gen:
         return []
 
     def lowzoom_expressway(self, layers, base, layout):
-        """Below Apple z8 the expressway is the Line-LowZoom-Connection line (RENDER-PIPELINE §7.15): splice the
-        LOWZOOM_EXPRESSWAY bands in front of the sheet's z8+ bands of the motorway casing/fill layers."""
-        def splice(expr, low, hi_default):
-            # expr is a step expression or constant over Apple zoom (already offset); rebuild with low bands first
-            bands = []
-            for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
-                bands.append((a, b, low(w, sw, fc, sc, lum)))
+        """Splice the LOWZOOM_EXPRESSWAY bands into the motorway casing/fill expressions and start the layer at
+        LOWZOOM_EXPRESSWAY_MINZOOM (RENDER-PIPELINE §7.15)."""
+        def splice(expr, low):
             hi = expr if isinstance(expr, list) and expr[0] == 'step' else ['step', ['zoom'], expr]
-            # values of the sheet expression from Apple z8 on: evaluate at z8 and keep later stops
-            def at(z):
-                v = hi[2]
-                for zz, vv in zip(hi[3::2], hi[4::2]):
-                    if z + ZOFF >= zz:
-                        v = vv
-                return v
-            bands.append((8.0, 8.0001, at(8.0)))
-            out = ['step', ['zoom'], bands[0][2]]
-            for a, b, v in bands[1:]:
-                out += [max(0.0, a + ZOFF), v]
-            for zz, vv in zip(hi[3::2], hi[4::2]):
-                if zz > 8.0 + ZOFF:
-                    out += [zz, vv]
-            return out
+            stops = list(zip([None] + hi[3::2], [hi[2]] + hi[4::2]))          # (maplibre zoom or None, value)
+            out = []
+            for z, v in stops:
+                za = 0.0 if z is None else z - ZOFF                          # apple zoom of this stop
+                for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
+                    if a <= za < b:
+                        v = low(w, sw, fc, sc, lum)
+                out.append((z, v))
+            # insert the low bands' own edges
+            for a, b, w, sw, fc, sc, lum in LOWZOOM_EXPRESSWAY:
+                for edge, val in ((a, low(w, sw, fc, sc, lum)), (b, None)):
+                    ml = max(0.0, edge + ZOFF)
+                    if not any(z == ml for z, _ in out if z is not None):
+                        if val is None:                                       # band end: back to the sheet value there
+                            val = hi[2]
+                            for zz, vv in zip(hi[3::2], hi[4::2]):
+                                if ml >= zz:
+                                    val = vv
+                        out.append((ml, val))
+            out = [(z, v) for z, v in out if z is None] + sorted([(z, v) for z, v in out if z is not None])
+            res = ['step', ['zoom'], out[0][1]]
+            for z, v in out[1:]:
+                res += [z, v]
+            return res
         for l in layers:
             casing = l['id'].endswith('-casing')
-            l['minzoom'] = max(0.0, LOWZOOM_EXPRESSWAY[0][0] + ZOFF)
-            l['paint']['line-width'] = splice(l['paint']['line-width'],
-                                              lambda w, sw, fc, sc, lum: round(w + 2 * sw, 3) if casing else w, None)
+            l['minzoom'] = max(0.0, LOWZOOM_EXPRESSWAY_MINZOOM + ZOFF)
+            l['paint']['line-width'] = splice(l['paint']['line-width'], lambda w, sw, fc, sc, lum: round(w + 2 * sw, 3) if casing else w)
             l['paint']['line-color'] = splice(l['paint']['line-color'],
                                               lambda w, sw, fc, sc, lum: (rgba({'rgba': list(sc)}) if sc else 'rgba(0,0,0,0)') if casing
-                                              else rgba({'rgba': list(fc) + [255]}, lum), None)
+                                              else rgba({'rgba': list(fc) + [255]}, lum))
         return layers
 
     def elevated_name(self, name):
@@ -407,6 +421,7 @@ class Gen:
 
     def style(self, mode):
         m, e = ('Light', 'Explore-Light') if mode == 'light' else ('Dark', 'Explore-Dark')
+        self.r = self.resolvers[mode]
         layers = []
         roads_casing, roads_fill = [], []
         for lid, kind, src, flt, tpl, note in MAPPING:
