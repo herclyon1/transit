@@ -4,7 +4,7 @@
 
 先记三条口径，否则数会对不上：
 1. **颜色是样式表里的输入色（sRGB 8 位）**，渲染时还会过 `labelColorLumAdjustment` / `strokeColorLumAdjustment`（同一行组里的 463/464/470/471，单位是亮度百分点，正数提亮）和色彩空间转换；量具测的像素是输出色。暗色海洋标注 rgb(62,116,182) 与量具 #3d73b6 差 1，说明标注色基本不动；线条色叠了半透明描边再合成，会差一些。
-2. **缩放段 zmin–zmax 是 MapLibre 的 zoom 同一口径**（Web Mercator z，苹果存 z×8）。首屏 `#ll=30,125&spn=50,60` 是 z3.1，落在 3–4 段。
+2. **缩放段口径：苹果 z = MapLibre z + 1**（苹果按 256 px 瓦片算 zoom，MapLibre 按 512 px；苹果存 z×8）。验收视野 `#ll=34.69,135.50&spn=0.12,0.2` @1280×744 是苹果 z12.8 = MapLibre z11.8；首屏球 `#ll=30,125&spn=50,60` 是苹果 z4.1 = MapLibre z3.1。查表时把 MapLibre 的 z 加 1 再找段（`to_maplibre.py` 已按 −1 位移生成）。
 3. 同一样式的缩放段可以重叠（几组各管不同属性），取值时按属性分别看；条件行（`client:37(~IncreaseContrast)`、`client:1(~TimePeriod)=[1]` 即夜间）只在该条件成立时覆盖基础值。**没有条件的 zoom 行就是默认（白天）值。**
 
 ## 各层对应的行
@@ -42,9 +42,10 @@ python3 pipeline/basemap/styl/styl_decode.py ~/Money/styl-work/globe-default-202
 python3 pipeline/basemap/styl/to_maplibre.py ~/Money/styl-work/default-56689.styl map/style-flat-light.json map/style-flat-dark.json   # 加 --lum 试亮度调整
 python3 pipeline/rangeserver.py 8793 &   # 预览 http://127.0.0.1:8793/map/flat.html?dark=0#ll=34.69,135.50&spn=0.12,0.2
 ```
-- 输入：同一份 `default-56689.styl`（亮/暗是同一文件里的 `.Light*` / `.Dark*` 叶样式）；解析用 `resolve.py`（继承链先父后子、后者覆盖，缩放段「后者优先」）。
+- 输入：`default-iosmac-11358.styl`（Mac 地图 App 与 MKMapSnapshotter 用的就是它：颜色、缩放段与 iOS 的 `default-56689.styl` 完全一样，所有尺寸 ×1.2987 = 100/77——线宽、字号都是）；亮/暗是同一文件里的 `.Light*` / `.Dark*` 叶样式；解析用 `resolve.py`（继承链先父后子、后者覆盖，缩放段「后者优先」）。手机用 iOS 文件重跑即可。
 - 数据：OpenFreeMap `planet`（OpenMapTiles 字段），字体只有 Noto Sans Regular/Bold/Italic（medium→Regular、semibold→Bold、bold,italic→Italic）。
 - 映射表 `map/style-flat-mapping.tsv`（80 行）：每个 MapLibre 图层对应哪个苹果叶样式，「inferred」标出的是我推的（motorway→FreewayControlled、trunk→MajorHighway、primary→Highway、secondary→ConnectorRoad、tertiary→LocalMajorRoad、minor→LocalRoad-MinorRoad、service→ServiceRoad、path→PrivatePath、日本路网用 `.Light-JPN`；城市标注按 OpenMapTiles rank 对 City-Label-LMZ-05/07/09/12；区名 SubMuni-Ward；湖名 Lake-Label.Zoom9；海名 Ocean-Points.Large）。
-- 取值：fillColor/strokeColor→颜色（按缩放段 step），width→line-width，套边 = width + 2×strokeWidth 画在下层，visible=False 段→minzoom，边界属性 12→line-opacity（推断为不透明度 0.25），labelInfo.height→text-size（段内从 height 线性到 heightCurveLimit），文字色/光晕色照搬，建筑面用 buildingFlatColor(86)。
-- 没做：隧道/桥（`brunnel`）、匝道（Ramp-*）、盾牌、POI、LumAdjustment 的精确函数（`--lum` 用 HSL 亮度 ±adj/100 近似，默认关）、z17+ 的宽度（苹果换成地面单位，数值 30/60/120 不能直接用）。
+- 取值：fillColor/strokeColor→颜色（按缩放段 step），width→line-width，套边 = width + 2×strokeWidth 画在下层，visible=False 段→minzoom，边界属性 12→line-opacity（推断为不透明度 0.25），labelInfo.height→text-size（段内从 height 线性到 heightCurveLimit），文字色/光晕色照搬，建筑面用 buildingFlatColor(86)，dashPattern 279/280（小端 u16 的 (dash,gap) 对，单位 pt；铁路 4,48、国界 18,4,10,4,4,4）→line-dasharray（除以苹果 z13 的线宽）。所有缩放刻度已按「苹果 z = MapLibre z + 1」位移。
+- 没做：隧道/桥（`brunnel`）、匝道（Ramp-*）、盾牌、POI、LumAdjustment 的精确函数（`--lum` 用 HSL 亮度 ±adj/100 近似，默认关）、z17+ 的宽度（苹果换成地面单位，数值 30/60/120 不能直接用）、**国道紫线**（苹果 `Line-*.Light-JPN-ClassOne` 填充 (185,174,209)/套边 (137,123,166) 是并排图里的紫色路；OpenFreeMap 的 transportation 层只有 class/subclass/brunnel/layer，没有 ref/network，分不出国道；只有 transportation_name 层带 ref）。
+- **数据侧硬限制（并排图路网稀的主因）**：OpenFreeMap 瓦片 z11 里 transportation 只有 motorway/trunk/primary/secondary/tertiary/rail，`minor`（支路，z12 瓦片起，大阪一屏 8185 条）和 place 的 `suburb`（区名，z12 起，142 个）都没有；MapLibre 在 z11.8 取的是 z11 瓦片（矢量源只能 512 px、取整向下），所以验收视野 z11.8 画不出支路网和 YODOGAWA/ASAHI 区名，z≥12 才有。要对比全部支路请用 z12.2 的视野（spn≈0.09,0.15）。
 - 自检图：`pipeline/basemap/raw/flat/osaka-{light,dark}.png`（无头 Chrome，同视野 1280×744），验收拿 MKMapSnapshotter 同视野并排。
