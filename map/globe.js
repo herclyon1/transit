@@ -40,23 +40,47 @@
 
   // ---- style ----------------------------------------------------------------------------
   const TERRARIUM = meta.sources.hillshade.url;
+  // Two palettes are stored (ui/basemap): 'flat' = the snapshotter's flat style (palette-ocean/land,
+  // light + dark) and 'globe' = the App's globe style sampled off its screenshot through the fitted
+  // camera (palette-globe, light only). Light mode defaults to 'globe' — that is what the App shows;
+  // '#...&pal=flat' forces the flat one. Dark mode has only the flat dark palette.
+  function paletteName(m) {
+    const h = location.hash.replace(/^#/, '');
+    const q = new URLSearchParams(h.includes('=') ? h : '');
+    const want = q.get('pal') || 'globe';
+    return (m === 'light' && want === 'globe' && meta.globe_palette) ? 'globe' : 'flat';
+  }
+  function colours(m) {
+    const pal = paletteName(m);
+    if (pal === 'globe') {
+      const gb = meta.globe_palette.ocean_bands;
+      const last = gb[gb.length - 1].light;
+      return {
+        pal,
+        ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: (gb.find(x => x.depth_min_m === b.depth_min_m) || { light: last }).light })),
+        land: meta.globe_palette.land_tints.humid,
+        climate: 'globe',
+      };
+    }
+    return { pal, ocean: meta.ocean_bands.map(b => ({ depth_min_m: b.depth_min_m, c: b[m] })),
+             land: meta.land_tints.humid[m + '_hex'], climate: m };
+  }
   function style(m) {
-    const bands = meta.ocean_bands;            // depth_min_m ascending; deeper drawn on top
-    const tint = meta.land_tints;
+    const col = colours(m);
     const layers = [
       // the sphere itself: shallow-water colour so coast gaps between NE land and NE ocean read as shelf
-      { id: 'bg', type: 'background', paint: { 'background-color': bands[0][m] } },
+      { id: 'bg', type: 'background', paint: { 'background-color': col.ocean[0].c } },
     ];
     const sources = {};
-    for (const b of bands) {
+    for (const b of col.ocean) {
       // one source per level: the 12 files parse in parallel workers and paint as they arrive
       sources['bathy-' + b.depth_min_m] = { type: 'geojson', data: 'data/bathy-' + b.depth_min_m + '.geojson', tolerance: 0.5 };
       layers.push({ id: 'bathy-' + b.depth_min_m, type: 'fill', source: 'bathy-' + b.depth_min_m,
-        paint: { 'fill-color': b[m], 'fill-antialias': false } });
+        paint: { 'fill-color': b.c, 'fill-antialias': false } });
     }
     layers.push({ id: 'land', type: 'fill', source: 'land',
-      paint: { 'fill-color': tint.humid[m + '_hex'], 'fill-antialias': true, 'fill-outline-color': tint.humid[m + '_hex'] } });
-    layers.push({ id: 'climate', type: 'raster', source: 'climate-' + m,
+      paint: { 'fill-color': col.land, 'fill-antialias': true, 'fill-outline-color': col.land } });
+    layers.push({ id: 'climate', type: 'raster', source: 'climate-' + col.climate,
       paint: { 'raster-resampling': 'linear', 'raster-fade-duration': 0 } });
     // hill-shade: light from the azimuth fitted on Apple's own render; exaggeration calibrated per zoom
     const stops = [];
@@ -77,7 +101,7 @@
       sources: {
         ...sources,
         land: { type: 'geojson', data: 'data/land.geojson' },
-        ['climate-' + m]: { type: 'image', url: 'data/climate-' + m + '.png', coordinates: meta.climate_image.bounds },
+        ['climate-' + col.climate]: { type: 'image', url: 'data/climate-' + col.climate + '.png', coordinates: meta.climate_image.bounds },
         dem: { type: 'raster-dem', tiles: [TERRARIUM], encoding: 'terrarium', tileSize: 256, maxzoom: 15,
                attribution: 'Terrain: AWS Terrain Tiles (Mapzen terrarium)' },
       },

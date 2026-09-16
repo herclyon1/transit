@@ -138,11 +138,16 @@ def build_climate(tints):
             im = Image.new("1", (x1 - x0, y1 - y0), 0)
             ImageDraw.Draw(im).polygon(list(zip((x - x0).tolist(), (y - y0).tolist())), fill=1)
             land[y0:y1, x0:x1] ^= np.asarray(im, dtype=np.uint8)
-    for mode in ("light", "dark"):
+    gp = globe_palette()
+    modes = {"light": {t: v["light"] for t, v in tints.items()}, "dark": {t: v["dark"] for t, v in tints.items()}}
+    if gp:
+        # the App's globe land tints (light only); tints the screenshot did not contain fall back to the flat palette
+        modes["globe"] = {t: [int(gp["land_tints"].get(t, tints[t]["light_hex"])[i:i + 2], 16) for i in (1, 3, 5)] for t in tints}
+    for mode, tint_rgb in modes.items():
         rgba = np.zeros((N, N, 4), dtype=np.uint8)
         for k in range(1, 31):
             tint = KOPPEN_TINT.get(k, DEFAULT_TINT)
-            rgb = tints[tint][mode]
+            rgb = tint_rgb[tint]
             m = cls == k
             rgba[m, 0], rgba[m, 1], rgba[m, 2] = rgb
             rgba[m, 3] = 255
@@ -220,6 +225,21 @@ def build_labels():
     return {"regions": v_regions, "countries": v_countries, "marine": v_marine}
 
 
+def globe_palette():
+    p = os.path.join(ROOT, "ui", "basemap", "palette-globe.json")
+    if not os.path.exists(p):
+        return None
+    g = json.load(open(p))
+    pick = lambda s: (s.get("centre") or s)["hex"]   # noqa: E731
+    return {
+        "source": "ui/basemap/palette-globe.json (pipeline/basemap/globefit.py on the Maps App globe screenshot)",
+        "camera": {k: g["camera"][k] for k in ("lat0", "lng0", "D_earth_radii", "limb_radius_px", "rms_px", "camera_altitude_km")},
+        "ocean_bands": [{"depth_min_m": b["depth_min_m"], "light": pick(b), "n": (b.get("centre") or b)["n"]} for b in g["ocean_bands"]],
+        "land_tints": {t: pick(v) for t, v in g["land_tints"].items()},
+        "haze_by_r_over_limb_deep_ocean": g["haze_by_r_over_limb_deep_ocean"],
+    }
+
+
 def main():
     ocean = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-ocean.json")))
     land = json.load(open(os.path.join(ROOT, "ui", "basemap", "palette-land.json")))
@@ -255,6 +275,9 @@ def main():
         "simplification": {"douglas_peucker_deg": TOL, "min_ring_area_deg2": MIN_AREA, "decimals": DECIMALS},
         "ocean_bands": [{"depth_min_m": b["depth_min_m"], "light": b["light"]["hex"], "dark": b["dark"]["hex"], "n": b["light"]["n"]} for b in ocean["bands"]],
         "land_tints": tints,
+        # the App's GLOBE style, sampled from its screenshot through the fitted camera (palette-globe.json);
+        # light only (the screenshot is light); 'centre' = r/limb <= 0.5, least hazed
+        "globe_palette": globe_palette(),
         "climate_image": climate,
         "hillshade": {
             "illumination_direction_deg": land["hillshade"]["probe_japan_alps"]["fit"]["azimuth_deg"],

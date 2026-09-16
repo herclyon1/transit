@@ -19,9 +19,9 @@ Light / dark follow `prefers-color-scheme`.
 | layer | data | colour / size |
 |---|---|---|
 | `background` | — | shallowest ocean band (`palette-ocean.json` 0–200 m) so coast gaps between NE land and NE ocean read as shelf |
-| `bathy-<depth>` ×12 | Natural Earth 10m Bathymetry v4.1.0 (public domain), one file per level so they parse in parallel and paint progressively; DP 0.02° (<3000 m) / 0.04° (abyssal), `data/bathy-*.geojson` 10 MB total | `palette-ocean.json` band medians, light and dark |
-| `land` | Natural Earth 10m Land v5.1.1, simplified 0.01°, `data/land.geojson` 2.5 MB | `palette-land.json` humid flat tint |
-| `climate` (raster image) | Beck et al. 2023 Köppen-Geiger 1991–2020 0.1° (CC BY 4.0) → `data/climate-{light,dark}.png`, Web-Mercator 4096², masked to NE land | Köppen class → tint by majority vote of `palette.py`'s 705 samples (BWk/BWh very-dry, BSk/Dwc/Cwb semi-humid, ET/EF high-grey, rest humid) |
+| `bathy-<depth>` ×12 | Natural Earth 10m Bathymetry v4.1.0 (public domain), one file per level so they parse in parallel and paint progressively; DP 0.02° (<3000 m) / 0.04° (abyssal), `data/bathy-*.geojson` 10 MB total | light: **`palette-globe.json`** band colours (the App's globe style, sampled off its screenshot through the fitted camera, `centre` = r/limb ≤ 0.5); `#…&pal=flat` or dark: `palette-ocean.json` band medians |
+| `land` | Natural Earth 10m Land v5.1.1, simplified 0.01°, `data/land.geojson` 2.5 MB | humid tint of the same palette (globe `#e9f6d8`, flat `#bfe98b` / dark `#377b64`) |
+| `climate` (raster image) | Beck et al. 2023 Köppen-Geiger 1991–2020 0.1° (CC BY 4.0) → `data/climate-{globe,light,dark}.png`, Web-Mercator 4096², masked to NE land | Köppen class → tint by majority vote of `palette.py`'s 705 samples (BWk/BWh very-dry, BSk/Dwc/Cwb semi-humid, ET/EF high-grey, rest humid); tint colours from the palette in use |
 | `hillshade` | AWS Terrain Tiles (terrarium) raster-dem | azimuth 260° (fit on Apple's Alps render, r 0.59); exaggeration **calibrated**: 0.07 @ z8.7 (luminance amplitude 14.2 vs Apple 14.3), 0.047 @ z3.1 (5–95 % shading range 5.8 vs Apple's ≈6 flat-vs-slope drop) — `pipeline/basemap/calibrate.py` |
 | limb glow (canvas) | — | radial profile replayed from `native.png` row 800: 60 pt inner haze + 7 pt outer fall-off to `#000000` |
 | labels (DOM markers) | NE 10m admin_0_countries `LABEL_X/Y`, `MIN/MAX_LABEL`; marine polys (ocean/sea/bay/gulf) and continent polys → spherical interior point (cos-lat-weighted mean of grid samples, snapped inside; fixes Arctic Ocean landing in the Yellow Sea) | `labels-globe.json`: continent heavy 17.4 pt +2.6 tracking `#955e8d`; country heavy 11 pt `#8c608a` white stroke 1.2 px; ocean/sea semibold italic 14 / 11 pt `#206aa1` (+0.9); dark colours from the dark render. Font `-apple-system` stack. Zoom visibility = NE's `min_label..max_label`; in-front-of-globe and inside-the-disc checked every frame; greedy collision on projected boxes after `idle` |
@@ -42,11 +42,18 @@ python3 pipeline/basemap/shot.py <url> 1280 744 out.png [--dark]   # headless sc
 
 ## Known gaps (2026-09-16)
 
-* **Apple's globe is a different style sheet** (`globe-default-*.styl`), not the flat one the snapshotter
-  renders: in `native.png` the Philippine Sea centre is `rgb(121,189,233)` where the flat palette says
-  `rgb(10,149,233)`, Bay of Bengal `154,210,245` vs `29,174,247`. This page uses the flat palette as
-  tasked, so the ocean reads darker/more saturated than the App's globe. Next step: fit the globe camera
-  on `native.png` from city-dot positions and sample the globe palette by depth band the same way.
+* **Two palettes.** Apple's globe is its own style sheet (`globe-default-*.styl`), not the flat one the
+  snapshotter renders (Philippine Sea centre `rgb(121,189,233)` in the App vs `rgb(10,149,233)` flat).
+  `pipeline/basemap/globefit.py` fits the App's globe camera on `native.png` — silhouette circle from
+  174 rows (rms 0.3 px: centre 1265.0, 743.4, r 1156.3 @2x) plus 11 city markers matched to Natural
+  Earth populated places (rms 4.9 px, max 7.7; lat0 30.18, lng0 116.15, D 2.88 earth radii ≈ 11 960 km)
+  — and samples the globe colours by NE depth band and Köppen tint (`ui/basemap/palette-globe.json`).
+  Light mode uses it by default; `pal=flat` in the hash switches to the flat palette; dark mode has only
+  the flat dark palette (the screenshot is light). The data session's `.styl` decode will give a third,
+  exact set — keep all of them.
+* Camera-model residual: Tokyo/Sapporo sit ~7–10 px (2x) off after the fit while the SE-Asian anchors
+  are within 3 px — a pin-hole camera aimed at the sphere centre is not exactly Apple's projection.
+  Fine for colour sampling by band, not for pixel-exact registration.
 * `HAZE_ALPHA = 0.5` (inner-haze opacity at the limb) is the one constant without a measurement: the
   profile was sampled over ocean only, so haze colour and opacity cannot be separated. Needs a Maps
   screenshot with land at the limb.
