@@ -96,3 +96,15 @@
 - 缺陷 3 标注集合：**更差**，东亚视野亮暗都只剩 ASIA/RUSSIA/INDIA/Arctic Ocean 四条（上版二十多条）；它报「暗色 37 条」与截图不符，以截图为准。
 **结论**：打回（2、3）。`git merge --abort`，main 不动。App「球边压陆地」参照图已截：`~/Money/styl-work/native-limb-land-light.png`（1280×744 pt @2x，`maps://?ll=30,60&spn=50,60`）。
 
+## 2026-09-16 14:4x　验收 data f36afaa（球页面数据：海深三级 / 海底地名 / 城市点 / 数值表说明）　验收人：transit 验收（Fable）
+
+| 条 | 怎么验 | 结果 |
+|---|---|---|
+| ① 来源与口径 | map/data/meta.json sources 九项齐（bathymetry_levels/undersea/cities 新增），三个脚本头部有 URL；NE 10m Bathymetry v4.1.0、GEBCO Gazetteer（NOAA NCEI ArcGIS 服务）、NE 10m populated places v5.1.2 | 齐 |
+| ② 抽值回源 | Challenger Deep rep (142.5917, 11.3733) 对 GEBCO 辞典 11°22.4′N 142°35.5′E = (142.592, 11.373)；Emperor Seamount Chain / Shatsky Rise / Mariana / Japan Trench 为线要素，代表点在合理位置；Tokyo (139.7495, 35.687)、Ōsaka (135.5038, 34.6911) 与 NE 一致，name_ja 有 | 对上 |
+| ③ validate.py | 不覆盖 | — |
+| ④ 计数 | bathy-z0 12 要素 40 265 外环顶点、bathy-z4 12 要素、深度档 0–10000 共 12；undersea 1479 = cls1 468 + cls2 1011；cities 1148 = 68/174/331/575 | 与消息一致 |
+
+**记下**：Ramapo Deep 在 GEBCO 辞典里没有（只有 Ramapo Bank），App 那条标签无公开来源，页面上不做；pmtiles 没做（本机无 tippecanoe），三级 GeoJSON 先用。
+**结论**：放行，合并 main。
+
