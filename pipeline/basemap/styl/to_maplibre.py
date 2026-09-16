@@ -8,8 +8,9 @@ Variants: by default the "-Elevated" leaf styles are used (Maps on the Mac and M
 elevationStyle .realistic draw those: elevated expressways purple (185,174,209), ground Landcover-Ground (247,246,242));
 --flat picks the plain Explore/Light variants (elevationStyle .flat).
 
-Which .styl: `default-iosmac-*.styl` is what Maps on the Mac (and MKMapSnapshotter) renders — same colours and zoom bands
-as the iOS `default-*.styl`, all sizes (widths, text) x1.2987 (= 100/77).  Use the iOS file for phone-sized numbers.
+Which .styl: use the iOS `default-56689.styl`.  The Mac sheet `default-iosmac-*.styl` has the same colours and zoom bands
+with every size x1.2987 (= 100/77), but the Mac renders it at 77 %: measured on the acceptance render (Hanshin expressway
+~5 px = iOS 3.75 + 2x0.5; ward caps 12 px = iOS 16 pt; rail 1-2 px = iOS 1.0), so the iOS numbers ARE the Mac pixels.
 
 Zoom: Apple's zoom is 256-px-tile based, MapLibre's is 512-px based, so Apple z = MapLibre z + 1.  Every band edge,
 minzoom and text-size stop is shifted by --zoom-offset (default -1).  Check: the acceptance render
@@ -31,8 +32,9 @@ What is taken from Apple (via resolve.Resolver, cascade + zoom bands):
   buildingFlatColor(86)              -> building fill
   dashPattern 279 / 280              -> line-dasharray on the fill / casing line (LE u16 pairs dash,gap in pt, divided by
                                         the line width at Apple z13 because MapLibre dash units are line widths)
-With --lum the *ColorLumAdjustment values (463/464/470/471) are applied as an HSL lightness offset of adj/100;
-the exact function VectorKit uses is unknown, so this is off by default.
+With --lum the *ColorLumAdjustment values (463/464/470/471) are applied as an HSL lightness offset of adj/100.
+Off by default and measured to be wrong for labels: the ward text sampled on the Mac render is (90,93,93) = the sheet's
+(90,94,94) although the style carries labelColorLumAdjustment -15, and dark wards went white with +10.
 """
 import colorsys
 import json
@@ -46,7 +48,7 @@ TILES = 'https://tiles.openfreemap.org/planet'
 ZOFF = -1.0     # Apple zoom -> MapLibre zoom
 ELEVATED = True  # prefer the "-Elevated" leaf variants: Maps on the Mac / MKMapSnapshotter(.realistic) draw those
 GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf'
-NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name:zh'], ['get', 'name']]
+NAME = ['coalesce', ['get', 'name:ja'], ['get', 'name']]      # ja, else local name (acceptance 2026-09-16: no zh fallback)
 ROAD_RANK = {'label-road-motorway': 1, 'label-road-primary': 2, 'label-road-secondary': 3, 'label-road-minor': 4}
 ROAD_LABEL_MINZOOM = {'label-road-minor': 14.0}   # acceptance 2026-09-16: minor names from MapLibre 14 so only main roads are named at z12-13
 
@@ -57,7 +59,6 @@ MAPPING = [
     ('landcover-wood', 'fill', 'landcover', ['in', 'class', 'wood'], 'Landcover-Forest.{m}-Explore', 'OpenMapTiles wood ~ Apple Forest (inferred)'),
     ('landcover-grass', 'fill', 'landcover', ['in', 'class', 'grass', 'farmland'], 'Landcover-Herbaceous.{m}-Explore', 'grass/farmland ~ Herbaceous (inferred)'),
     ('landcover-sand', 'fill', 'landcover', ['in', 'class', 'sand'], 'Landcover-Sand.{m}-Explore', ''),
-    ('landuse-residential', 'fill', 'landuse', ['in', 'class', 'residential', 'suburb', 'neighbourhood'], 'ResidentialPolygon-TintBand.{e}', 'tint band only in Apple; used as flat fill (inferred)'),
     ('landuse-commercial', 'fill', 'landuse', ['in', 'class', 'commercial', 'retail'], 'CommercialPolygon.{e}', ''),
     ('landuse-hospital', 'fill', 'landuse', ['in', 'class', 'hospital'], 'HospitalPolygon.{e}', ''),
     ('landuse-school', 'fill', 'landuse', ['in', 'class', 'school', 'university', 'college'], 'UniversityPolygon.{e}', 'school ~ University (inferred)'),
@@ -78,7 +79,13 @@ MAPPING = [
     ('road-trunk', 'road', 'transportation', ['in', 'class', 'trunk'], 'Line-MajorHighway.{m}-JPN', 'trunk ~ MajorHighway (inferred)'),
     ('road-motorway', 'road', 'transportation', ['in', 'class', 'motorway'], 'Line-FreewayControlled.{m}-JPN', 'motorway ~ FreewayControlled'),
     ('road-kokudo', 'road', 'transportation_name', ['all', ['in', ['get', 'class'], ['literal', ['trunk', 'primary', 'secondary', 'tertiary']]], ['==', ['slice', ['coalesce', ['get', 'name'], ''], 0, 2], '国道']], 'Line-Highway.{m}-JPN-ClassOne', '国道 (national routes) drawn from transportation_name geometry: OpenMapTiles transportation has no ref; ClassOne purple = Apple JPN-ClassOne (inferred name-prefix test)'),
-    ('rail', 'rail', 'transportation', ['all', ['==', 'class', 'rail'], ['!=', 'brunnel', 'tunnel']], 'Railway-Japan.{m}', ''),
+    # railways come from tiles/transit.pmtiles (国土数値情報 N02-24 RailroadSection, one centre line per route section,
+    # pipeline/japan/build_transit2.py) instead of OpenMapTiles rail, which carries one line per OSM track (double
+    # track = two lines, yards/sidings too) and so drew 2-3 px where Maps draws one 1 px line.  cls = shinkansen/jr/
+    # private/sector3/subway/tram/mono/cable/public/other (N02 鉄道区分 x 事業者種別); subway/cable/mono are not drawn
+    # on Maps' standard map, so they are left out.
+    ('rail', 'rail', 'rail', ['in', 'cls', 'jr', 'private', 'sector3', 'public', 'other', 'tram'], 'Railway-Japan.{m}', 'N02 centre lines via transit.pmtiles; surface railways'),
+    ('rail-shinkansen', 'rail', 'rail', ['==', 'cls', 'shinkansen'], 'Railway-Japan.Bullet-{m}', 'N02 新幹線 -> Apple Bullet variant (white core, blue dashed edge)'),
     ('boundary-state', 'boundary', 'boundary', ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]], 'Border-State.{e}', '12 = opacity (inferred)'),
     ('boundary-country', 'boundary', 'boundary', ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]], 'Border-Country.Non-Disputed-{m}', ''),
     ('label-road-minor', 'roadname', 'transportation_name', ['in', 'class', 'minor', 'service', 'tertiary'], 'Line-LocalRoad-MinorRoad.{m}-JPN', 'road label numbers come from the road style itself'),
@@ -92,7 +99,7 @@ MAPPING = [
     ('label-town', 'place', 'place', ['in', 'class', 'town'], 'City-Label-LMZ-09.{m}', 'town ~ LMZ-09 (inferred)'),
     ('label-city', 'place', 'place', ['all', ['==', 'class', 'city'], ['>', 'rank', 3]], 'City-Label-LMZ-07.{m}', 'city rank>3 ~ LMZ-07 (inferred)'),
     ('label-city-large', 'place', 'place', ['all', ['==', 'class', 'city'], ['<=', 'rank', 3]], 'City-Label-LMZ-05.{m}', 'city rank<=3 ~ LMZ-05 (inferred)'),
-    ('label-state', 'place', 'place', ['in', 'class', 'state', 'province'], 'State-Label-Medium.{m}', ''),
+    ('label-state', 'place', 'place', ['in', 'class', 'state', 'province'], 'State-Label-Small.{m}', 'Japanese prefectures ~ Small size class: visible Apple z7-10 (Medium z6-9 would show 41 names at the Japan view where Maps shows none) (inferred)'),
     ('label-country', 'place', 'place', ['in', 'class', 'country'], 'Country-Label-Medium.{m}', ''),
 ]
 
@@ -191,9 +198,13 @@ class Gen:
         return [round(x / w, 2) for x in pairs]
 
     def font(self, name):
+        """OpenFreeMap serves Noto Sans Regular / Bold / Italic only.  semibold at width<=60 (condensed, e.g. ward names)
+        reads lighter than Noto Bold, so it maps to Regular; other semibold/bold -> Bold; italic -> Italic."""
         spec = self.r.value_at(name, 23, 12) or ''
         if 'italic' in spec:
             return ['Noto Sans Italic']
+        if 'semibold' in spec and 'width=60' in spec:
+            return ['Noto Sans Regular']
         if 'bold' in spec or 'semibold' in spec:
             return ['Noto Sans Bold']
         return ['Noto Sans Regular']
@@ -206,7 +217,7 @@ class Gen:
         if style not in r.by_name:
             self.note(lid, kind, style, 'MISSING style')
             return []
-        base = {'id': lid, 'source': 'openmaptiles', 'source-layer': src}
+        base = {'id': lid, 'source': 'transit' if kind == 'rail' else 'openmaptiles', 'source-layer': src}
         if flt:
             base['filter'] = flt
         lo, hi = self.zoom_range(style)
@@ -250,6 +261,9 @@ class Gen:
                 out.append({**base, 'type': 'line', 'layout': layout, 'paint': paint})
             if kind == 'rail' and out:
                 out[-1]['layout'] = {'line-join': 'round'}
+                if lid == 'rail':
+                    for l in out:
+                        l.setdefault('minzoom', 6.0)      # N02 has every branch line; Maps hides surface rail below Apple z7
             return out
         if kind == 'boundary':
             fc = self.color_expr(style, 1, 470)
@@ -269,8 +283,8 @@ class Gen:
                                'symbol-sort-key': ROAD_RANK.get(lid, 9)})     # lower = placed first (freeway > trunk > ... )
             else:
                 layout['text-max-width'] = 8
-            if lid == 'label-ward':
-                layout.update({'text-transform': 'uppercase', 'text-letter-spacing': 0.1})   # Maps sets Latin ward names in caps with tracking
+            if lid in ('label-ward', 'label-country', 'label-state'):
+                layout.update({'text-transform': 'uppercase', 'text-letter-spacing': 0.1})   # Maps sets Latin ward/state/country names in caps with tracking
             paint = {'text-color': tc or '#000'}
             if hc:
                 paint.update({'text-halo-color': hc, 'text-halo-width': 1.5})
@@ -318,7 +332,9 @@ class Gen:
                 'metadata': {'generator': 'pipeline/basemap/styl/to_maplibre.py', 'apple_style_sheet': Path(self.src).name,
                              'zoom_offset': ZOFF, 'lum_adjustment_applied': self.lum, 'elevated_variants': ELEVATED,
                              'region': 'Japan road variants (.Light-JPN / .Dark-JPN), Explore areas'},
-                'sources': {'openmaptiles': {'type': 'vector', 'url': TILES}},
+                'sources': {'openmaptiles': {'type': 'vector', 'url': TILES},
+                            'transit': {'type': 'vector', 'url': 'pmtiles://../tiles/transit.pmtiles', 'minzoom': 4, 'maxzoom': 14,
+                                        'attribution': '鉄道: 国土数値情報 N02-24'}},
                 'glyphs': GLYPHS, 'layers': pre + roads_casing + roads_fill + bounds + labels}
 
 
