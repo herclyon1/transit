@@ -72,3 +72,19 @@
 
 **结论**：放行合并（map/ 独立目录，不影响任何旧页）；上面 3 条缺陷记为下一单第一项。
 
+## 2026-09-16 14:0x　验收 data bcea8d0 + c832a8f + da130f7（.styl 格式与球数值表）　验收人：transit 验收（Fable）
+
+**看了什么**：`git diff --stat main...data`：12 文件 +7506，无删除（两点 diff 里的 ui/basemap 删除是分支落后 main 的假象）。STYL-FORMAT.md 八节；解码器 pipeline/basemap/styl/；数值表 basemap/data/styl/globe-key-numbers.tsv 5246 行；20 MB 全量导出已 gitignore。
+
+| 条 | 怎么验 | 结果 |
+|---|---|---|
+| ① 来源与口径 | 文档写明样本路径、解法依据（本机 VectorKit 反汇编 + 26.1 反编译）、颜色是 sRGB 8 位输入色、流序 A,B,G,R、1x/2x 差异 | 齐 |
+| ② 抽值回源 | 我把 `git archive data pipeline/basemap/styl` 抽到 /tmp 独立跑 styl_decode.py：球文件 5 章、属性 210、属性集 3200、样式 2421，20 章剩 6 位 / 21 章剩 2 位，与报告一致。字节序 A,B,G,R 与我 13:2x 用渲染像素互证的结论独立一致（它走反汇编）。字号：Continent-PointLabel z2–3 由 14 曲线到 20，界面会话在东亚视野实测洲名 17.4 pt，落在曲线段内（MapKit 缩放约 2.7），两把尺子对上。Coastline-Glow-Light 57 = rgb(135,221,251) 对我渲染近岸 #88d4f5 | 对上 |
+| ③ validate.py | 不覆盖 | — |
+| ④ 计数 | 425 属性有映射、球文件定名 100/210（定死 64 + 推断 36，high 19）、tsv 5246 行 | 与消息一致 |
+
+**两项裁定**：① 球的海/陆底色不在样式表（球文件无面填充样式，match_palette 全部落空）→ 继续走渲染器/App 截图采样，这条转界面会话（已在它下一单里）。② 20 MB 全量导出不进公开仓库（苹果样式逐值），维持 gitignore，本地重生成。
+**记下**：30 章匹配树、dashPattern/iconGradient 内部布局、约 110 个低频属性未定名——同意到此为止，不再投格式。
+
+**结论**：放行，合并 main。
+
