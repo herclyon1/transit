@@ -370,15 +370,20 @@ def space_background():
     # limb glow: horizontal profile through the right limb, 3 rows, until the first pure black pixel
     profiles = []
     for y in (600, 800, 1000):
-        row = im[y, 2380:2450]
+        row = im[y, 2200:2450]
         j = next(i for i in range(len(row)) if row[i].sum() == 0)
         prof = [row[i].tolist() for i in range(j - 14, j + 1)]
         # glow width: pixels from the last "ocean-like" pixel (luma > 60% of the plateau) to black
         lum = np.array([0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2] for p in prof])
         plateau = lum[:3].mean()
         wpx = int((lum > 0.5 * plateau).sum())
-        profiles.append({"row_px_2x": y, "first_black_x_2x": 2380 + j, "rgb_inward_to_outward": prof,
-                         "half_luma_width_px_2x": wpx})
+        # full profile: 120 px (60 pt) inward from the first black pixel, every 2 px, then the 14 px fall-off
+        inward = [row[i].tolist() for i in range(j - 120, j - 14, 2)]
+        profiles.append({"row_px_2x": y, "first_black_x_2x": 2200 + j, "rgb_inward_to_outward": prof,
+                         "half_luma_width_px_2x": wpx,
+                         "inner_haze_rgb_every_2px_2x": inward,
+                         "inner_haze_note": "ocean seen through the atmosphere brightens/greys toward the limb over ~60 pt; "
+                                            "samples run from 60 pt inside the limb to 7 pt inside"})
     # stars: connected components in a strip that is pure space (right of the limb, below the toolbar)
     g = np.asarray(Image.open(NATIVE_PNG).convert("L")).astype(int)
     x0, x1, y0, y1 = 2440, 2560, 520, 1488
