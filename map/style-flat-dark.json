@@ -867,6 +867,87 @@
    }
   },
   {
+   "id": "road-kokudo-casing",
+   "source": "openmaptiles",
+   "source-layer": "transportation_name",
+   "filter": [
+    "all",
+    [
+     "in",
+     [
+      "get",
+      "class"
+     ],
+     [
+      "literal",
+      [
+       "trunk",
+       "primary",
+       "secondary",
+       "tertiary"
+      ]
+     ]
+    ],
+    [
+     "==",
+     [
+      "slice",
+      [
+       "coalesce",
+       [
+        "get",
+        "name"
+       ],
+       ""
+      ],
+      0,
+      2
+     ],
+     "国道"
+    ]
+   ],
+   "minzoom": 8.0,
+   "type": "line",
+   "layout": {
+    "line-cap": "round",
+    "line-join": "round"
+   },
+   "paint": {
+    "line-color": [
+     "step",
+     [
+      "zoom"
+     ],
+     "rgba(19,21,26,0.251)",
+     5.0,
+     "rgba(19,21,26,0.502)"
+    ],
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     0.649,
+     9.0,
+     1.299,
+     10.0,
+     1.623,
+     11.0,
+     4.61,
+     12.0,
+     5.519,
+     16.0,
+     25.974,
+     17.0,
+     44.156,
+     18.0,
+     85.714,
+     19.0,
+     168.831
+    ]
+   }
+  },
+  {
    "id": "road-path",
    "source": "openmaptiles",
    "source-layer": "transportation",
@@ -1320,6 +1401,89 @@
      116.883,
      19.0,
      155.844
+    ]
+   }
+  },
+  {
+   "id": "road-kokudo",
+   "source": "openmaptiles",
+   "source-layer": "transportation_name",
+   "filter": [
+    "all",
+    [
+     "in",
+     [
+      "get",
+      "class"
+     ],
+     [
+      "literal",
+      [
+       "trunk",
+       "primary",
+       "secondary",
+       "tertiary"
+      ]
+     ]
+    ],
+    [
+     "==",
+     [
+      "slice",
+      [
+       "coalesce",
+       [
+        "get",
+        "name"
+       ],
+       ""
+      ],
+      0,
+      2
+     ],
+     "国道"
+    ]
+   ],
+   "minzoom": 8.0,
+   "type": "line",
+   "layout": {
+    "line-cap": "round",
+    "line-join": "round"
+   },
+   "paint": {
+    "line-color": [
+     "step",
+     [
+      "zoom"
+     ],
+     "rgba(116,135,160,1)",
+     5.0,
+     "rgba(128,149,184,1)",
+     8.0,
+     "rgba(137,159,196,1)"
+    ],
+    "line-width": [
+     "step",
+     [
+      "zoom"
+     ],
+     0.649,
+     9.0,
+     1.299,
+     10.0,
+     1.623,
+     11.0,
+     3.312,
+     12.0,
+     4.221,
+     16.0,
+     23.377,
+     17.0,
+     41.558,
+     18.0,
+     83.117,
+     19.0,
+     166.234
     ]
    }
   },
@@ -2071,7 +2235,8 @@
     "quarter",
     "neighbourhood"
    ],
-   "minzoom": 23.0,
+   "minzoom": 9.0,
+   "maxzoom": 13.0,
    "type": "symbol",
    "layout": {
     "text-field": [
@@ -2436,7 +2601,8 @@
     "state",
     "province"
    ],
-   "minzoom": 23.0,
+   "minzoom": 5.0,
+   "maxzoom": 8.0,
    "type": "symbol",
    "layout": {
     "text-field": [
