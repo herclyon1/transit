@@ -92,6 +92,34 @@ altitude in the acceptance view ≈ 12 000 km (h ≫ 150 km ⇒ the atmosphere c
 | our rebuild | NE 10m land polygon in one "humid" tint + a Köppen raster recoloured into 5 tints, colours from **`palette-globe.json` (sampled)**, class assignment by "majority vote of `palette.py`'s 705 samples" [ui]. |
 | gap / fix | colours: take the `Landcover-*.Light-Elevated` / `.Dark-Elevated` rows at Apple z2–z4 from the sheet (decoded; `pipeline/basemap/styl/resolve.py value_at(name, 1, z)`), no sampling needed. Classes: Apple's raster is its own land-cover product (not decoded, VMP4 raster); a public stand-in with the same eight classes is ESA WorldCover / Copernicus GLC (tree cover → Forest, shrubs → Shrubland, grassland → Herbaceous, cropland → Cultivated, wetland → Wetlands, bare → Barren, snow/ice → IceSnow, built-up → Ground) — Köppen is the wrong axis for the *base* colour; it is the axis for the tint (§2.5b). |
 
+### 2.4b Apple's ground data itself, decoded (2026-09-16 night, acceptance asked for original values below z 4.6)
+
+The SPR tiles in the local geod cache (`VECTOR_SPR_MERCATOR`, style 58; a copy of `MapTiles.sqlitedb` + its WAL) are
+parsed by **Apple's own decoder**: `pipeline/basemap/spr_dump.m` builds a `GEOVectorTile`
+(`initWithVMP4:localizationData:tileKey:`, GeoServices) per tile and reads the decoded arrays back — nothing of the
+VMP4 chapters is re-implemented. Cache key → tile: `key_b = (x << 6 | z) << 16`, `key_c = y << 16 | x >> 10`
+(`GEOTileKeyMake`: byte 0 type 2, u32 @6 = x<<6|z, u32 @0xa = y | style<<26, byte 0xe = style>>6). Findings:
+
+| chapter | what it is | how it is read |
+|---|---|---|
+| 154 (two per tile, `_readStyleAttributeRasters`) | **climate codes**, 128² each, polygon-raster encoded (`mgcl::raster::PolygonRasterDecoder<u8>`): attribute **153 = ClimateTemperature** 0 Arctic … 3 Cool … 6 VeryHot, attribute **154 = ClimatePrecipitation** 0 VeryWet … 3 SemiDry … 5 VeryDry (gss enum strings in VectorKit; the shader's `temperatureTexture` / `aridityTexture`, SHADER-NUMBERS 3.2) — defined over the ocean too (latitude bands) | `daVinciStyleAttributeRasters` (struct: data @0, bytes @8, attributeId @0xc, polygonEncoded @0x10, w @0x12, h @0x14, stride 0x18) |
+| 155 (`_readMaterialRasters`) | the **material raster** = the shader's `styleIndexTexture`, 1024² 8-bit per tile: pixel value → a *stack* of DaVinci material ids (base 223 + overlays); `ids[]` (uint64, family 0x1102…), and two uint16 arrays: `b[v]` = stack length per value, `a` = the concatenated stacks | VectorTile+0xb38 records (0x50 B: data @8, bytes @0x10, w/h/bpp @0x16/0x18/0x1a, ids @0x20/@0x28, a @0x40/@0x48, b @0x30/@0x38) |
+| 100 (`_readDaVinci3DData`) | the **terrain mesh**: float3 vertices (x, y up, in tile units 0–1; z = height / tile width, in Mercator metres → × cos φ for metres), uint16 indices, mesh descriptors (0x50 B: vertexOffset @4, vertexCount @8, indexOffset @0xc, indexCount @0x10); ~13–18 k vertices per mesh, 2–3 meshes per tile, ≈ 25 km spacing at z3 | `daVinciVertices` / `daVinciIndices` / `daVinciMeshes` |
+| 101 (`_readElevationRaster`) | header: u32 16, i16 min −12000, i16 max 12000, float tileSizeInMeters, u16 zResolutionBits 16, u32 pngLength; then a 64² 16-bit PNG (land heights, ≈ 0.73 m/unit above 16384; no bathymetry) | `elevationRasterPng` |
+| tileset 60 `DvMt` (one resource per material id, in the same cache) | the material definitions: bit-packed property blocks with zoom-banded colours and colour ramps (`geo::codec::MaterialSheet::decodeMaterial` in VectorKit) — see §6 | not decoded (format) |
+
+Material id → Landcover class is pinned from the z2 draws captured in-process (`cap-wide`): the captured `aridityTexture`
+of each draw is byte-identical to the decoded 154 raster of a cache tile (diff 0), the captured `styleTexture` row k is
+stack k's colour, and the row colour matches the sheet's `Landcover-<Class>` fillColor at z2 (`basemap/data/globe/spr-materials.json`:
+223 Ground (base of every land stack), 274 Forest, 235 Wetlands, 271 Cultivated, 226 Herbaceous, 228 Shrubland, 272
+Barren, 275 IceSnow, 330 Vegetation, 801 Sand, 318 Water, 30813 dry lake / salt flat (captured colour), 264 / 310
+overlays that change no colour). `pipeline/basemap/spr_globe.py` turns this into `map/data/ground-globe-{light,dark}.png`
+(world 4096², z2 tiles with z3 on top), `ground-globe-ea-*.png` (lon 90–180 / lat 0–66.5 at the z3 tiles' own
+resolution), `spr-class-globe.png`, `climate-{temp,arid}-globe.png` and the mesh heights as terrarium
+`height-globe.png` / `height-globe-ea.png` (`ui/basemap/ground-globe.json` has bounds and tables). Coverage = what the
+cache holds (36 of the 16 + 64 tiles: the whole northern hemisphere at z2, the eastern hemisphere at z3, no
+Antarctica, no southern South America) — the rest stays alpha 0.
+
 ### 2.5 Lighting (the "lit sphere") and 2.5b climate tint
 
 | | |
@@ -180,7 +208,7 @@ ground shader; `globe_texture_*` is the satellite globe).
 |---|---|---|
 | `palette-globe.json` ocean bands | ramp[t(depth)] × light | **decoded** — ramp + depth mapping [cap]; only the depth *data* differs (Apple raster vs terrarium/NE) |
 | `palette-shelf.json` 0–200 m ramp | same ramp at t 0…0.68 | **decoded** (ramp is continuous from 1 cm) |
-| `palette-globe.json` land tints (5 Köppen classes) | land-cover class base colour (sheet) + climate HSV delta | **decoded** for the colours and the deltas [styl, res]; the class and climate *rasters* are Apple's (chapter 154, VMP4 raster, out of scope) → stand-in data needed (ESA WorldCover + a temperature/aridity classification) |
+| `palette-globe.json` land tints (5 Köppen classes) | land-cover class base colour (sheet) + climate HSV delta | **decoded** for the colours and the deltas [styl, res]; **the class and climate rasters are now Apple's own** (§2.4b: chapter 155 material raster + chapter 154 climate codes, read through GeoServices) → `map/data/ground-globe-*.png` |
 | `shading-globe.json` a, b, L | light(n) | **decoded** [cap]: a → 0.4968·cube, b → 0.7085, L → az 240° alt 65°, applied in linear light |
 | `haze-globe.json` inner bins (r 0.5–0.99) | not an effect: the same n·L falloff + rim overlap | **replace by the lighting formula**; the ground `needsAtmosphere` term on globe tiles could add a small skyBottomColor bleed near the limb — value not captured (MKMapView never enters the globe path); decodable only from the decompile of `PrepareStyleConstantDataHandleForGlobeTiles` (not done) |
 | `haze-globe.json` outer 7 pt glow | GlobeAtmosphere corona | **decoded** (§2.2 formula + colours); corona 150 km = 2.4 % of the radius = 14 pt at the acceptance camera, of which the visible mid→black half is the 7 pt (14 px @2×) the UI measured |
@@ -190,8 +218,8 @@ ground shader; `globe_texture_*` is the satellite globe).
 | star density / grey levels | `stars.bin` | **decoded** [zip]; the sky frame (which star where) unresolved |
 | graticule dash `#6b8098` 3/3 | `Geolines-Tropics` / `-Equator` / `-Polar` in the **flat** sheet `default-56689.styl` | **decoded** (§7.13): `#49587a` α0.45–0.7, width 1.15, dash [12,12]…[32,32] at ≈ 0.2 pt per unit |
 | material α (MATERIALS.md) | AppKit / glass recipes | **decoded** (MATERIALS.md) |
-| globe ocean below z 4.6 — the Mac App's pastel (`palette-globe.json`, ramp × light does not reproduce it) | ? | **lead (UI session, 2026-09-16):** iOS 27 Maps (simulator) draws the same globe ocean as the *saturated* ramp — #0d99ec, which is `water_depth_gradient.light` entry 247 (#0d9ae9, t ≈ 0.97, the deep end) — with no pastel. So the pastel is not in the ramp or the light: it is a Mac-only term. Candidates, in order: the ground shader's `needsAtmosphere` / fog terms on globe tiles (`fogParameters.w` finite on the globe path, mixing towards `skyBottomColor` #d4e2f0 — exactly the pale blue-white the pastel drifts to; captured as −inf on the flat map only), or a Mac (`client:69 = 2`) globe style variant. To decode: capture `GroundAtmosphere` on a globe-path render (the App's globe; `MKMapView` never enters it) or read `PrepareStyleConstantDataHandleForGlobeTiles`. Until then the sampled `palette-globe.json` stays, marked sampled. |
-| Apple's depth raster, land-cover raster, climate raster | VMP4 chapters 154 / 155 | **not decoded by decision** (VMP4 rasters); all replacements are public data |
+| globe ocean + land below z 4.6 — the Mac App's pastel (`palette-globe.json`) | the DaVinci **material colours**, not the sheet | **found where it lives**: the App's globe paints each material with its own `DvMt` colour table (tileset 60), not with the sheet's `Landcover-*` fillColor — the DvMt light colours are the sampled pastels: Ground (223) `#f8f8f6` vs sampled high_grey `#f6f8ed`, Herbaceous (226) `#ebf8cf` vs sampled humid `#e9f6d8`, Sand (801) `#f8f3d5` vs very_dry `#fbf3e9`; the Water material (318) holds the depth ramps (16 stops 0 / 3 / 10 / 25 / 50 / 100 … 7000 m, several variants). iOS shows the saturated sheet ramp because the DvMt blocks are conditioned (attribute 0x45 = client:69 map style, 2 = the Mac's Elevated) — the same mechanism as the flat sheet's Mac variants. **Still to do**: decode the DvMt bit-packed format (`geo::codec::MaterialSheet::decodeMaterial` / `decodeProperty`, VectorKit; property blocks of zoom-banded `Color<float,4>` / `Color<float,3>` / float3 / float2 / u8 and float→colour ramps, condition lists of (u16 attr, u32 value)); until then `spr_globe.py` paints the sheet colours (the iOS look) and the sampled pastel stays as the Mac reference |
+| Apple's land-cover raster, climate rasters, terrain mesh | VMP4 chapters 155 / 154 / 100 | **decoded** (§2.4b, 2026-09-16 night, on the acceptance's instruction to use original values below z 4.6) through Apple's own decoder; the water-depth values stay from the terrarium DEM (the tiles' 101 raster has no bathymetry and the mesh's z is ≥ −65 m at z3) |
 
 ## 7. Part 2 — the flat map
 
@@ -401,8 +429,8 @@ follows and what is still sampled.
 | lighting (globe) | §2.5 / §4: `pixel_lin · light(n) / light(0,0,1)` in a WebGL post-pass over MapLibre's canvas (`map/globe-light.js`), irradiance cube as a cubemap | — |
 | rim | §2.2 formula and constants; the visible part is the mid → black half (75 km): the horizon → mid half lies inside the perspective silhouette (`map/README.md` "rim geometry"); sheet colours **linearised** (the sRGB-as-linear reading misses the screenshot by 30–40/255) | none; the "14 px outer glow" in §2.2 is 14 px @2x = 7 pt = 75 km, not 150 km |
 | inner haze | dropped per §6 (n·L + rim) | residual +0.066 linear (R,G) at r/limb 0.9–0.95 — the globe-tile `atmos` constants |
-| ocean | §2.3 ramp + depth mapping on the terrarium DEM as a MapLibre `color-relief` layer, × light(0,0,1); NE isobath fills only below z 4.6 | globe below z 4.6 keeps `palette-globe.json`: ramp × light does not reproduce the pastel globe (fog fit fails, `map/README.md`) |
-| land colour | §2.4 sheet colours (`Landcover-*-Elevated-{Light,Dark}-Base`, `pipeline/basemap/ground.py`) + §2.5b HSV cells; classes from NASA GIBS MODIS IGBP (East-Asia box) / Köppen elsewhere; Urban → Ground (the App paints Kanto in the Ground colour) | Apple's own class/climate rasters; `climate-globe.png` (sampled tints) below z 4.6 |
+| ocean | §2.3 ramp + depth mapping on the terrarium DEM as a MapLibre `color-relief` layer, × light(0,0,1); NE isobath fills only below z 4.6 | globe below z 4.6: `map/data/ground-globe-*.png` (Apple's class + climate rasters, sheet colours) and `height-globe*.png` (Apple's mesh) are ready for the UI to wire (§2.4b); the Mac pastel = DvMt material colours, format not decoded yet (§6) |
+| land colour | §2.4 sheet colours (`Landcover-*-Elevated-{Light,Dark}-Base`, `pipeline/basemap/ground.py`) + §2.5b HSV cells; classes from NASA GIBS MODIS IGBP (East-Asia box) / Köppen elsewhere at z 5–8; below z 4.6 Apple's own class + climate rasters (§2.4b, `ground-globe-*.png`, `spr_globe.py`) | the z 5–8 band still uses MODIS / Köppen stand-ins (Apple's z5–8 SPR tiles are only in the cache where the App was zoomed); `climate-globe.png` retired once the UI wires the globe rasters |
 | hill-shade | §7.4: az 240° / alt 65°, `groundElevationScale(z)` → MapLibre `hillshade-shadow-color` alpha by the small-slope equation (`map/README.md`), water excluded by layer order | `normalsSharpnessBias`, the cube term on tilted normals |
 | graticule | the flat style's `geoline-*` layers (v6, §7.13/§7.16) at every zoom, polar circles added to `graticule.geojson`; DOM label from `Geolines` textColor / labelInfo | label size ×1.2 (globe textSizeScale?) and `labelColorLumAdjustment` not applied |
 | stars | §2.1 `stars.bin`, angles as RA/Dec in the earth frame through the page camera, alpha from brightness | frame, point size; 36 stars drawn vs ~300 counted on the App |

@@ -1,0 +1,26 @@
+{
+ "what": "DaVinci ground material ids of Apple's SPR tiles (chapter 155 material raster: pixel value -> stack of material ids) -> Landcover class of the sheet style whose fillColor the App's palette row shows",
+ "how": "pipeline/basemap/spr_dump.m decodes the tiles; the class of each id comes from the z2 draws captured in-process on 2026-09-16 (basemap/data/shader/shader-numbers.json landcover_palettes, scratch cap-wide): the captured aridity textures identify the tile (diff 0 against the decoded attr154 rasters), the styleTexture row k is the base cell of stack k, and the row's colour is matched to the sheet's Landcover-*.Light-Elevated fillColor at Apple z2 (pipeline/basemap/styl resolve.py). Ids are the low 16 bits of the 64-bit id (high 48 = 0x110200000000, material family 0x1102).",
+ "classes": ["Ground", "Forest", "Wetlands", "Cultivated", "Herbaceous", "Shrubland", "Barren", "IceSnow", "Vegetation", "Sand", "DryLake", "Water"],
+ "class_colour_lin_captured": {
+  "DryLake": [0.894, 0.871, 0.788]
+ },
+ "materials": {
+  "223": {"class": "Ground", "captured_lin": "#d3d5bc", "sheet": "Landcover-Ground z2 rgb(235,237,223) lin #d4d8bc (d=4)", "role": "base of every land stack"},
+  "226": {"class": "Herbaceous", "captured_lin": "#64b832", "sheet": "Landcover-Herbaceous z2 rgb(165,219,118) lin #60b52e (d=11); Vegetation lin #63ba29 (d=12) is the runner-up"},
+  "228": {"class": "Shrubland", "captured_lin": "#b0cb50", "sheet": "Landcover-Shrubland z2 rgb(216,230,149) lin #afca4d (d=5)"},
+  "235": {"class": "Wetlands", "captured_lin": "#3eaf32", "sheet": "Landcover-Wetlands z2 rgb(133,215,120) lin #3cad30 (d=6)"},
+  "264": {"class": "modifier", "captured_lin": "no colour change on top of another class; alone once: #9ddc6e", "sheet": "unidentified (nearest UrbanOrRecreationalGrasses lin #92d060, d=37)"},
+  "271": {"class": "Cultivated", "captured_lin": "#70b632", "sheet": "Landcover-Cultivated z2 rgb(176,219,120) lin #6fb530 (d=4)"},
+  "272": {"class": "Barren", "captured_lin": "#d7cd94", "sheet": "Landcover-Barren z2 rgb(237,230,197) lin #d8ca8e (d=10)"},
+  "274": {"class": "Forest", "captured_lin": "#4faa25", "sheet": "Landcover-Forest / DeciduousForest / EvergreenForest / MixedForest z2 rgb(146,213,98) lin #49aa1f (d=12; the z2-3 rows interpolated at the draw zoom explain the offset)"},
+  "275": {"class": "IceSnow", "captured_lin": "#e8e8e8", "sheet": "Landcover-IceSnow rgb(245,245,245) lin #e9e9e9 (d=3)"},
+  "310": {"class": "modifier", "captured_lin": "no colour change; alone -> Ground", "sheet": "unidentified"},
+  "318": {"class": "Water", "captured_lin": "alpha 0 (the water-depth ramp draws instead)", "sheet": "Landcover-Water; the material's own DvMt resource carries the depth->colour ramps (depths 0, 3, 10, 25, 50, 100 ... 7000 m)"},
+  "330": {"class": "Vegetation", "captured_lin": "#68bc2e", "sheet": "Landcover-Vegetation z2 rgb(167,222,111) lin #63ba29 (d=12); Herbaceous is the runner-up (d=15)"},
+  "801": {"class": "Sand", "captured_lin": "#e6e0a4", "sheet": "Landcover-Sand rgb(244,242,210) lin #e7e2a4 (d=3)"},
+  "30813": {"class": "DryLake", "captured_lin": "#e4dec9", "sheet": "no sheet colour within 10 (nearest SportsClay lin #deded0 d=13, DryLake rgb(245,241,223) lin #e9e0bc d=20); id family 0x1102500b — appears on the salt flats / dry lakes of Iran, Central Asia, Australia, southern Africa and the Great Basin; painted with the captured colour"}
+ },
+ "stack_rule": "class = the last material in the stack that has a class; 264 / 310 never change the colour (modifiers); [223] alone = Ground, [318] alone = Water",
+ "not_decoded": "the DvMt material resources themselves (tileset 60, one per id, in the same cache) hold each material's own zoom-banded colour tables and the water ramps, conditioned on client attributes (0x45 = client:69 map style); their bit-packed format (geo::codec::MaterialSheet::decodeMaterial in VectorKit) is not decoded yet — see RENDER-PIPELINE 6"
+}
