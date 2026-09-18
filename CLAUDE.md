@@ -12,3 +12,4 @@
 
 - **手机遥控页一律按「添加到主屏幕」的独立窗口（standalone，无地址栏）设计和验收**（用户死命令，早已如此，2026-09-18 补写）：index.html 保持 apple-mobile-web-app-capable / status-bar-style / viewport-fit=cover 与 manifest display=standalone；并排图、像素比对、模拟器验收一律在主屏独立窗口形态下截，带地址栏的浏览器截图不算验收图；安全区用 env(safe-area-inset-*)。
 - **遥控页是用户一人私用、有密码门、不分发**（2026-09-18）：SF 字体自托管给 Android 照用，不再以许可/分发/风险为由拦任何资源；验收标准是 iOS 上与原生逐像素一致，Android 不单独验收。
+- **死命令（2026-09-19）**：网页在 Mac / iOS / 安卓上是同一个效果；用户在任何设备上发现的问题一律是我们没做好，禁止以「安卓 / Chrome / 手机环境」为由解释或推脱。
