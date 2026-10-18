@@ -1,3 +1,5 @@
+> **2026-10-18 起这份已迁到 `~/Claude/transit-app/IDEAS.md`（Chizu 原生地图 App 的仓库），以那份为准，这里不再更新。** 网页地图项目已不再开发；国家代表色取值也一起放到了 `transit-app/Data/palette/east-asia-colors.json`。
+
 # 功能想法总账
 
 > 这份文件记的是**每个功能为什么存在**，不是怎么实现。
