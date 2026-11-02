@@ -1,57 +1,57 @@
 {
  "note": "汇率与购买力平价换算因子。fx 为 1 单位当地货币兑 JPY；ppp 为世界银行 PPP 换算因子（当地货币/国际元）。由 pipeline/cost/update_rates.py 每日自动更新，页面打开时还会再拉一次实时汇率，本文件是兜底。",
- "fetched_at": "2026-11-01",
+ "fetched_at": "2026-11-02",
  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
  "fx": {
   "JPY": 1.0,
-  "CNY": 23.636413,
-  "TWD": 4.829412,
-  "VND": 0.006096,
-  "MMK": 0.075178,
-  "EUR": 175.68,
-  "USD": 157.250269,
-  "AUD": 110.462777
+  "CNY": 23.750453,
+  "TWD": 4.866787,
+  "VND": 0.006154,
+  "MMK": 0.075441,
+  "EUR": 177.1,
+  "USD": 157.899429,
+  "AUD": 110.659835
  },
  "fx_source": {
   "JPY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-10-30"
+   "date": "2026-11-02"
   },
   "CNY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-10-30"
+   "date": "2026-11-02"
   },
   "TWD": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-01"
+   "date": "2026-11-02"
   },
   "VND": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-01"
+   "date": "2026-11-02"
   },
   "MMK": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-01"
+   "date": "2026-11-02"
   },
   "EUR": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-10-30"
+   "date": "2026-11-02"
   },
   "USD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-10-30"
+   "date": "2026-11-02"
   },
   "AUD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-10-30"
+   "date": "2026-11-02"
   }
  },
  "ppp": {
