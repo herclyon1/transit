@@ -4,54 +4,54 @@
  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
  "fx": {
   "JPY": 1.0,
-  "CNY": 23.670152,
-  "TWD": 4.835944,
-  "VND": 0.00619,
-  "MMK": 0.075481,
-  "EUR": 176.79,
-  "USD": 157.946931,
-  "AUD": 108.887657
+  "CNY": 23.713587,
+  "TWD": 4.824681,
+  "VND": 0.006199,
+  "MMK": 0.075582,
+  "EUR": 177.38,
+  "USD": 158.177278,
+  "AUD": 109.197242
  },
  "fx_source": {
   "JPY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "CNY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "TWD": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "VND": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "MMK": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
    "url": "https://open.er-api.com/v6/latest/EUR",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "EUR": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "USD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   },
   "AUD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-09"
+   "date": "2026-11-10"
   }
  },
  "ppp": {
