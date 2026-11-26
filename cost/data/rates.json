@@ -1,27 +1,27 @@
 {
  "note": "汇率与购买力平价换算因子。fx 为 1 单位当地货币兑 JPY；ppp 为世界银行 PPP 换算因子（当地货币/国际元）。由 pipeline/cost/update_rates.py 每日自动更新，页面打开时还会再拉一次实时汇率，本文件是兜底。",
- "fetched_at": "2026-11-25",
+ "fetched_at": "2026-11-26",
  "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
  "fx": {
   "JPY": 1.0,
-  "CNY": 23.868442,
-  "TWD": 4.839636,
-  "VND": 0.006175,
-  "MMK": 0.07595,
-  "EUR": 174.39,
-  "USD": 159.071422,
-  "AUD": 105.64609
+  "CNY": 23.86608,
+  "TWD": 4.834918,
+  "VND": 0.006169,
+  "MMK": 0.075876,
+  "EUR": 174.22,
+  "USD": 159.323274,
+  "AUD": 104.674357
  },
  "fx_source": {
   "JPY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-24"
+   "date": "2026-11-25"
   },
   "CNY": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-24"
+   "date": "2026-11-25"
   },
   "TWD": {
    "name": "ExchangeRate-API 公开接口（EUR 基准）",
@@ -41,17 +41,17 @@
   "EUR": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-24"
+   "date": "2026-11-25"
   },
   "USD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-24"
+   "date": "2026-11-25"
   },
   "AUD": {
    "name": "欧洲央行每日参考汇率",
    "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-   "date": "2026-11-24"
+   "date": "2026-11-25"
   }
  },
  "ppp": {
